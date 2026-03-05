@@ -63,92 +63,217 @@
     <div class="article-meta">
       <span class="tag">Cloud Security</span>
       <span class="meta-item">Mar 2026</span>
-      <span class="meta-item">8 min read</span>
-      <span class="difficulty-badge"><span class="dot"></span>Medium</span>
+      <span class="meta-item" data-it="8 min read" data-en="8 min read">8 min read</span>
+      <span class="difficulty-badge"><span class="dot"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
     </div>
-    <h1>AWS IAM: i 5 errori di configurazione più comuni</h1>
-    <p class="article-intro">Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi.</p>
+    <h1
+      data-it="AWS IAM: i 5 errori di configurazione più comuni"
+      data-en="AWS IAM: the 5 most common misconfigurations"
+    >
+      AWS IAM: i 5 errori di configurazione più comuni
+    </h1>
+    <p class="article-intro"
+       data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi."
+       data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for — and how to close the door before they even knock."
+    >
+      Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi.
+    </p>
   </div>
   <div class="article-body">
     <div class="tldr">
-      <div class="tldr-label">// TL;DR</div>
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
       <ul>
-        <li>Il 90% dei breach cloud parte da IAM mal configurato, non da exploit zero-day</li>
-        <li>Wildcard su Action e Resource sono una backdoor aperta</li>
-        <li>Le chiavi di accesso statiche sono il peccato originale del cloud</li>
-        <li>Strumenti come Prowler e IAM Access Analyzer trovano i problemi in minuti</li>
+        <li data-it="Il 90% dei breach cloud parte da IAM mal configurato, non da exploit zero-day"
+            data-en="90% of cloud breaches start from misconfigured IAM, not zero-day exploits">
+          Il 90% dei breach cloud parte da IAM mal configurato, non da exploit zero-day
+        </li>
+        <li data-it="Wildcard su Action e Resource sono una backdoor aperta"
+            data-en="Wildcards on Action and Resource are an always-open backdoor">
+          Wildcard su Action e Resource sono una backdoor aperta
+        </li>
+        <li data-it="Le chiavi di accesso statiche sono il peccato originale del cloud"
+            data-en="Static access keys are the original sin of the cloud">
+          Le chiavi di accesso statiche sono il peccato originale del cloud
+        </li>
+        <li data-it="Strumenti come Prowler e IAM Access Analyzer trovano i problemi in minuti"
+            data-en="Tools like Prowler and IAM Access Analyzer find issues in minutes">
+          Strumenti come Prowler e IAM Access Analyzer trovano i problemi in minuti
+        </li>
       </ul>
     </div>
-    <h2>Il problema reale</h2>
-    <p>Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong></p>
-    <p>Non perché IAM sia difettoso. Perché è potente, flessibile, e quella flessibilità viene usata male — spesso per velocità, spesso per comodità. Il risultato è lo stesso.</p>
-    <h2>Errore #1 — Wildcard su Action</h2>
+    <h2 data-it="Il problema reale" data-en="The real problem">Il problema reale</h2>
+    <p
+      data-it="Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. \u003cstrong\u003eLa maggior parte dei compromessi AWS parte da IAM.\u003c/strong\u003e"
+      data-en="When people talk about cloud breaches, the story is always the same: sophisticated attack, zero-day, hoodie hacker. Reality is almost always more boring. \u003cstrong\u003eMost AWS compromises start from IAM.\u003c/strong\u003e"
+    >
+      Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong>
+    </p>
+    <p
+      data-it="Non perché IAM sia difettoso. Perché è potente, flessibile, e quella flessibilità viene usata male — spesso per velocità, spesso per comodità. Il risultato è lo stesso."
+      data-en="Not because IAM is broken, but because it is powerful and flexible — and that flexibility is often abused, for speed or convenience. The result is the same."
+    >
+      Non perché IAM sia difettoso. Perché è potente, flessibile, e quella flessibilità viene usata male — spesso per velocità, spesso per comodità. Il risultato è lo stesso.
+    </p>
+    <h2 data-it="Errore #1 — Wildcard su Action" data-en="Mistake #1 — Wildcards on Action">Errore #1 — Wildcard su Action</h2>
     <div class="error-card">
       <div class="error-num">// 01</div>
-      <div class="error-title">Action: "*" — La policy che fa tutto</div>
-      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;">Una policy con <code style="color:var(--orange);font-family:var(--mono)">Action: "*"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa.</p>
+      <div class="error-title"
+           data-it="Action: \"*\" — La policy che fa tutto"
+           data-en="Action: \"*\" — The policy that does everything">
+        Action: "*" — La policy che fa tutto
+      </div>
+      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
+         data-it="Una policy con \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003eAction: \"*\"\u003c/code\u003e concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa."
+         data-en="A policy with \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003eAction: \"*\"\u003c/code\u003e gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything."
+      >
+        Una policy con <code style="color:var(--orange);font-family:var(--mono)">Action: "*"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa.
+      </p>
     </div>
-    <div class="code-block"><pre><span class="comment">// ❌ Quello che si vede troppo spesso</span>
+    <div class="code-block"><pre><span class="comment" data-it="// ❌ Quello che si vede troppo spesso" data-en="// ❌ What you see far too often">// ❌ Quello che si vede troppo spesso</span>
 {
   "Effect": "Allow",
   "Action": <span class="danger">"*"</span>,
   "Resource": <span class="danger">"*"</span>
 }
 
-<span class="comment">// ✅ Quello che dovrebbe esserci</span>
+<span class="comment" data-it="// ✅ Quello che dovrebbe esserci" data-en="// ✅ What should be there instead">// ✅ Quello che dovrebbe esserci</span>
 {
   "Effect": "Allow",
   "Action": ["s3:GetObject", "s3:PutObject"],
   "Resource": <span class="ok">"arn:aws:s3:::my-specific-bucket/*"</span>
 }</pre></div>
-    <h2>Errore #2 — Chiavi di accesso statiche</h2>
+    <h2 data-it="Errore #2 — Chiavi di accesso statiche" data-en="Mistake #2 — Static access keys">Errore #2 — Chiavi di accesso statiche</h2>
     <div class="error-card">
       <div class="error-num">// 02</div>
-      <div class="error-title">Access Key hardcoded nel codice</div>
-      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;">Le chiavi statiche non scadono, non ruotano automaticamente, e quando finiscono in un repo GitHub (anche per 30 secondi) sono già nelle mani di qualcuno.</p>
+      <div class="error-title"
+           data-it="Access Key hardcoded nel codice"
+           data-en="Access keys hardcoded in code">
+        Access Key hardcoded nel codice
+      </div>
+      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
+         data-it="Le chiavi statiche non scadono, non ruotano automaticamente, e quando finiscono in un repo GitHub (anche per 30 secondi) sono già nelle mani di qualcuno."
+         data-en="Static keys do not expire, they do not rotate automatically, and once they end up in a GitHub repo (even for 30 seconds) they are already in someone else's hands."
+      >
+        Le chiavi statiche non scadono, non ruotano automaticamente, e quando finiscono in un repo GitHub (anche per 30 secondi) sono già nelle mani di qualcuno.
+      </p>
     </div>
     <div class="callout">
-      <div class="callout-label">// Attenzione</div>
-      <p>Da quando una chiave AWS appare in un commit pubblico a quando viene usata: meno di 5 minuti in media. I bot che scansionano GitHub in tempo reale cercano esattamente questo pattern.</p>
+      <div class="callout-label" data-it="// Attenzione" data-en="// Warning">// Attenzione</div>
+      <p
+        data-it="Da quando una chiave AWS appare in un commit pubblico a quando viene usata: meno di 5 minuti in media. I bot che scansionano GitHub in tempo reale cercano esattamente questo pattern."
+        data-en="From the moment an AWS key appears in a public commit to the moment it is used: less than 5 minutes on average. Bots scanning GitHub in real time look exactly for this pattern."
+      >
+        Da quando una chiave AWS appare in un commit pubblico a quando viene usata: meno di 5 minuti in media. I bot che scansionano GitHub in tempo reale cercano esattamente questo pattern.
+      </p>
     </div>
-    <p>La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico.</p>
-    <h2>Errore #3 — Ruoli cross-account senza condizioni</h2>
+    <p
+      data-it="La soluzione non è nascondere le chiavi meglio. È non usarle. \u003cstrong\u003eIAM Roles per EC2, Lambda, ECS\u003c/strong\u003e — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico."
+      data-en="The solution is not to hide keys better. It is not to use them at all. \u003cstrong\u003eIAM Roles for EC2, Lambda, ECS\u003c/strong\u003e — temporary credentials rotate automatically and cannot be exfiltrated in the classic way."
+    >
+      La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico.
+    </p>
+    <h2 data-it="Errore #3 — Ruoli cross-account senza condizioni" data-en="Mistake #3 — Cross-account roles without conditions">Errore #3 — Ruoli cross-account senza condizioni</h2>
     <div class="error-card">
       <div class="error-num">// 03</div>
-      <div class="error-title">Trust policy aperta a qualsiasi account</div>
-      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;">Un ruolo con trust policy che permette l'assume da <code style="color:var(--orange);font-family:var(--mono)">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo.</p>
+      <div class="error-title"
+           data-it="Trust policy aperta a qualsiasi account"
+           data-en="Trust policy open to any account">
+        Trust policy aperta a qualsiasi account
+      </div>
+      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
+         data-it="Un ruolo con trust policy che permette l'assume da \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003earn:aws:iam::*:root\u003c/code\u003e può essere assunto da qualsiasi account AWS nel mondo."
+         data-en="A role with a trust policy that allows assume from \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003earn:aws:iam::*:root\u003c/code\u003e can be assumed by any AWS account in the world."
+      >
+        Un ruolo con trust policy che permette l'assume da <code style="color:var(--orange);font-family:var(--mono)">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo.
+      </p>
     </div>
-    <div class="code-block"><pre><span class="comment">// ❌ Trust policy aperta</span>
+    <div class="code-block"><pre><span class="comment" data-it="// ❌ Trust policy aperta" data-en="// ❌ Open trust policy">// ❌ Trust policy aperta</span>
 "Principal": { "AWS": <span class="danger">"arn:aws:iam::*:root"</span> }
 
-<span class="comment">// ✅ Specifica l'account e aggiungi ExternalId</span>
+<span class="comment" data-it="// ✅ Specifica l'account e aggiungi ExternalId" data-en="// ✅ Specify the account and add an ExternalId">// ✅ Specifica l'account e aggiungi ExternalId</span>
 "Principal": { "AWS": <span class="ok">"arn:aws:iam::123456789012:root"</span> },
 "Condition": { "StringEquals": { "sts:ExternalId": <span class="ok">"MySecretExternalId"</span> } }</pre></div>
-    <h2>Errore #4 — MFA non abilitata</h2>
+    <h2 data-it="Errore #4 — MFA non abilitata" data-en="Mistake #4 — MFA not enabled">Errore #4 — MFA non abilitata</h2>
     <div class="error-card">
       <div class="error-num">// 04</div>
-      <div class="error-title">Root account senza MFA</div>
-      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;">L'account root AWS ha accesso illimitato e non può essere ristretto da policy. Senza MFA, una password compromessa equivale a perdita totale dell'ambiente.</p>
+      <div class="error-title"
+           data-it="Root account senza MFA"
+           data-en="Root account without MFA">
+        Root account senza MFA
+      </div>
+      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
+         data-it="L'account root AWS ha accesso illimitato e non può essere ristretto da policy. Senza MFA, una password compromessa equivale a perdita totale dell'ambiente."
+         data-en="The AWS root account has unlimited access and cannot be restricted by policies. Without MFA, a compromised password equals total environment loss."
+      >
+        L'account root AWS ha accesso illimitato e non può essere ristretto da policy. Senza MFA, una password compromessa equivale a perdita totale dell'ambiente.
+      </p>
     </div>
-    <p><strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi.</p>
-    <h2>Errore #5 — Permission boundary assenti</h2>
+    <p
+      data-it="\u003cstrong\u003eIl root account non dovrebbe mai essere usato per operazioni quotidiane.\u003c/strong\u003e Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi."
+      data-en="\u003cstrong\u003eThe root account should never be used for daily operations.\u003c/strong\u003e You create it, enable hardware MFA, lock it away. For everything else you use IAM users or roles with least privilege."
+    >
+      <strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi.
+    </p>
+    <h2 data-it="Errore #5 — Permission boundary assenti" data-en="Mistake #5 — Missing permission boundaries">Errore #5 — Permission boundary assenti</h2>
     <div class="error-card">
       <div class="error-num">// 05</div>
-      <div class="error-title">Nessun limite massimo ai permessi delegabili</div>
-      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;">Senza permission boundary, un utente con permessi di creazione ruoli può creare un ruolo con più permessi di quanti ne abbia lui stesso. È privilege escalation by design.</p>
+      <div class="error-title"
+           data-it="Nessun limite massimo ai permessi delegabili"
+           data-en="No upper bound on delegable permissions">
+        Nessun limite massimo ai permessi delegabili
+      </div>
+      <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
+         data-it="Senza permission boundary, un utente con permessi di creazione ruoli può creare un ruolo con più permessi di quanti ne abbia lui stesso. È privilege escalation by design."
+         data-en="Without permission boundaries, a user allowed to create roles can create a role with more permissions than they have themselves. It's privilege escalation by design."
+      >
+        Senza permission boundary, un utente con permessi di creazione ruoli può creare un ruolo con più permessi di quanti ne abbia lui stesso. È privilege escalation by design.
+      </p>
     </div>
     <div class="callout">
-      <div class="callout-label">// Strumenti consigliati</div>
-      <p><strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando.</p>
+      <div class="callout-label" data-it="// Strumenti consigliati" data-en="// Recommended tools">// Strumenti consigliati</div>
+      <p
+        data-it="\u003cstrong\u003eProwler\u003c/strong\u003e — audit automatizzato AWS con centinaia di check IAM.\u003cbr/\u003e\u003cstrong\u003eIAM Access Analyzer\u003c/strong\u003e — nativo AWS, gratuito, trova accessi pubblici e cross-account.\u003cbr/\u003e\u003cstrong\u003eCloudTrail + Athena\u003c/strong\u003e — analisi storica di chi ha fatto cosa e quando."
+        data-en="\u003cstrong\u003eProwler\u003c/strong\u003e — automated AWS audit with hundreds of IAM checks.\u003cbr/\u003e\u003cstrong\u003eIAM Access Analyzer\u003c/strong\u003e — native AWS, free, finds public and cross-account access.\u003cbr/\u003e\u003cstrong\u003eCloudTrail + Athena\u003c/strong\u003e — historical analysis of who did what and when."
+      >
+        <strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando.
+      </p>
     </div>
-    <h2>Conclusione</h2>
-    <p>IAM è la superficie d'attacco più sottovalutata del cloud. Richiede di pensare come un attaccante per vedere i problemi. Cosa può fare questo ruolo? Chi può assumerlo? Da dove?</p>
-    <p>Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report.</p>
+    <h2 data-it="Conclusione" data-en="Conclusion">Conclusione</h2>
+    <p
+      data-it="IAM è la superficie d'attacco più sottovalutata del cloud. Richiede di pensare come un attaccante per vedere i problemi. Cosa può fare questo ruolo? Chi può assumerlo? Da dove?"
+      data-en="IAM is the most underestimated attack surface in the cloud. You have to think like an attacker to see the problems. What can this role do? Who can assume it? From where?"
+    >
+      IAM è la superficie d'attacco più sottovalutata del cloud. Richiede di pensare come un attaccante per vedere i problemi. Cosa può fare questo ruolo? Chi può assumerlo? Da dove?
+    </p>
+    <p
+      data-it="Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report."
+      data-en="Asking those questions before everyone else is exactly the difference between an assessment and an incident report."
+    >
+      Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report.
+    </p>
   </div>
   <footer class="article-footer">
-    <a href="../">← Torna agli articoli</a>
+    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
     <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn →</a>
   </footer>
+  <script>
+    // Riusa lo stesso setLang della homepage se è presente; se no, fallback semplice
+    (function(){
+      function applyLang(lang){
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v !== null) el.innerHTML = v;
+        });
+      }
+      try {
+        var stored = localStorage.getItem('lang');
+        if(stored === 'en') applyLang('en');
+        else applyLang('it');
+      } catch(e) {
+        applyLang('it');
+      }
+    })();
+  </script>
 </body>
 </html>

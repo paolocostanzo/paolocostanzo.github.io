@@ -394,7 +394,8 @@ document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='
   function out(html){
     const el = document.getElementById('term-out');
     if(!el) return;
-    el.innerHTML += html + '\n';
+    // Sostituisci gli \n con <br> così l'output non resta tutto su una riga
+    el.innerHTML += html.replace(/\n/g, '<br/>') + '<br/>';
     el.scrollTop = el.scrollHeight;
   }
 
