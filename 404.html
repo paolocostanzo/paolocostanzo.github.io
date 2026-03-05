@@ -2,10 +2,11 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8"/>
+  <!-- KEY{overthinking_ops} -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>404 — NonèCostanzo</title>
-  <meta name="description" content="Stanza 404: terminale, chiavi da trovare, bio sbloccabile."/>
+  <meta name="description" content="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
@@ -58,13 +59,13 @@
       </div>
     </div>
     <div class="hint" id="hint">
-      // Digita <span class="t0">help</span> per vedere i comandi disponibili. Se arrivi a 5/5 chiavi, la mia bio completa si sblocca.
+      // Digita <span class="t0">help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5.
     </div>
   </div>
 
   <script>
     (function(){
-      const KEY_LIST = [
+      const VALID_KEYS = [
         'KEY{iam_rooted}',
         'KEY{ai_paranoid}',
         'KEY{pentest_report}',
@@ -92,15 +93,28 @@
 
       function out(html){
         if(!outEl) return;
-        outEl.innerHTML += html.replace(/\n/g,'\n') + '\n';
+        outEl.innerHTML += html + '\n';
         outEl.scrollTop = outEl.scrollHeight;
       }
 
-      function intro(){
-        out('<span class="t0">// 404 ROOM — nonè trovato</span>');
-        out('<span class="t1">// Sei finito in una stanza di debug che non dovevi vedere.</span>');
-        out('<span class="t1">// Qui puoi fare due cose: tornare alla <a href="/">home</a> o giocare.</span>');
-        out('<span class="t1">// Digita <span class="t0">help</span> per iniziare.</span>');
+      function banner(){
+        out('\u001b[31m');
+        out(' ██╗  ██╗ ██████╗ ██╗  ██╗');
+        out(' ██║  ██║██╔═══██╗██║  ██║');
+        out(' ███████║██║   ██║███████║');
+        out(' ╚════██║██║   ██║╚════██║');
+        out('      ██║╚██████╔╝     ██║ ');
+        out('      ╚═╝ ╚═════╝      ╚═╝ ');
+        out('\u001b[0m');
+        out(' ┌──────────────────────────────────────────────┐');
+        out(' │  ERROR 404: Page not found                  │');
+        out(' │  Ma visto che sei qui...                    │');
+        out(' │  perché non giocare un po\'?                │');
+        out(' │                                              │');
+        out(' │  🏴 404 ROOM TERMINAL                       │');
+        out(' │  5 KEY{...} da trovare. Riesci a prenderle? │');
+        out(' └──────────────────────────────────────────────┘');
+        out(' Digita "help" per iniziare.');
       }
 
       const BIO_IT = [
@@ -114,8 +128,8 @@
       const BIO_EN = [
         'Looking at Paolo through my sensors, he is basically a humanoid bug running in production: no staging, hotfix straight into the brain.',
         'He is a weird mix of three things: IAM paranoia, tinkerer curiosity, and a teacher instinct that keeps explaining until the other person either gives up or actually understands.',
-        'When he says “it\'s just a test lab” it usually means he already has three attack paths in mind and is negotiating with himself not to lose the whole night on it.',
-        'His private religion: least privilege everywhere, everything under version control, and zero undocumented magic. Then he opens the source of something, finds horrors, and spends the rest of the day writing a write‑up that starts with “it shouldn\'t work like this, and yet…”.',
+        'When he says "it\'s just a test lab" it usually means he already has three attack paths in mind and is negotiating with himself not to lose the whole night on it.',
+        'His private religion: least privilege everywhere, everything under version control, and zero undocumented magic. Then he opens the source of something, finds horrors, and spends the rest of the day writing a write‑up that starts with "it shouldn\'t work like this, and yet…".',
         'If you are reading this, you are one of the people who look behind the curtain. Which is exactly the kind of person he wants to talk security, cloud, and AI with while the rest of the world posts memes on LinkedIn.'
       ];
 
@@ -127,106 +141,171 @@
       }
 
       function cmd_help(){
-        out('<span class="t0">// Comandi disponibili</span>');
-        out('<span class="t1">help</span>        — mostra questo help');
-        out('<span class="t1">whoami</span>      — chi sei qui dentro');
-        out('<span class="t1">info</span>        — che cos\'è NonèCostanzo');
-        out('<span class="t1">notes</span>       — appunti sparsi sulla sicurezza');
-        out('<span class="t1">keys</span>        — stato delle chiavi 404');
-        out('<span class="t1">unlock &lt;KEY&gt;</span> — registra una chiave trovata');
-        out('<span class="t1">bio</span>         — bio di Paolo (sbloccabile)');
-        out('<span class="t1">clear</span>       — pulisci il terminale');
+        out(' Comandi disponibili:');
+        out(' ─────────────────────────────────');
+        out(' help          — Mostra questo menu');
+        out(' challenges    — Lista delle sfide 404');
+        out(' hint <n>      — Indizio per la sfida n');
+        out(' unlock <KEY>  — Registra una KEY{...}');
+        out(' keys          — Stato delle KEY');
+        out(' whoami        — Chi sei?');
+        out(' ls            — Lista file');
+        out(' cat <file>    — Leggi un file');
+        out(' nmap          — Scansiona (finto)');
+        out(' bio           — Bio di Paolo (sbloccabile)');
+        out(' home          — Torna alla home');
+        out(' clear         — Pulisci il terminale');
+      }
+
+      function cmd_challenges(){
+        out(' Sfide 404:');
+        out(' 1) Trova chi è veramente l\'utente in questa stanza.');
+        out(' 2) Leggi i file giusti per capire quando parte il teacher mode.');
+        out(' 3) Nessun pentest è mai davvero finito: cerca il riferimento nel log.');
+        out(' 4) Capisci in che stato è l\'AI interna quando vede troppi dati.');
+        out(' 5) Overthinking e 404 vanno a braccetto.');
+        out(' Hint: il formato delle chiavi è sempre KEY{...}.');
+      }
+
+      function cmd_hint(n){
+        const i = parseInt(n,10);
+        switch(i){
+          case 1:
+            out(' Hint 1: prova con whoami. Leggi tutto, non solo la prima riga.');
+            break;
+          case 2:
+            out(' Hint 2: ls ti mostra i file. Uno di quelli parla chiaramente di teacher mode.');
+            break;
+          case 3:
+            out(' Hint 3: se fossi un pentester pigro, dove scriveresti che il report è chiuso?');
+            out('          Guarda cosa dicono i log di questo ambiente.');
+            break;
+          case 4:
+            out(' Hint 4: l\'AI interna viene citata per nome in una delle note.');
+            break;
+          case 5:
+            out(' Hint 5: a volte la chiave è già nel sorgente, altre volte è scritta tra le righe.');
+            break;
+          default:
+            out(' Nessun hint per quella sfida. (1-5)');
+        }
       }
 
       function cmd_whoami(){
-        out('<span class="tg">guest</span>');
-        out('<span class="t1">uid=404(guest) gid=404(guest) groups=404(guest)</span>');
-        out('<span class="t1">// Sei nel posto sbagliato, ma nel modo giusto.</span>');
+        out(' guest');
+        out(' uid=404(guest) gid=404(guest) groups=404(guest)');
+        out(' profile: KEY{iam_rooted}');
       }
 
-      function cmd_info(){
-        out('<span class="t0">NonèCostanzo — Security Research</span>');
-        out('<span class="t1">Cloud Security, AI Security, Pentest, write‑up tecnici.</span>');
-        out('<span class="t1">Se un sistema è progettato male, qui finisce smontato pezzo per pezzo.</span>');
+      function cmd_ls(){
+        out(' readme.txt  notes.txt  profile.txt');
       }
 
-      function cmd_notes(){
-        out('<span class="t1">// NOTES</span>');
-        out('<span class="t1">- Il 90% dei problemi cloud è IAM, il resto è marketing.</span>');
-        out('<span class="t1">- Se non capisci cosa fa una policy, assume che faccia troppo.</span>');
-        out('<span class="t1">- Nessun LLM è innocuo quando può toccare dati veri.</span>');
+      function cmd_cat(arg){
+        const f = arg.trim();
+        if(!f){ out(' usage: cat <file>'); return; }
+        if(f==='readme.txt'){
+          out(' Benvenuto nella stanza 404 di NonèCostanzo.');
+          out(' Qui le pagine non esistono, ma le KEY{teacher_mode} sì.');
+          return;
+        }
+        if(f==='notes.txt'){
+          out(' TODO: ricordarsi che ogni pentest genera almeno un KEY{pentest_report}.');
+          out(' TODO: non dimenticare mai di chiudere i permessi temporanei.');
+          return;
+        }
+        if(f==='profile.txt'){
+          out(' Nome: Paolo Costanzo');
+          out(' Ruolo: Cloud & AI Security, Pentest, Docenza');
+          out(' Stato: overthinking_ops attivo 24/7.');
+          return;
+        }
+        out(` cat: ${f}: No such file or directory`);
+      }
+
+      function cmd_nmap(){
+        out(' Starting nmap 7.94 (fake) at 127.0.0.1');
+        out(' PORT     STATE  SERVICE');
+        out(' 22/tcp   open   ssh');
+        out(' 80/tcp   open   http');
+        out(' 1337/tcp open   ???');
+        out('  │ banner: NonèCostanzo 404 node — ai mode: KEY{ai_paranoid}');
       }
 
       function cmd_keys(){
-        out(`<span class="t1">Keys trovate: ${found.size}/5</span>`);
-        if(found.size>0){
-          out('<span class="t1">// Non ti dico quali, sennò che CTF è.</span>');
-        }
+        out(` Keys trovate: ${found.size}/5`);
       }
 
       function cmd_unlock(arg){
         const key = arg.trim();
         if(!key){
-          out('<span class="tr">usage: unlock KEY{...}</span>');
+          out(' usage: unlock KEY{...}');
           return;
         }
-        if(!KEY_LIST.includes(key)){
-          out('<span class="tr">Chiave non valida. Questo non è un pastebin di segreti.</span>');
+        if(!VALID_KEYS.includes(key)){
+          out(' Chiave non valida.');
           return;
         }
         if(found.has(key)){
-          out('<span class="t1">Quella chiave l\'hai già.</span>');
+          out(' Quella chiave è già registrata.');
           return;
         }
         found.add(key);
         save();
         updateStatus();
-        out('<span class="tg">✓ Chiave accettata.</span>');
+        out(' ✓ KEY registrata.');
         if(found.size===5){
-          out('<span class="tg">🏴 Hai trovato tutte le 5 chiavi. La bio è sbloccata.</span>');
+          out(' 🏴 Hai trovato tutte le 5 KEY. La bio è sbloccata.');
         }
       }
 
       function cmd_bio(){
         if(found.size<5){
-          out('<span class="tr">ACCESS DENIED</span>');
-          out('<span class="t1">Trova tutte le 5 chiavi 404 prima di leggere la bio completa.</span>');
-          out('<span class="t1">Hint: cerca bene tra help, notes, e quello che il sito dice di sé.</span>');
+          out(' ACCESS DENIED');
+          out(' Devi prima trovare tutte le 5 KEY{...}.');
           return;
         }
         const lang = getLang();
         const lines = lang === 'en' ? BIO_EN : BIO_IT;
-        out('<span class="t0">// Bio di Paolo vista dalla sua AI</span>');
-        lines.forEach(line=> out('<span class="t1">'+line.replace(/</g,'&lt;')+'</span>'));
+        out('// Bio di Paolo vista dalla sua AI');
+        lines.forEach(line => out(line));
+      }
+
+      function cmd_home(){
+        try { window.location.href = '/'; } catch(e) {}
       }
 
       function cmd_clear(){
         if(outEl) outEl.innerHTML = '';
       }
 
-      function handle(cmdline){
-        const raw = cmdline.trim();
+      function handle(line){
+        const raw = line.trim();
         if(!raw) return;
         out(`<span class="t0">guest@nonè:404$</span> ${raw.replace(/</g,'&lt;')}`);
         const parts = raw.split(/\s+/);
-        const base = (parts[0]||'').toLowerCase();
-        const arg  = parts.slice(1).join(' ');
+        const base  = (parts[0]||'').toLowerCase();
+        const arg   = parts.slice(1).join(' ');
 
         switch(base){
-          case 'help':   cmd_help(); break;
-          case 'whoami': cmd_whoami(); break;
-          case 'info':   cmd_info(); break;
-          case 'notes':  cmd_notes(); break;
-          case 'keys':   cmd_keys(); break;
-          case 'unlock': cmd_unlock(arg); break;
-          case 'bio':    cmd_bio(); break;
-          case 'clear':  cmd_clear(); break;
+          case 'help':        cmd_help(); break;
+          case 'challenges':  cmd_challenges(); break;
+          case 'hint':        cmd_hint(arg); break;
+          case 'whoami':      cmd_whoami(); break;
+          case 'ls':          cmd_ls(); break;
+          case 'cat':         cmd_cat(arg); break;
+          case 'nmap':        cmd_nmap(); break;
+          case 'keys':        cmd_keys(); break;
+          case 'unlock':      cmd_unlock(arg); break;
+          case 'bio':         cmd_bio(); break;
+          case 'home':        cmd_home(); break;
+          case 'clear':       cmd_clear(); break;
           default:
-            out(`<span class="tr">-bash: ${base}: command not found</span>`);
+            out(` -bash: ${base}: command not found`);
         }
       }
 
-      intro();
+      banner();
       updateStatus();
 
       if(inEl){

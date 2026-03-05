@@ -450,7 +450,15 @@ document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='
       found.add(String(num));
       saveFound();
       updateScore();
-      const bonus = found.size===5?'\n<span class="tg">🏆 PWNED COMPLETE — Sei un vero hacker!</span>':'';
+      let bonus = '';
+      if(found.size===5){
+        bonus = '\n<span class="tg">🏆 PWNED COMPLETE — Sei un vero hacker!</span>';
+        try {
+          if(document && typeof document.title === 'string'){
+            document.title = document.title.replace('NonèCostanzo', 'NonèPwned');
+          }
+        } catch(e) {}
+      }
       return `<span class="tg">✓ FLAG #${num} VALIDA! +${num*200} pts</span>${bonus}`;
     },
 
@@ -460,7 +468,8 @@ document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='
     },
 
     clear: ()=>{ document.getElementById('term-out').innerHTML=''; return null; },
-    sudo:  ()=>`<span class="tr">Permission denied. Guest cannot sudo.</span>`,
+    sudo:  ()=>`<span class="tm">Nice try.</span><br/><span class="tm">sudo su paolo</span><br/><span class="to">// Accesso negato. L'unico root qui è IAM mal configurato.</span>`,
+
     pwd:   ()=>`/home/guest/ctf`,
     uname: ()=>`Linux nonè-costanzo 6.1.0-security #1 SMP`,
     id:    ()=>`uid=1337(guest) gid=1337(guest) groups=1337(guest)`,
