@@ -21,45 +21,31 @@
     body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
     body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px);pointer-events:none;z-index:9998}
     a{color:inherit;text-decoration:none}
-
-    /* ── HEADER ── */
     header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
     .header-inner{max-width:1100px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-
-    /* Logo not bold typewriter */
     .logo{font-family:var(--mono);font-size:0.95rem;font-weight:400;letter-spacing:0.03em;white-space:nowrap;min-width:0}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
     .cursor{display:inline-block;color:var(--orange);animation:blink 1s step-end infinite}
-
-    /* Desktop nav */
     .desktop-nav{display:flex;gap:1.5rem;align-items:center;flex-shrink:0}
     .desktop-nav a{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;transition:color .2s;white-space:nowrap}
     .desktop-nav a:hover{color:var(--orange)}
     .nav-cta{border:1px solid var(--orange);padding:0.35rem 0.9rem;color:var(--orange)!important;transition:background .2s!important}
     .nav-cta:hover{background:var(--orange)!important;color:var(--black)!important}
-
-    /* Lang toggle */
     .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
     .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
     .lang-btn.active{background:var(--orange);color:var(--black)}
     .lang-btn:hover:not(.active){color:var(--orange)}
-
-    /* Hamburger */
     .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;z-index:201;flex-shrink:0}
     .hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all .3s;transform-origin:center}
     .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
     .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
     .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
-    /* Mobile overlay */
     .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(8,8,8,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
     .mobile-overlay.open{display:flex}
     .mobile-overlay a{font-family:var(--mono);font-size:1rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;transition:color .2s;padding:0.5rem 1rem}
     .mobile-overlay a:hover{color:var(--orange)}
     .mobile-overlay .nav-cta{border:1px solid var(--orange);color:var(--orange)!important}
     .mobile-overlay .lang-toggle{margin-top:1rem}
-
-    /* ── HERO ── */
     .hero{max-width:1100px;margin:0 auto;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
     .hero-tag{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
     .hero-tag::before{content:'';display:block;width:2rem;height:1px;background:var(--orange)}
@@ -74,11 +60,7 @@
     .stat-label{font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em}
     .hero-grid{position:absolute;right:0;top:0;width:40%;height:100%;overflow:hidden;pointer-events:none;opacity:0.1}
     .hero-grid svg{width:100%;height:100%}
-
-    /* ── DIVIDER ── */
     .divider{max-width:1100px;margin:0 auto;padding:0 2rem;border-top:1px solid var(--border)}
-
-    /* ── FILTER BAR ── */
     .filter-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .filter-left{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
     .filter-label{font-family:var(--mono);font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em;white-space:nowrap}
@@ -87,8 +69,6 @@
     .filter-btn:hover,.filter-btn.active{border-color:var(--orange);color:var(--orange);background:var(--orange-faint)}
     .all-posts-link{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s,border-color .2s;white-space:nowrap}
     .all-posts-link:hover{color:var(--orange);border-color:var(--orange)}
-
-    /* ── ARTICLES ── */
     .articles-section{max-width:1100px;margin:0 auto;padding:0.5rem 2rem 5rem}
     .articles-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
     .article-card{background:var(--surface);padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:background .2s;position:relative;overflow:hidden;text-decoration:none;color:inherit}
@@ -109,8 +89,6 @@
     .dot-medium{background:#ffaa00}
     .dot-hard{background:#ff3333}
     .difficulty-text{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase}
-
-    /* ── SKILLS ── */
     .skills-section{border-top:1px solid var(--border);background:var(--surface);padding:2.5rem 2rem}
     .skills-inner{max-width:1100px;margin:0 auto}
     .skills-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
@@ -121,8 +99,6 @@
     .skill-badge{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.35rem 0.85rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
     .skill-badge:hover{border-color:var(--orange);color:var(--orange)}
     .skill-badge.hi{border-color:rgba(255,106,0,0.4);color:var(--text)}
-
-    /* ── FOOTER ── */
     footer{border-top:1px solid var(--border);padding:2rem}
     .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
     .footer-logo{font-family:var(--mono);font-size:0.8rem;font-weight:400}
@@ -130,13 +106,9 @@
     .footer-links a{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;transition:color .2s}
     .footer-links a:hover{color:var(--orange)}
     .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
-
-    /* ── ANIM ── */
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .fade-up{animation:fadeUp 0.6s ease forwards;opacity:0}
     .d1{animation-delay:0.1s}.d2{animation-delay:0.2s}.d3{animation-delay:0.3s}.d4{animation-delay:0.4s}
-
-    /* ── RESPONSIVE ── */
     @media(max-width:900px){
       .desktop-nav{display:none}
       .hamburger{display:flex}
@@ -204,16 +176,16 @@
   <div class="hero-tag fade-up" data-it="Security Research &amp; Writeups" data-en="Security Research &amp; Writeups">Security Research &amp; Writeups</div>
   <h1 class="fade-up d1">Paolo<br/><span class="accent">Costanzo</span><br/><span class="outline">Hacking</span></h1>
   <p class="hero-sub fade-up d2">
-    <strong>CEO @ CoDe RTD &middot; Docente IT &amp; CyberSec &middot; Cloud AI Security &middot; Ethical Hacker</strong><br/>
+    <strong>CEO @ CoDe RTD · Docente IT &amp; CyberSec · Cloud AI Security · Ethical Hacker</strong><br/>
     <span data-it="Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini."
           data-en="Technical write-ups, CVE analysis, thoughts on Cloud, AI Security and Penetration Testing. I take things apart, and watch what moves at the edges.">
       Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini.
     </span>
   </p>
   <div class="hero-stats fade-up d3">
-    <div class="stat"><span class="stat-num">AI Security</span><span class="stat-label">LLM &middot; Threat Detection</span></div>
-    <div class="stat"><span class="stat-num">Cloud Sec</span><span class="stat-label">AWS &middot; Azure</span></div>
-    <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon &middot; Exploit &middot; Report</span></div>
+    <div class="stat"><span class="stat-num">AI Security</span><span class="stat-label">LLM · Threat Detection</span></div>
+    <div class="stat"><span class="stat-num">Cloud Sec</span><span class="stat-label">AWS · Azure</span></div>
+    <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon · Exploit · Report</span></div>
   </div>
 </section>
 
@@ -235,7 +207,7 @@
   <a href="posts/" class="all-posts-link" data-it="Tutti i post →" data-en="All posts →">Tutti i post →</a>
 </div>
 
-<!-- LATEST ARTICLES -->
+<!-- LATEST ARTICLES (homepage: only 2) -->
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
@@ -322,89 +294,92 @@
       <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn</a>
       <a href="https://github.com/paolocostanzo" target="_blank">GitHub</a>
     </div>
-    <div class="footer-copy">&copy; 2026 Paolo Costanzo</div>
+    <div class="footer-copy">© 2026 Paolo Costanzo</div>
   </div>
 </footer>
 
 <script>
-/* LOGO TYPEWRITER */
-const LOGO_SEQ=[{t:'nonè',c:'#e8e8e8'},{t:'@',c:'#444'},{t:'costanzo',c:'#ff6a00'},{t:':~$',c:'#444'}];
-const TOTAL=LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
-let idx=0;
-function renderLogo(n){
-  let html='',count=0;
+const LOGO_SEQ = [
+  {t:'nonè', c:'#e8e8e8'},
+  {t:'@', c:'#444'},
+  {t:'costanzo',c:'#ff6a00'},
+  {t:':~$', c:'#444'},
+];
+const TOTAL = LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
+let idx = 0;
+function renderLogo(n) {
+  let html='', count=0;
   for(const p of LOGO_SEQ){
     for(const ch of [...p.t]){
-      if(count>=n)break;
-      const esc=ch==='è'?'&egrave;':ch;
+      if(count>=n) break;
+      const esc = ch==='è'?'&egrave;':ch==='$'?'&#36;':ch;
       html+=`<span style="color:${p.c}">${esc}</span>`;
       count++;
     }
-    if(count>=n)break;
+    if(count>=n) break;
   }
-  const cur=count<TOTAL?`<span style="color:#ff6a00;animation:none">_</span>`:`<span class="cursor">_</span>`;
-  return html+cur;
+  const cursor = count<TOTAL
+    ? `<span style="color:#ff6a00;animation:none">_</span>`
+    : `<span class="cursor">_</span>`;
+  return html+cursor;
 }
 function typeStep(){
   idx++;
-  const h=renderLogo(idx);
-  const l=document.getElementById('logo');
-  const f=document.getElementById('footer-logo');
-  if(l)l.innerHTML=h;
-  if(f)f.innerHTML=h;
-  if(idx<TOTAL)setTimeout(typeStep,50+Math.random()*50);
+  const h = renderLogo(idx);
+  const l = document.getElementById('logo');
+  const f = document.getElementById('footer-logo');
+  if(l) l.innerHTML=h;
+  if(f) f.innerHTML=h;
+  if(idx<TOTAL) setTimeout(typeStep, 50+Math.random()*50);
 }
-
-/* LANG */
+let currentLang = 'it';
 function setLang(lang){
-  document.getElementById('html-root').lang=lang;
+  currentLang = lang;
+  document.getElementById('html-root').lang = lang;
   document.querySelectorAll('[data-it]').forEach(el=>{
-    const val=lang==='en'?el.dataset.en:el.dataset.it;
-    if(val!==undefined)el.innerHTML=val;
+    const val = lang==='en' ? el.dataset.en : el.dataset.it;
+    if(val !== undefined) el.innerHTML = val;
   });
   document.querySelectorAll('.lang-btn').forEach(btn=>{
-    btn.classList.toggle('active',btn.textContent.trim().toLowerCase()===lang);
+    const isActive = btn.textContent.trim().toLowerCase() === lang;
+    btn.classList.toggle('active', isActive);
   });
-  try{localStorage.setItem('lang',lang);}catch(e){}
+  try{ localStorage.setItem('lang',lang); }catch(e){}
 }
-
-/* MOBILE */
 function toggleMob(){
-  const b=document.getElementById('burger'),o=document.getElementById('mob-overlay');
-  b.classList.toggle('open');o.classList.toggle('open');
-  document.body.style.overflow=o.classList.contains('open')?'hidden':'';
+  const burger = document.getElementById('burger');
+  const overlay = document.getElementById('mob-overlay');
+  burger.classList.toggle('open');
+  overlay.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open')?'hidden':'';
 }
 function closeMob(){
   document.getElementById('burger').classList.remove('open');
   document.getElementById('mob-overlay').classList.remove('open');
   document.body.style.overflow='';
 }
-document.getElementById('mob-overlay').addEventListener('click',function(e){if(e.target===this)closeMob();});
-
-/* FILTER */
+document.getElementById('mob-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeMob();
+});
 function filterPosts(cat,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.article-card').forEach(card=>{
-    card.style.display=(cat==='all'||card.dataset.category===cat)?'':'';
+    card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none';
   });
 }
-
-/* SCROLL ANIM */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.style.animationPlayState='running'; });
 },{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>{
   el.style.animationPlayState='paused';
   obs.observe(el);
 });
-
-/* INIT */
 document.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(typeStep,300);
+  setTimeout(typeStep, 300);
   try{
-    const saved=localStorage.getItem('lang');
-    if(saved==='en')setLang('en');
+    const saved = localStorage.getItem('lang');
+    if(saved==='en') setLang('en');
   }catch(e){}
 });
 </script>
