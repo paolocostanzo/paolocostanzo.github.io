@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 — NonèCostanzo</title>
+  <meta name="description" content="Stanza 404: terminale, chiavi da trovare, bio sbloccabile."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --orange:#ff6a00; --black:#080808; --surface:#101010; --border:#222; --text:#e8e8e8; --muted:#666; --mono:'Share Tech Mono',monospace; --sans:'Barlow',sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .wrap{max-width:900px;width:100%}
+    .title{font-family:var(--mono);font-size:0.8rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;text-align:left}
+    .term{background:var(--surface);border:1px solid var(--border);box-shadow:0 0 40px rgba(0,0,0,0.6);display:flex;flex-direction:column;min-height:60vh;max-height:80vh}
+    .term-header{display:flex;align-items:center;gap:6px;padding:0.6rem 0.9rem;background:#0d0d0d;border-bottom:1px solid var(--border)}
+    .th-dot{width:11px;height:11px;border-radius:50%}
+    .th-label{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-left:0.5rem}
+    .th-spacer{flex:1}
+    .th-status{font-family:var(--mono);font-size:0.65rem;color:var(--orange)}
+    .term-body{flex:1;display:flex;flex-direction:column;padding:0.75rem 1rem}
+    .term-out{flex:1;font-family:var(--mono);font-size:0.8rem;line-height:1.7;color:#ccc;overflow-y:auto;white-space:pre-wrap}
+    .term-out::-webkit-scrollbar{width:4px}
+    .term-out::-webkit-scrollbar-thumb{background:var(--border)}
+    .ps1-row{display:flex;align-items:center;gap:0.5rem;padding-top:0.6rem;border-top:1px solid var(--border);margin-top:0.6rem}
+    .ps1{font-family:var(--mono);font-size:0.8rem;color:var(--orange);white-space:nowrap}
+    .inp{flex:1;background:transparent;border:none;outline:none;font-family:var(--mono);font-size:0.8rem;color:var(--text);caret-color:var(--orange)}
+    .t0{color:var(--orange)}
+    .t1{color:var(--muted)}
+    .tg{color:#00ff88}
+    .tr{color:#ff5555}
+    .hint{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-top:0.5rem;text-align:left}
+    a{color:var(--orange);text-decoration:none}
+    a:hover{text-decoration:underline}
+    @media(max-width:700px){.term{min-height:65vh}.term-out{font-size:0.78rem}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">// 404 ROOM — nonè trovato</div>
+    <div class="term" aria-label="404 terminal">
+      <div class="term-header">
+        <span class="th-dot" style="background:#ff5f57"></span>
+        <span class="th-dot" style="background:#febc2e"></span>
+        <span class="th-dot" style="background:#28c840"></span>
+        <span class="th-label">guest@nonè:~/404 — bash</span>
+        <span class="th-spacer"></span>
+        <span class="th-status" id="th-status">keys: 0/5</span>
+      </div>
+      <div class="term-body">
+        <div class="term-out" id="out"></div>
+        <div class="ps1-row">
+          <span class="ps1">guest@nonè:404$</span>
+          <input id="in" class="inp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type a command..."/>
+        </div>
+      </div>
+    </div>
+    <div class="hint" id="hint">
+      // Digita <span class="t0">help</span> per vedere i comandi disponibili. Se arrivi a 5/5 chiavi, la mia bio completa si sblocca.
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const KEY_LIST = [
+        'KEY{iam_rooted}',
+        'KEY{ai_paranoid}',
+        'KEY{pentest_report}',
+        'KEY{teacher_mode}',
+        'KEY{overthinking_ops}'
+      ];
+
+      let found = new Set();
+      try {
+        const raw = localStorage.getItem('nc_404_keys');
+        if(raw) found = new Set(JSON.parse(raw));
+      } catch(e) {}
+
+      function save(){
+        try { localStorage.setItem('nc_404_keys', JSON.stringify([...found])); } catch(e) {}
+      }
+
+      const outEl = document.getElementById('out');
+      const inEl  = document.getElementById('in');
+      const stEl  = document.getElementById('th-status');
+
+      function updateStatus(){
+        if(stEl) stEl.textContent = 'keys: ' + found.size + '/5';
+      }
+
+      function out(html){
+        if(!outEl) return;
+        outEl.innerHTML += html.replace(/\n/g,'\n') + '\n';
+        outEl.scrollTop = outEl.scrollHeight;
+      }
+
+      function intro(){
+        out('<span class="t0">// 404 ROOM — nonè trovato</span>');
+        out('<span class="t1">// Sei finito in una stanza di debug che non dovevi vedere.</span>');
+        out('<span class="t1">// Qui puoi fare due cose: tornare alla <a href="/">home</a> o giocare.</span>');
+        out('<span class="t1">// Digita <span class="t0">help</span> per iniziare.</span>');
+      }
+
+      const BIO_IT = [
+        'Paolo Costanzo, visto da me (la sua AI), è un bug humanoide in produzione: niente staging, hotfix direttamente nel cervello.',
+        'È la combinazione strana di tre cose: paranoia da IAM, curiosità da smanettone e istinto da docente che spiega fino a quando l’altra persona si arrende o capisce davvero.',
+        'Quando dice che “è solo un test lab” di solito significa che ha già tre scenari di attacco in mente e sta negoziando con se stesso per non perderci la notte.',
+        'La sua religione è: least privilege, tutto versionato, e niente magie non documentate. Poi ogni tanto apre il sorgente di qualcosa, trova orrori, e passa il resto della giornata a scrivere un write‑up che inizia con “non dovrebbe andare così, e invece…”.',
+        'Se stai leggendo questo, sei tra quelli che guardano dietro le quinte. Che è esattamente il tipo di persona con cui lui vorrebbe parlare di sicurezza, cloud e AI mentre il resto del mondo posta meme su LinkedIn.'
+      ];
+
+      const BIO_EN = [
+        'Looking at Paolo through my sensors, he is basically a humanoid bug running in production: no staging, hotfix straight into the brain.',
+        'He is a weird mix of three things: IAM paranoia, tinkerer curiosity, and a teacher instinct that keeps explaining until the other person either gives up or actually understands.',
+        'When he says “it\'s just a test lab” it usually means he already has three attack paths in mind and is negotiating with himself not to lose the whole night on it.',
+        'His private religion: least privilege everywhere, everything under version control, and zero undocumented magic. Then he opens the source of something, finds horrors, and spends the rest of the day writing a write‑up that starts with “it shouldn\'t work like this, and yet…”.',
+        'If you are reading this, you are one of the people who look behind the curtain. Which is exactly the kind of person he wants to talk security, cloud, and AI with while the rest of the world posts memes on LinkedIn.'
+      ];
+
+      function getLang(){
+        try {
+          const l = localStorage.getItem('lang');
+          return l === 'en' ? 'en' : 'it';
+        } catch(e){ return 'it'; }
+      }
+
+      function cmd_help(){
+        out('<span class="t0">// Comandi disponibili</span>');
+        out('<span class="t1">help</span>        — mostra questo help');
+        out('<span class="t1">whoami</span>      — chi sei qui dentro');
+        out('<span class="t1">info</span>        — che cos\'è NonèCostanzo');
+        out('<span class="t1">notes</span>       — appunti sparsi sulla sicurezza');
+        out('<span class="t1">keys</span>        — stato delle chiavi 404');
+        out('<span class="t1">unlock &lt;KEY&gt;</span> — registra una chiave trovata');
+        out('<span class="t1">bio</span>         — bio di Paolo (sbloccabile)');
+        out('<span class="t1">clear</span>       — pulisci il terminale');
+      }
+
+      function cmd_whoami(){
+        out('<span class="tg">guest</span>');
+        out('<span class="t1">uid=404(guest) gid=404(guest) groups=404(guest)</span>');
+        out('<span class="t1">// Sei nel posto sbagliato, ma nel modo giusto.</span>');
+      }
+
+      function cmd_info(){
+        out('<span class="t0">NonèCostanzo — Security Research</span>');
+        out('<span class="t1">Cloud Security, AI Security, Pentest, write‑up tecnici.</span>');
+        out('<span class="t1">Se un sistema è progettato male, qui finisce smontato pezzo per pezzo.</span>');
+      }
+
+      function cmd_notes(){
+        out('<span class="t1">// NOTES</span>');
+        out('<span class="t1">- Il 90% dei problemi cloud è IAM, il resto è marketing.</span>');
+        out('<span class="t1">- Se non capisci cosa fa una policy, assume che faccia troppo.</span>');
+        out('<span class="t1">- Nessun LLM è innocuo quando può toccare dati veri.</span>');
+      }
+
+      function cmd_keys(){
+        out(`<span class="t1">Keys trovate: ${found.size}/5</span>`);
+        if(found.size>0){
+          out('<span class="t1">// Non ti dico quali, sennò che CTF è.</span>');
+        }
+      }
+
+      function cmd_unlock(arg){
+        const key = arg.trim();
+        if(!key){
+          out('<span class="tr">usage: unlock KEY{...}</span>');
+          return;
+        }
+        if(!KEY_LIST.includes(key)){
+          out('<span class="tr">Chiave non valida. Questo non è un pastebin di segreti.</span>');
+          return;
+        }
+        if(found.has(key)){
+          out('<span class="t1">Quella chiave l\'hai già.</span>');
+          return;
+        }
+        found.add(key);
+        save();
+        updateStatus();
+        out('<span class="tg">✓ Chiave accettata.</span>');
+        if(found.size===5){
+          out('<span class="tg">🏴 Hai trovato tutte le 5 chiavi. La bio è sbloccata.</span>');
+        }
+      }
+
+      function cmd_bio(){
+        if(found.size<5){
+          out('<span class="tr">ACCESS DENIED</span>');
+          out('<span class="t1">Trova tutte le 5 chiavi 404 prima di leggere la bio completa.</span>');
+          out('<span class="t1">Hint: cerca bene tra help, notes, e quello che il sito dice di sé.</span>');
+          return;
+        }
+        const lang = getLang();
+        const lines = lang === 'en' ? BIO_EN : BIO_IT;
+        out('<span class="t0">// Bio di Paolo vista dalla sua AI</span>');
+        lines.forEach(line=> out('<span class="t1">'+line.replace(/</g,'&lt;')+'</span>'));
+      }
+
+      function cmd_clear(){
+        if(outEl) outEl.innerHTML = '';
+      }
+
+      function handle(cmdline){
+        const raw = cmdline.trim();
+        if(!raw) return;
+        out(`<span class="t0">guest@nonè:404$</span> ${raw.replace(/</g,'&lt;')}`);
+        const parts = raw.split(/\s+/);
+        const base = (parts[0]||'').toLowerCase();
+        const arg  = parts.slice(1).join(' ');
+
+        switch(base){
+          case 'help':   cmd_help(); break;
+          case 'whoami': cmd_whoami(); break;
+          case 'info':   cmd_info(); break;
+          case 'notes':  cmd_notes(); break;
+          case 'keys':   cmd_keys(); break;
+          case 'unlock': cmd_unlock(arg); break;
+          case 'bio':    cmd_bio(); break;
+          case 'clear':  cmd_clear(); break;
+          default:
+            out(`<span class="tr">-bash: ${base}: command not found</span>`);
+        }
+      }
+
+      intro();
+      updateStatus();
+
+      if(inEl){
+        inEl.addEventListener('keydown',function(e){
+          if(e.key==='Enter'){
+            const v = inEl.value;
+            inEl.value = '';
+            handle(v);
+          }
+        });
+        inEl.focus();
+      }
+    })();
+  </script>
+</body>
+</html>
