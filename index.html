@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- 🏴 FLAG{v13w_s0urc3_m4st3r} — bravo, guardi il sorgente come un vero hacker -->
 <html lang="it" id="html-root">
 <head>
   <meta charset="UTF-8"/>
@@ -8,14 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --orange:#ff6a00; --orange-faint:rgba(255,106,0,0.06);
-      --black:#080808; --surface:#101010; --surface2:#161616;
-      --border:#222; --text:#e8e8e8; --muted:#666;
-      --mono:'Share Tech Mono',monospace;
-      --sans:'Barlow',sans-serif;
-      --condensed:'Barlow Condensed',sans-serif;
-    }
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
@@ -86,7 +80,31 @@
     .dot{width:6px;height:6px;border-radius:50%}
     .dot-medium{background:#ffaa00}
     .dot-hard{background:#ff3333}
+    .dot-easy{background:#00ff88}
     .difficulty-text{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase}
+    .classified-card{cursor:default}
+    .classified-card::after{display:none}
+    .redacted{display:inline-block;background:rgba(255,51,51,0.15);color:transparent;user-select:none;letter-spacing:0.02em}
+    .classified-card:hover{background:var(--surface)}
+    .ctf-card{padding:0;cursor:text;overflow:hidden}
+    .ctf-card::after{display:none}
+    .ctf-card:hover{background:var(--surface)}
+    .term-titlebar{display:flex;align-items:center;gap:6px;padding:0.65rem 1rem;background:#0d0d0d;border-bottom:1px solid var(--border);flex-shrink:0}
+    .term-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+    .term-titlebar-label{font-family:var(--mono);font-size:0.6rem;color:var(--muted);margin-left:0.5rem;flex:1}
+    .term-score{font-family:var(--mono);font-size:0.62rem;color:var(--orange)}
+    .term-body{padding:1rem;display:flex;flex-direction:column;gap:0.75rem;flex:1}
+    .term-out{font-family:var(--mono);font-size:0.7rem;line-height:1.65;height:148px;overflow-y:auto;color:#aaa;flex-shrink:0;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+    .term-out::-webkit-scrollbar{width:4px}
+    .term-out::-webkit-scrollbar-track{background:transparent}
+    .term-out::-webkit-scrollbar-thumb{background:var(--border)}
+    .term-out .to{color:var(--orange)}
+    .term-out .tg{color:#00ff88}
+    .term-out .tr{color:#ff3333}
+    .term-out .tm{color:var(--muted)}
+    .term-prompt-row{display:flex;align-items:center;gap:0.5rem;border-top:1px solid var(--border);padding-top:0.75rem;flex-shrink:0}
+    .term-ps1{font-family:var(--mono);font-size:0.7rem;color:var(--orange);white-space:nowrap;flex-shrink:0}
+    .term-inp{background:transparent;border:none;outline:none;font-family:var(--mono);font-size:0.7rem;color:var(--text);flex:1;caret-color:var(--orange);min-width:0}
     .skills-section{border-top:1px solid var(--border);background:var(--surface);padding:2.5rem 2rem}
     .skills-inner{max-width:1100px;margin:0 auto}
     .skills-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
@@ -113,24 +131,18 @@
   </style>
 </head>
 <body>
-
-<!-- MOBILE OVERLAY -->
 <div class="mobile-overlay" id="mob-overlay">
-  <a href="writeups/" onclick="closeMob()"><span data-it="Writeups" data-en="Writeups">Writeups</span></a>
-  <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
+  <a href="https://www.paolocostanzo.com" target="_blank" onclick="closeMob()">paolocostanzo.com</a>
   <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
   <div class="lang-toggle" style="margin-top:0.5rem">
     <button class="lang-btn active" onclick="setLang('it')">IT</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
   </div>
 </div>
-
-<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="logo" id="logo" aria-label="nonè@costanzo:~$"></div>
     <nav class="desktop-nav">
-      <a href="writeups/"><span data-it="Writeups" data-en="Writeups">Writeups</span></a>
       <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
       <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
       <div class="lang-toggle">
@@ -143,8 +155,6 @@
     </button>
   </div>
 </header>
-
-<!-- HERO -->
 <section class="hero">
   <div class="hero-grid" aria-hidden="true">
     <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -167,10 +177,7 @@
     <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon · Exploit · Report</span></div>
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- FILTER BAR -->
 <div class="filter-section">
   <div class="filter-left">
     <span class="filter-label">// Ultimi post:</span>
@@ -184,86 +191,69 @@
     </div>
   </div>
 </div>
-
-<!-- LATEST ARTICLES -->
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
-
     <a class="article-card fade-up d2" data-category="cloud" href="posts/aws-iam-misconfiguration.html">
-      <div class="card-meta">
-        <span class="card-tag">Cloud Security</span>
-        <span class="card-date">Mar 2026</span>
-      </div>
-      <div class="card-title"
-           data-it="AWS IAM: i 5 errori di configurazione più comuni"
-           data-en="AWS IAM: the 5 most common misconfigurations">
-        AWS IAM: i 5 errori di configurazione più comuni
-      </div>
-      <p class="card-excerpt"
-         data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi."
-         data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for, and how to close the door before they knock.">
-        Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi.
-      </p>
+      <div class="card-meta"><span class="card-tag">Cloud Security</span><span class="card-date">Mar 2026</span></div>
+      <div class="card-title" data-it="AWS IAM: i 5 errori di configurazione più comuni" data-en="AWS IAM: the 5 most common misconfigurations">AWS IAM: i 5 errori di configurazione più comuni</div>
+      <p class="card-excerpt" data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi." data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for, and how to close the door before they knock.">Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi.</p>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot dot-medium"></div><span class="difficulty-text" style="color:#ffaa00;">Medium</span></div>
+        <div class="difficulty"><div class="dot dot-medium"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
       </div>
     </a>
-
     <a class="article-card fade-up d3" data-category="ai" href="posts/prompt-injection-llm.html">
-      <div class="card-meta">
-        <span class="card-tag">AI Security</span>
-        <span class="card-date">Mar 2026</span>
-      </div>
-      <div class="card-title"
-           data-it="Prompt Injection su LLM aziendali: come funziona davvero"
-           data-en="Prompt Injection on Enterprise LLMs: how it really works">
-        Prompt Injection su LLM aziendali: come funziona davvero
-      </div>
-      <p class="card-excerpt"
-         data-it="I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise."
-         data-en="Enterprise language models have attack surfaces almost nobody considers. A practical analysis of how to manipulate a corporate chatbot.">
-        I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise.
-      </p>
+      <div class="card-meta"><span class="card-tag">AI Security</span><span class="card-date">Mar 2026</span></div>
+      <div class="card-title" data-it="Prompt Injection su LLM aziendali: come funziona davvero" data-en="Prompt Injection on Enterprise LLMs: how it really works">Prompt Injection su LLM aziendali: come funziona davvero</div>
+      <p class="card-excerpt" data-it="I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise." data-en="Enterprise language models have attack surfaces almost nobody considers. A practical analysis of how to manipulate a corporate chatbot.">I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise.</p>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333;">Hard</span></div>
+        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">→</span></div>
       </div>
     </a>
-
+    <div class="article-card classified-card fade-up d3" data-category="pentest">
+      <div class="card-meta">
+        <span class="card-tag" style="color:#ff3333;border-color:#ff3333">[ CLASSIFIED ]</span>
+        <span class="card-date" style="color:#333">???</span>
+      </div>
+      <div class="card-title" style="opacity:0.25"><span class="redacted">████████████████████████████</span></div>
+      <p class="card-excerpt" style="font-family:var(--mono);font-size:0.72rem;line-height:1.8;color:#333">// ACCESS DENIED<br/>// Clearance level: INSUFFICIENT<br/>// Next post loading...<br/><span style="color:rgba(255,106,0,0.3)">// ETA: soon™</span></p>
+      <div class="card-footer" style="border-top-color:#1a1a1a">
+        <div style="font-family:var(--mono);font-size:0.6rem;color:#2a2a2a;letter-spacing:0.15em">TOP SECRET // NOFORN</div>
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#2a2a2a">🔒</div>
+      </div>
+    </div>
+    <div class="article-card ctf-card fade-up d4" onclick="document.getElementById('term-inp').focus()">
+      <div class="term-titlebar">
+        <span class="term-dot" style="background:#ff5f57"></span>
+        <span class="term-dot" style="background:#febc2e"></span>
+        <span class="term-dot" style="background:#28c840"></span>
+        <span class="term-titlebar-label">guest@nonè:~/ctf — bash</span>
+        <span class="term-score" id="term-score">🏴 0/5</span>
+      </div>
+      <div class="term-body">
+        <div class="term-out" id="term-out"><span class="to">// CTF CHALLENGE — 5 flag da trovare</span>
+<span class="tm">Digita <span class="to">help</span> per iniziare.</span>
+</div>
+        <div class="term-prompt-row">
+          <span class="term-ps1">guest@nonè:~$</span>
+          <input type="text" class="term-inp" id="term-inp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type a command..."/>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- SKILLS -->
 <div class="skills-section fade-up">
   <div class="skills-inner">
     <div class="skills-header">
-      <span class="skills-label" data-it="// Skills" data-en="// Skills">// Skills</span>
-      <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" class="credly-btn"
-         data-it="Vedi certificazioni →" data-en="View certifications →">Vedi certificazioni →</a>
+      <span class="skills-label">// Skills</span>
+      <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" class="credly-btn">Vedi certificazioni →</a>
     </div>
     <div class="skills-grid">
-      <span class="skill-badge hi">Cloud Security</span>
-      <span class="skill-badge hi">AI Security</span>
-      <span class="skill-badge hi">Ethical Hacking</span>
-      <span class="skill-badge hi">Penetration Testing</span>
-      <span class="skill-badge hi">MITRE ATT&amp;CK</span>
-      <span class="skill-badge hi">Threat Modeling</span>
-      <span class="skill-badge">Network Security</span>
-      <span class="skill-badge">Incident Response</span>
-      <span class="skill-badge">Malware Analysis</span>
-      <span class="skill-badge">Digital Forensics</span>
-      <span class="skill-badge">SecOps</span>
-      <span class="skill-badge">AWS Security</span>
-      <span class="skill-badge">Azure Security</span>
-      <span class="skill-badge">LLM Security</span>
-      <span class="skill-badge">API Security</span>
-      <span class="skill-badge">Red Team</span>
+      <span class="skill-badge hi">Cloud Security</span><span class="skill-badge hi">AI Security</span><span class="skill-badge hi">Ethical Hacking</span><span class="skill-badge hi">Penetration Testing</span><span class="skill-badge hi">MITRE ATT&amp;CK</span><span class="skill-badge hi">Threat Modeling</span><span class="skill-badge">Network Security</span><span class="skill-badge">Incident Response</span><span class="skill-badge">Malware Analysis</span><span class="skill-badge">Digital Forensics</span><span class="skill-badge">SecOps</span><span class="skill-badge">AWS Security</span><span class="skill-badge">Azure Security</span><span class="skill-badge">LLM Security</span><span class="skill-badge">API Security</span><span class="skill-badge">Red Team</span>
     </div>
   </div>
 </div>
-
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo" id="footer-logo"></div>
@@ -275,91 +265,57 @@
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
   </div>
 </footer>
-
 <script>
-const LOGO_SEQ = [
-  {t:'nonè', c:'#e8e8e8'},
-  {t:'@', c:'#444'},
-  {t:'costanzo',c:'#ff6a00'},
-  {t:':~$', c:'#444'},
-];
-const TOTAL = LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
-let idx = 0;
-function renderLogo(n) {
-  let html='', count=0;
-  for(const p of LOGO_SEQ){
-    for(const ch of [...p.t]){
-      if(count>=n) break;
-      const esc = ch==='è'?'&egrave;':ch==='$'?'&#36;':ch;
-      html+=`<span style="color:${p.c}">${esc}</span>`;
-      count++;
-    }
-    if(count>=n) break;
-  }
-  const cursor = count<TOTAL
-    ? `<span style="color:#ff6a00;animation:none">_</span>`
-    : `<span class="cursor">_</span>`;
-  return html+cursor;
-}
-function typeStep(){
-  idx++;
-  const h = renderLogo(idx);
-  const l = document.getElementById('logo');
-  const f = document.getElementById('footer-logo');
-  if(l) l.innerHTML=h;
-  if(f) f.innerHTML=h;
-  if(idx<TOTAL) setTimeout(typeStep, 50+Math.random()*50);
-}
-let currentLang = 'it';
-function setLang(lang){
-  currentLang = lang;
-  document.getElementById('html-root').lang = lang;
-  document.querySelectorAll('[data-it]').forEach(el=>{
-    const val = lang==='en' ? el.dataset.en : el.dataset.it;
-    if(val !== undefined) el.innerHTML = val;
+const LOGO_SEQ=[{t:'nonè',c:'#e8e8e8'},{t:'@',c:'#444'},{t:'costanzo',c:'#ff6a00'},{t:':~$',c:'#444'}];
+const TOTAL=LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
+let idx=0;
+function renderLogo(n){let h='',cnt=0;for(const p of LOGO_SEQ){for(const ch of[...p.t]){if(cnt>=n)break;const e=ch==='è'?'&egrave;':ch==='$'?'&#36;':ch;h+=`<span style="color:${p.c}">${e}</span>`;cnt++;}if(cnt>=n)break;}const c=cnt<TOTAL?`<span style="color:#ff6a00">_</span>`:`<span class="cursor">_</span>`;return h+c;}
+function typeStep(){idx++;const h=renderLogo(idx);const l=document.getElementById('logo');const f=document.getElementById('footer-logo');if(l)l.innerHTML=h;if(f)f.innerHTML=h;if(idx<TOTAL)setTimeout(typeStep,50+Math.random()*50);}
+let currentLang='it';
+function setLang(lang){currentLang=lang;document.getElementById('html-root').lang=lang;document.querySelectorAll('[data-it]').forEach(el=>{const v=lang==='en'?el.dataset.en:el.dataset.it;if(v!==undefined)el.innerHTML=v;});document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===lang));try{localStorage.setItem('lang',lang);}catch(e){}}
+function toggleMob(){const b=document.getElementById('burger');const o=document.getElementById('mob-overlay');b.classList.toggle('open');o.classList.toggle('open');document.body.style.overflow=o.classList.contains('open')?'hidden':'';}
+function closeMob(){document.getElementById('burger').classList.remove('open');document.getElementById('mob-overlay').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('mob-overlay').addEventListener('click',function(e){if(e.target===this)closeMob();});
+function filterPosts(cat,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.article-card[data-category]').forEach(c=>{c.style.display=(cat==='all'||c.dataset.category===cat)?'':'none';});}
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='paused';obs.observe(el);});
+(function(){
+  const flag4b64=btoa('FLAG{d3c0d3_m4st3r}');
+  const ALL_FLAGS={'FLAG{wh0am1_n0n3_c0st4nz0}':1,'FLAG{h1dd3n_v4ult}':2,'FLAG{n4mp_1337}':3,'FLAG{d3c0d3_m4st3r}':4,'FLAG{v13w_s0urc3_m4st3r}':5};
+  let found=new Set();try{found=new Set(JSON.parse(localStorage.getItem('ctf_nc_flags')||'[]'));}catch(e){}
+  function saveFound(){try{localStorage.setItem('ctf_nc_flags',JSON.stringify([...found]));}catch(e){}}
+  function updateScore(){const el=document.getElementById('term-score');if(el)el.textContent='🏴 '+found.size+'/5';}
+  updateScore();
+  function out(html){const el=document.getElementById('term-out');if(!el)return;el.innerHTML+=html+'\n';el.scrollTop=el.scrollHeight;}
+  const CMDS={
+    help:()=>`<span class="to">// Comandi disponibili</span>\n<span class="to">whoami</span>        — chi sei?\n<span class="to">ls</span> [-a]       — lista file\n<span class="to">cat</span> &lt;file&gt;  — leggi file\n<span class="to">nmap</span>          — scansione locale\n<span class="to">challenges</span>    — lista sfide CTF\n<span class="to">hint</span> &lt;n&gt;     — indizio per sfida n\n<span class="to">submit</span> &lt;FLAG&gt; — invia flag\n<span class="to">score</span>         — punteggio\n<span class="to">clear</span>         — pulisci terminale`,
+    whoami:()=>`<span class="tg">guest</span>\n<span class="tm">uid=1337(guest) gid=1337(guest)</span>\n<span class="to">FLAG{wh0am1_n0n3_c0st4nz0}</span>\n<span class="tg">🏴 FLAG #1 trovata! usa <span class="to">submit</span> per registrarla</span>`,
+    ls:(a)=>(/\-a/.test(a)||/\-l/.test(a))?`<span class="tm">total 20</span>\ndrwxr-xr-x  <span class="tg">.</span>\ndrwxr-xr-x  <span class="tg">..</span>\n-rw-r--r--  <span class="tm">.bash_history</span>\n-rw-------  <span class="to">.vault</span>\n-rw-r--r--  readme.md\n-rw-r--r--  notes.txt`:`readme.md  notes.txt`,
+    cat:(a)=>{const f=a.trim();if(f==='.vault')return `<span class="tm">--- .vault ---</span>\n<span class="to">FLAG{h1dd3n_v4ult}</span>\n<span class="tg">🏴 FLAG #2 trovata!</span>`;if(f==='readme.md')return `<span class="tm">Benvenuto nel CTF.\nCerca le 5 flag nascoste nel sistema.\nHint: prova ls -a</span>`;if(f==='notes.txt')return `<span class="tm">TODO: rimuovere .vault prima del deploy\nTODO: non lasciare flag nell'HTML sorgente</span>`;if(f==='.bash_history')return `<span class="tm">ls -la\nnmap localhost\ncat .vault\nexit</span>`;return `<span class="tr">cat: ${f}: No such file or directory</span>`;},
+    nmap:()=>`<span class="tm">Starting Nmap 7.94...</span>\n<span class="tm">PORT     STATE  SERVICE</span>\n<span class="tm">22/tcp   open   ssh</span>\n<span class="tm">80/tcp   open   http</span>\n<span class="to">1337/tcp open   ???</span>\n<span class="tm">│ Banner: <span class="to">Synt{a4zc_1337}</span></span>\n<span class="tm">// Conosci ROT13?</span>`,
+    challenges:()=>`<span class="to">CTF — nonèCostanzo — 5 flag</span>\n<span class="tg">#1</span> <span class="tm">whoami</span>\n<span class="tg">#2</span> <span class="tm">ls -a → cat .vault</span>\n<span class="tg">#3</span> <span class="tm">nmap → ROT13 del banner</span>\n<span class="tg">#4</span> <span class="tm">decode base64: <span class="to">${flag4b64}</span></span>\n<span class="tg">#5</span> <span class="tm">view-source (commenti HTML)</span>`,
+    hint:(a)=>{const n=parseInt(a.trim());const H={1:`<span class="tm">Prova: <span class="to">whoami</span></span>`,2:`<span class="tm">File nascosti iniziano con <span class="to">.</span> → <span class="to">ls -a</span> poi <span class="to">cat .vault</span></span>`,3:`<span class="tm">ROT13: ogni lettera +13 → S→F Y→L N→A T→G...</span>`,4:`<span class="tm">Console del browser: <span class="to">atob("${flag4b64}")</span></span>`,5:`<span class="tm">Ctrl+U oppure view-source: cerca nei commenti HTML</span>`};return H[n]||`<span class="tr">hint: sfida 1-5 solo</span>`;},
+    submit:(a)=>{const flag=a.trim();const num=ALL_FLAGS[flag];if(!num)return `<span class="tr">✗ Flag non valida.</span>`;if(found.has(String(num)))return `<span class="tm">Flag #${num} già acquisita.</span>`;found.add(String(num));saveFound();updateScore();const bonus=found.size===5?'\n<span class="tg">🏆 PWNED COMPLETE!</span>':'';return `<span class="tg">✓ FLAG #${num} VALIDA! +${num*200} pts</span>${bonus}`;},
+    score:()=>{const pts=[...found].reduce((s,n)=>s+parseInt(n)*200,0);return `<span class="to">Score: ${found.size}/5 — ${pts} pts</span>${found.size===5?'\n<span class="tg">🏆 PWNED</span>':'\n<span class="tm">'+(5-found.size)+' flag rimanenti</span>'}`; },
+    clear:()=>{document.getElementById('term-out').innerHTML='';return null;},
+    sudo:()=>`<span class="tr">Permission denied.</span>`,
+    pwd:()=>`/home/guest/ctf`,
+    uname:()=>`Linux nonè-costanzo 6.1.0 #1 SMP`,
+    id:()=>`uid=1337(guest) gid=1337(guest)`,
+    exit:()=>`<span class="tm">No exit. This is the terminal.</span>`,
+  };
+  let history=[],histIdx=-1;
+  document.addEventListener('DOMContentLoaded',()=>{
+    const inp=document.getElementById('term-inp');
+    if(!inp)return;
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){const raw=inp.value.trim();inp.value='';if(!raw)return;history.unshift(raw);histIdx=-1;out(`<span class="to">guest@nonè:~$</span> ${raw.replace(/</g,'&lt;')}`);const parts=raw.split(/\s+/);const base=parts[0].toLowerCase();const args=parts.slice(1).join(' ');if(base==='submit'){const r=CMDS.submit(raw.slice(7));if(r!==null)out(r);}else if(CMDS[base]){const r=CMDS[base](args);if(r!==null)out(r);}else{out(`<span class="tr">-bash: ${base}: command not found</span>`);}}
+      else if(e.key==='ArrowUp'){e.preventDefault();histIdx=Math.min(histIdx+1,history.length-1);if(history[histIdx]!==undefined)inp.value=history[histIdx];}
+      else if(e.key==='ArrowDown'){e.preventDefault();histIdx=Math.max(histIdx-1,-1);inp.value=histIdx===-1?'':history[histIdx]||'';}
+    });
   });
-  document.querySelectorAll('.lang-btn').forEach(btn=>{
-    const isActive = btn.textContent.trim().toLowerCase() === lang;
-    btn.classList.toggle('active', isActive);
-  });
-  try{ localStorage.setItem('lang',lang); }catch(e){}
-}
-function toggleMob(){
-  const burger = document.getElementById('burger');
-  const overlay = document.getElementById('mob-overlay');
-  burger.classList.toggle('open');
-  overlay.classList.toggle('open');
-  document.body.style.overflow = overlay.classList.contains('open')?'hidden':'';
-}
-function closeMob(){
-  document.getElementById('burger').classList.remove('open');
-  document.getElementById('mob-overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('mob-overlay').addEventListener('click',function(e){
-  if(e.target===this) closeMob();
-});
-function filterPosts(cat,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.article-card').forEach(card=>{
-    card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none';
-  });
-}
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.style.animationPlayState='running'; });
-},{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>{
-  el.style.animationPlayState='paused';
-  obs.observe(el);
-});
-document.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(typeStep, 300);
-  try{
-    const saved = localStorage.getItem('lang');
-    if(saved==='en') setLang('en');
-  }catch(e){}
-});
+})();
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(typeStep,300);try{const s=localStorage.getItem('lang');if(s==='en')setLang('en');}catch(e){}});
 </script>
 </body>
 </html>
