@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Paolo Costanzo — Security Research</title>
+  <meta name="description" content="Cloud Security, Ethical Hacking, AI Security. Write-up, CVE analysis e pensieri tecnici di Paolo Costanzo."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange: #ff6a00;
+      --orange-dim: #cc5200;
+      --orange-glow: rgba(255, 106, 0, 0.15);
+      --orange-faint: rgba(255, 106, 0, 0.06);
+      --black: #080808;
+      --surface: #101010;
+      --surface2: #161616;
+      --border: #222;
+      --border-orange: rgba(255, 106, 0, 0.3);
+      --text: #e8e8e8;
+      --muted: #666;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Barlow', sans-serif;
+      --condensed: 'Barlow Condensed', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* SCANLINES */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--orange);
+      letter-spacing: 0.05em;
+    }
+
+    .logo span { color: var(--muted); }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--orange); }
+
+    .nav-cta {
+      border: 1px solid var(--orange);
+      padding: 0.4rem 1rem;
+      color: var(--orange) !important;
+      transition: background 0.2s, color 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--orange) !important;
+      color: var(--black) !important;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--orange);
+    }
+
+    .hero h1 {
+      font-family: var(--condensed);
+      font-weight: 900;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .hero h1 .accent {
+      color: var(--orange);
+      -webkit-text-stroke: 0px;
+    }
+
+    .hero h1 .outline {
+      -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+      color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
+    }
+
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+
+    .hero-stats {
+      margin-top: 3rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-num {
+      font-family: var(--condensed);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* GRID LINE DECORATION */
+    .hero-grid {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 40%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.12;
+    }
+
+    .hero-grid svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── FILTER BAR ─── */
+    .filter-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      white-space: nowrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-faint);
+    }
+
+    /* ─── ARTICLES GRID ─── */
+    .articles-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    /* FEATURED ARTICLE */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 1px;
+      background: var(--surface);
+      transition: border-color 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured::before {
+      content: 'FEATURED';
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+      border: 1px solid var(--orange);
+      padding: 0.2rem 0.5rem;
+    }
+
+    .featured:hover { border-color: var(--orange); }
+
+    .featured:hover .featured-bar { width: 100%; }
+
+    .featured-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--orange);
+      transition: width 0.4s ease;
+    }
+
+    .featured-content {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .featured-visual {
+      background: var(--surface2);
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+    }
+
+    .featured-visual .big-icon {
+      font-size: 8rem;
+      opacity: 0.06;
+      position: absolute;
+      font-family: var(--mono);
+      color: var(--orange);
+      transform: rotate(-15deg);
+      user-select: none;
+    }
+
+    .featured-visual .code-snippet {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--orange);
+      opacity: 0.5;
+      padding: 2rem;
+      line-height: 2;
+      z-index: 1;
+    }
+
+    /* ARTICLE CARD */
+    .articles-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .article-card {
+      background: var(--surface);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--orange);
+      transition: width 0.3s;
+    }
+
+    .article-card:hover { background: var(--surface2); }
+    .article-card:hover::after { width: 100%; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--orange);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .card-date {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-family: var(--condensed);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .card-excerpt {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .card-read {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .card-arrow {
+      font-size: 1rem;
+      color: var(--orange);
+      transition: transform 0.2s;
+    }
+
+    .article-card:hover .card-arrow { transform: translateX(4px); }
+
+    /* DIFFICULTY BADGE */
+    .difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .dot-easy { background: #00ff88; }
+    .dot-medium { background: #ffaa00; }
+    .dot-hard { background: #ff3333; }
+
+    .difficulty-text {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── COMING SOON PLACEHOLDER ─── */
+    .placeholder-card {
+      background: var(--surface);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      min-height: 200px;
+      border: 1px dashed var(--border);
+      opacity: 0.4;
+    }
+
+    .placeholder-icon {
+      font-family: var(--mono);
+      font-size: 2rem;
+      color: var(--muted);
+    }
+
+    .placeholder-text {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ─── TERMINAL SECTION ─── */
+    .terminal-section {
+      border-top: 1px solid var(--border);
+      margin-top: 1px;
+      background: var(--surface);
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 1px auto 0;
+    }
+
+    .terminal {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 2;
+      max-width: 600px;
+    }
+
+    .terminal-line { display: flex; gap: 0.75rem; }
+    .terminal-prompt { color: var(--orange); }
+    .terminal-cmd { color: var(--text); }
+    .terminal-out { color: var(--muted); padding-left: 1.5rem; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--orange);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+    }
+
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--orange);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--orange); }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .featured { grid-template-columns: 1fr; }
+      .featured-visual { display: none; }
+      .articles-list { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 3.5rem; }
+      .hero-stats { gap: 2rem; }
+      nav { gap: 1rem; }
+      .nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">pc<span>@</span>security<span>:~$</span></div>
+      <nav>
+        <a href="#writeups">Writeups</a>
+        <a href="https://www.paolocostanzo.it" target="_blank">paolocostanzo.it</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true">
+      <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff6a00" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="600" fill="url(#grid)"/>
+      </svg>
+    </div>
+
+    <div class="hero-tag fade-up">Security Research &amp; Writeups</div>
+
+    <h1 class="fade-up delay-1">
+      Paolo<br/>
+      <span class="accent">Costanzo</span><br/>
+      <span class="outline">Hacking</span>
+    </h1>
+
+    <p class="hero-sub fade-up delay-2">
+      <strong>Cloud Security Architect · Ethical Hacker · AI Security</strong><br/>
+      Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing.
+      Tutto quello che non trovi nei corsi.
+    </p>
+
+    <div class="hero-stats fade-up delay-3">
+      <div class="stat">
+        <span class="stat-num">AWS</span>
+        <span class="stat-label">Cloud Security</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">OSCP</span>
+        <span class="stat-label">In Progress</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">AI</span>
+        <span class="stat-label">LLM Security</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-section" id="writeups">
+    <span class="filter-label">// Filter:</span>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+      <button class="filter-btn" onclick="filterPosts('cloud', this)">Cloud</button>
+      <button class="filter-btn" onclick="filterPosts('pentest', this)">Pentest</button>
+      <button class="filter-btn" onclick="filterPosts('cve', this)">CVE</button>
+      <button class="filter-btn" onclick="filterPosts('ai', this)">AI Security</button>
+      <button class="filter-btn" onclick="filterPosts('ctf', this)">CTF</button>
+    </div>
+  </div>
+
+  <!-- ARTICLES -->
+  <section class="articles-section">
+
+    <!-- FEATURED -->
+    <article class="featured fade-up delay-2" data-category="cloud">
+      <div class="featured-content">
+        <div>
+          <div class="card-meta" style="margin-bottom: 1.5rem;">
+            <span class="card-tag">Cloud Security</span>
+            <span class="card-date">Mar 2026</span>
+          </div>
+          <div class="card-title" style="font-size: 2rem; margin-bottom: 1rem;">
+            AWS IAM: i 5 errori di configurazione più comuni (e come trovarli)
+          </div>
+          <p class="card-excerpt" style="font-size: 0.95rem; max-width: 480px;">
+            Analisi dei misconfiguration IAM più frequenti negli ambienti enterprise AWS. 
+            Come un attaccante li sfrutta, come difendersi, e gli strumenti per trovarli prima degli altri.
+          </p>
+        </div>
+        <div class="card-footer" style="margin-top: 2rem;">
+          <div class="difficulty">
+            <div class="dot dot-medium"></div>
+            <span class="difficulty-text" style="color: #ffaa00;">Medium</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <span class="card-read">8 min read</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </div>
+      <div class="featured-visual">
+        <div class="big-icon">IAM</div>
+        <pre class="code-snippet">
+$ aws iam list-users
+$ aws iam get-policy
+  Effect: Allow
+  Action: "*"
+  Resource: "*"
+[!] OverPrivileged found
+        </pre>
+      </div>
+      <div class="featured-bar"></div>
+    </article>
+
+    <!-- ARTICLE GRID -->
+    <div class="articles-list" id="articles-list">
+
+      <article class="article-card fade-up delay-3" data-category="pentest">
+        <div class="card-meta">
+          <span class="card-tag">Pentest</span>
+          <span class="card-date">Feb 2026</span>
+        </div>
+        <div class="card-title">Web App Pentest: da IDOR a Full Account Takeover</div>
+        <p class="card-excerpt">
+          Case study anonimizzato di un engagement reale. 
+          Broken object level authorization su API REST che ha portato alla compromissione di 12.000 account.
+        </p>
+        <div class="card-footer">
+          <div class="difficulty">
+            <div class="dot dot-hard"></div>
+            <span class="difficulty-text" style="color: #ff3333;">Hard</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="card-read">12 min</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card fade-up delay-4" data-category="cve">
+        <div class="card-meta">
+          <span class="card-tag">CVE Analysis</span>
+          <span class="card-date">Gen 2026</span>
+        </div>
+        <div class="card-title">CVE-2024-XXXX: RCE su Docker Engine, analisi tecnica</div>
+        <p class="card-excerpt">
+          Dissezionare una vulnerabilità RCE nel container runtime. 
+          Come funziona l'exploit, il patch diff e cosa significa per chi usa Docker in produzione.
+        </p>
+        <div class="card-footer">
+          <div class="difficulty">
+            <div class="dot dot-hard"></div>
+            <span class="difficulty-text" style="color: #ff3333;">Hard</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="card-read">15 min</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card fade-up delay-5" data-category="ai">
+        <div class="card-meta">
+          <span class="card-tag">AI Security</span>
+          <span class="card-date">Gen 2026</span>
+        </div>
+        <div class="card-title">Prompt Injection su LLM aziendali: attacchi reali</div>
+        <p class="card-excerpt">
+          Come un attaccante manipola un chatbot enterprise per estrarre dati sensibili, 
+          bypassare guardrail e compromettere il RAG backend.
+        </p>
+        <div class="card-footer">
+          <div class="difficulty">
+            <div class="dot dot-medium"></div>
+            <span class="difficulty-text" style="color: #ffaa00;">Medium</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="card-read">10 min</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card fade-up delay-3" data-category="ctf">
+        <div class="card-meta">
+          <span class="card-tag">CTF Writeup</span>
+          <span class="card-date">Dic 2025</span>
+        </div>
+        <div class="card-title">HackTheBox — Machine XYZ: da User a Root</div>
+        <p class="card-excerpt">
+          Writeup completo della macchina HTB. Enumeration, foothold via SQLi, 
+          privilege escalation con SUID misconfigured binary. Tutto documentato step-by-step.
+        </p>
+        <div class="card-footer">
+          <div class="difficulty">
+            <div class="dot dot-easy"></div>
+            <span class="difficulty-text" style="color: #00ff88;">Easy</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="card-read">7 min</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="article-card fade-up delay-4" data-category="cloud">
+        <div class="card-meta">
+          <span class="card-tag">Cloud</span>
+          <span class="card-date">Dic 2025</span>
+        </div>
+        <div class="card-title">S3 Bucket Misconfiguration: Threat Hunting con Prowler</div>
+        <p class="card-excerpt">
+          Setup di Prowler per AWS security audit automatizzato. 
+          Come trovare bucket pubblici, policy permissive e CloudTrail disattivato in ambienti enterprise.
+        </p>
+        <div class="card-footer">
+          <div class="difficulty">
+            <div class="dot dot-easy"></div>
+            <span class="difficulty-text" style="color: #00ff88;">Easy</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="card-read">6 min</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PLACEHOLDER -->
+      <div class="placeholder-card fade-up delay-5">
+        <div class="placeholder-icon">//</div>
+        <div class="placeholder-text">Prossimo articolo</div>
+        <div class="placeholder-text" style="font-size: 0.55rem; opacity: 0.6;">in costruzione...</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TERMINAL EASTER EGG -->
+  <div class="terminal-section fade-up">
+    <div class="terminal">
+      <div class="terminal-line">
+        <span class="terminal-prompt">paolo@kali:~$</span>
+        <span class="terminal-cmd">whoami</span>
+      </div>
+      <div class="terminal-out">cloud-security-architect | ethical-hacker | ai-security</div>
+      <div class="terminal-line" style="margin-top: 0.5rem;">
+        <span class="terminal-prompt">paolo@kali:~$</span>
+        <span class="terminal-cmd">cat roadmap.txt</span>
+      </div>
+      <div class="terminal-out">AWS CP ✓ → AWS SA → AWS SEC → OSCP [2027]</div>
+      <div class="terminal-line" style="margin-top: 0.5rem;">
+        <span class="terminal-prompt">paolo@kali:~$</span>
+        <span class="terminal-cmd">echo "€1000-1500/hr by 2028"</span>
+      </div>
+      <div class="terminal-out">€1000-1500/hr by 2028</div>
+      <div class="terminal-line" style="margin-top: 0.5rem;">
+        <span class="terminal-prompt">paolo@kali:~$</span>
+        <span class="terminal-cmd"><span class="terminal-cursor"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">pc@security:~$</div>
+      <div class="footer-links">
+        <a href="https://www.paolocostanzo.it" target="_blank">Website</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/paolocostanzo" target="_blank">GitHub</a>
+      </div>
+      <div class="footer-copy">© 2026 Paolo Costanzo</div>
+    </div>
+  </footer>
+
+  <script>
+    // Filter functionality
+    function filterPosts(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.article-card, .featured').forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
