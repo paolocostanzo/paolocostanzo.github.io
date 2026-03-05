@@ -1,213 +1,412 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" id="html-root">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NonèCostanzo — Security Research</title>
-  <meta name="description" content="Cloud Security, Ethical Hacking, AI Security. Write-up, analisi e pensieri tecnici di Paolo Costanzo."/>
+  <meta name="description" content="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --orange: #ff6a00; --orange-dim: #cc5200; --orange-glow: rgba(255,106,0,0.15);
-      --orange-faint: rgba(255,106,0,0.06); --black: #080808; --surface: #101010;
-      --surface2: #161616; --border: #222; --text: #e8e8e8; --muted: #666;
-      --mono: 'Share Tech Mono', monospace; --sans: 'Barlow', sans-serif; --condensed: 'Barlow Condensed', sans-serif;
+      --orange:#ff6a00; --orange-faint:rgba(255,106,0,0.06);
+      --black:#080808; --surface:#101010; --surface2:#161616;
+      --border:#222; --text:#e8e8e8; --muted:#666;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--black); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
-    a { color: inherit; text-decoration: none; }
-    header { position: sticky; top: 0; z-index: 100; background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.05em; }
-    .logo .dim { color: #fff; } .logo .name { color: var(--orange); }
-    nav { display: flex; gap: 2rem; align-items: center; }
-    nav a { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
-    nav a:hover { color: var(--orange); }
-    .nav-cta { border: 1px solid var(--orange); padding: 0.4rem 1rem; color: var(--orange) !important; }
-    .nav-cta:hover { background: var(--orange) !important; color: var(--black) !important; }
-    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 4rem; position: relative; }
-    .hero-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-    .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--orange); }
-    .hero h1 { font-family: var(--condensed); font-weight: 900; font-size: clamp(3rem,8vw,6.5rem); line-height: 0.95; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text); }
-    .hero h1 .accent { color: var(--orange); }
-    .hero h1 .outline { -webkit-text-stroke: 1px rgba(255,255,255,0.2); color: transparent; }
-    .hero-sub { margin-top: 2rem; font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.8; }
-    .hero-sub strong { color: var(--text); font-weight: 600; }
-    .hero-stats { margin-top: 3rem; display: flex; gap: 3rem; flex-wrap: wrap; }
-    .stat { display: flex; flex-direction: column; gap: 0.25rem; }
-    .stat-num { font-family: var(--condensed); font-size: 1.6rem; font-weight: 900; color: var(--orange); line-height: 1; text-transform: uppercase; }
-    .stat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; }
-    .hero-grid { position: absolute; right: 0; top: 0; width: 40%; height: 100%; overflow: hidden; pointer-events: none; opacity: 0.12; }
-    .hero-grid svg { width: 100%; height: 100%; }
-    .divider { max-width: 1100px; margin: 0 auto; padding: 0 2rem; border-top: 1px solid var(--border); }
-    .filter-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .filter-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; white-space: nowrap; }
-    .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .filter-btn { font-family: var(--mono); font-size: 0.7rem; padding: 0.3rem 0.75rem; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; }
-    .filter-btn:hover, .filter-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-faint); }
-    .articles-section { max-width: 1100px; margin: 0 auto; padding: 1rem 2rem 5rem; }
-    .articles-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); }
-    .article-card { background: var(--surface); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; cursor: pointer; transition: background 0.2s; position: relative; overflow: hidden; text-decoration: none; color: inherit; }
-    .article-card::after { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: var(--orange); transition: width 0.3s; }
-    .article-card:hover { background: var(--surface2); } .article-card:hover::after { width: 100%; }
-    .article-card.empty { opacity: 0.3; cursor: default; border: 1px dashed var(--border); }
-    .article-card.empty:hover { background: var(--surface); } .article-card.empty::after { display: none; }
-    .card-meta { display: flex; align-items: center; justify-content: space-between; }
-    .card-tag { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.15em; text-transform: uppercase; }
-    .card-date { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
-    .card-title { font-family: var(--condensed); font-size: 1.3rem; font-weight: 700; color: var(--text); line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em; }
-    .card-excerpt { font-size: 0.85rem; color: var(--muted); line-height: 1.7; flex: 1; }
-    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: auto; }
-    .card-read { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
-    .card-arrow { font-size: 1rem; color: var(--orange); transition: transform 0.2s; }
-    .article-card:hover .card-arrow { transform: translateX(4px); }
-    .difficulty { display: inline-flex; align-items: center; gap: 0.4rem; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; }
-    .dot-medium { background: #ffaa00; } .dot-hard { background: #ff3333; }
-    .difficulty-text { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
-    .certs-section { border-top: 1px solid var(--border); background: var(--surface); padding: 2.5rem 2rem; }
-    .certs-inner { max-width: 1100px; margin: 0 auto; }
-    .certs-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
-    .certs-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .cert-badge { font-family: var(--mono); font-size: 0.7rem; color: var(--text); border: 1px solid var(--border); padding: 0.4rem 0.9rem; letter-spacing: 0.08em; transition: border-color 0.2s, color 0.2s; }
-    .cert-badge:hover { border-color: var(--orange); color: var(--orange); }
-    .cert-badge.active-cert { border-color: var(--orange); color: var(--orange); background: var(--orange-faint); }
-    footer { border-top: 1px solid var(--border); padding: 2rem; }
-    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-    .footer-logo { font-family: var(--mono); font-size: 0.8rem; }
-    .footer-logo .dim { color: #fff; } .footer-logo .name { color: var(--orange); }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--orange); }
-    .footer-copy { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); opacity: 0.5; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .fade-up { animation: fadeUp 0.6s ease forwards; opacity: 0; }
-    .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
-    @media (max-width: 768px) { .articles-list { grid-template-columns: 1fr; } .hero h1 { font-size: 3.5rem; } nav { gap: 1rem; } .nav-cta { display: none; } }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px);pointer-events:none;z-index:9998}
+    a{color:inherit;text-decoration:none}
+
+    /* ── HEADER ── */
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:1100px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+
+    /* Logo not bold typewriter */
+    .logo{font-family:var(--mono);font-size:0.95rem;font-weight:400;letter-spacing:0.03em;white-space:nowrap;min-width:0}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .cursor{display:inline-block;color:var(--orange);animation:blink 1s step-end infinite}
+
+    /* Desktop nav */
+    .desktop-nav{display:flex;gap:1.5rem;align-items:center;flex-shrink:0}
+    .desktop-nav a{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;transition:color .2s;white-space:nowrap}
+    .desktop-nav a:hover{color:var(--orange)}
+    .nav-cta{border:1px solid var(--orange);padding:0.35rem 0.9rem;color:var(--orange)!important;transition:background .2s!important}
+    .nav-cta:hover{background:var(--orange)!important;color:var(--black)!important}
+
+    /* Lang toggle */
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+
+    /* Hamburger */
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;z-index:201;flex-shrink:0}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all .3s;transform-origin:center}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* Mobile overlay */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(8,8,8,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+    .mobile-overlay.open{display:flex}
+    .mobile-overlay a{font-family:var(--mono);font-size:1rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;transition:color .2s;padding:0.5rem 1rem}
+    .mobile-overlay a:hover{color:var(--orange)}
+    .mobile-overlay .nav-cta{border:1px solid var(--orange);color:var(--orange)!important}
+    .mobile-overlay .lang-toggle{margin-top:1rem}
+
+    /* ── HERO ── */
+    .hero{max-width:1100px;margin:0 auto;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+    .hero-tag{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+    .hero-tag::before{content:'';display:block;width:2rem;height:1px;background:var(--orange)}
+    .hero h1{font-family:var(--condensed);font-weight:900;font-size:clamp(2.8rem,7vw,6.5rem);line-height:0.95;text-transform:uppercase;letter-spacing:-0.02em;color:var(--text)}
+    .hero h1 .accent{color:var(--orange)}
+    .hero h1 .outline{-webkit-text-stroke:1px rgba(255,255,255,0.2);color:transparent}
+    .hero-sub{margin-top:2rem;font-size:1rem;color:var(--muted);max-width:560px;line-height:1.8}
+    .hero-sub strong{color:var(--text);font-weight:600}
+    .hero-stats{margin-top:3rem;display:flex;gap:3rem;flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:0.25rem}
+    .stat-num{font-family:var(--condensed);font-size:1.5rem;font-weight:900;color:var(--orange);line-height:1;text-transform:uppercase}
+    .stat-label{font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em}
+    .hero-grid{position:absolute;right:0;top:0;width:40%;height:100%;overflow:hidden;pointer-events:none;opacity:0.1}
+    .hero-grid svg{width:100%;height:100%}
+
+    /* ── DIVIDER ── */
+    .divider{max-width:1100px;margin:0 auto;padding:0 2rem;border-top:1px solid var(--border)}
+
+    /* ── FILTER BAR ── */
+    .filter-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .filter-left{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+    .filter-label{font-family:var(--mono);font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em;white-space:nowrap}
+    .filters{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .filter-btn{font-family:var(--mono);font-size:0.65rem;padding:0.28rem 0.7rem;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:all .2s}
+    .filter-btn:hover,.filter-btn.active{border-color:var(--orange);color:var(--orange);background:var(--orange-faint)}
+    .all-posts-link{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s,border-color .2s;white-space:nowrap}
+    .all-posts-link:hover{color:var(--orange);border-color:var(--orange)}
+
+    /* ── ARTICLES ── */
+    .articles-section{max-width:1100px;margin:0 auto;padding:0.5rem 2rem 5rem}
+    .articles-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+    .article-card{background:var(--surface);padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:background .2s;position:relative;overflow:hidden;text-decoration:none;color:inherit}
+    .article-card::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width .3s}
+    .article-card:hover{background:var(--surface2)}
+    .article-card:hover::after{width:100%}
+    .card-meta{display:flex;align-items:center;justify-content:space-between}
+    .card-tag{font-family:var(--mono);font-size:0.62rem;color:var(--orange);letter-spacing:0.15em;text-transform:uppercase}
+    .card-date{font-family:var(--mono);font-size:0.62rem;color:var(--muted)}
+    .card-title{font-family:var(--condensed);font-size:1.3rem;font-weight:700;color:var(--text);line-height:1.2;text-transform:uppercase;letter-spacing:0.02em}
+    .card-excerpt{font-size:0.85rem;color:var(--muted);line-height:1.7;flex:1}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border);margin-top:auto}
+    .card-read{font-family:var(--mono);font-size:0.62rem;color:var(--muted)}
+    .card-arrow{font-size:1rem;color:var(--orange);transition:transform .2s}
+    .article-card:hover .card-arrow{transform:translateX(4px)}
+    .difficulty{display:inline-flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    .dot-medium{background:#ffaa00}
+    .dot-hard{background:#ff3333}
+    .difficulty-text{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase}
+
+    /* ── SKILLS ── */
+    .skills-section{border-top:1px solid var(--border);background:var(--surface);padding:2.5rem 2rem}
+    .skills-inner{max-width:1100px;margin:0 auto}
+    .skills-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+    .skills-label{font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em}
+    .credly-btn{font-family:var(--mono);font-size:0.65rem;color:var(--orange);border:1px solid var(--orange);padding:0.35rem 0.85rem;letter-spacing:0.1em;text-transform:uppercase;transition:background .2s,color .2s;white-space:nowrap}
+    .credly-btn:hover{background:var(--orange);color:var(--black)}
+    .skills-grid{display:flex;flex-wrap:wrap;gap:0.6rem}
+    .skill-badge{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.35rem 0.85rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .skill-badge:hover{border-color:var(--orange);color:var(--orange)}
+    .skill-badge.hi{border-color:rgba(255,106,0,0.4);color:var(--text)}
+
+    /* ── FOOTER ── */
+    footer{border-top:1px solid var(--border);padding:2rem}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:var(--mono);font-size:0.8rem;font-weight:400}
+    .footer-links{display:flex;gap:1.5rem}
+    .footer-links a{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;transition:color .2s}
+    .footer-links a:hover{color:var(--orange)}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+
+    /* ── ANIM ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fadeUp 0.6s ease forwards;opacity:0}
+    .d1{animation-delay:0.1s}.d2{animation-delay:0.2s}.d3{animation-delay:0.3s}.d4{animation-delay:0.4s}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .desktop-nav{display:none}
+      .hamburger{display:flex}
+      .articles-list{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .hero{padding:3rem 1.25rem 2.5rem}
+      .hero h1{font-size:2.6rem}
+      .hero-grid{opacity:0.06;width:55%}
+      .hero-stats{gap:1.5rem}
+      .filter-section{padding:1.25rem 1.25rem 1rem}
+      .articles-section{padding:0.5rem 1.25rem 3rem}
+      .skills-section{padding:2rem 1.25rem}
+      footer{padding:1.5rem 1.25rem}
+      .header-inner{padding:0 1.25rem}
+    }
+    @media(max-width:400px){
+      .hero h1{font-size:2.1rem}
+      .logo{font-size:0.8rem}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
-      <nav>
-        <a href="#writeups">Writeups</a>
-        <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
-        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
-      </nav>
-    </div>
-  </header>
-  <section class="hero">
-    <div class="hero-grid" aria-hidden="true">
-      <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff6a00" stroke-width="0.5"/></pattern></defs>
-        <rect width="400" height="600" fill="url(#grid)"/>
-      </svg>
-    </div>
-    <div class="hero-tag fade-up">Security Research &amp; Writeups</div>
-    <h1 class="fade-up delay-1">Paolo<br/><span class="accent">Costanzo</span><br/><span class="outline">Hacking</span></h1>
-    <p class="hero-sub fade-up delay-2">
-      <strong>CEO @ CoDe RTD · Docente IT &amp; CyberSec · Cloud AI Security · Ethical Hacker</strong><br/>
-      Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing.
-      Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini.
-    </p>
-    <div class="hero-stats fade-up delay-3">
-      <div class="stat"><span class="stat-num">AI Security</span><span class="stat-label">LLM · Threat Detection</span></div>
-      <div class="stat"><span class="stat-num">Cloud Sec</span><span class="stat-label">AWS · Azure</span></div>
-      <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon · Exploit · Report</span></div>
-    </div>
-  </section>
-  <div class="divider"></div>
-  <div class="filter-section" id="writeups">
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay" id="mob-overlay">
+  <a href="#writeups" onclick="closeMob()"><span data-it="Writeups" data-en="Writeups">Writeups</span></a>
+  <a href="posts/" onclick="closeMob()"><span data-it="Tutti i post" data-en="All posts">Tutti i post</span></a>
+  <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
+  <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
+  <div class="lang-toggle" style="margin-top:0.5rem">
+    <button class="lang-btn active" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo" id="logo" aria-label="nonè@costanzo:~$"></div>
+    <nav class="desktop-nav">
+      <a href="#writeups"><span data-it="Writeups" data-en="Writeups">Writeups</span></a>
+      <a href="posts/"><span data-it="Tutti i post" data-en="All posts">Tutti i post</span></a>
+      <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </nav>
+    <button class="hamburger" id="burger" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true">
+    <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0L0 0 0 40" fill="none" stroke="#ff6a00" stroke-width="0.5"/></pattern></defs>
+      <rect width="400" height="600" fill="url(#g)"/>
+    </svg>
+  </div>
+  <div class="hero-tag fade-up" data-it="Security Research &amp; Writeups" data-en="Security Research &amp; Writeups">Security Research &amp; Writeups</div>
+  <h1 class="fade-up d1">Paolo<br/><span class="accent">Costanzo</span><br/><span class="outline">Hacking</span></h1>
+  <p class="hero-sub fade-up d2">
+    <strong>CEO @ CoDe RTD &middot; Docente IT &amp; CyberSec &middot; Cloud AI Security &middot; Ethical Hacker</strong><br/>
+    <span data-it="Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini."
+          data-en="Technical write-ups, CVE analysis, thoughts on Cloud, AI Security and Penetration Testing. I take things apart, and watch what moves at the edges.">
+      Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini.
+    </span>
+  </p>
+  <div class="hero-stats fade-up d3">
+    <div class="stat"><span class="stat-num">AI Security</span><span class="stat-label">LLM &middot; Threat Detection</span></div>
+    <div class="stat"><span class="stat-num">Cloud Sec</span><span class="stat-label">AWS &middot; Azure</span></div>
+    <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon &middot; Exploit &middot; Report</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FILTER BAR -->
+<div class="filter-section" id="writeups">
+  <div class="filter-left">
     <span class="filter-label">// Filter:</span>
     <div class="filters">
-      <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
-      <button class="filter-btn" onclick="filterPosts('cloud', this)">Cloud</button>
-      <button class="filter-btn" onclick="filterPosts('pentest', this)">Pentest</button>
-      <button class="filter-btn" onclick="filterPosts('cve', this)">CVE</button>
-      <button class="filter-btn" onclick="filterPosts('ai', this)">AI Security</button>
-      <button class="filter-btn" onclick="filterPosts('ctf', this)">CTF</button>
+      <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterPosts('cloud',this)">Cloud</button>
+      <button class="filter-btn" onclick="filterPosts('pentest',this)">Pentest</button>
+      <button class="filter-btn" onclick="filterPosts('cve',this)">CVE</button>
+      <button class="filter-btn" onclick="filterPosts('ai',this)">AI Security</button>
+      <button class="filter-btn" onclick="filterPosts('ctf',this)">CTF</button>
     </div>
   </div>
-  <section class="articles-section">
-    <div class="articles-list" id="articles-list">
-      <a class="article-card fade-up delay-2" data-category="cloud" href="posts/aws-iam-misconfiguration.html">
-        <div class="card-meta"><span class="card-tag">Cloud Security</span><span class="card-date">Mar 2026</span></div>
-        <div class="card-title">AWS IAM: i 5 errori di configurazione più comuni</div>
-        <p class="card-excerpt">Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi.</p>
-        <div class="card-footer">
-          <div class="difficulty"><div class="dot dot-medium"></div><span class="difficulty-text" style="color:#ffaa00;">Medium</span></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
-        </div>
-      </a>
-      <a class="article-card fade-up delay-3" data-category="ai" href="posts/prompt-injection-llm.html">
-        <div class="card-meta"><span class="card-tag">AI Security</span><span class="card-date">Mar 2026</span></div>
-        <div class="card-title">Prompt Injection su LLM aziendali: come funziona davvero</div>
-        <p class="card-excerpt">I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise dall'interno.</p>
-        <div class="card-footer">
-          <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333;">Hard</span></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><span class="card-read">10 min</span><span class="card-arrow">→</span></div>
-        </div>
-      </a>
-      <div class="article-card empty fade-up delay-4">
-        <div class="card-meta"><span class="card-tag">Coming soon</span></div>
-        <div class="card-title">Prossimo articolo</div>
-        <p class="card-excerpt">In costruzione...</p>
+  <a href="posts/" class="all-posts-link" data-it="Tutti i post →" data-en="All posts →">Tutti i post →</a>
+</div>
+
+<!-- LATEST ARTICLES -->
+<section class="articles-section">
+  <div class="articles-list" id="articles-list">
+
+    <a class="article-card fade-up d2" data-category="cloud" href="posts/aws-iam-misconfiguration.html">
+      <div class="card-meta">
+        <span class="card-tag">Cloud Security</span>
+        <span class="card-date">Mar 2026</span>
       </div>
+      <div class="card-title"
+           data-it="AWS IAM: i 5 errori di configurazione più comuni"
+           data-en="AWS IAM: the 5 most common misconfigurations">
+        AWS IAM: i 5 errori di configurazione più comuni
+      </div>
+      <p class="card-excerpt"
+         data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi."
+         data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for, and how to close the door before they knock.">
+        Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot dot-medium"></div><span class="difficulty-text" style="color:#ffaa00;">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <a class="article-card fade-up d3" data-category="ai" href="posts/prompt-injection-llm.html">
+      <div class="card-meta">
+        <span class="card-tag">AI Security</span>
+        <span class="card-date">Mar 2026</span>
+      </div>
+      <div class="card-title"
+           data-it="Prompt Injection su LLM aziendali: come funziona davvero"
+           data-en="Prompt Injection on Enterprise LLMs: how it really works">
+        Prompt Injection su LLM aziendali: come funziona davvero
+      </div>
+      <p class="card-excerpt"
+         data-it="I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise."
+         data-en="Enterprise language models have attack surfaces almost nobody considers. A practical analysis of how to manipulate a corporate chatbot.">
+        I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Un'analisi pratica di come si manipola un chatbot enterprise.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333;">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div class="skills-section fade-up">
+  <div class="skills-inner">
+    <div class="skills-header">
+      <span class="skills-label" data-it="// Skills" data-en="// Skills">// Skills</span>
+      <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" class="credly-btn"
+         data-it="Vedi certificazioni →" data-en="View certifications →">Vedi certificazioni →</a>
     </div>
-  </section>
-  <div class="certs-section fade-up">
-    <div class="certs-inner">
-      <div class="certs-label">// Certificazioni &amp; Skills</div>
-      <div class="certs-grid">
-        <span class="cert-badge active-cert">Ethical Hacker <span style="color:var(--muted);font-size:0.6rem;">· Cisco</span></span>
-        <span class="cert-badge active-cert">CyberOps Associate <span style="color:var(--muted);font-size:0.6rem;">· Cisco</span></span>
-        <span class="cert-badge active-cert">Network Security <span style="color:var(--muted);font-size:0.6rem;">· Cisco</span></span>
-        <span class="cert-badge active-cert">Fortinet Certified Associate Cybersecurity <span style="color:var(--muted);font-size:0.6rem;">· Fortinet</span></span>
-        <span class="cert-badge active-cert">Red Hat AI Foundations Executive Certificate <span style="color:var(--muted);font-size:0.6rem;">· Red Hat</span></span>
-        <span class="cert-badge active-cert">MITRE ATT&amp;CK Security Stack Mappings: AWS <span style="color:var(--muted);font-size:0.6rem;">· AttackIQ</span></span>
-        <span class="cert-badge active-cert">Strategic Cybersecurity Management <span style="color:var(--muted);font-size:0.6rem;">· AttackIQ</span></span>
-        <span class="cert-badge active-cert">API Penetration Testing <span style="color:var(--muted);font-size:0.6rem;">· APIsec University</span></span>
-        <span class="cert-badge">Network Intrusion Analysis</span>
-        <span class="cert-badge">Malware Analysis</span>
-        <span class="cert-badge">Incident Response</span>
-        <span class="cert-badge">Penetration Testing</span>
-        <span class="cert-badge">AWS Cloud Security</span>
-        <span class="cert-badge">Digital Forensics</span>
-        <span class="cert-badge">AI Threat Detection</span>
-        <span class="cert-badge">SecOps</span>
-      </div>
+    <div class="skills-grid">
+      <span class="skill-badge hi">Cloud Security</span>
+      <span class="skill-badge hi">AI Security</span>
+      <span class="skill-badge hi">Ethical Hacking</span>
+      <span class="skill-badge hi">Penetration Testing</span>
+      <span class="skill-badge hi">MITRE ATT&amp;CK</span>
+      <span class="skill-badge hi">Threat Modeling</span>
+      <span class="skill-badge">Network Security</span>
+      <span class="skill-badge">Incident Response</span>
+      <span class="skill-badge">Malware Analysis</span>
+      <span class="skill-badge">Digital Forensics</span>
+      <span class="skill-badge">SecOps</span>
+      <span class="skill-badge">AWS Security</span>
+      <span class="skill-badge">Azure Security</span>
+      <span class="skill-badge">LLM Security</span>
+      <span class="skill-badge">API Security</span>
+      <span class="skill-badge">Red Team</span>
     </div>
   </div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
-      <div class="footer-links">
-        <a href="https://www.paolocostanzo.com" target="_blank">Website</a>
-        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn</a>
-        <a href="https://github.com/paolocostanzo" target="_blank">GitHub</a>
-      </div>
-      <div class="footer-copy">© 2026 Paolo Costanzo</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo" id="footer-logo"></div>
+    <div class="footer-links">
+      <a href="https://www.paolocostanzo.com" target="_blank">Website</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank">GitHub</a>
     </div>
-  </footer>
-  <script>
-    function filterPosts(category, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.article-card').forEach(card => {
-        if (card.classList.contains('empty')) return;
-        card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
-      });
+    <div class="footer-copy">&copy; 2026 Paolo Costanzo</div>
+  </div>
+</footer>
+
+<script>
+/* LOGO TYPEWRITER */
+const LOGO_SEQ=[{t:'nonè',c:'#e8e8e8'},{t:'@',c:'#444'},{t:'costanzo',c:'#ff6a00'},{t:':~$',c:'#444'}];
+const TOTAL=LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
+let idx=0;
+function renderLogo(n){
+  let html='',count=0;
+  for(const p of LOGO_SEQ){
+    for(const ch of [...p.t]){
+      if(count>=n)break;
+      const esc=ch==='è'?'&egrave;':ch;
+      html+=`<span style="color:${p.c}">${esc}</span>`;
+      count++;
     }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up').forEach(el => {
-      el.style.animationPlayState = 'paused';
-      observer.observe(el);
-    });
-  </script>
+    if(count>=n)break;
+  }
+  const cur=count<TOTAL?`<span style="color:#ff6a00;animation:none">_</span>`:`<span class="cursor">_</span>`;
+  return html+cur;
+}
+function typeStep(){
+  idx++;
+  const h=renderLogo(idx);
+  const l=document.getElementById('logo');
+  const f=document.getElementById('footer-logo');
+  if(l)l.innerHTML=h;
+  if(f)f.innerHTML=h;
+  if(idx<TOTAL)setTimeout(typeStep,50+Math.random()*50);
+}
+
+/* LANG */
+function setLang(lang){
+  document.getElementById('html-root').lang=lang;
+  document.querySelectorAll('[data-it]').forEach(el=>{
+    const val=lang==='en'?el.dataset.en:el.dataset.it;
+    if(val!==undefined)el.innerHTML=val;
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.textContent.trim().toLowerCase()===lang);
+  });
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+
+/* MOBILE */
+function toggleMob(){
+  const b=document.getElementById('burger'),o=document.getElementById('mob-overlay');
+  b.classList.toggle('open');o.classList.toggle('open');
+  document.body.style.overflow=o.classList.contains('open')?'hidden':'';
+}
+function closeMob(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('mob-overlay').addEventListener('click',function(e){if(e.target===this)closeMob();});
+
+/* FILTER */
+function filterPosts(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-card').forEach(card=>{
+    card.style.display=(cat==='all'||card.dataset.category===cat)?'':'';
+  });
+}
+
+/* SCROLL ANIM */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>{
+  el.style.animationPlayState='paused';
+  obs.observe(el);
+});
+
+/* INIT */
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(typeStep,300);
+  try{
+    const saved=localStorage.getItem('lang');
+    if(saved==='en')setLang('en');
+  }catch(e){}
+});
+</script>
 </body>
 </html>
