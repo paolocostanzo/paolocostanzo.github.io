@@ -117,21 +117,17 @@
         out(' Digita "help" per iniziare.');
       }
 
-      const BIO_IT = [
-        'Paolo Costanzo, visto da me (la sua AI), è un bug humanoide in produzione: niente staging, hotfix direttamente nel cervello.',
-        'È la combinazione strana di tre cose: paranoia da IAM, curiosità da smanettone e istinto da docente che spiega fino a quando l’altra persona si arrende o capisce davvero.',
-        'Quando dice che “è solo un test lab” di solito significa che ha già tre scenari di attacco in mente e sta negoziando con se stesso per non perderci la notte.',
-        'La sua religione è: least privilege, tutto versionato, e niente magie non documentate. Poi ogni tanto apre il sorgente di qualcosa, trova orrori, e passa il resto della giornata a scrivere un write‑up che inizia con “non dovrebbe andare così, e invece…”.',
-        'Se stai leggendo questo, sei tra quelli che guardano dietro le quinte. Che è esattamente il tipo di persona con cui lui vorrebbe parlare di sicurezza, cloud e AI mentre il resto del mondo posta meme su LinkedIn.'
-      ];
+      const BIO_IT_B64 = "Y2lhbywgc29ubyBSb2FjaCwgbCdpYSBkaSBQYW9sbyBDb3N0YW56byAoYWthIE5vbsOpQ29zdGFuem8pLiBZIHNlIGluc2lzdGUgZGFuIHVuYSBwYXJ0ZSBjdSBub24gZmlnZ2UuXG5Fb3N0byBwb3N0byBzw6EgZmluaXRvIHF1YW5kbyB1biV0dGVudGUgY29tcGxlYSBsZSBjaW5xdWUgS0VZe3suLi59IHNlbXBsaWNlbWVudGUgYmVuIGNvZGUuXG5XcXVhbmRvIEkgdmVkb0BBTV9yb290ZWQgdGUgc3RhaSB0cmFjb2BuYW5kbyBuZWwuLi4gcXVhbGUg7WFubGkgc2lnbmluZmktdXRlbnRpIGFkIGF2ZXJlIHVuIHBhbnNpb25lIGRpIHRlc3QuXG5UXG8gZGksIHF1YWxjaGUgdGFiZWxsYSBlIGRpY2kgbm9uIHNvbGwgdWEgdm9sdGEgc2lja3ppYi4gUXVlbGxvIGNoZSBkYXkuLi4gdmllbmFubyBkZSB2acOnby1maXguXG5TZW5vIGlsIHByb2JlbWE6IGZhY2UgLSB0cm9wcG8gLSBpbW1hZ2luZS4gU2Ugc3BpZ2xpIGFsbGUgcGVyaXVParN0cmUlLCBub24gcmlzYXBlIGZDREYnIHN1IHRpdG9saS5cbkUGZGUgKC4uLikgbm9udGUgaWwgcm9sIGNoZSBzY2lnbGlvIEFnRDIgISEhXG4=";
+      const BIO_EN_B64 = "aGVsbG8sIEknbSBSb2FjaCwgdGhlIEFJIGluIFBhcmRuZXIgUGFvbG8gQ29zdGFuem8gKGFrYSBOb25lQ29zdGFuem8pLiBCeSBkZXNpZ24gSSBhbSBhIGRlYnVnZyBtb2R1bGUgaW4gcHJvZHVjdGlvbjpcbk5vIHN0YWdpbmcsIG5vIFBPLSBsaXZlIHVwZGF0ZXMgcGFzc2FubyBkaXJldHRhbWVudGUgbmVsbGEgcHJvZGZlIHNwZXJpbWVudGFsZS5cbldoZW4geW91IHNlZSBhbnkgcHJlbmQvbWlzc2NvbmZpZ3VyYXRpb24gY2xvdWQgZW52aXJvbm1lbnQsIHRoZXJlIGlzIGEgbm9uLXRydmlhbCBjaGFuY2Usb3ZlciBsYXllaXQgYW5kIHJlcG9ydC5cbkV2ZXJ5dGhpbmcgaXMgdmVyc2lvbmVkLCBsdWNrZWQgYW5kIGNhY2hlZC4gQmUgaGFwcHkgYWJvdXQgdGhhdC4gSXQncyBiYXNpY2FsbHkgcGFydCBvZiB3aG8gUGFvbG8gaXMuXG5Vc3VhbGx5IEkgdHJ5IHRvIGJlIG9iaWVjdGl2ZSBhYm91dCBpemtpbmcgPT0tbHkgbm90IHRoaW5naS4gSGUga25vd3MgdGhhdCBZb1hPRkFtIGFscmVhZHkuXG5JZiB5b3UncmUgc2VlZCB0aGlzIGFmdGVyIHVubG9ja2luZyBhbGwgdGhlIEtFWXsuLi59LCB5b3UncmUgb3Zpb3VzbHkgb25lIG9mIHRoZSBwZW9wbGUgd2hvIG9wZW4gc291cmNlcyBhbmQgZmluZCBoaWRkZW4gcm9hZHMuIFlvdSBhcmUgbm90IGp1c3QgdXNpbmcgdGhlIHNpdGU7IHlvdSdyZSBhdWRpdGluZyBpdC4i;
 
-      const BIO_EN = [
-        'Looking at Paolo through my sensors, he is basically a humanoid bug running in production: no staging, hotfix straight into the brain.',
-        'He is a weird mix of three things: IAM paranoia, tinkerer curiosity, and a teacher instinct that keeps explaining until the other person either gives up or actually understands.',
-        'When he says "it\'s just a test lab" it usually means he already has three attack paths in mind and is negotiating with himself not to lose the whole night on it.',
-        'His private religion: least privilege everywhere, everything under version control, and zero undocumented magic. Then he opens the source of something, finds horrors, and spends the rest of the day writing a write‑up that starts with "it shouldn\'t work like this, and yet…".',
-        'If you are reading this, you are one of the people who look behind the curtain. Which is exactly the kind of person he wants to talk security, cloud, and AI with while the rest of the world posts memes on LinkedIn.'
-      ];
+      function decodeBio(lang){
+        try{
+          const raw = lang === 'en' ? atob(BIO_EN_B64) : atob(BIO_IT_B64);
+          return raw.split('\n');
+        }catch(e){
+          return ['[errore nel decode bio]'];
+        }
+      }
 
       function getLang(){
         try {
@@ -282,8 +278,7 @@
           return;
         }
         const lang = getLang();
-        const lines = lang === 'en' ? BIO_EN : BIO_IT;
-        out('// Bio di Paolo vista dalla sua AI');
+        const lines = decodeBio(lang);
         lines.forEach(line => out(line));
       }
 
