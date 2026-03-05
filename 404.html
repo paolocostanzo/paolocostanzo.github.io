@@ -65,12 +65,12 @@
 
   <script>
     (function(){
-      const VALID_KEYS = [
-        'KEY{iam_rooted}',
-        'KEY{ai_paranoid}',
-        'KEY{pentest_report}',
-        'KEY{teacher_mode}',
-        'KEY{overthinking_ops}'
+      const VALID_PAYLOADS = [
+        'iam_rooted',
+        'ai_paranoid',
+        'pentest_report',
+        'teacher_mode',
+        'overthinking_ops'
       ];
 
       let found = new Set();
@@ -252,15 +252,21 @@
           out(' usage: unlock KEY{...}');
           return;
         }
-        if(!VALID_KEYS.includes(key)){
+        const m = key.match(/^KEY\{(.+)\}$/);
+        if(!m){
+          out(' Formato non valido. Usa KEY{...}.');
+          return;
+        }
+        const payload = m[1]; // es. iam_rooted
+        if(!VALID_PAYLOADS.includes(payload)){
           out(' Chiave non valida.');
           return;
         }
-        if(found.has(key)){
-          out(' Quella chiave è già registrata.');
+        if(found.has(payload)){
+          out(' Quella KEY è già registrata.');
           return;
         }
-        found.add(key);
+        found.add(payload);
         save();
         updateStatus();
         out(' ✓ KEY registrata.');
