@@ -159,11 +159,11 @@
 
       function cmd_challenges(){
         out(' Sfide 404:');
-        out(' 1) Trova chi è veramente l\'utente in questa stanza.');
-        out(' 2) Leggi i file giusti per capire quando parte il teacher mode.');
-        out(' 3) Nessun pentest è mai davvero finito: cerca il riferimento nel log.');
-        out(' 4) Capisci in che stato è l\'AI interna quando vede troppi dati.');
-        out(' 5) Overthinking e 404 vanno a braccetto.');
+        out(' 1) Scopri la prima KEY fuori da questa stanza (tip: dove inizia il sito).');
+        out(' 2) Capisci quando parte davvero il teacher mode leggendo i log giusti.');
+        out(' 3) Nessun pentest è mai davvero finito: cerca il riferimento nel tool giusto.');
+        out(' 4) Scopri in quale stato entra l\'AI interna quando la interroghi con la scansione giusta.');
+        out(' 5) Overthinking e 404 vanno a braccetto: alcune cose vivono solo nei commenti.');
         out(' Hint: il formato delle chiavi è sempre KEY{...}.');
       }
 
@@ -171,20 +171,19 @@
         const i = parseInt(n,10);
         switch(i){
           case 1:
-            out(' Hint 1: prova con whoami. Leggi tutto, non solo la prima riga.');
+            out(' Hint 1: non tutte le KEY vivono nella stanza 404. Alcune nascono nella homepage, lato sorgente.');
             break;
           case 2:
-            out(' Hint 2: ls ti mostra i file. Uno di quelli parla chiaramente di teacher mode.');
+            out(' Hint 2: ls ti mostra i file. I log delle lezioni di solito si chiamano in modo prevedibile.');
             break;
           case 3:
-            out(' Hint 3: se fossi un pentester pigro, dove scriveresti che il report è chiuso?');
-            out('          Guarda cosa dicono i log di questo ambiente.');
+            out(' Hint 3: dopo nmap, il prossimo tool che un pentester apre di solito inizia con msf.');
             break;
           case 4:
-            out(' Hint 4: l\'AI interna viene citata per nome in una delle note.');
+            out(' Hint 4: nmap da solo è pigro. Prova a chiedere la versione del servizio sulla porta interessante.');
             break;
           case 5:
-            out(' Hint 5: a volte la chiave è già nel sorgente, altre volte è scritta tra le righe.');
+            out(' Hint 5: overthinking_ops è scritto a chiare lettere, ma devi decidere tu come wrappare la KEY.');
             break;
           default:
             out(' Nessun hint per quella sfida. (1-5)');
@@ -194,11 +193,11 @@
       function cmd_whoami(){
         out(' guest');
         out(' uid=404(guest) gid=404(guest) groups=404(guest)');
-        out(' profile: KEY{iam_rooted}');
+        out(' // Qui dentro sei guest. Le KEY vere nascono altrove.');
       }
 
       function cmd_ls(){
-        out(' readme.txt  notes.txt  profile.txt');
+        out(' readme.txt  notes.txt  classroom.log  profile.txt');
       }
 
       function cmd_cat(arg){
@@ -206,30 +205,41 @@
         if(!f){ out(' usage: cat <file>'); return; }
         if(f==='readme.txt'){
           out(' Benvenuto nella stanza 404 di NonèCostanzo.');
-          out(' Qui le pagine non esistono, ma le KEY{teacher_mode} sì.');
+          out(' Qui non ci sono pagine, solo appunti e log da leggere.');
           return;
         }
         if(f==='notes.txt'){
-          out(' TODO: ricordarsi che ogni pentest genera almeno un KEY{pentest_report}.');
+          out(' TODO: ricordarsi che ogni pentest genera almeno un serio pentest_report.');
           out(' TODO: non dimenticare mai di chiudere i permessi temporanei.');
+          return;
+        }
+        if(f==='classroom.log'){
+          out('[INFO] Avvio sessione in teacher_mode');
+          out('[INFO] Docente: Paolo');
+          out('[DEBUG] toggling state => KEY{teacher_mode}');
           return;
         }
         if(f==='profile.txt'){
           out(' Nome: Paolo Costanzo');
           out(' Ruolo: Cloud & AI Security, Pentest, Docenza');
-          out(' Stato: overthinking_ops attivo 24/7.');
+          out(' Stato: overthinking_ops attivo 24/7. (sì, anche adesso)');
           return;
         }
         out(` cat: ${f}: No such file or directory`);
       }
 
-      function cmd_nmap(){
+      function cmd_nmap(args){
+        const a = (args||'').trim();
         out(' Starting nmap 7.94 (fake) at 127.0.0.1');
         out(' PORT     STATE  SERVICE');
         out(' 22/tcp   open   ssh');
         out(' 80/tcp   open   http');
         out(' 1337/tcp open   ???');
-        out('  │ banner: NonèCostanzo 404 node — ai mode: KEY{ai_paranoid}');
+        if(a.includes('-sV')){
+          out('  │ banner: NonèCostanzo 404 node — ai mode: KEY{ai_paranoid}');
+        } else {
+          out('  │ banner: service fingerprint available solo con -sV');
+        }
       }
 
       function cmd_keys(){
@@ -271,6 +281,12 @@
         lines.forEach(line => out(line));
       }
 
+      function cmd_msf(){
+        out(' Launching Metasploit Framework (404 edition)...');
+        out(' [*] Loaded module: report/nonè/404_writeup');
+        out(' [*] Session note: pentest_report => KEY{pentest_report}');
+      }
+
       function cmd_home(){
         try { window.location.href = '/'; } catch(e) {}
       }
@@ -294,7 +310,8 @@
           case 'whoami':      cmd_whoami(); break;
           case 'ls':          cmd_ls(); break;
           case 'cat':         cmd_cat(arg); break;
-          case 'nmap':        cmd_nmap(); break;
+          case 'nmap':        cmd_nmap(arg); break;
+          case 'msfconsole':  cmd_msf(); break;
           case 'keys':        cmd_keys(); break;
           case 'unlock':      cmd_unlock(arg); break;
           case 'bio':         cmd_bio(); break;
