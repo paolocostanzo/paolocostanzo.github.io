@@ -144,8 +144,8 @@
 
 <!-- MOBILE OVERLAY -->
 <div class="mobile-overlay" id="mob-overlay">
-  <a href="https://www.paolocostanzo.com" target="_blank" onclick="closeMob()">paolocostanzo.com</a>
-  <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
+  <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer" onclick="closeMob()">paolocostanzo.com</a>
+  <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer" class="nav-cta">LinkedIn →</a>
   <div class="lang-toggle" style="margin-top:0.5rem">
     <button class="lang-btn active" onclick="setLang('it')">IT</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -157,8 +157,8 @@
   <div class="header-inner">
     <div class="logo" id="logo" aria-label="nonè@costanzo:~$"></div>
     <nav class="desktop-nav">
-      <a href="https://www.paolocostanzo.com" target="_blank">paolocostanzo.com</a>
-      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" class="nav-cta">LinkedIn →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer" class="nav-cta">LinkedIn →</a>
       <div class="lang-toggle">
         <button class="lang-btn active" onclick="setLang('it')">IT</button>
         <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -336,9 +336,9 @@
   <div class="footer-inner">
     <div class="footer-logo" id="footer-logo"></div>
     <div class="footer-links">
-      <a href="https://www.paolocostanzo.com" target="_blank">Website</a>
-      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank">LinkedIn</a>
-      <a href="https://github.com/paolocostanzo" target="_blank">GitHub</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">Website</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
   </div>
@@ -370,14 +370,14 @@ document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='
 
 /* ── CTF TERMINAL ── */
 (function(){
-  const flag4b64 = btoa('FLAG{d3c0d3_m4st3r}');
+  const flag4b64 = 'RkxBR3tkM2MwZDNfbTRzdDNyfQ=='; // base64("FLAG{d3c0d3_m4st3r}")
 
   const ALL_FLAGS = {
-    'FLAG{wh0am1_n0n3_c0st4nz0}': 1,
-    'FLAG{h1dd3n_v4ult}':         2,
-    'FLAG{n4mp_1337}':            3,
-    'FLAG{d3c0d3_m4st3r}':        4,
-    'FLAG{v13w_s0urc3_m4st3r}':   5,
+    [atob('RkxBR3t3aDBhbTFfbjBuM19jMHN0NHp6MH0=')]: 1, // FLAG{wh0am1_n0n3_c0st4nz0}
+    [atob('RkxBR3toMWRkM25fdjR1bHR9')]:         2, // FLAG{h1dd3n_v4ult}
+    [atob('RkxBR3tuNG1wXzEzMzd9')]:            3, // FLAG{n4mp_1337}
+    [atob('RkxBR3tkM2MwZDNfbTRzdDNyfQ==')]:        4, // FLAG{d3c0ZDNfbTRzdDNy}→d3c0d3_m4st3r
+    [atob('RkxBR3t2MTN3X3MwM3VyY2VfbTRzdDNyfQ==')]:   5, // FLAG{v13w_s03urce_m4st3r}
   };
 
   let found = new Set();
