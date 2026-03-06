@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Easter egg #1: stai leggendo il sorgente.
+       Rispetto.
+       La vera CVE qui è CVE-TIM-2026-UFFANCULO (severity: critical, patch: pending da mesi).
+       Il ticket è ancora aperto. La rete funziona solo con VPN.
+       Benvenuto nel club. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TIM, GeForce Now e l'ICMP Black Hole — NonèCostanzo</title>
+  <meta name="description" content="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava il 10% di packet loss su GeForce Now, limitava la banda a 26 Mbps su 1 Gbps, e TIM continuava a dirmi che andava tutto bene. Il problema è ancora aperto. Benvenuti in Italia."/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --orange: #ff6a00; --orange-faint: rgba(255,106,0,0.06); --black: #080808; --surface: #101010; --surface2: #161616; --border: #222; --text: #e8e8e8; --muted: #666; --mono: 'Share Tech Mono', monospace; --sans: 'Barlow', sans-serif; --condensed: 'Barlow Condensed', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(8,8,8,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 800px; margin: 0 auto; padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; transition: color 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+    .back-link:hover { color: var(--orange); }
+    .logo { font-family: var(--mono); font-size: 0.85rem; }
+    .logo .dim { color: #fff; } .logo .name { color: var(--orange); }
+    .article-header { max-width: 800px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+    .article-meta { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .tag { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid var(--orange); padding: 0.2rem 0.6rem; }
+    .meta-item { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
+    .difficulty-badge { font-family: var(--mono); font-size: 0.65rem; color: #ff3333; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #ff3333; }
+    h1 { font-family: var(--condensed); font-size: clamp(2rem,5vw,3.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; color: var(--text); margin-bottom: 1.5rem; }
+    .article-intro { font-size: 1.1rem; color: var(--muted); max-width: 640px; line-height: 1.8; }
+    .article-body { max-width: 800px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+    .article-body h2 { font-family: var(--condensed); font-size: 1.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); margin: 3rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .article-body h3 { font-family: var(--condensed); font-size: 1.2rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.06em; margin: 2rem 0 0.75rem; }
+    .article-body p { font-size: 0.95rem; color: #bbb; line-height: 1.85; margin-bottom: 1.25rem; }
+    .article-body strong { color: var(--text); font-weight: 600; }
+    .article-body ul, .article-body ol { margin: 1rem 0 1.25rem 1.5rem; }
+    .article-body li { font-size: 0.95rem; color: #bbb; line-height: 1.8; margin-bottom: 0.4rem; }
+    .code-block { background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
+    .code-block pre { font-family: var(--mono); font-size: 0.78rem; color: var(--orange); line-height: 1.8; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .code-block .danger { color: #ff3333; }
+    .code-block .ok { color: #00ff88; }
+    .code-block .neutral { color: #aaa; }
+    .callout { background: var(--orange-faint); border: 1px solid rgba(255,106,0,0.25); border-left: 3px solid var(--orange); padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-label { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .callout p { font-size: 0.9rem; color: var(--text); margin: 0; }
+    
+    .result-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; margin: 1rem 0; }
+    .result-num { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.2em; margin-bottom: 0.5rem; }
+    .result-title { font-family: var(--condensed); font-size: 1.1rem; font-weight: 700; color: var(--text); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .tldr { background: var(--surface2); border: 1px solid var(--border); padding: 2rem; margin-bottom: 3rem; }
+    .tldr-label { font-family: var(--mono); font-size: 0.7rem; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .tldr ul { margin-left: 1.25rem; }
+    .tldr li { font-size: 0.9rem; color: var(--text); line-height: 1.7; margin-bottom: 0.3rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-family: var(--mono); font-size: 0.78rem; }
+    th { text-align: left; color: var(--orange); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); letter-spacing: 0.1em; text-transform: uppercase; }
+    td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #1a1a1a; color: #bbb; vertical-align: top; }
+    td.ok { color: #00ff88; }
+    td.danger { color: #ff5555; }
+    tr:last-child td { border-bottom: none; }
+    .article-footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .article-footer a { font-family: var(--mono); font-size: 0.75rem; color: var(--orange); letter-spacing: 0.1em; transition: opacity 0.2s; }
+    .footer-copy { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); opacity: 0.5; }
+    .wip-badge { font-family: var(--mono); font-size: 0.65rem; color: #ffaa00; border: 1px solid rgba(255,170,0,0.4); padding: 0.2rem 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; background: rgba(255,170,0,0.05); }
+    .callout-red { background: rgba(255,51,51,0.04); border: 1px solid rgba(255,51,51,0.2); border-left: 3px solid #ff3333; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-red .callout-label { font-family: var(--mono); font-size: 0.65rem; color: #ff5555; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .callout-red p { font-size: 0.9rem; color: var(--text); margin: 0; }
+    .fix-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 1.75rem; margin: 1.5rem 0; }
+    .fix-num { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.2em; margin-bottom: 0.4rem; }
+    .fix-title { font-family: var(--condensed); font-size: 1.15rem; font-weight: 700; color: var(--text); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .fix-card p { font-size: 0.9rem; color: #bbb; line-height: 1.8; margin-bottom: 0.75rem; }
+    .fix-card p:last-child { margin-bottom: 0; }
+    @media (max-width: 768px) { h1 { font-size: 2rem; } table { font-size: 0.7rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag"
+            data-it="Network Security"
+            data-en="Network Security">Network Security</span>
+      <span class="meta-item">Mar 2026</span>
+      <span class="meta-item"
+            data-it="15 min read"
+            data-en="15 min read">15 min read</span>
+      <span class="wip-badge">⚠ work in progress</span>
+      <span class="difficulty-badge"><span class="dot"></span><span
+            data-it="Hard"
+            data-en="Hard">Hard</span></span>
+    </div>
+    <h1
+      data-it="TIM, GeForce Now e l'ICMP Black Hole"
+      data-en="TIM, GeForce Now and the ICMP Black Hole"
+    >
+      TIM, GeForce Now e l'ICMP Black Hole
+    </h1>
+    <p class="article-intro"
+       data-it="Come ho diagnosticato (e aggirato) un'inadempienza contrattuale di rete che causava il 10% di packet loss su GeForce Now, limitava la banda in download a 26 Mbps su una linea da 1 Gbps, e che TIM continuava imperterrita a classificare come «risolto» ogni volta che aprivo un ticket. Il problema è ancora aperto. Cinquantaquattro minuti in attesa. Linea caduta. Un tecnico mi ha proposto un intervento a pagamento. Benvenuti in Italia."
+       data-en="How I diagnosed (and worked around) a contractual network breach that caused 10% packet loss on GeForce Now, capped download bandwidth at 26 Mbps on a 1 Gbps line, and which TIM kept cheerfully marking as 'resolved' every time I opened a ticket. The problem is still open. Fifty-four minutes on hold. Line dropped. A technician offered me a paid site visit. Welcome to Italy.">
+      Come ho diagnosticato (e aggirato) un'inadempienza contrattuale di rete che causava il 10% di packet loss su GeForce Now, limitava la banda in download a 26 Mbps su una linea da 1 Gbps, e che TIM continuava imperterrita a classificare come «risolto» ogni volta che aprivo un ticket. Il problema è ancora aperto. Cinquantaquattro minuti in attesa. Linea caduta. Un tecnico mi ha proposto un intervento a pagamento. Benvenuti in Italia.
+    </p>
+  </div>
+
+  <div class="article-body">
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label"
+           data-it="// TL;DR — per chi ha già il packet loss e vuole solo la soluzione"
+           data-en="// TL;DR — for those who already have packet loss and just want the fix">// TL;DR — per chi ha già il packet loss e vuole solo la soluzione</div>
+      <ul>
+        <li data-it="Se hai packet loss su GeForce Now (o qualsiasi servizio UDP) con TIM FTTH e tutto il resto funziona: probabilmente hai un ICMP Black Hole sul PPPoE."
+            data-en="If you have packet loss on GeForce Now (or any UDP service) with TIM FTTH and everything else works: you probably have an ICMP Black Hole on PPPoE.">
+          Se hai packet loss su GeForce Now (o qualsiasi servizio UDP) con TIM FTTH e tutto il resto funziona: probabilmente hai un <strong>ICMP Black Hole sul PPPoE</strong>.
+        </li>
+        <li data-it="Il fix temporaneo che funziona: ProtonVPN con protocollo WireGuard (TCP). MTU del tunnel 1380, sotto il limite PPPoE di 1492."
+            data-en="The temporary fix that works: ProtonVPN with WireGuard (TCP) protocol. Tunnel MTU 1380, below the PPPoE limit of 1492.">
+          Fix temporaneo: <strong>ProtonVPN con WireGuard (TCP)</strong>. Packet loss: 0%. Banda: ~900 Mbps.
+        </li>
+        <li data-it="Il fix definitivo: chiamare TIM chiedendo esplicitamente un tecnico di secondo livello per verificare PPPoE MTU e MSS clamping. La frase magica è più in basso. Avvertenza: il mio problema è ancora aperto mentre scrivo questo. Aggiornamenti seguiranno, o forse no, dipende da TIM."
+            data-en="The permanent fix: call TIM explicitly asking for a second-level technician to verify PPPoE MTU and MSS clamping. The magic phrase is further down. Warning: my problem is still open as I write this. Updates will follow, or maybe not, depends on TIM.">
+          Fix definitivo <em>(teoricamente)</em>: chiamare TIM chiedendo un tecnico di <strong>secondo livello</strong>. La frase magica è in fondo. Avviso: <strong>il mio problema è ancora aperto</strong> mentre scrivi questo.
+        </li>
+        <li data-it="Il bug non colpisce solo GFN: sta limitando tutta la tua banda in download a ~26 Mbps su linee da 1 Gbps. Stai pagando un Gigabit. Stai scaricando a 26 Mbps. E TIM ti propone un tecnico a pagamento."
+            data-en="The bug doesn't just affect GFN: it's capping your entire download bandwidth to ~26 Mbps on a 1 Gbps line. You're paying for a Gigabit. You're downloading at 26 Mbps. And TIM offers you a paid technician.">
+          Questo bug <strong>non è solo GFN</strong>: stai pagando un Gigabit e scarichi a 26 Mbps. E TIM ti propone un tecnico a pagamento per un problema nella loro rete.
+        </li>
+      </ul>
+    </div>
+
+    <!-- SEZIONE 1: PREMESSA -->
+    <h2
+      data-it="Premessa: la guerra interna"
+      data-en="Preamble: the internal war"
+    >Premessa: la guerra interna</h2>
+
+    <!-- Easter egg #2: "la guerra interna" è la guerra tra la voglia di ignorare
+         il problema e la voglia di distruggerlo. Ha vinto la seconda. -->
+    <p
+      data-it="Buongiorno Signori. Eravate probabilmente qui per un writeup su CVE recenti, qualche analisi di cyberwarfare, magari un deep-dive su architetture cloud. E invece siamo qui a parlare di TIM. Non perché voglia farlo — assolutamente no. Ma quando paghi un Gigabit, scarichi a 26 Mbps, e il supporto ti chiude il ticket come «risolto» senza che nessuno abbia fatto un cazzo, a un certo punto apri il text editor."
+      data-en="Good morning, gentlemen. You were probably here for a CVE writeup, cyberwarfare analysis, maybe a cloud architecture deep-dive. Instead we're here to talk about TIM. Not because I want to — absolutely not. But when you pay for a Gigabit, download at 26 Mbps, and support closes your ticket as 'resolved' without anyone having done a damn thing, at some point you open a text editor."
+    >
+      Buongiorno Signori. Eravate probabilmente qui per un writeup su CVE recenti, qualche analisi di cyberwarfare, magari un deep-dive su architetture cloud. E invece siamo qui a parlare di TIM. Non perché voglia farlo — assolutamente no. Ma quando paghi un Gigabit, scarichi a 26 Mbps, e il supporto ti chiude il ticket come «risolto» senza che nessuno abbia fatto un cazzo, a un certo punto apri il text editor.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">// Contesto geopolitico-finanziario (ovvero: di chi è la colpa strutturalmente)</div>
+      <p
+        data-it="Poste Italiane ha acquisito una quota del 25% di TIM diventandone l'azionista di maggioranza e ottenendo di fatto il controllo della società. Un'azienda che consegna pacchi — spesso al vicino sbagliato, spesso con tre giorni di ritardo — ora gestisce l'infrastruttura di telecomunicazioni nazionale. Speriamo che i pacchetti di rete vengano instradati meglio dei pacchi fisici. Spoiler: non è così."
+        data-en="Poste Italiane acquired a 25% stake in TIM, becoming its largest shareholder and effectively taking control. A company that delivers parcels — often to the wrong neighbor, often three days late — now manages the national telecommunications infrastructure. Let's hope network packets are routed better than physical ones. Spoiler: they aren't."
+      >
+        Poste Italiane ha acquisito una quota del 25% di TIM diventandone l'azionista di maggioranza e ottenendo di fatto il controllo della società. Un'azienda che consegna pacchi — spesso al vicino sbagliato, spesso con tre giorni di ritardo — ora gestisce l'infrastruttura di telecomunicazioni nazionale. Speriamo che i pacchetti di rete vengano instradati meglio dei pacchi fisici. Spoiler: non è così.
+      </p>
+    </div>
+
+    <p
+      data-it="Questo writeup esiste per tutti coloro che hanno subito una <strong>prevaricazione tecnologica</strong> da parte di TIM — termine che uso deliberatamente invece di quello che vorrei scrivere, per motivi di diffide. Sto vedendo un sacco di post su Reddit e forum di gaming di gente con packet loss inspiegabile su GeForce Now con TIM FTTH. Questo è il posto giusto. Avvicinatevi. Siamo tanti."
+      data-en="This writeup exists for everyone who has been on the receiving end of a <strong>technological overreach</strong> from TIM — a term I deliberately use instead of what I actually want to write, for legal reasons. I'm seeing a lot of posts on Reddit and gaming forums with inexplicable packet loss on GeForce Now with TIM FTTH. This is the right place. Come closer. There are many of us."
+    >
+      Questo writeup esiste per tutti coloro che hanno subito una <strong>prevaricazione tecnologica</strong> da parte di TIM — termine che uso deliberatamente invece di quello che vorrei scrivere, per motivi di diffide. Sto vedendo un sacco di post su Reddit e forum di gaming di gente con packet loss inspiegabile su GeForce Now con TIM FTTH. Questo è il posto giusto. Avvicinatevi. Siamo tanti.
+    </p>
+
+    <!-- SEZIONE 2: IL GIORNO NEFASTO -->
+    <h2
+      data-it="Venerdì 27 Febbraio 2026: l'ignominia si manifesta"
+      data-en="Friday, February 27, 2026: the ignominy manifests"
+    >Venerdì 27 Febbraio 2026: l'ignominia si manifesta</h2>
+
+    <p
+      data-it="Stavo per ultimare la mia sessione su ArcRaiders prima del wipe. Chiunque conosca il gaming sa quanto questo momento sia sacro. E allora, come insegna la legge di Murphy — il principio empirico per cui tutto ciò che può andare storto, andrà storto, nel peggior momento possibile — avviene la magia."
+      data-en="I was about to finish my ArcRaiders session before the wipe. Anyone who games knows how sacred this moment is. And so, as Murphy's Law teaches us — the empirical principle that anything that can go wrong will go wrong, at the worst possible moment — the magic happens."
+    >
+      Stavo per ultimare la mia sessione su ArcRaiders prima del wipe. Chiunque conosca il gaming sa quanto questo momento sia sacro. E allora, come insegna la <strong>legge di Murphy</strong> — il principio empirico per cui tutto ciò che può andare storto, andrà storto, nel peggior momento possibile — avviene la magia.
+    </p>
+
+    <div class="result-card">
+      <div class="result-num">// STATISTICHE DI RETE — ORE IGNOTE DI UN VENERDÌ SERA</div>
+      <div class="result-title">Lo scenario del delitto</div>
+      <table>
+        <tr><th>Metrica</th><th>Valore</th><th>Status</th></tr>
+        <tr><td>Larghezza di banda</td><td>&gt;100 Mbps</td><td class="ok">✓ OK</td></tr>
+        <tr><td>Latenza</td><td>&lt;20 ms</td><td class="ok">✓ OK</td></tr>
+        <tr><td>Packet Loss</td><td>12.5%</td><td class="danger">✗ CRITICO</td></tr>
+        <tr><td>Connessione</td><td>Cavo Ethernet</td><td class="ok">✓ OK</td></tr>
+      </table>
+    </div>
+
+    <p
+      data-it="Per chi usa servizi in cloud per il gaming, una perdita di pacchetti così elevata è, in termini aulici, una condizione di esperienza utente <strong>notevolmente al di sotto delle aspettative contrattuali</strong>. In termini meno aulici: sono uccelli senza zucchero."
+      data-en="For anyone using cloud gaming services, that level of packet loss is, in elevated terms, a user experience condition <strong>notably below contractual expectations</strong>. In less elevated terms: it's a thoroughly unpleasant situation."
+    >
+      Per chi usa servizi in cloud per il gaming, una perdita di pacchetti così elevata è, in termini aulici, una condizione di esperienza utente <strong>notevolmente al di sotto delle aspettative contrattuali</strong>. In termini meno aulici: sono uccelli senza zucchero.
+    </p>
+
+    <!-- SEZIONE 3: PRIMI TEST -->
+    <h2
+      data-it="La fase di esclusione: non sono io, è lui"
+      data-en="The exclusion phase: it's not me, it's them"
+    >La fase di esclusione: non sono io, è lui</h2>
+
+    <p
+      data-it="Prima di accusare chiunque, ho fatto l'unica cosa sensata: escludere sistematicamente ogni variabile del mio ambiente. Lista completa delle torture inflitte alla mia rete domestica:"
+      data-en="Before accusing anyone, I did the only sensible thing: systematically rule out every variable in my environment. Complete list of torture inflicted on my home network:"
+    >
+      Prima di accusare chiunque, ho fatto l'unica cosa sensata: escludere sistematicamente ogni variabile del mio ambiente. Lista completa delle torture inflitte alla mia rete domestica:
+    </p>
+
+    <ul>
+      <li data-it="Riavviare il modem" data-en="Reboot the modem">Riavviare il modem</li>
+      <li data-it="Riavviare il PC" data-en="Reboot the PC">Riavviare il PC</li>
+      <li data-it="Cambiare cavo LAN" data-en="Change LAN cable">Cambiare cavo LAN</li>
+      <li data-it="Provare con WiFi" data-en="Try WiFi">Provare con WiFi</li>
+      <li data-it="Cambiare porta sul router" data-en="Change port on router">Cambiare porta sul router</li>
+      <li data-it="Provare con l'hotspot del telefono (🔑 questo è il test decisivo)" data-en="Try with mobile hotspot (🔑 this is the decisive test)">Provare con l'hotspot del telefono <strong>(🔑 questo è il test decisivo)</strong></li>
+    </ul>
+
+    <p
+      data-it="Ed è qui che avviene la vera magia: sull'hotspot mobile, <strong>perdita di pacchetti = 0%</strong>. Larghezza di banda nella media mobile, latenza paragonabile alla velocità di risposta di un funzionario pubblico in vacanza — ma zero perdita di pacchetti. Il problema non era nel mio hardware. Era nella rete TIM."
+      data-en="And here the real magic happens: on the mobile hotspot, <strong>packet loss = 0%</strong>. Bandwidth in the mobile average, latency comparable to a civil servant on vacation — but zero packet loss. The problem was not in my hardware. It was in the TIM network."
+    >
+      Ed è qui che avviene la vera magia: sull'hotspot mobile, <strong>perdita di pacchetti = 0%</strong>. Larghezza di banda nella media mobile, latenza paragonabile alla velocità di risposta di un funzionario pubblico in vacanza — ma zero perdita di pacchetti. Il problema non era nel mio hardware. Era nella rete TIM.
+    </p>
+
+    <!-- SEZIONE 4: NVIDIA -->
+    <h2
+      data-it="Il supporto Nvidia: un'oasi nel deserto"
+      data-en="Nvidia support: an oasis in the desert"
+    >Il supporto Nvidia: un'oasi nel deserto</h2>
+
+    <p
+      data-it="Ho contattato Nvidia EU per segnalare il problema. Sito Nvidia, assistenza tecnica, chat con operatore. In <strong>due minuti</strong> ero in contatto con una persona in carne e ossa che chattava con me, non con un bot che mi chiedeva se avessi provato a spegnere e riaccendere. Mi fido (fu una pessima scelta, col senno di poi, ma non per colpa di Nvidia). Dopo alcuni giorni, ho contattato anche Nvidia USA, che ha confermato: <strong>zero problemi rilevati lato loro</strong>."
+      data-en="I contacted Nvidia EU to report the problem. Nvidia website, technical support, chat with operator. In <strong>two minutes</strong> I was talking to an actual human being, not a bot asking me if I'd tried turning it off and on again. I trusted them (a poor choice in hindsight, but not Nvidia's fault). After a few days, I also contacted Nvidia USA, who confirmed: <strong>zero issues on their end</strong>."
+    >
+      Ho contattato Nvidia EU per segnalare il problema. Sito Nvidia, assistenza tecnica, chat con operatore. In <strong>due minuti</strong> ero in contatto con una persona in carne e ossa che chattava con me, non con un bot che mi chiedeva se avessi provato a spegnere e riaccendere. Mi fido (fu una pessima scelta, col senno di poi, ma non per colpa di Nvidia). Dopo alcuni giorni, ho contattato anche Nvidia USA, che ha confermato: <strong>zero problemi rilevati lato loro</strong>.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">// Nota a margine sul supporto Nvidia USA</div>
+      <p
+        data-it="L'operatore Nvidia USA mi ha inizialmente risposto pensando che fossi un'altra persona, iniziando a condividere dati sensibili di un altro utente. Ho interrotto subito e segnalato. Questo è un problema serio di gestione delle sessioni di supporto che non dovrebbe accadere, ma è pur sempre un problema umano e non strutturale. Tutto risolto velocemente."
+        data-en="The Nvidia USA operator initially replied thinking I was someone else, beginning to share another user's sensitive data. I stopped them immediately and flagged the issue. This is a serious support session management problem that shouldn't happen, but it's still a human error, not a structural one. Resolved quickly."
+      >
+        L'operatore Nvidia USA mi ha inizialmente risposto pensando che fossi un'altra persona, iniziando a condividere dati sensibili di un altro utente. Ho interrotto subito e segnalato l'errore. Un problema serio di gestione delle sessioni di supporto, ma risolto in tempo reale.
+      </p>
+    </div>
+
+    <!-- SEZIONE 5: ANGIE -->
+    <h2
+      data-it="Il supporto TIM: benvenuti nell'antro di Angie"
+      data-en="TIM support: welcome to Angie's lair"
+    >Il supporto TIM: benvenuti nell'antro di Angie</h2>
+
+    <!-- Easter egg #3: Angie è letteralmente più frustrante di Lute di Hazbin Hotel.
+         Almeno Lute ha un obiettivo chiaro. Angie vuole solo sapere se hai riavviato il modem. -->
+    <p
+      data-it="Avete presente la chat dove in due minuti entrate in contatto con un operatore umano? Dimenticatela completamente. TIM ha Angie. Angie è un chatbot senza cuore, senza cervello, programmato per non lasciarvi mai arrivare al punto. Ogni risposta apre un menù, ogni menù porta a una soluzione sbagliata, ogni soluzione sbagliata ti riporta all'inizio. È un loop infinito progettato da qualcuno che odia gli esseri umani."
+      data-en="Remember that chat where you reach a human operator in two minutes? Forget it completely. TIM has Angie. Angie is a chatbot without heart, without brain, programmed to never let you reach the point. Every answer opens a menu, every menu leads to a wrong solution, every wrong solution brings you back to the start. It's an infinite loop designed by someone who hates human beings."
+    >
+      Avete presente la chat dove in due minuti entrate in contatto con un operatore umano? Dimenticatela completamente. TIM ha Angie. Angie è un chatbot senza cuore, senza cervello, programmato per non lasciarvi mai arrivare al punto. Ogni risposta apre un menù, ogni menù porta a una soluzione sbagliata, ogni soluzione sbagliata ti riporta all'inizio. È un loop infinito progettato da qualcuno che odia gli esseri umani.
+    </p>
+
+    <div style="margin:1.5rem 0;max-width:400px;">
+      <div class="tenor-gif-embed" data-postid="25852049" data-share-method="host" data-aspect-ratio="1.59204" data-width="100%">
+        <a href="https://tenor.com/view/tre-uomini-e-una-gamba-aldo-giovanni-e-giacomo-convince-poco-mi-convince-poco-poco-poco-poco-gif-25852049">Tre Uomini E Una Gamba GIF</a>
+      </div>
+    </div>
+
+    <p
+      data-it="Dopo aver trovato la combinazione esatta di risposte per raggiungere il box di segnalazione libera — nascosto come l'accesso a un dungeon segreto in un JRPG degli anni '90 — ho inviato il problema. Risposta dopo mezz'ora: <strong>«Risolto?»</strong>. Nessuna notifica. Nessuna chiamata. Solo un ticket chiuso unilateralmente da qualcuno che evidentemente non ha fatto nulla."
+      data-en="After finding the exact combination of answers to reach the free-text report box — hidden like the entrance to a secret dungeon in a '90s JRPG — I submitted the problem. Response half an hour later: <strong>'Resolved?'</strong>. No notification. No phone call. Just a ticket unilaterally closed by someone who clearly did nothing."
+    >
+      Dopo aver trovato la combinazione esatta di risposte per raggiungere il box di segnalazione libera — nascosto come l'accesso a un dungeon segreto in un JRPG degli anni '90 — ho inviato il problema. Risposta dopo mezz'ora: <strong>«Risolto?»</strong>. Nessuna notifica. Nessuna chiamata. Solo un ticket chiuso unilateralmente da qualcuno che evidentemente non ha fatto nulla.
+    </p>
+
+    <p
+      data-it="Ho aperto 5 ticket. Li ho riaperti almeno una decina di volte ciascuno. Risultato ogni volta: «Risolto». Senza che nessuno chiamasse. Senza che nessuno intervenisse. Così ho chiamato io. 54 minuti in attesa. Trasferimento al tecnico. Linea caduta. Riprovato: 24 minuti in attesa. Linea caduta due secondi prima del trasferimento. La rete TIM — quella che stavo segnalando essere rotta — ha eliminato due mie telefonate al supporto di TIM. Applausi."
+      data-en="I opened 5 tickets. Reopened each at least ten times. Result every time: 'Resolved'. Without anyone calling. Without anyone intervening. So I called myself. 54 minutes on hold. Transfer to technician. Line dropped. Tried again: 24 minutes on hold. Line dropped two seconds before the transfer. The TIM network — the one I was reporting as broken — dropped two of my calls to TIM support. Applause."
+    >
+      Ho aperto 5 ticket. Li ho riaperti almeno una decina di volte ciascuno. Risultato ogni volta: «Risolto». Senza che nessuno chiamasse. Senza che nessuno intervenisse. Così ho chiamato io. 54 minuti in attesa. Trasferimento al tecnico. Linea caduta. Riprovato: 24 minuti in attesa. Linea caduta due secondi prima del trasferimento. La rete TIM — quella che stavo segnalando essere rotta — ha eliminato due mie telefonate al supporto di TIM. Applausi.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">// L'apice della trattativa</div>
+      <p
+        data-it="Dopo alcune segnalazioni con terminologia non propriamente da convegno accademico, ho ricevuto una telefonata da un tecnico (o presunto tale) che con voce flebile mi chiede: «Non c'è alcun problema, ha provato a riavviare il modem?». Ho risposto di sì, ho elencato tutto quello che avevo fatto. Risposta finale: «Ah ma a noi non risulta nulla». Fine della telefonata."
+        data-en="After a few support requests with terminology not exactly suitable for an academic conference, I received a call from a technician (or alleged one) who in a thin voice asks: 'There's no issue, have you tried rebooting the modem?' I said yes, listed everything I'd done. Final answer: 'Ah, we don't see anything on our end'. End of call."
+      >
+        Dopo alcune segnalazioni con terminologia non propriamente da convegno accademico, ho ricevuto una telefonata da un tecnico (o presunto tale) che con voce flebile mi chiede: «Non c'è alcun problema, ha provato a riavviare il modem?». Ho risposto di sì, ho elencato tutto quello che avevo fatto. Risposta finale: «Ah ma a noi non risulta nulla». Fine della telefonata.
+      </p>
+    </div>
+
+    <div style="margin:1.5rem 0;max-width:400px;">
+      <div class="tenor-gif-embed" data-postid="24466450" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+        <a href="https://tenor.com/it/view/giovanni-storti-ma-va-ma-va-là-smettila-finiscila-gif-24466450">Giovanni Storti GIF</a>
+      </div>
+    </div>
+
+    <!-- EPISODIO: IL TECNICO A PAGAMENTO -->
+    <div class="callout-red">
+      <div class="callout-label">// Il colpo di scena: il tecnico a pagamento</div>
+      <p
+        data-it="Ma la cosa più bella — e la uso in senso completamente inverso — viene dopo. Alla fine della stessa telefonata, dopo aver stabilito insieme che il problema esiste (packet loss misurabile, documentato, riproducibile su rete TIM e non su hotspot), il tecnico mi propone la soluzione: mandare un tecnico a casa mia. A pagamento. Io. Che pago già il canone. Per un servizio che non funziona. Devo pagare un'ulteriore prestazione per far venire qualcuno a diagnosticare che il servizio che sto pagando non funziona. Perché il bug è nella rete TIM. Non nel mio impianto. Nella rete TIM. Ovviamente ho declinato."
+        data-en="But the best part — and I use 'best' in the most ironic sense possible — comes next. At the end of that same phone call, after we'd established together that the problem exists (measurable, documented, reproducible packet loss on TIM's network but not on hotspot), the technician proposes the solution: send a technician to my home. At my expense. Me. Who already pays the subscription. For a service that doesn't work. I have to pay an additional fee for someone to come diagnose that the service I'm paying for doesn't work. Because the bug is in TIM's network. Not in my home setup. In TIM's network. Obviously I declined."
+      >
+        Ma la cosa più bella — e la uso in senso completamente inverso — viene dopo. Alla fine della stessa telefonata, dopo aver stabilito insieme che il problema esiste (packet loss misurabile, documentato, riproducibile su rete TIM e assente su hotspot), il tecnico mi propone la soluzione: mandare un tecnico a casa mia. <strong>A pagamento.</strong><br/><br/>
+        Io. Che pago già il canone mensile. Per un servizio che non funziona. Devo pagare un'ulteriore prestazione per far venire qualcuno a diagnosticare che il servizio che sto pagando non funziona. Perché il bug è nella rete TIM — non nel mio impianto, non nel mio hardware, nella rete TIM. Documentato. Riproducibile. Confermato anche da Nvidia.<br/><br/>
+        <strong>Ovviamente ho declinato.</strong> E ho continuato a tenere aperto il ticket.
+      </p>
+      <div style="margin:1.25rem 0 0;max-width:400px;">
+        <div class="tenor-gif-embed" data-postid="19514192" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+          <a href="https://tenor.com/it/view/aldo-giovanni-giacomo-aldo-giovanni-e-giacomo-deficiente-gif-19514192">Aldo Giovanni GIF</a>
+        </div>
+      </div>
+    </div>
+
+    <p
+      data-it="Il problema è ancora in lavorazione mentre scrivo questo. Non è risolto. Il ticket è ancora aperto. O meglio: è stato chiuso come «risolto» almeno cinque volte, ed è stato riaperto almeno cinque volte. La situazione attuale è esattamente quella descritta in questo articolo: rete rotta, workaround VPN attivo, TIM silente. Questo articolo è work in progress nel senso più letterale del termine."
+      data-en="The problem is still being worked on as I write this. It's not resolved. The ticket is still open. Or rather: it's been closed as 'resolved' at least five times, and reopened at least five times. The current situation is exactly what's described in this article: broken network, VPN workaround active, TIM silent. This article is a work in progress in the most literal sense of the term."
+    >
+      <strong>Il problema è ancora in lavorazione mentre scrivo questo.</strong> Non è risolto. Il ticket è ancora aperto — o meglio: è stato chiuso come «risolto» almeno cinque volte, e riaperto altrettante. La situazione attuale è esattamente quella descritta in questo articolo: rete rotta, workaround VPN attivo, TIM silente. Aggiornamenti seguiranno.
+    </p>
+
+    <!-- SEZIONE 6: TROUBLESHOOTING TECNICO -->
+    <h2
+      data-it="Il troubleshooting vero: quando si smette di aspettare TIM"
+      data-en="The real troubleshooting: when you stop waiting for TIM"
+    >Il troubleshooting vero: quando si smette di aspettare TIM</h2>
+
+    <p
+      data-it="Arrivati a questo punto, con la consapevolezza che TIM non avrebbe risolto nulla da sola, ho deciso di fare quello che si fa quando il supporto non supporta: diagnosticare da soli e raccogliere prove schiaccianti. Di seguito trovate ogni comando, ogni test, e cosa mi ha detto ciascuno di essi."
+      data-en="At this point, knowing TIM would not fix anything on its own, I decided to do what you do when support doesn't support: self-diagnose and gather overwhelming evidence. Below you'll find every command, every test, and what each one told me."
+    >
+      Arrivati a questo punto, con la consapevolezza che TIM non avrebbe risolto nulla da sola, ho deciso di fare quello che si fa quando il supporto non supporta: diagnosticare da soli e raccogliere prove schiaccianti. Di seguito trovate ogni comando, ogni test, e cosa mi ha detto ciascuno di essi.
+    </p>
+
+    <h3
+      data-it="Step 1 — Identificare interfacce e gateway"
+      data-en="Step 1 — Identify interfaces and gateway"
+    >Step 1 — Identificare interfacce e gateway</h3>
+
+    <p
+      data-it="Prima di sparare comandi a caso, bisogna capire con cosa si ha a che fare. Il sistema era un MacBook Pro su macOS, connesso via USB Ethernet al router TIM AGGPON_2024. Il WiFi era attivo contemporaneamente — primo dettaglio importante da tenere a mente."
+      data-en="Before shooting commands at random, you need to understand what you're dealing with. The system was a MacBook Pro on macOS, connected via USB Ethernet to the TIM AGGPON_2024 router. WiFi was active at the same time — first important detail to keep in mind."
+    >
+      Prima di sparare comandi a caso, bisogna capire con cosa si ha a che fare. Il sistema: MacBook Pro su macOS, connesso via USB Ethernet al router TIM AGGPON_2024. Il WiFi era attivo contemporaneamente — primo dettaglio importante.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Vediamo tutti i servizi di rete disponibili</span>
+networksetup -listallnetworkservices
+
+<span class="comment"># Identifichiamo le interfacce attive (en0 = WiFi, en6 = USB Ethernet)</span>
+ifconfig | grep -E "^(en|utun|lo)"
+
+<span class="comment"># Chi è il gateway? (il router TIM)</span>
+netstat -rn | grep "^default"</pre></div>
+
+    <p
+      data-it="Risultato: gateway <code>192.168.1.1</code> (router TIM), interfaccia primaria <code>en6</code> via USB Ethernet con IP <code>192.168.1.x</code>, WiFi <code>en0</code> con IP <code>192.168.1.y</code> — entrambe attive. Per chiarire le priorità:"
+      data-en="Result: gateway <code>192.168.1.1</code> (TIM router), primary interface <code>en6</code> via USB Ethernet with IP <code>192.168.1.x</code>, WiFi <code>en0</code> with IP <code>192.168.1.y</code> — both active. To clarify priorities:"
+    >
+      Risultato: gateway <code>192.168.1.1</code> (router TIM), interfaccia primaria <code>en6</code> via USB Ethernet con IP <code>192.168.1.x</code>, WiFi <code>en0</code> con IP <code>192.168.1.y</code> — entrambe attive. Per chiarire le priorità:
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Verifica ordine di priorità dei servizi di rete</span>
+networksetup -listnetworkserviceorder
+
+<span class="comment"># Risultato:
+# 1. USB 10/100/1000 LAN (en6) ← priorità più alta
+# 2. Wi-Fi (en0)</span></pre></div>
+
+    <p
+      data-it="Bene. Il traffico passa da Ethernet, come dovrebbe. Il problema non è nell'ordine delle interfacce."
+      data-en="Good. Traffic goes through Ethernet, as expected. The problem is not in the interface order."
+    >
+      Bene. Il traffico passa da Ethernet, come dovrebbe. Il problema non è nell'ordine delle interfacce.
+    </p>
+
+    <h3
+      data-it="Step 2 — Test ping base: dove il problema si nasconde"
+      data-en="Step 2 — Basic ping test: where the problem hides"
+    >Step 2 — Test ping base: dove il problema si nasconde</h3>
+
+    <p
+      data-it="Il comando ping è il bisturi base della diagnostica di rete. Manda piccoli pacchetti ICMP a una destinazione e misura quanti tornano indietro e in quanto tempo. Ho testato quattro destinazioni chiave."
+      data-en="The ping command is the basic scalpel of network diagnostics. It sends small ICMP packets to a destination and measures how many come back and how long it takes. I tested four key destinations."
+    >
+      Il comando <code>ping</code> è il bisturi base della diagnostica di rete. Manda piccoli pacchetti ICMP a una destinazione e misura quanti tornano indietro e in quanto tempo. Ho testato quattro destinazioni chiave.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Router locale — il primo hop, sempre testare per primo</span>
+ping -c 50 -i 0.2 192.168.1.1
+
+<span class="comment"># Google DNS — destinazione pubblica stabile e affidabile</span>
+ping -c 50 -i 0.2 8.8.8.8
+
+<span class="comment"># Cloudflare — seconda destinazione pubblica per conferma</span>
+ping -c 50 -i 0.2 1.1.1.1
+
+<span class="comment"># Server GeForce Now EU — la destinazione del problema</span>
+ping -c 50 -i 0.2 185.56.218.1</pre></div>
+
+    <table>
+      <tr><th>Destinazione</th><th>Loss</th><th>RTT medio</th><th>Valutazione</th></tr>
+      <tr><td>192.168.1.1 (router)</td><td class="ok">0.0%</td><td>0.8 ms</td><td class="ok">OK</td></tr>
+      <tr><td>8.8.8.8 (Google)</td><td class="ok">0.0%</td><td>9.7 ms</td><td class="ok">OK</td></tr>
+      <tr><td>1.1.1.1 (Cloudflare)</td><td class="ok">0.0%</td><td>11.8 ms</td><td class="ok">OK</td></tr>
+      <tr><td>185.56.218.1 (GFN EU)</td><td class="ok">0.0%</td><td>62 ms</td><td class="ok">OK (apparentemente)</td></tr>
+    </table>
+
+    <p
+      data-it="Nessuna perdita. Tutto funziona. Ed è esattamente qui che il problema diventa interessante — e un po' subdolo. Con pacchetti piccoli (ICMP standard, ~64 byte), non c'è alcuna perdita visibile. Il bug si nasconde altrove."
+      data-en="No loss. Everything works. And this is exactly where the problem gets interesting — and a bit insidious. With small packets (standard ICMP, ~64 bytes), there's no visible loss. The bug hides elsewhere."
+    >
+      Nessuna perdita. Tutto funziona. Ed è esattamente qui che il problema diventa interessante — e un po' subdolo. Con pacchetti piccoli (ICMP standard, ~64 byte), non c'è perdita. Il bug si nasconde altrove.
+    </p>
+
+    <h3
+      data-it="Step 3 — Test ad alta frequenza: il jitter si fa vivo"
+      data-en="Step 3 — High frequency test: jitter shows up"
+    >Step 3 — Test ad alta frequenza: il jitter si fa vivo</h3>
+
+    <p
+      data-it="GeForce Now e i servizi di cloud gaming non mandano pacchetti ogni secondo — ne mandano decine o centinaia al secondo. Per simulare quel carico, ho alzato la frequenza dei ping."
+      data-en="GeForce Now and cloud gaming services don't send one packet per second — they send dozens or hundreds per second. To simulate that load, I increased the ping frequency."
+    >
+      GeForce Now e i servizi di cloud gaming non mandano un pacchetto al secondo — ne mandano decine o centinaia. Per simulare quel carico, ho alzato la frequenza dei ping.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Frequenza alta: 20 pacchetti al secondo verso Google</span>
+ping -c 100 -i 0.05 8.8.8.8
+
+<span class="comment"># Frequenza alta verso il server GFN</span>
+ping -c 100 -i 0.05 185.56.218.1</pre></div>
+
+    <p
+      data-it="Risultati rivelatori: verso Google, 1% di perdita a 20 pacchetti al secondo. Verso GFN, nessuna perdita ma jitter abnorme — minimo 50ms, media 101ms, <strong>massimo 581ms</strong>, deviazione standard 86ms. Qualcosa stava andando storto, ma non abbastanza da essere ovvio. Era ora di tirare fuori il traceroute."
+      data-en="Revealing results: toward Google, 1% loss at 20 packets per second. Toward GFN, no loss but abnormal jitter — minimum 50ms, average 101ms, <strong>maximum 581ms</strong>, standard deviation 86ms. Something was going wrong, but not enough to be obvious. Time to bring out traceroute."
+    >
+      Risultati rivelatori: verso Google 1% di perdita a 20 pacchetti/secondo. Verso GFN, nessuna perdita ma jitter abnorme — minimo 50ms, media 101ms, <strong>massimo 581ms</strong>, dev std 86ms. Qualcosa stava andando storto, ma non abbastanza da essere ovvio. Era ora di tirare fuori il traceroute.
+    </p>
+
+    <h3
+      data-it="Step 4 — Traceroute: mappare il percorso del problema"
+      data-en="Step 4 — Traceroute: mapping the problem's path"
+    >Step 4 — Traceroute: mappare il percorso del problema</h3>
+
+    <p
+      data-it="Il traceroute è come mettere un GPS su ogni pacchetto che esce dalla tua macchina. Ti dice esattamente da quale nodo a quale nodo viaggia il traffico, e quanto tempo impiega in ogni tratto. Permette di identificare dove la rete inizia a comportarsi male."
+      data-en="Traceroute is like putting a GPS on every packet that leaves your machine. It tells you exactly which node to which node your traffic travels, and how long each segment takes. It lets you identify where the network starts misbehaving."
+    >
+      Il traceroute è come mettere un GPS su ogni pacchetto che esce dalla tua macchina. Ti dice esattamente da quale nodo a quale nodo viaggia il traffico, e quanto tempo impiega in ogni tratto. Permette di identificare dove la rete inizia a comportarsi male.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># -n: niente DNS reverse lookup (più veloce)
+# -q 10: 10 probe per hop (più affidabile statisticamente)
+# -w 3: timeout 3 secondi per hop</span>
+traceroute -n -q 10 -w 3 185.56.218.1</pre></div>
+
+    <div class="code-block"><pre><span class="comment"># Percorso verso i server GeForce Now EU</span>
+<span class="neutral">Hop  1:  192.168.1.1          →  0.8 ms    (router TIM, stabile)</span>
+<span class="neutral">Hop  2:  * * *                →  ICMP bloccato (normale)</span>
+<span class="neutral">Hop  3:  172.17.112.60/64     →  5-8 ms    (rete TIM, stabile)</span>
+<span class="neutral">Hop  4:  172.17.112.90-102    →  6-8 ms    (rete TIM, stabile)</span>
+<span class="neutral">Hop  5:  172.19.184.24-30     →  10 ms     (backbone TIM, stabile)</span>
+<span class="neutral">Hop  6:  172.19.177.10-66     →  9-10 ms   (backbone TIM, stabile)</span>
+<span class="neutral">Hop  7:  195.22.192/205.x     →  9-12 ms   (transit TIM, stabile)</span>
+<span class="neutral">Hop  8:  195.22.192.117/119   →  25-29 ms  (backbone internazionale, stabile)</span>
+<span class="neutral">Hop  9:  185.100.113.154-157  →  26-30 ms  (ingresso rete GFN, stabile)</span>
+<span class="neutral">Hop 10:  185.8.179.45/46      →  28-48 ms  (infrastruttura GFN)</span>
+<span class="neutral">Hop 11:  185.8.179.37/38      →  29-33 ms  (infrastruttura GFN)</span>
+<span class="danger">Hop 12:  192.168.10.26/70     →  47-59 ms  + 4/10 timeout ← segnale</span>
+<span class="danger">Hop 13:  185.56.218.1         →  56-79 ms  + picchi 143ms, 218ms ← destinazione</span></pre></div>
+
+    <p
+      data-it="Osservazione critica: il percorso TIM dagli hop 1 a 9 è <strong>completamente stabile</strong>. Il problema sembra apparire agli hop 12-13 nell'infrastruttura GFN. Ma aspettate — questo è fuorviante. Il jitter agli hop finali non è originato lì. È una <strong>conseguenza</strong> di qualcosa che accade prima, silenziosamente."
+      data-en="Critical observation: the TIM path from hops 1 to 9 is <strong>completely stable</strong>. The problem seems to appear at hops 12-13 in the GFN infrastructure. But wait — this is misleading. The jitter at the final hops is not originating there. It's a <strong>consequence</strong> of something happening earlier, silently."
+    >
+      Osservazione critica: il percorso TIM dagli hop 1 a 9 è <strong>completamente stabile</strong>. Il problema sembra apparire agli hop 12-13 nell'infrastruttura GFN. Ma aspettate — questo è fuorviante. Il jitter agli hop finali non è originato lì. È una <strong>conseguenza</strong> di qualcosa che accade prima, silenziosamente.
+    </p>
+
+    <h3
+      data-it="Step 5 — Il colpevole: MTU e il PPPoE di TIM"
+      data-en="Step 5 — The culprit: MTU and TIM's PPPoE"
+    >Step 5 — Il colpevole: MTU e il PPPoE di TIM</h3>
+
+    <p
+      data-it="MTU significa <strong>Maximum Transmission Unit</strong>: la dimensione massima di un pacchetto che può attraversare un link di rete. Su Ethernet standard è 1500 byte. Ma la fibra TIM usa PPPoE (Point-to-Point Protocol over Ethernet) internamente, che aggiunge 8 byte di overhead. Risultato: il limite reale scende a <strong>1492 byte</strong>."
+      data-en="MTU stands for <strong>Maximum Transmission Unit</strong>: the maximum size of a packet that can traverse a network link. On standard Ethernet it's 1500 bytes. But TIM fiber uses PPPoE (Point-to-Point Protocol over Ethernet) internally, which adds 8 bytes of overhead. Result: the real limit drops to <strong>1492 bytes</strong>."
+    >
+      MTU significa <strong>Maximum Transmission Unit</strong>: la dimensione massima di un pacchetto che può attraversare un link di rete. Su Ethernet standard è 1500 byte. Ma la fibra TIM usa PPPoE (Point-to-Point Protocol over Ethernet) internamente, che aggiunge 8 byte di overhead. Risultato: il limite reale scende a <strong>1492 byte</strong>.
+    </p>
+
+    <p
+      data-it="Per verificare questa ipotesi, ho usato il flag <code>-D</code> del ping — che imposta il bit <em>Don't Fragment</em> sul pacchetto. Questo dice alla rete: «non spezzare questo pacchetto, o droppalo». Poi ho variato la dimensione del payload."
+      data-en="To test this hypothesis, I used ping's <code>-D</code> flag — which sets the <em>Don't Fragment</em> bit on the packet. This tells the network: 'don't fragment this packet, or drop it'. Then I varied the payload size."
+    >
+      Per verificare questa ipotesi, ho usato il flag <code>-D</code> del ping — che imposta il bit <em>Don't Fragment</em> sul pacchetto. Questo dice alla rete: «non spezzare questo pacchetto, o droppalo». Poi ho variato la dimensione del payload.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Payload 1400 byte → pacchetto totale 1428 byte (sotto il limite)</span>
+ping -c 10 -D -s 1400 185.56.218.1
+
+<span class="comment"># Payload 1472 byte → pacchetto totale 1500 byte (al limite Ethernet)</span>
+ping -c 10 -D -s 1472 185.56.218.1</pre></div>
+
+    <div class="callout">
+      <div class="callout-label">// Risultato rivelatore</div>
+      <p>
+        Payload 1400B (totale 1428B): <strong style="color:#00ff88">0% loss</strong><br/>
+        Payload 1472B (totale 1500B): <strong style="color:#ff5555">100% loss</strong><br/><br/>
+        I pacchetti grandi spariscono nel nulla. Senza avviso. Senza errore. Semplicemente: niente.
+      </p>
+    </div>
+
+    <p
+      data-it="Per trovare l'MTU esatto, ho fatto una ricerca binaria — testando dimensioni crescenti fino a trovare il punto di rottura preciso."
+      data-en="To find the exact MTU, I did a binary search — testing increasing sizes until finding the exact breaking point."
+    >
+      Per trovare l'MTU esatto, ho fatto una ricerca binaria — testando dimensioni crescenti fino al punto di rottura.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Binary search dell'MTU effettivo</span>
+for size in 1460 1465 1470 1471 1472; do
+    ping -c 5 -W 2000 -D -s $size 185.56.218.1
+done</pre></div>
+
+    <table>
+      <tr><th>Payload</th><th>Totale</th><th>Loss verso GFN</th><th>Loss verso 8.8.8.8</th></tr>
+      <tr><td>1460 B</td><td>1488 B</td><td class="ok">0%</td><td class="ok">0%</td></tr>
+      <tr><td>1465 B</td><td>1493 B</td><td class="danger">100%</td><td class="danger">100%</td></tr>
+      <tr><td>1470 B</td><td>1498 B</td><td class="danger">60%</td><td class="danger">100%</td></tr>
+      <tr><td>1472 B</td><td>1500 B</td><td class="danger">60%</td><td class="danger">100%</td></tr>
+    </table>
+
+    <p
+      data-it="Il path MTU effettivo è <strong>1492 byte</strong>. Esattamente il limite standard PPPoE. Confermato. Ma il problema non è che il limite esiste — il problema è come TIM gestisce i pacchetti che lo superano."
+      data-en="The effective path MTU is <strong>1492 bytes</strong>. Exactly the standard PPPoE limit. Confirmed. But the problem is not that the limit exists — the problem is how TIM handles packets that exceed it."
+    >
+      Il path MTU effettivo è <strong>1492 byte</strong>. Esattamente il limite standard PPPoE. Confermato. Ma il problema non è che il limite esiste — il problema è come TIM gestisce i pacchetti che lo superano.
+    </p>
+
+    <!-- SEZIONE 7: SPIEGAZIONE TECNICA -->
+    <h2
+      data-it="La causa root: ICMP Black Hole"
+      data-en="Root cause: ICMP Black Hole"
+    >La causa root: ICMP Black Hole</h2>
+
+    <p
+      data-it="Quando un router riceve un pacchetto troppo grande con il bit DF (Don't Fragment) impostato, dovrebbe rispondere al mittente con un messaggio ICMP di tipo «Fragmentation Needed» — in pratica: «ehi, il tuo pacchetto è troppo grande, mandamelo più piccolo». Questo meccanismo si chiama <strong>Path MTU Discovery (PMTUD)</strong> ed è fondamentale per il funzionamento corretto di qualsiasi connessione."
+      data-en="When a router receives an oversized packet with the DF (Don't Fragment) bit set, it should reply to the sender with an ICMP 'Fragmentation Needed' message — essentially: 'hey, your packet is too big, send it smaller'. This mechanism is called <strong>Path MTU Discovery (PMTUD)</strong> and is fundamental for any connection to work correctly."
+    >
+      Quando un router riceve un pacchetto troppo grande con il bit DF impostato, dovrebbe rispondere al mittente con un messaggio ICMP «Fragmentation Needed» — in pratica: «ehi, il tuo pacchetto è troppo grande, mandamelo più piccolo». Questo meccanismo si chiama <strong>Path MTU Discovery (PMTUD)</strong> ed è fondamentale per il funzionamento corretto di qualsiasi connessione.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Comportamento CORRETTO (quello che NON sta succedendo)</span>
+<span class="ok">NVIDIA invia UDP 1470B → Router TIM → "troppo grande per PPPoE"</span>
+<span class="ok">Router TIM → ICMP "Fragmentation Needed" → NVIDIA</span>
+<span class="ok">NVIDIA riduce pacchetti a ≤1464B → tutto funziona ✓</span>
+
+<span class="comment"># Comportamento EFFETTIVO (il bug TIM)</span>
+<span class="danger">NVIDIA invia UDP 1470B → Router TIM → DROP SILENZIOSO 🕳️</span>
+<span class="danger">NVIDIA non riceve nessun avviso → continua a mandare 1470B</span>
+<span class="danger">→ loop → 10% packet loss → GFN ingiocabile</span></pre></div>
+
+    <p
+      data-it="Questo si chiama <strong>ICMP Black Hole</strong>: il router droppa i pacchetti troppo grandi ma non invia mai il messaggio ICMP «Fragmentation Needed» al mittente. NVIDIA non scopre mai il limite e continua a mandare pacchetti che vengono silenziosamente eliminati."
+      data-en="This is called an <strong>ICMP Black Hole</strong>: the router drops oversized packets but never sends the 'Fragmentation Needed' ICMP message to the sender. NVIDIA never discovers the limit and keeps sending packets that are silently discarded."
+    >
+      Questo si chiama <strong>ICMP Black Hole</strong>: il router droppa i pacchetti troppo grandi ma non invia il messaggio ICMP «Fragmentation Needed» al mittente. NVIDIA non scopre mai il limite e continua a mandare pacchetti che vengono silenziosamente eliminati.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">// Impatto nascosto: non è solo GeForce Now</div>
+      <p
+        data-it="Lo stesso meccanismo colpisce tutta la banda in download. I pacchetti TCP da 1500 byte che arrivano da Internet vengono droppati dal router TIM. Il TCP si ingolfa nelle ritrasmissioni. L'upload funziona perché la direzione uscente non subisce lo stesso problema. Risultato: 26 Mbps in download su una linea da 1 Gbps. Ovvero il 2.6% di quanto si sta pagando."
+        data-en="The same mechanism affects all download bandwidth. TCP packets from 1500 bytes arriving from the Internet get dropped by the TIM router. TCP floods with retransmissions. Upload works because outbound direction doesn't suffer the same problem. Result: 26 Mbps download on a 1 Gbps line. That's 2.6% of what you're paying for."
+      >
+        Lo stesso meccanismo colpisce tutta la banda in download. I pacchetti TCP da 1500 byte che arrivano da Internet vengono droppati dal router TIM. Il TCP si ingolfa nelle ritrasmissioni. L'upload funziona perché la direzione uscente non subisce lo stesso problema. Risultato: <strong>26 Mbps in download su una linea da 1 Gbps</strong>. Ovvero il 2.6% di quanto si sta pagando.
+      </p>
+    </div>
+
+    <!-- SEZIONE 8: SOLUZIONI -->
+    <h2
+      data-it="Soluzioni testate (e cosa non funziona)"
+      data-en="Tested solutions (and what doesn't work)"
+    >Soluzioni testate (e cosa non funziona)</h2>
+
+    <h3
+      data-it="Fix Mac-side MTU — non risolve"
+      data-en="Mac-side MTU fix — doesn't resolve"
+    >Fix Mac-side MTU — non risolve</h3>
+
+    <p
+      data-it="Prima ipotesi: abbassare l'MTU dell'interfaccia del Mac in modo da non mandare mai pacchetti più grandi di 1464 byte."
+      data-en="First hypothesis: lower the Mac's interface MTU so it never sends packets larger than 1464 bytes."
+    >
+      Prima ipotesi: abbassare l'MTU dell'interfaccia del Mac in modo da non mandare mai pacchetti più grandi di 1464 byte.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Abbasso l'MTU dell'interfaccia Ethernet</span>
+sudo ifconfig en6 mtu 1464</pre></div>
+
+    <p
+      data-it="<strong>Risultato: non risolve.</strong> Il problema è sui pacchetti in <em>arrivo</em> dal server GFN verso di noi, non su quelli in uscita. Il server GFN non conosce il nostro limite MTU (nessuno glielo ha comunicato, perché TIM non manda ICMP) e continua a mandare pacchetti grandi che vengono droppati."
+      data-en="<strong>Result: doesn't work.</strong> The problem is on packets <em>incoming</em> from the GFN server to us, not outbound. The GFN server doesn't know our MTU limit (nobody told it, because TIM doesn't send ICMP) and keeps sending large packets that get dropped."
+    >
+      <strong>Risultato: non risolve.</strong> Il problema è sui pacchetti in <em>arrivo</em> dal server GFN, non in uscita. Il server GFN non conosce il nostro limite MTU (nessuno glielo ha comunicato) e continua a mandare pacchetti grandi che vengono droppati.
+    </p>
+
+    <h3
+      data-it="Cloudflare WARP — peggiora"
+      data-en="Cloudflare WARP — makes it worse"
+    >Cloudflare WARP — peggiora</h3>
+
+    <div class="code-block"><pre><span class="comment"># WARP usa MASQUE/QUIC (UDP) — soggetto allo stesso bug MTU</span>
+warp-cli connect
+ping -c 100 -i 0.05 185.56.218.1
+<span class="comment"># Risultato: 18-40% packet loss. Peggio di prima.</span></pre></div>
+
+    <p
+      data-it="WARP usa UDP come trasporto. UDP con pacchetti grandi. Lo stesso identico problema. Anzi, peggio: 18-40% di perdita. Ho provato anche a bloccare QUIC per forzare WARP su TCP."
+      data-en="WARP uses UDP as transport. UDP with large packets. The exact same problem. Actually worse: 18-40% loss. I also tried blocking QUIC to force WARP onto TCP."
+    >
+      WARP usa UDP come trasporto. UDP con pacchetti grandi. Lo stesso identico problema. Anzi, peggio: 18-40% di perdita. Ho provato anche a bloccare QUIC per forzare WARP su TCP.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Blocco QUIC per forzare WARP su HTTP/2 TCP</span>
+sudo pfctl -e
+echo "block out proto udp to any port 443" | sudo pfctl -f -
+warp-cli connect
+<span class="comment"># Risultato: 20% packet loss, jitter max 627ms. Anche peggio.</span>
+
+<span class="comment"># Ripristino sistema</span>
+sudo pfctl -f /etc/pf.conf
+warp-cli disconnect
+sudo ifconfig en6 mtu 1500</pre></div>
+
+    <p
+      data-it="Anche in modalità HTTP/2 TCP, WARP non funziona in questa configurazione. Non è la soluzione."
+      data-en="Even in HTTP/2 TCP mode, WARP doesn't work in this configuration. Not the solution."
+    >
+      Anche in modalità HTTP/2 TCP, WARP non funziona in questa configurazione. Non è la soluzione.
+    </p>
+
+    <h3
+      data-it="✅ ProtonVPN con WireGuard (TCP) — risolve"
+      data-en="✅ ProtonVPN with WireGuard (TCP) — works"
+    >✅ ProtonVPN con WireGuard (TCP) — risolve</h3>
+
+    <p
+      data-it="ProtonVPN in modalità WireGuard (TCP) risolve il problema perché imposta automaticamente il suo tunnel a MTU <strong>1380 byte</strong> — ben sotto il limite PPPoE di 1492. Il TCP si occupa della negoziazione della dimensione dei segmenti (MSS negotiation), aggirando completamente l'ICMP Black Hole di TIM."
+      data-en="ProtonVPN in WireGuard (TCP) mode fixes the problem because it automatically sets its tunnel to MTU <strong>1380 bytes</strong> — well below the PPPoE limit of 1492. TCP handles segment size negotiation (MSS negotiation), completely bypassing TIM's ICMP Black Hole."
+    >
+      ProtonVPN in modalità WireGuard (TCP) risolve il problema perché imposta automaticamente il suo tunnel a MTU <strong>1380 byte</strong> — ben sotto il limite PPPoE di 1492. Il TCP si occupa della negoziazione MSS, aggirando completamente l'ICMP Black Hole di TIM.
+    </p>
+
+    <div class="code-block"><pre><span class="comment"># Come funziona il tunnel:
+# [GFN UDP grandi] → [WireGuard TCP, MTU 1380] → TIM (pacchetti ≤1380B &lt; 1492) → ✓</span>
+
+<span class="comment"># Configurazione in ProtonVPN:
+# Settings → Protocol → WireGuard (TCP)</span>
+
+<span class="comment"># Verifica stato VPN</span>
+scutil --nc list</pre></div>
+
+    <table>
+      <tr><th>Metrica</th><th>Senza VPN</th><th>Con VPN free</th><th>Con VPN paid (atteso)</th></tr>
+      <tr><td>Bandwidth download</td><td class="danger">&gt;100 Mbps (ma 26 effettivi)</td><td class="danger">~3 Mbps (throttled)</td><td class="ok">~900 Mbps</td></tr>
+      <tr><td>Packet loss</td><td class="danger">8.8%</td><td class="ok">0.0% ✓</td><td class="ok">0.0% ✓</td></tr>
+      <tr><td>Latenza</td><td>18 ms</td><td>42 ms</td><td>~25-35 ms</td></tr>
+    </table>
+
+    <!-- SEZIONE 9: SOMMARIO -->
+    <h2
+      data-it="Il verdetto tecnico"
+      data-en="The technical verdict"
+    >Il verdetto tecnico</h2>
+
+    <table>
+      <tr><th>Componente</th><th>Stato</th></tr>
+      <tr><td>Hardware Mac</td><td class="ok">✓ OK</td></tr>
+      <tr><td>Cavo/Ethernet USB</td><td class="ok">✓ OK</td></tr>
+      <tr><td>Router TIM (locale)</td><td class="ok">✓ OK (0ms jitter)</td></tr>
+      <tr><td>Fibra fisica TIM</td><td class="ok">✓ OK (910 Mbps upload)</td></tr>
+      <tr><td>PPPoE MTU TIM</td><td class="danger">❌ BUG: ICMP Black Hole</td></tr>
+      <tr><td>Server GeForce Now</td><td class="ok">✓ OK</td></tr>
+    </table>
+
+    <p
+      data-it="Linea contrattuale: Gigabit fiber. Download effettivo senza fix: ~26 Mbps. Download effettivo con ProtonVPN WireGuard TCP: ~900 Mbps."
+      data-en="Contracted line: Gigabit fiber. Actual download without fix: ~26 Mbps. Actual download with ProtonVPN WireGuard TCP: ~900 Mbps."
+    >
+      Linea contrattuale: <strong>Gigabit fiber</strong>. Download effettivo senza fix: ~26 Mbps (2.6% del contratto). Download effettivo con ProtonVPN WireGuard TCP: ~900 Mbps.
+    </p>
+
+    <!-- SEZIONE 10: I FIX -->
+    <!-- Easter egg #4: questa sezione si chiama "I Fix" e non "Cosa fare adesso"
+         perché "cosa fare adesso" implica che ci sia una soluzione ordinata che aspetta.
+         Non c'è. Ci sono workaround. C'è una VPN che non dovresti dover usare.
+         E c'è un ticket aperto. Buona fortuna. -->
+    <h2
+      data-it="I fix — perché TIM non lo farà al posto tuo"
+      data-en="The fixes — because TIM won't do it for you"
+    >I fix — perché TIM non lo farà al posto tuo</h2>
+
+    <div class="fix-card">
+      <div class="fix-num">// FIX 01 — IMMEDIATO · funziona adesso</div>
+      <div class="fix-title">ProtonVPN con WireGuard (TCP)</div>
+      <p>Il fix che funziona subito, senza aspettare TIM e senza sperare in miracoli. Piano consigliato: <strong>Proton Unlimited</strong> (~10€/mese annuale). Protocollo: <strong>WireGuard (TCP)</strong>. Server consigliati: Italia o Germania per latenza minima.</p>
+      <p>Con questo setup: banda piena (~900 Mbps), packet loss 0%, GFN giocabile a qualsiasi qualità. Latenza aggiuntiva: ~10-15 ms. Costo: ~10€/mese. Sì, stai pagando una VPN per usare la connessione da un Gigabit che già paghi. No, non è normale. Sì, è colpa di TIM.</p>
+    </div>
+
+    <div class="fix-card">
+      <div class="fix-num">// FIX 02 — DEFINITIVO · teoricamente · ticket ancora aperto</div>
+      <div class="fix-title">Chiamare TIM — secondo livello, frase tecnica precisa</div>
+      <p>Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:</p>
+      <div class="callout" style="margin:1rem 0 0.75rem;">
+        <div class="callout-label">// La frase magica da dire a TIM</div>
+        <p>«Ho un problema di ICMP black hole sulla mia connessione FTTH. Il router AGGPON_2024 droppa i pacchetti IP con dimensione superiore a 1492 byte senza inviare messaggi ICMP 'Fragmentation Needed' al mittente. Questo causa perdita di pacchetti su applicazioni che usano UDP con DF bit impostato e limita la banda in download a circa 26 Mbps su una linea da 1 Gbps. Chiedo al NOC di verificare il PPPoE MTU e il MSS clamping sulla mia linea.»</p>
+      </div>
+      <p>Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em></p>
+    </div>
+
+    <div class="fix-card">
+      <div class="fix-num">// FIX 03 — ESCALATION · se TIM fa finta di niente</div>
+      <div class="fix-title">Reclamo AGCOM</div>
+      <p>Se TIM continua a chiudere i ticket come «risolto» senza intervento reale, o a proporre tecnici a pagamento per problemi di rete dell'operatore, aprire un reclamo formale all'<strong>AGCOM</strong> (Autorità per le Garanzie nelle Comunicazioni): <a href="https://www.agcom.it" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">agcom.it</a>.</p>
+      <p>TIM è contrattualmente obbligata a erogare la banda concordata. Un download a 26 Mbps su una linea da 1 Gbps non è un'interpretazione — è un inadempimento contrattuale <strong>misurabile</strong>, <strong>documentabile</strong> e <strong>sanzionabile</strong>. La proposta di far pagare al cliente un tecnico per un bug nella rete dell'operatore è, nel migliore dei casi, un'operazione commerciale di dubbio gusto.</p>
+    </div>
+
+    <!-- SEZIONE 11: COMANDI QUICK REF -->
+    <h2
+      data-it="Comandi di riferimento rapido"
+      data-en="Quick reference commands"
+    >Comandi di riferimento rapido</h2>
+
+    <div class="code-block"><pre><span class="comment"># Verifica MTU path verso un host — se 100% loss, il path MTU è inferiore al payload+28</span>
+ping -c 5 -W 2000 -D -s 1465 185.56.218.1
+
+<span class="comment"># Traceroute completo verso i server GFN</span>
+traceroute -n -q 10 -w 3 185.56.218.1
+
+<span class="comment"># Speed test da terminale (macOS)</span>
+START=$(date +%s%N)
+BYTES=$(curl -s -o /dev/null -w "%{size_download}" "https://speed.cloudflare.com/__down?bytes=50000000")
+END=$(date +%s%N)
+echo "scale=1; $BYTES * 8 / 1000000 / (($END - $START) / 1000000000)" | bc
+
+<span class="comment"># Verifica quale interfaccia gestisce il traffico verso GFN</span>
+route get 185.56.218.1
+
+<span class="comment"># Statistiche errori su entrambe le interfacce (en0 WiFi, en6 USB Ethernet)</span>
+netstat -i | grep -E "en0|en6"
+
+<span class="comment"># Abbassare MTU lato Mac (workaround parziale — non risolve GFN)</span>
+sudo ifconfig en6 mtu 1464
+
+<span class="comment"># Ripristinare MTU standard</span>
+sudo ifconfig en6 mtu 1500</pre></div>
+
+    <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin:2rem 0;line-height:1.9;border-top:1px solid var(--border);padding-top:1.5rem;">
+      // Epilogo: «Stay With Me» di Miki Matsubara in sottofondo. Vent'anni di Vodafone nella vecchia casa. Zero problemi. Zero ticket. Zero proposte di tecnici a pagamento per problemi dell'operatore.<br/>
+      // Sapevo che questo momento sarebbe arrivato — l'unica fibra FTTH disponibile nella nuova casa era TIM. Si accetta il proprio destino. Si apre una VPN. Si scrive un post.<br/>
+      // Il ticket è ancora aperto. La VPN è ancora attiva. TIM non si è ancora fatta viva. Buona continuazione.
+    </p>
+
+  </div><!-- fine article-body -->
+
+  <!--
+    Easter egg #5: sei arrivato fino in fondo al sorgente HTML.
+    Stato attuale del problema (aggiornato):
+      - Ticket TIM: OPEN (formalmente "risolto" 5 volte, riaperto 5 volte)
+      - Rete senza VPN: 26 Mbps download / 910 Mbps upload / 8.8% packet loss
+      - Rete con ProtonVPN WireGuard TCP: 900 Mbps / 0% packet loss
+      - Tecnico a pagamento proposto: 1 (rifiutato)
+      - Interventi reali da parte di TIM: 0
+      - Pazienza residua: in esaurimento ma tecnicamente infinita
+      - Caffè consumati durante la diagnosi: non classificato
+    Fine documento. In bocca al lupo.
+  -->
+
+  <footer class="article-footer">
+    <a href="../"
+       data-it="← Torna agli articoli"
+       data-en="← Back to articles">← Torna agli articoli</a>
+    <div class="footer-copy">© 2026 Paolo Costanzo</div>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+  <script>
+    (function(){
+      function applyLang(lang){
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v !== null) el.innerHTML = v;
+        });
+      }
+      try {
+        var stored = localStorage.getItem('lang');
+        if(stored === 'en') applyLang('en');
+        else applyLang('it');
+      } catch(e) {
+        applyLang('it');
+      }
+    })();
+  </script>
+</body>
+</html>
