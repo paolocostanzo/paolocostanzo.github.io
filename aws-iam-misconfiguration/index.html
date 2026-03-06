@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" id="html-root">
 <head>
   <meta charset="UTF-8"/>
   <!-- Easter egg: se stai leggendo il sorgente, ricorda che la vera vuln è quasi sempre IAM → troppo *Allow* e troppo poco least privilege. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo</title>
   <meta name="description" content="Cosa succede davvero quando le policy IAM sono troppo permissive."/>
@@ -53,6 +53,10 @@
     .article-footer a { font-family: var(--mono); font-size: 0.75rem; color: var(--orange); letter-spacing: 0.1em; transition: opacity 0.2s; }
     .footer-copy { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); opacity: 0.5; }
     @media (max-width: 768px) { h1 { font-size: 2rem; } }
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
   </style>
 </head>
 <body>
@@ -60,6 +64,10 @@
     <div class="header-inner">
       <a class="back-link" href="../">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </header>
   <div class="article-header">
@@ -261,21 +269,23 @@
     <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
   </footer>
   <script>
-    // Riusa lo stesso setLang della homepage se è presente; se no, fallback semplice
     (function(){
-      function applyLang(lang){
+      function setLang(lang){
+        document.getElementById('html-root').lang = lang;
         document.querySelectorAll('[data-it]').forEach(function(el){
           var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
           if(v !== null) el.innerHTML = v;
         });
+        document.querySelectorAll('.lang-btn').forEach(function(b){
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+        });
+        try { localStorage.setItem('lang', lang); } catch(e) {}
       }
+      window.setLang = setLang;
       try {
         var stored = localStorage.getItem('lang');
-        if(stored === 'en') applyLang('en');
-        else applyLang('it');
-      } catch(e) {
-        applyLang('it');
-      }
+        setLang(stored === 'en' ? 'en' : 'it');
+      } catch(e) { setLang('it'); }
     })();
   </script>
 </body>

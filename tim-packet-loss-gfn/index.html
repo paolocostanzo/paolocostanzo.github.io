@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" id="html-root">
 <head>
   <meta charset="UTF-8"/>
   <!-- Easter egg #1: stai leggendo il sorgente.
@@ -77,6 +77,10 @@
     .fix-card p { font-size: 0.9rem; color: #bbb; line-height: 1.8; margin-bottom: 0.75rem; }
     .fix-card p:last-child { margin-bottom: 0; }
     @media (max-width: 768px) { h1 { font-size: 2rem; } table { font-size: 0.7rem; } }
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
   </style>
 </head>
 <body>
@@ -84,6 +88,10 @@
     <div class="header-inner">
       <a class="back-link" href="../">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </header>
 
@@ -157,7 +165,7 @@
     </p>
 
     <div class="callout">
-      <div class="callout-label">// Contesto geopolitico-finanziario (ovvero: di chi è la colpa strutturalmente)</div>
+      <div class="callout-label" data-it="// Contesto geopolitico-finanziario (ovvero: di chi è la colpa strutturalmente)" data-en="// Geopolitical-financial context (i.e., who's structurally at fault)">// Contesto geopolitico-finanziario (ovvero: di chi è la colpa strutturalmente)</div>
       <p
         data-it="Poste Italiane ha acquisito una quota del 25% di TIM diventandone l'azionista di maggioranza e ottenendo di fatto il controllo della società. Un'azienda che consegna pacchi — spesso al vicino sbagliato, spesso con tre giorni di ritardo — ora gestisce l'infrastruttura di telecomunicazioni nazionale. Speriamo che i pacchetti di rete vengano instradati meglio dei pacchi fisici. Spoiler: non è così."
         data-en="Poste Italiane acquired a 25% stake in TIM, becoming its largest shareholder and effectively taking control. A company that delivers parcels — often to the wrong neighbor, often three days late — now manages the national telecommunications infrastructure. Let's hope network packets are routed better than physical ones. Spoiler: they aren't."
@@ -191,14 +199,14 @@
     </p>
 
     <div class="result-card">
-      <div class="result-num">// STATISTICHE DI RETE — ORE IGNOTE DI UN VENERDÌ SERA</div>
-      <div class="result-title">Lo scenario del delitto</div>
+      <div class="result-num" data-it="// STATISTICHE DI RETE — ORE IGNOTE DI UN VENERDÌ SERA" data-en="// NETWORK STATS — UNKNOWN HOURS OF A FRIDAY NIGHT">// STATISTICHE DI RETE — ORE IGNOTE DI UN VENERDÌ SERA</div>
+      <div class="result-title" data-it="Lo scenario del delitto" data-en="The crime scene">Lo scenario del delitto</div>
       <table>
-        <tr><th>Metrica</th><th>Valore</th><th>Status</th></tr>
-        <tr><td>Larghezza di banda</td><td>&gt;100 Mbps</td><td class="ok">✓ OK</td></tr>
-        <tr><td>Latenza</td><td>&lt;20 ms</td><td class="ok">✓ OK</td></tr>
-        <tr><td>Packet Loss</td><td>12.5%</td><td class="danger">✗ CRITICO</td></tr>
-        <tr><td>Connessione</td><td>Cavo Ethernet</td><td class="ok">✓ OK</td></tr>
+        <tr><th data-it="Metrica" data-en="Metric">Metrica</th><th data-it="Valore" data-en="Value">Valore</th><th>Status</th></tr>
+        <tr><td data-it="Larghezza di banda" data-en="Bandwidth">Larghezza di banda</td><td>&gt;100 Mbps</td><td class="ok">✓ OK</td></tr>
+        <tr><td data-it="Latenza" data-en="Latency">Latenza</td><td>&lt;20 ms</td><td class="ok">✓ OK</td></tr>
+        <tr><td>Packet Loss</td><td>12.5%</td><td class="danger" data-it="✗ CRITICO" data-en="✗ CRITICAL">✗ CRITICO</td></tr>
+        <tr><td data-it="Connessione" data-en="Connection">Connessione</td><td data-it="Cavo Ethernet" data-en="Ethernet Cable">Cavo Ethernet</td><td class="ok">✓ OK</td></tr>
       </table>
     </div>
 
@@ -256,7 +264,7 @@
     </p>
 
     <div class="callout">
-      <div class="callout-label">// Nota a margine sul supporto Nvidia USA</div>
+      <div class="callout-label" data-it="// Nota a margine sul supporto Nvidia USA" data-en="// A note on Nvidia USA support">// Nota a margine sul supporto Nvidia USA</div>
       <p
         data-it="L'operatore Nvidia USA mi ha inizialmente risposto pensando che fossi un'altra persona, iniziando a condividere dati sensibili di un altro utente. Ho interrotto subito e segnalato. Questo è un problema serio di gestione delle sessioni di supporto che non dovrebbe accadere, ma è pur sempre un problema umano e non strutturale. Tutto risolto velocemente."
         data-en="The Nvidia USA operator initially replied thinking I was someone else, beginning to share another user's sensitive data. I stopped them immediately and flagged the issue. This is a serious support session management problem that shouldn't happen, but it's still a human error, not a structural one. Resolved quickly."
@@ -301,7 +309,7 @@
     </p>
 
     <div class="callout">
-      <div class="callout-label">// L'apice della trattativa</div>
+      <div class="callout-label" data-it="// L'apice della trattativa" data-en="// The pinnacle of the negotiation">// L'apice della trattativa</div>
       <p
         data-it="Dopo alcune segnalazioni con terminologia non propriamente da convegno accademico, ho ricevuto una telefonata da un tecnico (o presunto tale) che con voce flebile mi chiede: «Non c'è alcun problema, ha provato a riavviare il modem?». Ho risposto di sì, ho elencato tutto quello che avevo fatto. Risposta finale: «Ah ma a noi non risulta nulla». Fine della telefonata."
         data-en="After a few support requests with terminology not exactly suitable for an academic conference, I received a call from a technician (or alleged one) who in a thin voice asks: 'There's no issue, have you tried rebooting the modem?' I said yes, listed everything I'd done. Final answer: 'Ah, we don't see anything on our end'. End of call."
@@ -318,7 +326,7 @@
 
     <!-- EPISODIO: IL TECNICO A PAGAMENTO -->
     <div class="callout-red">
-      <div class="callout-label">// Il colpo di scena: il tecnico a pagamento</div>
+      <div class="callout-label" data-it="// Il colpo di scena: il tecnico a pagamento" data-en="// The plot twist: the paid technician">// Il colpo di scena: il tecnico a pagamento</div>
       <p
         data-it="Ma la cosa più bella — e la uso in senso completamente inverso — viene dopo. Alla fine della stessa telefonata, dopo aver stabilito insieme che il problema esiste (packet loss misurabile, documentato, riproducibile su rete TIM e non su hotspot), il tecnico mi propone la soluzione: mandare un tecnico a casa mia. A pagamento. Io. Che pago già il canone. Per un servizio che non funziona. Devo pagare un'ulteriore prestazione per far venire qualcuno a diagnosticare che il servizio che sto pagando non funziona. Perché il bug è nella rete TIM. Non nel mio impianto. Nella rete TIM. Ovviamente ho declinato."
         data-en="But the best part — and I use 'best' in the most ironic sense possible — comes next. At the end of that same phone call, after we'd established together that the problem exists (measurable, documented, reproducible packet loss on TIM's network but not on hotspot), the technician proposes the solution: send a technician to my home. At my expense. Me. Who already pays the subscription. For a service that doesn't work. I have to pay an additional fee for someone to come diagnose that the service I'm paying for doesn't work. Because the bug is in TIM's network. Not in my home setup. In TIM's network. Obviously I declined."
@@ -421,11 +429,11 @@ ping -c 50 -i 0.2 1.1.1.1
 ping -c 50 -i 0.2 185.56.218.1</pre></div>
 
     <table>
-      <tr><th>Destinazione</th><th>Loss</th><th>RTT medio</th><th>Valutazione</th></tr>
+      <tr><th data-it="Destinazione" data-en="Destination">Destinazione</th><th>Loss</th><th data-it="RTT medio" data-en="Average RTT">RTT medio</th><th data-it="Valutazione" data-en="Assessment">Valutazione</th></tr>
       <tr><td>192.168.1.1 (router)</td><td class="ok">0.0%</td><td>0.8 ms</td><td class="ok">OK</td></tr>
       <tr><td>8.8.8.8 (Google)</td><td class="ok">0.0%</td><td>9.7 ms</td><td class="ok">OK</td></tr>
       <tr><td>1.1.1.1 (Cloudflare)</td><td class="ok">0.0%</td><td>11.8 ms</td><td class="ok">OK</td></tr>
-      <tr><td>185.56.218.1 (GFN EU)</td><td class="ok">0.0%</td><td>62 ms</td><td class="ok">OK (apparentemente)</td></tr>
+      <tr><td>185.56.218.1 (GFN EU)</td><td class="ok">0.0%</td><td>62 ms</td><td class="ok" data-it="OK (apparentemente)" data-en="OK (apparently)">OK (apparentemente)</td></tr>
     </table>
 
     <p
@@ -525,8 +533,11 @@ ping -c 10 -D -s 1400 185.56.218.1
 ping -c 10 -D -s 1472 185.56.218.1</pre></div>
 
     <div class="callout">
-      <div class="callout-label">// Risultato rivelatore</div>
-      <p>
+      <div class="callout-label" data-it="// Risultato rivelatore" data-en="// Revealing result">// Risultato rivelatore</div>
+      <p
+        data-it="Payload 1400B (totale 1428B): <strong style=&quot;color:#00ff88&quot;>0% loss</strong><br/>Payload 1472B (totale 1500B): <strong style=&quot;color:#ff5555&quot;>100% loss</strong><br/><br/>I pacchetti grandi spariscono nel nulla. Senza avviso. Senza errore. Semplicemente: niente."
+        data-en="Payload 1400B (total 1428B): <strong style=&quot;color:#00ff88&quot;>0% loss</strong><br/>Payload 1472B (total 1500B): <strong style=&quot;color:#ff5555&quot;>100% loss</strong><br/><br/>Large packets vanish into the void. No warning. No error. Simply: nothing."
+      >
         Payload 1400B (totale 1428B): <strong style="color:#00ff88">0% loss</strong><br/>
         Payload 1472B (totale 1500B): <strong style="color:#ff5555">100% loss</strong><br/><br/>
         I pacchetti grandi spariscono nel nulla. Senza avviso. Senza errore. Semplicemente: niente.
@@ -546,7 +557,7 @@ for size in 1460 1465 1470 1471 1472; do
 done</pre></div>
 
     <table>
-      <tr><th>Payload</th><th>Totale</th><th>Loss verso GFN</th><th>Loss verso 8.8.8.8</th></tr>
+      <tr><th>Payload</th><th data-it="Totale" data-en="Total">Totale</th><th data-it="Loss verso GFN" data-en="Loss to GFN">Loss verso GFN</th><th data-it="Loss verso 8.8.8.8" data-en="Loss to 8.8.8.8">Loss verso 8.8.8.8</th></tr>
       <tr><td>1460 B</td><td>1488 B</td><td class="ok">0%</td><td class="ok">0%</td></tr>
       <tr><td>1465 B</td><td>1493 B</td><td class="danger">100%</td><td class="danger">100%</td></tr>
       <tr><td>1470 B</td><td>1498 B</td><td class="danger">60%</td><td class="danger">100%</td></tr>
@@ -591,7 +602,7 @@ done</pre></div>
     </p>
 
     <div class="callout">
-      <div class="callout-label">// Impatto nascosto: non è solo GeForce Now</div>
+      <div class="callout-label" data-it="// Impatto nascosto: non è solo GeForce Now" data-en="// Hidden impact: it's not just GeForce Now">// Impatto nascosto: non è solo GeForce Now</div>
       <p
         data-it="Lo stesso meccanismo colpisce tutta la banda in download. I pacchetti TCP da 1500 byte che arrivano da Internet vengono droppati dal router TIM. Il TCP si ingolfa nelle ritrasmissioni. L'upload funziona perché la direzione uscente non subisce lo stesso problema. Risultato: 26 Mbps in download su una linea da 1 Gbps. Ovvero il 2.6% di quanto si sta pagando."
         data-en="The same mechanism affects all download bandwidth. TCP packets from 1500 bytes arriving from the Internet get dropped by the TIM router. TCP floods with retransmissions. Upload works because outbound direction doesn't suffer the same problem. Result: 26 Mbps download on a 1 Gbps line. That's 2.6% of what you're paying for."
@@ -685,10 +696,10 @@ sudo ifconfig en6 mtu 1500</pre></div>
 scutil --nc list</pre></div>
 
     <table>
-      <tr><th>Metrica</th><th>Senza VPN</th><th>Con VPN free</th><th>Con VPN paid (atteso)</th></tr>
-      <tr><td>Bandwidth download</td><td class="danger">&gt;100 Mbps (ma 26 effettivi)</td><td class="danger">~3 Mbps (throttled)</td><td class="ok">~900 Mbps</td></tr>
+      <tr><th data-it="Metrica" data-en="Metric">Metrica</th><th data-it="Senza VPN" data-en="Without VPN">Senza VPN</th><th data-it="Con VPN free" data-en="With free VPN">Con VPN free</th><th data-it="Con VPN paid (atteso)" data-en="With paid VPN (expected)">Con VPN paid (atteso)</th></tr>
+      <tr><td data-it="Bandwidth download" data-en="Download bandwidth">Bandwidth download</td><td class="danger" data-it="&gt;100 Mbps (ma 26 effettivi)" data-en="&gt;100 Mbps (but 26 actual)">&gt;100 Mbps (ma 26 effettivi)</td><td class="danger">~3 Mbps (throttled)</td><td class="ok">~900 Mbps</td></tr>
       <tr><td>Packet loss</td><td class="danger">8.8%</td><td class="ok">0.0% ✓</td><td class="ok">0.0% ✓</td></tr>
-      <tr><td>Latenza</td><td>18 ms</td><td>42 ms</td><td>~25-35 ms</td></tr>
+      <tr><td data-it="Latenza" data-en="Latency">Latenza</td><td>18 ms</td><td>42 ms</td><td>~25-35 ms</td></tr>
     </table>
 
     <!-- SEZIONE 9: SOMMARIO -->
@@ -698,11 +709,11 @@ scutil --nc list</pre></div>
     >Il verdetto tecnico</h2>
 
     <table>
-      <tr><th>Componente</th><th>Stato</th></tr>
-      <tr><td>Hardware Mac</td><td class="ok">✓ OK</td></tr>
-      <tr><td>Cavo/Ethernet USB</td><td class="ok">✓ OK</td></tr>
-      <tr><td>Router TIM (locale)</td><td class="ok">✓ OK (0ms jitter)</td></tr>
-      <tr><td>Fibra fisica TIM</td><td class="ok">✓ OK (910 Mbps upload)</td></tr>
+      <tr><th data-it="Componente" data-en="Component">Componente</th><th data-it="Stato" data-en="Status">Stato</th></tr>
+      <tr><td data-it="Hardware Mac" data-en="Mac hardware">Hardware Mac</td><td class="ok">✓ OK</td></tr>
+      <tr><td data-it="Cavo/Ethernet USB" data-en="USB Ethernet cable">Cavo/Ethernet USB</td><td class="ok">✓ OK</td></tr>
+      <tr><td data-it="Router TIM (locale)" data-en="TIM router (local)">Router TIM (locale)</td><td class="ok">✓ OK (0ms jitter)</td></tr>
+      <tr><td data-it="Fibra fisica TIM" data-en="TIM physical fiber">Fibra fisica TIM</td><td class="ok">✓ OK (910 Mbps upload)</td></tr>
       <tr><td>PPPoE MTU TIM</td><td class="danger">❌ BUG: ICMP Black Hole</td></tr>
       <tr><td>Server GeForce Now</td><td class="ok">✓ OK</td></tr>
     </table>
@@ -725,28 +736,28 @@ scutil --nc list</pre></div>
     >I fix — perché TIM non lo farà al posto tuo</h2>
 
     <div class="fix-card">
-      <div class="fix-num">// FIX 01 — IMMEDIATO · funziona adesso</div>
-      <div class="fix-title">ProtonVPN con WireGuard (TCP)</div>
-      <p>Il fix che funziona subito, senza aspettare TIM e senza sperare in miracoli. Piano consigliato: <strong>Proton Unlimited</strong> (~10€/mese annuale). Protocollo: <strong>WireGuard (TCP)</strong>. Server consigliati: Italia o Germania per latenza minima.</p>
-      <p>Con questo setup: banda piena (~900 Mbps), packet loss 0%, GFN giocabile a qualsiasi qualità. Latenza aggiuntiva: ~10-15 ms. Costo: ~10€/mese. Sì, stai pagando una VPN per usare la connessione da un Gigabit che già paghi. No, non è normale. Sì, è colpa di TIM.</p>
+      <div class="fix-num" data-it="// FIX 01 — IMMEDIATO · funziona adesso" data-en="// FIX 01 — IMMEDIATE · works now">// FIX 01 — IMMEDIATO · funziona adesso</div>
+      <div class="fix-title" data-it="ProtonVPN con WireGuard (TCP)" data-en="ProtonVPN with WireGuard (TCP)">ProtonVPN con WireGuard (TCP)</div>
+      <p data-it="Il fix che funziona subito, senza aspettare TIM e senza sperare in miracoli. Piano consigliato: <strong>Proton Unlimited</strong> (~10€/mese annuale). Protocollo: <strong>WireGuard (TCP)</strong>. Server consigliati: Italia o Germania per latenza minima." data-en="The fix that works immediately, no waiting for TIM, no hoping for miracles. Recommended plan: <strong>Proton Unlimited</strong> (~€10/month annual). Protocol: <strong>WireGuard (TCP)</strong>. Recommended servers: Italy or Germany for minimum latency.">Il fix che funziona subito, senza aspettare TIM e senza sperare in miracoli. Piano consigliato: <strong>Proton Unlimited</strong> (~10€/mese annuale). Protocollo: <strong>WireGuard (TCP)</strong>. Server consigliati: Italia o Germania per latenza minima.</p>
+      <p data-it="Con questo setup: banda piena (~900 Mbps), packet loss 0%, GFN giocabile a qualsiasi qualità. Latenza aggiuntiva: ~10-15 ms. Costo: ~10€/mese. Sì, stai pagando una VPN per usare la connessione da un Gigabit che già paghi. No, non è normale. Sì, è colpa di TIM." data-en="With this setup: full bandwidth (~900 Mbps), 0% packet loss, GFN playable at any quality. Added latency: ~10-15 ms. Cost: ~€10/month. Yes, you're paying for a VPN to use the Gigabit connection you already pay for. No, this isn't normal. Yes, it's TIM's fault.">Con questo setup: banda piena (~900 Mbps), packet loss 0%, GFN giocabile a qualsiasi qualità. Latenza aggiuntiva: ~10-15 ms. Costo: ~10€/mese. Sì, stai pagando una VPN per usare la connessione da un Gigabit che già paghi. No, non è normale. Sì, è colpa di TIM.</p>
     </div>
 
     <div class="fix-card">
-      <div class="fix-num">// FIX 02 — DEFINITIVO · teoricamente · ticket ancora aperto</div>
-      <div class="fix-title">Chiamare TIM — secondo livello, frase tecnica precisa</div>
-      <p>Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:</p>
+      <div class="fix-num" data-it="// FIX 02 — DEFINITIVO · teoricamente · ticket ancora aperto" data-en="// FIX 02 — DEFINITIVE · theoretically · ticket still open">// FIX 02 — DEFINITIVO · teoricamente · ticket ancora aperto</div>
+      <div class="fix-title" data-it="Chiamare TIM — secondo livello, frase tecnica precisa" data-en="Call TIM — second level, exact technical phrase">Chiamare TIM — secondo livello, frase tecnica precisa</div>
+      <p data-it="Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:" data-en="Explicitly request a <strong>second-level</strong> technician. Not first level. Not the chatbot. Not the person who asks if you've rebooted the modem. Second level. If they offer a <strong>paid home visit</strong>: refuse. The problem is in TIM's network, not your home setup. It's not your hardware they should be charging you for. Use exactly this phrase:">Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:</p>
       <div class="callout" style="margin:1rem 0 0.75rem;">
-        <div class="callout-label">// La frase magica da dire a TIM</div>
+        <div class="callout-label" data-it="// La frase magica da dire a TIM" data-en="// The magic phrase to say to TIM">// La frase magica da dire a TIM</div>
         <p>«Ho un problema di ICMP black hole sulla mia connessione FTTH. Il router AGGPON_2024 droppa i pacchetti IP con dimensione superiore a 1492 byte senza inviare messaggi ICMP 'Fragmentation Needed' al mittente. Questo causa perdita di pacchetti su applicazioni che usano UDP con DF bit impostato e limita la banda in download a circa 26 Mbps su una linea da 1 Gbps. Chiedo al NOC di verificare il PPPoE MTU e il MSS clamping sulla mia linea.»</p>
       </div>
-      <p>Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em></p>
+      <p data-it="Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em>" data-en="Attach as evidence: fast.com screenshot (26 Mbps download / 910 Mbps upload), GFN screenshot with 0% loss with VPN and 8.8% without, this article. <em>Warning: my problem is still open. I don't yet have confirmation this procedure works. Updates to follow.</em>">Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em></p>
     </div>
 
     <div class="fix-card">
-      <div class="fix-num">// FIX 03 — ESCALATION · se TIM fa finta di niente</div>
-      <div class="fix-title">Reclamo AGCOM</div>
-      <p>Se TIM continua a chiudere i ticket come «risolto» senza intervento reale, o a proporre tecnici a pagamento per problemi di rete dell'operatore, aprire un reclamo formale all'<strong>AGCOM</strong> (Autorità per le Garanzie nelle Comunicazioni): <a href="https://www.agcom.it" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">agcom.it</a>.</p>
-      <p>TIM è contrattualmente obbligata a erogare la banda concordata. Un download a 26 Mbps su una linea da 1 Gbps non è un'interpretazione — è un inadempimento contrattuale <strong>misurabile</strong>, <strong>documentabile</strong> e <strong>sanzionabile</strong>. La proposta di far pagare al cliente un tecnico per un bug nella rete dell'operatore è, nel migliore dei casi, un'operazione commerciale di dubbio gusto.</p>
+      <div class="fix-num" data-it="// FIX 03 — ESCALATION · se TIM fa finta di niente" data-en="// FIX 03 — ESCALATION · if TIM pretends nothing happened">// FIX 03 — ESCALATION · se TIM fa finta di niente</div>
+      <div class="fix-title" data-it="Reclamo AGCOM" data-en="AGCOM Complaint">Reclamo AGCOM</div>
+      <p data-it="Se TIM continua a chiudere i ticket come «risolto» senza intervento reale, o a proporre tecnici a pagamento per problemi di rete dell'operatore, aprire un reclamo formale all'<strong>AGCOM</strong> (Autorità per le Garanzie nelle Comunicazioni): <a href=&quot;https://www.agcom.it&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;color:var(--orange)&quot;>agcom.it</a>." data-en="If TIM keeps closing tickets as 'resolved' without any real action, or offering paid home visits for operator network issues, file a formal complaint with <strong>AGCOM</strong> (Authority for Communications Guarantees): <a href=&quot;https://www.agcom.it&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;color:var(--orange)&quot;>agcom.it</a>.">Se TIM continua a chiudere i ticket come «risolto» senza intervento reale, o a proporre tecnici a pagamento per problemi di rete dell'operatore, aprire un reclamo formale all'<strong>AGCOM</strong> (Autorità per le Garanzie nelle Comunicazioni): <a href="https://www.agcom.it" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">agcom.it</a>.</p>
+      <p data-it="TIM è contrattualmente obbligata a erogare la banda concordata. Un download a 26 Mbps su una linea da 1 Gbps non è un'interpretazione — è un inadempimento contrattuale <strong>misurabile</strong>, <strong>documentabile</strong> e <strong>sanzionabile</strong>. La proposta di far pagare al cliente un tecnico per un bug nella rete dell'operatore è, nel migliore dei casi, un'operazione commerciale di dubbio gusto." data-en="TIM is contractually required to deliver the agreed bandwidth. A 26 Mbps download on a 1 Gbps line is not an interpretation — it is a <strong>measurable</strong>, <strong>documentable</strong>, and <strong>actionable</strong> breach of contract. Charging the customer for a technician visit to diagnose a bug in the operator's own network is, at best, a commercially questionable practice.">TIM è contrattualmente obbligata a erogare la banda concordata. Un download a 26 Mbps su una linea da 1 Gbps non è un'interpretazione — è un inadempimento contrattuale <strong>misurabile</strong>, <strong>documentabile</strong> e <strong>sanzionabile</strong>. La proposta di far pagare al cliente un tecnico per un bug nella rete dell'operatore è, nel migliore dei casi, un'operazione commerciale di dubbio gusto.</p>
     </div>
 
     <!-- SEZIONE 11: COMANDI QUICK REF -->
@@ -779,7 +790,10 @@ sudo ifconfig en6 mtu 1464
 <span class="comment"># Ripristinare MTU standard</span>
 sudo ifconfig en6 mtu 1500</pre></div>
 
-    <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin:2rem 0;line-height:1.9;border-top:1px solid var(--border);padding-top:1.5rem;">
+    <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin:2rem 0;line-height:1.9;border-top:1px solid var(--border);padding-top:1.5rem;"
+       data-it="// Epilogo: «Stay With Me» di Miki Matsubara in sottofondo. Vent'anni di Vodafone nella vecchia casa. Zero problemi. Zero ticket. Zero proposte di tecnici a pagamento per problemi dell'operatore.<br/>// Sapevo che questo momento sarebbe arrivato — l'unica fibra FTTH disponibile nella nuova casa era TIM. Si accetta il proprio destino. Si apre una VPN. Si scrive un post.<br/>// Il ticket è ancora aperto. La VPN è ancora attiva. TIM non si è ancora fatta viva. Buona continuazione."
+       data-en="// Epilogue: «Stay With Me» by Miki Matsubara playing in the background. Twenty years of Vodafone at the old place. Zero issues. Zero tickets. Zero suggestions to pay for a technician for operator network problems.<br/>// I knew this moment would come — the only FTTH fiber available at the new place was TIM. You accept your fate. You open a VPN. You write a post.<br/>// The ticket is still open. The VPN is still active. TIM hasn't called back. Good luck out there."
+    >
       // Epilogo: «Stay With Me» di Miki Matsubara in sottofondo. Vent'anni di Vodafone nella vecchia casa. Zero problemi. Zero ticket. Zero proposte di tecnici a pagamento per problemi dell'operatore.<br/>
       // Sapevo che questo momento sarebbe arrivato — l'unica fibra FTTH disponibile nella nuova casa era TIM. Si accetta il proprio destino. Si apre una VPN. Si scrive un post.<br/>
       // Il ticket è ancora aperto. La VPN è ancora attiva. TIM non si è ancora fatta viva. Buona continuazione.
@@ -811,19 +825,22 @@ sudo ifconfig en6 mtu 1500</pre></div>
   <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <script>
     (function(){
-      function applyLang(lang){
+      function setLang(lang){
+        document.getElementById('html-root').lang = lang;
         document.querySelectorAll('[data-it]').forEach(function(el){
           var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
           if(v !== null) el.innerHTML = v;
         });
+        document.querySelectorAll('.lang-btn').forEach(function(b){
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+        });
+        try { localStorage.setItem('lang', lang); } catch(e) {}
       }
+      window.setLang = setLang;
       try {
         var stored = localStorage.getItem('lang');
-        if(stored === 'en') applyLang('en');
-        else applyLang('it');
-      } catch(e) {
-        applyLang('it');
-      }
+        setLang(stored === 'en' ? 'en' : 'it');
+      } catch(e) { setLang('it'); }
     })();
   </script>
 </body>
