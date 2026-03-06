@@ -223,20 +223,20 @@
   <div class="articles-list" id="articles-list">
 
     <!-- POST 1 -->
-    <a class="article-card fade-up d2" data-category="cloud" href="aws-iam-misconfiguration/">
+    <a class="article-card fade-up d2" data-category="pentest" href="tim-packet-loss-gfn/">
       <div class="card-meta">
-        <span class="card-tag">Cloud Security</span>
+        <span class="card-tag">Network Security</span>
         <span class="card-date">Mar 2026</span>
       </div>
-      <div class="card-title" data-it="AWS IAM: i 5 errori di configurazione più comuni" data-en="AWS IAM: the 5 most common misconfigurations">
-        AWS IAM: i 5 errori di configurazione più comuni
+      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP Black Hole" data-en="TIM, GeForce Now and the ICMP Black Hole">
+        TIM, GeForce Now e l'ICMP Black Hole
       </div>
-      <p class="card-excerpt" data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi." data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for, and how to close the door before they knock.">
-        Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca, e come chiudere la porta prima che bussi.
+      <p class="card-excerpt" data-it="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps." data-en="How I diagnosed (and worked around) an ICMP Black Hole on TIM that caused packet loss on GeForce Now and capped bandwidth at 26 Mbps on a 1 Gbps line.">
+        Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps.
       </p>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot dot-medium"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
+        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">15 min</span><span class="card-arrow">→</span></div>
       </div>
     </a>
 
@@ -258,23 +258,26 @@
       </div>
     </a>
 
-    <!-- POST 3 -->
-    <a class="article-card fade-up d3" data-category="pentest" href="tim-packet-loss-gfn/">
+    <!-- POST 3 — CLASSIFIED -->
+    <div class="article-card classified-card fade-up d3" data-category="pentest">
       <div class="card-meta">
-        <span class="card-tag">Network Security</span>
-        <span class="card-date">Mar 2026</span>
+        <span class="card-tag" style="color:#ff3333;border-color:#ff3333">[ CLASSIFIED ]</span>
+        <span class="card-date" style="color:#333">???</span>
       </div>
-      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP Black Hole" data-en="TIM, GeForce Now and the ICMP Black Hole">
-        TIM, GeForce Now e l'ICMP Black Hole
+      <div class="card-title" style="opacity:0.25">
+        <span class="redacted">████████████████████████████</span>
       </div>
-      <p class="card-excerpt" data-it="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps." data-en="How I diagnosed (and worked around) an ICMP Black Hole on TIM that caused packet loss on GeForce Now and capped bandwidth at 26 Mbps on a 1 Gbps line.">
-        Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps.
+      <p class="card-excerpt" style="font-family:var(--mono);font-size:0.72rem;line-height:1.8;color:#333">
+        // ACCESS DENIED<br/>
+        // Clearance level: INSUFFICIENT<br/>
+        // Next post loading...<br/>
+        <span style="color:rgba(255,106,0,0.3)">// ETA: soon™</span>
       </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">15 min</span><span class="card-arrow">→</span></div>
+      <div class="card-footer" style="border-top-color:#1a1a1a">
+        <div style="font-family:var(--mono);font-size:0.6rem;color:#2a2a2a;letter-spacing:0.15em">TOP SECRET // NOFORN</div>
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#2a2a2a">🔒</div>
       </div>
-    </a>
+    </div>
 
     <!-- CTF TERMINAL CARD -->
     <div class="article-card ctf-card fade-up d4" onclick="document.getElementById('term-inp').focus()">
