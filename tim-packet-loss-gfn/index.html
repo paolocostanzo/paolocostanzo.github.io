@@ -7,7 +7,7 @@
        La vera CVE qui è CVE-TIM-2026-UFFANCULO (severity: critical, patch: pending da mesi).
        Il ticket è ancora aperto. La rete funziona solo con VPN.
        Benvenuto nel club. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self' https://tenor.com https://g.tenor.com; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TIM, GeForce Now e l'ICMP Black Hole — NonèCostanzo</title>
   <meta name="description" content="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava il 10% di packet loss su GeForce Now, limitava la banda a 26 Mbps su 1 Gbps, e TIM continuava a dirmi che andava tutto bene. Il problema è ancora aperto. Benvenuti in Italia."/>
@@ -41,6 +41,11 @@
     .article-body strong { color: var(--text); font-weight: 600; }
     .article-body ul, .article-body ol { margin: 1rem 0 1.25rem 1.5rem; }
     .article-body li { font-size: 0.95rem; color: #bbb; line-height: 1.8; margin-bottom: 0.4rem; }
+    h2, h3 { clear: both; }
+    .tenor-wrap { float: right; max-width: 360px; margin: 0.5rem 0 1rem 1.5rem; }
+    .tenor-wrap.left { float: left; margin: 0.5rem 1.5rem 1rem 0; }
+    .tenor-wrap .tenor-gif-embed { width: 100% !important; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #0b0b0b; box-shadow: 0 10px 24px rgba(0,0,0,0.35); }
+    .tenor-wrap a { color: var(--muted); font-size: 0.6rem; letter-spacing: 0.04em; }
     .code-block { background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
     .code-block pre { font-family: var(--mono); font-size: 0.78rem; color: var(--orange); line-height: 1.8; white-space: pre; }
     .code-block .comment { color: var(--muted); }
@@ -77,6 +82,7 @@
     .fix-card p { font-size: 0.9rem; color: #bbb; line-height: 1.8; margin-bottom: 0.75rem; }
     .fix-card p:last-child { margin-bottom: 0; }
     @media (max-width: 768px) { h1 { font-size: 2rem; } table { font-size: 0.7rem; } }
+    @media (max-width: 760px) { .tenor-wrap, .tenor-wrap.left { float: none; max-width: 100%; margin: 1rem 0; } }
   </style>
 </head>
 <body>
@@ -179,6 +185,12 @@
       data-en="Friday, February 27, 2026: the ignominy manifests"
     >Venerdì 27 Febbraio 2026: l'ignominia si manifesta</h2>
 
+    <div class="tenor-wrap right">
+      <div class="tenor-gif-embed" data-postid="2025715037318065419" data-share-method="host" data-aspect-ratio="1.76596" data-width="100%">
+        <a href="https://tenor.com/view/aiuto-aldo-giovanni-giacomo-aldo-giovanni-e-giacomo-cos%C3%AC-%C3%A8-la-vita-gif-2025715037318065419">Aiuto Aldo Giovanni Giacomo GIF</a>from <a href="https://tenor.com/search/aiuto-gifs">Aiuto GIFs</a>
+      </div>
+    </div>
+
     <p
       data-it="Stavo per ultimare la mia sessione su ArcRaiders prima del wipe. Chiunque conosca il gaming sa quanto questo momento sia sacro. E allora, come insegna la legge di Murphy — il principio empirico per cui tutto ciò che può andare storto, andrà storto, nel peggior momento possibile — avviene la magia."
       data-en="I was about to finish my ArcRaiders session before the wipe. Anyone who games knows how sacred this moment is. And so, as Murphy's Law teaches us — the empirical principle that anything that can go wrong will go wrong, at the worst possible moment — the magic happens."
@@ -240,6 +252,12 @@
       data-en="Nvidia support: an oasis in the desert"
     >Il supporto Nvidia: un'oasi nel deserto</h2>
 
+    <div class="tenor-wrap left">
+      <div class="tenor-gif-embed" data-postid="19954704" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+        <a href="https://tenor.com/view/niente-di-serio-s%C3%ACma-niente-di-serio-si-s%C3%AC-ma-gif-19954704">Niente Di Serio Sìma Niente Di Serio GIF</a>from <a href="https://tenor.com/search/niente+di+serio-gifs">Niente Di Serio GIFs</a>
+      </div>
+    </div>
+
     <p
       data-it="Ho contattato Nvidia EU per segnalare il problema. Sito Nvidia, assistenza tecnica, chat con operatore. In <strong>due minuti</strong> ero in contatto con una persona in carne e ossa che chattava con me, non con un bot che mi chiedeva se avessi provato a spegnere e riaccendere. Mi fido (fu una pessima scelta, col senno di poi, ma non per colpa di Nvidia). Dopo alcuni giorni, ho contattato anche Nvidia USA, che ha confermato: <strong>zero problemi rilevati lato loro</strong>."
       data-en="I contacted Nvidia EU to report the problem. Nvidia website, technical support, chat with operator. In <strong>two minutes</strong> I was talking to an actual human being, not a bot asking me if I'd tried turning it off and on again. I trusted them (a poor choice in hindsight, but not Nvidia's fault). After a few days, I also contacted Nvidia USA, who confirmed: <strong>zero issues on their end</strong>."
@@ -272,7 +290,7 @@
       Avete presente la chat dove in due minuti entrate in contatto con un operatore umano? Dimenticatela completamente. TIM ha Angie. Angie è un chatbot senza cuore, senza cervello, programmato per non lasciarvi mai arrivare al punto. Ogni risposta apre un menù, ogni menù porta a una soluzione sbagliata, ogni soluzione sbagliata ti riporta all'inizio. È un loop infinito progettato da qualcuno che odia gli esseri umani.
     </p>
 
-    <div style="margin:1.5rem 0;max-width:400px;">
+    <div class="tenor-wrap right">
       <div class="tenor-gif-embed" data-postid="25852049" data-share-method="host" data-aspect-ratio="1.59204" data-width="100%">
         <a href="https://tenor.com/view/tre-uomini-e-una-gamba-aldo-giovanni-e-giacomo-convince-poco-mi-convince-poco-poco-poco-poco-gif-25852049">Tre Uomini E Una Gamba GIF</a>
       </div>
@@ -302,7 +320,7 @@
       </p>
     </div>
 
-    <div style="margin:1.5rem 0;max-width:400px;">
+    <div class="tenor-wrap left">
       <div class="tenor-gif-embed" data-postid="24466450" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
         <a href="https://tenor.com/it/view/giovanni-storti-ma-va-ma-va-là-smettila-finiscila-gif-24466450">Giovanni Storti GIF</a>
       </div>
@@ -319,7 +337,7 @@
         Io. Che pago già il canone mensile. Per un servizio che non funziona. Devo pagare un'ulteriore prestazione per far venire qualcuno a diagnosticare che il servizio che sto pagando non funziona. Perché il bug è nella rete TIM — non nel mio impianto, non nel mio hardware, nella rete TIM. Documentato. Riproducibile. Confermato anche da Nvidia.<br/><br/>
         <strong>Ovviamente ho declinato.</strong> E ho continuato a tenere aperto il ticket.
       </p>
-      <div style="margin:1.25rem 0 0;max-width:400px;">
+      <div class="tenor-wrap right">
         <div class="tenor-gif-embed" data-postid="19514192" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
           <a href="https://tenor.com/it/view/aldo-giovanni-giacomo-aldo-giovanni-e-giacomo-deficiente-gif-19514192">Aldo Giovanni GIF</a>
         </div>
