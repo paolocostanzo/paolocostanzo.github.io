@@ -5,8 +5,16 @@
   <!-- Easter egg: se stai leggendo il sorgente, ricorda che la vera vuln è quasi sempre IAM → troppo *Allow* e troppo poco least privilege. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo</title>
-  <meta name="description" content="Cosa succede davvero quando le policy IAM sono troppo permissive."/>
+  <title
+    data-it="AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo"
+    data-en="AWS IAM: the 5 most common misconfigurations — NonèCostanzo"
+  >AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo</title>
+  <meta
+    name="description"
+    data-it="Cosa succede davvero quando le policy IAM sono troppo permissive."
+    data-en="What really happens when IAM policies are too permissive."
+    content="Cosa succede davvero quando le policy IAM sono troppo permissive."
+  />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
@@ -62,7 +70,7 @@
 <body>
   <header>
     <div class="header-inner">
-      <a class="back-link" href="../">← back</a>
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
         <button class="lang-btn active" onclick="setLang('it')">IT</button>
@@ -270,22 +278,50 @@
   </footer>
   <script>
     (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if(stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try {
+          nav = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if(nav.indexOf('en') === 0) return 'en';
+        if(nav.indexOf('it') === 0) return 'it';
+        return 'it';
+      }
+
       function setLang(lang){
-        document.getElementById('html-root').lang = lang;
+        var next = (lang === 'en') ? 'en' : 'it';
+        var root = document.getElementById('html-root');
+        if(root) root.lang = next;
         document.querySelectorAll('[data-it]').forEach(function(el){
-          var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
-          if(v !== null) el.innerHTML = v;
+          var v = (next === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v === null) return;
+          if(el.tagName === 'META'){
+            el.setAttribute('content', v);
+            return;
+          }
+          if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+            el.setAttribute('placeholder', v);
+            return;
+          }
+          if(el.tagName === 'TITLE'){
+            document.title = v;
+            return;
+          }
+          el.innerHTML = v;
         });
         document.querySelectorAll('.lang-btn').forEach(function(b){
-          b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === next);
         });
-        try { localStorage.setItem('lang', lang); } catch(e) {}
+        try { localStorage.setItem('lang', next); } catch(e) {}
       }
+
       window.setLang = setLang;
-      try {
-        var stored = localStorage.getItem('lang');
-        setLang(stored === 'en' ? 'en' : 'it');
-      } catch(e) { setLang('it'); }
+      setLang(resolveInitialLang());
     })();
   </script>
 </body>

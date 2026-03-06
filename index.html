@@ -5,8 +5,16 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NonèCostanzo — Security Research</title>
-  <meta name="description" content="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."/>
+  <title
+    data-it="NonèCostanzo — Security Research"
+    data-en="NonèCostanzo — Security Research"
+  >NonèCostanzo — Security Research</title>
+  <meta
+    name="description"
+    data-it="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."
+    data-en="Cloud Security, Ethical Hacking, AI Security. Technical write-ups by Paolo Costanzo."
+    content="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."
+  />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
@@ -206,7 +214,7 @@
 <!-- FILTER BAR -->
 <div class="filter-section">
   <div class="filter-left">
-    <span class="filter-label">// Ultimi post:</span>
+    <span class="filter-label" data-it="// Ultimi post:" data-en="// Latest posts:">// Ultimi post:</span>
     <div class="filters">
       <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
       <button class="filter-btn" onclick="filterPosts('cloud',this)">Cloud</button>
@@ -285,18 +293,20 @@
         <span class="term-dot" style="background:#ff5f57"></span>
         <span class="term-dot" style="background:#febc2e"></span>
         <span class="term-dot" style="background:#28c840"></span>
-        <span class="term-titlebar-label">guest@nonè:~/ctf — bash</span>
+        <span class="term-titlebar-label" data-it="guest@nonè:~/ctf — bash" data-en="guest@nonè:~/ctf — bash">guest@nonè:~/ctf — bash</span>
         <span class="term-score" id="term-score">🏴 0/5</span>
       </div>
       <div class="term-body">
-        <div class="term-out" id="term-out"><span class="to">// CTF CHALLENGE — 5 flag da trovare</span>
-<span class="tm">Digita <span class="to">help</span> per iniziare.</span>
+        <div class="term-out" id="term-out"><span class="to" data-it="// CTF CHALLENGE — 5 flag da trovare" data-en="// CTF CHALLENGE — find 5 flags">// CTF CHALLENGE — 5 flag da trovare</span>
+<span class="tm" data-it="Digita <span class=&quot;to&quot;>help</span> per iniziare." data-en="Type <span class=&quot;to&quot;>help</span> to begin.">Digita <span class="to">help</span> per iniziare.</span>
 </div>
         <div class="term-prompt-row">
           <span class="term-ps1">guest@nonè:~$</span>
           <input type="text" class="term-inp" id="term-inp"
                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                 placeholder="type a command..."/>
+                 data-placeholder-it="digita un comando..."
+                 data-placeholder-en="type a command..."
+                 placeholder="digita un comando..."/>
         </div>
       </div>
     </div>
@@ -348,168 +358,331 @@
 
 <script>
 /* ── TYPEWRITER LOGO ── */
-const LOGO_SEQ=[{t:'nonè',c:'#e8e8e8'},{t:'@',c:'#444'},{t:'costanzo',c:'#ff6a00'},{t:':~$',c:'#444'}];
-const TOTAL=LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
-let idx=0;
-function renderLogo(n){let h='',cnt=0;for(const p of LOGO_SEQ){for(const ch of[...p.t]){if(cnt>=n)break;const e=ch==='è'?'&egrave;':ch==='$'?'&#36;':ch;h+=`<span style="color:${p.c}">${e}</span>`;cnt++;}if(cnt>=n)break;}const c=cnt<TOTAL?`<span style="color:#ff6a00">_</span>`:`<span class="cursor">_</span>`;return h+c;}
-function typeStep(){idx++;const h=renderLogo(idx);const l=document.getElementById('logo');const f=document.getElementById('footer-logo');if(l)l.innerHTML=h;if(f)f.innerHTML=h;if(idx<TOTAL)setTimeout(typeStep,50+Math.random()*50);}
+const LOGO_SEQ = [{t:'nonè',c:'#e8e8e8'},{t:'@',c:'#444'},{t:'costanzo',c:'#ff6a00'},{t:':~$',c:'#444'}];
+const TOTAL = LOGO_SEQ.reduce((a,p)=>a+p.t.length,0);
+let idx = 0;
+function renderLogo(n){
+  let h = '';
+  let cnt = 0;
+  for(const p of LOGO_SEQ){
+    for(const ch of [...p.t]){
+      if(cnt>=n) break;
+      const e = ch==='è' ? '&egrave;' : ch==='$' ? '&#36;' : ch;
+      h += `<span style="color:${p.c}">${e}</span>`;
+      cnt++;
+    }
+    if(cnt>=n) break;
+  }
+  const c = cnt<TOTAL ? `<span style="color:#ff6a00">_</span>` : `<span class="cursor">_</span>`;
+  return h+c;
+}
+function typeStep(){
+  idx++;
+  const h = renderLogo(idx);
+  const l = document.getElementById('logo');
+  const f = document.getElementById('footer-logo');
+  if(l) l.innerHTML = h;
+  if(f) f.innerHTML = h;
+  if(idx<TOTAL) setTimeout(typeStep,50+Math.random()*50);
+}
 
 /* ── LANGUAGE ── */
-let currentLang='it';
-function setLang(lang){currentLang=lang;document.getElementById('html-root').lang=lang;document.querySelectorAll('[data-it]').forEach(el=>{const v=lang==='en'?el.dataset.en:el.dataset.it;if(v!==undefined)el.innerHTML=v;});document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===lang));try{localStorage.setItem('lang',lang);}catch(e){}}
+let currentLang = 'it';
+function resolveInitialLang(){
+  try{
+    const stored = localStorage.getItem('lang');
+    if(stored === 'it' || stored === 'en') return stored;
+  } catch(e) {}
+  let nav = '';
+  try {
+    nav = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  } catch(e) {}
+  nav = String(nav).toLowerCase();
+  if(nav.indexOf('en') === 0) return 'en';
+  if(nav.indexOf('it') === 0) return 'it';
+  return 'it';
+}
+function setLang(lang){
+  currentLang = (lang === 'en') ? 'en' : 'it';
+  const root = document.getElementById('html-root');
+  if(root) root.lang = currentLang;
+
+  document.querySelectorAll('[data-it]').forEach(el=>{
+    const v = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-it');
+    if(v === null) return;
+    if(el.tagName === 'META'){
+      el.setAttribute('content', v);
+      return;
+    }
+    if(el.tagName === 'TITLE'){
+      document.title = v;
+      return;
+    }
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+      el.setAttribute('placeholder', v);
+      return;
+    }
+    el.innerHTML = v;
+  });
+
+  document.querySelectorAll('[data-placeholder-it]').forEach(el=>{
+    const p = currentLang === 'en' ? el.getAttribute('data-placeholder-en') : el.getAttribute('data-placeholder-it');
+    if(p !== null) el.setAttribute('placeholder', p);
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === currentLang);
+  });
+  try { localStorage.setItem('lang', currentLang); } catch(e) {}
+}
+window.setLang = setLang;
 
 /* ── MOBILE MENU ── */
-function toggleMob(){const b=document.getElementById('burger');const o=document.getElementById('mob-overlay');b.classList.toggle('open');o.classList.toggle('open');document.body.style.overflow=o.classList.contains('open')?'hidden':'';}
-function closeMob(){document.getElementById('burger').classList.remove('open');document.getElementById('mob-overlay').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('mob-overlay').addEventListener('click',function(e){if(e.target===this)closeMob();});
+function toggleMob(){
+  const b = document.getElementById('burger');
+  const o = document.getElementById('mob-overlay');
+  b.classList.toggle('open');
+  o.classList.toggle('open');
+  document.body.style.overflow = o.classList.contains('open') ? 'hidden' : '';
+}
+function closeMob(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('mob-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeMob();
+});
 
 /* ── FILTER ── */
-function filterPosts(cat,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.article-card[data-category]').forEach(c=>{c.style.display=(cat==='all'||c.dataset.category===cat)?'':'none';});}
+function filterPosts(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-card[data-category]').forEach(c=>{
+    c.style.display = (cat==='all'||c.dataset.category===cat)?'':'none';
+  });
+}
 
 /* ── INTERSECTION OBSERVER ── */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running';});},{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='paused';obs.observe(el);});
+const obs = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting) e.target.style.animationPlayState='running'; });
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>{
+  el.style.animationPlayState='paused';
+  obs.observe(el);
+});
 
 /* ── CTF TERMINAL ── */
 (function(){
-  const flag4b64 = 'RkxBR3tkM2MwZDNfbTRzdDNyfQ=='; // base64("FLAG{d3c0d3_m4st3r}")
+  const flag4b64 = 'RkxBR3tkM2MwZDNfbTRzdDNyfQ==';
+  const FLAG_BY_NUM = {
+    1: atob('RkxBR3t3aDBhbTFfbjBuM19jMHN0NHp6MH0='),
+    2: atob('RkxBR3toMWRkM25fdjR1bHR9'),
+    3: atob('RkxBR3tuNG1wXzEzMzd9'),
+    4: atob('RkxBR3tkM2MwZDNfbTRzdDNyfQ=='),
+    5: atob('RkxBR3t2MTN3X3MwM3VyY2VfbTRzdDNyfQ=='),
+  };
+  const ALL_FLAGS = Object.keys(FLAG_BY_NUM).reduce((acc,n)=>{
+    acc[FLAG_BY_NUM[n]] = Number(n);
+    return acc;
+  },{});
 
-  const ALL_FLAGS = {
-    [atob('RkxBR3t3aDBhbTFfbjBuM19jMHN0NHp6MH0=')]: 1, // FLAG{wh0am1_n0n3_c0st4nz0}
-    [atob('RkxBR3toMWRkM25fdjR1bHR9')]:         2, // FLAG{h1dd3n_v4ult}
-    [atob('RkxBR3tuNG1wXzEzMzd9')]:            3, // FLAG{n4mp_1337}
-    [atob('RkxBR3tkM2MwZDNfbTRzdDNyfQ==')]:        4, // FLAG{d3c0ZDNfbTRzdDNy}→d3c0d3_m4st3r
-    [atob('RkxBR3t2MTN3X3MwM3VyY2VfbTRzdDNyfQ==')]:   5, // FLAG{v13w_s03urce_m4st3r}
+  const CMD_ALIASES = {
+    help:'help', aiuto:'help',
+    whoami:'whoami', chi:'whoami', chisono:'whoami',
+    ls:'ls', lista:'ls',
+    cat:'cat', leggi:'cat',
+    nmap:'nmap', scansione:'nmap', scan:'nmap',
+    challenges:'challenges', sfide:'challenges',
+    hint:'hint', indizio:'hint',
+    submit:'submit', invia:'submit',
+    score:'score', punteggio:'score',
+    clear:'clear', pulisci:'clear',
+    sudo:'sudo',
+    pwd:'pwd', percorso:'pwd',
+    uname:'uname', sistema:'uname',
+    id:'id', identita:'id',
+    exit:'exit', esci:'exit',
   };
 
+  const I18N = {
+    it: {
+      help: ()=>`<span class="to">// CTF CHALLENGE — 5 flag da trovare</span>\n<span class="tm">Comandi disponibili:</span>\n<span class="to">whoami</span> | <span class="to">chi</span>        — chi sei?\n<span class="to">ls</span> [-a] | <span class="to">lista</span>        — lista file\n<span class="to">cat</span> &lt;file&gt; | <span class="to">leggi</span> — leggi file\n<span class="to">nmap</span> | <span class="to">scansione</span>     — scansione locale\n<span class="to">challenges</span> | <span class="to">sfide</span> — lista sfide CTF\n<span class="to">hint</span> &lt;n&gt; | <span class="to">indizio</span> — indizio sfida n\n<span class="to">submit</span> &lt;FLAG&gt; | <span class="to">invia</span> &lt;FLAG&gt;\n<span class="to">score</span> | <span class="to">punteggio</span>    — stato punteggio\n<span class="to">clear</span> | <span class="to">pulisci</span>      — pulisci terminale`,
+      whoamiFound: f=>`<span class="tg">guest</span>\n<span class="tm">uid=1337(guest) gid=1337(guest)</span>\n<span class="to">${f}</span>\n<span class="tg">🏴 Hai trovato la FLAG #1 — usa <span class="to">submit</span> o <span class="to">invia</span> per registrarla!</span>`,
+      readme: `<span class="tm">Benvenuto nel CTF.\nCerca le 5 flag nascoste nel sistema.\nHint: prova ls -a</span>`,
+      notes: `<span class="tm">TODO: rimuovere .vault prima del deploy...\nTODO: aggiornare password di root\nTODO: non lasciare flag nell'HTML sorgente</span>`,
+      nmapFooter: `<span class="tm">// Conosci ROT13? Ogni lettera +13</span>`,
+      challenges: b64=>`<span class="to">CTF Challenges — nonèCostanzo</span>\n<span class="tm">────────────────────────────────</span>\n<span class="tg">#1</span> <span class="tm">Chi sei? → <span class="to">whoami</span>/<span class="to">chi</span></span>\n<span class="tg">#2</span> <span class="tm">File nascosti → <span class="to">ls -a</span></span>\n<span class="tg">#3</span> <span class="tm">Cifra classica → porta 1337</span>\n<span class="tg">#4</span> <span class="tm">Decode base64:</span>\n   <span class="to">${b64}</span>\n<span class="tg">#5</span> <span class="tm">view-source:... (cerca nei commenti)</span>`,
+      hints: {
+        1:`<span class="tm">Prova il comando <span class="to">whoami</span> (o <span class="to">chi</span>)</span>`,
+        2:`<span class="tm">In Linux i file nascosti iniziano con <span class="to">.</span>\nProva: <span class="to">ls -a</span> poi <span class="to">cat .vault</span></span>`,
+        3:`<span class="tm">ROT13: ogni lettera avanza di 13 posizioni.\n<span class="to">S→F, Y→L, N→A, T→G</span>... decifra il banner della porta 1337.</span>`,
+        4:`<span class="tm">Base64 si decodifica ovunque — browser console:\n<span class="to">atob("${b64}")</span></span>`,
+        5:`<span class="tm">Apri il sorgente della pagina.\n<span class="to">Ctrl+U</span> o <span class="to">view-source:paolocostanzo.github.io</span>\nCerca nei commenti HTML.</span>`,
+      },
+      hintMissing: n=>`<span class="tr">hint: sfida ${n} non esiste (1-5)</span>`,
+      invalidFlag: `<span class="tr">✗ Flag non valida. Riprova.</span>`,
+      alreadyFlag: n=>`<span class="tm">Flag #${n} già acquisita.</span>`,
+      flagOk: (n,pts)=>`<span class="tg">✓ FLAG #${n} VALIDA! +${pts} pts</span>`,
+      complete: `\n<span class="tg">🏆 PWNED COMPLETE — Sei un vero hacker!</span>`,
+      score: (count,pts)=>`<span class="to">Punteggio: ${count}/5 flag — ${pts} pts</span>${count===5?'\n<span class="tg">🏆 PWNED</span>':'\n<span class="tm">'+(5-count)+' flag rimanenti</span>'}`,
+      sudo: `<span class="tm">Bel tentativo.</span><br/><span class="tm">sudo su paolo</span><br/><span class="to">// Accesso negato. L'unico root qui è IAM mal configurato.</span>`,
+      exit: `<span class="tm">Nessuna uscita. Questo e' il terminale.</span>`,
+      notFound: b=>`<span class="tr">-bash: ${b}: comando non trovato</span>`,
+    },
+    en: {
+      help: ()=>`<span class="to">// CTF CHALLENGE — find 5 flags</span>\n<span class="tm">Available commands:</span>\n<span class="to">whoami</span> | <span class="to">chi</span>        — who are you?\n<span class="to">ls</span> [-a] | <span class="to">lista</span>        — list files\n<span class="to">cat</span> &lt;file&gt; | <span class="to">leggi</span> — read file\n<span class="to">nmap</span> | <span class="to">scansione</span>     — local scan\n<span class="to">challenges</span> | <span class="to">sfide</span> — CTF challenge list\n<span class="to">hint</span> &lt;n&gt; | <span class="to">indizio</span> — hint for challenge n\n<span class="to">submit</span> &lt;FLAG&gt; | <span class="to">invia</span> &lt;FLAG&gt;\n<span class="to">score</span> | <span class="to">punteggio</span>    — score status\n<span class="to">clear</span> | <span class="to">pulisci</span>      — clear terminal`,
+      whoamiFound: f=>`<span class="tg">guest</span>\n<span class="tm">uid=1337(guest) gid=1337(guest)</span>\n<span class="to">${f}</span>\n<span class="tg">🏴 You found FLAG #1 — use <span class="to">submit</span> or <span class="to">invia</span> to register it!</span>`,
+      readme: `<span class="tm">Welcome to the CTF.\nFind the 5 hidden flags in the system.\nHint: try ls -a</span>`,
+      notes: `<span class="tm">TODO: remove .vault before deploy...\nTODO: rotate root password\nTODO: do not leave flags in HTML source</span>`,
+      nmapFooter: `<span class="tm">// Know ROT13? Shift every letter by +13</span>`,
+      challenges: b64=>`<span class="to">CTF Challenges — nonèCostanzo</span>\n<span class="tm">────────────────────────────────</span>\n<span class="tg">#1</span> <span class="tm">Who are you? → <span class="to">whoami</span>/<span class="to">chi</span></span>\n<span class="tg">#2</span> <span class="tm">Hidden files → <span class="to">ls -a</span></span>\n<span class="tg">#3</span> <span class="tm">Classic cipher → port 1337</span>\n<span class="tg">#4</span> <span class="tm">Decode base64:</span>\n   <span class="to">${b64}</span>\n<span class="tg">#5</span> <span class="tm">view-source:... (look in comments)</span>`,
+      hints: {
+        1:`<span class="tm">Try <span class="to">whoami</span> (or <span class="to">chi</span>)</span>`,
+        2:`<span class="tm">In Linux, hidden files start with <span class="to">.</span>\nTry: <span class="to">ls -a</span> then <span class="to">cat .vault</span></span>`,
+        3:`<span class="tm">ROT13: shift each letter by 13 positions.\n<span class="to">S→F, Y→L, N→A, T→G</span>... decode the port 1337 banner.</span>`,
+        4:`<span class="tm">You can decode base64 anywhere — browser console:\n<span class="to">atob("${b64}")</span></span>`,
+        5:`<span class="tm">Open the page source.\n<span class="to">Ctrl+U</span> or <span class="to">view-source:paolocostanzo.github.io</span>\nLook in HTML comments.</span>`,
+      },
+      hintMissing: n=>`<span class="tr">hint: challenge ${n} does not exist (1-5)</span>`,
+      invalidFlag: `<span class="tr">✗ Invalid flag. Try again.</span>`,
+      alreadyFlag: n=>`<span class="tm">Flag #${n} already captured.</span>`,
+      flagOk: (n,pts)=>`<span class="tg">✓ FLAG #${n} VALID! +${pts} pts</span>`,
+      complete: `\n<span class="tg">🏆 PWNED COMPLETE — You are a real hacker!</span>`,
+      score: (count,pts)=>`<span class="to">Score: ${count}/5 flags — ${pts} pts</span>${count===5?'\n<span class="tg">🏆 PWNED</span>':'\n<span class="tm">'+(5-count)+' flags remaining</span>'}`,
+      sudo: `<span class="tm">Nice try.</span><br/><span class="tm">sudo su paolo</span><br/><span class="to">// Access denied. The only root here is misconfigured IAM.</span>`,
+      exit: `<span class="tm">No exit. This is the terminal.</span>`,
+      notFound: b=>`<span class="tr">-bash: ${b}: command not found</span>`,
+    }
+  };
+
+  function t(){ return currentLang === 'en' ? I18N.en : I18N.it; }
+  function canonicalCommand(token){ return CMD_ALIASES[token] || token; }
+  function normalizeFlag(raw){
+    const value = (raw || '').trim();
+    let m = value.match(/^BANDIERA\{(.+)\}$/i);
+    if(m) return `FLAG{${m[1]}}`;
+    m = value.match(/^FLAG\{(.+)\}$/i);
+    if(m) return `FLAG{${m[1]}}`;
+    return value;
+  }
+
   let found = new Set();
-  try{ found = new Set(JSON.parse(localStorage.getItem('ctf_nc_flags')||'[]')); }catch(e){}
+  try{ found = new Set(JSON.parse(localStorage.getItem('ctf_nc_flags') || '[]')); } catch(e) {}
 
-  function saveFound(){ try{localStorage.setItem('ctf_nc_flags',JSON.stringify([...found]));}catch(e){} }
-
+  function saveFound(){ try{ localStorage.setItem('ctf_nc_flags', JSON.stringify([...found])); } catch(e) {} }
   function updateScore(){
     const el = document.getElementById('term-score');
-    if(el) el.textContent = '🏴 '+found.size+'/5';
+    if(el) el.textContent = '🏴 ' + found.size + '/5';
   }
   updateScore();
 
   function out(html){
     const el = document.getElementById('term-out');
     if(!el) return;
-    // Sostituisci gli \n con <br> così l'output non resta tutto su una riga
-    el.innerHTML += html.replace(/\n/g, '<br/>') + '<br/>';
+    el.innerHTML += html.replace(/\n/g,'<br/>') + '<br/>';
     el.scrollTop = el.scrollHeight;
   }
 
   const CMDS = {
-    help: ()=>`<span class="to">// CTF CHALLENGE — 5 flag da trovare</span>\n<span class="tm">Comandi disponibili:</span>\n<span class="to">whoami</span>        — chi sei?\n<span class="to">ls</span> [-a]       — lista file\n<span class="to">cat</span> &lt;file&gt;  — leggi file\n<span class="to">nmap</span>          — scansione locale\n<span class="to">challenges</span>    — lista sfide CTF\n<span class="to">hint</span> &lt;n&gt;     — indizio per sfida n\n<span class="to">submit</span> &lt;FLAG&gt; — invia flag\n<span class="to">score</span>         — punteggio\n<span class="to">clear</span>         — pulisci terminale`,
-
+    help: ()=>t().help(),
     whoami: ()=>{
-      const f='FLAG{wh0am1_n0n3_c0st4nz0}';
-      return `<span class="tg">guest</span>\n<span class="tm">uid=1337(guest) gid=1337(guest)</span>\n<span class="to">${f}</span>\n<span class="tg">🏴 Hai trovato la FLAG #1 — usa <span class="to">submit</span> per registrarla!</span>`;
+      const f = FLAG_BY_NUM[1];
+      return t().whoamiFound(f);
     },
-
     ls: (a)=>{
-      if(/\-a/.test(a)||/\-l/.test(a)){
+      if(/\-a/.test(a) || /\-l/.test(a)){
         return `<span class="tm">total 20</span>\ndrwxr-xr-x  <span class="tg">.</span>\ndrwxr-xr-x  <span class="tg">..</span>\n-rw-r--r--  <span class="tm">.bash_history</span>\n-rw-------  <span class="to">.vault</span>\n-rw-r--r--  readme.md\n-rw-r--r--  notes.txt`;
       }
       return `readme.md  notes.txt`;
     },
-
     cat: (a)=>{
-      const f=a.trim();
-      if(f==='.vault'){
-        return `<span class="tm">--- .vault ---</span>\n<span class="to">FLAG{h1dd3n_v4ult}</span>\n<span class="tg">🏴 FLAG #2 trovata!</span>`;
-      }
-      if(f==='readme.md') return `<span class="tm">Benvenuto nel CTF.\nCerca le 5 flag nascoste nel sistema.\nHint: prova ls -a</span>`;
-      if(f==='notes.txt') return `<span class="tm">TODO: rimuovere .vault prima del deploy...\nTODO: aggiornare password di root\nTODO: non lasciare flag nell'HTML sorgente</span>`;
-      if(f==='.bash_history') return `<span class="tm">ls -la\nnmap localhost\nsudo su\ncat .vault\nexit</span>`;
+      const f = (a || '').trim();
+      if(f === '.vault') return `<span class="tm">--- .vault ---</span>\n<span class="to">${FLAG_BY_NUM[2]}</span>\n<span class="tg">🏴 ${currentLang==='en'?'FLAG #2 found!':'FLAG #2 trovata!'}</span>`;
+      if(f === 'readme.md') return t().readme;
+      if(f === 'notes.txt') return t().notes;
+      if(f === '.bash_history') return `<span class="tm">ls -la\nnmap localhost\nsudo su\ncat .vault\nexit</span>`;
       return `<span class="tr">cat: ${f}: No such file or directory</span>`;
     },
-
-    nmap: ()=>`<span class="tm">Starting Nmap 7.94 scan...</span>\n<span class="tm">Host: localhost (127.0.0.1) is up</span>\n<span class="tm">─────────────────────────────</span>\n<span class="tm">PORT     STATE  SERVICE</span>\n<span class="tm">22/tcp   open   ssh</span>\n<span class="tm">80/tcp   open   http</span>\n<span class="to">1337/tcp open   ???</span>\n<span class="tm">│ Banner: <span class="to">Synt{a4zc_1337}</span></span>\n<span class="tm">─────────────────────────────</span>\n<span class="tm">// Conosci ROT13? Ogni lettera +13</span>`,
-
-    challenges: ()=>`<span class="to">CTF Challenges — nonèCostanzo</span>\n<span class="tm">────────────────────────────────</span>\n<span class="tg">#1</span> <span class="tm">Chi sei? → <span class="to">whoami</span></span>\n<span class="tg">#2</span> <span class="tm">File nascosti → <span class="to">ls -a</span></span>\n<span class="tg">#3</span> <span class="tm">Cifra classica → porta 1337</span>\n<span class="tg">#4</span> <span class="tm">Decode base64:</span>\n   <span class="to">${flag4b64}</span>\n<span class="tg">#5</span> <span class="tm">view-source:... (cerca nei commenti)</span>`,
-
+    nmap: ()=>`<span class="tm">Starting Nmap 7.94 scan...</span>\n<span class="tm">Host: localhost (127.0.0.1) is up</span>\n<span class="tm">─────────────────────────────</span>\n<span class="tm">PORT     STATE  SERVICE</span>\n<span class="tm">22/tcp   open   ssh</span>\n<span class="tm">80/tcp   open   http</span>\n<span class="to">1337/tcp open   ???</span>\n<span class="tm">│ Banner: <span class="to">Synt{a4zc_1337}</span></span>\n<span class="tm">─────────────────────────────</span>\n${t().nmapFooter}`,
+    challenges: ()=>t().challenges(flag4b64),
     hint: (a)=>{
-      const n=parseInt(a.trim());
-      const H={
-        1:`<span class="tm">Prova il comando <span class="to">whoami</span></span>`,
-        2:`<span class="tm">In Linux i file nascosti iniziano con <span class="to">.</span>\nProva: <span class="to">ls -a</span> poi <span class="to">cat .vault</span></span>`,
-        3:`<span class="tm">ROT13: ogni lettera avanza di 13 posizioni.\n<span class="to">S→F, Y→L, N→A, T→G</span>... decifra il banner della porta 1337.</span>`,
-        4:`<span class="tm">Base64 si decodifica ovunque — browser console:\n<span class="to">atob("${flag4b64}")</span></span>`,
-        5:`<span class="tm">Apri il sorgente della pagina.\n<span class="to">Ctrl+U</span> oppure <span class="to">view-source:paolocostanzo.github.io</span>\nCerca nei commenti HTML.</span>`,
-      };
-      return H[n]||`<span class="tr">hint: sfida ${n} non esiste (1-5)</span>`;
+      const n = parseInt((a || '').trim(), 10);
+      return t().hints[n] || t().hintMissing(isNaN(n) ? '?' : n);
     },
-
     submit: (a)=>{
-      const flag=a.trim();
-      const num=ALL_FLAGS[flag];
-      if(!num) return `<span class="tr">✗ Flag non valida. Riprova.</span>`;
-      if(found.has(String(num))) return `<span class="tm">Flag #${num} già acquisita.</span>`;
+      const flag = normalizeFlag(a);
+      const num = ALL_FLAGS[flag];
+      if(!num) return t().invalidFlag;
+      if(found.has(String(num))) return t().alreadyFlag(num);
       found.add(String(num));
       saveFound();
       updateScore();
       let bonus = '';
-      if(found.size===5){
-        bonus = '\n<span class="tg">🏆 PWNED COMPLETE — Sei un vero hacker!</span>';
+      if(found.size === 5){
+        bonus = t().complete;
         try {
-          if(document && typeof document.title === 'string'){
-            document.title = document.title.replace('NonèCostanzo', 'NonèPwned');
-          }
+          document.title = document.title.replace('NonèCostanzo', 'NonèPwned');
         } catch(e) {}
       }
-      return `<span class="tg">✓ FLAG #${num} VALIDA! +${num*200} pts</span>${bonus}`;
+      return t().flagOk(num, num*200) + bonus;
     },
-
     score: ()=>{
-      const pts=[...found].reduce((s,n)=>s+parseInt(n)*200,0);
-      return `<span class="to">Score: ${found.size}/5 flag — ${pts} pts</span>${found.size===5?'\n<span class="tg">🏆 PWNED</span>':'\n<span class="tm">'+(5-found.size)+' flag rimanenti</span>'}`;
+      const pts = [...found].reduce((s,n)=>s+parseInt(n,10)*200,0);
+      return t().score(found.size, pts);
     },
-
-    clear: ()=>{ document.getElementById('term-out').innerHTML=''; return null; },
-    sudo:  ()=>`<span class="tm">Nice try.</span><br/><span class="tm">sudo su paolo</span><br/><span class="to">// Accesso negato. L'unico root qui è IAM mal configurato.</span>`,
-
-    pwd:   ()=>`/home/guest/ctf`,
+    clear: ()=>{
+      const el = document.getElementById('term-out');
+      if(el) el.innerHTML = '';
+      return null;
+    },
+    sudo: ()=>t().sudo,
+    pwd: ()=>`/home/guest/ctf`,
     uname: ()=>`Linux nonè-costanzo 6.1.0-security #1 SMP`,
-    id:    ()=>`uid=1337(guest) gid=1337(guest) groups=1337(guest)`,
-    exit:  ()=>`<span class="tm">No exit. This is the terminal.</span>`,
+    id: ()=>`uid=1337(guest) gid=1337(guest) groups=1337(guest)`,
+    exit: ()=>t().exit,
   };
 
-  let history=[],histIdx=-1;
+  let history = [];
+  let histIdx = -1;
 
   document.addEventListener('DOMContentLoaded',()=>{
-    const inp=document.getElementById('term-inp');
-    if(!inp) return;
+    const inp = document.getElementById('term-inp');
+    const outEl = document.getElementById('term-out');
+    if(!inp || !outEl) return;
+
     inp.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){
-        const raw=inp.value.trim();
-        inp.value='';
+      if(e.key === 'Enter'){
+        const raw = inp.value.trim();
+        inp.value = '';
         if(!raw) return;
         history.unshift(raw);
-        histIdx=-1;
+        histIdx = -1;
+        outEl.dataset.touched = '1';
         out(`<span class="to">guest@nonè:~$</span> ${raw.replace(/</g,'&lt;')}`);
-        const parts=raw.split(/\s+/);
-        const base=parts[0].toLowerCase();
-        const args=parts.slice(1).join(' ');
-        if(base==='submit'){
-          const r=CMDS.submit(raw.slice(7));
-          if(r!==null) out(r);
+
+        const parts = raw.split(/\s+/);
+        const typedBase = (parts[0] || '').toLowerCase();
+        const base = canonicalCommand(typedBase);
+        const args = parts.slice(1).join(' ');
+
+        if(base === 'submit'){
+          const r = CMDS.submit(args);
+          if(r !== null) out(r);
         } else if(CMDS[base]){
-          const r=CMDS[base](args);
-          if(r!==null) out(r);
+          const r = CMDS[base](args);
+          if(r !== null) out(r);
         } else {
-          out(`<span class="tr">-bash: ${base}: command not found</span>`);
+          out(t().notFound(typedBase));
         }
-      } else if(e.key==='ArrowUp'){
+      } else if(e.key === 'ArrowUp'){
         e.preventDefault();
-        histIdx=Math.min(histIdx+1,history.length-1);
-        if(history[histIdx]!==undefined) inp.value=history[histIdx];
-      } else if(e.key==='ArrowDown'){
+        histIdx = Math.min(histIdx + 1, history.length - 1);
+        if(history[histIdx] !== undefined) inp.value = history[histIdx];
+      } else if(e.key === 'ArrowDown'){
         e.preventDefault();
-        histIdx=Math.max(histIdx-1,-1);
-        inp.value=histIdx===-1?'':history[histIdx]||'';
+        histIdx = Math.max(histIdx - 1, -1);
+        inp.value = histIdx === -1 ? '' : (history[histIdx] || '');
       }
     });
   });
@@ -518,7 +691,7 @@ document.querySelectorAll('.fade-up').forEach(el=>{el.style.animationPlayState='
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(typeStep,300);
-  try{const s=localStorage.getItem('lang');if(s==='en')setLang('en');}catch(e){}
+  setLang(resolveInitialLang());
 });
 </script>
 </body>

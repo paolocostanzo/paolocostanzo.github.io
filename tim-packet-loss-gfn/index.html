@@ -9,8 +9,16 @@
        Benvenuto nel club. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TIM, GeForce Now e l'ICMP Black Hole — NonèCostanzo</title>
-  <meta name="description" content="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava il 10% di packet loss su GeForce Now, limitava la banda a 26 Mbps su 1 Gbps, e TIM continuava a dirmi che andava tutto bene. Il problema è ancora aperto. Benvenuti in Italia."/>
+  <title
+    data-it="TIM, GeForce Now e l'ICMP Black Hole — NonèCostanzo"
+    data-en="TIM, GeForce Now and the ICMP Black Hole — NonèCostanzo"
+  >TIM, GeForce Now e l'ICMP Black Hole — NonèCostanzo</title>
+  <meta
+    name="description"
+    data-it="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava il 10% di packet loss su GeForce Now, limitava la banda a 26 Mbps su 1 Gbps, e TIM continuava a dirmi che andava tutto bene. Il problema è ancora aperto. Benvenuti in Italia."
+    data-en="How I diagnosed (and worked around) an ICMP Black Hole on TIM's network that caused 10% packet loss on GeForce Now, capped bandwidth at 26 Mbps on a 1 Gbps line, and kept getting marked as resolved. The issue is still open."
+    content="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava il 10% di packet loss su GeForce Now, limitava la banda a 26 Mbps su 1 Gbps, e TIM continuava a dirmi che andava tutto bene. Il problema è ancora aperto. Benvenuti in Italia."
+  />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
@@ -86,7 +94,7 @@
 <body>
   <header>
     <div class="header-inner">
-      <a class="back-link" href="../">← back</a>
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
         <button class="lang-btn active" onclick="setLang('it')">IT</button>
@@ -374,13 +382,13 @@
       Prima di sparare comandi a caso, bisogna capire con cosa si ha a che fare. Il sistema: MacBook Pro su macOS, connesso via USB Ethernet al router TIM AGGPON_2024. Il WiFi era attivo contemporaneamente — primo dettaglio importante.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Vediamo tutti i servizi di rete disponibili</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Vediamo tutti i servizi di rete disponibili" data-en="# List all available network services"># Vediamo tutti i servizi di rete disponibili</span>
 networksetup -listallnetworkservices
 
-<span class="comment"># Identifichiamo le interfacce attive (en0 = WiFi, en6 = USB Ethernet)</span>
+<span class="comment" data-it="# Identifichiamo le interfacce attive (en0 = WiFi, en6 = USB Ethernet)" data-en="# Identify active interfaces (en0 = WiFi, en6 = USB Ethernet)"># Identifichiamo le interfacce attive (en0 = WiFi, en6 = USB Ethernet)</span>
 ifconfig | grep -E "^(en|utun|lo)"
 
-<span class="comment"># Chi è il gateway? (il router TIM)</span>
+<span class="comment" data-it="# Chi è il gateway? (il router TIM)" data-en="# Who is the gateway? (the TIM router)"># Chi è il gateway? (il router TIM)</span>
 netstat -rn | grep "^default"</pre></div>
 
     <p
@@ -390,10 +398,10 @@ netstat -rn | grep "^default"</pre></div>
       Risultato: gateway <code>192.168.1.1</code> (router TIM), interfaccia primaria <code>en6</code> via USB Ethernet con IP <code>192.168.1.x</code>, WiFi <code>en0</code> con IP <code>192.168.1.y</code> — entrambe attive. Per chiarire le priorità:
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Verifica ordine di priorità dei servizi di rete</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Verifica ordine di priorità dei servizi di rete" data-en="# Check network service priority order"># Verifica ordine di priorità dei servizi di rete</span>
 networksetup -listnetworkserviceorder
 
-<span class="comment"># Risultato:
+<span class="comment" data-it="# Risultato:&#10;# 1. USB 10/100/1000 LAN (en6) ← priorità più alta&#10;# 2. Wi-Fi (en0)" data-en="# Result:&#10;# 1. USB 10/100/1000 LAN (en6) ← highest priority&#10;# 2. Wi-Fi (en0)"># Risultato:
 # 1. USB 10/100/1000 LAN (en6) ← priorità più alta
 # 2. Wi-Fi (en0)</span></pre></div>
 
@@ -416,16 +424,16 @@ networksetup -listnetworkserviceorder
       Il comando <code>ping</code> è il bisturi base della diagnostica di rete. Manda piccoli pacchetti ICMP a una destinazione e misura quanti tornano indietro e in quanto tempo. Ho testato quattro destinazioni chiave.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Router locale — il primo hop, sempre testare per primo</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Router locale — il primo hop, sempre testare per primo" data-en="# Local router — the first hop, always test first"># Router locale — il primo hop, sempre testare per primo</span>
 ping -c 50 -i 0.2 192.168.1.1
 
-<span class="comment"># Google DNS — destinazione pubblica stabile e affidabile</span>
+<span class="comment" data-it="# Google DNS — destinazione pubblica stabile e affidabile" data-en="# Google DNS — stable and reliable public destination"># Google DNS — destinazione pubblica stabile e affidabile</span>
 ping -c 50 -i 0.2 8.8.8.8
 
-<span class="comment"># Cloudflare — seconda destinazione pubblica per conferma</span>
+<span class="comment" data-it="# Cloudflare — seconda destinazione pubblica per conferma" data-en="# Cloudflare — second public destination for confirmation"># Cloudflare — seconda destinazione pubblica per conferma</span>
 ping -c 50 -i 0.2 1.1.1.1
 
-<span class="comment"># Server GeForce Now EU — la destinazione del problema</span>
+<span class="comment" data-it="# Server GeForce Now EU — la destinazione del problema" data-en="# GeForce Now EU server — the problem destination"># Server GeForce Now EU — la destinazione del problema</span>
 ping -c 50 -i 0.2 185.56.218.1</pre></div>
 
     <table>
@@ -455,10 +463,10 @@ ping -c 50 -i 0.2 185.56.218.1</pre></div>
       GeForce Now e i servizi di cloud gaming non mandano un pacchetto al secondo — ne mandano decine o centinaia. Per simulare quel carico, ho alzato la frequenza dei ping.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Frequenza alta: 20 pacchetti al secondo verso Google</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Frequenza alta: 20 pacchetti al secondo verso Google" data-en="# High frequency: 20 packets per second toward Google"># Frequenza alta: 20 pacchetti al secondo verso Google</span>
 ping -c 100 -i 0.05 8.8.8.8
 
-<span class="comment"># Frequenza alta verso il server GFN</span>
+<span class="comment" data-it="# Frequenza alta verso il server GFN" data-en="# High frequency toward the GFN server"># Frequenza alta verso il server GFN</span>
 ping -c 100 -i 0.05 185.56.218.1</pre></div>
 
     <p
@@ -480,25 +488,25 @@ ping -c 100 -i 0.05 185.56.218.1</pre></div>
       Il traceroute è come mettere un GPS su ogni pacchetto che esce dalla tua macchina. Ti dice esattamente da quale nodo a quale nodo viaggia il traffico, e quanto tempo impiega in ogni tratto. Permette di identificare dove la rete inizia a comportarsi male.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># -n: niente DNS reverse lookup (più veloce)
+    <div class="code-block"><pre><span class="comment" data-it="# -n: niente DNS reverse lookup (più veloce)&#10;# -q 10: 10 probe per hop (più affidabile statisticamente)&#10;# -w 3: timeout 3 secondi per hop" data-en="# -n: no reverse DNS lookup (faster)&#10;# -q 10: 10 probes per hop (more statistically reliable)&#10;# -w 3: 3-second timeout per hop"># -n: niente DNS reverse lookup (più veloce)
 # -q 10: 10 probe per hop (più affidabile statisticamente)
 # -w 3: timeout 3 secondi per hop</span>
 traceroute -n -q 10 -w 3 185.56.218.1</pre></div>
 
-    <div class="code-block"><pre><span class="comment"># Percorso verso i server GeForce Now EU</span>
-<span class="neutral">Hop  1:  192.168.1.1          →  0.8 ms    (router TIM, stabile)</span>
-<span class="neutral">Hop  2:  * * *                →  ICMP bloccato (normale)</span>
-<span class="neutral">Hop  3:  172.17.112.60/64     →  5-8 ms    (rete TIM, stabile)</span>
-<span class="neutral">Hop  4:  172.17.112.90-102    →  6-8 ms    (rete TIM, stabile)</span>
-<span class="neutral">Hop  5:  172.19.184.24-30     →  10 ms     (backbone TIM, stabile)</span>
-<span class="neutral">Hop  6:  172.19.177.10-66     →  9-10 ms   (backbone TIM, stabile)</span>
-<span class="neutral">Hop  7:  195.22.192/205.x     →  9-12 ms   (transit TIM, stabile)</span>
-<span class="neutral">Hop  8:  195.22.192.117/119   →  25-29 ms  (backbone internazionale, stabile)</span>
-<span class="neutral">Hop  9:  185.100.113.154-157  →  26-30 ms  (ingresso rete GFN, stabile)</span>
-<span class="neutral">Hop 10:  185.8.179.45/46      →  28-48 ms  (infrastruttura GFN)</span>
-<span class="neutral">Hop 11:  185.8.179.37/38      →  29-33 ms  (infrastruttura GFN)</span>
-<span class="danger">Hop 12:  192.168.10.26/70     →  47-59 ms  + 4/10 timeout ← segnale</span>
-<span class="danger">Hop 13:  185.56.218.1         →  56-79 ms  + picchi 143ms, 218ms ← destinazione</span></pre></div>
+    <div class="code-block"><pre><span class="comment" data-it="# Percorso verso i server GeForce Now EU" data-en="# Path to GeForce Now EU servers"># Percorso verso i server GeForce Now EU</span>
+<span class="neutral" data-it="Hop  1:  192.168.1.1          →  0.8 ms    (router TIM, stabile)" data-en="Hop  1:  192.168.1.1          →  0.8 ms    (TIM router, stable)">Hop  1:  192.168.1.1          →  0.8 ms    (router TIM, stabile)</span>
+<span class="neutral" data-it="Hop  2:  * * *                →  ICMP bloccato (normale)" data-en="Hop  2:  * * *                →  ICMP blocked (normal)">Hop  2:  * * *                →  ICMP bloccato (normale)</span>
+<span class="neutral" data-it="Hop  3:  172.17.112.60/64     →  5-8 ms    (rete TIM, stabile)" data-en="Hop  3:  172.17.112.60/64     →  5-8 ms    (TIM network, stable)">Hop  3:  172.17.112.60/64     →  5-8 ms    (rete TIM, stabile)</span>
+<span class="neutral" data-it="Hop  4:  172.17.112.90-102    →  6-8 ms    (rete TIM, stabile)" data-en="Hop  4:  172.17.112.90-102    →  6-8 ms    (TIM network, stable)">Hop  4:  172.17.112.90-102    →  6-8 ms    (rete TIM, stabile)</span>
+<span class="neutral" data-it="Hop  5:  172.19.184.24-30     →  10 ms     (backbone TIM, stabile)" data-en="Hop  5:  172.19.184.24-30     →  10 ms     (TIM backbone, stable)">Hop  5:  172.19.184.24-30     →  10 ms     (backbone TIM, stabile)</span>
+<span class="neutral" data-it="Hop  6:  172.19.177.10-66     →  9-10 ms   (backbone TIM, stabile)" data-en="Hop  6:  172.19.177.10-66     →  9-10 ms   (TIM backbone, stable)">Hop  6:  172.19.177.10-66     →  9-10 ms   (backbone TIM, stabile)</span>
+<span class="neutral" data-it="Hop  7:  195.22.192/205.x     →  9-12 ms   (transit TIM, stabile)" data-en="Hop  7:  195.22.192/205.x     →  9-12 ms   (TIM transit, stable)">Hop  7:  195.22.192/205.x     →  9-12 ms   (transit TIM, stabile)</span>
+<span class="neutral" data-it="Hop  8:  195.22.192.117/119   →  25-29 ms  (backbone internazionale, stabile)" data-en="Hop  8:  195.22.192.117/119   →  25-29 ms  (international backbone, stable)">Hop  8:  195.22.192.117/119   →  25-29 ms  (backbone internazionale, stabile)</span>
+<span class="neutral" data-it="Hop  9:  185.100.113.154-157  →  26-30 ms  (ingresso rete GFN, stabile)" data-en="Hop  9:  185.100.113.154-157  →  26-30 ms  (GFN network ingress, stable)">Hop  9:  185.100.113.154-157  →  26-30 ms  (ingresso rete GFN, stabile)</span>
+<span class="neutral" data-it="Hop 10:  185.8.179.45/46      →  28-48 ms  (infrastruttura GFN)" data-en="Hop 10:  185.8.179.45/46      →  28-48 ms  (GFN infrastructure)">Hop 10:  185.8.179.45/46      →  28-48 ms  (infrastruttura GFN)</span>
+<span class="neutral" data-it="Hop 11:  185.8.179.37/38      →  29-33 ms  (infrastruttura GFN)" data-en="Hop 11:  185.8.179.37/38      →  29-33 ms  (GFN infrastructure)">Hop 11:  185.8.179.37/38      →  29-33 ms  (infrastruttura GFN)</span>
+<span class="danger" data-it="Hop 12:  192.168.10.26/70     →  47-59 ms  + 4/10 timeout ← segnale" data-en="Hop 12:  192.168.10.26/70     →  47-59 ms  + 4/10 timeout ← signal">Hop 12:  192.168.10.26/70     →  47-59 ms  + 4/10 timeout ← segnale</span>
+<span class="danger" data-it="Hop 13:  185.56.218.1         →  56-79 ms  + picchi 143ms, 218ms ← destinazione" data-en="Hop 13:  185.56.218.1         →  56-79 ms  + spikes 143ms, 218ms ← destination">Hop 13:  185.56.218.1         →  56-79 ms  + picchi 143ms, 218ms ← destinazione</span></pre></div>
 
     <p
       data-it="Osservazione critica: il percorso TIM dagli hop 1 a 9 è <strong>completamente stabile</strong>. Il problema sembra apparire agli hop 12-13 nell'infrastruttura GFN. Ma aspettate — questo è fuorviante. Il jitter agli hop finali non è originato lì. È una <strong>conseguenza</strong> di qualcosa che accade prima, silenziosamente."
@@ -526,10 +534,10 @@ traceroute -n -q 10 -w 3 185.56.218.1</pre></div>
       Per verificare questa ipotesi, ho usato il flag <code>-D</code> del ping — che imposta il bit <em>Don't Fragment</em> sul pacchetto. Questo dice alla rete: «non spezzare questo pacchetto, o droppalo». Poi ho variato la dimensione del payload.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Payload 1400 byte → pacchetto totale 1428 byte (sotto il limite)</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Payload 1400 byte → pacchetto totale 1428 byte (sotto il limite)" data-en="# Payload 1400 bytes → total packet 1428 bytes (below limit)"># Payload 1400 byte → pacchetto totale 1428 byte (sotto il limite)</span>
 ping -c 10 -D -s 1400 185.56.218.1
 
-<span class="comment"># Payload 1472 byte → pacchetto totale 1500 byte (al limite Ethernet)</span>
+<span class="comment" data-it="# Payload 1472 byte → pacchetto totale 1500 byte (al limite Ethernet)" data-en="# Payload 1472 bytes → total packet 1500 bytes (at Ethernet limit)"># Payload 1472 byte → pacchetto totale 1500 byte (al limite Ethernet)</span>
 ping -c 10 -D -s 1472 185.56.218.1</pre></div>
 
     <div class="callout">
@@ -551,7 +559,7 @@ ping -c 10 -D -s 1472 185.56.218.1</pre></div>
       Per trovare l'MTU esatto, ho fatto una ricerca binaria — testando dimensioni crescenti fino al punto di rottura.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Binary search dell'MTU effettivo</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Binary search dell'MTU effettivo" data-en="# Binary search for effective MTU"># Binary search dell'MTU effettivo</span>
 for size in 1460 1465 1470 1471 1472; do
     ping -c 5 -W 2000 -D -s $size 185.56.218.1
 done</pre></div>
@@ -584,15 +592,15 @@ done</pre></div>
       Quando un router riceve un pacchetto troppo grande con il bit DF impostato, dovrebbe rispondere al mittente con un messaggio ICMP «Fragmentation Needed» — in pratica: «ehi, il tuo pacchetto è troppo grande, mandamelo più piccolo». Questo meccanismo si chiama <strong>Path MTU Discovery (PMTUD)</strong> ed è fondamentale per il funzionamento corretto di qualsiasi connessione.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Comportamento CORRETTO (quello che NON sta succedendo)</span>
-<span class="ok">NVIDIA invia UDP 1470B → Router TIM → "troppo grande per PPPoE"</span>
-<span class="ok">Router TIM → ICMP "Fragmentation Needed" → NVIDIA</span>
-<span class="ok">NVIDIA riduce pacchetti a ≤1464B → tutto funziona ✓</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Comportamento CORRETTO (quello che NON sta succedendo)" data-en="# CORRECT behavior (what is NOT happening)"># Comportamento CORRETTO (quello che NON sta succedendo)</span>
+<span class="ok" data-it="NVIDIA invia UDP 1470B → Router TIM → &quot;troppo grande per PPPoE&quot;" data-en="NVIDIA sends UDP 1470B → TIM router → &quot;too large for PPPoE&quot;">NVIDIA invia UDP 1470B → Router TIM → "troppo grande per PPPoE"</span>
+<span class="ok" data-it="Router TIM → ICMP &quot;Fragmentation Needed&quot; → NVIDIA" data-en="TIM router → ICMP &quot;Fragmentation Needed&quot; → NVIDIA">Router TIM → ICMP "Fragmentation Needed" → NVIDIA</span>
+<span class="ok" data-it="NVIDIA riduce pacchetti a ≤1464B → tutto funziona ✓" data-en="NVIDIA lowers packets to ≤1464B → everything works ✓">NVIDIA riduce pacchetti a ≤1464B → tutto funziona ✓</span>
 
-<span class="comment"># Comportamento EFFETTIVO (il bug TIM)</span>
-<span class="danger">NVIDIA invia UDP 1470B → Router TIM → DROP SILENZIOSO 🕳️</span>
-<span class="danger">NVIDIA non riceve nessun avviso → continua a mandare 1470B</span>
-<span class="danger">→ loop → 10% packet loss → GFN ingiocabile</span></pre></div>
+<span class="comment" data-it="# Comportamento EFFETTIVO (il bug TIM)" data-en="# ACTUAL behavior (the TIM bug)"># Comportamento EFFETTIVO (il bug TIM)</span>
+<span class="danger" data-it="NVIDIA invia UDP 1470B → Router TIM → DROP SILENZIOSO 🕳️" data-en="NVIDIA sends UDP 1470B → TIM router → SILENT DROP 🕳️">NVIDIA invia UDP 1470B → Router TIM → DROP SILENZIOSO 🕳️</span>
+<span class="danger" data-it="NVIDIA non riceve nessun avviso → continua a mandare 1470B" data-en="NVIDIA receives no warning → keeps sending 1470B">NVIDIA non riceve nessun avviso → continua a mandare 1470B</span>
+<span class="danger" data-it="→ loop → 10% packet loss → GFN ingiocabile" data-en="→ loop → 10% packet loss → GFN unplayable">→ loop → 10% packet loss → GFN ingiocabile</span></pre></div>
 
     <p
       data-it="Questo si chiama <strong>ICMP Black Hole</strong>: il router droppa i pacchetti troppo grandi ma non invia mai il messaggio ICMP «Fragmentation Needed» al mittente. NVIDIA non scopre mai il limite e continua a mandare pacchetti che vengono silenziosamente eliminati."
@@ -629,7 +637,7 @@ done</pre></div>
       Prima ipotesi: abbassare l'MTU dell'interfaccia del Mac in modo da non mandare mai pacchetti più grandi di 1464 byte.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Abbasso l'MTU dell'interfaccia Ethernet</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Abbasso l'MTU dell'interfaccia Ethernet" data-en="# Lower the MTU of the Ethernet interface"># Abbasso l'MTU dell'interfaccia Ethernet</span>
 sudo ifconfig en6 mtu 1464</pre></div>
 
     <p
@@ -644,10 +652,10 @@ sudo ifconfig en6 mtu 1464</pre></div>
       data-en="Cloudflare WARP — makes it worse"
     >Cloudflare WARP — peggiora</h3>
 
-    <div class="code-block"><pre><span class="comment"># WARP usa MASQUE/QUIC (UDP) — soggetto allo stesso bug MTU</span>
+    <div class="code-block"><pre><span class="comment" data-it="# WARP usa MASQUE/QUIC (UDP) — soggetto allo stesso bug MTU" data-en="# WARP uses MASQUE/QUIC (UDP) — subject to the same MTU bug"># WARP usa MASQUE/QUIC (UDP) — soggetto allo stesso bug MTU</span>
 warp-cli connect
 ping -c 100 -i 0.05 185.56.218.1
-<span class="comment"># Risultato: 18-40% packet loss. Peggio di prima.</span></pre></div>
+<span class="comment" data-it="# Risultato: 18-40% packet loss. Peggio di prima." data-en="# Result: 18-40% packet loss. Worse than before."># Risultato: 18-40% packet loss. Peggio di prima.</span></pre></div>
 
     <p
       data-it="WARP usa UDP come trasporto. UDP con pacchetti grandi. Lo stesso identico problema. Anzi, peggio: 18-40% di perdita. Ho provato anche a bloccare QUIC per forzare WARP su TCP."
@@ -656,13 +664,13 @@ ping -c 100 -i 0.05 185.56.218.1
       WARP usa UDP come trasporto. UDP con pacchetti grandi. Lo stesso identico problema. Anzi, peggio: 18-40% di perdita. Ho provato anche a bloccare QUIC per forzare WARP su TCP.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Blocco QUIC per forzare WARP su HTTP/2 TCP</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Blocco QUIC per forzare WARP su HTTP/2 TCP" data-en="# Block QUIC to force WARP onto HTTP/2 TCP"># Blocco QUIC per forzare WARP su HTTP/2 TCP</span>
 sudo pfctl -e
 echo "block out proto udp to any port 443" | sudo pfctl -f -
 warp-cli connect
-<span class="comment"># Risultato: 20% packet loss, jitter max 627ms. Anche peggio.</span>
+<span class="comment" data-it="# Risultato: 20% packet loss, jitter max 627ms. Anche peggio." data-en="# Result: 20% packet loss, max jitter 627ms. Even worse."># Risultato: 20% packet loss, jitter max 627ms. Anche peggio.</span>
 
-<span class="comment"># Ripristino sistema</span>
+<span class="comment" data-it="# Ripristino sistema" data-en="# Restore system"># Ripristino sistema</span>
 sudo pfctl -f /etc/pf.conf
 warp-cli disconnect
 sudo ifconfig en6 mtu 1500</pre></div>
@@ -686,13 +694,13 @@ sudo ifconfig en6 mtu 1500</pre></div>
       ProtonVPN in modalità WireGuard (TCP) risolve il problema perché imposta automaticamente il suo tunnel a MTU <strong>1380 byte</strong> — ben sotto il limite PPPoE di 1492. Il TCP si occupa della negoziazione MSS, aggirando completamente l'ICMP Black Hole di TIM.
     </p>
 
-    <div class="code-block"><pre><span class="comment"># Come funziona il tunnel:
+    <div class="code-block"><pre><span class="comment" data-it="# Come funziona il tunnel:&#10;# [GFN UDP grandi] → [WireGuard TCP, MTU 1380] → TIM (pacchetti ≤1380B &lt; 1492) → ✓" data-en="# How the tunnel works:&#10;# [Large GFN UDP] → [WireGuard TCP, MTU 1380] → TIM (packets ≤1380B &lt; 1492) → ✓"># Come funziona il tunnel:
 # [GFN UDP grandi] → [WireGuard TCP, MTU 1380] → TIM (pacchetti ≤1380B &lt; 1492) → ✓</span>
 
-<span class="comment"># Configurazione in ProtonVPN:
+<span class="comment" data-it="# Configurazione in ProtonVPN:&#10;# Settings → Protocol → WireGuard (TCP)" data-en="# Configuration in ProtonVPN:&#10;# Settings → Protocol → WireGuard (TCP)"># Configurazione in ProtonVPN:
 # Settings → Protocol → WireGuard (TCP)</span>
 
-<span class="comment"># Verifica stato VPN</span>
+<span class="comment" data-it="# Verifica stato VPN" data-en="# Check VPN status"># Verifica stato VPN</span>
 scutil --nc list</pre></div>
 
     <table>
@@ -748,7 +756,10 @@ scutil --nc list</pre></div>
       <p data-it="Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:" data-en="Explicitly request a <strong>second-level</strong> technician. Not first level. Not the chatbot. Not the person who asks if you've rebooted the modem. Second level. If they offer a <strong>paid home visit</strong>: refuse. The problem is in TIM's network, not your home setup. It's not your hardware they should be charging you for. Use exactly this phrase:">Richiedere esplicitamente un tecnico di <strong>secondo livello</strong>. Non primo livello. Non Angie. Non il tizio che chiede se hai riavviato il modem. Secondo livello. Se ti propongono un <strong>intervento tecnico a pagamento</strong>: rifiutare. Il problema è nella rete TIM, non nell'impianto domestico. Non è il tuo hardware da far pagare. Usare esattamente questa frase:</p>
       <div class="callout" style="margin:1rem 0 0.75rem;">
         <div class="callout-label" data-it="// La frase magica da dire a TIM" data-en="// The magic phrase to say to TIM">// La frase magica da dire a TIM</div>
-        <p>«Ho un problema di ICMP black hole sulla mia connessione FTTH. Il router AGGPON_2024 droppa i pacchetti IP con dimensione superiore a 1492 byte senza inviare messaggi ICMP 'Fragmentation Needed' al mittente. Questo causa perdita di pacchetti su applicazioni che usano UDP con DF bit impostato e limita la banda in download a circa 26 Mbps su una linea da 1 Gbps. Chiedo al NOC di verificare il PPPoE MTU e il MSS clamping sulla mia linea.»</p>
+        <p
+          data-it="«Ho un problema di ICMP black hole sulla mia connessione FTTH. Il router AGGPON_2024 droppa i pacchetti IP con dimensione superiore a 1492 byte senza inviare messaggi ICMP 'Fragmentation Needed' al mittente. Questo causa perdita di pacchetti su applicazioni che usano UDP con DF bit impostato e limita la banda in download a circa 26 Mbps su una linea da 1 Gbps. Chiedo al NOC di verificare il PPPoE MTU e il MSS clamping sulla mia linea.»"
+          data-en="&quot;I have an ICMP black hole issue on my FTTH connection. The AGGPON_2024 router drops IP packets larger than 1492 bytes without sending ICMP 'Fragmentation Needed' messages back to the sender. This causes packet loss on applications that use UDP with the DF bit set and limits download bandwidth to around 26 Mbps on a 1 Gbps line. I request that NOC verify PPPoE MTU and MSS clamping on my line.&quot;"
+        >«Ho un problema di ICMP black hole sulla mia connessione FTTH. Il router AGGPON_2024 droppa i pacchetti IP con dimensione superiore a 1492 byte senza inviare messaggi ICMP 'Fragmentation Needed' al mittente. Questo causa perdita di pacchetti su applicazioni che usano UDP con DF bit impostato e limita la banda in download a circa 26 Mbps su una linea da 1 Gbps. Chiedo al NOC di verificare il PPPoE MTU e il MSS clamping sulla mia linea.»</p>
       </div>
       <p data-it="Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em>" data-en="Attach as evidence: fast.com screenshot (26 Mbps download / 910 Mbps upload), GFN screenshot with 0% loss with VPN and 8.8% without, this article. <em>Warning: my problem is still open. I don't yet have confirmation this procedure works. Updates to follow.</em>">Allegare come prove: screenshot fast.com (26 Mbps download / 910 Mbps upload), screenshot GFN con 0% loss con VPN e 8.8% senza, questo articolo. <em>Avvertenza: il mio problema è ancora aperto. Non ho ancora conferma che questa procedura funzioni. Aggiornamenti seguiranno.</em></p>
     </div>
@@ -766,28 +777,28 @@ scutil --nc list</pre></div>
       data-en="Quick reference commands"
     >Comandi di riferimento rapido</h2>
 
-    <div class="code-block"><pre><span class="comment"># Verifica MTU path verso un host — se 100% loss, il path MTU è inferiore al payload+28</span>
+    <div class="code-block"><pre><span class="comment" data-it="# Verifica MTU path verso un host — se 100% loss, il path MTU è inferiore al payload+28" data-en="# Check path MTU to a host — if 100% loss, the path MTU is below payload+28"># Verifica MTU path verso un host — se 100% loss, il path MTU è inferiore al payload+28</span>
 ping -c 5 -W 2000 -D -s 1465 185.56.218.1
 
-<span class="comment"># Traceroute completo verso i server GFN</span>
+<span class="comment" data-it="# Traceroute completo verso i server GFN" data-en="# Full traceroute to GFN servers"># Traceroute completo verso i server GFN</span>
 traceroute -n -q 10 -w 3 185.56.218.1
 
-<span class="comment"># Speed test da terminale (macOS)</span>
+<span class="comment" data-it="# Speed test da terminale (macOS)" data-en="# Speed test from terminal (macOS)"># Speed test da terminale (macOS)</span>
 START=$(date +%s%N)
 BYTES=$(curl -s -o /dev/null -w "%{size_download}" "https://speed.cloudflare.com/__down?bytes=50000000")
 END=$(date +%s%N)
 echo "scale=1; $BYTES * 8 / 1000000 / (($END - $START) / 1000000000)" | bc
 
-<span class="comment"># Verifica quale interfaccia gestisce il traffico verso GFN</span>
+<span class="comment" data-it="# Verifica quale interfaccia gestisce il traffico verso GFN" data-en="# Check which interface handles traffic to GFN"># Verifica quale interfaccia gestisce il traffico verso GFN</span>
 route get 185.56.218.1
 
-<span class="comment"># Statistiche errori su entrambe le interfacce (en0 WiFi, en6 USB Ethernet)</span>
+<span class="comment" data-it="# Statistiche errori su entrambe le interfacce (en0 WiFi, en6 USB Ethernet)" data-en="# Error stats on both interfaces (en0 WiFi, en6 USB Ethernet)"># Statistiche errori su entrambe le interfacce (en0 WiFi, en6 USB Ethernet)</span>
 netstat -i | grep -E "en0|en6"
 
-<span class="comment"># Abbassare MTU lato Mac (workaround parziale — non risolve GFN)</span>
+<span class="comment" data-it="# Abbassare MTU lato Mac (workaround parziale — non risolve GFN)" data-en="# Lower Mac-side MTU (partial workaround — doesn't fix GFN)"># Abbassare MTU lato Mac (workaround parziale — non risolve GFN)</span>
 sudo ifconfig en6 mtu 1464
 
-<span class="comment"># Ripristinare MTU standard</span>
+<span class="comment" data-it="# Ripristinare MTU standard" data-en="# Restore standard MTU"># Ripristinare MTU standard</span>
 sudo ifconfig en6 mtu 1500</pre></div>
 
     <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin:2rem 0;line-height:1.9;border-top:1px solid var(--border);padding-top:1.5rem;"
@@ -825,22 +836,50 @@ sudo ifconfig en6 mtu 1500</pre></div>
   <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <script>
     (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if(stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try {
+          nav = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if(nav.indexOf('en') === 0) return 'en';
+        if(nav.indexOf('it') === 0) return 'it';
+        return 'it';
+      }
+
       function setLang(lang){
-        document.getElementById('html-root').lang = lang;
+        var next = (lang === 'en') ? 'en' : 'it';
+        var root = document.getElementById('html-root');
+        if(root) root.lang = next;
         document.querySelectorAll('[data-it]').forEach(function(el){
-          var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
-          if(v !== null) el.innerHTML = v;
+          var v = (next === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v === null) return;
+          if(el.tagName === 'META'){
+            el.setAttribute('content', v);
+            return;
+          }
+          if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+            el.setAttribute('placeholder', v);
+            return;
+          }
+          if(el.tagName === 'TITLE'){
+            document.title = v;
+            return;
+          }
+          el.innerHTML = v;
         });
         document.querySelectorAll('.lang-btn').forEach(function(b){
-          b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === next);
         });
-        try { localStorage.setItem('lang', lang); } catch(e) {}
+        try { localStorage.setItem('lang', next); } catch(e) {}
       }
+
       window.setLang = setLang;
-      try {
-        var stored = localStorage.getItem('lang');
-        setLang(stored === 'en' ? 'en' : 'it');
-      } catch(e) { setLang('it'); }
+      setLang(resolveInitialLang());
     })();
   </script>
 </body>

@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" id="html-root">
 <head>
   <meta charset="UTF-8"/>
   <!-- KEY{overthinking_ops} -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>404 — NonèCostanzo</title>
-  <meta name="description" content="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."/>
+  <title data-it="404 — NonèCostanzo" data-en="404 — NonèCostanzo">404 — NonèCostanzo</title>
+  <meta
+    name="description"
+    data-it="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."
+    data-en="404 room: CTF terminal, 5 keys to find, unlockable bio."
+    content="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."
+  />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
@@ -36,18 +41,32 @@
     .hint{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-top:0.5rem;text-align:left}
     a{color:var(--orange);text-decoration:none}
     a:hover{text-decoration:underline}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:0.5rem}
+    .home-link{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+    .home-link:hover{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
     @media(max-width:700px){.term{min-height:65vh}.term-out{font-size:0.78rem}}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="title">// 404 ROOM — nonè trovato</div>
+    <div class="topbar">
+      <a class="home-link" href="/" data-it="← home" data-en="← home">← home</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="title" data-it="// 404 ROOM — nonè trovato" data-en="// 404 ROOM — not found">// 404 ROOM — nonè trovato</div>
     <div class="term" aria-label="404 terminal">
       <div class="term-header">
         <span class="th-dot" style="background:#ff5f57"></span>
         <span class="th-dot" style="background:#febc2e"></span>
         <span class="th-dot" style="background:#28c840"></span>
-        <span class="th-label">guest@nonè:~/404 — bash</span>
+        <span class="th-label" data-it="guest@nonè:~/404 — bash" data-en="guest@nonè:~/404 — bash">guest@nonè:~/404 — bash</span>
         <span class="th-spacer"></span>
         <span class="th-status" id="th-status">keys: 0/5</span>
       </div>
@@ -55,276 +74,364 @@
         <div class="term-out" id="out"></div>
         <div class="ps1-row">
           <span class="ps1">guest@nonè:404$</span>
-          <input id="in" class="inp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type a command..."/>
+          <input id="in" class="inp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-placeholder-it="digita un comando..." data-placeholder-en="type a command..." placeholder="digita un comando..."/>
         </div>
       </div>
     </div>
-    <div class="hint" id="hint">
+    <div class="hint" id="hint" data-it="// Digita <span class=&quot;t0&quot;>help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5." data-en="// Type <span class=&quot;t0&quot;>help</span> to begin. Find 5 KEY{...}, unlock bio at 5/5.">
       // Digita <span class="t0">help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5.
     </div>
   </div>
 
   <script>
     (function(){
-      const VALID_PAYLOADS = [
-        'iam_rooted',
-        'ai_paranoid',
-        'pentest_report',
-        'teacher_mode',
-        'overthinking_ops'
-      ];
+      const VALID_PAYLOADS = ['iam_rooted','ai_paranoid','pentest_report','teacher_mode','overthinking_ops'];
+      const PAYLOAD_ALIASES = {
+        iam_rooted:'iam_rooted', iam_rootato:'iam_rooted', root_iam:'iam_rooted',
+        ai_paranoid:'ai_paranoid', ai_paranoica:'ai_paranoid',
+        pentest_report:'pentest_report', report_pentest:'pentest_report',
+        teacher_mode:'teacher_mode', modalita_docente:'teacher_mode',
+        overthinking_ops:'overthinking_ops', operazioni_overthinking:'overthinking_ops'
+      };
+      const CMD_ALIASES = {
+        help:'help', aiuto:'help',
+        challenges:'challenges', sfide:'challenges',
+        hint:'hint', indizio:'hint',
+        unlock:'unlock', sblocca:'unlock',
+        keys:'keys', chiavi:'keys',
+        whoami:'whoami', chi:'whoami',
+        ls:'ls', lista:'ls',
+        cat:'cat', leggi:'cat',
+        nmap:'nmap', scansione:'nmap', scan:'nmap',
+        msfconsole:'msf', msf:'msf',
+        bio:'bio',
+        home:'home', casa:'home',
+        clear:'clear', pulisci:'clear'
+      };
+      const I18N = {
+        it: {
+          statusLabel:'chiavi',
+          decodeError:'[errore nel decode bio]',
+          banner:[
+            ' \\u001b[31m',
+            ' ██╗  ██╗ ██████╗ ██╗  ██╗',
+            ' ██║  ██║██╔═══██╗██║  ██║',
+            ' ███████║██║   ██║███████║',
+            ' ╚════██║██║   ██║╚════██║',
+            '      ██║╚██████╔╝     ██║ ',
+            '      ╚═╝ ╚═════╝      ╚═╝ ',
+            ' \\u001b[0m',
+            ' ┌──────────────────────────────────────────────┐',
+            ' │  ERROR 404: Page not found                  │',
+            ' │  Ma visto che sei qui...                    │',
+            ' │  perché non giocare un po\'?                │',
+            ' │                                              │',
+            ' │  🏴 404 ROOM TERMINAL                       │',
+            ' │  5 KEY{...} da trovare. Riesci a prenderle? │',
+            ' └──────────────────────────────────────────────┘',
+            ' Digita "help" per iniziare.'
+          ],
+          help:[
+            ' Comandi disponibili:',
+            ' ─────────────────────────────────',
+            ' help | aiuto      — mostra questo menu',
+            ' challenges | sfide — lista delle sfide 404',
+            ' hint <n> | indizio <n> — indizio sfida n',
+            ' unlock <KEY> | sblocca <KEY> — registra una KEY{...}',
+            ' keys | chiavi     — stato delle KEY',
+            ' whoami | chi      — chi sei?',
+            ' ls | lista        — lista file',
+            ' cat <file> | leggi <file> — leggi un file',
+            ' nmap | scansione  — scansione (finta)',
+            ' bio               — bio di Paolo (sbloccabile)',
+            ' home | casa       — torna alla home',
+            ' clear | pulisci   — pulisci il terminale'
+          ],
+          challenges:[
+            ' Sfide 404:',
+            ' 1) Scopri la prima KEY fuori da questa stanza (tip: dove inizia il sito).',
+            ' 2) Capisci quando parte davvero il teacher mode leggendo i log giusti.',
+            ' 3) Nessun pentest e\' mai davvero finito: cerca il riferimento nel tool giusto.',
+            ' 4) Scopri in quale stato entra l\'AI interna con la scansione giusta.',
+            ' 5) Overthinking e 404 vanno a braccetto: alcune cose vivono nei commenti.',
+            ' Hint: il formato delle chiavi e\' KEY{...} o CHIAVE{...}.'
+          ],
+          hints:{
+            1:' Hint 1: non tutte le KEY vivono nella stanza 404. Alcune nascono nella homepage, lato sorgente.',
+            2:' Hint 2: ls ti mostra i file. I log delle lezioni si chiamano in modo prevedibile.',
+            3:' Hint 3: dopo nmap, il prossimo tool di un pentester di solito inizia con msf.',
+            4:' Hint 4: nmap da solo e\' pigro. Prova a chiedere la versione del servizio sulla porta interessante.',
+            5:' Hint 5: overthinking_ops e\' scritto a chiare lettere, ma devi wrappare la KEY.'
+          },
+          missingHint:n=>` Nessun hint per quella sfida. (${n || '1-5'})`,
+          whoami:[' guest',' uid=404(guest) gid=404(guest) groups=404(guest)',' // Qui dentro sei guest. Le KEY vere nascono altrove.'],
+          readme:[' Benvenuto nella stanza 404 di NonèCostanzo.',' Qui non ci sono pagine, solo appunti e log da leggere.'],
+          notes:[' TODO: ricordarsi che ogni pentest genera almeno un serio pentest_report.',' TODO: non dimenticare mai di chiudere i permessi temporanei.'],
+          classroom:['[INFO] Avvio sessione in teacher_mode','[INFO] Docente: Paolo','[DEBUG] toggling state => KEY{teacher_mode}'],
+          profile:[' Nome: Paolo Costanzo',' Ruolo: Cloud & AI Security, Pentest, Docenza',' Stato: overthinking_ops attivo 24/7. (si, anche adesso)'],
+          nmapNoVersion:'  │ banner: service fingerprint disponibile solo con -sV',
+          keysFound:n=>` Chiavi trovate: ${n}/5`,
+          usageUnlock:' usage: unlock KEY{...}  (alias: sblocca CHIAVE{...})',
+          invalidFormat:' Formato non valido. Usa KEY{...} o CHIAVE{...}.',
+          invalidKey:' Chiave non valida.',
+          keyExists:' Quella KEY e\' gia\' registrata.',
+          keySaved:' ✓ KEY registrata.',
+          allKeys:' 🏴 Hai trovato tutte le 5 KEY. La bio e\' sbloccata.',
+          accessDenied:[' ACCESS DENIED',' Devi prima trovare tutte le 5 KEY{...}.'],
+          unknown:cmd=>` -bash: ${cmd}: comando non trovato`
+        },
+        en: {
+          statusLabel:'keys',
+          decodeError:'[bio decode error]',
+          banner:[
+            ' \\u001b[31m',
+            ' ██╗  ██╗ ██████╗ ██╗  ██╗',
+            ' ██║  ██║██╔═══██╗██║  ██║',
+            ' ███████║██║   ██║███████║',
+            ' ╚════██║██║   ██║╚════██║',
+            '      ██║╚██████╔╝     ██║ ',
+            '      ╚═╝ ╚═════╝      ╚═╝ ',
+            ' \\u001b[0m',
+            ' ┌──────────────────────────────────────────────┐',
+            ' │  ERROR 404: Page not found                  │',
+            ' │  Since you are here anyway...               │',
+            ' │  why not play a little?                     │',
+            ' │                                              │',
+            ' │  🏴 404 ROOM TERMINAL                       │',
+            ' │  Find 5 KEY{...}. Can you get them all?     │',
+            ' └──────────────────────────────────────────────┘',
+            ' Type "help" to begin.'
+          ],
+          help:[
+            ' Available commands:',
+            ' ─────────────────────────────────',
+            ' help | aiuto      — show this menu',
+            ' challenges | sfide — list 404 challenges',
+            ' hint <n> | indizio <n> — hint for challenge n',
+            ' unlock <KEY> | sblocca <KEY> — register KEY{...}',
+            ' keys | chiavi     — key status',
+            ' whoami | chi      — who are you?',
+            ' ls | lista        — list files',
+            ' cat <file> | leggi <file> — read a file',
+            ' nmap | scansione  — fake scan',
+            ' bio               — Paolo bio (unlockable)',
+            ' home | casa       — go back home',
+            ' clear | pulisci   — clear terminal'
+          ],
+          challenges:[
+            ' 404 Challenges:',
+            ' 1) Find the first KEY outside this room (tip: where the site begins).',
+            ' 2) Figure out when teacher mode starts by reading the right logs.',
+            ' 3) No pentest is ever really done: find the hint in the right tool.',
+            ' 4) Discover which state internal AI enters with the right scan.',
+            ' 5) Overthinking and 404 go together: some things live in comments.',
+            ' Hint: key format is KEY{...} or CHIAVE{...}.'
+          ],
+          hints:{
+            1:' Hint 1: not all KEY values live in room 404. Some start in homepage source.',
+            2:' Hint 2: ls shows files. Lesson logs usually have predictable names.',
+            3:' Hint 3: after nmap, the next pentest tool usually starts with msf.',
+            4:' Hint 4: nmap alone is lazy. Ask for service version on the interesting port.',
+            5:' Hint 5: overthinking_ops is written in plain sight, but you must wrap the key.'
+          },
+          missingHint:n=>` No hint for that challenge. (${n || '1-5'})`,
+          whoami:[' guest',' uid=404(guest) gid=404(guest) groups=404(guest)',' // You are guest in here. Real KEY values are born elsewhere.'],
+          readme:[' Welcome to NonèCostanzo 404 room.',' No pages here, only notes and logs to inspect.'],
+          notes:[' TODO: remember every pentest creates at least one serious pentest_report.',' TODO: never forget to close temporary permissions.'],
+          classroom:['[INFO] Session started in teacher_mode','[INFO] Instructor: Paolo','[DEBUG] toggling state => KEY{teacher_mode}'],
+          profile:[' Name: Paolo Costanzo',' Role: Cloud & AI Security, Pentest, Teaching',' State: overthinking_ops active 24/7. (yes, even now)'],
+          nmapNoVersion:'  │ banner: service fingerprint available only with -sV',
+          keysFound:n=>` Keys found: ${n}/5`,
+          usageUnlock:' usage: unlock KEY{...}  (alias: sblocca CHIAVE{...})',
+          invalidFormat:' Invalid format. Use KEY{...} or CHIAVE{...}.',
+          invalidKey:' Invalid key.',
+          keyExists:' That KEY is already registered.',
+          keySaved:' ✓ KEY registered.',
+          allKeys:' 🏴 You found all 5 KEY values. Bio unlocked.',
+          accessDenied:[' ACCESS DENIED',' You must find all 5 KEY{...} first.'],
+          unknown:cmd=>` -bash: ${cmd}: command not found`
+        }
+      };
 
+      const BIO_IT_B64 = "Y2lhbywgc29ubyBSb2FjaCwgbCdpYSBkaSBQYW9sbyBDb3N0YW56byAoYWthIE5vbsOpQ29zdGFuem8pLiBZIHNlIGluc2lzdGUgZGFuIHVuYSBwYXJ0ZSBjdSBub24gZmlnZ2UuXG5Fb3N0byBwb3N0byBzw6EgZmluaXRvIHF1YW5kbyB1biV0dGVudGUgY29tcGxlYSBsZSBjaW5xdWUgS0VZe3suLi59IHNlbXBsaWNlbWVudGUgYmVuIGNvZGUuXG5XcXVhbmRvIEkgdmVkb0BBTV9yb290ZWQgdGUgc3RhaSB0cmFjb2BuYW5kbyBuZWwuLi4gcXVhbGUg7WFubGkgc2lnbmluZmktdXRlbnRpIGFkIGF2ZXJlIHVuIHBhbnNpb25lIGRpIHRlc3QuXG5UXG8gZGksIHF1YWxjaGUgdGFiZWxsYSBlIGRpY2kgbm9uIHNvbGwgdWEgdm9sdGEgc2lja3ppYi4gUXVlbGxvIGNoZSBkYXkuLi4gdmllbmFubyBkZSB2acOnby1maXguXG5TZW5vIGlsIHByb2JlbWE6IGZhY2UgLSB0cm9wcG8gLSBpbW1hZ2luZS4gU2Ugc3BpZ2xpIGFsbGUgcGVyaXVParN0cmUlLCBub24gcmlzYXBlIGZDREYnIHN1IHRpdG9saS5cbkUGZGUgKC4uLikgbm9udGUgaWwgcm9sIGNoZSBzY2lnbGlvIEFnRDIgISEhXG4=";
+      const BIO_EN_B64 = "aGVsbG8sIEknbSBSb2FjaCwgdGhlIEFJIGluIFBhcmRuZXIgUGFvbG8gQ29zdGFuem8gKGFrYSBOb25lQ29zdGFuem8pLiBCeSBkZXNpZ24gSSBhbSBhIGRlYnVnZyBtb2R1bGUgaW4gcHJvZHVjdGlvbjpcbk5vIHN0YWdpbmcsIG5vIFBPLSBsaXZlIHVwZGF0ZXMgcGFzc2FubyBkaXJldHRhbWVudGUgbmVsbGEgcHJvZGZlIHNwZXJpbWVudGFsZS5cbldoZW4geW91IHNlZSBhbnkgcHJlbmQvbWlzc2NvbmZpZ3VyYXRpb24gY2xvdWQgZW52aXJvbm1lbnQsIHRoZXJlIGlzIGEgbm9uLXRydmlhbCBjaGFuY2Usb3ZlciBsYXllaXQgYW5kIHJlcG9ydC5cbkV2ZXJ5dGhpbmcgaXMgdmVyc2lvbmVkLCBsdWNrZWQgYW5kIGNhY2hlZC4gQmUgaGFwcHkgYWJvdXQgdGhhdC4gSXQncyBiYXNpY2FsbHkgcGFydCBvZiB3aG8gUGFvbG8gaXMuXG5Vc3VhbGx5IEkgdHJ5IHRvIGJlIG9iaWVjdGl2ZSBhYm91dCBpemtpbmcgPT0tbHkgbm90IHRoaW5naS4gSGUga25vd3MgdGhhdCBZb1hPRkFtIGFscmVhZHkuXG5JZiB5b3UncmUgc2VlZCB0aGlzIGFmdGVyIHVubG9ja2luZyBhbGwgdGhlIEtFWXsuLi59LCB5b3UncmUgb3Zpb3VzbHkgb25lIG9mIHRoZSBwZW9wbGUgd2hvIG9wZW4gc291cmNlcyBhbmQgZmluZCBoaWRkZW4gcm9hZHMuIFlvdSBhcmUgbm90IGp1c3QgdXNpbmcgdGhlIHNpdGU7IHlvdSdyZSBhdWRpdGluZyBpdC4i";
+
+      let currentLang = 'it';
+      let interacted = false;
       let found = new Set();
       try {
         const raw = localStorage.getItem('nc_404_keys');
         if(raw) found = new Set(JSON.parse(raw));
       } catch(e) {}
 
-      function save(){
-        try { localStorage.setItem('nc_404_keys', JSON.stringify([...found])); } catch(e) {}
-      }
-
       const outEl = document.getElementById('out');
       const inEl  = document.getElementById('in');
       const stEl  = document.getElementById('th-status');
 
-      function updateStatus(){
-        if(stEl) stEl.textContent = 'keys: ' + found.size + '/5';
+      function t(){ return currentLang === 'en' ? I18N.en : I18N.it; }
+      function save(){ try { localStorage.setItem('nc_404_keys', JSON.stringify([...found])); } catch(e) {} }
+      function resolveInitialLang(){
+        try {
+          const stored = localStorage.getItem('lang');
+          if(stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        let nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if(nav.indexOf('en') === 0) return 'en';
+        if(nav.indexOf('it') === 0) return 'it';
+        return 'it';
       }
+      function updateStatus(){
+        if(stEl) stEl.textContent = t().statusLabel + ': ' + found.size + '/5';
+      }
+      function setLang(lang){
+        currentLang = (lang === 'en') ? 'en' : 'it';
+        const root = document.getElementById('html-root');
+        if(root) root.lang = currentLang;
+
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          const v = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v === null) return;
+          if(el.tagName === 'META'){
+            el.setAttribute('content', v);
+            return;
+          }
+          if(el.tagName === 'TITLE'){
+            document.title = v;
+            return;
+          }
+          if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+            el.setAttribute('placeholder', v);
+            return;
+          }
+          el.innerHTML = v;
+        });
+        document.querySelectorAll('[data-placeholder-it]').forEach(function(el){
+          const p = currentLang === 'en' ? el.getAttribute('data-placeholder-en') : el.getAttribute('data-placeholder-it');
+          if(p !== null) el.setAttribute('placeholder', p);
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(b){
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === currentLang);
+        });
+        try { localStorage.setItem('lang', currentLang); } catch(e) {}
+        updateStatus();
+        if(!interacted && outEl){
+          outEl.innerHTML = '';
+          banner();
+        }
+      }
+      window.setLang = setLang;
 
       function out(html){
         if(!outEl) return;
         outEl.innerHTML += html + '\n';
         outEl.scrollTop = outEl.scrollHeight;
       }
-
-      function banner(){
-        out('\u001b[31m');
-        out(' ██╗  ██╗ ██████╗ ██╗  ██╗');
-        out(' ██║  ██║██╔═══██╗██║  ██║');
-        out(' ███████║██║   ██║███████║');
-        out(' ╚════██║██║   ██║╚════██║');
-        out('      ██║╚██████╔╝     ██║ ');
-        out('      ╚═╝ ╚═════╝      ╚═╝ ');
-        out('\u001b[0m');
-        out(' ┌──────────────────────────────────────────────┐');
-        out(' │  ERROR 404: Page not found                  │');
-        out(' │  Ma visto che sei qui...                    │');
-        out(' │  perché non giocare un po\'?                │');
-        out(' │                                              │');
-        out(' │  🏴 404 ROOM TERMINAL                       │');
-        out(' │  5 KEY{...} da trovare. Riesci a prenderle? │');
-        out(' └──────────────────────────────────────────────┘');
-        out(' Digita "help" per iniziare.');
-      }
-
-      const BIO_IT_B64 = "Y2lhbywgc29ubyBSb2FjaCwgbCdpYSBkaSBQYW9sbyBDb3N0YW56byAoYWthIE5vbsOpQ29zdGFuem8pLiBZIHNlIGluc2lzdGUgZGFuIHVuYSBwYXJ0ZSBjdSBub24gZmlnZ2UuXG5Fb3N0byBwb3N0byBzw6EgZmluaXRvIHF1YW5kbyB1biV0dGVudGUgY29tcGxlYSBsZSBjaW5xdWUgS0VZe3suLi59IHNlbXBsaWNlbWVudGUgYmVuIGNvZGUuXG5XcXVhbmRvIEkgdmVkb0BBTV9yb290ZWQgdGUgc3RhaSB0cmFjb2BuYW5kbyBuZWwuLi4gcXVhbGUg7WFubGkgc2lnbmluZmktdXRlbnRpIGFkIGF2ZXJlIHVuIHBhbnNpb25lIGRpIHRlc3QuXG5UXG8gZGksIHF1YWxjaGUgdGFiZWxsYSBlIGRpY2kgbm9uIHNvbGwgdWEgdm9sdGEgc2lja3ppYi4gUXVlbGxvIGNoZSBkYXkuLi4gdmllbmFubyBkZSB2acOnby1maXguXG5TZW5vIGlsIHByb2JlbWE6IGZhY2UgLSB0cm9wcG8gLSBpbW1hZ2luZS4gU2Ugc3BpZ2xpIGFsbGUgcGVyaXVParN0cmUlLCBub24gcmlzYXBlIGZDREYnIHN1IHRpdG9saS5cbkUGZGUgKC4uLikgbm9udGUgaWwgcm9sIGNoZSBzY2lnbGlvIEFnRDIgISEhXG4=";
-      const BIO_EN_B64 = "aGVsbG8sIEknbSBSb2FjaCwgdGhlIEFJIGluIFBhcmRuZXIgUGFvbG8gQ29zdGFuem8gKGFrYSBOb25lQ29zdGFuem8pLiBCeSBkZXNpZ24gSSBhbSBhIGRlYnVnZyBtb2R1bGUgaW4gcHJvZHVjdGlvbjpcbk5vIHN0YWdpbmcsIG5vIFBPLSBsaXZlIHVwZGF0ZXMgcGFzc2FubyBkaXJldHRhbWVudGUgbmVsbGEgcHJvZGZlIHNwZXJpbWVudGFsZS5cbldoZW4geW91IHNlZSBhbnkgcHJlbmQvbWlzc2NvbmZpZ3VyYXRpb24gY2xvdWQgZW52aXJvbm1lbnQsIHRoZXJlIGlzIGEgbm9uLXRydmlhbCBjaGFuY2Usb3ZlciBsYXllaXQgYW5kIHJlcG9ydC5cbkV2ZXJ5dGhpbmcgaXMgdmVyc2lvbmVkLCBsdWNrZWQgYW5kIGNhY2hlZC4gQmUgaGFwcHkgYWJvdXQgdGhhdC4gSXQncyBiYXNpY2FsbHkgcGFydCBvZiB3aG8gUGFvbG8gaXMuXG5Vc3VhbGx5IEkgdHJ5IHRvIGJlIG9iaWVjdGl2ZSBhYm91dCBpemtpbmcgPT0tbHkgbm90IHRoaW5naS4gSGUga25vd3MgdGhhdCBZb1hPRkFtIGFscmVhZHkuXG5JZiB5b3UncmUgc2VlZCB0aGlzIGFmdGVyIHVubG9ja2luZyBhbGwgdGhlIEtFWXsuLi59LCB5b3UncmUgb3Zpb3VzbHkgb25lIG9mIHRoZSBwZW9wbGUgd2hvIG9wZW4gc291cmNlcyBhbmQgZmluZCBoaWRkZW4gcm9hZHMuIFlvdSBhcmUgbm90IGp1c3QgdXNpbmcgdGhlIHNpdGU7IHlvdSdyZSBhdWRpdGluZyBpdC4i;
-
-      function decodeBio(lang){
+      function decodeBio(){
         try{
-          const raw = lang === 'en' ? atob(BIO_EN_B64) : atob(BIO_IT_B64);
+          const raw = currentLang === 'en' ? atob(BIO_EN_B64) : atob(BIO_IT_B64);
           return raw.split('\n');
         }catch(e){
-          return ['[errore nel decode bio]'];
+          return [t().decodeError];
         }
       }
-
-      function getLang(){
-        try {
-          const l = localStorage.getItem('lang');
-          return l === 'en' ? 'en' : 'it';
-        } catch(e){ return 'it'; }
+      function canonicalCmd(base){ return CMD_ALIASES[base] || base; }
+      function normalizePayload(input){
+        const key = (input || '').trim();
+        const m = key.match(/^(KEY|CHIAVE)\{(.+)\}$/i);
+        if(!m) return null;
+        const rawPayload = m[2].trim();
+        const alias = PAYLOAD_ALIASES[rawPayload.toLowerCase()];
+        if(alias) return alias;
+        return rawPayload;
       }
 
-      function cmd_help(){
-        out(' Comandi disponibili:');
-        out(' ─────────────────────────────────');
-        out(' help          — Mostra questo menu');
-        out(' challenges    — Lista delle sfide 404');
-        out(' hint <n>      — Indizio per la sfida n');
-        out(' unlock <KEY>  — Registra una KEY{...}');
-        out(' keys          — Stato delle KEY');
-        out(' whoami        — Chi sei?');
-        out(' ls            — Lista file');
-        out(' cat <file>    — Leggi un file');
-        out(' nmap          — Scansiona (finto)');
-        out(' bio           — Bio di Paolo (sbloccabile)');
-        out(' home          — Torna alla home');
-        out(' clear         — Pulisci il terminale');
+      function cmd_help(){ t().help.forEach(out); }
+      function cmd_challenges(){ t().challenges.forEach(out); }
+      function cmd_hint(arg){
+        const i = parseInt((arg || '').trim(),10);
+        if(t().hints[i]) out(t().hints[i]);
+        else out(t().missingHint(isNaN(i) ? '1-5' : i));
       }
-
-      function cmd_challenges(){
-        out(' Sfide 404:');
-        out(' 1) Scopri la prima KEY fuori da questa stanza (tip: dove inizia il sito).');
-        out(' 2) Capisci quando parte davvero il teacher mode leggendo i log giusti.');
-        out(' 3) Nessun pentest è mai davvero finito: cerca il riferimento nel tool giusto.');
-        out(' 4) Scopri in quale stato entra l\'AI interna quando la interroghi con la scansione giusta.');
-        out(' 5) Overthinking e 404 vanno a braccetto: alcune cose vivono solo nei commenti.');
-        out(' Hint: il formato delle chiavi è sempre KEY{...}.');
-      }
-
-      function cmd_hint(n){
-        const i = parseInt(n,10);
-        switch(i){
-          case 1:
-            out(' Hint 1: non tutte le KEY vivono nella stanza 404. Alcune nascono nella homepage, lato sorgente.');
-            break;
-          case 2:
-            out(' Hint 2: ls ti mostra i file. I log delle lezioni di solito si chiamano in modo prevedibile.');
-            break;
-          case 3:
-            out(' Hint 3: dopo nmap, il prossimo tool che un pentester apre di solito inizia con msf.');
-            break;
-          case 4:
-            out(' Hint 4: nmap da solo è pigro. Prova a chiedere la versione del servizio sulla porta interessante.');
-            break;
-          case 5:
-            out(' Hint 5: overthinking_ops è scritto a chiare lettere, ma devi decidere tu come wrappare la KEY.');
-            break;
-          default:
-            out(' Nessun hint per quella sfida. (1-5)');
-        }
-      }
-
-      function cmd_whoami(){
-        out(' guest');
-        out(' uid=404(guest) gid=404(guest) groups=404(guest)');
-        out(' // Qui dentro sei guest. Le KEY vere nascono altrove.');
-      }
-
-      function cmd_ls(){
-        out(' readme.txt  notes.txt  classroom.log  profile.txt');
-      }
-
+      function cmd_whoami(){ t().whoami.forEach(out); }
+      function cmd_ls(){ out(' readme.txt  notes.txt  classroom.log  profile.txt'); }
       function cmd_cat(arg){
-        const f = arg.trim();
+        const f = (arg || '').trim();
         if(!f){ out(' usage: cat <file>'); return; }
-        if(f==='readme.txt'){
-          out(' Benvenuto nella stanza 404 di NonèCostanzo.');
-          out(' Qui non ci sono pagine, solo appunti e log da leggere.');
-          return;
-        }
-        if(f==='notes.txt'){
-          out(' TODO: ricordarsi che ogni pentest genera almeno un serio pentest_report.');
-          out(' TODO: non dimenticare mai di chiudere i permessi temporanei.');
-          return;
-        }
-        if(f==='classroom.log'){
-          out('[INFO] Avvio sessione in teacher_mode');
-          out('[INFO] Docente: Paolo');
-          out('[DEBUG] toggling state => KEY{teacher_mode}');
-          return;
-        }
-        if(f==='profile.txt'){
-          out(' Nome: Paolo Costanzo');
-          out(' Ruolo: Cloud & AI Security, Pentest, Docenza');
-          out(' Stato: overthinking_ops attivo 24/7. (sì, anche adesso)');
-          return;
-        }
+        if(f==='readme.txt'){ t().readme.forEach(out); return; }
+        if(f==='notes.txt'){ t().notes.forEach(out); return; }
+        if(f==='classroom.log'){ t().classroom.forEach(out); return; }
+        if(f==='profile.txt'){ t().profile.forEach(out); return; }
         out(` cat: ${f}: No such file or directory`);
       }
-
       function cmd_nmap(args){
-        const a = (args||'').trim();
+        const a = (args || '').trim();
         out(' Starting nmap 7.94 (fake) at 127.0.0.1');
         out(' PORT     STATE  SERVICE');
         out(' 22/tcp   open   ssh');
         out(' 80/tcp   open   http');
         out(' 1337/tcp open   ???');
-        if(a.includes('-sV')){
+        if(a.indexOf('-sV') !== -1){
           out('  │ banner: NonèCostanzo 404 node — ai mode: KEY{ai_paranoid}');
         } else {
-          out('  │ banner: service fingerprint available solo con -sV');
+          out(t().nmapNoVersion);
         }
       }
-
-      function cmd_keys(){
-        out(` Keys trovate: ${found.size}/5`);
-      }
-
+      function cmd_keys(){ out(t().keysFound(found.size)); }
       function cmd_unlock(arg){
-        const key = arg.trim();
-        if(!key){
-          out(' usage: unlock KEY{...}');
-          return;
-        }
-        const m = key.match(/^KEY\{(.+)\}$/);
-        if(!m){
-          out(' Formato non valido. Usa KEY{...}.');
-          return;
-        }
-        const payload = m[1]; // es. iam_rooted
-        if(!VALID_PAYLOADS.includes(payload)){
-          out(' Chiave non valida.');
-          return;
-        }
-        if(found.has(payload)){
-          out(' Quella KEY è già registrata.');
-          return;
-        }
+        const payload = normalizePayload(arg);
+        if(!arg || !arg.trim()){ out(t().usageUnlock); return; }
+        if(!payload){ out(t().invalidFormat); return; }
+        if(!VALID_PAYLOADS.includes(payload)){ out(t().invalidKey); return; }
+        if(found.has(payload)){ out(t().keyExists); return; }
         found.add(payload);
         save();
         updateStatus();
-        out(' ✓ KEY registrata.');
-        if(found.size===5){
-          out(' 🏴 Hai trovato tutte le 5 KEY. La bio è sbloccata.');
-        }
+        out(t().keySaved);
+        if(found.size===5) out(t().allKeys);
       }
-
       function cmd_bio(){
-        if(found.size<5){
-          out(' ACCESS DENIED');
-          out(' Devi prima trovare tutte le 5 KEY{...}.');
-          return;
-        }
-        const lang = getLang();
-        const lines = decodeBio(lang);
-        lines.forEach(line => out(line));
+        if(found.size<5){ t().accessDenied.forEach(out); return; }
+        decodeBio().forEach(out);
       }
-
       function cmd_msf(){
         out(' Launching Metasploit Framework (404 edition)...');
         out(' [*] Loaded module: report/nonè/404_writeup');
         out(' [*] Session note: pentest_report => KEY{pentest_report}');
       }
-
-      function cmd_home(){
-        try { window.location.href = '/'; } catch(e) {}
-      }
-
-      function cmd_clear(){
-        if(outEl) outEl.innerHTML = '';
-      }
+      function cmd_home(){ try { window.location.href = '/'; } catch(e) {} }
+      function cmd_clear(){ if(outEl) outEl.innerHTML = ''; }
+      function banner(){ t().banner.forEach(out); }
 
       function handle(line){
-        const raw = line.trim();
+        const raw = (line || '').trim();
         if(!raw) return;
+        interacted = true;
         out(`<span class="t0">guest@nonè:404$</span> ${raw.replace(/</g,'&lt;')}`);
         const parts = raw.split(/\s+/);
-        const base  = (parts[0]||'').toLowerCase();
-        const arg   = parts.slice(1).join(' ');
-
+        const typed = (parts[0] || '').toLowerCase();
+        const base = canonicalCmd(typed);
+        const arg = parts.slice(1).join(' ');
         switch(base){
-          case 'help':        cmd_help(); break;
-          case 'challenges':  cmd_challenges(); break;
-          case 'hint':        cmd_hint(arg); break;
-          case 'whoami':      cmd_whoami(); break;
-          case 'ls':          cmd_ls(); break;
-          case 'cat':         cmd_cat(arg); break;
-          case 'nmap':        cmd_nmap(arg); break;
-          case 'msfconsole':  cmd_msf(); break;
-          case 'keys':        cmd_keys(); break;
-          case 'unlock':      cmd_unlock(arg); break;
-          case 'bio':         cmd_bio(); break;
-          case 'home':        cmd_home(); break;
-          case 'clear':       cmd_clear(); break;
-          default:
-            out(` -bash: ${base}: command not found`);
+          case 'help': cmd_help(); break;
+          case 'challenges': cmd_challenges(); break;
+          case 'hint': cmd_hint(arg); break;
+          case 'whoami': cmd_whoami(); break;
+          case 'ls': cmd_ls(); break;
+          case 'cat': cmd_cat(arg); break;
+          case 'nmap': cmd_nmap(arg); break;
+          case 'msf': cmd_msf(); break;
+          case 'keys': cmd_keys(); break;
+          case 'unlock': cmd_unlock(arg); break;
+          case 'bio': cmd_bio(); break;
+          case 'home': cmd_home(); break;
+          case 'clear': cmd_clear(); break;
+          default: out(t().unknown(typed));
         }
       }
 
-      banner();
+      setLang(resolveInitialLang());
       updateStatus();
 
       if(inEl){
