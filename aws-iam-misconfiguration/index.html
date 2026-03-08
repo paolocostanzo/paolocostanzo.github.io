@@ -366,7 +366,14 @@
       var bar = document.getElementById('read-bar');
       if (bar) bar.style.width = (tot > 0 ? (sc / tot * 100) : 0) + '%';
       var bt = document.getElementById('back-top');
-      if (bt) bt.classList.toggle('vis', sc > 300);
+      if (bt) {
+        bt.classList.toggle('vis', sc > 300);
+        var footer = document.querySelector('footer');
+        if (footer) {
+          var fTop = footer.getBoundingClientRect().top;
+          bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+        }
+      }
     });
     // share buttons
     (function() {
