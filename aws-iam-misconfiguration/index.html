@@ -65,9 +65,28 @@
     .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
     .lang-btn.active{background:var(--orange);color:var(--black)}
     .lang-btn:hover:not(.active){color:var(--orange)}
+    /* read progress */
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    /* back to top */
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    /* share */
+    .share-wrap{max-width:800px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    /* authorship */
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
   </style>
 </head>
 <body>
+  <div id="read-bar"></div>
   <header>
     <div class="header-inner">
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
@@ -84,6 +103,10 @@
       <span class="meta-item">Mar 2026</span>
       <span class="meta-item" data-it="8 min read" data-en="8 min read">8 min read</span>
       <span class="difficulty-badge"><span class="dot"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar"><div class="auth-human" style="width:0%"></div></div>
+        <span class="auth-lbl" data-it="100% ai" data-en="100% ai">100% ai</span>
+      </div>
     </div>
     <h1
       data-it="AWS IAM: i 5 errori di configurazione più comuni"
@@ -271,6 +294,18 @@
       Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report.
     </p>
   </div>
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="condividi" data-en="share">condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" id="sx" href="#" target="_blank" rel="noopener">𝕏</a>
+      <a class="share-btn" id="sli" href="#" target="_blank" rel="noopener">linkedin</a>
+      <a class="share-btn" id="srd" href="#" target="_blank" rel="noopener">reddit</a>
+      <a class="share-btn" id="sdt" href="#" target="_blank" rel="noopener">dev.to</a>
+      <a class="share-btn" id="swa" href="#" target="_blank" rel="noopener">whatsapp</a>
+      <a class="share-btn" id="stg" href="#" target="_blank" rel="noopener">telegram</a>
+      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
   <footer class="article-footer">
     <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
@@ -323,6 +358,48 @@
       window.setLang = setLang;
       setLang(resolveInitialLang());
     })();
+    // progress bar + back to top
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var sc = doc.scrollTop || document.body.scrollTop;
+      var tot = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('read-bar');
+      if (bar) bar.style.width = (tot > 0 ? (sc / tot * 100) : 0) + '%';
+      var bt = document.getElementById('back-top');
+      if (bt) bt.classList.toggle('vis', sc > 300);
+    });
+    // share buttons
+    (function() {
+      var url = window.location.href;
+      var title = (document.querySelector('h1') || {textContent: document.title}).textContent.trim();
+      var enc = encodeURIComponent;
+      var sx = document.getElementById('sx');
+      var swa = document.getElementById('swa');
+      var stg = document.getElementById('stg');
+      var scp = document.getElementById('scp');
+      if (sx) sx.href = 'https://twitter.com/intent/tweet?text=' + enc(title) + '&url=' + enc(url);
+      var sli = document.getElementById('sli');
+      var srd = document.getElementById('srd');
+      var sdt = document.getElementById('sdt');
+      if (sli) sli.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url);
+      if (srd) srd.href = 'https://www.reddit.com/submit?url=' + enc(url) + '&title=' + enc(title);
+      if (sdt) sdt.href = 'https://dev.to/new';
+      if (swa) swa.href = 'https://wa.me/?text=' + enc(title + ' ' + url);
+      if (stg) stg.href = 'https://t.me/share/url?url=' + enc(url) + '&text=' + enc(title);
+      if (scp) scp.addEventListener('click', function() {
+        navigator.clipboard.writeText(url).then(function() {
+          var lang = document.getElementById('html-root').getAttribute('lang');
+          scp.textContent = lang === 'en' ? '✓ copied' : '✓ copiato';
+          scp.classList.add('ok');
+          setTimeout(function() {
+            var l = document.getElementById('html-root').getAttribute('lang');
+            scp.textContent = l === 'en' ? 'copy link' : 'copia link';
+            scp.classList.remove('ok');
+          }, 2000);
+        });
+      });
+    })();
   </script>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
 </body>
 </html>
