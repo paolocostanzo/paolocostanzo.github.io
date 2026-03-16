@@ -217,6 +217,7 @@
     <span class="filter-label" data-it="// Ultimi post:" data-en="// Latest posts:">// Ultimi post:</span>
     <div class="filters">
       <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterPosts('threat-intel',this)">Threat Intel</button>
       <button class="filter-btn" onclick="filterPosts('cloud',this)">Cloud</button>
       <button class="filter-btn" onclick="filterPosts('pentest',this)">Pentest</button>
       <button class="filter-btn" onclick="filterPosts('cve',this)">CVE</button>
@@ -230,11 +231,29 @@
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
+    <!-- OPERATION EPIC FURY — FEATURED -->
+    <a class="article-card fade-up d2" data-category="threat-intel" href="operation-epic-fury-cyber-war-iran/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Threat Intelligence · Malware Analysis" data-en="Threat Intelligence · Malware Analysis">Threat Intelligence · Malware Analysis</span>
+        <span class="card-date">17 Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="Operation Epic Fury: quello che i report non hanno trovato" data-en="Operation Epic Fury: what the reports missed">
+        Operation Epic Fury: quello che i report non hanno trovato
+      </div>
+      <p class="card-excerpt" data-it="Indagine OSINT originale sulla campagna iraniana (Android + Windows) che ha colpito i civili israeliani. Payload Windows inedito, C2 secondario 0/94 VT, infrastruttura attiva 8 mesi prima — tutto quello che Unit 42, CloudSEK e gli altri non avevano trovato." data-en="Original OSINT investigation into the Iranian dual-platform campaign (Android + Windows) targeting Israeli civilians. Undisclosed Windows payload, secondary C2 with 0/94 VT, infrastructure active 8 months before the operation — everything Unit 42, CloudSEK and others missed.">
+        Indagine OSINT originale sulla campagna iraniana (Android + Windows) che ha colpito i civili israeliani. Payload Windows inedito, C2 secondario 0/94 VT, infrastruttura attiva 8 mesi prima — tutto quello che Unit 42, CloudSEK e gli altri non avevano trovato.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">25 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
     <!-- POST 1 -->
     <a class="article-card fade-up d2" data-category="pentest" href="tim-packet-loss-gfn/">
       <div class="card-meta">
         <span class="card-tag">Network Security</span>
-        <span class="card-date">Mar 2026</span>
+        <span class="card-date">10 Mar 2026</span>
       </div>
       <div class="card-title" data-it="TIM, GeForce Now e l'ICMP Black Hole" data-en="TIM, GeForce Now and the ICMP Black Hole">
         TIM, GeForce Now e l'ICMP Black Hole

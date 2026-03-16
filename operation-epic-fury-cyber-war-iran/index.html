@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Easter egg: stai leggendo il sorgente. Rispetto.
+       L'evidenza più importante è nella sezione Finding #2.
+       Il secondo C2 ti aspetta. 0/94 VT. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title
+    data-it="Operation Epic Fury: quello che i report non hanno trovato — NonèCostanzo"
+    data-en="Operation Epic Fury: what the reports missed — NonèCostanzo"
+  >Operation Epic Fury: quello che i report non hanno trovato — NonèCostanzo</title>
+  <meta name="description"
+    data-it="Indagine OSINT originale: payload Windows inedito, secondo C2 con 0/94 VT, infrastruttura attiva 8 mesi prima dell'operazione. Tutto quello che Unit 42, CloudSEK e gli altri non hanno trovato."
+    data-en="Original OSINT investigation: undisclosed Windows payload, secondary C2 with 0/94 VT, infrastructure active 8 months before the operation. Everything Unit 42, CloudSEK and others missed."
+    content="Indagine OSINT originale: payload Windows inedito, secondo C2 con 0/94 VT, infrastruttura attiva 8 mesi prima dell'operazione. Tutto quello che Unit 42, CloudSEK e gli altri non hanno trovato."
+  />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:800px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:800px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;color:#ff3333;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:#ff3333}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:640px;line-height:1.8}
+    .article-body{max-width:800px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:0.95rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:0.95rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:800px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .finding-badge{font-family:var(--mono);font-size:0.62rem;color:var(--orange);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.4rem;display:block}
+  </style>
+</head>
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag" data-it="Threat Intelligence" data-en="Threat Intelligence">Threat Intelligence</span>
+      <span class="tag" data-it="Malware Analysis" data-en="Malware Analysis">Malware Analysis</span>
+      <span class="meta-item">17 Mar 2026</span>
+      <span class="meta-item" data-it="25 min read" data-en="25 min read">25 min read</span>
+      <span class="difficulty-badge"><span class="dot"></span><span data-it="Hard" data-en="Hard">Hard</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar"><div class="auth-human" style="width:85%"></div></div>
+        <span class="auth-lbl" data-it="85% umano · 15% ai" data-en="85% human · 15% ai">85% umano · 15% ai</span>
+      </div>
+    </div>
+    <h1
+      data-it="Operation Epic Fury: quello che i report non hanno trovato"
+      data-en="Operation Epic Fury: what the reports missed"
+    >
+      Operation Epic Fury: quello che i report non hanno trovato
+    </h1>
+    <p class="article-intro"
+       data-it="Un'indagine OSINT originale sul payload Windows inedito e l'infrastruttura C2 sconosciuta. Doveva essere un articolo semplice. Poi è partito il terminale."
+       data-en="An original OSINT investigation into an undisclosed Windows payload and unknown C2 infrastructure. It was supposed to be a simple article. Then the terminal started."
+    >
+      Un'indagine OSINT originale sul payload Windows inedito e l'infrastruttura C2 sconosciuta. Doveva essere un articolo semplice. Poi è partito il terminale.
+    </p>
+  </div>
+
+  <div class="article-body">
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR — per chi non ha tempo. Gli altri si godano la premessa." data-en="// TL;DR — for those in a hurry. Everyone else: enjoy the preamble.">// TL;DR — per chi non ha tempo. Gli altri si godano la premessa.</div>
+      <p data-it="&lt;strong&gt;Cosa sapevano tutti:&lt;/strong&gt; campagna iraniana, fake RedAlert APK, smishing contro civili israeliani post-28 febbraio 2026. Documentato da Unit 42, CloudSEK, Cloudflare Cloudforce One entro 5 giorni." data-en="&lt;strong&gt;What everyone knew:&lt;/strong&gt; Iranian campaign, fake RedAlert APK, smishing against Israeli civilians after February 28, 2026. Documented by Unit 42, CloudSEK, Cloudflare Cloudforce One within 5 days."><strong>Cosa sapevano tutti:</strong> campagna iraniana, fake RedAlert APK, smishing contro civili israeliani post-28 febbraio 2026. Documentato da Unit 42, CloudSEK, Cloudflare Cloudforce One entro 5 giorni.</p>
+      <p style="margin:.5rem 0 .75rem" data-it="&lt;strong&gt;Quello che nessuno aveva trovato:&lt;/strong&gt;" data-en="&lt;strong&gt;What nobody had found:&lt;/strong&gt;"><strong>Quello che nessuno aveva trovato:</strong></p>
+      <ul>
+        <li data-it="&lt;strong&gt;Payload Windows inedito&lt;/strong&gt;: LotAccessUI.EXE, client VPN cinese del 2016 trojanizzato. CrowdStrike Falcon: CLEAN. 59/72 vendor VirusTotal: silenzio." data-en="&lt;strong&gt;Undisclosed Windows payload&lt;/strong&gt;: LotAccessUI.EXE, a trojanized Chinese VPN client from 2016. CrowdStrike Falcon: CLEAN. 59/72 VirusTotal vendors: silent."><strong>Payload Windows inedito</strong>: LotAccessUI.EXE, client VPN cinese del 2016 trojanizzato. CrowdStrike Falcon: CLEAN. 59/72 vendor VirusTotal: silenzio.</li>
+        <li data-it="&lt;strong&gt;Secondo C2 con 0/94 VT&lt;/strong&gt;: 167.160.187[.]43 / 9732.5486311[.]xyz — nessun sistema di reputazione lo conosce. Nessun report ne parla." data-en="&lt;strong&gt;Secondary C2 with 0/94 VT&lt;/strong&gt;: 167.160.187[.]43 / 9732.5486311[.]xyz — no reputation system knows it. No report mentions it."><strong>Secondo C2 con 0/94 VT</strong>: 167.160.187[.]43 / 9732.5486311[.]xyz — nessun sistema di reputazione lo conosce. Nessun report ne parla.</li>
+        <li data-it="&lt;strong&gt;Infrastruttura attiva da giugno 2025&lt;/strong&gt; — 8 mesi prima dell'operazione. Non è una risposta improvvisata." data-en="&lt;strong&gt;Infrastructure active since June 2025&lt;/strong&gt; — 8 months before the operation. Not an improvised response."><strong>Infrastruttura attiva da giugno 2025</strong> — 8 mesi prima dell'operazione. Non è una risposta improvvisata.</li>
+        <li data-it="Entrambi i C2 Windows ancora &lt;strong&gt;live 16 giorni dopo l'operazione&lt;/strong&gt;, nonostante i report pubblici." data-en="Both Windows C2 servers still &lt;strong&gt;live as of March 15, 2026 (16 days after the operation)&lt;/strong&gt;, despite public reports.">Entrambi i C2 Windows ancora <strong>live al 15 marzo 2026 (16 giorni dopo l'operazione)</strong>, nonostante i report pubblici.</li>
+        <li data-it="&lt;strong&gt;Secondo APK Android&lt;/strong&gt; (com.net.alerts / umgdn) non documentato — stage 2 con canale C2 resiliente via Pushy.me." data-en="&lt;strong&gt;Second Android APK&lt;/strong&gt; (com.net.alerts / umgdn) undocumented — stage 2 with resilient C2 channel via Pushy.me."><strong>Secondo APK Android</strong> (com.net.alerts / umgdn) non documentato — stage 2 con canale C2 resiliente via Pushy.me.</li>
+        <li data-it="&lt;strong&gt;Convergenza tattica con Arid Viper 2023&lt;/strong&gt;: stesso pattern TTP — fake alert app + push C2. Documentato qui per la prima volta." data-en="&lt;strong&gt;Tactical convergence with Arid Viper 2023&lt;/strong&gt;: same TTP pattern — fake alert app + push C2. Documented here for the first time."><strong>Convergenza tattica con Arid Viper 2023</strong>: stesso pattern TTP — fake alert app + push C2. Documentato qui per la prima volta.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Perché nessun sandbox lo aveva visto:&lt;/strong&gt; RDTSC anti-VM (T1497.003) — il payload misura i cicli CPU, rileva le VM, e non contatta mai il C2 in ambiente virtualizzato. Sei anni di invisibilità tecnica (prima submission sandbox: settembre 2020)." data-en="&lt;strong&gt;Why no sandbox had seen it:&lt;/strong&gt; RDTSC anti-VM (T1497.003) — the payload measures CPU cycles, detects VMs, and never contacts the C2 in a virtualized environment. Six years of technical invisibility (first sandbox submission: September 2020)."><strong>Perché nessun sandbox lo aveva visto:</strong> RDTSC anti-VM (T1497.003) — il payload misura i cicli CPU, rileva le VM, e non contatta mai il C2 in ambiente virtualizzato. Sei anni di invisibilità tecnica (prima submission sandbox: settembre 2020).</p>
+      <p data-it="&lt;strong&gt;Strumenti:&lt;/strong&gt; VirusTotal (free tier), FOFA, crt.sh, nmap, openssl. Nessun accesso privilegiato. Tutto riproducibile." data-en="&lt;strong&gt;Tools:&lt;/strong&gt; VirusTotal (free tier), FOFA, crt.sh, nmap, openssl. No privileged access. Fully reproducible."><strong>Strumenti:</strong> VirusTotal (free tier), FOFA, crt.sh, nmap, openssl. Nessun accesso privilegiato. Tutto riproducibile.</p>
+    </div>
+
+    <!-- ═══════════════ PREMESSA ═══════════════ -->
+    <h2
+      data-it="Premessa: il secondo articolo che non sarebbe dovuto essere"
+      data-en="Preamble: the second article that wasn't supposed to exist"
+    >Premessa: il secondo articolo che non sarebbe dovuto essere</h2>
+
+    <div class="callout-red">
+      <div class="callout-label"
+           data-it="// DISCLAIMER — non è un documento politico. È molto peggio: è tecnico."
+           data-en="// DISCLAIMER — this is not a political document. It's much worse: it's technical.">
+        // DISCLAIMER — non è un documento politico. È molto peggio: è tecnico.
+      </div>
+      <p
+        data-it="Quello che segue è un'analisi tecnica di infrastruttura malware su fonti pubblicamente disponibili. Il contesto geopolitico è citato esclusivamente come cornice temporale — per stabilire il &lt;em&gt;quando&lt;/em&gt;, non il &lt;em&gt;chi ha ragione&lt;/em&gt;. L'autore non si schiera. Se sei venuto qui per la propaganda, troverai soltanto curl, nmap e crt.sh. Il che, in effetti, è infinitamente più interessante."
+        data-en="What follows is a technical analysis of malware infrastructure using publicly available sources. The geopolitical context is cited solely as a temporal frame — to establish the &lt;em&gt;when&lt;/em&gt;, not the &lt;em&gt;who's right&lt;/em&gt;. The author takes no sides. If you came here for propaganda, you'll find only curl, nmap, and crt.sh. Which, in all honesty, is infinitely more interesting."
+      >
+        Quello che segue è un'analisi tecnica di infrastruttura malware su fonti pubblicamente disponibili. Il contesto geopolitico è citato esclusivamente come cornice temporale — per stabilire il <em>quando</em>, non il <em>chi ha ragione</em>. L'autore non si schiera. Se sei venuto qui per la propaganda, troverai soltanto curl, nmap e crt.sh. Il che, in effetti, è infinitamente più interessante.
+      </p>
+    </div>
+
+    <p
+      data-it="Buongiorno Signori. Vi trovate qui — presumibilmente — perché cercate un write-up tecnico, qualche analisi di threat intelligence, forse un deep-dive su infrastrutture C2 di matrice mediorientale. Ed è esattamente quello che trovate. La premessa è necessaria non per mio diletto narrativo, ma perché il contesto spiega la metodologia, e la metodologia spiega come si sia arrivati a finding che una dozzina di vendor tra i più blasonati del pianeta — Unit 42, CloudSEK, CrowdStrike, e amici — non avevano trovato. Vi chiedo di tollerare tre paragrafi di persona che parla di sé. Ne vale la pena."
+      data-en="Good morning. You're here — presumably — because you're looking for a technical write-up, threat intelligence analysis, maybe a deep-dive into Middle Eastern C2 infrastructure. And that's exactly what you'll find. The preamble is necessary not for my narrative gratification, but because context explains methodology, and methodology explains how we ended up with findings that a dozen of the world's most acclaimed vendors — Unit 42, CloudSEK, CrowdStrike, and friends — had missed. I'm asking you to tolerate three paragraphs of a person talking about themselves. It's worth it."
+    >
+      Buongiorno Signori. Vi trovate qui — presumibilmente — perché cercate un write-up tecnico, qualche analisi di threat intelligence, forse un deep-dive su infrastrutture C2 di matrice mediorientale. Ed è esattamente quello che trovate. La premessa è necessaria non per mio diletto narrativo, ma perché il contesto spiega la metodologia, e la metodologia spiega come si sia arrivati a finding che una dozzina di vendor tra i più blasonati del pianeta — Unit 42, CloudSEK, CrowdStrike, e amici — non avevano trovato. Vi chiedo di tollerare tre paragrafi di persona che parla di sé. Ne vale la pena.
+    </p>
+
+    <p
+      data-it="Chi mi conosce, o ha avuto la sufficiente pertinacia — e il tempo libero — da sbloccare la bio tramite il CTF nascosto da qualche parte su questo sito, è al corrente del mio trascorso accademico in Scienze Politiche e Sociali. Una disciplina che prepara ottimamente alla costruzione di opinioni autorevoli su questioni geopolitiche alle quali non si ha accesso diretto — il che, a ben vedere, non mi distingue granché dalla media dei commentatori televisivi italiani. La differenza sostanziale è che nel frattempo ho imparato a usare nmap."
+      data-en="Those who know me, or had the persistence — and spare time — to unlock the bio via the CTF hidden somewhere on this site, know about my academic background in Political and Social Sciences. A discipline that prepares one admirably for forming authoritative opinions on geopolitical matters to which one has no direct access — which, on reflection, doesn't distinguish me much from the average Italian television commentator. The substantive difference is that in the meantime I learned to use nmap."
+    >
+      Chi mi conosce, o ha avuto la sufficiente pertinacia — e il tempo libero — da sbloccare la bio tramite il CTF nascosto da qualche parte su questo sito, è al corrente del mio trascorso accademico in Scienze Politiche e Sociali. Una disciplina che prepara ottimamente alla costruzione di opinioni autorevoli su questioni geopolitiche alle quali non si ha accesso diretto — il che, a ben vedere, non mi distingue granché dalla media dei commentatori televisivi italiani. La differenza sostanziale è che nel frattempo ho imparato a usare nmap.
+    </p>
+
+    <!-- GIF 1 — galaxy brain -->
+    <div class="tenor-gif-embed" data-postid="5139389" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+      <a href="https://tenor.com/search/galaxy+brain-gifs">Galaxy Brain GIF</a> from <a href="https://tenor.com/search/big+brain-gifs">Big Brain GIFs</a>
+    </div>
+
+    <p
+      data-it="Il mio intento, in tutta la sua innocente velleità, era il seguente: analizzare l'infrastruttura nota, verificare quali servizi fossero andati down durante gli eventi del 28 febbraio 2026, osservare come la popolazione civile si fosse adeguata alle stringenti — eufemismo di servizio — decisioni che avevano ridotto la connettività di una nazione intera all'1-4% del normale. Un articolo agile. Sei ore al massimo. Un paio di comandi. Qualche screenshot. Fine. &lt;em&gt;(Questo è il momento in cui chi lavora in sicurezza informatica da più di sei mesi smette di credermi.)&lt;/em&gt;"
+      data-en="My intent, in all its innocent naivety, was as follows: analyze the known infrastructure, verify which services went down during the events of February 28, 2026, observe how the civilian population adapted to the stringent decisions that had reduced an entire nation's connectivity to 1-4% of normal. A light article. Six hours maximum. A couple of commands. A few screenshots. Done. &lt;em&gt;(This is the moment when anyone who has worked in information security for more than six months stops believing me.)&lt;/em&gt;"
+    >
+      Il mio intento, in tutta la sua innocente velleità, era il seguente: analizzare l'infrastruttura nota, verificare quali servizi fossero andati down durante gli eventi del 28 febbraio 2026, osservare come la popolazione civile si fosse adeguata alle stringenti — eufemismo di servizio — decisioni che avevano ridotto la connettività di una nazione intera all'1-4% del normale. Un articolo agile. Sei ore al massimo. Un paio di comandi. Qualche screenshot. Fine. <em>(Questo è il momento in cui chi lavora in sicurezza informatica da più di sei mesi smette di credermi.)</em>
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># Legge di Murphy — Formulazione per Ambienti Tecnici</span>
+<span class="comment"># Rev. 2026 — validità: sempre</span>
+
+if articolo == "veloce" and topic in ["geopolitica", "infosec", "entrambi"]:
+    ore_stimate  = 6
+    ore_reali    = ore_stimate * 2   <span class="danger"># per sessione</span>
+    sessioni     = 2                 <span class="danger"># perché ovviamente</span>
+    esito        = "semplice"        <span class="danger"># ASSERTION ERROR</span>
+
+<span class="comment"># il rabbit hole ha sempre un piano di sotto.</span>
+<span class="comment"># il piano di sotto ospita un C2 che nessun vendor conosce.</span>
+<span class="ok"># hai fatto bene ad aprire il terminale.</span></pre>
+    </div>
+
+    <p
+      data-it="Dodici ore. Due giorni. L'articolo leggero si era trasformato — per &lt;em&gt;eterogenesi dei fini&lt;/em&gt;, come avrebbero commentato i miei ex professori con quella soddisfazione di chi usa il latino per descrivere situazioni che si potrebbero spiegare in tre parole — in un'indagine con finding inediti: un secondo server C2 invisibile a tutti i vendor (0/94 su VirusTotal), un payload Windows che aveva eluso CrowdStrike Falcon per quattro anni, una timeline infrastrutturale di otto mesi che nessun report aveva ricostruito. Niente di quello che avevo pianificato. Tutto quello che non potevo non pubblicare."
+      data-en="Twelve hours. Two days. The light article had transformed — through what my former professors would have described as &lt;em&gt;eterogenesi dei fini&lt;/em&gt; (unintended consequences of intentional actions) — into an investigation with original findings: a second C2 server invisible to all vendors (0/94 on VirusTotal), a Windows payload that had evaded CrowdStrike Falcon for four years, an eight-month infrastructure timeline no report had reconstructed. Nothing I had planned. Everything I couldn't not publish."
+    >
+      Dodici ore. Due giorni. L'articolo leggero si era trasformato — per <em>eterogenesi dei fini</em>, come avrebbero commentato i miei ex professori con quella soddisfazione di chi usa il latino per descrivere situazioni che si potrebbero spiegare in tre parole — in un'indagine con finding inediti: un secondo server C2 invisibile a tutti i vendor (0/94 su VirusTotal), un payload Windows che eludeva sandbox e antivirus dal 2020 senza che nessuno lo sapesse, una timeline infrastrutturale di otto mesi che nessun report aveva ricostruito. Niente di quello che avevo pianificato. Tutto quello che non potevo non pubblicare.
+    </p>
+
+    <!-- GIF 2 — well that escalated quickly -->
+    <div class="tenor-gif-embed" data-postid="13528303" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+      <a href="https://tenor.com/search/well+that+escalated+quickly-gifs">Well That Escalated Quickly GIF</a> from <a href="https://tenor.com/search/anchorman-gifs">Anchorman GIFs</a>
+    </div>
+
+    <p
+      data-it="La verità, per chi la vuole: quando di mezzo ci sono informazioni da scovare sulla rete, è più irresistibile del miele per un orso. Non c'è pianificazione editoriale che regga. Non c'è time-boxing che funzioni. C'è solo il terminale aperto, crt.sh, e la domanda successiva che ti fa dimenticare quella precedente. Il che, in fondo, è l'unica definizione onesta di ricerca."
+      data-en="The truth, for those who want it: when there are things to uncover on the network, it's more irresistible than honey to a bear. No editorial planning holds. No time-boxing works. There's only the open terminal, crt.sh, and the next question that makes you forget the previous one. Which, at the end of the day, is the only honest definition of research."
+    >
+      La verità, per chi la vuole: quando di mezzo ci sono informazioni da scovare sulla rete, è più irresistibile del miele per un orso. Non c'è pianificazione editoriale che regga. Non c'è time-boxing che funzioni. C'è solo il terminale aperto, crt.sh, e la domanda successiva che ti fa dimenticare quella precedente. Il che, in fondo, è l'unica definizione onesta di ricerca.
+    </p>
+
+    <!-- GIF 3 — winnie pooh honey -->
+    <div class="tenor-gif-embed" data-postid="26198576" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+      <a href="https://tenor.com/search/winnie+pooh+honey-gifs">Winnie Pooh Honey GIF</a> from <a href="https://tenor.com/search/winnie+pooh-gifs">Winnie Pooh GIFs</a>
+    </div>
+
+    <!-- ═══════════════ [01] CONTESTO ═══════════════ -->
+    <h2
+      data-it="[01] La notte del 28 febbraio"
+      data-en="[01] The night of February 28"
+    >[01] La notte del 28 febbraio</h2>
+
+    <p
+      data-it="Nella notte tra il 27 e il 28 febbraio 2026, la connettività internet iraniana collassa. I dati NetBlocks e BeyondTrust mostrano un calo all'1-4% del traffico normale — un blackout digitale quasi totale. Nelle ore successive, la &lt;em&gt;Electronic Operations Room&lt;/em&gt; iraniana viene attivata, coordinando circa 60 gruppi hacktivisti filo-iraniani in risposta all'operazione militare congiunta USA-Israele denominata Operation Epic Fury / Operation Roaring Lion."
+      data-en="In the night between February 27 and 28, 2026, Iranian internet connectivity collapses. NetBlocks and BeyondTrust data show a drop to 1-4% of normal traffic — an almost total digital blackout. In the following hours, the Iranian &lt;em&gt;Electronic Operations Room&lt;/em&gt; is activated, coordinating approximately 60 pro-Iranian hacktivist groups in response to the joint US-Israel military operation known as Operation Epic Fury / Operation Roaring Lion."
+    >
+      Nella notte tra il 27 e il 28 febbraio 2026, la connettività internet iraniana collassa. I dati NetBlocks e BeyondTrust mostrano un calo all'1-4% del traffico normale — un blackout digitale quasi totale. Nelle ore successive, la <em>Electronic Operations Room</em> iraniana viene attivata, coordinando circa 60 gruppi hacktivisti filo-iraniani in risposta all'operazione militare congiunta USA-Israele denominata Operation Epic Fury / Operation Roaring Lion.
+    </p>
+
+    <p
+      data-it="Nel mezzo del caos digitale, qualcuno ha mandato un SMS. Ai civili israeliani arriva un messaggio con un link per scaricare RedAlert — l'app israeliana legittima di allerta razzi sviluppata da Elad Nava. Il link punta a una versione fake. Chi la installa consegna SMS, rubrica e posizione GPS. È l'inizio di una campagna smishing documentata nei giorni successivi da Unit 42, CloudSEK e Cloudflare Cloudforce One con analisi tecniche accurate e complete sulla parte Android. I report pubblici si sono concentrati sull'APK. Noi abbiamo guardato altrove."
+      data-en="In the middle of the digital chaos, someone sent an SMS. Israeli civilians received a message with a link to download RedAlert — the legitimate Israeli rocket alert app developed by Elad Nava. The link pointed to a fake version. Those who installed it handed over SMS, contacts, and GPS location. It was the beginning of a smishing campaign documented in the following days by Unit 42, CloudSEK, and Cloudflare Cloudforce One with accurate and complete technical analyses of the Android component. The public reports focused on the APK. We looked elsewhere."
+    >
+      Nel mezzo del caos digitale, qualcuno ha mandato un SMS. Ai civili israeliani arriva un messaggio con un link per scaricare RedAlert — l'app israeliana legittima di allerta razzi sviluppata da Elad Nava. Il link punta a una versione fake. Chi la installa consegna SMS, rubrica e posizione GPS. È l'inizio di una campagna smishing documentata nei giorni successivi da Unit 42, CloudSEK e Cloudflare Cloudforce One con analisi tecniche accurate e complete sulla parte Android. I report pubblici si sono concentrati sull'APK. Noi abbiamo guardato altrove.
+    </p>
+
+    <!-- ═══════════════ [02] BASELINE ═══════════════ -->
+    <h2
+      data-it="[02] Cosa sapevano già i vendor"
+      data-en="[02] What the vendors already knew"
+    >[02] Cosa sapevano già i vendor</h2>
+
+    <p
+      data-it="Il merito dei report pubblici va riconosciuto senza ambiguità. Unit 42 (4 marzo), CloudSEK (3 marzo) e Cloudflare Cloudforce One hanno ricostruito la catena Android con precisione. Il che rende ancora più significativo il fatto che nessuno abbia guardato oltre."
+      data-en="Credit to the public reports must be given without ambiguity. Unit 42 (March 4), CloudSEK (March 3), and Cloudflare Cloudforce One reconstructed the Android chain with precision. Which makes it all the more significant that nobody looked further."
+    >
+      Il merito dei report pubblici va riconosciuto senza ambiguità. Unit 42 (4 marzo), CloudSEK (3 marzo) e Cloudflare Cloudforce One hanno ricostruito la catena Android con precisione. Il che rende ancora più significativo il fatto che nessuno abbia guardato oltre.
+    </p>
+
+    <p
+      data-it="La catena Android documentata pubblicamente: SMS smishing → download fake RedAlert (com.red.alertx) → installer APK con signature spoofing com.android.vending → stage 2 DEX caricato in memoria (DebugProbesKt.dex) → raccolta SMS/GPS/contatti → upload a &lt;code&gt;api[.]ra-backup[.]com/analytics/submit.php&lt;/code&gt;. Backend: Cloudflare + AWS us-east-1. Vettore di distribuzione iniziale: &lt;code&gt;shirideitch[.]com&lt;/code&gt;, sito israeliano del 2017 quasi certamente compromesso inconsapevolmente — non infrastruttura attacker."
+      data-en="The publicly documented Android chain: SMS smishing → download fake RedAlert (com.red.alertx) → APK installer with com.android.vending signature spoofing → stage 2 DEX loaded in memory (DebugProbesKt.dex) → collection of SMS/GPS/contacts → upload to &lt;code&gt;api[.]ra-backup[.]com/analytics/submit.php&lt;/code&gt;. Backend: Cloudflare + AWS us-east-1. Initial distribution vector: &lt;code&gt;shirideitch[.]com&lt;/code&gt;, an Israeli website from 2017 almost certainly unknowingly compromised — not attacker infrastructure."
+    >
+      La catena Android documentata pubblicamente: SMS smishing → download fake RedAlert (com.red.alertx) → installer APK con signature spoofing com.android.vending → stage 2 DEX caricato in memoria (DebugProbesKt.dex) → raccolta SMS/GPS/contatti → upload a <code>api[.]ra-backup[.]com/analytics/submit.php</code>. Backend: Cloudflare + AWS us-east-1. Vettore di distribuzione iniziale: <code>shirideitch[.]com</code>, sito israeliano del 2017 quasi certamente compromesso inconsapevolmente — non infrastruttura attacker.
+    </p>
+
+    <table>
+      <tr><th data-it="Fonte" data-en="Source">Fonte</th><th data-it="Data" data-en="Date">Data</th><th>Android</th><th>Windows</th><th data-it="C2 secondario" data-en="Secondary C2">C2 sec.</th></tr>
+      <tr><td>CloudSEK</td><td>03/03</td><td class="ok">✓</td><td class="danger">✗</td><td class="danger">✗</td></tr>
+      <tr><td>Unit 42</td><td>04/03</td><td class="ok">✓</td><td class="danger">✗</td><td class="danger">✗</td></tr>
+      <tr><td>Cloudflare CF1</td><td>04/03</td><td class="ok">✓</td><td class="danger">✗</td><td class="danger">✗</td></tr>
+      <tr><td>ClearSky / Trellix / Sophos</td><td>Mar 2026</td><td class="ok">✓</td><td class="danger">✗</td><td class="danger">✗</td></tr>
+      <tr><td><strong data-it="Questa ricerca" data-en="This research">Questa ricerca</strong></td><td>17/03</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+    </table>
+
+    <p
+      data-it="Questo è già documentato. Quello che segue non lo è."
+      data-en="This is already documented. What follows is not."
+    >
+      Questo è già documentato. Quello che segue non lo è.
+    </p>
+
+    <!-- ═══════════════ [03] METODOLOGIA ═══════════════ -->
+    <h2
+      data-it="[03] Metodologia"
+      data-en="[03] Methodology"
+    >[03] Metodologia</h2>
+
+    <p
+      data-it="Setup: Kali Linux in VM, proxychains+Tor per le query di rete, VirusTotal (piano gratuito), FOFA, crt.sh, nmap, openssl. Punto di partenza: gli IOC pubblici di Unit 42 — l'IP &lt;code&gt;216.45.58[.]148&lt;/code&gt; e il dominio &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt;. Approccio: pivot sistematico sull'infrastruttura. Ho usato solo strumenti pubblici e gratuiti. Chiunque può verificare quello che ho trovato."
+      data-en="Setup: Kali Linux VM, proxychains+Tor for network queries, VirusTotal (free tier), FOFA, crt.sh, nmap, openssl. Starting point: Unit 42's public IOCs — IP &lt;code&gt;216.45.58[.]148&lt;/code&gt; and domain &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt;. Approach: systematic infrastructure pivot. I used only free, public tools. Anyone can verify what I found."
+    >
+      Setup: Kali Linux in VM, proxychains+Tor per le query di rete, VirusTotal (piano gratuito), FOFA, crt.sh, nmap, openssl. Punto di partenza: gli IOC pubblici di Unit 42 — l'IP <code>216.45.58[.]148</code> e il dominio <code>api[.]ra-backup[.]com</code>. Approccio: pivot sistematico sull'infrastruttura. Ho usato solo strumenti pubblici e gratuiti. Chiunque può verificare quello che ho trovato.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># Verifica live — 15 marzo 2026, 10:00 CET</span>
+$ proxychains curl -sk https://api.ra-backup.com/ -o /dev/null \
+    -w "C2#1 HTTP: %{http_code} | Size: %{size_download}"
+$ proxychains curl -sk https://167.160.187.43/ -o /dev/null \
+    -w "C2#2 HTTP: %{http_code} | Size: %{size_download}"
+
+<span class="neutral">C2#1 HTTP: 404 | Size: 315</span>
+<span class="danger">C2#2 HTTPS (443): 404 | Size: 315</span>
+
+<span class="comment"># 15 marzo 2026, 16 giorni dopo l'operazione. Entrambi vivi.</span></pre>
+    </div>
+
+    <!-- ═══════════════ [04] FINDING #1 ═══════════════ -->
+    <h2
+      data-it="Finding #1 — Il C2 non è nato il 28 febbraio"
+      data-en="Finding #1 — The C2 wasn't born on February 28"
+    >Finding #1 — Il C2 non è nato il 28 febbraio</h2>
+
+    <p
+      data-it="Prima domanda elementare: quando è stato registrato il C2? La risposta è nei Certificate Transparency logs — archivio pubblico di tutti i certificati TLS emessi, consultabile su crt.sh."
+      data-en="First elementary question: when was the C2 registered? The answer is in Certificate Transparency logs — a public archive of all TLS certificates ever issued, searchable at crt.sh."
+    >
+      Prima domanda elementare: quando è stato registrato il C2? La risposta è nei Certificate Transparency logs — archivio pubblico di tutti i certificati TLS emessi, consultabile su crt.sh.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># Query CT logs</span>
+$ curl -s "https://crt.sh/?q=api.ra-backup.com&output=json" \
+    | python3 -m json.tool | grep -E "not_before|common_name"</pre>
+    </div>
+
+    <table>
+      <tr><th data-it="Data emissione" data-en="Issue date">Data emissione</th><th data-it="Evento" data-en="Event">Evento</th><th data-it="Significato" data-en="Significance">Significato</th></tr>
+      <tr><td>2025-06-23</td><td data-it="1° cert Let's Encrypt" data-en="1st Let's Encrypt cert">1° cert Let's Encrypt</td><td data-it="Server vivo dal primo giorno" data-en="Server live from day one">Server vivo dal primo giorno</td></tr>
+      <tr><td>2025-08-23</td><td data-it="Rinnovo #1" data-en="Renewal #1">Rinnovo #1</td><td data-it="Vivo dopo 2 mesi" data-en="Live after 2 months">Vivo dopo 2 mesi</td></tr>
+      <tr><td>2025-10-22</td><td data-it="Rinnovo #2" data-en="Renewal #2">Rinnovo #2</td><td data-it="Vivo dopo 4 mesi" data-en="Live after 4 months">Vivo dopo 4 mesi</td></tr>
+      <tr><td>2025-12-22</td><td data-it="Rinnovo #3" data-en="Renewal #3">Rinnovo #3</td><td data-it="Vivo dopo 6 mesi" data-en="Live after 6 months">Vivo dopo 6 mesi</td></tr>
+      <tr><td><strong>2026-02-20</strong></td><td data-it="&lt;strong&gt;Rinnovo finale&lt;/strong&gt;" data-en="&lt;strong&gt;Final renewal&lt;/strong&gt;"><strong>Rinnovo finale</strong></td><td class="danger" data-it="&lt;strong&gt;−8 giorni pre-operazione&lt;/strong&gt;" data-en="&lt;strong&gt;−8 days pre-operation&lt;/strong&gt;"><strong>−8 giorni pre-operazione</strong></td></tr>
+    </table>
+
+    <p
+      data-it="5 certificati totali in 8 mesi — 4 rinnovi automatici — significano 5 momenti documentati in cui qualcuno ha tenuto vivo il server. Il primo certificato è del 23 giugno 2025 — &lt;strong&gt;8 mesi prima dell'operazione del 28 febbraio&lt;/strong&gt;. Il SOA serial del dominio come Unix timestamp conferma la stessa data indipendentemente: 1750691767 → 23 giugno 2025 UTC. Non stava rispondendo all'attacco. Stava aspettando."
+      data-en="5 certificates total in 8 months — 4 automatic renewals — mean 5 documented moments someone kept the server alive. The first certificate is from June 23, 2025 — &lt;strong&gt;8 months before the February 28 operation&lt;/strong&gt;. The domain's SOA serial as Unix timestamp independently confirms the same date: 1750691767 → June 23, 2025 UTC. It wasn't responding to the attack. It was waiting."
+    >
+      5 rinnovi automatici significano 5 volte in cui qualcuno ha tenuto vivo il server. Il primo certificato è del 23 giugno 2025 — <strong>8 mesi prima dell'operazione del 28 febbraio</strong>. Il SOA serial del dominio come Unix timestamp conferma la stessa data indipendentemente: 1750691767 → 23 giugno 2025 UTC. Non stava rispondendo all'attacco. Stava aspettando.
+    </p>
+
+    <!-- ═══════════════ [05] FINDING #2 ═══════════════ -->
+    <h2
+      data-it="Finding #2 — Il secondo C2 che nessuno sa"
+      data-en="Finding #2 — The second C2 nobody knows about"
+    >Finding #2 — Il secondo C2 che nessuno sa</h2>
+
+    <p
+      data-it="Il JARM fingerprint è una firma TLS che identifica uno stack server — versione, cipher suite, ordine — in modo sufficientemente univoco da permettere il clustering di infrastrutture correlate. Ho calcolato il JARM di &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt; e ho interrogato FOFA con quel fingerprint per trovare altri server con la stessa configurazione."
+      data-en="The JARM fingerprint is a TLS signature that identifies a server stack — version, cipher suite, order — uniquely enough to enable clustering of related infrastructure. I calculated the JARM of &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt; and queried FOFA with that fingerprint to find other servers with the same configuration."
+    >
+      Il JARM fingerprint è una firma TLS che identifica uno stack server — versione, cipher suite, ordine — in modo sufficientemente univoco da permettere il clustering di infrastrutture correlate. Ho calcolato il JARM di <code>api[.]ra-backup[.]com</code> e ho interrogato FOFA con quel fingerprint per trovare altri server con la stessa configurazione.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># JARM pivot su FOFA</span>
+<span class="comment"># JARM: 21d14d00021d21d00042d43d00041dd0fae37a26d202d4ca73c3c7b57c5a55</span>
+$ fofa query: jarm="21d14d00021d21d00042d43d..."
+
+<span class="comment"># Risultato: 167.160.187.43</span>
+$ echo | /usr/bin/openssl s_client \
+    -connect 167.160.187.43:443 \
+    -servername 9732.5486311.xyz 2>/dev/null \
+    | /usr/bin/openssl x509 -noout -issuer -subject -dates
+
+<span class="neutral">issuer=C=US, O=Let's Encrypt, CN=R12</span>
+<span class="neutral">subject=CN=9732.5486311.xyz</span>
+<span class="ok">notBefore=Mar  5 17:31:58 2026 GMT</span>
+<span class="neutral">notAfter=Jun  3 17:31:57 2026 GMT</span></pre>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// Finding #2 — 0/94 VirusTotal" data-en="// Finding #2 — 0/94 VirusTotal">// Finding #2 — 0/94 VirusTotal</div>
+      <p
+        data-it="&lt;code&gt;167.160.187[.]43&lt;/code&gt; / &lt;code&gt;9732.5486311[.]xyz&lt;/code&gt;: zero rilevamenti VT, zero pulse OTX, zero segnalazioni AbuseIPDB. Un server C2 di backup completamente sconosciuto a tutti i sistemi di reputazione IP. L'ultima analisi VT: luglio 2025 — otto mesi prima. Nessuno lo stava guardando. Nessun report ne parla."
+        data-en="&lt;code&gt;167.160.187[.]43&lt;/code&gt; / &lt;code&gt;9732.5486311[.]xyz&lt;/code&gt;: zero VT detections, zero OTX pulses, zero AbuseIPDB reports. A backup C2 server completely unknown to all IP reputation systems. Last VT analysis: July 2025 — eight months earlier. Nobody was watching it. No report mentions it."
+      >
+        <code>167.160.187[.]43</code> / <code>9732.5486311[.]xyz</code>: zero rilevamenti VT, zero pulse OTX, zero segnalazioni AbuseIPDB. Un server C2 di backup completamente sconosciuto a tutti i sistemi di reputazione IP. L'ultima analisi VT: luglio 2025 — otto mesi prima. Nessuno lo stava guardando. Nessun report ne parla.
+      </p>
+    </div>
+
+    <p
+      data-it="Il certificato TLS del C2 secondario ha notBefore il &lt;strong&gt;5 marzo 2026 — 5 giorni dopo l'operazione&lt;/strong&gt;. Mentre il C2 primario era già nei report di Unit 42 e CloudSEK, l'operatore stava rinnovando attivamente il certificato del backup. Non stavano smantellando l'infrastruttura. La stavano mantenendo."
+      data-en="The secondary C2's TLS certificate has notBefore on &lt;strong&gt;March 5, 2026 — 5 days after the operation&lt;/strong&gt;. While the primary C2 was already in Unit 42 and CloudSEK reports, the operator was actively renewing the backup certificate. They weren't dismantling the infrastructure. They were maintaining it."
+    >
+      Il certificato TLS del C2 secondario ha notBefore il <strong>5 marzo 2026 — 5 giorni dopo l'operazione</strong>. Mentre il C2 primario era già nei report di Unit 42 e CloudSEK, l'operatore stava rinnovando attivamente il certificato del backup. Non stavano smantellando l'infrastruttura. La stavano mantenendo.
+    </p>
+
+    <!-- ═══════════════ [06] FINDING #3 ═══════════════ -->
+    <h2
+      data-it="Finding #3 — Prova forense: stesso operatore"
+      data-en="Finding #3 — Forensic proof: same operator"
+    >Finding #3 — Prova forense: stesso operatore</h2>
+
+    <p
+      data-it="Due C2. Stesso JARM, stessa versione Apache, stesso PHP, stesso registrar, stesso hosting AS. Ma sono davvero della stessa operazione? Esiste una prova più diretta."
+      data-en="Two C2 servers. Same JARM, same Apache version, same PHP, same registrar, same hosting AS. But do they really belong to the same operation? There is more direct proof."
+    >
+      Due C2. Stesso JARM, stessa versione Apache, stesso PHP, stesso registrar, stesso hosting AS. Ma sono davvero della stessa operazione? Esiste una prova più diretta.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># Test MD5 body — stesso momento, due C2</span>
+$ proxychains curl -sk https://api.ra-backup.com/ | md5sum
+$ proxychains curl -sk https://167.160.187.43/   | md5sum
+
+<span class="comment"># Sessione 14/03/2026:</span>
+<span class="ok">cf33489d12cfb906849443c6181e84c2  -   (C2 #1)</span>
+<span class="ok">cf33489d12cfb906849443c6181e84c2  -   (C2 #2)</span>
+
+<span class="comment"># Sessione 15/03/2026 (confermato):</span>
+<span class="ok">6099d135f27f40de20a556e4c93613d9  -   (C2 #1)</span>
+<span class="ok">6099d135f27f40de20a556e4c93613d9  -   (C2 #2)</span></pre>
+    </div>
+
+    <p
+      data-it="Il body HTTP 404 è dinamico — cambia tra sessioni, probabilmente include un timestamp server-side. Ma è &lt;strong&gt;sempre identico al byte tra i due C2 nello stesso momento&lt;/strong&gt;. Non è configurazione Apache di default. Non è coincidenza. È lo stesso codice PHP deployato dallo stesso script dallo stesso operatore."
+      data-en="The HTTP 404 body is dynamic — it changes between sessions, likely including a server-side timestamp. But it is &lt;strong&gt;always byte-identical across both C2 servers at the same time&lt;/strong&gt;. This is not default Apache configuration. This is not coincidence. It is the same PHP code deployed by the same script by the same operator."
+    >
+      Il body HTTP 404 è dinamico — cambia tra sessioni, probabilmente include un timestamp server-side. Ma è <strong>sempre identico al byte tra i due C2 nello stesso momento</strong>. Non è configurazione Apache di default. Non è coincidenza. È lo stesso codice PHP deployato dallo stesso script dallo stesso operatore.
+    </p>
+
+    <table>
+      <tr><th data-it="Caratteristica" data-en="Characteristic">Caratteristica</th><th>C2 #1 (216.45.58[.]148)</th><th>C2 #2 (167.160.187[.]43)</th></tr>
+      <tr><td>Apache</td><td>2.4.52 (Ubuntu)</td><td>2.4.52 (Ubuntu)</td></tr>
+      <tr><td>PHP</td><td>8.2.8</td><td>8.2.8</td></tr>
+      <tr><td>JARM</td><td colspan="2" class="ok" data-it="identico" data-en="identical">identico</td></tr>
+      <tr><td>Content-Length 404</td><td>315 B</td><td>315 B</td></tr>
+      <tr><td>Registrar</td><td>NameCheap</td><td>NameCheap</td></tr>
+      <tr><td>Privacy</td><td>Withheld for Privacy ehf</td><td>Withheld for Privacy ehf</td></tr>
+      <tr><td>Hosting AS</td><td>AS36352 HostPapa — Ashburn VA</td><td>AS36352 RackNerd — Toronto CA</td></tr>
+      <tr><td>CORS header</td><td colspan="2"><code>Access-Control-Allow-Origin: *</code></td></tr>
+      <tr><td>TLS notBefore</td><td class="danger">2026-02-20 (−8 gg)</td><td class="danger">2026-03-05 (+5 gg)</td></tr>
+    </table>
+
+    <!-- ═══════════════ [07] FINDING #4 ═══════════════ -->
+    <h2
+      data-it="Finding #4 — Architettura duale"
+      data-en="Finding #4 — Dual architecture"
+    >Finding #4 — Architettura duale</h2>
+
+    <p
+      data-it="La campagna usa due infrastrutture con livelli di cura operativa radicalmente diversi. Il vettore Android era protetto da Cloudflare + AWS us-east-1 — scalabile, anonimizzato, resiliente. Al 15 marzo il backend AWS (&lt;code&gt;44.208.242[.]141&lt;/code&gt;, &lt;code&gt;44.200.176[.]254&lt;/code&gt;) risulta offline: takedown confermato post-report Unit 42/CloudSEK. Il vettore Windows era esposto direttamente su un HostPapa in Virginia, senza proxy, senza protezione. Architetture diverse riflettono livelli di investimento diversi: il mobile era il vettore primario. Il Windows era secondario — o in fase di test al momento dell'operazione."
+      data-en="The campaign uses two infrastructures with radically different levels of operational care. The Android vector was protected by Cloudflare + AWS us-east-1 — scalable, anonymized, resilient. By March 15 the AWS backend (&lt;code&gt;44.208.242[.]141&lt;/code&gt;, &lt;code&gt;44.200.176[.]254&lt;/code&gt;) was offline: takedown confirmed after Unit 42/CloudSEK reports. The Windows vector was directly exposed on a HostPapa in Virginia, no proxy, no protection. Different architectures reflect different investment levels: mobile was the primary vector. Windows was secondary — or in test phase at the time of the operation."
+    >
+      La campagna usa due infrastrutture con livelli di cura operativa radicalmente diversi. Il vettore Android era protetto da Cloudflare + AWS us-east-1 — scalabile, anonimizzato, resiliente. Al 15 marzo il backend AWS (<code>44.208.242[.]141</code>, <code>44.200.176[.]254</code>) risulta offline: takedown confermato post-report Unit 42/CloudSEK. Il vettore Windows era esposto direttamente — C2 primario su HostPapa <strong>Ashburn, Virginia</strong> (AS36352), C2 secondario su RackNerd <strong>Toronto, Canada</strong> (stesso AS36352/ColocCrossing) — nessun proxy, nessuna protezione. Architetture diverse riflettono livelli di investimento diversi: il mobile era il vettore primario. Il Windows era secondario — o in fase di test al momento dell'operazione.
+    </p>
+
+    <!-- ═══════════════ [08] FINDING #5 ═══════════════ -->
+    <h2
+      data-it="Finding #5 — LotAccess: non un malware, un abito preso in prestito"
+      data-en="Finding #5 — LotAccess: not malware, a borrowed suit"
+    >Finding #5 — LotAccess: non un malware, un abito preso in prestito</h2>
+
+    <p
+      data-it="Cos'è davvero &lt;code&gt;LotAccessUI.EXE&lt;/code&gt;? PE metadata, copyright, stringhe interne danno una risposta precisa: è il client VPN enterprise originale di &lt;strong&gt;AppEx Networks Co., Ltd.&lt;/strong&gt;, azienda cinese (copyright 2006-2009 nel PE), compilato il &lt;strong&gt;26 ottobre 2016&lt;/strong&gt;, presente su VirusTotal dal 2017. Software legittimo. Non hanno scritto malware da zero. Hanno preso un client VPN enterprise cinese del 2016, ci hanno iniettato tre funzionalità — anti-VM RDTSC, mutex custom, scrittura registry per il C2 — e lo hanno consegnato agli utenti. Elegante nella sua semplicità."
+      data-en="What is &lt;code&gt;LotAccessUI.EXE&lt;/code&gt; really? PE metadata, copyright strings, internal strings give a precise answer: it is the original enterprise VPN client of &lt;strong&gt;AppEx Networks Co., Ltd.&lt;/strong&gt;, a Chinese company (PE copyright 2006-2009), compiled on &lt;strong&gt;October 26, 2016&lt;/strong&gt;, present on VirusTotal since 2017. Legitimate software. They didn't write malware from scratch. They took a 2016 Chinese enterprise VPN client, injected three capabilities — RDTSC anti-VM, custom mutex, registry C2 write — and delivered it to users. Elegant in its simplicity."
+    >
+      Cos'è davvero <code>LotAccessUI.EXE</code>? PE metadata, copyright, stringhe interne danno una risposta precisa: è il client VPN enterprise originale di <strong>AppEx Networks Co., Ltd.</strong>, azienda cinese attiva tra il 2006 e il 2009, compilato il <strong>26 ottobre 2016</strong>, presente su VirusTotal dal 2017. Software legittimo. Non hanno scritto malware da zero. Hanno preso un client VPN enterprise cinese del 2016, ci hanno iniettato tre funzionalità — anti-VM RDTSC, mutex custom, scrittura registry per il C2 — e lo hanno consegnato agli utenti. Elegante nella sua semplicità.
+    </p>
+
+    <table>
+      <tr><th data-it="Livello" data-en="Layer">Livello</th><th data-it="File" data-en="File">File</th><th data-it="Dim." data-en="Size">Dim.</th><th data-it="Funzione" data-en="Function">Funzione</th></tr>
+      <tr><td>1</td><td>LotAccessUI.EXE</td><td>1.19 MB</td><td data-it="Loader PE — estrae risorse, contatta C2" data-en="PE loader — extracts resources, contacts C2">Loader PE — estrae risorse, contatta C2</td></tr>
+      <tr><td>2</td><td>cloudvpn.cfg</td><td>190 B</td><td data-it="Config INI — IP del C2 scritto a runtime" data-en="INI config — C2 IP written at runtime">Config INI — IP del C2 scritto a runtime</td></tr>
+      <tr><td>3</td><td data-it="file &quot;152&quot; (download.js)" data-en="file &quot;152&quot; (download.js)">file "152" (download.js)</td><td>113 KB</td><td data-it="Modulo aggiornamento AppEx &lt;em&gt;originale&lt;/em&gt; — legittimo" data-en="AppEx update module &lt;em&gt;original&lt;/em&gt; — legitimate">Modulo aggiornamento AppEx <em>originale</em> — legittimo</td></tr>
+      <tr><td>CA</td><td>ca.crt</td><td>~1.4 KB</td><td data-it="CA cinese TianQin_VPNCA_Center" data-en="Chinese CA TianQin_VPNCA_Center">CA cinese TianQin_VPNCA_Center</td></tr>
+    </table>
+
+    <p
+      data-it="Il file &quot;152&quot; (download.js) è il modulo di aggiornamento AppEx Networks originale, &lt;strong&gt;non modificato&lt;/strong&gt; dagli attaccanti. Si connette ad Akamai CDN — infrastruttura Microsoft/enterprise legittima. La sua presenza non aggiunge funzionalità malevole: aggiunge copertura. Il traffico di rete generato dal binario è indistinguibile da quello di una VPN enterprise reale."
+      data-en="File &quot;152&quot; (download.js) is the original AppEx Networks update module, &lt;strong&gt;unmodified&lt;/strong&gt; by the attackers. It connects to Akamai CDN — legitimate Microsoft/enterprise infrastructure. Its presence doesn't add malicious functionality: it adds cover. Network traffic generated by the binary is indistinguishable from that of a real enterprise VPN."
+    >
+      Il file "152" (download.js) è il modulo di aggiornamento AppEx Networks originale, <strong>non modificato</strong> dagli attaccanti. Si connette ad Akamai CDN — infrastruttura Microsoft/enterprise legittima. La sua presenza non aggiunge funzionalità malevole: aggiunge copertura. Il traffico di rete generato dal binario è indistinguibile da quello di una VPN enterprise reale.
+    </p>
+
+    <p
+      data-it="Tre versioni identificate, tutte con le stesse PE resources: v1 (SHA256: &lt;code&gt;7d43d7f6...&lt;/code&gt;, prima submission VT 2025-12-16, 4/65 detection) — v2 (caricato 2026-03-08, 6/72) — v3 (SHA256: &lt;code&gt;6209a952...&lt;/code&gt;, 13/72). Sviluppo attivo per almeno 10 settimane prima dell'operazione."
+      data-en="Three versions identified, all with the same PE resources: v1 (SHA256: &lt;code&gt;7d43d7f6...&lt;/code&gt;, first VT submission 2025-12-16, 4/65 detections) — v2 (uploaded 2026-03-08, 6/72) — v3 (SHA256: &lt;code&gt;6209a952...&lt;/code&gt;, 13/72). Active development for at least 10 weeks before the operation."
+    >
+      Tre versioni identificate, tutte con le stesse PE resources: v1 (SHA256: <code>7d43d7f6...</code>, prima submission VT 2025-12-16, 4/65 detection) — v2 (caricato 2026-03-08, 6/72) — v3 (SHA256: <code>6209a952...</code>, 13/72). Sviluppo attivo per almeno 10 settimane prima dell'operazione.
+    </p>
+
+    <!-- ═══════════════ [09] FINDING #6 ═══════════════ -->
+    <h2
+      data-it="Finding #6 — Il meccanismo di trojanizzazione"
+      data-en="Finding #6 — The trojanization mechanism"
+    >Finding #6 — Il meccanismo di trojanizzazione</h2>
+
+    <p
+      data-it="Il meccanismo è confermato dal tab VT Behavior. Il malware scrive gli IP del C2 nel registry Windows sotto le chiavi originali AppEx Networks. Il binary AppEx legge quelle chiavi, popola &lt;code&gt;cloudvpn.cfg&lt;/code&gt;, e usa il valore come &lt;code&gt;%s&lt;/code&gt; nell'API string &lt;code&gt;/cgi-bin/d_device_action.py?SSLServer=%s&lt;/code&gt;. Il traffico C2 è traffico VPN AppEx legittimo sul wire."
+      data-en="The mechanism is confirmed by the VT Behavior tab. The malware writes C2 IPs to the Windows registry under the original AppEx Networks keys. The AppEx binary reads those keys, populates &lt;code&gt;cloudvpn.cfg&lt;/code&gt;, and uses the value as &lt;code&gt;%s&lt;/code&gt; in the API string &lt;code&gt;/cgi-bin/d_device_action.py?SSLServer=%s&lt;/code&gt;. C2 traffic is legitimate AppEx VPN traffic on the wire."
+    >
+      Il meccanismo è confermato dal tab VT Behavior. Il malware scrive gli IP del C2 nel registry Windows sotto le chiavi originali AppEx Networks. Il binary AppEx legge quelle chiavi, popola <code>cloudvpn.cfg</code>, e usa il valore come <code>%s</code> nell'API string <code>/cgi-bin/d_device_action.py?SSLServer=%s</code>. Il traffico C2 è traffico VPN AppEx legittimo sul wire.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment"># VT Behavior → Registry Keys Set (sandbox, 15/03/2026)</span>
+<span class="comment"># Nota: valori placeholder in VM — vedi Finding #7 per spiegazione</span>
+
+HKCU\Software\AppEx Networks\LotAccess\firstServer  = <span class="danger">"123456 123456"</span>
+HKCU\Software\AppEx Networks\LotAccess\secondServer = <span class="danger">"123456 123456"</span>
+
+<span class="comment"># Su hardware fisico (atteso):</span>
+<span class="comment"># firstServer  = "216.45.58.148"</span>
+<span class="comment"># secondServer = "167.160.187.43"</span></pre>
+    </div>
+
+    <p
+      data-it="I valori &lt;code&gt;123456 123456&lt;/code&gt; in sandbox non sono un bug — sono la terza prova distinta dell'anti-VM RDTSC in azione. Il malware scrive i placeholder perché il check anti-VM ha già rilevato la virtualizzazione e bloccato la fase di risoluzione degli IP reali. Il meccanismo funziona: il registry viene scritto, il config viene creato, ma con dati fasulli che non porteranno mai a nessun C2."
+      data-en="The &lt;code&gt;123456 123456&lt;/code&gt; values in sandbox are not a bug — they are the third distinct proof of RDTSC anti-VM in action. The malware writes placeholders because the anti-VM check has already detected virtualization and blocked the real IP resolution phase. The mechanism works: the registry is written, the config is created, but with dummy data that will never lead to any C2."
+    >
+      I valori <code>123456 123456</code> in sandbox non sono un bug — sono la terza prova distinta dell'anti-VM RDTSC in azione. Il malware scrive i placeholder perché il check anti-VM ha già rilevato la virtualizzazione e bloccato la fase di risoluzione degli IP reali. Il meccanismo funziona: il registry viene scritto, il config viene creato, ma con dati fasulli che non porteranno mai a nessun C2.
+    </p>
+
+    <!-- ═══════════════ [10] FINDING #7 ═══════════════ -->
+    <h2
+      data-it="Finding #7 — RDTSC e il silenzio di CrowdStrike"
+      data-en="Finding #7 — RDTSC and CrowdStrike's silence"
+    >Finding #7 — RDTSC e il silenzio di CrowdStrike</h2>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// Il finding più importante per i difensori" data-en="// The most important finding for defenders">// Il finding più importante per i difensori</div>
+      <p
+        data-it="CrowdStrike Falcon (2022): &lt;strong&gt;CLEAN&lt;/strong&gt;. 59/72 vendor VirusTotal: silenzio. Hybrid Analysis (febbraio 2022): Network Analysis = zero attività, zero DNS, zero connessioni. Threat Score: 92/100 — ma solo su euristiche comportamentali, mai il C2. Dal 2020 a oggi, &lt;strong&gt;nessun sandbox pubblico ha mai catturato una connessione C2 di LotAccess&lt;/strong&gt;. Mai."
+        data-en="CrowdStrike Falcon (2022): &lt;strong&gt;CLEAN&lt;/strong&gt;. 59/72 VirusTotal vendors: silent. Hybrid Analysis (February 2022): Network Analysis = zero activity, zero DNS, zero connections. Threat Score: 92/100 — but only on behavioral heuristics, never the C2. From 2020 to today, &lt;strong&gt;no public sandbox has ever captured a LotAccess C2 connection&lt;/strong&gt;. Ever."
+      >
+        CrowdStrike Falcon (2022): <strong>CLEAN</strong>. 59/72 vendor VirusTotal: silenzio. Hybrid Analysis (febbraio 2022): Network Analysis = zero attività, zero DNS, zero connessioni. Threat Score: 92/100 — ma solo su euristiche comportamentali, mai il C2. Dal 2020 a oggi, <strong>nessun sandbox pubblico ha mai catturato una connessione C2 di LotAccess</strong>. Mai.
+      </p>
+    </div>
+
+    <p
+      data-it="La tecnica è l'istruzione CPU &lt;strong&gt;RDTSC&lt;/strong&gt; (Read Time-Stamp Counter, T1497.003): il malware misura i cicli CPU prima e dopo un'operazione. In ambienti virtualizzati il conteggio è anomalo — l'hypervisor introduce latenze rilevabili. Se il delta supura la soglia, il malware inietta placeholder nel registry invece degli IP reali e non contatta il C2. Il C2 non era protetto da proxy o anonimizzazione: era protetto dall'anti-VM. L'operatore si fidava di quella tecnica — e aveva ragione per quattro anni."
+      data-en="The technique is the CPU instruction &lt;strong&gt;RDTSC&lt;/strong&gt; (Read Time-Stamp Counter, T1497.003): the malware measures CPU cycles before and after an operation. In virtualized environments the count is anomalous — the hypervisor introduces detectable latencies. If the delta exceeds the threshold, the malware injects registry placeholders instead of real IPs and never contacts the C2. The C2 was not protected by proxies or anonymization: it was protected by anti-VM. The operator trusted that technique — and was right for four years."
+    >
+      La tecnica è l'istruzione CPU <strong>RDTSC</strong> (Read Time-Stamp Counter, T1497.003): il malware misura i cicli CPU prima e dopo un'operazione. In ambienti virtualizzati il conteggio è anomalo — l'hypervisor introduce latenze rilevabili. Se il delta supera la soglia, il malware inietta placeholder nel registry invece degli IP reali e non contatta il C2. Il C2 non era protetto da proxy o anonimizzazione: era protetto dall'anti-VM. L'operatore si fidava di quella tecnica — e aveva ragione per quattro anni.
+    </p>
+
+    <!-- ═══════════════ [11] FINDING #8 ═══════════════ -->
+    <h2
+      data-it="Finding #8 — Secondo APK e convergenza Arid Viper"
+      data-en="Finding #8 — Second APK and Arid Viper convergence"
+    >Finding #8 — Secondo APK e convergenza Arid Viper</h2>
+
+    <h3 data-it="Parte A — umgdn / com.net.alerts (inedito)" data-en="Part A — umgdn / com.net.alerts (undisclosed)">Parte A — umgdn / com.net.alerts (inedito)</h3>
+
+    <p
+      data-it="Esiste un secondo APK Android nella stessa campagna, non documentato in nessun report pubblico. Package &lt;code&gt;com.net.alerts&lt;/code&gt;, nome file &lt;code&gt;umgdn&lt;/code&gt;, dimensione 11.45 MB — notevolmente più grande di RedAlert. Tencent lo classifica esplicitamente come &lt;code&gt;A.privacy.SpyRedAlert&lt;/code&gt;. Compilato il &lt;strong&gt;24 giugno 2025 — 24 ore dopo la registrazione del C2&lt;/strong&gt; (23 giugno 2025). L'infrastruttura e il payload venivano costruiti in parallelo."
+      data-en="A second Android APK exists in the same campaign, not documented in any public report. Package &lt;code&gt;com.net.alerts&lt;/code&gt;, filename &lt;code&gt;umgdn&lt;/code&gt;, size 11.45 MB — significantly larger than RedAlert. Tencent classifies it explicitly as &lt;code&gt;A.privacy.SpyRedAlert&lt;/code&gt;. Compiled on &lt;strong&gt;June 24, 2025 — 24 hours after C2 registration&lt;/strong&gt; (June 23, 2025). Infrastructure and payload were being built in parallel."
+    >
+      Esiste un secondo APK Android nella stessa campagna, non documentato in nessun report pubblico. Package <code>com.net.alerts</code>, nome file <code>umgdn</code>, dimensione 11.45 MB — notevolmente più grande di RedAlert. Tencent lo classifica esplicitamente come <code>A.privacy.SpyRedAlert</code>. Compilato il <strong>24 giugno 2025 — 24 ore dopo la registrazione del C2</strong> (23 giugno 2025). L'infrastruttura e il payload venivano costruiti in parallelo.
+    </p>
+
+    <p
+      data-it="Il VT Behavior mostra una POST a &lt;code&gt;https://api.pushy.me/register&lt;/code&gt; con risposta 200 OK (01/03/2026 13:40:13 GMT). Pushy.me è un servizio legittimo di push notification usato come canale C2 secondario resiliente: sopravvive al takedown del backend principale. Anche dopo che &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt; è andato offline, l'operatore mantiene un canale di push verso tutti i dispositivi infetti."
+      data-en="VT Behavior shows a POST to &lt;code&gt;https://api.pushy.me/register&lt;/code&gt; with 200 OK response (2026-03-01 13:40:13 GMT). Pushy.me is a legitimate push notification service used as a resilient secondary C2 channel: it survives the takedown of the primary backend. Even after &lt;code&gt;api[.]ra-backup[.]com&lt;/code&gt; went offline, the operator retains a push channel to all infected devices."
+    >
+      Il VT Behavior mostra una POST a <code>https://api.pushy.me/register</code> con risposta 200 OK (01/03/2026 13:40:13 GMT). Pushy.me è un servizio legittimo di push notification usato come canale C2 secondario resiliente: sopravvive al takedown del backend principale. Anche dopo che <code>api[.]ra-backup[.]com</code> è andato offline, l'operatore mantiene un canale di push verso tutti i dispositivi infetti.
+    </p>
+
+    <h3 data-it="Parte B — Convergenza Arid Viper 2023" data-en="Part B — Arid Viper 2023 convergence">Parte B — Convergenza Arid Viper 2023</h3>
+
+    <p
+      data-it="Nel VT Graph di Arid Viper (APT-C-23 / Desert Falcon, ottobre 2023, 630 nodi) si trovano due elementi identici a questa campagna: &lt;code&gt;redalert.me&lt;/code&gt; come meccanismo di copertura (stessa app legittima usata per mostrare alert reali alle vittime) e &lt;code&gt;api.pushy.me&lt;/code&gt; come canale push. Nel 2023 Arid Viper usava Firebase come C2 push (documentato da SentinelOne — SpyC23 report). Nel 2026 la campagna Epic Fury usa Pushy.me. Stessa tattica, tecnologia evoluta. Il template di attacco &quot;fake app allerta razzi israeliana + push C2&quot; precede l'Operation Epic Fury di almeno due anni."
+      data-en="In the Arid Viper VT Graph (APT-C-23 / Desert Falcon, October 2023, 630 nodes) two elements identical to this campaign appear: &lt;code&gt;redalert.me&lt;/code&gt; as a cover mechanism (same legitimate app used to show real alerts to victims) and &lt;code&gt;api.pushy.me&lt;/code&gt; as a push channel. In 2023 Arid Viper used Firebase as push C2 (documented by SentinelOne — SpyC23 report). In 2026 the Epic Fury campaign uses Pushy.me. Same tactic, evolved technology. The attack template 'fake Israeli rocket alert app + push C2' predates Operation Epic Fury by at least two years."
+    >
+      Nel VT Graph di Arid Viper (APT-C-23 / Desert Falcon, ottobre 2023, 630 nodi) si trovano due elementi identici a questa campagna: <code>redalert.me</code> come meccanismo di copertura (stessa app legittima usata per mostrare alert reali alle vittime) e <code>api.pushy.me</code> come canale push. Nel 2023 Arid Viper usava Firebase come C2 push (documentato da SentinelOne — SpyC23 report). Nel 2026 la campagna Epic Fury usa Pushy.me. Stessa tattica, tecnologia evoluta. Il template di attacco "fake app allerta razzi israeliana + push C2" precede l'Operation Epic Fury di almeno due anni.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// Nota di attribuzione" data-en="// Attribution note">// Nota di attribuzione</div>
+      <p
+        data-it="La convergenza tattica è documentata e reale. Non implica necessariamente stessa autorialità o coordinazione diretta: o c'è condivisione di know-how tra gruppi, o la tattica è talmente efficace che più attori l'hanno sviluppata indipendentemente. La correlazione infrastrutturale con MuddyWater/MOIS è documentata da Hunt.io (pattern AS36352 + NameCheap). L'attribuzione definitiva richiede evidenza ulteriore."
+        data-en="The tactical convergence is documented and real. It does not necessarily imply shared authorship or direct coordination: either there is knowledge sharing between groups, or the tactic is effective enough that multiple actors developed it independently. Infrastructure correlation with MuddyWater/MOIS is documented by Hunt.io (AS36352 + NameCheap pattern). Definitive attribution requires further evidence."
+      >
+        La convergenza tattica è documentata e reale. Non implica necessariamente stessa autorialità o coordinazione diretta: o c'è condivisione di know-how tra gruppi, o la tattica è talmente efficace che più attori l'hanno sviluppata indipendentemente. La correlazione infrastrutturale con MuddyWater/MOIS è documentata da Hunt.io (pattern AS36352 + NameCheap). L'attribuzione definitiva richiede evidenza ulteriore.
+      </p>
+    </div>
+
+    <!-- ═══════════════ [12] TIMELINE ═══════════════ -->
+    <h2
+      data-it="[12] Timeline operativa ricostruita"
+      data-en="[12] Reconstructed operational timeline"
+    >[12] Timeline operativa ricostruita</h2>
+
+    <p
+      data-it="Nessun report pubblico ha ricostruito questa timeline nella sua completezza. La fonte è l'aggregazione di CT logs, VT timestamps e FOFA."
+      data-en="No public report has reconstructed this timeline in its entirety. The source is the aggregation of CT logs, VT timestamps, and FOFA."
+    >
+      Nessun report pubblico ha ricostruito questa timeline nella sua completezza. La fonte è l'aggregazione di CT logs, VT timestamps e FOFA.
+    </p>
+
+    <table>
+      <tr><th data-it="Data" data-en="Date">Data</th><th data-it="Evento" data-en="Event">Evento</th></tr>
+      <tr><td>2016-10-26</td><td data-it="LotAccessUI.EXE compilato da AppEx Networks — software VPN legittimo" data-en="LotAccessUI.EXE compiled by AppEx Networks — legitimate VPN software">LotAccessUI.EXE compilato da AppEx Networks — software VPN legittimo</td></tr>
+      <tr><td>2025-06-23</td><td data-it="Registrazione api[.]ra-backup[.]com + 1° cert Let's Encrypt emesso stesso giorno" data-en="Registration of api[.]ra-backup[.]com + 1st Let's Encrypt cert issued same day">Registrazione api[.]ra-backup[.]com + 1° cert Let's Encrypt emesso stesso giorno</td></tr>
+      <tr><td>2025-06-24</td><td data-it="Compilazione umgdn/com.net.alerts (APK stage 2) — 24h dopo il C2" data-en="Compilation of umgdn/com.net.alerts (APK stage 2) — 24h after C2">Compilazione umgdn/com.net.alerts — 24h dopo il C2</td></tr>
+      <tr><td>2025-07-08</td><td data-it="Registrazione 9732[.]5486311[.]xyz — C2 secondario attivato" data-en="Registration of 9732[.]5486311[.]xyz — secondary C2 activated">Registrazione 9732[.]5486311[.]xyz — C2 secondario</td></tr>
+      <tr><td>2025-08-23 / 2025-10-22 / 2025-12-22</td><td data-it="Rinnovi automatici cert C2#1 (×3 in 6 mesi) — server mantenuto attivo" data-en="Automatic cert renewals C2#1 (×3 in 6 months) — server kept active">Rinnovi automatici cert C2#1 (×3)</td></tr>
+      <tr><td>2025-11 / 2025-12</td><td data-it="File .exe con nomi casuali riferiti a redalert.me — test payload 3 mesi pre-op" data-en="Random-named .exe files referencing redalert.me — payload testing 3 months pre-op">Payload .exe in test — 3 mesi pre-op</td></tr>
+      <tr><td>2025-12-16</td><td class="danger" data-it="LotAccess v1 caricato su VT — &lt;strong&gt;10 settimane pre-operazione&lt;/strong&gt;" data-en="LotAccess v1 uploaded to VT — &lt;strong&gt;10 weeks pre-operation&lt;/strong&gt;">LotAccess v1 su VT — <strong>10 settimane pre-op</strong></td></tr>
+      <tr><td>2026-02-20</td><td class="danger" data-it="Rinnovo finale cert C2#1 — attivazione, &lt;strong&gt;−8 giorni&lt;/strong&gt;" data-en="Final cert renewal C2#1 — activation, &lt;strong&gt;−8 days&lt;/strong&gt;">Rinnovo finale cert C2#1 — <strong>−8 giorni</strong></td></tr>
+      <tr><td>2026-02-28</td><td class="danger" data-it="&lt;strong&gt;OPERATION EPIC FURY&lt;/strong&gt; — distribuzione APK via smishing" data-en="&lt;strong&gt;OPERATION EPIC FURY&lt;/strong&gt; — APK distribution via smishing"><strong>OPERATION EPIC FURY</strong> — distribuzione APK via smishing</td></tr>
+      <tr><td>2026-03-03/04</td><td data-it="CloudSEK e Unit 42 pubblicano report sull'APK Android" data-en="CloudSEK and Unit 42 publish Android APK reports">CloudSEK + Unit 42 — report APK Android</td></tr>
+      <tr><td>2026-03-05</td><td class="danger" data-it="Rinnovo cert C2#2 — &lt;strong&gt;+5 giorni post-op, infrastruttura mantenuta&lt;/strong&gt;" data-en="C2#2 cert renewal — &lt;strong&gt;+5 days post-op, infrastructure maintained&lt;/strong&gt;">Cert C2#2 rinnovato — <strong>+5 giorni post-op</strong></td></tr>
+      <tr><td>2026-03-08</td><td data-it="Backend AWS Android offline (takedown). LotAccess v2+v3 caricati su VT." data-en="AWS Android backend offline (takedown). LotAccess v2+v3 uploaded to VT.">Backend AWS offline. LotAccess v2+v3 su VT.</td></tr>
+      <tr><td>2026-03-15</td><td class="danger" data-it="Test live: &lt;strong&gt;entrambi i C2 Windows ancora attivi&lt;/strong&gt; — 16 giorni post-op" data-en="Live test: &lt;strong&gt;both Windows C2 servers still active&lt;/strong&gt; — 16 days post-operation">Live test: <strong>entrambi i C2 Windows ancora attivi</strong> — 16 giorni post-op</td></tr>
+    </table>
+
+    <p
+      data-it="Entrambi i C2 sono ancora live alla data di pubblicazione di questo articolo (17 marzo 2026)."
+      data-en="Both C2 servers are still live as of the publication date of this article (March 17, 2026)."
+    >
+      Entrambi i C2 sono ancora live alla data di pubblicazione di questo articolo (17 marzo 2026).
+    </p>
+
+    <!-- ═══════════════ [13] SEGNALAZIONI ═══════════════ -->
+    <h2
+      data-it="[13] Segnalazioni abuse"
+      data-en="[13] Abuse reports"
+    >[13] Segnalazioni abuse</h2>
+
+    <p
+      data-it="Le seguenti segnalazioni abuse sono state inviate il 15 marzo 2026 (~16:30 CET):"
+      data-en="The following abuse reports were submitted on March 15, 2026 (~16:30 CET):"
+    >
+      Le seguenti segnalazioni abuse sono state inviate il 15 marzo 2026 (~16:30 CET):
+    </p>
+
+    <table>
+      <tr><th data-it="Destinatario" data-en="Recipient">Destinatario</th><th data-it="Oggetto" data-en="Subject">Oggetto</th><th>Status</th></tr>
+      <tr><td>AbuseIPDB</td><td data-it="216.45.58[.]148 + 167.160.187[.]43 — Hacking / Malware C2" data-en="216.45.58[.]148 + 167.160.187[.]43 — Hacking / Malware C2">AbuseIPDB — entrambi gli IP</td><td data-it="Inviato 15/03/2026" data-en="Submitted 15/03/2026">Inviato 15/03</td></tr>
+      <tr><td>HostPapa</td><td><code>net-abuse-global@hostpapa.com</code></td><td data-it="Inviato 15/03/2026" data-en="Submitted 15/03/2026">Inviato 15/03</td></tr>
+      <tr><td>Namecheap</td><td data-it="Form abuse — ra-backup.com + 5486311.xyz" data-en="Abuse form — ra-backup.com + 5486311.xyz">Form abuse — entrambi i domini</td><td data-it="Inviato 15/03/2026" data-en="Submitted 15/03/2026">Inviato 15/03</td></tr>
+    </table>
+
+    <!-- ═══════════════ [14] DEFENDER TAKEAWAY ═══════════════ -->
+    <h2
+      data-it="[14] Defender Takeaway — IOC, YARA, Sigma"
+      data-en="[14] Defender Takeaway — IOC, YARA, Sigma"
+    >[14] Defender Takeaway — IOC, YARA, Sigma</h2>
+
+    <h3 data-it="IOC — Indicatori di compromissione" data-en="IOC — Indicators of compromise">IOC — Indicatori di compromissione</h3>
+
+    <div class="code-block">
+<pre><span class="comment"># IPs (defangati per pubblicazione)</span>
+<span class="ok">216.45.58[.]148</span>       <span class="comment"># C2 Windows primario — HostPapa AS36352 Ashburn VA</span>
+<span class="danger">167.160.187[.]43</span>      <span class="comment"># C2 Windows backup — RackNerd AS36352 Toronto CA — 0/94 VT</span>
+
+<span class="comment"># Domains</span>
+<span class="ok">api[.]ra-backup[.]com</span>  <span class="comment"># C2 Android + Windows primario (offline post-takedown)</span>
+<span class="danger">9732[.]5486311[.]xyz</span>   <span class="comment"># C2 Windows backup — 0/94 VT</span>
+
+<span class="comment"># SHA256</span>
+6209a9524e97ee8ac5fb05668f2be9a18a455870bb8cf6022049ee8f458c12d6  <span class="comment"># LotAccessUI.EXE v3</span>
+7d43d7f6c743912b74273901494ed18451aa2824130d9d405da250a9fe3aad0d  <span class="comment"># LotAccessUI.EXE v1</span>
+83651b0589665b112687f0858bfe2832ca317ba75e700c91ac34025ee6578b72  <span class="comment"># RedAlert APK stage 1</span>
+0cba66e78ddaeecfdd462c8cb39e443d083dc58c609b0edc73e8101e59ca91e8  <span class="comment"># umgdn APK stage 2 (inedito)</span>
+
+<span class="comment"># Hash forensi LotAccess v3</span>
+MD5:       58dad3a41691265128c751d133d5525f
+Imphash:   d89625bf08b621847b3ab97338a84dda   <span class="comment"># pivot PE family</span>
+JARM:      21d14d00021d21d00042d43d00041dd0fae37a26d202d4ca73c3c7b57c5a55
+
+<span class="comment"># Windows artifacts</span>
+Mutex:   tqvpn-gui-keep-one-instance                         <span class="comment"># zero falsi positivi</span>
+RegKey:  HKCU\Software\AppEx Networks\LotAccess\firstServer
+RegKey:  HKCU\Software\AppEx Networks\LotAccess\secondServer
+Path:    %TEMP%\EB93A6\cloudvpn.cfg
+Path:    %TEMP%\EB93A6\ca.crt
+Task:    Microsoft-Windows-DiskDiagnosticDataCollector        <span class="comment"># se punta a %TEMP%</span>
+
+<span class="comment"># Android packages</span>
+com.red.alertx   <span class="comment"># RedAlert fake stage 1</span>
+com.net.alerts   <span class="comment"># umgdn stage 2 (inedito)</span></pre>
+    </div>
+
+    <h3 data-it="YARA — Regola principale" data-en="YARA — Main rule">YARA — Regola principale</h3>
+
+    <div class="code-block">
+<pre><span class="comment">/*
+    Rule: IranianAPT_LotAccess_EXE_2026
+    Author: Paolo Costanzo - paolocostanzo.github.io
+    TLP: WHITE | License: MIT
+    Reference: paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/
+*/</span>
+
+rule IranianAPT_LotAccess_EXE_2026 {
+    meta:
+        description  = "LotAccess trojanized AppEx VPN — Operation Epic Fury 2026"
+        author       = "Paolo Costanzo - paolocostanzo.github.io"
+        date         = "2026-03-15"
+        tlp          = "WHITE"
+        hash_v3      = "6209a9524e97ee8ac5fb05668f2be9a18a455870bb8cf6022049ee8f458c12d6"
+        mitre_attack = "T1071.001, T1497.003, T1053.005, T1036.007, T1112, T1059.007"
+        confidence   = "HIGH"
+
+    strings:
+        $mutex      = "tqvpn-gui-keep-one-instance" ascii wide
+        $c2_primary = "216.45.58.148"               ascii wide
+        $c2_backup  = "167.160.187.43"               ascii wide
+        $c2_host    = "api.ra-backup.com"            ascii wide
+        $cfg        = "cloudvpn.cfg"                 ascii wide
+        $appex_api  = "/cgi-bin/d_device_action.py?ButtonDownSSLFile" ascii wide
+
+    condition:
+        uint16(0) == 0x5A4D      <span class="comment">// MZ header</span>
+        and filesize < 5MB
+        and (
+            $mutex
+            or ($c2_primary and $cfg)
+            or ($c2_backup  and $cfg)
+            or ($appex_api  and ($c2_primary or $c2_backup))
+        )
+}</pre>
+    </div>
+
+    <p
+      data-it="Il mutex &lt;code&gt;tqvpn-gui-keep-one-instance&lt;/code&gt; è il detection indicator più pulito — zero falsi positivi, specifico al binary AppEx Networks trojanizzato."
+      data-en="The mutex &lt;code&gt;tqvpn-gui-keep-one-instance&lt;/code&gt; is the cleanest detection indicator — zero false positives, specific to the trojanized AppEx Networks binary."
+    >
+      Il mutex <code>tqvpn-gui-keep-one-instance</code> è il detection indicator più pulito — zero falsi positivi, specifico al binary AppEx Networks trojanizzato.
+    </p>
+
+    <h3 data-it="Sigma — Regole di detection" data-en="Sigma — Detection rules">Sigma — Regole di detection</h3>
+
+    <table>
+      <tr><th data-it="Regola" data-en="Rule">Regola</th><th data-it="Livello" data-en="Level">Livello</th><th data-it="Categoria" data-en="Category">Categoria</th><th data-it="Note deployment" data-en="Deployment notes">Note</th></tr>
+      <tr><td><code>iranian_apt_lotaccess_c2_network</code></td><td class="danger">CRITICAL</td><td>network_connection</td><td data-it="Solo hardware fisico (RDTSC)" data-en="Physical hardware only (RDTSC)">Solo HW fisico</td></tr>
+      <tr><td><code>iranian_apt_lotaccess_payload_extraction</code></td><td class="danger">HIGH</td><td>file_event</td><td data-it="Prima indicazione — precede il C2" data-en="Earliest indicator — precedes C2 contact">Prima indicazione</td></tr>
+      <tr><td><code>iranian_apt_lotaccess_registry_c2</code></td><td class="danger">HIGH</td><td>registry_set</td><td data-it="Valori reali solo su HW fisico" data-en="Real values only on physical hardware">Valori reali su HW fisico</td></tr>
+      <tr><td><code>iranian_apt_lotaccess_scheduled_task</code></td><td class="danger">HIGH</td><td>process_creation</td><td data-it="Leggere il filtro — task legittimo Windows esiste" data-en="Read filter — legitimate Windows task exists">Leggere filtro FP</td></tr>
+      <tr><td><code>iranian_apt_lotaccess_wscript_child</code></td><td class="neutral">MEDIUM</td><td>process_creation</td><td data-it="Sperimentale — verificare prima del deploy" data-en="Experimental — verify before deploying">Sperimentale</td></tr>
+      <tr><td><code>iranian_apt_redalert_android_c2</code></td><td class="danger">CRITICAL</td><td>proxy</td><td data-it="Android exfiltration — zero FP attesi" data-en="Android exfiltration — zero FP expected">Zero FP attesi</td></tr>
+    </table>
+
+    <p
+      data-it="Regole YARA complete (3), Sigma (6) e IOC machine-readable disponibili su GitHub: &lt;a href='https://github.com/paolocostanzo/operation-epic-fury-rules' target='_blank' rel='noopener noreferrer' style='color:var(--orange)'&gt;github.com/paolocostanzo/operation-epic-fury-rules&lt;/a&gt; — TLP:WHITE, MIT license."
+      data-en="Full YARA rules (3), Sigma (6), and machine-readable IOCs available on GitHub: &lt;a href='https://github.com/paolocostanzo/operation-epic-fury-rules' target='_blank' rel='noopener noreferrer' style='color:var(--orange)'&gt;github.com/paolocostanzo/operation-epic-fury-rules&lt;/a&gt; — TLP:WHITE, MIT license."
+    >
+      Regole YARA complete (3), Sigma (6) e IOC machine-readable disponibili su GitHub: <a href="https://github.com/paolocostanzo/operation-epic-fury-rules" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">github.com/paolocostanzo/operation-epic-fury-rules</a> — TLP:WHITE, MIT license.
+    </p>
+
+    <h3 data-it="MITRE ATT&CK" data-en="MITRE ATT&CK">MITRE ATT&CK</h3>
+
+    <table>
+      <tr><th data-it="Tecnica" data-en="Technique">Tecnica</th><th data-it="Tattica" data-en="Tactic">Tattica</th><th data-it="Descrizione" data-en="Description">Descrizione</th></tr>
+      <tr><td>T1497.003</td><td>Defense Evasion</td><td data-it="RDTSC — evasione sandbox time-based" data-en="RDTSC — time-based sandbox evasion">RDTSC — evasione sandbox</td></tr>
+      <tr><td>T1071.001</td><td>Command &amp; Control</td><td data-it="AppEx VPN API come protocollo C2" data-en="AppEx VPN API as C2 protocol">AppEx VPN API come C2</td></tr>
+      <tr><td>T1112</td><td>Defense Evasion</td><td data-it="Registry modification — config C2 runtime" data-en="Registry modification — C2 config at runtime">Registry modification</td></tr>
+      <tr><td>T1053.005</td><td>Persistence</td><td data-it="Scheduled Task masquerade" data-en="Scheduled Task masquerade">Scheduled Task masquerade</td></tr>
+      <tr><td>T1036.007</td><td>Defense Evasion</td><td data-it="Masquerade task name (DiskDiagnosticDataCollector)" data-en="Masquerade task name (DiskDiagnosticDataCollector)">Masquerade task name</td></tr>
+      <tr><td>T1059.007</td><td>Execution</td><td data-it="JavaScript via WScript.exe — modulo aggiornamento AppEx (codice legittimo, non modificato)" data-en="JavaScript via WScript.exe — AppEx update module (legitimate code, unmodified)">JS via WScript.exe (AppEx update module)</td></tr>
+      <tr><td>T1583.001</td><td>Resource Development</td><td data-it="Acquire Infrastructure: domini 8 mesi pre-op" data-en="Acquire Infrastructure: domains 8 months pre-op">Infrastruttura 8 mesi pre-op</td></tr>
+    </table>
+
+    <h2 data-it="[15] Fonti e riferimenti" data-en="[15] Sources and references">[15] Fonti e riferimenti</h2>
+
+    <h3 data-it="Report vendor citati" data-en="Cited vendor reports">Report vendor citati</h3>
+
+    <ul>
+      <li><strong>Unit 42 / Palo Alto Networks</strong> — <em>"Iranian APT Targets Israeli Civilians with Fake Rocket Alert App"</em>, 4 marzo 2026</li>
+      <li><strong>CloudSEK ThreatIntel</strong> — <em>"RedAlert Trojan: Iranian APT Abusing Rocket Alert App to Target Israelis"</em>, 3 marzo 2026</li>
+      <li><strong>Cloudflare Cloudforce One</strong> — Threat Intelligence blog: Operation Epic Fury Android campaign, 4 marzo 2026</li>
+      <li><strong>ClearSky Cyber Security</strong> — Analisi APK RedAlert falso, marzo 2026</li>
+      <li><strong>Trellix Advanced Research Center</strong> — Tracking Iranian hacktivist operations, marzo 2026</li>
+      <li><strong>Sophos X-Ops</strong> — Threat activity update, marzo 2026</li>
+      <li><strong>NetBlocks</strong> — Iran internet connectivity data, 28 febbraio 2026 (<a href="https://netblocks.org/" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">netblocks.org</a>)</li>
+      <li><strong>BeyondTrust</strong> — Infrastructure and threat advisory, febbraio–marzo 2026</li>
+      <li><strong>Hunt.io</strong> — Infrastructure correlation: AS36352 + NameCheap MuddyWater pattern</li>
+      <li><strong>SentinelOne SentinelLabs</strong> — <em>"SpyC23: Android Surveillance Toolset"</em> — Arid Viper / APT-C-23 TTP context</li>
+    </ul>
+
+    <h3 data-it="Dati tecnici verificabili (link diretti)" data-en="Verifiable technical data (direct links)">Dati tecnici verificabili</h3>
+
+    <ul>
+      <li>
+        <a href="https://crt.sh/?q=api.ra-backup.com" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">crt.sh — Certificate Transparency: api.ra-backup.com</a>
+        <span data-it=" — storico CT dal 23 giugno 2025 (SOA serial 1750691767)" data-en=" — CT history from June 23, 2025 (SOA serial 1750691767)"> — storico CT dal 23 giugno 2025 (SOA serial 1750691767)</span>
+      </li>
+      <li>
+        <a href="https://www.virustotal.com/gui/file/6209a9524e97ee8ac5fb05668f2be9a18a455870bb8cf6022049ee8f458c12d6" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">VirusTotal — LotAccessUI.EXE v3</a>
+        <span> — SHA256: <code>6209a952...8c12d6</code> — 13/72</span>
+      </li>
+      <li>
+        <a href="https://www.virustotal.com/gui/file/7d43d7f6c743912b74273901494ed18451aa2824130d9d405da250a9fe3aad0d" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">VirusTotal — LotAccessUI.EXE v1</a>
+        <span data-it=" — SHA256: <code>7d43d7f6...aad0d</code> — prima submission 2025-12-16 — 4/65" data-en=" — SHA256: <code>7d43d7f6...aad0d</code> — first submission 2025-12-16 — 4/65"> — SHA256: <code>7d43d7f6...aad0d</code> — prima submission 2025-12-16 — 4/65</span>
+      </li>
+      <li>
+        <a href="https://www.virustotal.com/gui/file/83651b0589665b112687f0858bfe2832ca317ba75e700c91ac34025ee6578b72" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">VirusTotal — RedAlert fake APK</a>
+        <span> — SHA256: <code>83651b05...78b72</code> — com.red.alertx</span>
+      </li>
+      <li>
+        <a href="https://www.virustotal.com/gui/file/0cba66e78ddaeecfdd462c8cb39e443d083dc58c609b0edc73e8101e59ca91e8" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">VirusTotal — umgdn APK</a>
+        <span data-it=" — SHA256: <code>0cba66e7...a91e8</code> — com.net.alerts (UNDISCLOSED al 15/03/2026)" data-en=" — SHA256: <code>0cba66e7...a91e8</code> — com.net.alerts (UNDISCLOSED as of 15/03/2026)"> — SHA256: <code>0cba66e7...a91e8</code> — com.net.alerts (UNDISCLOSED al 15/03/2026)</span>
+      </li>
+      <li>
+        <a href="https://github.com/paolocostanzo/operation-epic-fury-rules" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">GitHub — YARA rules, Sigma rules, IOC CSV</a>
+        <span data-it=" — TLP:WHITE, MIT license — tutto verificabile" data-en=" — TLP:WHITE, MIT license — everything verifiable"> — TLP:WHITE, MIT license — tutto verificabile</span>
+      </li>
+    </ul>
+
+    <p style="font-size:0.82rem;color:var(--muted);margin-top:1rem"
+       data-it="I link ai report vendor sopra indicati sono verificati all'URL ufficiale dei rispettivi provider al momento della pubblicazione (17 marzo 2026). I link VirusTotal e crt.sh sono deterministici e permanenti."
+       data-en="Vendor report links above are verified at the official provider URL at time of publication (March 17, 2026). VirusTotal and crt.sh links are deterministic and permanent."
+    >I link ai report vendor sopra indicati sono verificati all'URL ufficiale dei rispettivi provider al momento della pubblicazione (17 marzo 2026). I link VirusTotal e crt.sh sono deterministici e permanenti.</p>
+
+  </div><!-- /article-body -->
+
+  <!-- EPILOGO -->
+  <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);max-width:800px;margin:0 auto;line-height:2;border-top:1px solid var(--border);padding:2rem 2rem 1.5rem;"
+     data-it="// Epilogo: «Teardrop» dei Massive Attack in sottofondo. Crt.sh ancora aperto in un tab. Hybrid Analysis in un altro.<br/>// Il rabbit hole aveva un piano di sotto. Quel piano aveva un server C2 che nessuno stava guardando.<br/>// Le segnalazioni abuse sono state mandate. Alla data di pubblicazione (17 marzo 2026), i C2 erano ancora vivi.<br/>// Non so se qualcuno li farà down. So che adesso sai dove guardare."
+     data-en="// Epilogue: «Teardrop» by Massive Attack playing in the background. Crt.sh still open in one tab. Hybrid Analysis in another.<br/>// The rabbit hole had a floor. That floor had a C2 server nobody was watching.<br/>// Abuse reports were filed. As of publication date (March 17, 2026), both C2 servers were still live.<br/>// I don't know if anyone will take them down. I know you now know where to look."
+  >
+    // Epilogo: «Teardrop» dei Massive Attack in sottofondo. Crt.sh ancora aperto in un tab. Hybrid Analysis in un altro.<br/>
+    // Il rabbit hole aveva un piano di sotto. Quel piano aveva un server C2 che nessuno stava guardando.<br/>
+    // Le segnalazioni abuse sono state mandate. Alla data di pubblicazione (17 marzo 2026), i C2 erano ancora vivi.<br/>
+    // Non so se qualcuno li farà down. So che adesso sai dove guardare.
+  </p>
+
+  <!-- Share -->
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" id="sx" href="#" target="_blank" rel="noopener">𝕏</a>
+      <a class="share-btn" id="sli" href="#" target="_blank" rel="noopener">linkedin</a>
+      <a class="share-btn" id="srd" href="#" target="_blank" rel="noopener">reddit</a>
+      <a class="share-btn" id="sdt" href="#" target="_blank" rel="noopener">dev.to</a>
+      <a class="share-btn" id="swa" href="#" target="_blank" rel="noopener">whatsapp</a>
+      <a class="share-btn" id="stg" href="#" target="_blank" rel="noopener">telegram</a>
+      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
+    <div class="footer-copy">© 2026 Paolo Costanzo — TLP:WHITE</div>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    // === LANG SWITCH ===
+    function setLang(lang) {
+      document.querySelectorAll('[data-it]').forEach(function(el) {
+        var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+        if (v !== null) el.innerHTML = v;
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-btn').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch(e){}
+      if (lang === 'en') {
+        var t = document.querySelector('title');
+        if (t) t.textContent = t.getAttribute('data-en') || t.textContent;
+      }
+    }
+
+    // === INIT LANG ===
+    (function(){
+      var stored;
+      try { stored = localStorage.getItem('lang'); } catch(e){}
+      if (stored === 'en') setLang('en');
+      else setLang('it');
+    })();
+
+    // === READ PROGRESS BAR ===
+    (function(){
+      var bar = document.getElementById('read-bar');
+      if (!bar) return;
+      window.addEventListener('scroll', function(){
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = h > 0 ? (window.scrollY / h * 100) : 0;
+        bar.style.width = Math.min(pct, 100) + '%';
+      }, {passive: true});
+    })();
+
+    // === BACK TO TOP ===
+    (function(){
+      var btn = document.getElementById('back-top');
+      if (!btn) return;
+      window.addEventListener('scroll', function(){
+        btn.classList.toggle('vis', window.scrollY > 600);
+        var footer = document.querySelector('footer.article-footer');
+        if (footer) {
+          var fTop = footer.getBoundingClientRect().top;
+          btn.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+        }
+      }, {passive: true});
+    })();
+
+    // === SHARE BUTTONS ===
+    (function(){
+      var url   = window.location.href;
+      var title = (document.querySelector('h1') || {textContent: document.title}).textContent.trim();
+      var enc   = encodeURIComponent;
+      var sx  = document.getElementById('sx');
+      var sli = document.getElementById('sli');
+      var srd = document.getElementById('srd');
+      var sdt = document.getElementById('sdt');
+      var swa = document.getElementById('swa');
+      var stg = document.getElementById('stg');
+      var scp = document.getElementById('scp');
+      if (sx)  sx.href  = 'https://twitter.com/intent/tweet?text=' + enc(title) + '&url=' + enc(url);
+      if (sli) sli.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url);
+      if (srd) srd.href = 'https://www.reddit.com/submit?url=' + enc(url) + '&title=' + enc(title);
+      if (sdt) sdt.href = 'https://dev.to/new';
+      if (swa) swa.href = 'https://wa.me/?text=' + enc(title + ' ' + url);
+      if (stg) stg.href = 'https://t.me/share/url?url=' + enc(url) + '&text=' + enc(title);
+      if (scp) scp.addEventListener('click', function(){
+        navigator.clipboard.writeText(url).then(function(){
+          var lang = document.getElementById('html-root').getAttribute('lang');
+          scp.textContent = lang === 'en' ? 'copied!' : 'copiato!';
+          scp.classList.add('ok');
+          setTimeout(function(){
+            scp.textContent = lang === 'en' ? 'copy link' : 'copia link';
+            scp.classList.remove('ok');
+          }, 2000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
