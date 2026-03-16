@@ -29,26 +29,26 @@
     body { background: var(--black); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     header { position: sticky; top: 0; z-index: 100; background: rgba(8,8,8,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    .header-inner { max-width: 800px; margin: 0 auto; padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .header-inner { max-width: 960px; margin: 0 auto; padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
     .back-link { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; transition: color 0.2s; display: flex; align-items: center; gap: 0.5rem; }
     .back-link:hover { color: var(--orange); }
     .logo { font-family: var(--mono); font-size: 0.85rem; }
     .logo .dim { color: #fff; } .logo .name { color: var(--orange); }
-    .article-header { max-width: 800px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+    .article-header { max-width: 960px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
     .article-meta { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
     .tag { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid var(--orange); padding: 0.2rem 0.6rem; }
     .meta-item { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
     .difficulty-badge { font-family: var(--mono); font-size: 0.65rem; color: #ff3333; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: #ff3333; }
     h1 { font-family: var(--condensed); font-size: clamp(2rem,5vw,3.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; color: var(--text); margin-bottom: 1.5rem; }
-    .article-intro { font-size: 1.1rem; color: var(--muted); max-width: 640px; line-height: 1.8; }
-    .article-body { max-width: 800px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+    .article-intro { font-size: 1.1rem; color: var(--muted); max-width: 760px; line-height: 1.8; }
+    .article-body { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 5rem; }
     .article-body h2 { font-family: var(--condensed); font-size: 1.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); margin: 3rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
     .article-body h3 { font-family: var(--condensed); font-size: 1.2rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.06em; margin: 2rem 0 0.75rem; }
-    .article-body p { font-size: 0.95rem; color: #bbb; line-height: 1.85; margin-bottom: 1.25rem; }
+    .article-body p { font-size: 1rem; color: #bbb; line-height: 1.85; margin-bottom: 1.25rem; }
     .article-body strong { color: var(--text); font-weight: 600; }
     .article-body ul, .article-body ol { margin: 1rem 0 1.25rem 1.5rem; }
-    .article-body li { font-size: 0.95rem; color: #bbb; line-height: 1.8; margin-bottom: 0.4rem; }
+    .article-body li { font-size: 1rem; color: #bbb; line-height: 1.8; margin-bottom: 0.4rem; }
     .code-block { background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
     .code-block pre { font-family: var(--mono); font-size: 0.78rem; color: var(--orange); line-height: 1.8; white-space: pre; }
     .code-block .comment { color: var(--muted); }
@@ -96,7 +96,7 @@
     #back-top.vis{opacity:1;pointer-events:all}
     #back-top:hover{color:var(--orange);border-color:var(--orange)}
     /* share */
-    .share-wrap{max-width:800px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
     .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
     .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
     .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
