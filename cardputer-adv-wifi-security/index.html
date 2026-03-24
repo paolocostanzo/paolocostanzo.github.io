@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Easter egg: stai leggendo il sorgente. Di nuovo. Inestimabile.
+       Benvenuto nel lato oscuro dei 40 euro.
+       P.S. — abilita il PMF sul tuo router quando esci da qui. Davvero. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title
+    data-it="Cardputer-Adv: 40€, 2 minuti, credenziali rubate — NonèCostanzo"
+    data-en="Cardputer-Adv: €40, 2 minutes, stolen credentials — NonèCostanzo"
+  >Cardputer-Adv: 40€, 2 minuti, credenziali rubate — NonèCostanzo</title>
+  <meta name="description"
+    data-it="Un dispositivo da 40 euro, un firmware open-source, e una classe di professionisti che non si fida più del Wi-Fi libero. Evil Portal, beacon spam, deauth attack: quello che succede quando porti hardware offensivo in aula e qualcuno ci casca."
+    data-en="A €40 device, open-source firmware, and a class of professionals who will never trust free Wi-Fi again. Evil Portal, beacon spam, deauth attack: what happens when you bring offensive hardware into the classroom and someone actually falls for it."
+    content="Un dispositivo da 40 euro, un firmware open-source, e una classe di professionisti che non si fida più del Wi-Fi libero. Evil Portal, beacon spam, deauth attack: quello che succede quando porti hardware offensivo in aula e qualcuno ci casca."
+  />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;color:#ffaa00;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:#ffaa00}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+    @media(max-width:600px){.spec-grid{grid-template-columns:1fr}}
+    .spec-card{background:var(--surface2);border:1px solid var(--border);padding:1.25rem}
+    .spec-card-label{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem}
+    .spec-card-value{font-family:var(--mono);font-size:0.95rem;color:var(--orange)}
+    .spec-card-sub{font-size:0.8rem;color:var(--muted);margin-top:0.25rem}
+  </style>
+</head>
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag" data-it="WiFi Security" data-en="WiFi Security">WiFi Security</span>
+      <span class="tag" data-it="Hardware" data-en="Hardware">Hardware</span>
+      <span class="meta-item">21 Mar 2026</span>
+      <span class="meta-item" data-it="12 min read" data-en="12 min read">12 min read</span>
+      <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span data-it="Easy" data-en="Easy">Easy</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar"><div class="auth-human" style="width:72%"></div></div>
+        <span class="auth-lbl" data-it="72% umano · 28% ai" data-en="72% human · 28% ai">72% umano · 28% ai</span>
+      </div>
+    </div>
+    <h1
+      data-it="40€, 2 minuti, e uno studente che non si fida più del Wi-Fi gratis"
+      data-en="€40, 2 minutes, and a student who'll never trust free Wi-Fi again"
+    >
+      40€, 2 minuti, e uno studente che non si fida più del Wi-Fi gratis
+    </h1>
+    <p class="article-intro"
+       data-it="Un Cardputer-Adv in tasca, Bruce firmware, e una classe di professionisti laureati convinti di sapere già tutto sul Wi-Fi. Spoiler: non lo sapevano. Evil Portal, beacon spam, deauth attack — quello che succede quando porti 40 euro di hardware offensivo in aula e qualcuno, puntualmente, ci casca."
+       data-en="A Cardputer-Adv in your pocket, Bruce firmware, and a class of graduate professionals convinced they already knew everything about Wi-Fi. Spoiler: they didn't. Evil Portal, beacon spam, deauth attack — what happens when you bring €40 of offensive hardware into the classroom and someone, inevitably, falls for it."
+    >
+      Un Cardputer-Adv in tasca, Bruce firmware, e una classe di professionisti laureati convinti di sapere già tutto sul Wi-Fi. Spoiler: non lo sapevano. Evil Portal, beacon spam, deauth attack — quello che succede quando porti 40 euro di hardware offensivo in aula e qualcuno, puntualmente, ci casca.
+    </p>
+  </div>
+
+  <div class="article-body">
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR — per chi non ha tempo. Gli altri si godano la storia, che è bella." data-en="// TL;DR — for those in a hurry. Everyone else: the story is worth it.">// TL;DR — per chi non ha tempo. Gli altri si godano la storia, che è bella.</div>
+      <ul>
+        <li data-it="Il &lt;strong&gt;Cardputer-Adv di M5Stack&lt;/strong&gt; è un mini-computer da 40€ con ESP32-S3, tastiera, schermo e batteria integrata. Con Bruce firmware diventa una piattaforma offensiva tascabile. Sì, quaranta euro. No, non è uno scherzo.">Il <strong>Cardputer-Adv di M5Stack</strong> è un mini-computer da 40€ con ESP32-S3, tastiera, schermo e batteria integrata. Con Bruce firmware diventa una piattaforma offensiva tascabile. Sì, quaranta euro. No, non è uno scherzo.</li>
+        <li data-it="&lt;strong&gt;Evil Portal&lt;/strong&gt;: access point fake + portale captive = credenziali in chiaro sul display in meno di 2 minuti. Zero competenze hardware, zero attrezzatura speciale, zero scrupoli — &lt;em&gt;per scopi educativi, ovviamente.&lt;/em&gt;"><strong>Evil Portal</strong>: access point fake + portale captive = credenziali in chiaro sul display in meno di 2 minuti. Zero competenze hardware, zero attrezzatura speciale, zero scrupoli — <em>per scopi educativi, ovviamente.</em></li>
+        <li data-it="&lt;strong&gt;Deauth attack&lt;/strong&gt; empiricamente misurato: efficace fino a 15m su AP consumer senza PMF. Con PMF abilitato: protezione totale. La differenza: un checkbox nel pannello admin che il 99% delle persone non ha mai aperto."><strong>Deauth attack</strong> empiricamente misurato: efficace fino a 15m su AP consumer senza PMF. Con PMF abilitato: protezione totale. La differenza: un checkbox nel pannello admin che il 99% delle persone non ha mai aperto.</li>
+        <li data-it="Il gap tra &lt;em&gt;'so configurare il Wi-Fi'&lt;/em&gt; e &lt;em&gt;'so come il Wi-Fi può essere fatto a pezzi'&lt;/em&gt; è un abisso epistemologico che questo aggeggio da 40€ attraversa con una disinvoltura offensiva.">Il gap tra <em>'so configurare il Wi-Fi'</em> e <em>'so come il Wi-Fi può essere fatto a pezzi'</em> è un abisso epistemologico che questo aggeggio da 40€ attraversa con una disinvoltura offensiva.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Ambiente di test:&lt;/strong&gt; rete controllata, dispositivi di proprietà, uso a fini didattici. &lt;em&gt;Per scopi educativi, ovviamente&lt;/em&gt; — il disclaimer rituale che nessuno legge ma che va scritto lo stesso, perché il mondo è come è."><strong>Ambiente di test:</strong> rete controllata, dispositivi di proprietà, uso a fini didattici. <em>Per scopi educativi, ovviamente</em> — il disclaimer rituale che nessuno legge ma che va scritto lo stesso, perché il mondo è come è.</p>
+    </div>
+
+    <!-- ═══════════════ [01] LA CLASSE ═══════════════ -->
+    <h2
+      data-it="[01] L'oggetto che nessuno aveva riconosciuto"
+      data-en="[01] The object nobody recognized"
+    >[01] L'oggetto che nessuno aveva riconosciuto</h2>
+
+    <p
+      data-it="Esiste, nel mestiere di chi insegna sicurezza informatica, una categoria di momenti che si potrebbe definire &lt;em&gt;pedagogicamente irreversibili&lt;/em&gt;: quei frangenti in cui una dimostrazione pratica demolisce con placida efferatezza qualsiasi certezza teorica precedentemente acquisita. Questo articolo nasce da uno di quei momenti. Uno particolarmente riuscito, a dirla tutta."
+      data-en="There exists, in the trade of teaching information security, a category of moments that could be defined as &lt;em&gt;pedagogically irreversible&lt;/em&gt;: those junctures where a practical demonstration demolishes with placid ruthlessness any previously acquired theoretical certainty. This article was born from one of those moments. A particularly successful one, if we're being honest."
+    >Esiste, nel mestiere di chi insegna sicurezza informatica, una categoria di momenti che si potrebbe definire <em>pedagogicamente irreversibili</em>: quei frangenti in cui una dimostrazione pratica demolisce con placida efferatezza qualsiasi certezza teorica precedentemente acquisita. Questo articolo nasce da uno di quei momenti. Uno particolarmente riuscito, a dirla tutta.</p>
+
+    <p
+      data-it="Il contesto: un corso professionale dedicato alla sicurezza informatica, frequentato da una platea eterogenea — laureati in informatica, ingegneri, tecnici con anni di campo sulle spalle. Gente che non stava scoprendo cos'è un pacchetto TCP per la prima volta. Gente che, con quella peculiare sicumera che si acquisisce dopo aver configurato firewall e VLAN per anni, era convinta — con una certa fondata ragione, va detto — di sapere già come funziona il Wi-Fi. &lt;em&gt;(Spoiler: sapevano come si &lt;strong&gt;configura&lt;/strong&gt;. Non è la stessa cosa.)&lt;/em&gt;"
+      data-en="The context: a professional security course attended by a mixed audience — computer science graduates, engineers, technicians with years of field experience. People who were not discovering what a TCP packet is for the first time. People who, with that peculiar overconfidence acquired after years of configuring firewalls and VLANs, were convinced — with some justified reason, to be fair — that they already knew how Wi-Fi works. &lt;em&gt;(Spoiler: they knew how to &lt;strong&gt;configure&lt;/strong&gt; it. Not the same thing.)&lt;/em&gt;"
+    >Il contesto: un corso professionale dedicato alla sicurezza informatica, frequentato da una platea eterogenea — laureati in informatica, ingegneri, tecnici con anni di campo sulle spalle. Gente che non stava scoprendo cos'è un pacchetto TCP per la prima volta. Gente che, con quella peculiare sicumera che si acquisisce dopo aver configurato firewall e VLAN per anni, era convinta — con una certa fondata ragione, va detto — di sapere già come funziona il Wi-Fi. <em>(Spoiler: sapevano come si <strong>configura</strong>. Non è la stessa cosa.)</em></p>
+
+    <p
+      data-it="Quando ho estratto il Cardputer-Adv dal taschino della giacca con la solennità appropriata alla circostanza, la reazione collettiva dei primi tre secondi oscillava tra &lt;em&gt;'è una Game Boy?'&lt;/em&gt; e &lt;em&gt;'il professore ha perso la testa'&lt;/em&gt;. Comprensibile. Il dispositivo è grande quanto un pacchetto di sigarette. Ha una tastierina che avrebbe fatto onore a un Nokia 3310. Costa 40 euro su AliExpress con spedizione inclusa. Non emana, oggettivamente, un'aura di minaccia esistenziale."
+      data-en="When I extracted the Cardputer-Adv from my jacket pocket with the solemnity appropriate to the occasion, the collective reaction over the first three seconds oscillated between &lt;em&gt;'is that a Game Boy?'&lt;/em&gt; and &lt;em&gt;'the professor has lost his mind'&lt;/em&gt;. Understandable. The device is the size of a cigarette pack. It has a tiny keyboard that would have done honour to a Nokia 3310. It costs €40 on AliExpress with shipping included. It does not, objectively, radiate an aura of existential threat."
+    >Quando ho estratto il Cardputer-Adv dal taschino della giacca con la solennità appropriata alla circostanza, la reazione collettiva dei primi tre secondi oscillava tra <em>'è una Game Boy?'</em> e <em>'il professore ha perso la testa'</em>. Comprensibile. Il dispositivo è grande quanto un pacchetto di sigarette. Ha una tastierina che avrebbe fatto onore a un Nokia 3310. Costa 40 euro su AliExpress con spedizione inclusa. Non emana, oggettivamente, un'aura di minaccia esistenziale.</p>
+
+    <!-- GIF 1 — shrug -->
+    <div style="max-width:420px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="20962558" data-share-method="host" data-aspect-ratio="1.78771" data-width="100%">
+        <a href="https://tenor.com/view/shrug-family-feud-family-feud-canada-nothing-i-can-do-i-dont-know-gif-20962558">Shrug Family Feud Sticker</a> from <a href="https://tenor.com/search/shrug-stickers">Shrug Stickers</a>
+      </div>
+    </div>
+
+    <p
+      data-it="Ho avviato Bruce firmware. Ho navigato con invidiabile flemma nel menu Wi-Fi, ho selezionato &lt;strong&gt;Evil Portal&lt;/strong&gt;, ho caricato un template di login page — una generica schermata da 'rete ospiti aziendale', il tipo di roba che chiunque compilerebbe senza pensarci due volte — e ho premuto avvia. Il Cardputer ha creato un access point visibile a ogni telefono in aula nel giro di una trentina di secondi. Senza laptop aggiuntivi. Senza cavi. Senza niente che costasse più di 40 euro."
+      data-en="I launched Bruce firmware. I navigated with enviable composure through the Wi-Fi menu, selected &lt;strong&gt;Evil Portal&lt;/strong&gt;, loaded a login page template — a generic 'corporate guest network' screen, the kind of thing anyone would fill in without a second thought — and pressed start. The Cardputer created an access point visible to every phone in the room within about thirty seconds. No additional laptop. No cables. Nothing that cost more than €40."
+    >Ho avviato Bruce firmware. Ho navigato con invidiabile flemma nel menu Wi-Fi, ho selezionato <strong>Evil Portal</strong>, ho caricato un template di login page — una generica schermata da 'rete ospiti aziendale', il tipo di roba che chiunque compilerebbe senza pensarci due volte — e ho premuto avvia. Il Cardputer ha creato un access point visibile a ogni telefono in aula nel giro di una trentina di secondi. Senza laptop aggiuntivi. Senza cavi. Senza niente che costasse più di 40 euro.</p>
+
+    <p
+      data-it="Dal momento in cui ho tolto il dispositivo dalla tasca a quello in cui la rete fake era pienamente operativa: &lt;strong&gt;meno di due minuti&lt;/strong&gt;. Uno studente — uno dei più brillanti, per quella crudele ironia che il destino riserva ai più preparati — si è connesso per curiosità. Username e password sono comparsi sul display del Cardputer in chiaro, immediatamente, con la sobrietà di chi non ha nulla da giustificare."
+      data-en="From the moment I took the device out of my pocket to the moment the fake network was fully operational: &lt;strong&gt;less than two minutes&lt;/strong&gt;. One student — one of the brightest, thanks to that cruel irony fate reserves for the most prepared — connected out of curiosity. Username and password appeared on the Cardputer display in plain text, immediately, with the sobriety of something that has nothing to justify."
+    >Dal momento in cui ho tolto il dispositivo dalla tasca a quello in cui la rete fake era pienamente operativa: <strong>meno di due minuti</strong>. Uno studente — uno dei più brillanti, per quella crudele ironia che il destino riserva ai più preparati — si è connesso per curiosità. Username e password sono comparsi sul display del Cardputer in chiaro, immediatamente, con la sobrietà di chi non ha nulla da giustificare.</p>
+
+    <p
+      data-it="Il silenzio è durato quattro secondi netti. Poi qualcuno ha detto, con la voce di chi ha appena realizzato qualcosa di sgradevole, una parola sola. Non la riporto, ma la state già sentendo. Almeno tre persone hanno guardato il proprio telefono, hanno visto la lista delle reti Wi-Fi salvate, e le hanno silenziosamente dimenticate tutte. &lt;em&gt;(Ecco. Questo. È esattamente per questo che si fa la dimostrazione pratica.)&lt;/em&gt;"
+      data-en="The silence lasted exactly four seconds. Then someone said, with the voice of someone who has just realised something unpleasant, a single word. I won't transcribe it, but you're already hearing it. At least three people looked at their phones, saw the list of saved Wi-Fi networks, and silently forgot all of them. &lt;em&gt;(There. That. Is exactly why you do the practical demonstration.)&lt;/em&gt;"
+    >Il silenzio è durato quattro secondi netti. Poi qualcuno ha detto, con la voce di chi ha appena realizzato qualcosa di sgradevole, una parola sola. Non la riporto, ma la state già sentendo. Almeno tre persone hanno guardato il proprio telefono, hanno visto la lista delle reti Wi-Fi salvate, e le hanno silenziosamente dimenticate tutte. <em>(Ecco. Questo. È esattamente per questo che si fa la dimostrazione pratica.)</em></p>
+
+    <!-- GIF 2 — well then -->
+    <div style="max-width:420px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="11714469" data-share-method="host" data-aspect-ratio="0.85" data-width="100%">
+        <a href="https://tenor.com/view/well-then-shook-awkward-blink-gif-11714469">Well Then Shook GIF</a> from <a href="https://tenor.com/search/well+then-gifs">Well Then GIFs</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ [02] IL DEVICE ═══════════════ -->
+    <h2
+      data-it="[02] Cosa c'è dentro — perché 40€ fanno questo"
+      data-en="[02] What's inside — why €40 does all this"
+    >[02] Cosa c'è dentro — perché 40€ fanno questo</h2>
+
+    <p
+      data-it="Prima di procedere con la rassegna delle cose spiacevoli che questo oggetto sa fare, vale la pena capire &lt;em&gt;perché&lt;/em&gt; le sa fare. Non è magia nera, non è un caso fortuito: è ingegneria economica applicata con una competenza che, francamente, dovrebbe far riflettere chiunque venda soluzioni di sicurezza a cinque zeri."
+      data-en="Before proceeding with the survey of unpleasant things this object knows how to do, it's worth understanding &lt;em&gt;why&lt;/em&gt; it knows how to do them. It's not black magic, it's not a fortunate accident: it's economical engineering applied with a competence that, frankly, should give pause to anyone selling five-figure security solutions."
+    >Prima di procedere con la rassegna delle cose spiacevoli che questo oggetto sa fare, vale la pena capire <em>perché</em> le sa fare. Non è magia nera, non è un caso fortuito: è ingegneria economica applicata con una competenza che, francamente, dovrebbe far riflettere chiunque venda soluzioni di sicurezza a cinque zeri.</p>
+
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-card-label" data-it="Processore" data-en="Processor">Processore</div>
+        <div class="spec-card-value">ESP32-S3</div>
+        <div class="spec-card-sub" data-it="Dual-core Xtensa LX7, 240 MHz" data-en="Dual-core Xtensa LX7, 240 MHz">Dual-core Xtensa LX7, 240 MHz</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-label">Wi-Fi</div>
+        <div class="spec-card-value">802.11 b/g/n</div>
+        <div class="spec-card-sub" data-it="2.4 GHz — monitor mode supportato" data-en="2.4 GHz — monitor mode supported">2.4 GHz — monitor mode supportato</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-label" data-it="Display" data-en="Display">Display</div>
+        <div class="spec-card-value">1.14" IPS</div>
+        <div class="spec-card-sub" data-it="135×240 px, ST7789V2" data-en="135×240 px, ST7789V2">135×240 px, ST7789V2</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-label" data-it="Batteria" data-en="Battery">Batteria</div>
+        <div class="spec-card-value">~1750 mAh</div>
+        <div class="spec-card-sub" data-it="Autonomia: 4-6h in uso attivo" data-en="Autonomy: 4-6h in active use">Autonomia: 4-6h in uso attivo</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-label" data-it="Storage" data-en="Storage">Storage</div>
+        <div class="spec-card-value">microSD</div>
+        <div class="spec-card-sub" data-it="Slot interno — logging e payload" data-en="Internal slot — logging and payloads">Slot interno — logging e payload</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-label" data-it="Prezzo" data-en="Price">Prezzo</div>
+        <div class="spec-card-value">~40€</div>
+        <div class="spec-card-sub" data-it="M5Stack store / AliExpress" data-en="M5Stack store / AliExpress">M5Stack store / AliExpress</div>
+      </div>
+    </div>
+
+    <p
+      data-it="Il pezzo fondamentale è l'ESP32-S3: un microcontrollore con supporto nativo al &lt;strong&gt;monitor mode Wi-Fi&lt;/strong&gt;, ovvero la capacità di ricevere frame 802.11 raw senza associarsi ad alcuna rete. È la stessa funzionalità per cui si pagano centinaia di euro in schede Wi-Fi da laboratorio, implementata su un chip che costa meno di un aperitivo a Milano. Combinata con &lt;strong&gt;Bruce firmware&lt;/strong&gt; — progetto open-source, mantenuto attivamente, specificamente concepito per operazioni offensive su piattaforme ESP32 — il Cardputer diventa uno strumento di ricerca e testing concreto, non il solito aggeggio da esporre sulla scrivania per fare scena."
+      data-en="The fundamental piece is the ESP32-S3: a microcontroller with native &lt;strong&gt;Wi-Fi monitor mode&lt;/strong&gt; support — the ability to receive raw 802.11 frames without associating to any network. It's the same functionality for which you pay hundreds of euros in laboratory Wi-Fi cards, implemented on a chip that costs less than a drink at a bar. Combined with &lt;strong&gt;Bruce firmware&lt;/strong&gt; — an open-source project, actively maintained, specifically designed for offensive operations on ESP32 platforms — the Cardputer becomes a concrete research and testing tool, not the usual gadget you display on your desk to look the part."
+    >Il pezzo fondamentale è l'ESP32-S3: un microcontrollore con supporto nativo al <strong>monitor mode Wi-Fi</strong>, ovvero la capacità di ricevere frame 802.11 raw senza associarsi ad alcuna rete. È la stessa funzionalità per cui si pagano centinaia di euro in schede Wi-Fi da laboratorio, implementata su un chip che costa meno di un aperitivo a Milano. Combinata con <strong>Bruce firmware</strong> — progetto open-source, mantenuto attivamente, specificamente concepito per operazioni offensive su piattaforme ESP32 — il Cardputer diventa uno strumento di ricerca e testing concreto, non il solito aggeggio da esporre sulla scrivania per fare scena.</p>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// nota sul firmware" data-en="// firmware note">// nota sul firmware</div>
+      <p data-it="Bruce non è l'unica opzione disponibile: esistono M5Launcher, GhostESP e una galassia di firmware specializzati per singole funzioni. Bruce è stato scelto per la sua completezza operativa out-of-the-box e per il fatto che non richiede di essere ingegneri embedded per usarlo. Tutto quello che segue è riproducibile con Bruce versione corrente su Cardputer-Adv, senza modifiche hardware, senza saldatore, senza piangere." data-en="Bruce is not the only available option: M5Launcher, GhostESP and a galaxy of single-function firmware also exist. Bruce was chosen for its out-of-the-box operational completeness and for the fact that it doesn't require being an embedded engineer to use it. Everything that follows is reproducible with current Bruce on Cardputer-Adv, no hardware modifications, no soldering iron, no tears.">Bruce non è l'unica opzione disponibile: esistono M5Launcher, GhostESP e una galassia di firmware specializzati per singole funzioni. Bruce è stato scelto per la sua completezza operativa out-of-the-box e per il fatto che non richiede di essere ingegneri embedded per usarlo. Tutto quello che segue è riproducibile con Bruce versione corrente su Cardputer-Adv, senza modifiche hardware, senza saldatore, senza piangere.</p>
+    </div>
+
+    <!-- ═══════════════ [03] EVIL PORTAL ═══════════════ -->
+    <h2
+      data-it="[03] Evil Portal — l'attacco che non dovrebbe funzionare così bene (e invece)"
+      data-en="[03] Evil Portal — the attack that shouldn't work this well (and yet)"
+    >[03] Evil Portal — l'attacco che non dovrebbe funzionare così bene (e invece)</h2>
+
+    <p
+      data-it="L'Evil Portal non è una tecnica nuova. È discussa in ogni corso di ethical hacking degno di questo nome, campeggia in ogni framework di red team, è documentata con dovizia accademica da almeno due decenni. Eppure — con una pervicacia che rasenta l'insolenza — continua a funzionare. Non perché sfrutti una vulnerabilità del protocollo: il protocollo in questo caso è assolutamente incolpevole. Funziona perché sfrutta una vulnerabilità degli esseri umani, e quella, notoriamente, non si patcha con un firmware update."
+      data-en="The Evil Portal is not a new technique. It is discussed in every ethical hacking course worthy of the name, features in every red team framework, has been documented with academic thoroughness for at least two decades. And yet — with a stubbornness bordering on insolence — it keeps working. Not because it exploits a protocol vulnerability: the protocol in this case is absolutely blameless. It works because it exploits a human vulnerability, and that one, notoriously, can't be patched with a firmware update."
+    >L'Evil Portal non è una tecnica nuova. È discussa in ogni corso di ethical hacking degno di questo nome, campeggia in ogni framework di red team, è documentata con dovizia accademica da almeno due decenni. Eppure — con una pervicacia che rasenta l'insolenza — continua a funzionare. Non perché sfrutti una vulnerabilità del protocollo: il protocollo in questo caso è assolutamente incolpevole. Funziona perché sfrutta una vulnerabilità degli esseri umani, e quella, notoriamente, non si patcha con un firmware update.</p>
+
+    <h3 data-it="Come funziona — la versione tecnica, breve e spietata" data-en="How it works — the technical version, brief and merciless">Come funziona — la versione tecnica, breve e spietata</h3>
+
+    <div class="code-block">
+<pre><span class="comment"># Evil Portal — flusso di attacco semplificato</span>
+<span class="comment"># (versione per chi vuole capire senza un dottorato in 802.11)</span>
+
+<span class="neutral">1. Cardputer avvia un Access Point fake (SSID convincente a piacere)</span>
+<span class="neutral">2. Avvia un DHCP server interno  → assegna IP ai client ignari</span>
+<span class="neutral">3. Avvia un DNS server interno   → risolve TUTTO verso sé stesso</span>
+<span class="neutral">4. Avvia un HTTP server          → serve la pagina di login fake</span>
+
+<span class="comment"># Quando la vittima si connette:</span>
+<span class="neutral">   → riceve IP dal DHCP del Cardputer (ignaro)</span>
+<span class="neutral">   → qualsiasi DNS query         → risposta: "sono io"</span>
+<span class="neutral">   → OS rileva captive portal    → apre browser in automatico</span>
+<span class="neutral">   → utente vede schermata login → la compila ("è la solita roba")</span>
+<span class="danger">   → credenziali → log in chiaro sul Cardputer (display + microSD)</span>
+
+<span class="comment"># Tempo di setup con Bruce:           &lt; 2 minuti</span>
+<span class="comment"># Competenze hardware richieste:      nessuna</span>
+<span class="comment"># Costo totale dell'operazione:       40€</span>
+<span class="comment"># Scopo:                              educativo, ovviamente</span></pre>
+    </div>
+
+    <p
+      data-it="Quel che lascia interdetti non è la sofisticazione tecnica — non ne ha, e questa è proprio la cosa più inquietante. È la &lt;strong&gt;trivialità dell'esecuzione&lt;/strong&gt; unita alla &lt;strong&gt;devastante efficacia pratica&lt;/strong&gt;. Bruce gestisce autonomamente gli stack DHCP, DNS e HTTP, con template di login page caricabili dalla microSD. In aula, la pagina usata per la dimostrazione era una banalissima schermata da 'rete ospiti aziendale' — il genere di cosa che si compila d'istinto, senza fermarsi a ragionare, perché &lt;em&gt;'tanto è solo il Wi-Fi dell'ufficio'&lt;/em&gt;. Già."
+      data-en="What leaves one at a loss is not the technical sophistication — it has none, and that is precisely the most unsettling thing. It's the &lt;strong&gt;triviality of execution&lt;/strong&gt; combined with the &lt;strong&gt;devastating practical effectiveness&lt;/strong&gt;. Bruce autonomously manages DHCP, DNS and HTTP stacks, with login page templates loadable from microSD. In the classroom, the page used for the demonstration was a banal 'corporate guest network' screen — the kind of thing you fill in on instinct, without stopping to think, because &lt;em&gt;'it's just the office Wi-Fi'&lt;/em&gt;. Right."
+    >Quel che lascia interdetti non è la sofisticazione tecnica — non ne ha, e questa è proprio la cosa più inquietante. È la <strong>trivialità dell'esecuzione</strong> unita alla <strong>devastante efficacia pratica</strong>. Bruce gestisce autonomamente gli stack DHCP, DNS e HTTP, con template di login page caricabili dalla microSD. In aula, la pagina usata per la dimostrazione era una banalissima schermata da 'rete ospiti aziendale' — il genere di cosa che si compila d'istinto, senza fermarsi a ragionare, perché <em>'tanto è solo il Wi-Fi dell'ufficio'</em>. Già.</p>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// uso etico — da leggere, non è decorativo" data-en="// ethical use — please read, it's not decorative">// uso etico — da leggere, non è decorativo</div>
+      <p data-it="Tutto ciò che è descritto in questo articolo è stato eseguito su reti e dispositivi di proprietà, in ambiente controllato, per fini didattici e di ricerca. Replicare queste tecniche su reti o persone non autorizzate configura reati informatici in pressoché ogni ordinamento giuridico del pianeta. Il disclaimer è noioso? Assolutamente. Va scritto lo stesso? Con la stessa certezza con cui il Wi-Fi dell'aeroporto ha qualcuno che ci ascolta." data-en="Everything described in this article was performed on owned networks and devices, in a controlled environment, for educational and research purposes. Replicating these techniques against unauthorized networks or individuals constitutes computer crimes under virtually every legal system on the planet. Is the disclaimer boring? Absolutely. Does it need writing anyway? With the same certainty with which someone is listening on the airport Wi-Fi.">Tutto ciò che è descritto in questo articolo è stato eseguito su reti e dispositivi di proprietà, in ambiente controllato, per fini didattici e di ricerca. Replicare queste tecniche su reti o persone non autorizzate configura reati informatici in pressoché ogni ordinamento giuridico del pianeta. Il disclaimer è noioso? Assolutamente. Va scritto lo stesso? Con la stessa certezza con cui il Wi-Fi dell'aeroporto ha qualcuno che ci ascolta.</p>
+    </div>
+
+    <!-- ═══════════════ [04] BEACON SPAM ═══════════════ -->
+    <h2
+      data-it="[04] Beacon Spam — ovvero come creare il caos senza fare nulla di utile"
+      data-en="[04] Beacon Spam — or how to create chaos without doing anything useful"
+    >[04] Beacon Spam — ovvero come creare il caos senza fare nulla di utile</h2>
+
+    <p
+      data-it="Dopo il momento di raccoglimento collettivo indotto dall'Evil Portal, la seconda dimostrazione è stata il &lt;strong&gt;Beacon Spam&lt;/strong&gt;. Meno pericoloso — non intercetta nulla, non cattura credenziali, non fa danni diretti — ma straordinariamente efficace nel suo ruolo di &lt;em&gt;disturbo cosmico&lt;/em&gt;, e pedagogicamente forse ancora più utile della prima demo."
+      data-en="After the collective moment of reflection induced by the Evil Portal, the second demonstration was &lt;strong&gt;Beacon Spam&lt;/strong&gt;. Less dangerous — it intercepts nothing, captures no credentials, causes no direct harm — but extraordinarily effective in its role as &lt;em&gt;cosmic disruption&lt;/em&gt;, and pedagogically perhaps even more useful than the first demo."
+    >Dopo il momento di raccoglimento collettivo indotto dall'Evil Portal, la seconda dimostrazione è stata il <strong>Beacon Spam</strong>. Meno pericoloso — non intercetta nulla, non cattura credenziali, non fa danni diretti — ma straordinariamente efficace nel suo ruolo di <em>disturbo cosmico</em>, e pedagogicamente forse ancora più utile della prima demo.</p>
+
+    <p
+      data-it="Il meccanismo: ogni access point Wi-Fi trasmette continuamente &lt;strong&gt;beacon frame&lt;/strong&gt; — pacchetti di management 802.11 che annunciano la rete, il suo nome, le sue capacità. Un dispositivo in monitor mode può &lt;em&gt;inviare&lt;/em&gt; beacon frame con qualsiasi SSID inventato al momento, creando decine o centinaia di reti fantasma che i telefoni nelle vicinanze raccolgono con la meticolosa assenza di senso critico che li contraddistingue."
+      data-en="The mechanism: every Wi-Fi access point continuously transmits &lt;strong&gt;beacon frames&lt;/strong&gt; — 802.11 management packets announcing the network, its name, its capabilities. A device in monitor mode can &lt;em&gt;send&lt;/em&gt; beacon frames with any made-up SSID, creating dozens or hundreds of ghost networks that nearby phones collect with the meticulous absence of critical thinking that defines them."
+    >Il meccanismo: ogni access point Wi-Fi trasmette continuamente <strong>beacon frame</strong> — pacchetti di management 802.11 che annunciano la rete, il suo nome, le sue capacità. Un dispositivo in monitor mode può <em>inviare</em> beacon frame con qualsiasi SSID inventato al momento, creando decine o centinaia di reti fantasma che i telefoni nelle vicinanze raccolgono con la meticolosa assenza di senso critico che li contraddistingue.</p>
+
+    <p
+      data-it="In aula, avviando Bruce in modalità Beacon Spam random, i telefoni degli studenti hanno iniziato a popolarsi di reti con nomi casuali fino a raggiungere oltre 60 SSID nella lista, dove prima ce ne erano una decina. C'era chi rideva. C'era chi guardava lo schermo del telefono con quell'espressione vagamente filosofica di chi sta rivalutando scelte di vita. E c'era chi, con assoluta serietà professionale, ha tirato fuori il laptop per catturare i pacchetti — gesto ammirevole, discutibile nei tempi, impeccabile nello spirito."
+      data-en="In the classroom, launching Bruce in random Beacon Spam mode, students' phones began populating with random-named networks until reaching over 60 SSIDs in the list, where before there had been about ten. Some laughed. Some stared at their phone screen with that vaguely philosophical expression of someone reconsidering life choices. And one person, with impeccable professional seriousness, pulled out a laptop to capture packets — admirable gesture, questionable timing, flawless in spirit."
+    >In aula, avviando Bruce in modalità Beacon Spam random, i telefoni degli studenti hanno iniziato a popolarsi di reti con nomi casuali fino a raggiungere oltre 60 SSID nella lista, dove prima ce ne erano una decina. C'era chi rideva. C'era chi guardava lo schermo del telefono con quell'espressione vagamente filosofica di chi sta rivalutando scelte di vita. E c'era chi, con assoluta serietà professionale, ha tirato fuori il laptop per catturare i pacchetti — gesto ammirevole, discutibile nei tempi, impeccabile nello spirito.</p>
+
+    <p
+      data-it="La domanda che qualcuno ha posto, con un'inquietudine genuina, è stata: &lt;em&gt;'ma allora come faccio a sapere quali reti sono vere?'&lt;/em&gt; Benvenuti nell'anno 2026, prego accomodarsi."
+      data-en="The question someone asked, with genuine unease, was: &lt;em&gt;'but then how do I know which networks are real?'&lt;/em&gt; Welcome to 2026, please take a seat."
+    >La domanda che qualcuno ha posto, con un'inquietudine genuina, è stata: <em>'ma allora come faccio a sapere quali reti sono vere?'</em> Benvenuti nell'anno 2026, prego accomodarsi.</p>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// nota tecnica — importante" data-en="// technical note — important">// nota tecnica — importante</div>
+      <p data-it="Il beacon spam non disconnette nessuno e non intercetta traffico: è rumore, non un attacco diretto. Il suo utilizzo offensivo reale è nella confusione tattica — rendere ardua l'identificazione dell'AP legittimo, o mascherare un Evil Portal in mezzo a 50 reti false. Come disturbo puro, l'impatto sulla connettività è marginale. Come strumento di social engineering applicato a una platea di professionisti dell'informatica, è, a quanto risulta empiricamente, sorprendentemente efficace." data-en="Beacon spam disconnects nobody and intercepts no traffic: it is noise, not a direct attack. Its real offensive use lies in tactical confusion — making it difficult to identify the legitimate AP, or masking an Evil Portal among 50 fake networks. As pure disruption, connectivity impact is marginal. As a social engineering tool applied to a room full of IT professionals, it is, as empirically observed, surprisingly effective.">Il beacon spam non disconnette nessuno e non intercetta traffico: è rumore, non un attacco diretto. Il suo utilizzo offensivo reale è nella confusione tattica — rendere ardua l'identificazione dell'AP legittimo, o mascherare un Evil Portal in mezzo a 50 reti false. Come disturbo puro, l'impatto sulla connettività è marginale. Come strumento di social engineering applicato a una platea di professionisti dell'informatica, è, a quanto risulta empiricamente, sorprendentemente efficace.</p>
+    </div>
+
+    <!-- ═══════════════ [05] DEAUTH ═══════════════ -->
+    <h2
+      data-it="[05] Deauth Attack — l'attacco del 2004 che nel 2026 funziona ancora benissimo"
+      data-en="[05] Deauth Attack — the 2004 attack that in 2026 still works just fine"
+    >[05] Deauth Attack — l'attacco del 2004 che nel 2026 funziona ancora benissimo</h2>
+
+    <p
+      data-it="Il deauthentication attack è tra le vulnerabilità più longeve e meno eleganti del protocollo 802.11. Documentato formalmente dalla prima metà degli anni 2000, è rimasto sfruttabile per vent'anni abbondanti per una ragione semplice e quasi commovente nella sua banalità: i frame di management Wi-Fi — tra cui i frame di deautenticazione — non erano autenticati. Nessuno. Poteva mandarli chiunque. A nome di chiunque. Verso chiunque. Era, per usare un termine tecnico, una roba abbastanza assurda."
+      data-en="The deauthentication attack is among the most long-lived and least elegant vulnerabilities in the 802.11 protocol. Formally documented since the first half of the 2000s, it remained exploitable for over twenty years for a simple and almost touching reason in its banality: Wi-Fi management frames — including deauthentication frames — were not authenticated. None of them. Anyone could send them. On behalf of anyone. To anyone. It was, to use a technical term, fairly absurd."
+    >Il deauthentication attack è tra le vulnerabilità più longeve e meno eleganti del protocollo 802.11. Documentato formalmente dalla prima metà degli anni 2000, è rimasto sfruttabile per vent'anni abbondanti per una ragione semplice e quasi commovente nella sua banalità: i frame di management Wi-Fi — tra cui i frame di deautenticazione — non erano autenticati. Nessuno. Poteva mandarli chiunque. A nome di chiunque. Verso chiunque. Era, per usare un termine tecnico, una roba abbastanza assurda.</p>
+
+    <p
+      data-it="Lo standard 802.11w — Management Frame Protection, detto anche PMF — ha introdotto crittografia e autenticazione per questi frame. Ratificato nel 2009. Integrato in 802.11-2012. Reso obbligatorio in WPA3 nel 2018. Supportato da WPA2 come opzione facoltativa da anni. Sulla carta, è un problema risolto. Sulla carta."
+      data-en="The 802.11w standard — Management Frame Protection, also known as PMF — introduced encryption and authentication for these frames. Ratified in 2009. Incorporated into 802.11-2012. Made mandatory in WPA3 in 2018. Supported by WPA2 as an optional feature for years. On paper, it's a solved problem. On paper."
+    >Lo standard 802.11w — Management Frame Protection, detto anche PMF — ha introdotto crittografia e autenticazione per questi frame. Ratificato nel 2009. Integrato in 802.11-2012. Reso obbligatorio in WPA3 nel 2018. Supportato da WPA2 come opzione facoltativa da anni. Sulla carta, è un problema risolto. Sulla carta.</p>
+
+    <p
+      data-it="Nella realtà operativa, la stragrande maggioranza dei router consumer — modem ISP in testa, testato empiricamente su hardware TIM — non espone all'utente il controllo sulla configurazione PMF, o ce l'ha disabilitata di default con la nonchalance di chi non pensa che questo possa essere un problema. Il risultato è che milioni di reti domestiche e di piccole aziende sono, nel 2026, ancora vulnerabili a un attacco documentato vent'anni fa, eseguibile con un dispositivo che costa meno di una pizza con le birre."
+      data-en="In operational reality, the vast majority of consumer routers — ISP modems leading the pack, empirically tested on TIM hardware — don't expose PMF configuration control to the user, or have it disabled by default with the nonchalance of someone who doesn't think this could be a problem. The result is that millions of home and small business networks are, in 2026, still vulnerable to an attack documented twenty years ago, executable with a device that costs less than a pizza with drinks."
+    >Nella realtà operativa, la stragrande maggioranza dei router consumer — modem ISP in testa, testato empiricamente su hardware TIM — non espone all'utente il controllo sulla configurazione PMF, o ce l'ha disabilitata di default con la nonchalance di chi non pensa che questo possa essere un problema. Il risultato è che milioni di reti domestiche e di piccole aziende sono, nel 2026, ancora vulnerabili a un attacco documentato vent'anni fa, eseguibile con un dispositivo che costa meno di una pizza con le birre.</p>
+
+    <h3 data-it="I dati — misurazione empirica su rete consumer" data-en="The data — empirical measurement on consumer network">I dati — misurazione empirica su rete consumer</h3>
+
+    <p
+      data-it="Con Cardputer-Adv e Bruce, su rete domestica con PMF disabilitato (default sul modem TIM testato), ho misurato il tempo di disconnessione di un client Android a distanze crescenti. Singola misurazione per distanza, line-of-sight, senza schermature. Zero fallimenti su sei distanze testate. Ecco i numeri, nella loro eloquente semplicità."
+      data-en="With Cardputer-Adv and Bruce, on a home network with PMF disabled (default on the tested TIM modem), I measured the disconnection time of an Android client at increasing distances. Single measurement per distance, line-of-sight, no shielding. Zero failures across six tested distances. Here are the numbers, in their eloquent simplicity."
+    >Con Cardputer-Adv e Bruce, su rete domestica con PMF disabilitato (default sul modem TIM testato), ho misurato il tempo di disconnessione di un client Android a distanze crescenti. Singola misurazione per distanza, line-of-sight, senza schermature. Zero fallimenti su sei distanze testate. Ecco i numeri, nella loro eloquente semplicità.</p>
+
+    <table>
+      <tr>
+        <th data-it="Distanza" data-en="Distance">Distanza</th>
+        <th data-it="Tempo disconnessione" data-en="Disconnection time">Tempo disconnessione</th>
+        <th data-it="Esito" data-en="Result">Esito</th>
+        <th data-it="Note" data-en="Notes">Note</th>
+      </tr>
+      <tr><td>1 m</td><td class="danger">&lt; 1 sec</td><td class="danger">SUCCESSO</td><td data-it="Istantaneo. Niente da aggiungere." data-en="Instantaneous. Nothing to add.">Istantaneo. Niente da aggiungere.</td></tr>
+      <tr><td>3 m</td><td class="danger">&lt; 1 sec</td><td class="danger">SUCCESSO</td><td data-it="Idem." data-en="Same.">Idem.</td></tr>
+      <tr><td>5 m</td><td class="warn">~2 sec</td><td class="danger">SUCCESSO</td><td data-it="Degradazione RSSI visibile — latenza in aumento" data-en="Visible RSSI degradation — increasing latency">Degradazione RSSI visibile</td></tr>
+      <tr><td>8 m</td><td class="warn">~3 sec</td><td class="danger">SUCCESSO</td><td>—</td></tr>
+      <tr><td>10 m</td><td class="warn">~6 sec</td><td class="danger">SUCCESSO</td><td data-it="Rallenta, ma funziona ancora benissimo" data-en="Slows down, but still works just fine">Rallenta, ma funziona ancora benissimo</td></tr>
+      <tr><td>15 m</td><td class="warn">~10 sec</td><td class="danger">SUCCESSO</td><td data-it="Limite massimo testato — range reale probabilmente superiore" data-en="Maximum tested distance — real range likely greater">Limite massimo testato</td></tr>
+      <tr><td colspan="4" style="color:var(--muted);font-style:italic;font-size:0.72rem" data-it="Fallimenti totali: 0/6. Range di fallimento non raggiunto entro i 15m testati. Con PMF abilitato (WPA2+PMF Required o WPA3): attacco bloccato categoricamente — comportamento atteso da spec 802.11w, non testabile su modem ISP consumer con configurazione PMF non esposta all'utente." data-en="Total failures: 0/6. Failure range not reached within the 15m tested. With PMF enabled (WPA2+PMF Required or WPA3): attack categorically blocked — expected behaviour per 802.11w spec, not testable on consumer ISP modems with PMF configuration not exposed to the user.">Fallimenti totali: 0/6. Range di fallimento non raggiunto entro i 15m testati. Con PMF abilitato (WPA2+PMF Required o WPA3): attacco bloccato categoricamente — comportamento atteso da spec 802.11w, non testabile su modem ISP consumer con configurazione PMF non esposta all'utente.</td></tr>
+    </table>
+
+    <p
+      data-it="Il trend è quello atteso: il tempo cresce in modo non lineare con la distanza, coerentemente con la degradazione del segnale RF. Quello che non era scontato è l'assenza totale di fallimenti fino a 15 metri — un raggio che copre comodamente qualunque scenario realistico: un bar, un coworking, una sala riunioni, una reception. Roba di tutti i giorni, insomma."
+      data-en="The trend is as expected: time grows non-linearly with distance, consistent with RF signal degradation. What was not obvious is the total absence of failures up to 15 metres — a radius that comfortably covers any realistic scenario: a coffee shop, a coworking space, a meeting room, a reception. Everyday stuff, in other words."
+    >Il trend è quello atteso: il tempo cresce in modo non lineare con la distanza, coerentemente con la degradazione del segnale RF. Quello che non era scontato è l'assenza totale di fallimenti fino a 15 metri — un raggio che copre comodamente qualunque scenario realistico: un bar, un coworking, una sala riunioni, una reception. Roba di tutti i giorni, insomma.</p>
+
+    <h3 data-it="PMF — la contromisura che funziona davvero (usatela)" data-en="PMF — the countermeasure that actually works (use it)">PMF — la contromisura che funziona davvero (usatela)</h3>
+
+    <p
+      data-it="Con PMF abilitato sull'access point — WPA2 + PMF Required, o WPA3 puro — l'attacco viene bloccato in modo categorico. Non 'mitigato', non 'reso più difficile': &lt;strong&gt;zero disconnessioni&lt;/strong&gt;, punto. I frame di deauth inviati dal Cardputer vengono ignorati dal client perché non possono essere verificati come autentici. È la risposta tecnica corretta a questo vettore d'attacco, disponibile da quasi vent'anni, e il motivo per cui è ancora così poco diffusa è, eufemisticamente, un fallimento collettivo del settore."
+      data-en="With PMF enabled on the access point — WPA2 + PMF Required, or pure WPA3 — the attack is categorically blocked. Not 'mitigated', not 'made harder': &lt;strong&gt;zero disconnections&lt;/strong&gt;, full stop. Deauth frames sent by the Cardputer are ignored by the client because they cannot be verified as authentic. It's the correct technical response to this attack vector, available for nearly twenty years, and the reason it's still so rarely deployed is, euphemistically, a collective failure of the industry."
+    >Con PMF abilitato sull'access point — WPA2 + PMF Required, o WPA3 puro — l'attacco viene bloccato in modo categorico. Non 'mitigato', non 'reso più difficile': <strong>zero disconnessioni</strong>, punto. I frame di deauth inviati dal Cardputer vengono ignorati dal client perché non possono essere verificati come autentici. È la risposta tecnica corretta a questo vettore d'attacco, disponibile da quasi vent'anni, e il motivo per cui è ancora così poco diffusa è, eufemisticamente, un fallimento collettivo del settore.</p>
+
+    <!-- GIF 3 — elgatito explode -->
+    <div style="max-width:420px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="6197518926623668769" data-share-method="host" data-aspect-ratio="1.18009" data-width="100%">
+        <a href="https://tenor.com/view/elgatitolover-elgatito-elgatitoloves-elgatito-explode-explode-gif-6197518926623668769">Elgatitolover Elgatito Sticker</a> from <a href="https://tenor.com/search/elgatitolover-stickers">Elgatitolover Stickers</a>
+      </div>
+    </div>
+
+    <div class="callout-green">
+      <div class="callout-label" data-it="// finding principale — leggere con attenzione" data-en="// main finding — read carefully">// finding principale — leggere con attenzione</div>
+      <p data-it="PMF non è un'opzione avanzata riservata agli esperti: è la differenza tra un AP vulnerabile a un attacco del 2004 e uno che non lo è. Su WPA2 richiede un checkbox nel pannello admin. Su WPA3 è già obbligatorio di default. Se il vostro router non vi espone questa opzione — come accade con buona parte dei modem ISP consumer — questo è il momento propizio per valutare un AP dedicato con firmware decente. Il vostro amministratore di rete, se ne avete uno, vi ringrazierà. Se siete voi l'amministratore di rete, ringraziate voi stessi." data-en="PMF is not an advanced option reserved for experts: it's the difference between an AP vulnerable to a 2004 attack and one that isn't. On WPA2 it requires one checkbox in the admin panel. On WPA3 it's already mandatory by default. If your router doesn't expose this option — as happens with most consumer ISP modems — this is the opportune moment to consider a dedicated AP with decent firmware. Your network administrator, if you have one, will thank you. If you are the network administrator, thank yourself.">PMF non è un'opzione avanzata riservata agli esperti: è la differenza tra un AP vulnerabile a un attacco del 2004 e uno che non lo è. Su WPA2 richiede un checkbox nel pannello admin. Su WPA3 è già obbligatorio di default. Se il vostro router non vi espone questa opzione — come accade con buona parte dei modem ISP consumer — questo è il momento propizio per valutare un AP dedicato con firmware decente. Il vostro amministratore di rete, se ne avete uno, vi ringrazierà. Se siete voi l'amministratore di rete, ringraziate voi stessi.</p>
+    </div>
+
+    <!-- ═══════════════ [06] CONSIDERAZIONI ═══════════════ -->
+    <h2
+      data-it="[06] Cosa significa tutto questo — per chi ha la responsabilità di difendere"
+      data-en="[06] What all this means — for those responsible for defending"
+    >[06] Cosa significa tutto questo — per chi ha la responsabilità di difendere</h2>
+
+    <p
+      data-it="Questo articolo non è un tutorial per fare danni. Non è neanche una celebrazione acritica del &lt;em&gt;'guarda quanto è figo questo affarino'&lt;/em&gt;. È un promemoria, rivolto a chiunque gestisca infrastrutture di rete — aziendali, domestiche, scolastiche, qualunque cosa — che la sicurezza wireless nel 2026 non può ancora permettersi il lusso di essere trattata come un problema risolto."
+      data-en="This article is not a tutorial for causing harm. It's not even an uncritical celebration of &lt;em&gt;'look how cool this gadget is'&lt;/em&gt;. It's a memo, addressed to anyone who manages network infrastructure — corporate, domestic, educational, whatever — that wireless security in 2026 cannot yet afford the luxury of being treated as a solved problem."
+    >Questo articolo non è un tutorial per fare danni. Non è neanche una celebrazione acritica del <em>'guarda quanto è figo questo affarino'</em>. È un promemoria, rivolto a chiunque gestisca infrastrutture di rete — aziendali, domestiche, scolastiche, qualunque cosa — che la sicurezza wireless nel 2026 non può ancora permettersi il lusso di essere trattata come un problema risolto.</p>
+
+    <p
+      data-it="Il Cardputer-Adv non è uno strumento sofisticato. Non richiede competenze specialistiche per essere operativo. Non ha un prezzo che possa fungere da deterrente a chicchessia. Se uno strumento con queste caratteristiche è in grado di dimostrare empiricamente tutto quello che abbiamo discusso sopra, il livello di attenzione che la sicurezza wireless riceve nella pianificazione della maggior parte delle infrastrutture è — con il rispetto che merita la professione — strutturalmente inadeguato."
+      data-en="The Cardputer-Adv is not a sophisticated tool. It doesn't require specialized expertise to operate. It doesn't have a price that could function as a deterrent to anyone. If a tool with these characteristics can empirically demonstrate everything discussed above, the level of attention that wireless security receives in the planning of most infrastructures is — with all due respect to the profession — structurally inadequate."
+    >Il Cardputer-Adv non è uno strumento sofisticato. Non richiede competenze specialistiche per essere operativo. Non ha un prezzo che possa fungere da deterrente a chicchessia. Se uno strumento con queste caratteristiche è in grado di dimostrare empiricamente tutto quello che abbiamo discusso sopra, il livello di attenzione che la sicurezza wireless riceve nella pianificazione della maggior parte delle infrastrutture è — con il rispetto che merita la professione — strutturalmente inadeguato.</p>
+
+    <h3 data-it="Checklist — cosa fare adesso, concretamente" data-en="Checklist — what to do now, concretely">Checklist — cosa fare adesso, concretamente</h3>
+
+    <table>
+      <tr>
+        <th data-it="Azione" data-en="Action">Azione</th>
+        <th data-it="Priorità" data-en="Priority">Priorità</th>
+        <th data-it="Perché" data-en="Why">Perché</th>
+      </tr>
+      <tr><td data-it="Abilitare PMF (WPA2 + PMF Required o passare a WPA3)" data-en="Enable PMF (WPA2 + PMF Required or switch to WPA3)">Abilitare PMF / passare a WPA3</td><td class="danger" data-it="ALTA" data-en="HIGH">ALTA</td><td data-it="Rende il deauth attack categoricamente inutile" data-en="Makes deauth attack categorically useless">Rende il deauth attack categoricamente inutile</td></tr>
+      <tr><td data-it="Non connettersi a reti Wi-Fi sconosciute" data-en="Do not connect to unknown Wi-Fi networks">Non connettersi a reti Wi-Fi sconosciute</td><td class="danger" data-it="ALTA" data-en="HIGH">ALTA</td><td data-it="Evil Portal: 2 minuti di setup, nessuna competenza richiesta" data-en="Evil Portal: 2 minutes of setup, no expertise required">Evil Portal: 2 min, nessuna competenza richiesta</td></tr>
+      <tr><td data-it="Usare VPN su qualsiasi rete non controllata" data-en="Use VPN on any uncontrolled network">Usare VPN su reti non controllate</td><td class="warn" data-it="MEDIA" data-en="MEDIUM">MEDIA</td><td data-it="Mitiga l'intercettazione anche se ci si connette alla rete sbagliata" data-en="Mitigates interception even if you connect to the wrong network">Mitiga anche se si sbaglia rete</td></tr>
+      <tr><td data-it="Separare rete ospiti dalla rete di produzione" data-en="Separate guest network from production network">Separare rete ospiti da produzione</td><td class="warn" data-it="MEDIA" data-en="MEDIUM">MEDIA</td><td data-it="Riduce il blast radius di una compromissione" data-en="Reduces blast radius of a compromise">Riduce il blast radius</td></tr>
+      <tr><td data-it="Formare gli utenti — con una dimostrazione pratica, non con una slide" data-en="Train users — with a practical demonstration, not a slide">Formare gli utenti — pratica, non slide</td><td class="ok" data-it="CONTINUA" data-en="ONGOING">CONTINUA</td><td data-it="Il vettore umano non ha una patch. Non esiste un hotfix per la credulità." data-en="The human vector has no patch. There is no hotfix for credulity.">Il vettore umano non ha patch. Non esiste un hotfix per la credulità.</td></tr>
+    </table>
+
+    <p
+      data-it="L'ultima riga è quella che conta di più. L'ho imparato empiricamente, in aula, quella lezione: tutta la teoria del mondo non produce lo stesso effetto di guardare le proprie credenziali comparire in chiaro sul display di un oggetto che sembrava una Game Boy, tenuto in mano da qualcuno che sorride. &lt;em&gt;Quello&lt;/em&gt; rimane. Il resto, nella migliore delle ipotesi, si dimentica alla seconda slide successiva."
+      data-en="The last row is the one that matters most. I learned this empirically, in the classroom, that lesson: all the theory in the world doesn't produce the same effect as watching your own credentials appear in plain text on the display of an object that looked like a Game Boy, held by someone who is smiling. &lt;em&gt;That&lt;/em&gt; stays. Everything else, at best, gets forgotten two slides later."
+    >L'ultima riga è quella che conta di più. L'ho imparato empiricamente, in aula, quella lezione: tutta la teoria del mondo non produce lo stesso effetto di guardare le proprie credenziali comparire in chiaro sul display di un oggetto che sembrava una Game Boy, tenuto in mano da qualcuno che sorride. <em>Quello</em> rimane. Il resto, nella migliore delle ipotesi, si dimentica alla seconda slide successiva.</p>
+
+  </div><!-- /article-body -->
+
+  <!-- EPILOGO -->
+  <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);max-width:960px;margin:0 auto;line-height:2;border-top:1px solid var(--border);padding:2rem 2rem 1.5rem;"
+     data-it="// Epilogo: il Cardputer è tornato in tasca. La lezione è finita.<br/>// Tre persone hanno scritto dopo per chiedere dove comprarlo. Una per chiedere di non ripetere la demo l'anno prossimo.<br/>// Ho abilitato il PMF a casa quella sera stessa. Per scrupolo di coscienza, diciamo.<br/>// La risposta a entrambe le richieste: sì."
+     data-en="// Epilogue: the Cardputer went back in my pocket. Class ended.<br/>// Three people messaged asking where to buy one. One asking to please not repeat the demo next year.<br/>// I enabled PMF at home that same evening. Out of an abundance of caution, let's say.<br/>// The answer to both requests: yes."
+  >
+    // Epilogo: il Cardputer è tornato in tasca. La lezione è finita.<br/>
+    // Tre persone hanno scritto dopo per chiedere dove comprarlo. Una per chiedere di non ripetere la demo l'anno prossimo.<br/>
+    // Ho abilitato il PMF a casa quella sera stessa. Per scrupolo di coscienza, diciamo.<br/>
+    // La risposta a entrambe le richieste: sì.
+  </p>
+
+  <!-- Share -->
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" id="sx" href="#" target="_blank" rel="noopener">𝕏</a>
+      <a class="share-btn" id="sli" href="#" target="_blank" rel="noopener">linkedin</a>
+      <a class="share-btn" id="srd" href="#" target="_blank" rel="noopener">reddit</a>
+      <a class="share-btn" id="sdt" href="#" target="_blank" rel="noopener">dev.to</a>
+      <a class="share-btn" id="swa" href="#" target="_blank" rel="noopener">whatsapp</a>
+      <a class="share-btn" id="stg" href="#" target="_blank" rel="noopener">telegram</a>
+      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
+    <div class="footer-copy">© 2026 Paolo Costanzo — TLP:WHITE</div>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('[data-it]').forEach(function(el) {
+        var v = (lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+        if (v !== null) el.innerHTML = v;
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-btn').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch(e){}
+      if (lang === 'en') {
+        var t = document.querySelector('title');
+        if (t) t.textContent = t.getAttribute('data-en') || t.textContent;
+      }
+    }
+    (function(){
+      var stored;
+      try { stored = localStorage.getItem('lang'); } catch(e){}
+      if (stored === 'en') setLang('en');
+      else setLang('it');
+    })();
+    (function(){
+      var bar = document.getElementById('read-bar');
+      if (!bar) return;
+      window.addEventListener('scroll', function(){
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = Math.min(h > 0 ? (window.scrollY / h * 100) : 0, 100) + '%';
+      }, {passive: true});
+    })();
+    (function(){
+      var btn = document.getElementById('back-top');
+      if (!btn) return;
+      window.addEventListener('scroll', function(){
+        btn.classList.toggle('vis', window.scrollY > 600);
+        var footer = document.querySelector('footer.article-footer');
+        if (footer) {
+          var fTop = footer.getBoundingClientRect().top;
+          btn.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+        }
+      }, {passive: true});
+    })();
+    (function(){
+      var url = window.location.href;
+      var title = (document.querySelector('h1') || {textContent: document.title}).textContent.trim();
+      var enc = encodeURIComponent;
+      var sx=document.getElementById('sx'),sli=document.getElementById('sli'),srd=document.getElementById('srd'),sdt=document.getElementById('sdt'),swa=document.getElementById('swa'),stg=document.getElementById('stg'),scp=document.getElementById('scp');
+      if(sx) sx.href='https://twitter.com/intent/tweet?text='+enc(title)+'&url='+enc(url);
+      if(sli) sli.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);
+      if(srd) srd.href='https://www.reddit.com/submit?url='+enc(url)+'&title='+enc(title);
+      if(sdt) sdt.href='https://dev.to/new';
+      if(swa) swa.href='https://wa.me/?text='+enc(title+' '+url);
+      if(stg) stg.href='https://t.me/share/url?url='+enc(url)+'&text='+enc(title);
+      if(scp) scp.addEventListener('click',function(){
+        navigator.clipboard.writeText(url).then(function(){
+          var lang=document.getElementById('html-root').getAttribute('lang');
+          scp.textContent=lang==='en'?'copied!':'copiato!';
+          scp.classList.add('ok');
+          setTimeout(function(){scp.textContent=lang==='en'?'copy link':'copia link';scp.classList.remove('ok');},2000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
