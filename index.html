@@ -231,8 +231,26 @@
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
-    <!-- CARDPUTER — FEATURED (più recente) -->
-    <a class="article-card fade-up d2" data-category="pentest" href="cardputer-adv-wifi-security/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+    <!-- SSRF IMDS — FEATURED (più recente) -->
+    <a class="article-card fade-up d1" data-category="pentest" href="ssrf-imds-ec2-credentials/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+      <div class="card-meta">
+        <span class="card-tag" data-it="AWS Security · Cloud · SSRF" data-en="AWS Security · Cloud · SSRF">AWS Security · Cloud · SSRF</span>
+        <span class="card-date">31 Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="Una GET, 169.254.169.254, credenziali IAM sul piatto" data-en="One GET, 169.254.169.254, IAM credentials served fresh">
+        Una GET, 169.254.169.254, credenziali IAM sul piatto
+      </div>
+      <p class="card-excerpt" data-it="IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione è sufficiente per rubare le credenziali IAM dell'istanza EC2. Capital One, 106 milioni di record, 80 milioni di multa. HttpTokens: required esiste dal 2019. Forse è ora di abilitarlo." data-en="IMDSv1 requires no authentication. One SSRF in your app is enough to steal EC2 IAM credentials. Capital One, 106 million records, $80M fine. HttpTokens: required has existed since 2019. Maybe it's time to enable it.">
+        IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione è sufficiente per rubare le credenziali IAM dell'istanza EC2. Capital One, 106 milioni di record, 80 milioni di multa. HttpTokens: required esiste dal 2019. Forse è ora di abilitarlo.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">14 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- CARDPUTER -->
+    <a class="article-card fade-up d2" data-category="pentest" href="cardputer-adv-wifi-security/">
       <div class="card-meta">
         <span class="card-tag" data-it="WiFi Security · Hardware" data-en="WiFi Security · Hardware">WiFi Security · Hardware</span>
         <span class="card-date">21 Mar 2026</span>
