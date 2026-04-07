@@ -233,14 +233,32 @@
   </div>
 </div>
 
-<!-- GRID: 3 posts + CTF terminal -->
+<!-- GRID: articles + CTF terminal -->
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
-    <!-- SSRF IMDS — FEATURED (più recente) -->
-    <a class="article-card fade-up d1" data-category="pentest" href="ssrf-imds-ec2-credentials/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+    <!-- CRYPTO DRAINER — FEATURED (più recente) -->
+    <a class="article-card fade-up d1" data-category="threat-intel pentest ctf" href="crypto-drainer-svuotatasche/" style="grid-column:span 2;border-left:3px solid var(--orange)">
       <div class="card-meta">
-        <span class="card-tag" data-it="AWS Security · Cloud · SSRF" data-en="AWS Security · Cloud · SSRF">AWS Security · Cloud · SSRF</span>
+        <span class="card-tag" data-it="Threat Intelligence · Crypto · OSINT" data-en="Threat Intelligence · Crypto · OSINT">Threat Intelligence · Crypto · OSINT</span>
+        <span class="card-date">07 Apr 2026</span>
+      </div>
+      <div class="card-title" data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale." data-en="I wanted to write a quick article. I dismantled a criminal org instead.">
+        Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale.
+      </div>
+      <p class="card-excerpt" data-it="Un'email di phishing, un'intera Pasqua bruciata, e la solita curiosità malsana. Risultato: $13.960 in criptovalute rubate documentate, canali Telegram infiltrati, infrastruttura C2 mappata, e io con la colomba ancora incartata. WIP. Il takedown è imminente." data-en="A phishing email, an entire Easter vacation burned, and the usual unhealthy curiosity. Result: $13,960 in documented stolen crypto, infiltrated Telegram channels, mapped C2 infrastructure, and my Easter cake still wrapped. WIP. Takedown incoming.">
+        Un'email di phishing, un'intera Pasqua bruciata, e la solita curiosità malsana. Risultato: $13.960 in criptovalute rubate documentate, canali Telegram infiltrati, infrastruttura C2 mappata, e io con la colomba ancora incartata. WIP. Il takedown è imminente.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (era Pasqua)" data-en="Hard (it was Easter)">Hard (era Pasqua)</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">35 min · WIP</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- SSRF IMDS -->
+    <a class="article-card fade-up d2" data-category="cloud pentest cve" href="ssrf-imds-ec2-credentials/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Cloud · Pentest · SSRF" data-en="Cloud · Pentest · SSRF">Cloud · Pentest · SSRF</span>
         <span class="card-date">31 Mar 2026</span>
       </div>
       <div class="card-title" data-it="Una GET, 169.254.169.254, credenziali IAM sul piatto" data-en="One GET, 169.254.169.254, IAM credentials served fresh">
@@ -256,9 +274,9 @@
     </a>
 
     <!-- CARDPUTER -->
-    <a class="article-card fade-up d2" data-category="pentest" href="cardputer-adv-wifi-security/">
+    <a class="article-card fade-up d2" data-category="pentest ctf" href="cardputer-adv-wifi-security/">
       <div class="card-meta">
-        <span class="card-tag" data-it="WiFi Security · Hardware" data-en="WiFi Security · Hardware">WiFi Security · Hardware</span>
+        <span class="card-tag" data-it="Pentest · WiFi · Hardware" data-en="Pentest · WiFi · Hardware">Pentest · WiFi · Hardware</span>
         <span class="card-date">21 Mar 2026</span>
       </div>
       <div class="card-title" data-it="40€, 2 minuti, e uno studente che non si fida più del Wi-Fi gratis" data-en="€40, 2 minutes, and a student who'll never trust free Wi-Fi again">
@@ -274,7 +292,7 @@
     </a>
 
     <!-- OPERATION EPIC FURY -->
-    <a class="article-card fade-up d2" data-category="threat-intel" href="operation-epic-fury-cyber-war-iran/">
+    <a class="article-card fade-up d2" data-category="threat-intel pentest" href="operation-epic-fury-cyber-war-iran/">
       <div class="card-meta">
         <span class="card-tag" data-it="Threat Intelligence · Malware Analysis" data-en="Threat Intelligence · Malware Analysis">Threat Intelligence · Malware Analysis</span>
         <span class="card-date">17 Mar 2026</span>
@@ -292,9 +310,9 @@
     </a>
 
     <!-- TIM -->
-    <a class="article-card fade-up d3" data-category="pentest" href="tim-packet-loss-gfn/">
+    <a class="article-card fade-up d3" data-category="pentest cve" href="tim-packet-loss-gfn/">
       <div class="card-meta">
-        <span class="card-tag">Network Security</span>
+        <span class="card-tag" data-it="Pentest · Network · ISP" data-en="Pentest · Network · ISP">Pentest · Network · ISP</span>
         <span class="card-date">10 Mar 2026</span>
       </div>
       <div class="card-title" data-it="TIM, GeForce Now e l'ICMP Black Hole" data-en="TIM, GeForce Now and the ICMP Black Hole">
@@ -309,8 +327,44 @@
       </div>
     </a>
 
-    <!-- POST 3 — CLASSIFIED -->
-    <div class="article-card classified-card fade-up d3" data-category="pentest">
+    <!-- AWS IAM -->
+    <a class="article-card fade-up d3" data-category="cloud pentest cve" href="aws-iam-misconfiguration/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Cloud · AWS · IAM" data-en="Cloud · AWS · IAM">Cloud · AWS · IAM</span>
+        <span class="card-date">Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="AWS IAM: i 5 errori di configurazione più comuni" data-en="AWS IAM: the 5 most common misconfigurations">
+        AWS IAM: i 5 errori di configurazione più comuni
+      </div>
+      <p class="card-excerpt" data-it="Wildcard policy, root senza MFA, access key esposte, ruoli troppo permissivi e logging disabilitato. Cinque errori che vedo ripetersi in ogni audit cloud — e come correggerli prima che lo faccia qualcun altro." data-en="Wildcard policies, root without MFA, exposed access keys, overly permissive roles and disabled logging. Five mistakes I see on every cloud audit — and how to fix them before someone else does.">
+        Wildcard policy, root senza MFA, access key esposte, ruoli troppo permissivi e logging disabilitato. Cinque errori che vedo ripetersi in ogni audit cloud — e come correggerli prima che lo faccia qualcun altro.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- PROMPT INJECTION LLM -->
+    <a class="article-card fade-up d3" data-category="ai pentest" href="prompt-injection-llm/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="AI Security · LLM · Pentest" data-en="AI Security · LLM · Pentest">AI Security · LLM · Pentest</span>
+        <span class="card-date">Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="Prompt Injection su LLM aziendali: come funziona davvero" data-en="Prompt Injection on enterprise LLMs: how it really works">
+        Prompt Injection su LLM aziendali: come funziona davvero
+      </div>
+      <p class="card-excerpt" data-it="I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Walk-through pratico di come ragiona un attaccante quando incontra un LLM 'aziendale' collegato a dati interni." data-en="Enterprise language models have attack surfaces almost nobody considers. A practical walk-through of how an attacker thinks when facing a corporate LLM wired into internal data.">
+        I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Walk-through pratico di come ragiona un attaccante quando incontra un LLM "aziendale" collegato a dati interni.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- CLASSIFIED -->
+    <div class="article-card classified-card fade-up d3" data-category="pentest threat-intel">
       <div class="card-meta">
         <span class="card-tag" style="color:#ff3333;border-color:#ff3333">[ CLASSIFIED ]</span>
         <span class="card-date" style="color:#333">???</span>
@@ -331,7 +385,7 @@
     </div>
 
     <!-- CTF TERMINAL CARD -->
-    <div class="article-card ctf-card fade-up d4" onclick="document.getElementById('term-inp').focus()">
+    <div class="article-card ctf-card fade-up d4" data-category="ctf" onclick="document.getElementById('term-inp').focus()">
       <div class="term-titlebar">
         <span class="term-dot" style="background:#ff5f57"></span>
         <span class="term-dot" style="background:#febc2e"></span>
@@ -503,7 +557,7 @@ function filterPosts(cat,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.article-card[data-category]').forEach(c=>{
-    c.style.display = (cat==='all'||c.dataset.category===cat)?'':'none';
+    c.style.display = (cat==='all'||c.dataset.category.split(' ').includes(cat))?'':'none';
   });
 }
 

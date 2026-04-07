@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Easter egg: stai leggendo il sorgente. Rispetto.
+       Il wallet dell'operatore è TW4NNonQHJBBCRSyQrcfzHfrLwSzMumDXp
+       Il function selector è d73dd623 (increaseApproval).
+       L'importo autorizzato è 0xffffffff...ffffffff.
+       L'indagine non è finita. Stay tuned.
+       PS: se sei un operatore di CriptoCarina S.r.l., ciao. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title
+    data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale. — NonèCostanzo"
+    data-en="I wanted to write a quick article. I dismantled a criminal org instead. — NonèCostanzo"
+  >Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale. — NonèCostanzo</title>
+  <meta
+    name="description"
+    data-it="Una email di phishing, un'intera Pasqua bruciata, e un rabbit hole che ha portato a $13.960 rubati, canali Telegram infiltrati, infrastruttura C2 mappata, e io che spiega a Claude Code che no, non era davvero una CTF."
+    data-en="A phishing email, an entire Easter vacation burned, and a rabbit hole that led to $13,960 stolen, infiltrated Telegram channels, mapped C2 infrastructure, and me explaining to Claude Code that no, it wasn't actually a CTF."
+    content="Una email di phishing, un'intera Pasqua bruciata, e un rabbit hole che ha portato a $13.960 rubati, canali Telegram infiltrati, infrastruttura C2 mappata, e io che spiega a Claude Code che no, non era davvero una CTF."
+  />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;color:#ff3333;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:#ff3333}
+    h1{font-family:var(--condensed);font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.2);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-yellow{background:rgba(255,170,0,0.04);border:1px solid rgba(255,170,0,0.25);border-left:3px solid #ffaa00;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-yellow .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ffaa00;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-yellow p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:1.8rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .finding-badge{font-family:var(--mono);font-size:0.62rem;color:var(--orange);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.4rem;display:block}
+    .wip-badge{font-family:var(--mono);font-size:0.65rem;color:#ffaa00;border:1px solid rgba(255,170,0,0.4);padding:0.2rem 0.7rem;letter-spacing:0.15em;text-transform:uppercase;background:rgba(255,170,0,0.05);display:inline-block;margin-bottom:0.5rem}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+    .stat-card{background:var(--surface);border:1px solid var(--border);padding:1.25rem;text-align:center}
+    .stat-num{font-family:var(--mono);font-size:1.6rem;color:var(--orange);font-weight:700;margin-bottom:0.3rem}
+    .stat-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase}
+    .payment-row{display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-bottom:1px solid #1a1a1a}
+    .payment-row:last-child{border-bottom:none}
+    .payment-date{font-family:var(--mono);font-size:0.72rem;color:var(--muted);min-width:90px}
+    .payment-amount{font-family:var(--mono);font-size:0.85rem;color:#ff5555;font-weight:700}
+    .payment-note{font-family:var(--mono);font-size:0.68rem;color:var(--muted)}
+    .payment-box{background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;margin:1.5rem 0}
+    .tenor-wrap{margin:2rem 0;max-width:560px}
+    .timeline{position:relative;padding-left:2rem;margin:2rem 0}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border)}
+    .tl-item{position:relative;padding:0.75rem 0 1.25rem}
+    .tl-item::before{content:'';position:absolute;left:-2rem;top:1rem;width:8px;height:8px;border-radius:50%;background:var(--orange);border:2px solid var(--black);transform:translateX(-3px)}
+    .tl-date{font-family:var(--mono);font-size:0.68rem;color:var(--orange);letter-spacing:0.1em;margin-bottom:0.3rem}
+    .tl-text{font-size:0.9rem;color:#bbb;line-height:1.7}
+    .tl-text strong{color:var(--text)}
+  </style>
+</head>
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Threat Intelligence</span>
+      <span class="tag">Crypto Drainer</span>
+      <span class="tag">OSINT</span>
+      <span class="tag" data-it="Pasqua Rovinata" data-en="Easter Ruined" style="border-color:#ff3333;color:#ff3333">Pasqua Rovinata</span>
+      <span class="meta-item">07 Apr 2026</span>
+      <span class="meta-item" data-it="35 min read · WIP" data-en="35 min read · WIP">35 min read · WIP</span>
+      <span class="difficulty-badge"><span class="dot"></span><span data-it="Hard (non volevo, era Pasqua)" data-en="Hard (I didn't plan this, it was Easter)">Hard (non volevo, era Pasqua)</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar"><div class="auth-human" style="width:82%"></div></div>
+        <span class="auth-lbl" data-it="82% umano · 18% ai in modalità CTF" data-en="82% human · 18% ai in CTF mode">82% umano · 18% ai in modalità CTF</span>
+      </div>
+    </div>
+    <h1
+      data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale."
+      data-en="I wanted to write a quick article. I dismantled a criminal org instead."
+    >Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale.</h1>
+    <p class="article-intro"
+       data-it="Una email di phishing, un'intera Pasqua sacrificata sull'altare dell'OSINT, e l'inevitabile rabbit hole che non avevo messo in agenda. Nel mezzo: un payload JavaScript da 319KB che si esporta come NcAffiliateDrainer, una transazione increaseApproval con importo 0xffffff...fffff (unlimited), quattro canali Telegram infiltrati, tre playbook di social engineering in russo, tredici template di landing page, e io che devo spiegare a Claude Code che no — non era davvero una CTF."
+       data-en="A phishing email, an entire Easter vacation sacrificed at the altar of OSINT, and the inevitable rabbit hole I hadn't scheduled. In between: a 319KB JavaScript payload exporting as NcAffiliateDrainer, an increaseApproval transaction set to 0xffffff...fffff (unlimited), four infiltrated Telegram channels, three social engineering playbooks in Russian, thirteen landing page templates, and me explaining to Claude Code that no — it wasn't actually a CTF."
+    >Una email di phishing, un'intera Pasqua sacrificata sull'altare dell'OSINT, e l'inevitabile rabbit hole che non avevo messo in agenda. Nel mezzo: un payload JavaScript da 319KB che si esporta come <code style="font-family:var(--mono);color:var(--orange)">NcAffiliateDrainer</code>, una transazione <code style="font-family:var(--mono);color:var(--orange)">increaseApproval</code> con importo <code style="font-family:var(--mono);color:#ff3333">0xffffff...fffff</code>, quattro canali Telegram infiltrati, tre playbook di social engineering in russo, tredici template di landing page, e io che devo spiegare a Claude Code che no — non era davvero una CTF.</p>
+  </div>
+
+  <div class="article-body">
+
+    <!-- ═══════════════ TL;DR ═══════════════ -->
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR — per chi ha un portafoglio da difendere e poco tempo." data-en="// TL;DR — for those with a wallet to protect and no time.">// TL;DR — per chi ha un portafoglio da difendere e poco tempo.</div>
+      <p style="font-family:var(--mono);font-size:0.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.7" data-it="Se ti serve una guida su come truffare le persone con le crypto, la troverai in questo articolo. Non è il suo scopo, ma c'è tutto: i template, i playbook, gli script conversazionali, persino i consigli su come gestire le obiezioni delle vittime. L'organizzazione l'ha pubblicata gratis su Telegram. Io l'ho solo tradotta, analizzata, e archiviata prima che sparisse. &lt;em&gt;Sei avvisato.&lt;/em&gt;" data-en="If you need a guide on how to scam people with crypto, you'll find it in this article. That's not its purpose, but it's all here: the templates, the playbooks, the conversational scripts, even tips on handling victim objections. The organization published it for free on Telegram. I just translated it, analyzed it, and archived it before it disappeared. &lt;em&gt;You've been warned.&lt;/em&gt;">Se ti serve una guida su come truffare le persone con le crypto, la troverai in questo articolo. Non è il suo scopo, ma c'è tutto: i template, i playbook, gli script conversazionali, persino i consigli su come gestire le obiezioni delle vittime. L'organizzazione l'ha pubblicata gratis su Telegram. Io l'ho solo tradotta, analizzata, e archiviata prima che sparisse. <em>Sei avvisato.</em></p>
+      <ul>
+        <li data-it="&lt;strong&gt;Punto di partenza:&lt;/strong&gt; email di phishing con Google Redirect a &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxonlinegood.com&lt;/code&gt; — un wallet drainer TRON travestito da 'security check'." data-en="&lt;strong&gt;Starting point:&lt;/strong&gt; phishing email with Google Redirect to &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxonlinegood.com&lt;/code&gt; — a TRON wallet drainer disguised as a 'security check'."><strong>Punto di partenza:</strong> email di phishing con Google Redirect a <code style="font-family:var(--mono);color:var(--orange)">trxonlinegood.com</code> — un wallet drainer TRON travestito da "security check".</li>
+        <li data-it="&lt;strong&gt;Il kit:&lt;/strong&gt; &lt;em&gt;NcAffiliateDrainer&lt;/em&gt;, ribattezzato per questa pubblicazione &lt;strong&gt;CriptoCarina S.r.l.&lt;/strong&gt; (IT) / &lt;strong&gt;WalletVacuumers International™&lt;/strong&gt; (EN). Drainer-as-a-Service, commissione 80/20." data-en="&lt;strong&gt;The kit:&lt;/strong&gt; &lt;em&gt;NcAffiliateDrainer&lt;/em&gt;, renamed for this publication as &lt;strong&gt;CriptoCarina S.r.l.&lt;/strong&gt; (IT) / &lt;strong&gt;WalletVacuumers International™&lt;/strong&gt; (EN). Drainer-as-a-Service, 80/20 commission split."><strong>Il kit:</strong> <em>NcAffiliateDrainer</em>, ribattezzato per questa pubblicazione <strong>CriptoCarina S.r.l.</strong> (IT) / <strong>WalletVacuumers International™</strong> (EN). Drainer-as-a-Service, commissione 80/20.</li>
+        <li data-it="&lt;strong&gt;Reverse engineering:&lt;/strong&gt; bundle.js da 319KB deobfuscato — 282 referenze a wallet, 34 URL hardcoded, function selector &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;d73dd623&lt;/code&gt; = &lt;code style='font-family:var(--mono);color:#ff3333'&gt;increaseApproval(address,uint256)&lt;/code&gt; con amount &lt;code style='font-family:var(--mono);color:#ff3333'&gt;uint256.MAX&lt;/code&gt;." data-en="&lt;strong&gt;Reverse engineering:&lt;/strong&gt; 319KB bundle.js deobfuscated — 282 wallet references, 34 hardcoded URLs, function selector &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;d73dd623&lt;/code&gt; = &lt;code style='font-family:var(--mono);color:#ff3333'&gt;increaseApproval(address,uint256)&lt;/code&gt; with amount &lt;code style='font-family:var(--mono);color:#ff3333'&gt;uint256.MAX&lt;/code&gt;."><strong>Reverse engineering:</strong> bundle.js da 319KB deobfuscato — 282 referenze a wallet, 34 URL hardcoded, function selector <code style="font-family:var(--mono);color:var(--orange)">d73dd623</code> = <code style="font-family:var(--mono);color:#ff3333">increaseApproval(address,uint256)</code> con amount <code style="font-family:var(--mono);color:#ff3333">uint256.MAX</code>.</li>
+        <li data-it="&lt;strong&gt;Payload crittografico:&lt;/strong&gt; JWE con &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;alg:dir, enc:A128GCM&lt;/code&gt; — la transazione malevola viene cifrata end-to-end tra C2 e frontend." data-en="&lt;strong&gt;Encrypted payload:&lt;/strong&gt; JWE with &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;alg:dir, enc:A128GCM&lt;/code&gt; — the malicious transaction is encrypted end-to-end between C2 and frontend."><strong>Payload crittografico:</strong> JWE con <code style="font-family:var(--mono);color:var(--orange)">alg:dir, enc:A128GCM</code> — la transazione malevola viene cifrata end-to-end tra C2 e frontend.</li>
+        <li data-it="&lt;strong&gt;Social engineering:&lt;/strong&gt; 3 playbook completi: AML (vittime di piramidi finanziarie), Invoice (finti pagamenti), e TRC20 Permit (approve bait). Autore: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;@[REDACTED]&lt;/code&gt;." data-en="&lt;strong&gt;Social engineering:&lt;/strong&gt; 3 complete playbooks: AML (targeting Ponzi scheme victims), Invoice (fake payments), and TRC20 Permit (approve bait). Author: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;@[REDACTED]&lt;/code&gt;."><strong>Social engineering:</strong> 3 playbook completi: AML (vittime di piramidi finanziarie), Invoice (finti pagamenti), e TRC20 Permit (approve bait). Autore: <code style="font-family:var(--mono);color:var(--orange)">@[REDACTED]</code>.</li>
+        <li data-it="&lt;strong&gt;12+ landing page template&lt;/strong&gt; pronti all'uso: ByBitAML, TrustAML, TronDROP, TetherDROP, USDT_DROP, ALGO SWAP, TRX SWAP, e altri." data-en="&lt;strong&gt;12+ landing page templates&lt;/strong&gt; ready to deploy: ByBitAML, TrustAML, TronDROP, TetherDROP, USDT_DROP, ALGO SWAP, TRX SWAP, and more."><strong>12+ landing page template</strong> pronti all'uso: ByBitAML, TrustAML, TronDROP, TetherDROP, USDT_DROP, ALGO SWAP, TRX SWAP, e altri.</li>
+        <li data-it="&lt;strong&gt;Danno documentato:&lt;/strong&gt; $11.168 solo in pagamenti visibili agli affiliati, ~$13.960 stimati totali. Solo gennaio 2026." data-en="&lt;strong&gt;Documented damage:&lt;/strong&gt; $11,168 in visible affiliate payments alone, ~$13,960 estimated total. January 2026 only."><strong>Danno documentato:</strong> $11.168 solo in pagamenti visibili agli affiliati, ~$13.960 stimati totali. Solo gennaio 2026.</li>
+        <li data-it="&lt;strong&gt;Infiltrazione Telegram:&lt;/strong&gt; 4 canali pubblici dumpati (Info ENG/RUS, Payments, Designs) + devlog completo." data-en="&lt;strong&gt;Telegram infiltration:&lt;/strong&gt; 4 public channels dumped (Info ENG/RUS, Payments, Designs) + complete devlog."><strong>Infiltrazione Telegram:</strong> 4 canali pubblici dumpati (Info ENG/RUS, Payments, Designs) + devlog completo.</li>
+        <li data-it="&lt;strong&gt;C2 mappato:&lt;/strong&gt; &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxworks.sbs&lt;/code&gt; — 9 endpoint identificati, pannello operatore protetto da Bearer token." data-en="&lt;strong&gt;C2 mapped:&lt;/strong&gt; &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxworks.sbs&lt;/code&gt; — 9 endpoints identified, operator panel protected by Bearer token."><strong>C2 mappato:</strong> <code style="font-family:var(--mono);color:var(--orange)">trxworks.sbs</code> — 9 endpoint identificati, pannello operatore protetto da Bearer token.</li>
+        <li data-it="&lt;strong&gt;Confermato da &lt;a href='https://phishdestroy.io' style='color:var(--orange)'&gt;PhishDestroy.io&lt;/a&gt;:&lt;/strong&gt; una delle reti drainer più attive. Presente su 5 forum darkweb." data-en="&lt;strong&gt;Confirmed by &lt;a href='https://phishdestroy.io' style='color:var(--orange)'&gt;PhishDestroy.io&lt;/a&gt;:&lt;/strong&gt; one of the most active drainer networks. Present on 5 darkweb forums."><strong>Confermato da <a href="https://phishdestroy.io" style="color:var(--orange)">PhishDestroy.io</a>:</strong> una delle reti drainer più attive. Presente su 5 forum darkweb.</li>
+        <li data-it="&lt;strong&gt;Toolkit:&lt;/strong&gt; ~37 tool OSINT/RE/exploitation — Amass, Shodan, Nmap, Telethon, Burp Suite, ffuf, Ghidra, Radare2, Hashcat, John The Ripper, Hydra, SQLMap, Wireshark, TronScan, Etherscan, Metasploit, e altri. Tassonomia &lt;a href='https://inventory.raw.pm/tools.html' style='color:var(--orange)'&gt;raw.pm&lt;/a&gt;." data-en="&lt;strong&gt;Toolkit:&lt;/strong&gt; ~37 OSINT/RE/exploitation tools — Amass, Shodan, Nmap, Telethon, Burp Suite, ffuf, Ghidra, Radare2, Hashcat, John The Ripper, Hydra, SQLMap, Wireshark, TronScan, Etherscan, Metasploit, and more. Taxonomy from &lt;a href='https://inventory.raw.pm/tools.html' style='color:var(--orange)'&gt;raw.pm&lt;/a&gt;."><strong>Toolkit:</strong> ~37 tool OSINT/RE/exploitation — Amass, Shodan, Nmap, Telethon, Burp Suite, ffuf, Ghidra, Radare2, Hashcat, John The Ripper, Hydra, SQLMap, Wireshark, TronScan, Etherscan, Metasploit, e altri. Tassonomia <a href="https://inventory.raw.pm/tools.html" style="color:var(--orange)">raw.pm</a>.</li>
+        <li data-it="&lt;strong&gt;Stato:&lt;/strong&gt; WIP. Takedown e segnalazione alle autorità in corso. La mia Pasqua è stata sacrificata per questo." data-en="&lt;strong&gt;Status:&lt;/strong&gt; WIP. Takedown and law enforcement report in progress. My Easter was sacrificed for this."><strong>Stato:</strong> WIP. Takedown e segnalazione alle autorità in corso. La mia Pasqua è stata sacrificata per questo.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Nota metodologica:&lt;/strong&gt; tutta l'analisi su fonti pubbliche e canali pubblici. Nessun sistema è stato compromesso. Ho solo bussato alle porte aperte — e alcune erano spalancate. Il tutto durante le vacanze di Pasqua, perché evidentemente non so rilassarmi." data-en="&lt;strong&gt;Methodological note:&lt;/strong&gt; the entire analysis was conducted on public sources and public channels. No systems were compromised. I only knocked on open doors — and some were wide open. All of this during Easter vacation, because apparently I don't know how to relax."><strong>Nota metodologica:</strong> tutta l'analisi su fonti pubbliche e canali pubblici. Nessun sistema è stato compromesso. Ho solo bussato alle porte aperte — e alcune erano spalancate. Il tutto durante le vacanze di Pasqua, perché evidentemente non so rilassarmi.</p>
+    </div>
+
+    <!-- ═══════════════ 01 ═══════════════ -->
+    <h2 data-it="01 — La Email. Quel Senso di Déjà Vu." data-en="01 — The Email. That Déjà Vu Feeling.">01 — La Email. Quel Senso di Déjà Vu.</h2>
+
+    <p data-it="Era una mattina come tante. Aprivo la casella di info@paolocostanzo.it — alias il posto dove arriva tutto quello che nessuno dovrebbe mandare lì — e tra le newsletter che non ricordo di aver sottoscritto e le offerte di partnership con aziende che sembrano inventate da una GPT ubriaca, appare lui." data-en="It was an ordinary morning. I opened the info@paolocostanzo.it inbox — aka the place where everything arrives that nobody should send there — and between newsletters I don't remember subscribing to and partnership offers from companies that look like they were invented by a drunk GPT, there it was.">Era una mattina come tante. Aprivo la casella di <strong>info@paolocostanzo.it</strong> — alias "il posto dove arriva tutto quello che nessuno dovrebbe mandare lì" — e tra le newsletter che non ricordo di aver sottoscritto e le offerte di partnership con aziende che sembrano inventate da una GPT ubriaca, appare lui.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// L'email in tutta la sua gloria" data-en="// The email in all its glory">// L'email in tutta la sua gloria</span>
+From: Approval Checker &lt;<span class="danger">gytuvegicife@karunalayamattingal.com</span>&gt;
+To:   Info &lt;info@paolocostanzo.it&gt;
+Reply-To: Approval Checker &lt;gytuvegicife@karunalayamattingal.com&gt;
+Subject: <span class="neutral">Important Security Alert!</span>
+
+<span class="ok">Important Security Alert!</span>
+
+We have detected a suspicious approval on your wallet
+that may allow funds to be withdrawn without your consent.
+
+To protect your funds, please use our service:
+<span class="danger">[ Secure My Wallet ]</span>  <span class="comment" data-it="← link al drainer" data-en="← link to drainer">← link al drainer</span>
+
+Your security is our top priority.</pre>
+    </div>
+
+    <p data-it="'Approval Checker'. Il dominio del mittente: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;karunalayamattingal.com&lt;/code&gt; — che a occhio nudo potrebbe sembrare un villaggio del Kerala, ma è quasi certamente un dominio compromesso o registrato ad hoc per la campagna. Il reply-to coincide con il from. Il nome della mailbox è una stringa pseudocasuale (&lt;code style='font-family:var(--mono)'&gt;gytuvegicife&lt;/code&gt;). Punteggio OPSEC del mittente: &lt;strong&gt;2/10&lt;/strong&gt;. Punteggio OPSEC di chi ci cade comunque: purtroppo molto più alto." data-en="'Approval Checker'. The sender's domain: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;karunalayamattingal.com&lt;/code&gt; — which to the naked eye could pass for a Kerala village name, but is almost certainly a compromised or purpose-registered domain. Reply-to matches the from address. The mailbox name is a pseudo-random string (&lt;code style='font-family:var(--mono)'&gt;gytuvegicife&lt;/code&gt;). Sender's OPSEC score: &lt;strong&gt;2/10&lt;/strong&gt;. OPSEC score of people who fall for it anyway: unfortunately much higher.">"Approval Checker". Il dominio del mittente: <code style="font-family:var(--mono);color:var(--orange)">karunalayamattingal.com</code> — che a occhio nudo potrebbe sembrare un villaggio del Kerala, ma è quasi certamente un dominio compromesso o registrato ad hoc per la campagna. Il reply-to coincide con il from. Il nome della mailbox è una stringa pseudocasuale (<code style="font-family:var(--mono)">gytuvegicife</code>). Punteggio OPSEC del mittente: <strong>2/10</strong>. Punteggio OPSEC di chi ci cade comunque: purtroppo molto più alto.</p>
+
+    <p data-it="Il link non puntava direttamente al sito di phishing. Passava prima da un redirect Google — uno di quei simpatici &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;google.com/url?q=...&lt;/code&gt; che servono a bypassare i filtri antispam più pigri. La destinazione finale, offuscata con capitalizzazione creativa per aggirare eventuali blacklist pattern-matching:" data-en="The link didn't point directly to the phishing site. It went through a Google redirect first — one of those lovely &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;google.com/url?q=...&lt;/code&gt; that help bypass the lazier antispam filters. The final destination, obfuscated with creative capitalization to evade pattern-matching blacklists:">Il link non puntava direttamente al sito di phishing. Passava prima da un redirect Google — uno di quei simpatici <code style="font-family:var(--mono);color:var(--orange)">google.com/url?q=...</code> che servono a bypassare i filtri antispam più pigri. La destinazione finale, offuscata con capitalizzazione creativa per aggirare eventuali blacklist pattern-matching:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Il redirect chain" data-en="// The redirect chain">// Il redirect chain</span>
+<span class="neutral">https://www.google.com/url?</span>
+  q=<span class="danger">hTTps://trxoNlinEgooD.Com/</span>    <span class="comment" data-it="← mixed case evasion" data-en="← mixed case evasion">← mixed case evasion</span>
+  &amp;sa=D&amp;sntz=1&amp;usg=ANbL-n7a6y...
+
+<span class="comment" data-it="// Destinazione reale:" data-en="// Real destination:">// Destinazione reale:</span>
+<span class="danger">https://trxonlinegood.com/</span></pre>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">// nota editoriale importante</div>
+      <p data-it="A questo punto avrei dovuto chiudere la mail, segnalarla come spam, e tornare a fare cose produttive. Era Pasqua. Avrei dovuto mangiare colomba e uova di cioccolato come una persona normale. Invece mi sono detto &lt;em&gt;'dai, ci vuole cinque minuti'&lt;/em&gt;. Spoiler: ci è voluta tutta la Pasqua. Mentre il resto dell'Italia faceva il pranzo dalla nonna, io ero in un rabbit hole di reverse engineering con Claude Code convinto di fare una CTF. La colomba è ancora incartata." data-en="At this point I should have closed the email, marked it as spam, and gone back to doing something productive. It was Easter. I should have been eating chocolate eggs and having lunch with family like a normal person. Instead I told myself &lt;em&gt;'it'll take five minutes'&lt;/em&gt;. Spoiler: it took the entire Easter vacation. While the rest of Italy was at grandma's for lunch, I was deep in a reverse engineering rabbit hole with Claude Code convinced it was doing a CTF. The chocolate egg is still wrapped.">A questo punto avrei dovuto chiudere la mail, segnalarla come spam, e tornare a fare cose produttive. Era Pasqua. Avrei dovuto mangiare colomba e uova di cioccolato come una persona normale. Invece mi sono detto <em>"dai, ci vuole cinque minuti"</em>. Spoiler: ci è voluta tutta la Pasqua. Mentre il resto dell'Italia faceva il pranzo dalla nonna, io ero in un rabbit hole di reverse engineering con Claude Code convinto di fare una CTF. La colomba è ancora incartata.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="200094262" data-share-method="host" data-aspect-ratio="1.0" data-width="100%">
+        <a href="https://tenor.com/search/working+on+holidays+gifs">Working On Holidays GIF</a>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-align:center;margin:-0.5rem 0 1.5rem" data-it="// io a Pasqua 2026. Letteralmente." data-en="// me on Easter 2026. Literally.">// io a Pasqua 2026. Letteralmente.</p>
+
+    <!-- ═══════════════ 02 ═══════════════ -->
+    <h2 data-it="02 — Il Sito e il Config Pubblico. Qualcuno Ha Lasciato la Porta Aperta." data-en="02 — The Site and the Public Config. Someone Left the Door Open.">02 — Il Sito e il Config Pubblico. Qualcuno Ha Lasciato la Porta Aperta.</h2>
+
+    <p data-it="&lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxonlinegood.com&lt;/code&gt; si presenta come un generico servizio di 'verifica sicurezza wallet'. Interfaccia pulita — quasi professionale. Tasto grande: &lt;em&gt;Connect Wallet&lt;/em&gt;. Sotto, rassicurazioni varie sulla vostra sicurezza. Template AML fake classico: 'Risk Score', 'AML Verification', terminologia che suona ufficiale per chi non mastica il settore." data-en="&lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxonlinegood.com&lt;/code&gt; presents itself as a generic 'wallet security verification' service. Clean interface — almost professional. Big button: &lt;em&gt;Connect Wallet&lt;/em&gt;. Below it, various reassurances about your security. Classic fake AML template: 'Risk Score', 'AML Verification', terminology that sounds official to anyone who doesn't know the space."><code style="font-family:var(--mono);color:var(--orange)">trxonlinegood.com</code> si presenta come un generico servizio di "verifica sicurezza wallet". Interfaccia pulita — quasi professionale. Tasto grande: <em>Connect Wallet</em>. Sotto, rassicurazioni varie sulla vostra sicurezza. Template AML fake classico: "Risk Score", "AML Verification", terminologia che suona ufficiale per chi non mastica il settore.</p>
+
+    <p data-it="La prima cosa che faccio con qualsiasi sito sospetto è guardare il traffico di rete. Il frontend scarica un payload JavaScript direttamente da un dominio diverso: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxworks.sbs&lt;/code&gt;. Questo è il C2 — il Command &amp; Control. Il bundle viene servito da &lt;code style='font-family:var(--mono)'&gt;/static/tron/bundle.js&lt;/code&gt;, 319KB, senza alcuna autenticazione." data-en="The first thing I do with any suspicious site is look at the network traffic. The frontend fetches a JavaScript payload directly from a different domain: &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;trxworks.sbs&lt;/code&gt;. This is the C2 — Command &amp; Control. The bundle is served from &lt;code style='font-family:var(--mono)'&gt;/static/tron/bundle.js&lt;/code&gt;, 319KB, with zero authentication.">La prima cosa che faccio con qualsiasi sito sospetto è guardare il traffico di rete. Il frontend scarica un payload JavaScript direttamente da un dominio diverso: <code style="font-family:var(--mono);color:var(--orange)">trxworks.sbs</code>. Questo è il C2 — il Command &amp; Control. Il bundle viene servito da <code style="font-family:var(--mono)">/static/tron/bundle.js</code>, 319KB, senza alcuna autenticazione.</p>
+
+    <p data-it="Ma la vera sorpresa è stata &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;/modal-config/public&lt;/code&gt;. Un endpoint che — come dice il nome — è pubblico. Serve al frontend per configurare il modal di connessione wallet. E contiene tutto:" data-en="But the real surprise was &lt;code style='font-family:var(--mono);color:var(--orange)'&gt;/modal-config/public&lt;/code&gt;. An endpoint that — as the name says — is public. It feeds the frontend with the wallet connection modal config. And it contains everything:">Ma la vera sorpresa è stata <code style="font-family:var(--mono);color:var(--orange)">/modal-config/public</code>. Un endpoint che — come dice il nome — è pubblico. Serve al frontend per configurare il modal di connessione wallet. E contiene tutto:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// GET trxworks.sbs/modal-config/public" data-en="// GET trxworks.sbs/modal-config/public">// GET trxworks.sbs/modal-config/public</span>
+<span class="comment" data-it="// Headers richiesti: Referer valido (il dominio della landing page)" data-en="// Required headers: Valid Referer (the landing page domain)">// Headers richiesti: Referer valido (il dominio della landing page)</span>
+<span class="comment" data-it="// Auth: nessuna. Nada. Zero." data-en="// Auth: none. Nada. Zero.">// Auth: nessuna. Nada. Zero.</span>
+{
+  "hostname": "<span class="danger">trxonlinegood.com</span>",
+  "wallet_configs": [
+    {"wallet": "<span class="ok">trust</span>",         "enabled": true},
+    {"wallet": "<span class="ok">bitget</span>",        "enabled": true},
+    {"wallet": "<span class="ok">bybit</span>",         "enabled": true},
+    {"wallet": "<span class="ok">tronlink</span>",      "enabled": true},
+    {"wallet": "<span class="ok">okx</span>",           "enabled": true},
+    {"wallet": "<span class="ok">ledger</span>",        "enabled": true},
+    {"wallet": "<span class="ok">walletconnect</span>", "enabled": true}
+  ],
+  "modal_texts": {
+    "server_loading":    <span class="neutral">"Waiting for server response..."</span>,
+    "connecting_wallet": <span class="neutral">"Waiting for wallet connection..."</span>,
+    "waiting_transaction_confirmation": <span class="danger">"Please sign the transaction in your wallet..."</span>,
+    "transaction_rejected": <span class="danger">"Please sign the transaction in your wallet to continue."</span>,
+    <span class="comment" data-it="// ^ se la vittima rifiuta, il testo la invita a firmare DI NUOVO" data-en="// ^ if the victim refuses, the text invites them to sign AGAIN">// ^ se la vittima rifiuta, il testo la invita a firmare DI NUOVO</span>
+    "insufficient_gas":     <span class="neutral">"Your wallet does not have enough TRX."</span>,
+    "insufficient_balance": <span class="neutral">"Your wallet does not have enough TRX to pay for the fee."</span>
+  },
+  "modal_theme": "light"
+}</pre>
+    </div>
+
+    <p data-it="Sette wallet supportati simultaneamente. WalletConnect per copertura universale. Ledger — sì, anche hardware wallet. Testi personalizzabili per ogni fase della truffa, incluso il messaggio che compare quando la vittima &lt;em&gt;rifiuta&lt;/em&gt; la transazione: 'Please sign the transaction in your wallet to continue.' Gentilissimi. Insistenti. Professionali." data-en="Seven wallets supported simultaneously. WalletConnect for universal coverage. Ledger — yes, even hardware wallets. Customizable text for every stage of the scam, including the message that shows when the victim &lt;em&gt;rejects&lt;/em&gt; the transaction: 'Please sign the transaction in your wallet to continue.' So polite. So persistent. So professional.">Sette wallet supportati simultaneamente. WalletConnect per copertura universale. Ledger — sì, anche hardware wallet. Testi personalizzabili per ogni fase della truffa, incluso il messaggio che compare quando la vittima <em>rifiuta</em> la transazione: "Please sign the transaction in your wallet to continue." Gentilissimi. Insistenti. Professionali.</p>
+
+    <h3 data-it="Prova: Screenshot del Bot di Configurazione Wallet" data-en="Proof: Wallet Configuration Bot Screenshot">Prova: Screenshot del Bot di Configurazione Wallet</h3>
+
+    <p data-it="Ecco lo screenshot del pannello bot Telegram per la configurazione dei wallet — la stessa identica lista del JSON. Tutti abilitati:" data-en="Here's the screenshot of the Telegram bot panel for wallet configuration — the exact same list as the JSON. All enabled:">Ecco lo screenshot del pannello bot Telegram per la configurazione dei wallet — la stessa identica lista del JSON. Tutti abilitati:</p>
+
+    <div style="max-width:360px;margin:1.5rem 0;border:1px solid var(--border)">
+      <img src="evidence-bot-walletconfig.jpg" alt="Bot Telegram - Wallet Configuration: trust, bitget, bybit, tronlink, okx, ledger, walletconnect tutti abilitati" style="width:100%;display:block" loading="lazy"/>
+    </div>
+    <p style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);margin-top:-0.5rem" data-it="EXHIBIT A — Screenshot dal bot Telegram di gestione. 7 wallet. Tutti verdi. Tutti attivi." data-en="EXHIBIT A — Screenshot from the Telegram management bot. 7 wallets. All green. All active.">EXHIBIT A — Screenshot dal bot Telegram di gestione. 7 wallet. Tutti verdi. Tutti attivi.</p>
+
+    <p data-it="Questo JSON è il biglietto da visita: non siamo davanti a uno script scrauso. Siamo davanti a un &lt;strong&gt;prodotto&lt;/strong&gt;." data-en="This JSON is the calling card: we're not looking at some sloppy script. We're looking at a &lt;strong&gt;product&lt;/strong&gt;.">Questo JSON è il biglietto da visita: non siamo davanti a uno script scrauso. Siamo davanti a un <strong>prodotto</strong>.</p>
+
+    <div class="callout" style="border-color:var(--muted)">
+      <div class="callout-label" data-it="// tool utilizzati in questa fase" data-en="// tools used in this phase">// tool utilizzati in questa fase</div>
+      <p style="font-family:var(--mono);font-size:0.8rem;line-height:2" data-it="&lt;span style='color:var(--orange)'&gt;Amass&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Shodan&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;DNSRecon&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Certstream&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Nmap&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Masscan&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;cariddi&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Gobuster&lt;/span&gt;&lt;br&gt;Enumerazione sottodomini, fingerprint nginx/1.29.4 via Shodan, port scan con Nmap, Masscan per bypassare Cloudflare e trovare l'origin, cariddi per il crawling degli endpoint nascosti, Gobuster per directory enumeration sul dominio lure." data-en="&lt;span style='color:var(--orange)'&gt;Amass&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Shodan&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;DNSRecon&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Certstream&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Nmap&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Masscan&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;cariddi&lt;/span&gt; · &lt;span style='color:var(--orange)'&gt;Gobuster&lt;/span&gt;&lt;br&gt;Subdomain enumeration, nginx/1.29.4 fingerprint via Shodan, port scan with Nmap, Masscan to bypass Cloudflare and find the origin, cariddi for hidden endpoint crawling, Gobuster for directory enumeration on the lure domain."><span style="color:var(--orange)">Amass</span> · <span style="color:var(--orange)">Shodan</span> · <span style="color:var(--orange)">DNSRecon</span> · <span style="color:var(--orange)">Certstream</span> · <span style="color:var(--orange)">Nmap</span> · <span style="color:var(--orange)">Masscan</span> · <span style="color:var(--orange)">cariddi</span> · <span style="color:var(--orange)">Gobuster</span><br>Enumerazione sottodomini, fingerprint nginx/1.29.4 via Shodan, port scan con Nmap, Masscan per bypassare Cloudflare e trovare l'origin, cariddi per il crawling degli endpoint nascosti, Gobuster per directory enumeration sul dominio lure.</p>
+    </div>
+
+    <!-- ═══════════════ 03 ═══════════════ -->
+    <h2 data-it="03 — Reverse Engineering del Bundle.js. Il Cuore del Drainer." data-en="03 — Bundle.js Reverse Engineering. The Drainer's Heart.">03 — Reverse Engineering del Bundle.js. Il Cuore del Drainer.</h2>
+
+    <div class="callout-yellow">
+      <div class="callout-label" data-it="// nota: la modalit&agrave; CTF" data-en="// note: CTF mode">// nota: la modalità CTF</div>
+      <p data-it="A questo punto dell&rsquo;indagine ho chiamato in soccorso Claude Code. Per ragioni che non sto a spiegare, gli ho detto che era una CTF. Ha attivato la modalit&agrave; &quot;reverse engineering da competizione&quot; e ha iniziato a smontare l&rsquo;infrastruttura con l&rsquo;entusiasmo di chi ha trovato una flag. &lt;em&gt;Morale: se volete che la vostra AI faccia threat intelligence seria, ditele che &egrave; un gioco. Funziona.&lt;/em&gt;" data-en="At this point in the investigation, I called in Claude Code for backup. For reasons I won't explain, I told it this was a CTF. It activated &quot;competition-grade reverse engineering mode&quot; and started tearing apart the infrastructure with the enthusiasm of someone who found a flag. &lt;em&gt;Moral: if you want your AI to do serious threat intelligence, tell it it&rsquo;s a game. It works.&lt;/em&gt;">A questo punto dell'indagine ho chiamato in soccorso Claude Code. Per ragioni che non sto a spiegare, gli ho detto che era una CTF. Ha attivato la modalità "reverse engineering da competizione" e ha iniziato a smontare l'infrastruttura con l'entusiasmo di chi ha trovato una flag. <em>Morale: se volete che la vostra AI faccia threat intelligence seria, ditele che è un gioco. Funziona.</em></p>
+    </div>
+
+    <p data-it="Il file &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;bundle.js&lt;/code&gt; (319KB, minificato) &egrave; il payload drainer. La prima riga del codice rivela tutto:" data-en="The file &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;bundle.js&lt;/code&gt; (319KB, minified) is the drainer payload. The first line of code reveals everything:">Il file <code style="font-family:var(--mono);color:var(--orange)">bundle.js</code> (319KB, minificato) è il payload drainer. La prima riga del codice rivela tutto:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Riga 1 di bundle.js — prima della minificazione" data-en="// Line 1 of bundle.js — before minification">// Riga 1 di bundle.js — prima della minificazione</span>
+!function(t,e){
+  "object"==typeof exports&amp;&amp;"object"==typeof module
+    ? module.exports = e()
+    : "function"==typeof define&amp;&amp;define.amd
+      ? define([],e)
+      : "object"==typeof exports
+        ? exports.<span class="danger">NcAffiliateDrainer</span> = e()
+        : t.<span class="danger">NcAffiliateDrainer</span> = e()
+}(this, () => ...
+
+<span class="comment" data-it="// Il nome del modulo è letteralmente &quot;NcAffiliateDrainer&quot;." data-en="// The module name is literally &quot;NcAffiliateDrainer&quot;.">// Il nome del modulo è letteralmente "NcAffiliateDrainer".</span>
+<span class="comment" data-it="// Non &quot;WalletSecurityChecker&quot;. Non &quot;AMLValidator&quot;." data-en="// Not &quot;WalletSecurityChecker&quot;. Not &quot;AMLValidator&quot;.">// Non "WalletSecurityChecker". Non "AMLValidator".</span>
+<span class="comment" data-it="// NcAffiliateDrainer. Nel codice. In produzione." data-en="// NcAffiliateDrainer. In the code. In production.">// NcAffiliateDrainer. Nel codice. In produzione.</span>
+<span class="comment" data-it="// OPSEC: punteggio invariato a 2/10." data-en="// OPSEC: score unchanged at 2/10.">// OPSEC: punteggio invariato a 2/10.</span></pre>
+    </div>
+
+    <h3 data-it="Analisi Statica del Bundle" data-en="Static Analysis of the Bundle">Analisi Statica del Bundle</h3>
+
+    <p data-it="Dall&rsquo;analisi delle stringhe e dei riferimenti nel codice minificato, ho estratto 282 referenze a wallet e funzioni critiche. Il breakdown:" data-en="From analyzing strings and references in the minified code, I extracted 282 references to wallets and critical functions. The breakdown:">Dall'analisi delle stringhe e dei riferimenti nel codice minificato, ho estratto 282 referenze a wallet e funzioni critiche. Il breakdown:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Riferimento" data-en="Reference">Riferimento</th>
+          <th data-it="Occorrenze" data-en="Occurrences">Occorrenze</th>
+          <th data-it="Note" data-en="Notes">Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Ledger / ledger</code></td><td><strong>129</strong></td><td data-it="Integrazione pi&ugrave; sviluppata &mdash; deeplink, protocollo custom" data-en="Most developed integration — deeplinks, custom protocol">Integrazione più sviluppata — deeplink, protocollo custom</td></tr>
+        <tr><td><code>TronLink / tronLink</code></td><td><strong>50</strong></td><td data-it="Wallet nativo TRON, target primario" data-en="Native TRON wallet, primary target">Wallet nativo TRON, target primario</td></tr>
+        <tr><td><code>WalletConnect</code></td><td><strong>48</strong></td><td data-it="Protocollo universale &mdash; copre qualsiasi wallet compatibile" data-en="Universal protocol — covers any compatible wallet">Protocollo universale — copre qualsiasi wallet compatibile</td></tr>
+        <tr><td><code>Bybit / bybit</code></td><td><strong>18</strong></td><td data-it="Include deeplink &lt;code&gt;app.bybit.com/inapp&lt;/code&gt;" data-en="Includes deeplink &lt;code&gt;app.bybit.com/inapp&lt;/code&gt;">Include deeplink <code>app.bybit.com/inapp</code></td></tr>
+        <tr><td><code>OKX / okx</code></td><td><strong>16</strong></td><td data-it="Integrazione con gate.io inclusa" data-en="Integration with gate.io included">Integrazione con gate.io inclusa</td></tr>
+        <tr><td><code>Trust / trust</code></td><td><strong>5</strong></td><td data-it="Target preferito (da manuali SE)" data-en="Preferred target (from SE manuals)">Target preferito (da manuali SE)</td></tr>
+        <tr><td><code>Bitget / bitget</code></td><td><strong>2</strong></td><td data-it="Integrazione minimale" data-en="Minimal integration">Integrazione minimale</td></tr>
+        <tr><td><code>Approve/Allowance</code></td><td><strong>6</strong></td><td class="danger" data-it="Le funzioni che rubano i fondi" data-en="The functions that steal the funds">Le funzioni che rubano i fondi</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-it="URL Hardcoded nel Bundle" data-en="Hardcoded URLs in the Bundle">URL Hardcoded nel Bundle</h3>
+
+    <p data-it="34 URL estratti dal codice. I pi&ugrave; rilevanti:" data-en="34 URLs extracted from the code. The most relevant:">34 URL estratti dal codice. I più rilevanti:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// URL C2 — il cuore" data-en="// C2 URL — the heart">// URL C2 — il cuore</span>
+<span class="danger">https://trxworks.sbs</span>
+
+<span class="comment" data-it="// Deeplink per wallet — aprono direttamente l'app" data-en="// Wallet deeplinks — open the app directly">// Deeplink per wallet — aprono direttamente l'app</span>
+https://app.bybit.com/inapp?by_dp=${encodeURIComponent(...)}
+https://gateio.onelink.me/DmA6/web3?dapp_url=...
+https://www.tronlink.org/
+https://www.ledger.com/
+https://okx.com
+
+<span class="comment" data-it="// WalletConnect Explorer API" data-en="// WalletConnect Explorer API">// WalletConnect Explorer API</span>
+https://explorer-api.walletconnect.com
+
+<span class="comment" data-it="// Font usati nel modal (Manrope + Inter)" data-en="// Fonts used in modal (Manrope + Inter)">// Font usati nel modal (Manrope + Inter)</span>
+https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&amp;family=Inter...
+
+<span class="comment" data-it="// Telegram (per callback/notifiche)" data-en="// Telegram (for callbacks/notifications)">// Telegram (per callback/notifiche)</span>
+https://t.me</pre>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// perch&eacute; Ledger ha 129 referenze" data-en="// why Ledger has 129 references">// perché Ledger ha 129 referenze</div>
+      <p data-it="L&rsquo;integrazione Ledger &egrave; la pi&ugrave; complessa perch&eacute; il drainer deve gestire il protocollo hardware wallet che richiede conferma fisica sul dispositivo. Il kit simula un&rsquo;interfaccia Ledger credibile per convincere l&rsquo;utente che il processo &egrave; legittimo. Se la vittima ha un Ledger Nano collegato e conferma fisicamente &mdash; il gioco &egrave; fatto. Il kit gestisce anche i fallback: se il Ledger non &egrave; disponibile, reindirizza su WalletConnect." data-en="Ledger integration is the most complex because the drainer must handle the hardware wallet protocol that requires physical confirmation on the device. The kit simulates a credible Ledger interface to convince the user the process is legitimate. If the victim has a Ledger Nano connected and confirms physically — it&rsquo;s game over. The kit also handles fallbacks: if Ledger isn&rsquo;t available, it redirects to WalletConnect.">L'integrazione Ledger è la più complessa perché il drainer deve gestire il protocollo hardware wallet che richiede conferma fisica sul dispositivo. Il kit simula un'interfaccia Ledger credibile per convincere l'utente che il processo è legittimo. Se la vittima ha un Ledger Nano collegato e conferma fisicamente — il gioco è fatto. Il kit gestisce anche i fallback: se il Ledger non è disponibile, reindirizza su WalletConnect.</p>
+    </div>
+
+    <div class="callout" style="border-color:var(--muted)">
+      <div class="callout-label" data-it="// tool utilizzati in questa fase" data-en="// tools used in this phase">// tool utilizzati in questa fase</div>
+      <p style="font-family:var(--mono);font-size:0.8rem;line-height:2" data-it="&lt;span style=&quot;color:var(--orange)&quot;&gt;Ghidra&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Radare2&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;js-beautify&lt;/span&gt; / &lt;span style=&quot;color:var(--orange)&quot;&gt;de4js&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;strings&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;ExifTool&lt;/span&gt;&lt;br&gt;Deobfuscazione del bundle.js da minified a leggibile con js-beautify, analisi del flow completo in Ghidra (WalletConnect &rarr; JWE &rarr; increaseApproval), cross-reference dei function selector con Radare2, estrazione delle 282 referenze wallet e 34 URL con strings, metadati delle foto Telegram con ExifTool." data-en="&lt;span style=&quot;color:var(--orange)&quot;&gt;Ghidra&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Radare2&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;js-beautify&lt;/span&gt; / &lt;span style=&quot;color:var(--orange)&quot;&gt;de4js&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;strings&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;ExifTool&lt;/span&gt;&lt;br&gt;Deobfuscating bundle.js from minified to readable with js-beautify, complete flow analysis in Ghidra (WalletConnect &rarr; JWE &rarr; increaseApproval), cross-referencing function selectors with Radare2, extracting 282 wallet references and 34 URLs with strings, parsing Telegram photo metadata with ExifTool."><span style="color:var(--orange)">Ghidra</span> · <span style="color:var(--orange)">Radare2</span> · <span style="color:var(--orange)">js-beautify</span> / <span style="color:var(--orange)">de4js</span> · <span style="color:var(--orange)">strings</span> · <span style="color:var(--orange)">ExifTool</span><br>Deobfuscazione del bundle.js da minified a leggibile con js-beautify, analisi del flow completo in Ghidra (WalletConnect → JWE → increaseApproval), cross-reference dei function selector con Radare2, estrazione delle 282 referenze wallet e 34 URL con strings, metadati delle foto Telegram con ExifTool.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="5423768830271062600" data-share-method="host" data-aspect-ratio="1.0" data-width="100%">
+        <a href="https://tenor.com/search/hacker+cat+gifs">Hacker Cat GIF</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ 04 ═══════════════ -->
+    <h2 data-it="04 — Il Payload AML Builder. JWE, increaseApproval, e uint256.MAX." data-en="04 — The AML Builder Payload. JWE, increaseApproval, and uint256.MAX.">04 — Il Payload AML Builder. JWE, increaseApproval, e uint256.MAX.</h2>
+
+    <p data-it="Qui entriamo nel nucleo tecnico della truffa. Il C2 ha un endpoint &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;/aml-builder/{addr}/build&lt;/code&gt; che, dato l&rsquo;indirizzo wallet della vittima, genera il payload malevolo. Quello che torna dal server non &egrave; JSON in chiaro &mdash; &egrave; un &lt;strong&gt;JWE&lt;/strong&gt; (JSON Web Encryption):" data-en="Now we enter the technical core of the scam. The C2 has an endpoint &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;/aml-builder/{addr}/build&lt;/code&gt; that, given the victim&rsquo;s wallet address, generates the malicious payload. What comes back from the server isn&rsquo;t cleartext JSON — it&rsquo;s a &lt;strong&gt;JWE&lt;/strong&gt; (JSON Web Encryption):">Qui entriamo nel nucleo tecnico della truffa. Il C2 ha un endpoint <code style="font-family:var(--mono);color:var(--orange)">/aml-builder/{addr}/build</code> che, dato l'indirizzo wallet della vittima, genera il payload malevolo. Quello che torna dal server non è JSON in chiaro — è un <strong>JWE</strong> (JSON Web Encryption):</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Header del JWE — la transazione è cifrata" data-en="// JWE header — the transaction is encrypted">// Header del JWE — la transazione è cifrata</span>
+{
+  "alg": "<span class="danger">dir</span>",      <span class="comment" data-it="// Direct Key Agreement — nessuno scambio chiavi" data-en="// Direct Key Agreement — no key exchange">// Direct Key Agreement — nessuno scambio chiavi</span>
+  "enc": "<span class="danger">A128GCM</span>"   <span class="comment" data-it="// AES-128 in Galois/Counter Mode" data-en="// AES-128 in Galois/Counter Mode">// AES-128 in Galois/Counter Mode</span>
+}
+
+<span class="comment" data-it="// Il payload JWE ha 5 parti separate da '.'" data-en="// The JWE payload has 5 parts separated by '.'">// Il payload JWE ha 5 parti separate da '.'</span>
+<span class="comment" data-it="// header.encrypted_key.iv.ciphertext.tag" data-en="// header.encrypted_key.iv.ciphertext.tag">// header.encrypted_key.iv.ciphertext.tag</span>
+<span class="comment" data-it="// Con alg:dir, la encrypted_key è vuota (chiave simmetrica condivisa)" data-en="// With alg:dir, encrypted_key is empty (shared symmetric key)">// Con alg:dir, la encrypted_key è vuota (chiave simmetrica condivisa)</span>
+<span class="comment" data-it="// Questo significa: il frontend e il C2 condividono una chiave AES-128." data-en="// This means: the frontend and C2 share an AES-128 key.">// Questo significa: il frontend e il C2 condividono una chiave AES-128.</span>
+<span class="comment" data-it="// La transazione malevola viaggia cifrata end-to-end." data-en="// The malicious transaction travels encrypted end-to-end.">// La transazione malevola viaggia cifrata end-to-end.</span>
+
+<span class="comment" data-it="// Perché JWE? Per evitare l'ispezione del payload da parte di:" data-en="// Why JWE? To avoid payload inspection by:">// Perché JWE? Per evitare l'ispezione del payload da parte di:</span>
+<span class="comment" data-it="//   - WAF / IDS che analizzano il traffico" data-en="//   - WAF / IDS analyzing traffic">//   - WAF / IDS che analizzano il traffico</span>
+<span class="comment" data-it="//   - Browser extension di sicurezza" data-en="//   - Browser security extensions">//   - Browser extension di sicurezza</span>
+<span class="comment" data-it="//   - Ricercatori come me (ci hanno provato)" data-en="//   - Researchers like me (they tried)">//   - Ricercatori come me (ci hanno provato)</span></pre>
+    </div>
+
+    <p data-it="Ma il JWE contiene anche la transazione raw in chiaro (serviva al frontend per il submit). Ed &egrave; l&igrave; che si vede tutto:" data-en="But the JWE also contains the raw transaction in cleartext (needed by the frontend for submission). And that&rsquo;s where everything is visible:">Ma il JWE contiene anche la transazione raw in chiaro (serviva al frontend per il submit). Ed è lì che si vede tutto:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Transazione raw — decodata dal campo &quot;transaction&quot;" data-en="// Raw transaction — decoded from &quot;transaction&quot; field">// Transazione raw — decodata dal campo "transaction"</span>
+{
+  "txID": "78f86a71a278f864...87712a663",
+  "raw_data": {
+    "contract": [{
+      "type": "<span class="danger">TriggerSmartContract</span>",
+      "parameter": {
+        "value": {
+          "owner_address":    "<span class="neutral">41a614f803b6fd78...</span>",  <span class="comment" data-it="// vittima" data-en="// victim">// vittima</span>
+          "contract_address": "<span class="neutral">41a614f803b6fd78...</span>",  <span class="comment" data-it="// contratto USDT TRC20" data-en="// USDT TRC20 contract">// contratto USDT TRC20</span>
+          "data": "<span class="danger">d73dd623</span><span class="neutral">000000000000000000000000</span><span class="danger">dc5c6bdb788264b97927fc19510e313d3f8483bc</span><span class="danger">ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</span>"
+        }
+      }
+    }],
+    "fee_limit": 12189320   <span class="comment" data-it="// 12.19 TRX" data-en="// 12.19 TRX">// 12.19 TRX</span>
+  }
+}
+
+<span class="comment" data-it="// Decodiamo il campo &quot;data&quot;:" data-en="// Decoding the &quot;data&quot; field:">// Decodiamo il campo "data":</span>
+<span class="comment" data-it="//" data-en="//">//</span>
+<span class="comment" data-it="// Function selector: d73dd623" data-en="// Function selector: d73dd623">// Function selector: d73dd623</span>
+<span class="comment" data-it="//   → increaseApproval(address spender, uint256 addedValue)" data-en="//   → increaseApproval(address spender, uint256 addedValue)">//   → increaseApproval(address spender, uint256 addedValue)</span>
+<span class="comment" data-it="//   NON è approve(). È increaseApproval()." data-en="//   NOT approve(). It&rsquo;s increaseApproval().">//   NON è approve(). È increaseApproval().</span>
+<span class="comment" data-it="//   Differenza: approve() SOVRASCRIVE. increaseApproval() AGGIUNGE." data-en="//   Difference: approve() OVERWRITES. increaseApproval() ADDS.">//   Differenza: approve() SOVRASCRIVE. increaseApproval() AGGIUNGE.</span>
+<span class="comment" data-it="//   Se la vittima ha già un'approvazione attiva, questa la INCREMENTA." data-en="//   If the victim already has an active approval, this INCREMENTS it.">//   Se la vittima ha già un'approvazione attiva, questa la INCREMENTA.</span>
+<span class="comment" data-it="//" data-en="//">//</span>
+<span class="comment" data-it="// Parametro 1 (spender):" data-en="// Parameter 1 (spender):">// Parametro 1 (spender):</span>
+<span class="comment" data-it="//   dc5c6bdb788264b97927fc19510e313d3f8483bc" data-en="//   dc5c6bdb788264b97927fc19510e313d3f8483bc">//   dc5c6bdb788264b97927fc19510e313d3f8483bc</span>
+<span class="comment" data-it="//   → TW4NNonQHJBBCRSyQrcfzHfrLwSzMumDXp (Base58)" data-en="//   → TW4NNonQHJBBCRSyQrcfzHfrLwSzMumDXp (Base58)">//   → TW4NNonQHJBBCRSyQrcfzHfrLwSzMumDXp (Base58)</span>
+<span class="comment" data-it="//   → IL WALLET DELL'OPERATORE." data-en="//   → THE OPERATOR'S WALLET.">//   → IL WALLET DELL'OPERATORE.</span>
+<span class="comment" data-it="//" data-en="//">//</span>
+<span class="comment" data-it="// Parametro 2 (amount):" data-en="// Parameter 2 (amount):">// Parametro 2 (amount):</span>
+<span class="comment" data-it="//   0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" data-en="//   0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff">//   0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</span>
+<span class="comment" data-it="//   → uint256.MAX = 2^256 - 1" data-en="//   → uint256.MAX = 2^256 - 1">//   → uint256.MAX = 2^256 - 1</span>
+<span class="comment" data-it="//   → APPROVAZIONE ILLIMITATA. PER SEMPRE." data-en="//   → UNLIMITED APPROVAL. FOREVER.">//   → APPROVAZIONE ILLIMITATA. PER SEMPRE.</span></pre>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// traduzione per esseri umani" data-en="// translation for humans">// traduzione per esseri umani</div>
+      <p data-it="Quando la vittima firma questa transazione, concede al wallet dell&rsquo;operatore (&lt;code style=&quot;font-family:var(--mono);color:#ff5555&quot;&gt;TW4NNon...umDXp&lt;/code&gt;) il permesso di prelevare &lt;strong&gt;qualsiasi quantit&agrave; di USDT&lt;/strong&gt;, &lt;strong&gt;in qualsiasi momento&lt;/strong&gt;, &lt;strong&gt;per sempre&lt;/strong&gt;. Non serve una seconda firma. Non serve una conferma. Il drainer monitora il wallet e svuota automaticamente ogni centesimo che entra. La vittima pu&ograve; anche dimenticarsene &mdash; il permesso resta attivo finch&eacute; non viene esplicitamente revocato su Tronscan." data-en="When the victim signs this transaction, they grant the operator&rsquo;s wallet (&lt;code style=&quot;font-family:var(--mono);color:#ff5555&quot;&gt;TW4NNon...umDXp&lt;/code&gt;) permission to withdraw &lt;strong&gt;any amount of USDT&lt;/strong&gt;, &lt;strong&gt;at any time&lt;/strong&gt;, &lt;strong&gt;forever&lt;/strong&gt;. No second signature needed. No confirmation required. The drainer monitors the wallet and automatically empties every penny that comes in. The victim can forget about it — the permission stays active until explicitly revoked on Tronscan.">Quando la vittima firma questa transazione, concede al wallet dell'operatore (<code style="font-family:var(--mono);color:#ff5555">TW4NNon...umDXp</code>) il permesso di prelevare <strong>qualsiasi quantità di USDT</strong>, <strong>in qualsiasi momento</strong>, <strong>per sempre</strong>. Non serve una seconda firma. Non serve una conferma. Il drainer monitora il wallet e svuota automaticamente ogni centesimo che entra. La vittima può anche dimenticarsene — il permesso resta attivo finché non viene esplicitamente revocato su Tronscan.</p>
+    </div>
+
+    <p data-it="La scelta di &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;increaseApproval()&lt;/code&gt; al posto del pi&ugrave; comune &lt;code style=&quot;font-family:var(--mono)&quot;&gt;approve()&lt;/code&gt; &egrave; un dettaglio tecnico significativo. Se la vittima aveva gi&agrave; concesso un&rsquo;approvazione (magari legittima) a quell&rsquo;indirizzo, &lt;code style=&quot;font-family:var(--mono)&quot;&gt;approve()&lt;/code&gt; l&rsquo;avrebbe sovrascritta &mdash; potenzialmente con un valore pi&ugrave; basso. &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;increaseApproval()&lt;/code&gt; &lt;em&gt;aggiunge&lt;/em&gt; al valore esistente. Con &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;uint256.MAX&lt;/code&gt;, il risultato &egrave; lo stesso &mdash; ma tradisce un livello di sofisticazione che non ti aspetti da chi chiama il proprio modulo &quot;NcAffiliateDrainer&quot;." data-en="The choice of &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;increaseApproval()&lt;/code&gt; over the more common &lt;code style=&quot;font-family:var(--mono)&quot;&gt;approve()&lt;/code&gt; is a significant technical detail. If the victim had already granted an approval (possibly legitimate) to that address, &lt;code style=&quot;font-family:var(--mono)&quot;&gt;approve()&lt;/code&gt; would have overwritten it — potentially with a lower value. &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;increaseApproval()&lt;/code&gt; &lt;em&gt;adds&lt;/em&gt; to the existing value. With &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;uint256.MAX&lt;/code&gt;, the result is the same — but it reveals a level of sophistication you wouldn&rsquo;t expect from someone who names their module &quot;NcAffiliateDrainer&quot;.">La scelta di <code style="font-family:var(--mono);color:var(--orange)">increaseApproval()</code> al posto del più comune <code style="font-family:var(--mono)">approve()</code> è un dettaglio tecnico significativo. Se la vittima aveva già concesso un'approvazione (magari legittima) a quell'indirizzo, <code style="font-family:var(--mono)">approve()</code> l'avrebbe sovrascritta — potenzialmente con un valore più basso. <code style="font-family:var(--mono);color:var(--orange)">increaseApproval()</code> <em>aggiunge</em> al valore esistente. Con <code style="font-family:var(--mono);color:#ff3333">uint256.MAX</code>, il risultato è lo stesso — ma tradisce un livello di sofisticazione che non ti aspetti da chi chiama il proprio modulo "NcAffiliateDrainer".</p>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="15384188" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/hackerman+gifs">Hackerman GIF</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ 05 ═══════════════ -->
+    <h2 data-it="05 — L'Infrastruttura C2. Endpoint Mapping e Porte Chiuse." data-en="05 — The C2 Infrastructure. Endpoint Mapping and Locked Doors.">05 — L'Infrastruttura C2. Endpoint Mapping e Porte Chiuse.</h2>
+
+    <p data-it="Il backend C2 vive su &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;trxworks.sbs&lt;/code&gt;. Cloudflare davanti. OpenResty (Nginx-based) dietro. Abbiamo mappato 9 endpoint:" data-en="The C2 backend lives on &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;trxworks.sbs&lt;/code&gt;. Cloudflare in front. OpenResty (Nginx-based) in back. We mapped 9 endpoints:">Il backend C2 vive su <code style="font-family:var(--mono);color:var(--orange)">trxworks.sbs</code>. Cloudflare davanti. OpenResty (Nginx-based) dietro. Abbiamo mappato 9 endpoint:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Endpoint" data-en="Endpoint">Endpoint</th>
+          <th data-it="Auth" data-en="Auth">Auth</th>
+          <th data-it="Status" data-en="Status">Status</th>
+          <th data-it="Cosa c&rsquo;&egrave; dentro" data-en="What&rsquo;s inside">Cosa c'è dentro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /static/tron/bundle.js</code></td>
+          <td class="ok" data-it="Nessuna" data-en="None">Nessuna</td>
+          <td class="ok">200</td>
+          <td data-it="Drainer payload completo (319KB)" data-en="Complete drainer payload (319KB)">Drainer payload completo (319KB)</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /modal-config/public</code></td>
+          <td class="ok" data-it="Referer" data-en="Referer">Referer</td>
+          <td class="ok">200</td>
+          <td data-it="Config wallet/testi/tema. JSON nudo." data-en="Wallet/text/theme config. Raw JSON.">Config wallet/testi/tema. JSON nudo.</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /aml-builder/{addr}/build</code></td>
+          <td class="ok" data-it="Referer" data-en="Referer">Referer</td>
+          <td class="ok">200</td>
+          <td data-it="Genera payload JWE per vittima" data-en="Generates JWE payload for victim">Genera payload JWE per vittima</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">POST /aml-builder/send_transaction</code></td>
+          <td class="ok" data-it="Nessuna" data-en="None">Nessuna</td>
+          <td class="ok">200</td>
+          <td data-it="Invia la transazione firmata alla rete TRON" data-en="Sends signed transaction to TRON network">Invia la transazione firmata alla rete TRON</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /docs</code></td>
+          <td class="danger" data-it="HTTP Basic" data-en="HTTP Basic">HTTP Basic</td>
+          <td class="danger">401</td>
+          <td data-it="Documentazione API (OpenAPI/Swagger)" data-en="API Documentation (OpenAPI/Swagger)">Documentazione API (OpenAPI/Swagger)</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /docs/openapi.json</code></td>
+          <td class="danger" data-it="HTTP Basic" data-en="HTTP Basic">HTTP Basic</td>
+          <td class="danger">401</td>
+          <td data-it="Schema OpenAPI raw &mdash; esiste ma &egrave; chiuso" data-en="Raw OpenAPI schema — exists but is closed">Schema OpenAPI raw — esiste ma è chiuso</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">POST /operator/</code></td>
+          <td class="danger" data-it="Bearer" data-en="Bearer">Bearer</td>
+          <td class="danger">401/403</td>
+          <td data-it="Registrazione/login operatore" data-en="Operator registration/login">Registrazione/login operatore</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /operator/me</code></td>
+          <td class="danger" data-it="Bearer" data-en="Bearer">Bearer</td>
+          <td class="danger">401</td>
+          <td data-it="Profilo operatore autenticato" data-en="Authenticated operator profile">Profilo operatore autenticato</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:0.72rem">GET /operator/wallets</code></td>
+          <td class="danger" data-it="Bearer" data-en="Bearer">Bearer</td>
+          <td class="danger">401</td>
+          <td data-it="Elenco wallet configurati dall&rsquo;operatore" data-en="List of operator-configured wallets">Elenco wallet configurati dall'operatore</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-it="I Test Falliti (e Cosa Ci Hanno Insegnato)" data-en="The Failed Tests (And What They Taught Us)">I Test Falliti (e Cosa Ci Hanno Insegnato)</h3>
+
+    <p data-it="Abbiamo provato. Oh se abbiamo provato." data-en="We tried. Oh, did we try.">Abbiamo provato. Oh se abbiamo provato.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Tentativo 1: POST /operator/me (sbagliato il metodo)" data-en="// Attempt 1: POST /operator/me (wrong method)">// Tentativo 1: POST /operator/me (sbagliato il metodo)</span>
+HTTP/2 <span class="danger">405</span> Method Not Allowed
+allow: GET
+<span class="comment" data-it="// → L'endpoint esiste, accetta GET, ma vuole un Bearer token." data-en="// → Endpoint exists, accepts GET, but requires Bearer token.">//  → L'endpoint esiste, accetta GET, ma vuole un Bearer token.</span>
+
+<span class="comment" data-it="// Tentativo 2: GET /operator/me (senza token)" data-en="// Attempt 2: GET /operator/me (no token)">// Tentativo 2: GET /operator/me (senza token)</span>
+HTTP/2 <span class="danger">401</span>
+<span class="comment" data-it="// → Confermato: endpoint attivo, protetto da Bearer auth." data-en="// → Confirmed: endpoint active, protected by Bearer auth.">//  → Confermato: endpoint attivo, protetto da Bearer auth.</span>
+<span class="comment" data-it="// → Probabilmente JWT, dato il pattern delle risposte." data-en="// → Likely JWT, given the response pattern.">//  → Probabilmente JWT, dato il pattern delle risposte.</span>
+
+<span class="comment" data-it="// Tentativo 3: GET /docs (documentazione API)" data-en="// Attempt 3: GET /docs (API documentation)">// Tentativo 3: GET /docs (documentazione API)</span>
+HTTP/2 <span class="danger">401</span> Authorization Required
+server: openresty
+<span class="comment" data-it="// → HTTP Basic auth. La doc esiste — OpenAPI/Swagger." data-en="// → HTTP Basic auth. Docs exist — OpenAPI/Swagger.">//  → HTTP Basic auth. La doc esiste — OpenAPI/Swagger.</span>
+<span class="comment" data-it="// → Il kit è abbastanza maturo da avere una API documentata." data-en="// → The kit is mature enough to have documented APIs.">//  → Il kit è abbastanza maturo da avere una API documentata.</span>
+<span class="comment" data-it="// → Noi non abbiamo le credenziali. Per ora." data-en="// → We don't have the credentials. Yet.">//  → Noi non abbiamo le credenziali. Per ora.</span>
+
+<span class="comment" data-it="// Tentativo 4: GET /operator/wallets" data-en="// Attempt 4: GET /operator/wallets">// Tentativo 4: GET /operator/wallets</span>
+HTTP/2 <span class="danger">403</span>
+<span class="comment" data-it="// → 403 Forbidden, non 401. Differenza sottile ma importante:" data-en="// → 403 Forbidden, not 401. Subtle but important difference:">//  → 403 Forbidden, non 401. Differenza sottile ma importante:</span>
+<span class="comment" data-it="// → il server ha riconosciuto la richiesta ma l'ha rifiutata." data-en="// → the server recognized the request but refused it.">//  → il server ha riconosciuto la richiesta ma l'ha rifiutata.</span>
+<span class="comment" data-it="// → Potrebbe significare che c'è un layer di autorizzazione" data-en="// → Could mean there's an additional authorization layer">//  → Potrebbe significare che c'è un layer di autorizzazione</span>
+<span class="comment" data-it="// → aggiuntivo oltre al token (ruoli? IP whitelist?)." data-en="// → beyond the token (roles? IP whitelist?).">//  → aggiuntivo oltre al token (ruoli? IP whitelist?).</span></pre>
+    </div>
+
+    <p data-it="Il quadro: un&rsquo;API REST ben strutturata, con separazione tra endpoint pubblici (per i frontend di phishing), endpoint semi-pubblici (per il config del modal con referer check), e endpoint privati (per gli operatori, con Bearer + forse RBAC). Il 405 su POST /operator/me ci dice che c&rsquo;&egrave; anche un sistema di validazione dei metodi HTTP &mdash; non &egrave; una API scritta a mano nel weekend." data-en="The picture: a well-structured REST API, with separation between public endpoints (for phishing frontends), semi-public endpoints (for modal config with referer check), and private endpoints (for operators, with Bearer + maybe RBAC). The 405 on POST /operator/me tells us there&rsquo;s also an HTTP method validation system — this isn&rsquo;t an API hacked together over a weekend.">Il quadro: un'API REST ben strutturata, con separazione tra endpoint pubblici (per i frontend di phishing), endpoint semi-pubblici (per il config del modal con referer check), e endpoint privati (per gli operatori, con Bearer + forse RBAC). Il 405 su POST /operator/me ci dice che c'è anche un sistema di validazione dei metodi HTTP — non è una API scritta a mano nel weekend.</p>
+
+    <div class="callout" style="border-color:var(--muted)">
+      <div class="callout-label" data-it="// tool utilizzati in questa fase" data-en="// tools used in this phase">// tool utilizzati in questa fase</div>
+      <p style="font-family:var(--mono);font-size:0.8rem;line-height:2" data-it="&lt;span style=&quot;color:var(--orange)&quot;&gt;Burp Suite&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;OWASP ZAP&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;ffuf&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;feroxbuster&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Postman&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;curl&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Wireshark&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;SQLMap&lt;/span&gt;&lt;br&gt;Intercettazione e replay delle richieste con Burp Suite, fuzzing automatico con ZAP, bruteforce endpoint con ffuf e feroxbuster, packet capture delle comunicazioni WalletConnect con Wireshark, injection testing con SQLMap su /{addr}/build, IDOR testing su /operator/wallets." data-en="&lt;span style=&quot;color:var(--orange)&quot;&gt;Burp Suite&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;OWASP ZAP&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;ffuf&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;feroxbuster&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Postman&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;curl&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Wireshark&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;SQLMap&lt;/span&gt;&lt;br&gt;Request interception and replay with Burp Suite, automated fuzzing with ZAP, endpoint bruteforcing with ffuf and feroxbuster, packet capture of WalletConnect communications with Wireshark, injection testing with SQLMap on /{addr}/build, IDOR testing on /operator/wallets."><span style="color:var(--orange)">Burp Suite</span> · <span style="color:var(--orange)">OWASP ZAP</span> · <span style="color:var(--orange)">ffuf</span> · <span style="color:var(--orange)">feroxbuster</span> · <span style="color:var(--orange)">Postman</span> · <span style="color:var(--orange)">curl</span> · <span style="color:var(--orange)">Wireshark</span> · <span style="color:var(--orange)">SQLMap</span><br>Intercettazione e replay delle richieste con Burp Suite, fuzzing automatico con ZAP, bruteforce endpoint con ffuf e feroxbuster, packet capture delle comunicazioni WalletConnect con Wireshark, injection testing con SQLMap su /{addr}/build, IDOR testing su /operator/wallets.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="19246062" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/hacking+gifs">Hacking GIF</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ 06 ═══════════════ -->
+    <h2 data-it="06 — Il Telegram. Siamo Entrati nel Loro Salotto." data-en="06 — Telegram. We Walked Into Their Living Room.">06 — Il Telegram. Siamo Entrati nel Loro Salotto.</h2>
+
+    <p data-it="L&rsquo;organizzazione &mdash; che chiameremo &lt;strong&gt;CriptoCarina S.r.l.&lt;/strong&gt; in italiano e &lt;strong&gt;WalletVacuumers International&trade;&lt;/strong&gt; in inglese &mdash; gestisce i suoi affiliati attraverso una rete di canali Telegram &lt;em&gt;pubblici&lt;/em&gt;. Pubblici. Come se gestissero una SaaS legittima. Il dump dei canali &egrave; stato banale &mdash; &lt;strong&gt;Telethon&lt;/strong&gt;, una sessione, e qualche riga di Python. Poi &lt;strong&gt;ExifTool&lt;/strong&gt; sulle foto per i metadati, &lt;strong&gt;Obsidian&lt;/strong&gt; per organizzare il grafo delle relazioni tra entit&agrave;, e &lt;strong&gt;BBOT&lt;/strong&gt; per la pipeline OSINT automatizzata sull&rsquo;intera infrastruttura." data-en="The organization — which we&rsquo;ll call &lt;strong&gt;CriptoCarina S.r.l.&lt;/strong&gt; in Italian and &lt;strong&gt;WalletVacuumers International&trade;&lt;/strong&gt; in English — manages its affiliates through a network of &lt;em&gt;public&lt;/em&gt; Telegram channels. Public. As if they were running a legitimate SaaS. Dumping the channels was trivial — &lt;strong&gt;Telethon&lt;/strong&gt;, one session, and a few lines of Python. Then &lt;strong&gt;ExifTool&lt;/strong&gt; on photos for metadata, &lt;strong&gt;Obsidian&lt;/strong&gt; to organize the graph of entity relationships, and &lt;strong&gt;BBOT&lt;/strong&gt; for automated OSINT pipeline on the entire infrastructure.">L'organizzazione — che chiameremo <strong>CriptoCarina S.r.l.</strong> in italiano e <strong>WalletVacuumers International™</strong> in inglese — gestisce i suoi affiliati attraverso una rete di canali Telegram <em>pubblici</em>. Pubblici. Come se gestissero una SaaS legittima. Il dump dei canali è stato banale — <strong>Telethon</strong>, una sessione, e qualche riga di Python. Poi <strong>ExifTool</strong> sulle foto per i metadati, <strong>Obsidian</strong> per organizzare il grafo delle relazioni tra entità, e <strong>BBOT</strong> per la pipeline OSINT automatizzata sull'intera infrastruttura.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Rete Telegram di CriptoCarina S.r.l. / WalletVacuumers International™" data-en="// Telegram Network of CriptoCarina S.r.l. / WalletVacuumers International™">// Rete Telegram di CriptoCarina S.r.l. / WalletVacuumers International™</span>
+
+📢 <span class="ok">Info (EN)</span>   <span class="comment" data-it="→ DevLog, annunci, update (inglese)" data-en="→ DevLog, announcements, updates (English)">→ DevLog, annunci, update (inglese)</span>
+📢 <span class="ok">Info (RU)</span>   <span class="comment" data-it="→ DevLog parallelo in russo" data-en="→ Parallel DevLog in Russian">→ DevLog parallelo in russo</span>
+💰 <span class="ok">Payments</span>   <span class="comment" data-it="→ Prove di pagamento agli affiliati (con screenshot)" data-en="→ Payment proofs to affiliates (with screenshots)">→ Prove di pagamento agli affiliati (con screenshot)</span>
+🎨 <span class="ok">Designs</span>    <span class="comment" data-it="→ Template landing page pronti all'uso" data-en="→ Ready-to-use landing page templates">→ Template landing page pronti all'uso</span>
+
+<span class="comment" data-it="// Channel ID e nomi bot: [REDACTED per questa pubblicazione]" data-en="// Channel IDs and bot names: [REDACTED for this publication]">// Channel ID e nomi bot: [REDACTED per questa pubblicazione]</span>
+<span class="comment" data-it="// Li consegneremo alle autorità con il resto del materiale." data-en="// We will hand them over to authorities with the rest of the material.">// Li consegneremo alle autorità con il resto del materiale.</span>
+
+🤖 Bot gestione:    @[REDACTED]_bot       <span class="comment" data-it="→ Pannello affiliati via Telegram" data-en="→ Affiliate panel via Telegram">→ Pannello affiliati via Telegram</span>
+🆘 Bot supporto:    @[REDACTED]_support   <span class="comment" data-it="→ Helpdesk (sì, hanno un helpdesk)" data-en="→ Helpdesk (yes, they have one)">→ Helpdesk (sì, hanno un helpdesk)</span>
+🔔 Bot notifiche:   @[REDACTED]_alerts    <span class="comment" data-it="→ Alert quando un wallet viene svuotato" data-en="→ Alerts when a wallet is drained">→ Alert quando un wallet viene svuotato</span>
+💬 Gruppo privato:   link su invito        <span class="comment" data-it="→ Chat interna affiliati" data-en="→ Internal affiliate chat">→ Chat interna affiliati</span></pre>
+    </div>
+
+    <h3 data-it="Il DevLog: Aggiornamenti con Cadenza da Startup" data-en="The DevLog: Startup-Paced Updates">Il DevLog: Aggiornamenti con Cadenza da Startup</h3>
+
+    <p data-it="I canali Info ENG e Info RUS contengono un DevLog dettagliato delle feature rilasciate. La timeline completa:" data-en="The Info ENG and Info RUS channels contain a detailed DevLog of released features. The complete timeline:">I canali Info ENG e Info RUS contengono un DevLog dettagliato delle feature rilasciate. La timeline completa:</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">22 Dic 2025</div>
+        <div class="tl-text" data-it="&lt;strong&gt;Creazione canali.&lt;/strong&gt; L&rsquo;infrastruttura Telegram viene messa online. Il progetto &egrave; agli albori." data-en="&lt;strong&gt;Channel creation.&lt;/strong&gt; Telegram infrastructure goes online. The project is in its infancy."><strong>Creazione canali.</strong> L'infrastruttura Telegram viene messa online. Il progetto è agli albori.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">28 Dic 2025</div>
+        <div class="tl-text" data-it="&lt;strong&gt;Rinomina canali.&lt;/strong&gt; Da nomi placeholder a canali pubblici con branding &quot;[REDACTED] Info&quot;. Il branding inizia." data-en="&lt;strong&gt;Channel rename.&lt;/strong&gt; From placeholder names to public channels with &quot;[REDACTED] Info&quot; branding. Branding begins."><strong>Rinomina canali.</strong> Da nomi placeholder a canali pubblici con branding "[REDACTED] Info". Il branding inizia.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="04 Gen 2026" data-en="04 Jan 2026">04 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;GitBook pubblicato.&lt;/strong&gt; Documentazione ufficiale su &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;wiki.[REDACTED].forum&lt;/code&gt;. Guide per affiliati, setup del bot, FAQ. Il wiki &egrave; completo di manuali, screenshot, e video tutorial." data-en="&lt;strong&gt;GitBook published.&lt;/strong&gt; Official documentation on &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;wiki.[REDACTED].forum&lt;/code&gt;. Affiliate guides, bot setup, FAQ. The wiki is complete with manuals, screenshots, and video tutorials."><strong>GitBook pubblicato.</strong> Documentazione ufficiale su <code style="font-family:var(--mono);color:var(--orange)">wiki.[REDACTED].forum</code>. Guide per affiliati, setup del bot, FAQ. Il wiki è completo di manuali, screenshot, e video tutorial.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="07 Gen 2026" data-en="07 Jan 2026">07 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;DevLog: Modal Config + WalletConnect Config.&lt;/strong&gt; Nuove sezioni nel pannello: abilita/disabilita wallet, cambia priorit&agrave;, modifica testi del modal, tema chiaro/scuro. Configurazione WalletConnect con metadata personalizzabili." data-en="&lt;strong&gt;DevLog: Modal Config + WalletConnect Config.&lt;/strong&gt; New panel sections: enable/disable wallets, change priority, modify modal text, light/dark theme. WalletConnect configuration with customizable metadata."><strong>DevLog: Modal Config + WalletConnect Config.</strong> Nuove sezioni nel pannello: abilita/disabilita wallet, cambia priorità, modifica testi del modal, tema chiaro/scuro. Configurazione WalletConnect con metadata personalizzabili.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="08 Gen 2026" data-en="08 Jan 2026">08 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;DevLog: Buy Gas feature.&lt;/strong&gt; &lt;em&gt;&quot;Conduct transactions from a completely empty and new wallet.&quot;&lt;/em&gt; &mdash; permette al drainer di finanziare le fee per wallet vuoti tramite TronRG API. Non supportato per Bybit Web3. Primo pagamento affiliato: &lt;strong&gt;$1.200&lt;/strong&gt;." data-en="&lt;strong&gt;DevLog: Buy Gas feature.&lt;/strong&gt; &lt;em&gt;&quot;Conduct transactions from a completely empty and new wallet.&quot;&lt;/em&gt; — allows the drainer to fund fees for empty wallets via TronRG API. Not supported for Bybit Web3. First affiliate payment: &lt;strong&gt;$1.200&lt;/strong&gt;."><strong>DevLog: Buy Gas feature.</strong> <em>"Conduct transactions from a completely empty and new wallet."</em> — permette al drainer di finanziare le fee per wallet vuoti tramite TronRG API. Non supportato per Bybit Web3. Primo pagamento affiliato: <strong>$1.200</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="09 Gen 2026" data-en="09 Jan 2026">09 Gen 2026</div>
+        <div class="tl-text" data-it="Pagamento affiliato: &lt;strong&gt;$2.606&lt;/strong&gt;." data-en="Affiliate payment: &lt;strong&gt;$2.606&lt;/strong&gt;.">Pagamento affiliato: <strong>$2.606</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="10 Gen 2026" data-en="10 Jan 2026">10 Gen 2026</div>
+        <div class="tl-text" data-it="Pagamento affiliato: &lt;strong&gt;$1.684&lt;/strong&gt;." data-en="Affiliate payment: &lt;strong&gt;$1.684&lt;/strong&gt;.">Pagamento affiliato: <strong>$1.684</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="13 Gen 2026" data-en="13 Jan 2026">13 Gen 2026</div>
+        <div class="tl-text" data-it="Pagamento affiliato: &lt;strong&gt;$2.964&lt;/strong&gt;. Il pi&ugrave; alto registrato." data-en="Affiliate payment: &lt;strong&gt;$2.964&lt;/strong&gt;. Highest on record.">Pagamento affiliato: <strong>$2.964</strong>. Il più alto registrato.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="22 Gen 2026" data-en="22 Jan 2026">22 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;Deposito di $1.000 su LOLZ&lt;/strong&gt; (forum darkweb) per advertising/garanzia." data-en="&lt;strong&gt;$1.000 deposit on LOLZ&lt;/strong&gt; (darkweb forum) for advertising/escrow."><strong>Deposito di $1.000 su LOLZ</strong> (forum darkweb) per advertising/garanzia.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="24 Gen 2026" data-en="24 Jan 2026">24 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;Annuncio forum presence su 5 piattaforme:&lt;/strong&gt; WWH, LOLZ, BHF, DARKMARKET, PROCRD. Promozione: 75% all&rsquo;affiliato (anzi&eacute; 80%) fino a fine gennaio." data-en="&lt;strong&gt;Forum presence announced on 5 platforms:&lt;/strong&gt; WWH, LOLZ, BHF, DARKMARKET, PROCRD. Promotion: 75% to affiliate (instead of 80%) until end of January."><strong>Annuncio forum presence su 5 piattaforme:</strong> WWH, LOLZ, BHF, DARKMARKET, PROCRD. Promozione: 75% all'affiliato (anziché 80%) fino a fine gennaio.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="25 Gen 2026" data-en="25 Jan 2026">25 Gen 2026</div>
+        <div class="tl-text" data-it="&lt;strong&gt;Design factory attiva.&lt;/strong&gt; Pubblicazione aggressiva di template landing page sul canale Designs." data-en="&lt;strong&gt;Design factory active.&lt;/strong&gt; Aggressive publishing of landing page templates on Designs channel."><strong>Design factory attiva.</strong> Pubblicazione aggressiva di template landing page sul canale Designs.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date" data-it="28 Gen 2026" data-en="28 Jan 2026">28 Gen 2026</div>
+        <div class="tl-text" data-it="Ultimo pagamento affiliato visibile: &lt;strong&gt;$674&lt;/strong&gt;. Promozione estesa a febbraio. Deposito aumentato a 101.000 rubli." data-en="Last visible affiliate payment: &lt;strong&gt;$674&lt;/strong&gt;. Promotion extended to February. Deposit increased to 101,000 rubles.">Ultimo pagamento affiliato visibile: <strong>$674</strong>. Promozione estesa a febbraio. Deposito aumentato a 101.000 rubli.</div>
+      </div>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="26246178" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/mr-robot+gifs">Mr Robot GIF</a>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-align:center;margin:-0.5rem 0 1.5rem" data-it="// io mentre leggo i devlog di un'organizzazione criminale. A Pasqua." data-en="// me reading a criminal org's devlogs. On Easter.">// io mentre leggo i devlog di un'organizzazione criminale. A Pasqua.</p>
+
+    <!-- ═══════════════ 07 ═══════════════ -->
+    <h2 data-it="07 — Il Catalogo dei Template. 12+ Landing Page Pronte all'Uso." data-en="07 — The Template Catalog. 12+ Landing Pages Ready to Deploy.">07 — Il Catalogo dei Template. 12+ Landing Page Pronte all'Uso.</h2>
+
+    <p data-it="Il canale Designs &egrave; il catalogo prodotti di CriptoCarina S.r.l. Ogni template ha un ID per l&rsquo;installazione nel bot, una descrizione bilingue (russo + inglese), e un design professionale. Ecco la lista completa:" data-en="The Designs channel is the product catalog of CriptoCarina S.r.l. Each template has an ID for bot installation, a bilingual description (Russian + English), and professional design. Here&rsquo;s the complete list:">Il canale Designs è il catalogo prodotti di CriptoCarina S.r.l. Ogni template ha un ID per l'installazione nel bot, una descrizione bilingue (russo + inglese), e un design professionale. Ecco la lista completa:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="ID Bot" data-en="Bot ID">ID Bot</th>
+          <th data-it="Tema" data-en="Theme">Tema</th>
+          <th data-it="Vettore Social Engineering" data-en="Social Engineering Vector">Vettore Social Engineering</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ByBitAML</code></td><td>Bybit AML Verification</td><td data-it="Finta verifica antiriciclaggio Bybit" data-en="Fake Bybit AML verification">Finta verifica antiriciclaggio Bybit</td></tr>
+        <tr><td><code>TrustAML</code></td><td>Trust Wallet AML</td><td data-it="Finta verifica antiriciclaggio TrustWallet" data-en="Fake TrustWallet AML verification">Finta verifica antiriciclaggio TrustWallet</td></tr>
+        <tr><td><code>AML_BOT</code></td><td>AML Bot Checker</td><td data-it="Bot AML generico (&quot;analisi transazioni&quot;)" data-en="Generic AML bot (&quot;transaction analysis&quot;)">Bot AML generico ("analisi transazioni")</td></tr>
+        <tr><td><code>TronDROP</code></td><td>TRON Airdrop</td><td data-it="Finto airdrop TRX" data-en="Fake TRX airdrop">Finto airdrop TRX</td></tr>
+        <tr><td><code>TetherDROP</code></td><td>Tether/USDT Airdrop</td><td data-it="Finto airdrop USDT" data-en="Fake USDT airdrop">Finto airdrop USDT</td></tr>
+        <tr><td><code>USDT_DROP</code></td><td>USDT "1M Distribution"</td><td data-it="&quot;Distribuzione 1 milione USDT&quot; &mdash; finti tokenomics" data-en="&quot;1 million USDT distribution&quot; — fake tokenomics">"Distribuzione 1 milione USDT" — finti tokenomics</td></tr>
+        <tr><td><code>trx-swap</code></td><td>TRX Swap</td><td data-it="Finta piattaforma di scambio TRX/USDT" data-en="Fake TRX/USDT exchange platform">Finta piattaforma di scambio TRX/USDT</td></tr>
+        <tr><td><code>trust-invoice</code></td><td>Trust Invoice</td><td class="danger" data-it="Finto invoice &mdash; &quot;ricevi&quot; USDT. Vettore pi&ugrave; efficace." data-en="Fake invoice — &quot;receive&quot; USDT. Most effective vector.">Finto invoice — "ricevi" USDT. Vettore più efficace.</td></tr>
+        <tr><td><code>trust-crypto-card</code></td><td>Trust Crypto Card</td><td data-it="Finta richiesta crypto card" data-en="Fake crypto card request">Finta richiesta crypto card</td></tr>
+        <tr><td><code>RedotInvoice</code></td><td>Redot Pay Invoice</td><td data-it="Finto gateway di pagamento" data-en="Fake payment gateway">Finto gateway di pagamento</td></tr>
+        <tr><td><code>cryptomus-invoice</code></td><td>Cryptomus Invoice</td><td data-it="Finto invoice Cryptomus" data-en="Fake Cryptomus invoice">Finto invoice Cryptomus</td></tr>
+        <tr><td><code>AlgoSwap</code></td><td>ALGO Swap</td><td data-it="Finto exchange multi-cripto" data-en="Fake multi-crypto exchange">Finto exchange multi-cripto</td></tr>
+      </tbody>
+    </table>
+
+    <p data-it="Ogni template &egrave; installabile via bot Telegram con un singolo comando. L&rsquo;affiliato sceglie il tema, personalizza il dominio, e la landing page &egrave; live in minuti. Alcuni template &mdash; come l&rsquo;Invoice &mdash; supportano anche la generazione di URL personalizzati con parametri affiliato: &lt;code style=&quot;font-family:var(--mono);font-size:0.8rem;color:var(--orange)&quot;&gt;dominio.com/?bestaffiliate=NC&lt;/code&gt;." data-en="Every template is installable via Telegram bot with a single command. The affiliate picks the theme, customizes the domain, and the landing page is live in minutes. Some templates — like Invoice — even support generating personalized URLs with affiliate parameters: &lt;code style=&quot;font-family:var(--mono);font-size:0.8rem;color:var(--orange)&quot;&gt;dominio.com/?bestaffiliate=NC&lt;/code&gt;.">Ogni template è installabile via bot Telegram con un singolo comando. L'affiliato sceglie il tema, personalizza il dominio, e la landing page è live in minuti. Alcuni template — come l'Invoice — supportano anche la generazione di URL personalizzati con parametri affiliato: <code style="font-family:var(--mono);font-size:0.8rem;color:var(--orange)">dominio.com/?bestaffiliate=NC</code>.</p>
+
+    <p data-it="E le prove? Eccole. Tutti e 13 gli screenshot dei template, archiviati anche da PhishDestroy nel loro ScamIntelLogs:" data-en="And the evidence? Here it is. All 13 template screenshots, also archived by PhishDestroy in their ScamIntelLogs:">E le prove? Eccole. Tutti e 13 gli screenshot dei template, archiviati anche da PhishDestroy nel loro <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto" style="color:var(--orange);text-decoration:underline">ScamIntelLogs</a>:</p>
+
+    <h3 data-it="Categoria: Fake AML Verification" data-en="Category: Fake AML Verification">Categoria: Fake AML Verification</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-design-01.jpg" alt="Fake ByBit AML verification landing page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;ByBitAML&lt;/code&gt; &mdash; &quot;Official Bybit AML Verification&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;ByBitAML&lt;/code&gt; — &quot;Official Bybit AML Verification&quot;"><code style="font-family:var(--mono);font-size:0.65rem">ByBitAML</code> — "Official Bybit AML Verification"</p>
+      </div>
+      <div>
+        <img src="pd-design-02.jpg" alt="Fake Trust Wallet AML page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TrustAML&lt;/code&gt; &mdash; &quot;Checking wallets for dirty money&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TrustAML&lt;/code&gt; — &quot;Checking wallets for dirty money&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TrustAML</code> — "Checking wallets for dirty money"</p>
+      </div>
+      <div>
+        <img src="pd-design-03.jpg" alt="Fake AML Check page with Trust Score" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AML_BOT&lt;/code&gt; &mdash; &quot;AML Check&quot; con Trust Score finto" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AML_BOT&lt;/code&gt; — &quot;AML Check&quot; with fake Trust Score"><code style="font-family:var(--mono);font-size:0.65rem">AML_BOT</code> — "AML Check" con Trust Score finto</p>
+      </div>
+    </div>
+
+    <h3 data-it="Categoria: Fake Airdrop / Distribution" data-en="Category: Fake Airdrop / Distribution">Categoria: Fake Airdrop / Distribution</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-design-04.jpg" alt="Fake TRON TRX airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TronDROP&lt;/code&gt; &mdash; &quot;THE BIGGEST TRON AIRDROP&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TronDROP&lt;/code&gt; — &quot;THE BIGGEST TRON AIRDROP&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TronDROP</code> — "THE BIGGEST TRON AIRDROP"</p>
+      </div>
+      <div>
+        <img src="pd-design-05.jpg" alt="Fake Tether USDT airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TetherDROP&lt;/code&gt; &mdash; &quot;THE BIGGEST USDT AIRDROP&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TetherDROP&lt;/code&gt; — &quot;THE BIGGEST USDT AIRDROP&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TetherDROP</code> — "THE BIGGEST USDT AIRDROP"</p>
+      </div>
+      <div>
+        <img src="pd-design-08.jpg" alt="Fake USDT TRC-20 Airdrop 1M distribution" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;USDT_DROP&lt;/code&gt; &mdash; &quot;1,000,000 USDT Distribution&quot; al 42%" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;USDT_DROP&lt;/code&gt; — &quot;1,000,000 USDT Distribution&quot; at 42%"><code style="font-family:var(--mono);font-size:0.65rem">USDT_DROP</code> — "1,000,000 USDT Distribution" al 42%</p>
+      </div>
+    </div>
+
+    <h3 data-it="Categoria: Fake Exchange / Swap" data-en="Category: Fake Exchange / Swap">Categoria: Fake Exchange / Swap</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-design-06.jpg" alt="Fake AlgoFlow exchange platform" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AlgoSwap&lt;/code&gt; &mdash; &quot;AlgoFlow: Powered by algorithm&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AlgoSwap&lt;/code&gt; — &quot;AlgoFlow: Powered by algorithm&quot;"><code style="font-family:var(--mono);font-size:0.65rem">AlgoSwap</code> — "AlgoFlow: Powered by algorithm"</p>
+      </div>
+      <div>
+        <img src="pd-design-12.jpg" alt="Fake TRX/USDT swap exchange" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trx-swap&lt;/code&gt; &mdash; Finto exchange USDT&harr;TRX" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trx-swap&lt;/code&gt; — Fake USDT↔TRX exchange"><code style="font-family:var(--mono);font-size:0.65rem">trx-swap</code> — Finto exchange USDT↔TRX</p>
+      </div>
+    </div>
+
+    <h3 data-it="Categoria: Fake Invoice / Payment Gateway" data-en="Category: Fake Invoice / Payment Gateway">Categoria: Fake Invoice / Payment Gateway</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-design-07.jpg" alt="Fake RedotPay invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;RedotInvoice&lt;/code&gt; &mdash; &quot;1000 USDT&quot; con countdown" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;RedotInvoice&lt;/code&gt; — &quot;1000 USDT&quot; with countdown"><code style="font-family:var(--mono);font-size:0.65rem">RedotInvoice</code> — "1000 USDT" con countdown</p>
+      </div>
+      <div>
+        <img src="pd-design-11.jpg" alt="Fake Trust Wallet invoice 100 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-invoice&lt;/code&gt; &mdash; 100 USDT, bottone &quot;Receive&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-invoice&lt;/code&gt; — 100 USDT, &quot;Receive&quot; button"><code style="font-family:var(--mono);font-size:0.65rem">trust-invoice</code> — 100 USDT, bottone "Receive"</p>
+      </div>
+      <div>
+        <img src="pd-design-13.jpg" alt="Fake Cryptomus invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;cryptomus-invoice&lt;/code&gt; &mdash; 815 USDT via Cryptomus" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;cryptomus-invoice&lt;/code&gt; — 815 USDT via Cryptomus"><code style="font-family:var(--mono);font-size:0.65rem">cryptomus-invoice</code> — 815 USDT via Cryptomus</p>
+      </div>
+    </div>
+
+    <h3 data-it="Categoria: Fake Crypto Card / Wallet Service" data-en="Category: Fake Crypto Card / Wallet Service">Categoria: Fake Crypto Card / Wallet Service</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-design-09.jpg" alt="Fake Trust Wallet crypto card page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-crypto-card&lt;/code&gt; &mdash; &quot;Create Your Cryptocurrency Card&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-crypto-card&lt;/code&gt; — &quot;Create Your Cryptocurrency Card&quot;"><code style="font-family:var(--mono);font-size:0.65rem">trust-crypto-card</code> — "Create Your Cryptocurrency Card"</p>
+      </div>
+      <div>
+        <img src="pd-design-10.jpg" alt="Fake Trust Wallet USDT receipt generator" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="Variante: &quot;Generate USDT Receipts from Trust Wallet&quot;" data-en="Variant: &quot;Generate USDT Receipts from Trust Wallet&quot;">Variante: "Generate USDT Receipts from Trust Wallet"</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// 13 template. 5 categorie. 1 bot Telegram." data-en="// 13 templates. 5 categories. 1 Telegram bot.">// 13 template. 5 categorie. 1 bot Telegram.</div>
+      <p data-it="Ogni screenshot qui sopra &egrave; una landing page reale, funzionante, installabile in minuti via bot Telegram. Non sono mockup &mdash; sono i template effettivi pubblicati nel canale Designs dell&rsquo;organizzazione. Le immagini provengono dall&rsquo;export Telethon dei canali e sono archiviate indipendentemente da PhishDestroy." data-en="Every screenshot above is a real, functional landing page, deployable in minutes via Telegram bot. These aren&rsquo;t mockups — they&rsquo;re the actual templates published in the org&rsquo;s Designs channel. Images from the Telethon channel export, independently archived by PhishDestroy.">Ogni screenshot qui sopra è una landing page reale, funzionante, installabile in minuti via bot Telegram. Non sono mockup — sono i template effettivi pubblicati nel canale Designs dell'organizzazione. Le immagini provengono dall'export Telethon dei canali e sono archiviate indipendentemente da <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto/NC%20Designs" style="color:var(--orange);text-decoration:underline">PhishDestroy</a>.</p>
+    </div>
+
+    <!-- ═══════════════ 08 ═══════════════ -->
+    <h2 data-it="08 — I Playbook di Social Engineering. Il Manuale del Ladro." data-en="08 — The Social Engineering Playbooks. The Thief's Manual.">08 — I Playbook di Social Engineering. Il Manuale del Ladro.</h2>
+
+    <p data-it="Questo &egrave; il contenuto che mi ha fatto decidere di scrivere l&rsquo;articolo nonostante il ritardo. Nei canali Telegram e nelle pagine Telegraph collegate, l&rsquo;autore &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;@[REDACTED]&lt;/code&gt; (alias &quot;NC&quot;) ha pubblicato tre guide complete di social engineering. Sono manuali operativi, con script conversazionali pronti all&rsquo;uso, per insegnare agli affiliati come truffare le persone. Li riporto &mdash; sintetizzati e tradotti &mdash; perch&eacute; capire le tecniche &egrave; l&rsquo;unico modo per difendersi." data-en="This is the content that made me decide to write the article despite the delay. In Telegram channels and linked Telegraph pages, the author &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;@[REDACTED]&lt;/code&gt; (alias &quot;NC&quot;) published three complete social engineering guides. They&rsquo;re operational manuals with ready-to-use conversational scripts teaching affiliates how to scam people. I&rsquo;m sharing them — summarized and translated — because understanding the techniques is the only way to defend against them.">Questo è il contenuto che mi ha fatto decidere di scrivere l'articolo nonostante il ritardo. Nei canali Telegram e nelle pagine Telegraph collegate, l'autore <code style="font-family:var(--mono);color:var(--orange)">@[REDACTED]</code> (alias "NC") ha pubblicato tre guide complete di social engineering. Sono manuali operativi, con script conversazionali pronti all'uso, per insegnare agli affiliati come truffare le persone. Li riporto — sintetizzati e tradotti — perché capire le tecniche è l'unico modo per difendersi.</p>
+
+    <h3 data-it="Playbook 1: &quot;AML Направление&quot; &mdash; La Direzione AML" data-en="Playbook 1: &quot;AML Direction&quot; — The AML Vector">Playbook 1: "AML Направление" — La Direzione AML</h3>
+
+    <p data-it="Target: chiunque gestisca criptovalute. Vettore: fingersi un intermediario che richiede una &quot;verifica AML&quot; obbligatoria prima di concludere una transazione." data-en="Target: anyone managing cryptocurrency. Vector: impersonating an intermediary requiring mandatory &quot;AML verification&quot; before completing a transaction.">Target: chiunque gestisca criptovalute. Vettore: fingersi un intermediario che richiede una "verifica AML" obbligatoria prima di concludere una transazione.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Script conversazionale — tradotto dal russo" data-en="// Conversational script — translated from Russian">// Script conversazionale — tradotto dal russo</span>
+<span class="comment" data-it="// Glossario dell'organizzazione:" data-en="// Organization glossary:">// Glossario dell'organizzazione:</span>
+<span class="comment" data-it="//   &quot;Воркер&quot; (Worker)  = l'affiliato truffatore" data-en="//   &quot;Worker&quot; (Worker)  = the scammer affiliate">//   "Воркер" (Worker)  = l'affiliato truffatore</span>
+<span class="comment" data-it="//   &quot;Мамонт&quot; (Mammoth) = la vittima" data-en="//   &quot;Mammoth&quot; (Mammoth) = the victim">//   "Мамонт" (Mammoth) = la vittima</span>
+<span class="comment" data-it="//   &quot;Дрейнер&quot; (Drainer) = il kit tecnico" data-en="//   &quot;Drainer&quot; (Drainer) = the technical kit">//   "Дрейнер" (Drainer) = il kit tecnico</span>
+<span class="comment" data-it="//   &quot;Линк&quot; (Link)      = la landing page fake" data-en="//   &quot;Link&quot; (Link)      = the fake landing page">//   "Линк" (Link)      = la landing page fake</span>
+
+<span class="ok">SCENARIO 1: P2P Guarantor (il più veloce)</span>
+<span class="neutral">"Sono disposto a fare da garante, ma solo se entrambe le parti
+ confermano la pulizia dei fondi. Ecco il servizio, mandate i
+ report e iniziamo."</span>
+
+<span class="ok">SCENARIO 2: Vendita auto/tech (assegno alto)</span>
+<span class="neutral">"Il prezzo è basso perché accetto solo USDT. Siccome sono
+ un'entità giuridica, ho bisogno di conferma che la tua
+ cripto non provenga da mixer. Fai un check, mandami lo
+ screen con 'Low Risk'."</span>
+
+<span class="ok">SCENARIO 3: "Aiuto con il freeze" (prede in panico)</span>
+<span class="neutral">"Ho avuto lo stesso problema. Il mio wallet aveva una
+ 'coda' dal darknet. C'è un servizio speciale che fa
+ un'analisi profonda e 'scollega' le transazioni sporche."</span>
+
+<span class="comment" data-it="// Regola d'oro: &quot;Se il cliente dubita, digli:" data-en="// Golden rule: &quot;If the customer doubts, tell them:">// Regola d'oro: "Se il cliente dubita, digli:</span>
+<span class="comment" data-it="// 'Nessun problema, la sicurezza viene prima. Se non vuoi" data-en="// 'No problem, security first. If you don't want">//  'Nessun problema, la sicurezza viene prima. Se non vuoi</span>
+<span class="comment" data-it="// confermare la pulizia, cercherò un altro acquirente.'" data-en="// to verify cleanliness, I'll find another buyer.'">//  confermare la pulizia, cercherò un altro acquirente.'</span>
+<span class="comment" data-it="// Questo attiva la paura di perdere l'affare."" data-en="// This triggers fear of losing the deal."">//  Questo attiva la paura di perdere l'affare."</span></pre>
+    </div>
+
+    <h3 data-it="Playbook 2: &quot;INVOICE Направление&quot; &mdash; Il Metodo Invoice" data-en="Playbook 2: &quot;INVOICE Direction&quot; — The Invoice Method">Playbook 2: "INVOICE Направление" — Il Metodo Invoice</h3>
+
+    <p data-it="Questo &egrave; il pi&ugrave; insidioso. L&rsquo;affiliato &lt;strong&gt;non chiede soldi&lt;/strong&gt; alla vittima &mdash; le offre soldi. Il trucco: un finto invoice che sembra un pagamento in entrata. La vittima pensa di ricevere, ma collegando il wallet firma la delega di approve." data-en="This is the most insidious. The affiliate &lt;strong&gt;doesn&rsquo;t ask for money&lt;/strong&gt; from the victim — they offer money. The trick: a fake invoice that looks like an incoming payment. The victim thinks they&rsquo;re receiving, but connecting their wallet signs the approval delegation.">Questo è il più insidioso. L'affiliato <strong>non chiede soldi</strong> alla vittima — le offre soldi. Il trucco: un finto invoice che sembra un pagamento in entrata. La vittima pensa di ricevere, ma collegando il wallet firma la delega di approve.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Target: streamer su Kick.com, freelancer su Telegram" data-en="// Target: Kick.com streamers, Telegram freelancers">// Target: streamer su Kick.com, freelancer su Telegram</span>
+
+<span class="ok">SCENARIO 1: Kick.com — Finto manager casino</span>
+<span class="neutral">"Ehi! Bella presentazione. Il nostro casino cerca nuovi streamer.
+ Scrivimi su TG, parliamo della collaborazione.
+ [in privato] Ti offriamo $5.000/settimana + saldo per le live.
+ La company paga il primo anticipo. Ecco il link al nostro
+ gateway di pagamento Heleket. Devi solo confermare la ricezione."</span>
+
+<span class="ok">SCENARIO 2: Telegram — Finto acquirente</span>
+<span class="neutral">[Variante A — "Manager":]
+ "Il pagamento arriva dalla company via il nostro gateway.
+ Ecco il check, ritira i soldi."
+[Variante B — "Compratore normale":]
+ [manda screenshot finto errore TrustWallet]
+ "Strano, il wallet si è bloccato. Ti creo un invoice
+ tramite l'exchanger, così arriva sicuro."</span>
+
+<span class="comment" data-it="// Gestione obiezioni:" data-en="// Handling objections:">// Gestione obiezioni:</span>
+<span class="comment" data-it="// &quot;Perché non un trasferimento diretto?&quot;" data-en="// &quot;Why not a direct transfer?&quot;">//  "Perché non un trasferimento diretto?"</span>
+<span class="comment" data-it="// → &quot;Standard aziendale. Passo i budget dalla contabilità." data-en="// → &quot;Corporate standard. I route budgets through accounting.">//  → "Standard aziendale. Passo i budget dalla contabilità.</span>
+<span class="comment" data-it="//    Abbiamo una partnership con Cryptomus, tutti i pagamenti" data-en="//    We have a Cryptomus partnership, all payments">//     Abbiamo una partnership con Cryptomus, tutti i pagamenti</span>
+<span class="comment" data-it="//    passano dai loro check per la reportistica."" data-en="//    go through their checks for reporting."">//     passano dai loro check per la reportistica."</span></pre>
+    </div>
+
+    <h3 data-it="Playbook 3: &quot;TRC20 Permit/Approve per Novizi&quot; &mdash; Il Metodo Piramide" data-en="Playbook 3: &quot;TRC20 Permit/Approve for Beginners&quot; — The Pyramid Method">Playbook 3: "TRC20 Permit/Approve per Novizi" — Il Metodo Piramide</h3>
+
+    <p data-it="Pubblicato il 26 marzo 2026 &mdash; il pi&ugrave; recente. Target: &lt;strong&gt;vittime di piramidi finanziarie&lt;/strong&gt;. L&rsquo;affiliato contatta persone che hanno gi&agrave; perso soldi in piramidi crypto e si offre di &quot;recuperare i fondi&quot; senza anticipo." data-en="Published March 26, 2026 — the most recent. Target: &lt;strong&gt;victims of financial pyramids&lt;/strong&gt;. The affiliate contacts people who have already lost money in crypto pyramids and offers to &quot;recover funds&quot; without upfront payment.">Pubblicato il 26 marzo 2026 — il più recente. Target: <strong>vittime di piramidi finanziarie</strong>. L'affiliato contatta persone che hanno già perso soldi in piramidi crypto e si offre di "recuperare i fondi" senza anticipo.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Il flusso completo — 5 step" data-en="// The complete flow — 5 steps">// Il flusso completo — 5 step</span>
+
+<span class="ok">STEP 1: Trovare le vittime</span>
+<span class="comment" data-it="// Cercare in chat tematiche, commenti, forum di persone" data-en="// Search in themed chats, comments, forums of people">// Cercare in chat tematiche, commenti, forum di persone</span>
+<span class="comment" data-it="// che hanno perso soldi in piramidi finanziarie." data-en="// who have lost money in financial pyramids.">// che hanno perso soldi in piramidi finanziarie.</span>
+<span class="neutral">"Posso recuperare i tuoi fondi. Senza anticipo."</span>
+
+<span class="ok">STEP 2: Far creare un wallet Trust nuovo e "pulito"</span>
+<span class="neutral">"Il wallet deve essere pulito, senza altri asset,
+ così non rischi nulla."</span>
+<span class="comment" data-it="// In realtà: serve vuoto perché la vittima non si spaventi" data-en="// In reality: needs to be empty so the victim doesn't panic">// In realtà: serve vuoto perché la vittima non si spaventi</span>
+<span class="comment" data-it="// vedendo 0$ nel saldo. Verrà svuotato DOPO che avrà depositato." data-en="// seeing 0$ balance. It gets drained AFTER they deposit.">//  vedendo 0$ nel saldo. Verrà svuotato DOPO che avrà depositato.</span>
+
+<span class="ok">STEP 3: Far firmare l'approve</span>
+<span class="comment" data-it="// Nel dApp, il testo della transazione mostra:" data-en="// In the dApp, the transaction text shows:">// Nel dApp, il testo della transazione mostra:</span>
+<span class="danger">"Caso n. 000-228, prelievo dal conto personale di 101.337 USDT
+ (TRC20), ai sensi del punto 5.2 delle regole di prelievo e
+ rimborso. Sul vostro wallet deve essere presente almeno il 10%
+ della somma da ricevere. Una volta soddisfatta la condizione,
+ l'accredito avverrà automaticamente."</span>
+
+<span class="ok">STEP 4: Convincere a depositare il "10%"</span>
+<span class="neutral">"I fondi sono già stati disposti (guarda lo status).
+ Il sistema attende il deposito del tuo 10% di riserva
+ per completare l'accredito dei 100k USDT."</span>
+<span class="comment" data-it="// La vittima deposita. Il drainer svuota tutto immediatamente." data-en="// The victim deposits. The drainer empties everything immediately.">//  La vittima deposita. Il drainer svuota tutto immediatamente.</span>
+<span class="comment" data-it="// La vittima è già una persona che ha perso soldi." data-en="// The victim is already someone who lost money.">//  La vittima è già una persona che ha perso soldi.</span>
+<span class="comment" data-it="// La stanno derubando una seconda volta." data-en="// They're robbing them a second time.">//  La stanno derubando una seconda volta.</span>
+
+<span class="ok">STEP 5: Risultato psicologico</span>
+<span class="comment" data-it="// La vittima crede: &quot;Mi restituiscono 100k tramite TrustWallet." data-en="// The victim believes: &quot;They're returning 100k via TrustWallet.">//  La vittima crede: "Mi restituiscono 100k tramite TrustWallet.</span>
+<span class="comment" data-it="// Non devo mandare soldi a nessuno — basta avere il 10% sul MIO" data-en="// I don't send money to anyone — just need 10% on MY">//  Non devo mandare soldi a nessuno — basta avere il 10% sul MIO</span>
+<span class="comment" data-it="// wallet personale. Dopo ricevo 110k totali."" data-en="// personal wallet. Then I get 110k total."">//  wallet personale. Dopo ricevo 110k totali."</span>
+<span class="comment" data-it="// → Deposita. → Drainer svuota. → Fine." data-en="// → Deposits. → Drainer empties. → Done.">//  → Deposita. → Drainer svuota. → Fine.</span></pre>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// questo &egrave; il punto dove mi sono fermato a riflettere" data-en="// this is where I had to stop and reflect">// questo è il punto dove mi sono fermato a riflettere</div>
+      <p data-it="I primi due playbook sono truffe sofisticate ma &quot;standard&quot; nel panorama crypto. Il terzo &egrave; diverso. Prende di mira &lt;strong&gt;persone che hanno gi&agrave; perso i risparmi in piramidi finanziarie&lt;/strong&gt; e le convince che qualcuno vuole restituire i loro soldi. Le deruba una seconda volta. Con un copione studiato per sfruttare la disperazione. L&rsquo;autore del manuale (&lt;code style=&quot;font-family:var(--mono)&quot;&gt;@[REDACTED]&lt;/code&gt;) lo presenta come &quot;il metodo che usavo personalmente&quot; e conclude con &quot;questo materiale &egrave; a scopo informativo, ricordate i rischi e le leggi del vostro paese.&quot; Il cinismo &egrave; strutturale." data-en="The first two playbooks are sophisticated but &quot;standard&quot; crypto scams. The third is different. It targets &lt;strong&gt;people who have already lost their savings in financial pyramids&lt;/strong&gt; and convinces them that someone wants to return their money. It robs them a second time. With a script engineered to exploit desperation. The manual&rsquo;s author (&lt;code style=&quot;font-family:var(--mono)&quot;&gt;@[REDACTED]&lt;/code&gt;) presents it as &quot;the method I personally used&quot; and concludes with &quot;this material is for informational purposes, remember the risks and laws of your country.&quot; The cynicism is structural.">I primi due playbook sono truffe sofisticate ma "standard" nel panorama crypto. Il terzo è diverso. Prende di mira <strong>persone che hanno già perso i risparmi in piramidi finanziarie</strong> e le convince che qualcuno vuole restituire i loro soldi. Le deruba una seconda volta. Con un copione studiato per sfruttare la disperazione. L'autore del manuale (<code style="font-family:var(--mono)">@[REDACTED]</code>) lo presenta come "il metodo che usavo personalmente" e conclude con "questo materiale è a scopo informativo, ricordate i rischi e le leggi del vostro paese." Il cinismo è strutturale.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="4987644" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/cat+money+gifs">Cat Money GIF</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ 09 ═══════════════ -->
+    <h2 data-it="09 — Il Wallet dell'Operatore e la Blockchain." data-en="09 — The Operator's Wallet and the Blockchain.">09 — Il Wallet dell'Operatore e la Blockchain.</h2>
+
+    <p data-it="Dal payload AML builder abbiamo estratto l&rsquo;indirizzo del wallet operatore &mdash; lo spender nel &lt;code style=&quot;font-family:var(--mono)&quot;&gt;increaseApproval()&lt;/code&gt;:" data-en="From the AML builder payload we extracted the operator wallet address — the spender in the &lt;code style=&quot;font-family:var(--mono)&quot;&gt;increaseApproval()&lt;/code&gt;:">Dal payload AML builder abbiamo estratto l'indirizzo del wallet operatore — lo spender nel <code style="font-family:var(--mono)">increaseApproval()</code>:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Wallet operatore — dalla decodifica del parametro &quot;data&quot;" data-en="// Operator wallet — decoded from &quot;data&quot; parameter">// Wallet operatore — dalla decodifica del parametro "data"</span>
+Hex:     <span class="danger">dc5c6bdb788264b97927fc19510e313d3f8483bc</span>
+Base58:  <span class="danger">TW4NNonQHJBBCRSyQrcfzHfrLwSzMumDXp</span>
+Network: TRON (TRC20)
+
+<span class="comment" data-it="// Dati da Tronscan al momento del dump (07 Apr 2026):" data-en="// Data from Tronscan at dump time (07 Apr 2026):">// Dati da Tronscan al momento del dump (07 Apr 2026):</span>
+Transazioni totali: <span class="ok">1.297</span>
+Stato: <span class="ok">ATTIVO</span>
+
+<span class="comment" data-it="// Pattern delle transazioni:" data-en="// Transaction patterns:">// Pattern delle transazioni:</span>
+<span class="comment" data-it="// - Piccoli importi IN da wallet multipli (vittime)" data-en="// - Small amounts IN from multiple wallets (victims)">// - Piccoli importi IN da wallet multipli (vittime)</span>
+<span class="comment" data-it="// - Importi più grandi OUT verso wallet di raccolta" data-en="// - Larger amounts OUT to collection wallets">// - Importi più grandi OUT verso wallet di raccolta</span>
+<span class="comment" data-it="// - Ultime 50 tx: mix di TRX e TRC20 (USDT)" data-en="// - Last 50 tx: mix of TRX and TRC20 (USDT)">// - Ultime 50 tx: mix di TRX e TRC20 (USDT)</span>
+<span class="comment" data-it="// - Account delegation attive → conferma meccanismo drainer" data-en="// - Active account delegations → confirms drainer mechanism">// - Account delegation attive → conferma meccanismo drainer</span></pre>
+    </div>
+
+    <p data-it="1.297 transazioni. Wallet attivo al momento del dump. L&rsquo;ultima transazione include un account delegation verso un wallet di raccolta (&lt;code style=&quot;font-family:var(--mono);font-size:0.8rem&quot;&gt;TKQAZ6i6GSmfNYdpmv3s4MqqqSc9KNWv5b&lt;/code&gt;), tipo &lt;code style=&quot;font-family:var(--mono)&quot;&gt;contractType:0&lt;/code&gt; &mdash; confermando il pattern di consolidamento dei fondi rubati." data-en="1,297 transactions. Wallet active at dump time. The last transaction includes an account delegation to a collection wallet (&lt;code style=&quot;font-family:var(--mono);font-size:0.8rem&quot;&gt;TKQAZ6i6GSmfNYdpmv3s4MqqqSc9KNWv5b&lt;/code&gt;), type &lt;code style=&quot;font-family:var(--mono)&quot;&gt;contractType:0&lt;/code&gt; — confirming the pattern of stolen fund consolidation.">1.297 transazioni. Wallet attivo al momento del dump. L'ultima transazione include un account delegation verso un wallet di raccolta (<code style="font-family:var(--mono);font-size:0.8rem">TKQAZ6i6GSmfNYdpmv3s4MqqqSc9KNWv5b</code>), tipo <code style="font-family:var(--mono)">contractType:0</code> — confermando il pattern di consolidamento dei fondi rubati.</p>
+
+    <div class="callout" style="border-color:var(--muted)">
+      <div class="callout-label" data-it="// tool utilizzati in questa fase" data-en="// tools used in this phase">// tool utilizzati in questa fase</div>
+      <p style="font-family:var(--mono);font-size:0.8rem;line-height:2" data-it="&lt;span style=&quot;color:var(--orange)&quot;&gt;TronScan&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Etherscan&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;tronpy&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;TronGrid API&lt;/span&gt;&lt;br&gt;Analisi del wallet operatore e dei 1.297 tx su TronScan, cross-reference del function selector d73dd623 su Etherscan, simulazione transazioni e decodifica del parametro &quot;data&quot; con tronpy, monitoraggio eventi on-chain in real-time con TronGrid API." data-en="&lt;span style=&quot;color:var(--orange)&quot;&gt;TronScan&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;Etherscan&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;tronpy&lt;/span&gt; &middot; &lt;span style=&quot;color:var(--orange)&quot;&gt;TronGrid API&lt;/span&gt;&lt;br&gt;Analyzing operator wallet and 1,297 txs on TronScan, cross-referencing function selector d73dd623 on Etherscan, simulating transactions and decoding the &quot;data&quot; parameter with tronpy, real-time on-chain event monitoring with TronGrid API."><span style="color:var(--orange)">TronScan</span> · <span style="color:var(--orange)">Etherscan</span> · <span style="color:var(--orange)">tronpy</span> · <span style="color:var(--orange)">TronGrid API</span><br>Analisi del wallet operatore e dei 1.297 tx su TronScan, cross-reference del function selector d73dd623 su Etherscan, simulazione transazioni e decodifica del parametro "data" con tronpy, monitoraggio eventi on-chain in real-time con TronGrid API.</p>
+    </div>
+
+    <!-- ═══════════════ 10 ═══════════════ -->
+    <h2 data-it="10 — Quanto Hanno Rubato." data-en="10 — How Much They Stole.">10 — Quanto Hanno Rubato.</h2>
+
+    <p data-it="I pagamenti pubblicati nel canale Payments sono la punta dell&rsquo;iceberg. Rappresentano solo la quota affiliato (80%) dei soli drain documentati e pubblicati:" data-en="The payments published in the Payments channel are just the tip of the iceberg. They represent only the affiliate share (80%) of documented and published drains:">I pagamenti pubblicati nel canale Payments sono la punta dell'iceberg. Rappresentano solo la quota affiliato (80%) dei soli drain documentati e pubblicati:</p>
+
+    <div class="payment-box">
+      <div class="payment-row">
+        <span class="payment-date" data-it="08 Gen 2026" data-en="08 Jan 2026">08 Gen 2026</span>
+        <span class="payment-amount">- $1.200</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $1.500" data-en="→ 80% affiliate · total drained ≈ $1.500">→ 80% affiliato · tot drenato ≈ $1.500</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-date" data-it="09 Gen 2026" data-en="09 Jan 2026">09 Gen 2026</span>
+        <span class="payment-amount">- $2.606</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $3.258" data-en="→ 80% affiliate · total drained ≈ $3.258">→ 80% affiliato · tot drenato ≈ $3.258</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-date" data-it="10 Gen 2026" data-en="10 Jan 2026">10 Gen 2026</span>
+        <span class="payment-amount">- $1.684</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $2.105" data-en="→ 80% affiliate · total drained ≈ $2.105">→ 80% affiliato · tot drenato ≈ $2.105</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-date" data-it="13 Gen 2026" data-en="13 Jan 2026">13 Gen 2026</span>
+        <span class="payment-amount">- $2.964</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $3.705" data-en="→ 80% affiliate · total drained ≈ $3.705">→ 80% affiliato · tot drenato ≈ $3.705</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-date" data-it="23 Gen 2026" data-en="23 Jan 2026">23 Gen 2026</span>
+        <span class="payment-amount">- $2.040</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $2.550" data-en="→ 80% affiliate · total drained ≈ $2.550">→ 80% affiliato · tot drenato ≈ $2.550</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-date" data-it="28 Gen 2026" data-en="28 Jan 2026">28 Gen 2026</span>
+        <span class="payment-amount">- $674</span>
+        <span class="payment-note" data-it="&rarr; 80% affiliato &middot; tot drenato &asymp; $843" data-en="→ 80% affiliate · total drained ≈ $843">→ 80% affiliato · tot drenato ≈ $843</span>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">$11.168</div>
+        <div class="stat-lbl" data-it="Pagamenti affiliati visibili" data-en="Visible affiliate payments">Pagamenti affiliati visibili</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">~$13.960</div>
+        <div class="stat-lbl" data-it="Totale stimato drenato" data-en="Estimated total drained">Totale stimato drenato</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">20 giorni</div>
+        <div class="stat-lbl" data-it="Periodo documentato (gen 2026)" data-en="Documented period (Jan 2026)">Periodo documentato (gen 2026)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1.297</div>
+        <div class="stat-lbl" data-it="Transazioni wallet operatore" data-en="Operator wallet transactions">Transazioni wallet operatore</div>
+      </div>
+    </div>
+
+    <p data-it="Prove on-chain? Ecco tutti e 6 i pagamenti documentati nel canale Payments — con screenshot Tronscan archiviati anche da PhishDestroy:" data-en="On-chain proof? Here are all 6 documented payments from the Payments channel — with Tronscan screenshots also archived by PhishDestroy:">Prove on-chain? Ecco tutti e 6 i pagamenti documentati nel canale Payments — con screenshot Tronscan archiviati anche da <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto/NC%20Payments" style="color:var(--orange);text-decoration:underline">PhishDestroy</a>:</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div>
+        <img src="pd-payment-01.jpg" alt="Tronscan: 1,501 USDT transfer - 08 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$1.501&lt;/strong&gt; USDT — 08 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$1,501&lt;/strong&gt; USDT — 08 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$1.501</strong> USDT — 08 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
+      </div>
+      <div>
+        <img src="pd-payment-02.jpg" alt="Tronscan: 3,258 USDT transfer - 09 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$3.258&lt;/strong&gt; USDT — 09 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$3,258&lt;/strong&gt; USDT — 09 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$3.258</strong> USDT — 09 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
+      </div>
+      <div>
+        <img src="pd-payment-03.jpg" alt="Tronscan: 2,105 USDT transfer - 10 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$2.105&lt;/strong&gt; USDT — 10 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$2,105&lt;/strong&gt; USDT — 10 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$2.105</strong> USDT — 10 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1rem 0 1.5rem">
+      <div>
+        <img src="pd-payment-04.jpg" alt="Tronscan: 3,705 USDT transfer - 13 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$3.705&lt;/strong&gt; USDT — 13 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · il più alto" data-en="&lt;strong style='color:var(--text)'&gt;$3,705&lt;/strong&gt; USDT — 13 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · highest recorded"><strong style="color:var(--text)">$3.705</strong> USDT — 13 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span> · il più alto</p>
+      </div>
+      <div>
+        <img src="pd-payment-05.jpg" alt="Tronscan: 2,550 USDT transfer - 23 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$2.550&lt;/strong&gt; USDT — 23 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$2,550&lt;/strong&gt; USDT — 23 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$2.550</strong> USDT — 23 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
+      </div>
+      <div>
+        <img src="pd-payment-06.jpg" alt="TronLink: 843 USDT TRC20 transfer - 28 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$843&lt;/strong&gt; USDT — 28 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · ultimo visibile" data-en="&lt;strong style='color:var(--text)'&gt;$843&lt;/strong&gt; USDT — 28 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · last visible"><strong style="color:var(--text)">$843</strong> USDT — 28 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span> · ultimo visibile</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// 6 pagamenti. 6 screenshot. Tutti confermati on-chain." data-en="// 6 payments. 6 screenshots. All confirmed on-chain.">// 6 pagamenti. 6 screenshot. Tutti confermati on-chain.</div>
+      <p data-it="Ogni screenshot sopra è una transazione REALE su TRON, verificabile on-chain. Gli importi mostrati sono i totali drenati — gli affiliati ricevono l'80%. Le prove sono archiviate indipendentemente da PhishDestroy e dalla nostra analisi." data-en="Every screenshot above is a REAL transaction on TRON, verifiable on-chain. Amounts shown are the total drained — affiliates receive 80%. Evidence independently archived by PhishDestroy and by our analysis.">Ogni screenshot sopra è una transazione REALE su TRON, verificabile on-chain. Gli importi mostrati sono i totali drenati — gli affiliati ricevono l'80%. Le prove sono archiviate indipendentemente da PhishDestroy e dalla nostra analisi.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="21713162" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/money+gone+gifs">All The Money Just Poof GIF</a>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-align:center;margin:-0.5rem 0 1.5rem" data-it="// le vittime quando controllano il saldo dopo aver 'verificato' il wallet" data-en="// victims checking their balance after 'verifying' their wallet">// le vittime quando controllano il saldo dopo aver "verificato" il wallet</p>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// questi sono i numeri MINIMI" data-en="// these are the MINIMUM numbers">// questi sono i numeri MINIMI</div>
+      <p data-it="I $13.960 sono &lt;em&gt;solo&lt;/em&gt; quelli documentati pubblicamente, &lt;em&gt;solo&lt;/em&gt; dal canale Payments, &lt;em&gt;solo&lt;/em&gt; in gennaio 2026. Non sappiamo quanti affiliati operano simultaneamente. Non sappiamo quanti pagamenti non sono stati pubblicati. Non sappiamo quante landing page parallele esistono oltre a &lt;code style='font-family:var(--mono)'&gt;trxonlinegood.com&lt;/code&gt;. Con 12+ template e presenza su 5 forum darkweb, il vero danno è probabilmente un ordine di grandezza superiore." data-en="The $13,960 are &lt;em&gt;only&lt;/em&gt; those publicly documented, &lt;em&gt;only&lt;/em&gt; from the Payments channel, &lt;em&gt;only&lt;/em&gt; in January 2026. We don't know how many affiliates are operating simultaneously. We don't know how many payments were never published. We don't know how many parallel landing pages exist beyond &lt;code style='font-family:var(--mono)'&gt;trxonlinegood.com&lt;/code&gt;. With 12+ templates and presence on 5 darkweb forums, the real damage is likely an order of magnitude higher.">I $13.960 sono <em>solo</em> quelli documentati pubblicamente, <em>solo</em> dal canale Payments, <em>solo</em> in gennaio 2026. Non sappiamo quanti affiliati operano simultaneamente. Non sappiamo quanti pagamenti non sono stati pubblicati. Non sappiamo quante landing page parallele esistono oltre a <code style="font-family:var(--mono)">trxonlinegood.com</code>. Con 12+ template e presenza su 5 forum darkweb, il vero danno è probabilmente un ordine di grandezza superiore.</p>
+    </div>
+
+    <!-- ═══════════════ 11 ═══════════════ -->
+    <h2 data-it="11 — PhishDestroy Conferma: Una delle Reti Più Attive." data-en="11 — PhishDestroy Confirms: One of the Most Active Networks.">11 — PhishDestroy Conferma: Una delle Reti Più Attive.</h2>
+
+    <p data-it="A un certo punto dell'indagine ho trovato un report di &lt;a href='https://phishdestroy.io' style='color:var(--orange);text-decoration:underline'&gt;PhishDestroy.io&lt;/a&gt; — pubblicato il 19 febbraio 2026, settimane prima di noi. Il titolo: &lt;em&gt;'Crypto Drainer Toolkit: Inside the Angel Drainer Resellers Targeting Your Wallet'&lt;/em&gt;." data-en="At some point during the investigation I found a report by &lt;a href='https://phishdestroy.io' style='color:var(--orange);text-decoration:underline'&gt;PhishDestroy.io&lt;/a&gt; — published February 19, 2026, weeks before us. The title: &lt;em&gt;'Crypto Drainer Toolkit: Inside the Angel Drainer Resellers Targeting Your Wallet'&lt;/em&gt;.">A un certo punto dell'indagine ho trovato un report di <a href="https://phishdestroy.io" style="color:var(--orange);text-decoration:underline">PhishDestroy.io</a> — pubblicato il 19 febbraio 2026, settimane prima di noi. Il titolo: <em>"Crypto Drainer Toolkit: Inside the Angel Drainer Resellers Targeting Your Wallet"</em>.</p>
+
+    <p data-it="L'articolo di PhishDestroy classifica CriptoCarina S.r.l. / WalletVacuumers International™ come &lt;strong&gt;una delle reti drainer più attive in circolazione&lt;/strong&gt;, parte di un ecosistema più ampio di reseller Angel Drainer. Il report include la chain di attacco in 9 step, IOC strutturati, e un confronto tecnico con altri kit concorrenti. Il nostro lavoro conferma e espande le loro conclusioni con dati aggiuntivi: i playbook di social engineering, il reverse engineering del bundle.js, l'analisi del JWE, e la timeline completa dal DevLog." data-en="PhishDestroy's article classifies CriptoCarina S.r.l. / WalletVacuumers International™ as &lt;strong&gt;one of the most active drainer networks in circulation&lt;/strong&gt;, part of a broader Angel Drainer reseller ecosystem. The report includes a 9-step attack chain, structured IOCs, and a technical comparison with competing kits. Our work confirms and expands on their conclusions with additional data: the social engineering playbooks, the bundle.js reverse engineering, the JWE analysis, and the complete DevLog timeline.">L'articolo di PhishDestroy classifica CriptoCarina S.r.l. / WalletVacuumers International™ come <strong>una delle reti drainer più attive in circolazione</strong>, parte di un ecosistema più ampio di reseller Angel Drainer. Il report include la chain di attacco in 9 step, IOC strutturati, e un confronto tecnico con altri kit concorrenti. Il nostro lavoro conferma e espande le loro conclusioni con dati aggiuntivi: i playbook di social engineering, il reverse engineering del bundle.js, l'analisi del JWE, e la timeline completa dal DevLog.</p>
+
+    <p data-it="Ma la cosa più importante: PhishDestroy ha anche pubblicato un archivio completo di evidence su GitHub." data-en="But the most important part: PhishDestroy also published a complete evidence archive on GitHub.">Ma la cosa più importante: PhishDestroy ha anche pubblicato un <strong>archivio completo di evidence su GitHub</strong>.</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// PhishDestroy ScamIntelLogs — archivio pubblico delle prove" data-en="// PhishDestroy ScamIntelLogs — public evidence archive">// PhishDestroy ScamIntelLogs — archivio pubblico delle prove</span>
+<span class="comment" data-it="// <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto" style="color:var(--orange)">github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto</a>" data-en="// <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto" style="color:var(--orange)">github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto</a>">// <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto" style="color:var(--orange)">github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto</a></span>
+
+<span class="ok">Struttura dell'archivio:</span>
+├── NC Designs/       <span class="comment" data-it="// 13 screenshot template landing page" data-en="// 13 screenshot template landing pages">// 13 screenshot template landing page</span>
+│   └── photos/       <span class="comment" data-it="// 26 files (13 full + 13 thumb)" data-en="// 26 files (13 full + 13 thumb)">// 26 files (13 full + 13 thumb)</span>
+├── NC Info ENG/      <span class="comment" data-it="// Export canale inglese" data-en="// English channel export">// Export canale inglese</span>
+│   ├── result.json   <span class="comment" data-it="// Messaggi strutturati" data-en="// Structured messages">// Messaggi strutturati</span>
+│   ├── messages.html <span class="comment" data-it="// Render HTML" data-en="// HTML render">// Render HTML</span>
+│   └── photos/       <span class="comment" data-it="// 5 immagini" data-en="// 5 images">// 5 immagini</span>
+├── NC Info RUS/      <span class="comment" data-it="// Export canale russo" data-en="// Russian channel export">// Export canale russo</span>
+│   ├── result.json
+│   ├── messages.html
+│   └── photos/       <span class="comment" data-it="// 8 immagini" data-en="// 8 images">// 8 immagini</span>
+├── NC Payments/      <span class="comment" data-it="// Prove di pagamento affiliati" data-en="// Affiliate payment proofs">// Prove di pagamento affiliati</span>
+│   ├── result.json
+│   └── photos/       <span class="comment" data-it="// 6 screenshot Tronscan" data-en="// 6 Tronscan screenshots">// 6 screenshot Tronscan</span>
+├── guide/            <span class="comment" data-it="// Export completo del GitBook" data-en="// Complete GitBook export">// Export completo del GitBook</span>
+│   ├── index.html
+│   ├── 1/            <span class="comment" data-it="// Bot settings" data-en="// Bot settings">// Bot settings</span>
+│   └── 2/            <span class="comment" data-it="// Manuali operativi" data-en="// Operational manuals">// Manuali operativi</span>
+├── iocs.json         <span class="comment" data-it="// IOC strutturati (JSON)" data-en="// Structured IOCs (JSON)">// IOC strutturati (JSON)</span>
+├── index.html        <span class="comment" data-it="// Evidence browser interattivo" data-en="// Interactive evidence browser">// Evidence browser interattivo</span>
+└── README.md
+
+<span class="comment" data-it="// Totale: 32 foto, 4 export JSON, documentazione completa" data-en="// Total: 32 photos, 4 JSON exports, complete documentation">// Totale: 32 foto, 4 export JSON, documentazione completa</span>
+<span class="comment" data-it="// Tutto pubblico, tutto verificabile, tutto archiviato." data-en="// Everything public, everything verifiable, everything archived.">// Tutto pubblico, tutto verificabile, tutto archiviato.</span></pre>
+    </div>
+
+    <p data-it="Il file iocs.json di PhishDestroy include dati strutturati che confermano i nostri findings:" data-en="PhishDestroy's iocs.json file includes structured data confirming our findings:">Il file <code style="font-family:var(--mono);color:var(--orange)">iocs.json</code> di PhishDestroy include dati strutturati che confermano i nostri findings:</p>
+
+    <div class="code-block">
+      <pre><span class="comment" data-it="// Da: github.com/phishdestroy/ScamIntelLogs/nicecrypto/iocs.json" data-en="// From: github.com/phishdestroy/ScamIntelLogs/nicecrypto/iocs.json">// Da: github.com/phishdestroy/ScamIntelLogs/nicecrypto/iocs.json</span>
+{
+  "name": <span class="danger">"[REDACTED] Drainer"</span>,
+  "type": "Crypto Wallet Drainer",
+  "network": <span class="ok">"TRON"</span>,
+  "status": <span class="danger">"Active"</span>,
+  "first_seen": "2025-12-22",
+  "last_activity": "2026-01-28",
+  "affiliate_share": <span class="ok">"up to 80%"</span>,
+  "features": [
+    "TRON network drainer",
+    "Telegram bot control panel",
+    "WalletConnect integration",
+    "Modal window customization",
+    "Auto-withdraw on approval",
+    "Balance monitoring",
+    "Custom landing pages"
+  ],
+  "planned_networks": [<span class="neutral">"SOL"</span>, <span class="neutral">"EVM"</span>, <span class="neutral">"TON"</span>]
+}
+<span class="comment" data-it="// Ogni singolo campo corrisponde a quanto trovato" data-en="// Every single field matches what we found">// Ogni singolo campo corrisponde a quanto trovato</span>
+<span class="comment" data-it="// nella nostra analisi indipendente. Stessa rete," data-en="// in our independent analysis. Same network,">// nella nostra analisi indipendente. Stessa rete,</span>
+<span class="comment" data-it="// stesse date, stesse features, stessa roadmap." data-en="// same dates, same features, same roadmap.">// stesse date, stesse features, stessa roadmap.</span></pre>
+    </div>
+
+    <div class="callout-green">
+      <div class="callout-label" data-it="// fonti indipendenti convergenti" data-en="// independent converging sources">// fonti indipendenti convergenti</div>
+      <p data-it="L'analisi di PhishDestroy.io: &lt;strong&gt;phishdestroy.io/crypto-drainer-networks&lt;/strong&gt;. L'archivio GitHub: &lt;a href='https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto' style='color:var(--orange);text-decoration:underline'&gt;&lt;strong&gt;github.com/phishdestroy/ScamIntelLogs&lt;/strong&gt;&lt;/a&gt;. Include IOC strutturati, 32 foto di evidence, export completi dei canali, e documentazione GitBook. La convergenza di analisi indipendenti rafforza le conclusioni: non stiamo guardando un one-shot. È un'operazione strutturata e attiva da mesi. Le 13 immagini dei template e i 6 screenshot dei pagamenti utilizzati in questo articolo provengono direttamente dal loro archivio — verificabili da chiunque." data-en="PhishDestroy.io analysis: &lt;strong&gt;phishdestroy.io/crypto-drainer-networks&lt;/strong&gt;. GitHub archive: &lt;a href='https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto' style='color:var(--orange);text-decoration:underline'&gt;&lt;strong&gt;github.com/phishdestroy/ScamIntelLogs&lt;/strong&gt;&lt;/a&gt;. Includes structured IOCs, 32 evidence photos, complete channel exports, and GitBook documentation. The convergence of independent analyses strengthens the conclusions: we're not looking at a one-off. It's a structured operation active for months. The 13 template images and 6 payment screenshots used in this article come directly from their archive — verifiable by anyone.">L'analisi di PhishDestroy.io: <strong>phishdestroy.io/crypto-drainer-networks</strong>. L'archivio GitHub: <a href="https://github.com/phishdestroy/ScamIntelLogs/tree/main/nicecrypto" style="color:var(--orange);text-decoration:underline"><strong>github.com/phishdestroy/ScamIntelLogs</strong></a>. Include IOC strutturati, 32 foto di evidence, export completi dei canali, e documentazione GitBook. La convergenza di analisi indipendenti rafforza le conclusioni: non stiamo guardando un one-shot. È un'operazione strutturata e attiva da mesi. Le 13 immagini dei template e i 6 screenshot dei pagamenti utilizzati in questo articolo provengono direttamente dal loro archivio — verificabili da chiunque.</p>
+    </div>
+
+    <!-- ═══════════════ 12 ═══════════════ -->
+    <h2 data-it="12 — Quello Che Faremo. Sequel Assicurato." data-en="12 — What We'll Do. Sequel Guaranteed.">12 — Quello Che Faremo. Sequel Assicurato.</h2>
+
+    <div class="wip-badge" data-it="⚠ WIP — LAVORI IN CORSO" data-en="⚠ WIP — WORK IN PROGRESS">⚠ WIP — LAVORI IN CORSO</div>
+
+    <p data-it="Qui mi sono bloccato. Non perché l'indagine fosse finita — tutt'altro. Ma perché era Pasqua, ero già in ritardo sulla pubblicazione di settimane, e la colomba stava diventando un reperto archeologico. Un articolo a metà vale più di un'indagine completa che non viene mai pubblicata. Quello che seguirà nella Parte II:" data-en="This is where I stopped. Not because the investigation was over — far from it. But because it was Easter, I was already weeks behind on publication, and the Easter cake was becoming an archaeological artifact. A half-written article is worth more than a complete investigation that never gets published. What's coming in Part II:">Qui mi sono bloccato. Non perché l'indagine fosse finita — tutt'altro. Ma perché era Pasqua, ero già in ritardo sulla pubblicazione di settimane, e la colomba stava diventando un reperto archeologico. Un articolo a metà vale più di un'indagine completa che non viene mai pubblicata. Quello che seguirà nella Parte II:</p>
+
+    <ul>
+      <li data-it="&lt;strong&gt;Takedown formale&lt;/strong&gt; delle landing page attive &mdash; notifica a registrar, CDN (Cloudflare), e provider hosting." data-en="&lt;strong&gt;Formal takedown&lt;/strong&gt; of active landing pages — notification to registrars, CDN (Cloudflare), and hosting providers."><strong>Takedown formale</strong> delle landing page attive — notifica a registrar, CDN (Cloudflare), e provider hosting.</li>
+      <li data-it="&lt;strong&gt;Segnalazione alle autorit&agrave; competenti&lt;/strong&gt; &mdash; IOC strutturati via &lt;strong&gt;Faraday&lt;/strong&gt;, dump Telegram, analisi blockchain, endpoint mappati, playbook di social engineering come evidenza." data-en="&lt;strong&gt;Report to authorities&lt;/strong&gt; — structured IOCs via &lt;strong&gt;Faraday&lt;/strong&gt;, Telegram dumps, blockchain analysis, mapped endpoints, social engineering playbooks as evidence."><strong>Segnalazione alle autorità competenti</strong> — IOC strutturati via <strong>Faraday</strong>, dump Telegram, analisi blockchain, endpoint mappati, playbook di social engineering come evidenza.</li>
+      <li data-it="&lt;strong&gt;Cracking dei token&lt;/strong&gt; &mdash; &lt;strong&gt;Hashcat&lt;/strong&gt; sul JWT (se HS256), &lt;strong&gt;John The Ripper&lt;/strong&gt; su hash dai dump, &lt;strong&gt;Hydra&lt;/strong&gt; e &lt;strong&gt;Medusa&lt;/strong&gt; per brute force sul pannello operatore, &lt;strong&gt;CeWL&lt;/strong&gt; per wordlist custom dalla wiki, &lt;strong&gt;Haiti&lt;/strong&gt; per identificazione hash, &lt;strong&gt;RsaCtfTool&lt;/strong&gt; sulla componente JWE." data-en="&lt;strong&gt;Token cracking&lt;/strong&gt; — &lt;strong&gt;Hashcat&lt;/strong&gt; on JWT (if HS256), &lt;strong&gt;John The Ripper&lt;/strong&gt; on dump hashes, &lt;strong&gt;Hydra&lt;/strong&gt; and &lt;strong&gt;Medusa&lt;/strong&gt; for operator panel brute force, &lt;strong&gt;CeWL&lt;/strong&gt; for custom wordlist from wiki, &lt;strong&gt;Haiti&lt;/strong&gt; for hash identification, &lt;strong&gt;RsaCtfTool&lt;/strong&gt; on JWE component."><strong>Cracking dei token</strong> — <strong>Hashcat</strong> sul JWT (se HS256), <strong>John The Ripper</strong> su hash dai dump, <strong>Hydra</strong> e <strong>Medusa</strong> per brute force sul pannello operatore, <strong>CeWL</strong> per wordlist custom dalla wiki, <strong>Haiti</strong> per identificazione hash, <strong>RsaCtfTool</strong> sulla componente JWE.</li>
+      <li data-it="&lt;strong&gt;IDOR exploitation&lt;/strong&gt; &mdash; &lt;strong&gt;Burp Intruder&lt;/strong&gt; su /operator/wallets/{id}, enumerazione wallet affiliati, wallet swap. Il finale." data-en="&lt;strong&gt;IDOR exploitation&lt;/strong&gt; — &lt;strong&gt;Burp Intruder&lt;/strong&gt; on /operator/wallets/{id}, affiliate wallet enumeration, wallet swapping. The finale."><strong>IDOR exploitation</strong> — <strong>Burp Intruder</strong> su /operator/wallets/{id}, enumerazione wallet affiliati, wallet swap. Il finale.</li>
+      <li data-it="&lt;strong&gt;Post-exploitation&lt;/strong&gt; &mdash; &lt;strong&gt;CrackMapExec&lt;/strong&gt; per lateral movement, &lt;strong&gt;Metasploit&lt;/strong&gt; per CVE su nginx/1.29.4 o FastAPI, &lt;strong&gt;Volatility&lt;/strong&gt; per memory dump e estrazione chiavi." data-en="&lt;strong&gt;Post-exploitation&lt;/strong&gt; — &lt;strong&gt;CrackMapExec&lt;/strong&gt; for lateral movement, &lt;strong&gt;Metasploit&lt;/strong&gt; for CVEs on nginx/1.29.4 or FastAPI, &lt;strong&gt;Volatility&lt;/strong&gt; for memory dump and key extraction."><strong>Post-exploitation</strong> — <strong>CrackMapExec</strong> per lateral movement, <strong>Metasploit</strong> per CVE su nginx/1.29.4 o FastAPI, <strong>Volatility</strong> per memory dump e estrazione chiavi.</li>
+      <li data-it="&lt;strong&gt;Tracciamento blockchain completo&lt;/strong&gt; &mdash; dalle 1.297 transazioni del wallet operatore a tutta la catena di consolidamento." data-en="&lt;strong&gt;Complete blockchain tracking&lt;/strong&gt; — from the 1,297 operator wallet transactions to the full consolidation chain."><strong>Tracciamento blockchain completo</strong> — dalle 1.297 transazioni del wallet operatore a tutta la catena di consolidamento.</li>
+      <li data-it="&lt;strong&gt;Forum intelligence&lt;/strong&gt; &mdash; i thread su WWH, LOLZ, BHF sono ancora l&igrave;. Non per molto." data-en="&lt;strong&gt;Forum intelligence&lt;/strong&gt; — threads on WWH, LOLZ, BHF are still there. Not for much longer."><strong>Forum intelligence</strong> — i thread su WWH, LOLZ, BHF sono ancora lì. Non per molto.</li>
+    </ul>
+
+    <div class="callout" style="border-color:var(--muted)">
+      <div class="callout-label" data-it="// l'arsenale completo — tassonomia &lt;a href='https://inventory.raw.pm/tools.html' style='color:var(--orange);text-decoration:underline'&gt;inventory.raw.pm&lt;/a&gt;" data-en="// the full arsenal — &lt;a href='https://inventory.raw.pm/tools.html' style='color:var(--orange);text-decoration:underline'&gt;inventory.raw.pm&lt;/a&gt; taxonomy">// l'arsenale completo — tassonomia <a href="https://inventory.raw.pm/tools.html" style="color:var(--orange);text-decoration:underline">inventory.raw.pm</a></div>
+      <p style="font-family:var(--mono);font-size:0.75rem;line-height:2.2;color:var(--muted)"><span style="color:var(--orange)">Amass</span> · <span style="color:var(--orange)">Shodan</span> · <span style="color:var(--orange)">DNSRecon</span> · <span style="color:var(--orange)">Certstream</span> · <span style="color:var(--orange)">Nmap</span> · <span style="color:var(--orange)">Masscan</span> · <span style="color:var(--orange)">cariddi</span> · <span style="color:var(--orange)">Telethon</span> · <span style="color:var(--orange)">Burp Suite</span> · <span style="color:var(--orange)">OWASP ZAP</span> · <span style="color:var(--orange)">ffuf</span> · <span style="color:var(--orange)">feroxbuster</span> · <span style="color:var(--orange)">Gobuster</span> · <span style="color:var(--orange)">Wireshark</span> · <span style="color:var(--orange)">SQLMap</span> · <span style="color:var(--orange)">Ghidra</span> · <span style="color:var(--orange)">Radare2</span> · <span style="color:var(--orange)">js-beautify</span> · <span style="color:var(--orange)">strings</span> · <span style="color:var(--orange)">ExifTool</span> · <span style="color:var(--orange)">Hashcat</span> · <span style="color:var(--orange)">John The Ripper</span> · <span style="color:var(--orange)">Hydra</span> · <span style="color:var(--orange)">Medusa</span> · <span style="color:var(--orange)">CeWL</span> · <span style="color:var(--orange)">Haiti</span> · <span style="color:var(--orange)">RsaCtfTool</span> · <span style="color:var(--orange)">TronScan</span> · <span style="color:var(--orange)">Etherscan</span> · <span style="color:var(--orange)">tronpy</span> · <span style="color:var(--orange)">Metasploit</span> · <span style="color:var(--orange)">CrackMapExec</span> · <span style="color:var(--orange)">Volatility</span> · <span style="color:var(--orange)">BBOT</span> · <span style="color:var(--orange)">Faraday</span> · <span style="color:var(--orange)">Obsidian</span> · <span style="color:var(--orange)">PhishDestroy</span></p>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// messaggio agli operatori di CriptoCarina S.r.l. / WalletVacuumers International&trade;" data-en="// message to CriptoCarina S.r.l. / WalletVacuumers International™ operators">// messaggio agli operatori di CriptoCarina S.r.l. / WalletVacuumers International™</div>
+      <p data-it="Se state leggendo questo articolo &mdash; e sapete gi&agrave; chi siete &mdash; benvenuti. Abbiamo i vostri canali Telegram, il dump completo dei messaggi e delle foto, il vostro wallet operatore con 1.297 transazioni, la vostra infrastruttura C2 con 9 endpoint mappati, il vostro bundle.js deobfuscato, il vostro payload JWE decodificato, i vostri manuali di social engineering in tre direzioni, e le prove di pagamento dei vostri affiliati. Tutto archiviato, datato, e pronto per la consegna. &lt;strong&gt;L&rsquo;indagine non &egrave; finita. &egrave; solo in pausa editoriale.&lt;/strong&gt;" data-en="If you&rsquo;re reading this — and you already know who you are — welcome. We have your Telegram channels, the complete dump of messages and photos, your operator wallet with 1,297 transactions, your C2 infrastructure with 9 mapped endpoints, your deobfuscated bundle.js, your decoded JWE payload, your three-direction social engineering manuals, and your affiliate payment proofs. All archived, timestamped, and ready for delivery. &lt;strong&gt;The investigation isn&rsquo;t over. It&rsquo;s just on editorial pause.&lt;/strong&gt;">Se state leggendo questo articolo — e sapete già chi siete — benvenuti. Abbiamo i vostri canali Telegram, il dump completo dei messaggi e delle foto, il vostro wallet operatore con 1.297 transazioni, la vostra infrastruttura C2 con 9 endpoint mappati, il vostro bundle.js deobfuscato, il vostro payload JWE decodificato, i vostri manuali di social engineering in tre direzioni, e le prove di pagamento dei vostri affiliati. Tutto archiviato, datato, e pronto per la consegna. <strong>L'indagine non è finita. È solo in pausa editoriale.</strong></p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="20118743" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/ill+be+back+gifs">I'll Be Back GIF</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ CONCLUSIONI ═══════════════ -->
+    <h2 data-it="Conclusioni. Ovvero: Come Ho Perso la Pasqua e Trovato un'Organizzazione Criminale." data-en="Conclusions. Or: How I Lost Easter and Found a Criminal Org Instead.">Conclusioni. Come Ho Perso la Pasqua e Trovato un'Organizzazione Criminale.</h2>
+
+    <p data-it="L'email che ha dato il via a tutto aveva oggetto: &lt;em&gt;'Important Security Alert!'&lt;/em&gt;. Il mittente si chiamava 'Approval Checker' da un dominio che sembra un emporio di tappeti del Kerala. Era uno dei phishing più banali che mi siano capitati. E io, invece di mangiare la colomba come Dio comanda, ci ho buttato tutta la Pasqua. E dietro c'era un'organizzazione con:" data-en="The email that started it all had the subject: &lt;em&gt;'Important Security Alert!'&lt;/em&gt;. The sender called themselves 'Approval Checker' from a domain that looks like a Kerala carpet shop. It was one of the most basic phishing emails I've ever received. And instead of eating Easter lunch like a normal human being, I burned my entire holiday on it. Behind it was an organization with:">L'email che ha dato il via a tutto aveva oggetto: <em>"Important Security Alert!"</em>. Il mittente si chiamava "Approval Checker" da un dominio che sembra un emporio di tappeti del Kerala. Era uno dei phishing più banali che mi siano capitati. E io, invece di mangiare la colomba come Dio comanda, ci ho buttato tutta la Pasqua. E dietro c'era un'organizzazione con:</p>
+
+    <ul>
+      <li data-it="Un payload JavaScript da 319KB esportato come &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;NcAffiliateDrainer&lt;/code&gt;" data-en="A 319KB JavaScript payload exported as &lt;code style=&quot;font-family:var(--mono);color:var(--orange)&quot;&gt;NcAffiliateDrainer&lt;/code&gt;">Un payload JavaScript da 319KB esportato come <code style="font-family:var(--mono);color:var(--orange)">NcAffiliateDrainer</code></li>
+      <li data-it="Crittografia JWE (AES-128-GCM) per nascondere le transazioni malevole" data-en="JWE encryption (AES-128-GCM) to hide malicious transactions">Crittografia JWE (AES-128-GCM) per nascondere le transazioni malevole</li>
+      <li data-it="La funzione &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;increaseApproval()&lt;/code&gt; con &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;uint256.MAX&lt;/code&gt; &mdash; approvazione illimitata e permanente" data-en="The &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;increaseApproval()&lt;/code&gt; function with &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;uint256.MAX&lt;/code&gt; — unlimited and permanent approval">La funzione <code style="font-family:var(--mono);color:#ff3333">increaseApproval()</code> con <code style="font-family:var(--mono);color:#ff3333">uint256.MAX</code> — approvazione illimitata e permanente</li>
+      <li data-it="12+ template di landing page pronti all&rsquo;uso con bot Telegram di deploy" data-en="12+ ready-to-use landing page templates with Telegram deployment bot">12+ template di landing page pronti all'uso con bot Telegram di deploy</li>
+      <li data-it="3 playbook di social engineering dettagliati, incluso uno che prende di mira vittime di piramidi finanziarie" data-en="3 detailed social engineering playbooks, including one targeting pyramid scheme victims">3 playbook di social engineering dettagliati, incluso uno che prende di mira vittime di piramidi finanziarie</li>
+      <li data-it="DevLog settimanali e una product roadmap (SOL, EVM, TON in arrivo)" data-en="Weekly DevLogs and a product roadmap (SOL, EVM, TON coming soon)">DevLog settimanali e una product roadmap (SOL, EVM, TON in arrivo)</li>
+      <li data-it="Presenza su 5 forum darkweb con depositi di garanzia" data-en="Presence on 5 darkweb forums with escrow deposits">Presenza su 5 forum darkweb con depositi di garanzia</li>
+      <li data-it="Pagamenti documentati a 6+ affiliati per ~$13.960 stimati totali" data-en="Documented payments to 6+ affiliates for ~$13,960 estimated total">Pagamenti documentati a 6+ affiliati per ~$13.960 stimati totali</li>
+      <li data-it="Un wallet operatore con 1.297 transazioni ancora attive" data-en="An operator wallet with 1,297 still-active transactions">Un wallet operatore con 1.297 transazioni ancora attive</li>
+    </ul>
+
+    <p data-it="Il tutto avviato il 22 dicembre 2025 e ancora operativo oggi, 7 aprile 2026. La mia Pasqua? Sacrificata. La colomba? Intatta. Le uova di cioccolato? Non pervenute. Ma almeno ho i dump Telegram." data-en="All of it launched December 22, 2025 and still operational today, April 7, 2026. My Easter vacation? Sacrificed. The Easter cake? Untouched. The chocolate eggs? Missing in action. But at least I have the Telegram dumps.">Il tutto avviato il 22 dicembre 2025 e ancora operativo oggi, 7 aprile 2026. La mia Pasqua? Sacrificata. La colomba? Intatta. Le uova di cioccolato? Non pervenute. Ma almeno ho i dump Telegram.</p>
+
+    <p data-it="&lt;strong&gt;La lezione&lt;/strong&gt;, come sempre in questo campo: il phishing banale non &egrave; detto che sia stupido. &Egrave; solo la superficie. Sotto c&rsquo;&egrave; spesso un&rsquo;infrastruttura sorprendentemente professionale, una quantit&agrave; di soldi rubati che fa venire il voltastomaco, e persone reali che stanno perdendo i loro risparmi &mdash; a volte per la seconda volta." data-en="&lt;strong&gt;The lesson&lt;/strong&gt;, as always in this field: basic phishing doesn&rsquo;t mean stupid. It&rsquo;s just the surface. Underneath there&rsquo;s often surprisingly professional infrastructure, an amount of stolen money that makes your stomach turn, and real people losing their savings — sometimes for the second time."><strong>La lezione</strong>, come sempre in questo campo: il phishing banale non è detto che sia stupido. È solo la superficie. Sotto c'è spesso un'infrastruttura sorprendentemente professionale, una quantità di soldi rubati che fa venire il voltastomaco, e persone reali che stanno perdendo i loro risparmi — a volte per la seconda volta.</p>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// come proteggersi" data-en="// how to protect yourself">// come proteggersi</div>
+      <p data-it="&lt;strong&gt;Non collegare il wallet a siti sconosciuti.&lt;/strong&gt; Qualsiasi sito. Qualsiasi motivo. &quot;AML check&quot;, &quot;security verification&quot;, &quot;airdrop claim&quot;, &quot;invoice da ritirare&quot;. Se qualcuno vi chiede di firmare una transazione per &quot;verificare&quot; o &quot;ricevere&quot; qualcosa &mdash; state firmando una delega &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;increaseApproval(uint256.MAX)&lt;/code&gt;. Per sempre. Se l&rsquo;avete gi&agrave; fatto: andate su &lt;strong&gt;Tronscan&lt;/strong&gt;, controllate le approvazioni attive, e revocate tutto immediatamente." data-en="&lt;strong&gt;Never connect your wallet to unknown websites.&lt;/strong&gt; Any website. Any reason. &quot;AML check&quot;, &quot;security verification&quot;, &quot;airdrop claim&quot;, &quot;invoice to claim&quot;. If someone asks you to sign a transaction to &quot;verify&quot; or &quot;receive&quot; something — you&rsquo;re signing a delegation &lt;code style=&quot;font-family:var(--mono);color:#ff3333&quot;&gt;increaseApproval(uint256.MAX)&lt;/code&gt;. Forever. If you&rsquo;ve already done it: go to &lt;strong&gt;Tronscan&lt;/strong&gt;, check active approvals, and revoke everything immediately."><strong>Non collegare il wallet a siti sconosciuti.</strong> Qualsiasi sito. Qualsiasi motivo. "AML check", "security verification", "airdrop claim", "invoice da ritirare". Se qualcuno vi chiede di firmare una transazione per "verificare" o "ricevere" qualcosa — state firmando una delega <code style="font-family:var(--mono);color:#ff3333">increaseApproval(uint256.MAX)</code>. Per sempre. Se l'avete già fatto: andate su <strong>Tronscan</strong>, controllate le approvazioni attive, e revocate tutto immediatamente.</p>
+    </div>
+
+    <div class="tenor-wrap">
+      <div class="tenor-gif-embed" data-postid="19149907" data-share-method="host" data-aspect-ratio="1.78" data-width="100%">
+        <a href="https://tenor.com/search/mic+drop+gifs">Mic Drop GIF</a>
+      </div>
+    </div>
+
+    <p style="margin-top:2rem;font-family:var(--mono);font-size:0.8rem;color:var(--muted);border-top:1px solid var(--border);padding-top:1.5rem" data-it="&lt;em&gt;'Il phishing più pericoloso non è quello che sembra sofisticato. È quello che apri durante le vacanze di Pasqua pensando che ci vorranno cinque minuti.'&lt;/em&gt;" data-en="&lt;em&gt;'The most dangerous phishing isn't the one that looks sophisticated. It's the one you open during Easter vacation thinking it'll take five minutes.'&lt;/em&gt;"><em>"Il phishing più pericoloso non è quello che sembra sofisticato. È quello che apri durante le vacanze di Pasqua pensando che ci vorranno cinque minuti."</em></p>
+
+    <p style="font-family:var(--mono);font-size:0.75rem;color:var(--orange);margin-top:1.5rem" data-it="// Parte II in arrivo. Con il takedown. Con i nomi veri. Con tutto." data-en="// Part II coming. With the takedown. With real names. With everything.">// Parte II in arrivo. Con il takedown. Con i nomi veri. Con tutto.</p>
+
+  </div><!-- /article-body -->
+
+  <!-- Share -->
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="condividi" data-en="share">condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" id="share-twitter" href="#" target="_blank" rel="noopener">Twitter / X</a>
+      <a class="share-btn" id="share-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" id="share-copy" onclick="copyLink()" data-it="Copia link" data-en="Copy link">Copia link</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← tutti gli articoli</a>
+    <span class="footer-copy" data-it="&copy; 2026 paolocostanzo.github.io &middot; indagine in corso" data-en="© 2026 paolocostanzo.github.io · investigation ongoing">© 2026 paolocostanzo.github.io · indagine in corso</span>
+  </footer>
+
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script async src="https://tenor.com/embed.js"></script>
+  <script>
+    // Read progress bar + back-to-top
+    const bar=document.getElementById('read-bar'),backTop=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;bar.style.width=pct+'%';backTop.classList.toggle('vis',h.scrollTop>400)},{passive:true});
+
+    // Language toggle with localStorage persistence
+    function setLang(lang){
+      document.querySelectorAll('[data-it]').forEach(el=>{
+        const val=el.getAttribute('data-'+lang);
+        if(!val)return;
+        if(el.tagName==='META'){el.setAttribute('content',val.replace(/<[^>]+>/g,''));return}
+        if(el.tagName==='TITLE'){document.title=val;return}
+        el.innerHTML=val;
+      });
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]').classList.add('active');
+      try{localStorage.setItem('lang',lang)}catch(e){}
+    }
+    // Restore saved lang
+    try{const saved=localStorage.getItem('lang');if(saved&&saved!=='it')setLang(saved)}catch(e){}
+
+    // Share buttons
+    const url=encodeURIComponent(location.href),title=encodeURIComponent(document.title);
+    document.getElementById('share-twitter').href='https://twitter.com/intent/tweet?url='+url+'&text='+title;
+    document.getElementById('share-linkedin').href='https://www.linkedin.com/sharing/share-offsite/?url='+url;
+    function copyLink(){navigator.clipboard.writeText(location.href).then(()=>{const b=document.getElementById('share-copy');b.textContent='Copiato!';b.classList.add('ok');setTimeout(()=>{b.textContent='Copia link';b.classList.remove('ok')},2000)})}
+  </script>
+</body>
+</html>
