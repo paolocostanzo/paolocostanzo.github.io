@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>NonèCostanzo — Security Research</title>
+    <link>https://paolocostanzo.github.io</link>
+    <description>Technical write-ups, CVE analysis, thoughts on Cloud, AI Security and Penetration Testing by Paolo Costanzo.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 07 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>I Wanted to Write a Quick Article. I Dismantled a Criminal Org Instead.</title>
+      <link>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</link>
+      <guid>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</guid>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 GMT</pubDate>
+      <description>A phishing email, an entire Easter vacation burned, and a rabbit hole that led to $13,960 stolen, infiltrated Telegram channels, mapped C2 infrastructure. Crypto Drainer-as-a-Service on the TRON network.</description>
+      <category>Threat Intelligence</category>
+      <category>Crypto</category>
+      <category>OSINT</category>
+    </item>
+
+    <item>
+      <title>One GET, 169.254.169.254, IAM Credentials Served Fresh</title>
+      <link>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</link>
+      <guid>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 GMT</pubDate>
+      <description>IMDSv1 requires no authentication. One SSRF in your app is enough to steal EC2 IAM credentials. Capital One, 106 million records, $80M fine. HttpTokens: required has existed since 2019.</description>
+      <category>Cloud</category>
+      <category>Pentest</category>
+      <category>SSRF</category>
+    </item>
+
+    <item>
+      <title>€40, 2 Minutes, and a Student Who'll Never Trust Free Wi-Fi Again</title>
+      <link>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</link>
+      <guid>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</guid>
+      <pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Cardputer-Adv in your pocket, Bruce firmware, and a class of professionals convinced they knew all about Wi-Fi. Evil Portal, beacon spam, deauth attack in the classroom.</description>
+      <category>Pentest</category>
+      <category>WiFi</category>
+      <category>Hardware</category>
+    </item>
+
+    <item>
+      <title>Operation Epic Fury: What the Reports Missed</title>
+      <link>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</link>
+      <guid>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</guid>
+      <pubDate>Tue, 17 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Original OSINT investigation into the Iranian dual-platform campaign targeting Israeli civilians. Undisclosed Windows payload, secondary C2 with 0/94 VT, infrastructure active 8 months before anyone noticed.</description>
+      <category>Threat Intelligence</category>
+      <category>Malware Analysis</category>
+    </item>
+
+    <item>
+      <title>TIM, GeForce Now and the ICMP Black Hole</title>
+      <link>https://paolocostanzo.github.io/tim-packet-loss-gfn/</link>
+      <guid>https://paolocostanzo.github.io/tim-packet-loss-gfn/</guid>
+      <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
+      <description>How I diagnosed and worked around an ICMP Black Hole on TIM's network that caused 10% packet loss on GeForce Now and capped bandwidth at 26 Mbps on a 1 Gbps line.</description>
+      <category>Pentest</category>
+      <category>Network</category>
+      <category>ISP</category>
+    </item>
+
+    <item>
+      <title>AWS IAM: The 5 Most Common Misconfigurations</title>
+      <link>https://paolocostanzo.github.io/aws-iam-misconfiguration/</link>
+      <guid>https://paolocostanzo.github.io/aws-iam-misconfiguration/</guid>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Wildcard policies, root without MFA, exposed access keys, overly permissive roles and disabled logging. Five mistakes I see on every cloud audit — and how to fix them.</description>
+      <category>Cloud</category>
+      <category>AWS</category>
+      <category>IAM</category>
+    </item>
+
+    <item>
+      <title>Prompt Injection on Enterprise LLMs: How It Really Works</title>
+      <link>https://paolocostanzo.github.io/prompt-injection-llm/</link>
+      <guid>https://paolocostanzo.github.io/prompt-injection-llm/</guid>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Enterprise language models have attack surfaces almost nobody considers. A practical walk-through of how an attacker thinks when facing a corporate LLM wired into internal data.</description>
+      <category>AI Security</category>
+      <category>LLM</category>
+      <category>Pentest</category>
+    </item>
+
+  </channel>
+</rss>
