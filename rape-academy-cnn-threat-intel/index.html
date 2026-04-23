@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- Nota al lettore del sorgente:
+       Questo pezzo non è una CTF. Non ci sono flag da trovare.
+       Ci sono 20.000 video, mille utenti di un gruppo Telegram, tre sopravvissute,
+       un regolatore che si è dichiarato incompetente, e una piattaforma registrata
+       in Lussemburgo che non ha ritenuto opportuno rispondere a CNN.
+       Se sei un moderatore di Motherless.com — hai 20.000 tag #passedout indicizzati.
+       Tecnicamente sai già dove guardare. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title
+    data-it="Rape Academy: anatomia tecnica di una rete di abuso globale — NonèCostanzo"
+    data-en="Rape Academy: the technical anatomy of a global abuse network — NonèCostanzo"
+  >Rape Academy: anatomia tecnica di una rete di abuso globale — NonèCostanzo</title>
+  <meta
+    name="description"
+    data-it="Un'inchiesta CNN infiltra un gruppo Telegram da mille utenti, mappa 20.000 video su Motherless.com, espone livestream a 20 dollari in crypto e venditori di 'sleeping liquids' a 175 dollari. Analisi threat intel: infrastruttura, OSINT, fallimento di content moderation, vuoto regolatorio."
+    data-en="A CNN investigation infiltrates a 1,000-member Telegram group, maps 20,000 videos on Motherless.com, exposes $20 livestreams in crypto and $175 'sleeping liquids'. Threat intel breakdown: infrastructure, OSINT, content moderation failure, regulatory gap."
+    content="Un'inchiesta CNN infiltra un gruppo Telegram da mille utenti, mappa 20.000 video su Motherless.com, espone livestream a 20 dollari in crypto e venditori di 'sleeping liquids' a 175 dollari. Analisi threat intel: infrastruttura, OSINT, fallimento di content moderation, vuoto regolatorio."
+  />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;color:#ff3333;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:#ff3333}
+    h1{font-family:var(--condensed);font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.2);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-yellow{background:rgba(255,170,0,0.04);border:1px solid rgba(255,170,0,0.25);border-left:3px solid #ffaa00;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-yellow .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ffaa00;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-yellow p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:1.8rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .timeline{position:relative;padding-left:2rem;margin:2rem 0}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border)}
+    .tl-item{position:relative;padding:0.75rem 0 1.25rem}
+    .tl-item::before{content:'';position:absolute;left:-2rem;top:1rem;width:8px;height:8px;border-radius:50%;background:var(--orange);border:2px solid var(--black);transform:translateX(-3px)}
+    .tl-date{font-family:var(--mono);font-size:0.68rem;color:var(--orange);letter-spacing:0.1em;margin-bottom:0.3rem}
+    .tl-text{font-size:0.9rem;color:#bbb;line-height:1.7}
+    .tl-text strong{color:var(--text)}
+    .sources-box{background:var(--surface);border:1px solid var(--border);padding:1.5rem;margin:2rem 0}
+    .sources-box h4{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .sources-box ul{margin-left:1.25rem}
+    .sources-box li{font-size:0.85rem;color:#bbb;line-height:1.7;margin-bottom:0.5rem}
+    .sources-box a{color:var(--orange);word-break:break-all}
+    .sources-box a:hover{text-decoration:underline}
+    .trigger-warning{background:rgba(255,51,51,0.05);border:1px solid rgba(255,51,51,0.3);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0 3rem}
+    .trigger-warning .tw-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem;display:block}
+    .trigger-warning p{font-size:0.9rem;color:var(--text);margin:0;line-height:1.7}
+    .personal-note{background:linear-gradient(180deg,rgba(255,106,0,0.04),rgba(255,106,0,0.01));border:1px solid rgba(255,106,0,0.2);border-left:3px solid var(--orange);padding:2.2rem 2rem 2rem;margin:2rem 0 3rem;position:relative}
+    .pn-label{position:absolute;top:-0.6rem;left:1.5rem;background:var(--black);padding:0 0.6rem;font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase}
+    .personal-note p{font-size:1rem;color:var(--text);line-height:1.85;margin-bottom:1rem;font-weight:300}
+    .personal-note p:last-child{margin-bottom:0}
+    .personal-note .sig{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;margin-top:1rem;display:block}
+    .pull-quote{margin:3rem 0;padding:2rem 1rem 2rem 2.5rem;border-left:4px solid var(--orange);position:relative;background:var(--surface)}
+    .pull-quote::before{content:'\201C';position:absolute;left:0.5rem;top:-0.5rem;font-family:var(--condensed);font-size:4rem;color:var(--orange);line-height:1;font-weight:900}
+    .pull-quote p{font-family:var(--condensed);font-size:1.4rem;font-weight:700;color:var(--text);line-height:1.3;margin:0 0 0.75rem;letter-spacing:-0.01em}
+    .pull-quote cite{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;font-style:normal;display:block}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+    .stat-cell{background:var(--surface);padding:1.5rem 1.25rem;display:flex;flex-direction:column;gap:0.4rem;min-height:140px;justify-content:center}
+    .stat-num{font-family:var(--condensed);font-size:2.4rem;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-0.02em}
+    .stat-num.danger{color:#ff5555}
+    .stat-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase}
+    .stat-note{font-size:0.8rem;color:#aaa;line-height:1.5;margin-top:0.3rem}
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.stat-num{font-size:1.9rem}.pull-quote p{font-size:1.1rem}}
+    .arch-diagram{margin:2rem 0;background:var(--surface);border:1px solid var(--border);padding:1.5rem;overflow-x:auto}
+    .arch-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}
+    .arch-caption{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-top:0.75rem}
+    .figure-note{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.05em;text-align:center;margin-top:-1rem;margin-bottom:2rem;font-style:italic}
+  </style>
+</head>
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Threat Intelligence</span>
+      <span class="tag">OSINT</span>
+      <span class="tag">Content Moderation</span>
+      <span class="tag" data-it="Caso Reale" data-en="Real Case" style="border-color:#ff3333;color:#ff3333">Caso Reale</span>
+      <span class="meta-item">21 Apr 2026</span>
+      <span class="meta-item" data-it="18 min di lettura" data-en="18 min read">18 min di lettura</span>
+      <span class="difficulty-badge"><span class="dot"></span><span data-it="Hard (tema sensibile)" data-en="Hard (sensitive topic)">Hard (tema sensibile)</span></span>
+    </div>
+    <h1 data-it="Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori" data-en="Rape Academy: the technical anatomy of a global abuse network that slipped past content moderation, payment rails and regulators">Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori</h1>
+    <p class="article-intro"
+      data-it="Il 26 marzo 2026 CNN ha pubblicato un'inchiesta durata mesi. Cinque giornalisti si sono infiltrati sotto copertura in un gruppo Telegram da mille utenti chiamato &ldquo;Zzz&rdquo;, hanno mappato 20.000 video di &ldquo;sleep content&rdquo; su Motherless.com, documentato livestream a venti dollari a spettatore pagati in criptovaluta e venditori di &ldquo;sleeping liquids&rdquo; a 175 dollari a bottiglia. Qui non si fa cronaca: si fa threat intel. Guardiamo l'infrastruttura, i tag, il pagamento, la risposta delle piattaforme, e il pilatismo di un regolatore che si è dichiarato felicemente incompetente."
+      data-en="On March 26, 2026, CNN published a months-long investigation. Five journalists went undercover inside a 1,000-member Telegram group called &ldquo;Zzz,&rdquo; mapped 20,000 &ldquo;sleep content&rdquo; videos on Motherless.com, documented $20-per-viewer livestreams paid in cryptocurrency, and vendors selling &ldquo;sleeping liquids&rdquo; at $175 per bottle. This isn't news coverage: it's threat intel. We look at the infrastructure, the tagging taxonomy, the payment rails, the platforms' responses, and the Pontius Pilate moment of a regulator that declared itself cheerfully incompetent.">
+      Il 26 marzo 2026 CNN ha pubblicato un'inchiesta durata mesi. Cinque giornalisti si sono infiltrati sotto copertura in un gruppo Telegram da mille utenti chiamato "Zzz", hanno mappato 20.000 video di "sleep content" su Motherless.com, documentato livestream a venti dollari a spettatore pagati in criptovaluta e venditori di "sleeping liquids" a 175 dollari a bottiglia. Qui non si fa cronaca: si fa threat intel. Guardiamo l'infrastruttura, i tag, il pagamento, la risposta delle piattaforme, e il pilatismo di un regolatore che si è dichiarato felicemente incompetente.
+    </p>
+  </div>
+
+  <div class="article-body">
+
+    <div class="trigger-warning">
+      <span class="tw-label" data-it="avvertenza" data-en="content warning">avvertenza</span>
+      <p data-it="Il tema trattato è la violenza sessuale facilitata da sostanze su partner inconsapevoli, e l'infrastruttura digitale che la abilita. Nessun dettaglio operativo, nessun link attivo, nessuna sostanza nominata. Solo analisi tecnica dell'ecosistema. Se stai vivendo una situazione di abuso in Italia, 1522 (anti-violenza) è gratuito, attivo 24/7, multilingue."
+         data-en="This article addresses drug-facilitated sexual violence against unaware partners, and the digital infrastructure enabling it. No operational details, no active links, no substances named. Technical analysis only. If you are in an abusive situation and reading this from Italy, 1522 is the free anti-violence helpline, 24/7, multilingual.">
+        Il tema trattato è la violenza sessuale facilitata da sostanze su partner inconsapevoli, e l'infrastruttura digitale che la abilita. Nessun dettaglio operativo, nessun link attivo, nessuna sostanza nominata. Solo analisi tecnica dell'ecosistema. Se stai vivendo una situazione di abuso in Italia, 1522 (anti-violenza) è gratuito, attivo 24/7, multilingue.
+      </p>
+    </div>
+
+    <!-- Perché pubblichiamo -->
+    <div class="callout">
+      <div class="callout-label" data-it="// perché pubblichiamo questo pezzo" data-en="// why we're publishing this">// perché pubblichiamo questo pezzo</div>
+      <p style="margin-bottom:0.6rem"
+         data-it="&lt;strong&gt;A. Attenzione.&lt;/strong&gt; Portiamo luce su un caso che, senza la CNN, sarebbe rimasto dentro un gruppo privato da mille persone. La forma è tecnica; la sostanza è che mille uomini si sono organizzati per stuprare le proprie compagne e rivenderne il video. Farne notizia è il minimo."
+         data-en="&lt;strong&gt;A. Attention.&lt;/strong&gt; We're shining light on a case that, without CNN, would have stayed inside a private group of a thousand people. The form is technical; the substance is that a thousand men organized themselves to rape their partners and resell the video. Reporting on it is the bare minimum."><strong>A. Attenzione.</strong> Portiamo luce su un caso che, senza la CNN, sarebbe rimasto dentro un gruppo privato da mille persone. La forma è tecnica; la sostanza è che mille uomini si sono organizzati per stuprare le proprie compagne e rivenderne il video. Farne notizia è il minimo.</p>
+      <p style="margin-bottom:0.6rem"
+         data-it="&lt;strong&gt;B. Solidarietà e visibilità.&lt;/strong&gt; Alle sopravvissute, e a chi sta vivendo situazioni simili in silenzio: non siete sole, non siete un errore statistico, e nulla di tutto questo è &lt;em&gt;normalità&lt;/em&gt;. Rendere visibile il meccanismo serve anche a togliere al carnefice la scorciatoia del &ldquo;tanto nessuno lo saprà&rdquo;."
+         data-en="&lt;strong&gt;B. Solidarity and visibility.&lt;/strong&gt; To survivors, and to anyone living through something similar in silence: you are not alone, you are not a statistical error, and none of this is &lt;em&gt;normal&lt;/em&gt;. Making the mechanism visible also takes away the perpetrator's shortcut of &ldquo;no one will ever know.&rdquo;"><strong>B. Solidarietà e visibilità.</strong> Alle sopravvissute, e a chi sta vivendo situazioni simili in silenzio: non siete sole, non siete un errore statistico, e nulla di tutto questo è <em>normalità</em>. Rendere visibile il meccanismo serve anche a togliere al carnefice la scorciatoia del "tanto nessuno lo saprà".</p>
+      <p style="margin-bottom:0"
+         data-it="&lt;strong&gt;C. Come è potuto succedere.&lt;/strong&gt; Il resto dell'articolo è la risposta tecnica a una domanda morale: come fa un gruppo di mille persone con tag pubblici, livestream a pagamento e venditori di sostanze a restare online per anni? Non per magia. Per una catena precisa di fallimenti — di moderazione, di payment rail, di regolatore, di giurisdizione. Vale la pena raccontarla, così la prossima volta magari la catena si spezza prima."
+         data-en="&lt;strong&gt;C. How this could happen.&lt;/strong&gt; The rest of the article is the technical answer to a moral question: how does a thousand-person group with public tags, paid livestreams, and substance vendors stay online for years? Not by magic. By a precise chain of failures — moderation, payment rails, regulator, jurisdiction. It's worth documenting so that next time the chain maybe breaks earlier."><strong>C. Come è potuto succedere.</strong> Il resto dell'articolo è la risposta tecnica a una domanda morale: come fa un gruppo di mille persone con tag pubblici, livestream a pagamento e venditori di sostanze a restare online per anni? Non per magia. Per una catena precisa di fallimenti — di moderazione, di payment rail, di regolatore, di giurisdizione. Vale la pena raccontarla, così la prossima volta magari la catena si spezza prima.</p>
+    </div>
+
+    <!-- Stats hero -->
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num">1.000</div>
+        <div class="stat-label" data-it="utenti gruppo &lsquo;Zzz&rsquo;" data-en="Zzz group members">utenti gruppo 'Zzz'</div>
+        <div class="stat-note" data-it="Telegram, privato, invite-only" data-en="Telegram, private, invite-only">Telegram, privato, invite-only</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">20.000+</div>
+        <div class="stat-label" data-it="video &lsquo;sleep content&rsquo;" data-en="'sleep content' videos">video 'sleep content'</div>
+        <div class="stat-note" data-it="Motherless.com, pubblicamente taggati" data-en="Motherless.com, publicly tagged">Motherless.com, pubblicamente taggati</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">62M</div>
+        <div class="stat-label" data-it="visite febbraio 2026" data-en="visits February 2026">visite febbraio 2026</div>
+        <div class="stat-note" data-it="totali sito Motherless (fonte Snopes)" data-en="total for Motherless (source: Snopes)">totali sito Motherless (fonte Snopes)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num danger">$20</div>
+        <div class="stat-label" data-it="livestream / spettatore" data-en="livestream / viewer">livestream / spettatore</div>
+        <div class="stat-note" data-it="in crypto, direzione real-time" data-en="crypto, real-time direction">in crypto, direzione real-time</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num danger">$175</div>
+        <div class="stat-label" data-it="bottiglia &lsquo;sleeping liquids&rsquo;" data-en="'sleeping liquids' bottle">bottiglia 'sleeping liquids'</div>
+        <div class="stat-note" data-it="venditore Telegram, nord Africa" data-en="Telegram seller, North Africa">venditore Telegram, nord Africa</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">3-20</div>
+        <div class="stat-label" data-it="anni pena art. 197 CP PL" data-en="years, Art. 197 Polish CC">anni pena art. 197 CP PL</div>
+        <div class="stat-note" data-it="forma aggravata, vittima incosciente" data-en="aggravated form, unconscious victim">forma aggravata, vittima incosciente</div>
+      </div>
+    </div>
+    <div class="figure-note" data-it="fig. 1 — numeri chiave del caso, ricavati dall'inchiesta CNN del 26 mar 2026 e fonti collegate" data-en="fig. 1 — key numbers of the case, from the CNN investigation of Mar 26, 2026 and linked sources">fig. 1 — numeri chiave del caso, ricavati dall'inchiesta CNN del 26 mar 2026 e fonti collegate</div>
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <ul>
+        <li data-it="&lt;strong&gt;Inchiesta&lt;/strong&gt;: CNN, pubblicata il 26 marzo 2026. Giornalisti: Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón."
+            data-en="&lt;strong&gt;Investigation&lt;/strong&gt;: CNN, published March 26, 2026. Reporters: Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón."><strong>Inchiesta</strong>: CNN, pubblicata il 26 marzo 2026. Giornalisti: Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón.</li>
+        <li data-it="&lt;strong&gt;Perimetro&lt;/strong&gt;: gruppo Telegram privato &ldquo;Zzz&rdquo; (~1.000 utenti) + sito Motherless.com (20.000+ video taggati &ldquo;sleep content&rdquo;, 62M visite totali a febbraio 2026)."
+            data-en="&lt;strong&gt;Scope&lt;/strong&gt;: private Telegram group &ldquo;Zzz&rdquo; (~1,000 users) + Motherless.com (20,000+ videos tagged as &ldquo;sleep content,&rdquo; 62M total site visits in February 2026)."><strong>Perimetro</strong>: gruppo Telegram privato "Zzz" (~1.000 utenti) + sito Motherless.com (20.000+ video taggati "sleep content", 62M visite totali a febbraio 2026).</li>
+        <li data-it="&lt;strong&gt;Monetizzazione&lt;/strong&gt;: livestream a ~20 USD/spettatore in crypto, con direzione real-time del perpetratore; &ldquo;sleeping liquids&rdquo; a 175 USD/bottiglia da venditore Telegram sulla costa nordafricana."
+            data-en="&lt;strong&gt;Monetization&lt;/strong&gt;: livestreams at ~$20/viewer in crypto, with real-time direction of the perpetrator; &ldquo;sleeping liquids&rdquo; at $175/bottle from a Telegram seller on the North African coast."><strong>Monetizzazione</strong>: livestream a ~20 USD/spettatore in crypto, con direzione real-time del perpetratore; "sleeping liquids" a 175 USD/bottiglia da venditore Telegram sulla costa nordafricana.</li>
+        <li data-it="&lt;strong&gt;Tassonomia&lt;/strong&gt;: i video erano indicizzati con hashtag espliciti come &lt;code&gt;#passedout&lt;/code&gt; e &lt;code&gt;#eyecheck&lt;/code&gt; (alcuni oltre 50.000 visualizzazioni). Non era steganografia: era SEO."
+            data-en="&lt;strong&gt;Taxonomy&lt;/strong&gt;: videos were indexed with explicit hashtags like &lt;code&gt;#passedout&lt;/code&gt; and &lt;code&gt;#eyecheck&lt;/code&gt; (some over 50,000 views). This wasn't steganography: it was SEO."><strong>Tassonomia</strong>: i video erano indicizzati con hashtag espliciti come <code>#passedout</code> e <code>#eyecheck</code> (alcuni oltre 50.000 visualizzazioni). Non era steganografia: era SEO.</li>
+        <li data-it="&lt;strong&gt;Infrastruttura legale&lt;/strong&gt;: Motherless.com è di proprietà di Kick Online Entertainment S.A., registrata in Lussemburgo. Ofcom UK l'11 febbraio 2026 ha multato l'entità £800.000 (~$1,1M), ma ha dichiarato che decidere cosa è illegale &ldquo;è compito della piattaforma, non del regolatore&rdquo;."
+            data-en="&lt;strong&gt;Legal entity&lt;/strong&gt;: Motherless.com is owned by Kick Online Entertainment S.A., registered in Luxembourg. On Feb 11, 2026, UK's Ofcom fined the entity £800,000 (~$1.1M) but stated that deciding whether content is illegal &ldquo;is the platform's job, not the regulator's.&rdquo;"><strong>Infrastruttura legale</strong>: Motherless.com è di proprietà di Kick Online Entertainment S.A., registrata in Lussemburgo. Ofcom UK l'11 febbraio 2026 ha multato l'entità £800.000 (~$1,1M), ma ha dichiarato che decidere cosa è illegale "è compito della piattaforma, non del regolatore".</li>
+        <li data-it="&lt;strong&gt;Arresto&lt;/strong&gt;: 9 aprile 2026, Lublino (Polonia). Un sospetto identificato come &ldquo;Piotr&rdquo; ha confessato. Accusa: art. 197 Codice Penale polacco — forma aggravata di stupro su vittima impossibilitata a opporre resistenza. Pena prevista: 3-20 anni."
+            data-en="&lt;strong&gt;Arrest&lt;/strong&gt;: April 9, 2026, Lublin (Poland). A suspect identified as &ldquo;Piotr&rdquo; confessed. Charge: Art. 197 of the Polish Criminal Code — aggravated rape where the victim cannot resist. Sentence: 3-20 years."><strong>Arresto</strong>: 9 aprile 2026, Lublino (Polonia). Un sospetto identificato come "Piotr" ha confessato. Accusa: art. 197 Codice Penale polacco — forma aggravata di stupro su vittima impossibilitata a opporre resistenza. Pena prevista: 3-20 anni.</li>
+        <li data-it="&lt;strong&gt;Esito piattaforme&lt;/strong&gt;: il gruppo &ldquo;Zzz&rdquo; è stato rimosso da Telegram &lt;em&gt;dopo&lt;/em&gt; la pubblicazione. Motherless non ha risposto alle richieste di commento. Il 17 aprile 2026 è partita una petizione pubblica per il deplatforming."
+            data-en="&lt;strong&gt;Platform outcome&lt;/strong&gt;: the &ldquo;Zzz&rdquo; group was removed from Telegram &lt;em&gt;after&lt;/em&gt; publication. Motherless did not respond to requests for comment. On April 17, 2026, a public petition for deplatforming was launched."><strong>Esito piattaforme</strong>: il gruppo "Zzz" è stato rimosso da Telegram <em>dopo</em> la pubblicazione. Motherless non ha risposto alle richieste di commento. Il 17 aprile 2026 è partita una petizione pubblica per il deplatforming.</li>
+      </ul>
+      <p data-it="In sintesi: abbiamo tag pubblici, payment rail in crypto, hosting in un paradiso fiscale, moderazione &ldquo;AI-assisted&rdquo; che non vede i suoi stessi hashtag, e un regolatore che ammette pubblicamente di aver delegato l'accertamento dell'illegalità all'azienda che dovrebbe sorvegliare. Non è threat intelligence: è &lt;em&gt;autopsia&lt;/em&gt;."
+         data-en="In short: we have public tags, crypto payment rails, hosting in a tax haven, &ldquo;AI-assisted&rdquo; moderation that can't read its own hashtags, and a regulator publicly admitting it delegated the question of legality to the company it's supposed to oversee. This isn't threat intelligence: it's an &lt;em&gt;autopsy&lt;/em&gt;.">In sintesi: abbiamo tag pubblici, payment rail in crypto, hosting in un paradiso fiscale, moderazione "AI-assisted" che non vede i suoi stessi hashtag, e un regolatore che ammette pubblicamente di aver delegato l'accertamento dell'illegalità all'azienda che dovrebbe sorvegliare. Non è threat intelligence: è <em>autopsia</em>.</p>
+    </div>
+
+    <!-- Personal note - docente -->
+    <div class="personal-note">
+      <span class="pn-label" data-it="// dal banco del prof" data-en="// from the teacher's desk">// dal banco del prof</span>
+      <p data-it="Scrivo questo pezzo con una responsabilità in più. Oltre a gestire questo blog, &lt;strong&gt;entro regolarmente nelle scuole&lt;/strong&gt; — superiori e università — a parlare di sicurezza informatica, di OSINT, di come si riconosce una truffa online, di come funzionano gli ecosistemi digitali del male. E dentro quelle aule ci sono ragazze e ragazzi di quindici, sedici, diciannove anni che si affacciano per la prima volta alle relazioni, ai consumi digitali, al porno, al consenso."
+         data-en="I'm writing this piece with added responsibility. Besides running this blog, I &lt;strong&gt;regularly teach in schools&lt;/strong&gt; — high schools and universities — about information security, OSINT, how to spot an online scam, how the digital ecosystems of harm operate. Inside those classrooms there are fifteen-, sixteen-, nineteen-year-olds discovering relationships, digital consumption, porn, and consent for the first time.">
+         Scrivo questo pezzo con una responsabilità in più. Oltre a gestire questo blog, <strong>entro regolarmente nelle scuole</strong> — superiori e università — a parlare di sicurezza informatica, di OSINT, di come si riconosce una truffa online, di come funzionano gli ecosistemi digitali del male. E dentro quelle aule ci sono ragazze e ragazzi di quindici, sedici, diciannove anni che si affacciano per la prima volta alle relazioni, ai consumi digitali, al porno, al consenso.
+      </p>
+      <p data-it="Il tema trattato qui &lt;strong&gt;non è un fatto di cronaca lontano&lt;/strong&gt;. È la forma estrema — documentata, tracciata, quantificata — di una normalizzazione che inizia molto prima: con un video visto &ldquo;per gioco&rdquo;, con un tag cliccato &ldquo;per curiosità&rdquo;, con una chat &ldquo;dove tanto si scherza&rdquo;. Un'aula in cui trenta studenti sentono parlare di &lsquo;#passedout&rsquo; come categoria con 20.000 video e 50.000 views per clip, è un'aula che non tornerà più a pensare che &ldquo;porno è porno&rdquo; e che la moderazione &ldquo;ci penserà qualcuno&rdquo;. La vergogna — quella brutta, quella utile — la porta chi lo ha permesso, non chi lo subisce."
+         data-en="The topic of this piece is &lt;strong&gt;not a distant news story&lt;/strong&gt;. It's the extreme form — documented, tracked, quantified — of a normalization that starts much earlier: with a video watched &ldquo;for a laugh,&rdquo; a tag clicked &ldquo;out of curiosity,&rdquo; a chat &ldquo;where we're just joking.&rdquo; A classroom where thirty students hear about &lsquo;#passedout&rsquo; as a category with 20,000 videos and 50,000 views per clip is a classroom that will never go back to thinking &ldquo;porn is porn&rdquo; and that moderation is &ldquo;someone else's problem.&rdquo; The shame — the ugly kind, the useful kind — belongs to those who allowed it, not those who suffered it.">
+         Il tema trattato qui <strong>non è un fatto di cronaca lontano</strong>. È la forma estrema — documentata, tracciata, quantificata — di una normalizzazione che inizia molto prima: con un video visto "per gioco", con un tag cliccato "per curiosità", con una chat "dove tanto si scherza". Un'aula in cui trenta studenti sentono parlare di '#passedout' come categoria con 20.000 video e 50.000 views per clip, è un'aula che non tornerà più a pensare che "porno è porno" e che la moderazione "ci penserà qualcuno". La vergogna — quella brutta, quella utile — la porta chi lo ha permesso, non chi lo subisce.
+      </p>
+      <p data-it="Mi preoccupa — tecnicamente e umanamente — che un gruppo Telegram di mille uomini abbia potuto operare così a lungo. Mi preoccupa che la parola &ldquo;mogli&rdquo; compaia in quel contesto. Mi preoccupa che la pedagogia del consenso sia ancora un pezzo opzionale del curricolo, mentre &ldquo;#eyecheck&rdquo; è un tag con pagina di landing e view counter. Se insegni, se educhi, se fai genitorialità digitale, se coordini un CERT, se sei un adolescente che prova a capire dove finisce il &ldquo;tanto è solo un meme&rdquo;: questo articolo ti riguarda, &lt;em&gt;prima&lt;/em&gt; della parte sulla tassonomia dei tag."
+         data-en="It worries me — technically and humanly — that a Telegram group of a thousand men could operate this long. It worries me that the word &ldquo;wives&rdquo; appears in that context. It worries me that consent pedagogy is still an optional elective while &ldquo;#eyecheck&rdquo; is a tag with a landing page and a view counter. If you teach, if you raise kids, if you do digital parenting, if you run a CERT, if you're a teenager trying to figure out where &ldquo;it's just a meme&rdquo; stops: this article concerns you, &lt;em&gt;before&lt;/em&gt; the part about tag taxonomies.">
+         Mi preoccupa — tecnicamente e umanamente — che un gruppo Telegram di mille uomini abbia potuto operare così a lungo. Mi preoccupa che la parola "mogli" compaia in quel contesto. Mi preoccupa che la pedagogia del consenso sia ancora un pezzo opzionale del curricolo, mentre "#eyecheck" è un tag con pagina di landing e view counter. Se insegni, se educhi, se fai genitorialità digitale, se coordini un CERT, se sei un adolescente che prova a capire dove finisce il "tanto è solo un meme": questo articolo ti riguarda, <em>prima</em> della parte sulla tassonomia dei tag.
+      </p>
+    </div>
+
+    <!-- Premessa -->
+    <h2 data-it="Premessa: perché ne scrive un blog di security" data-en="Preface: why a security blog is writing about this">Premessa: perché ne scrive un blog di security</h2>
+
+    <p data-it="Di solito qui si parla di SSRF, IAM misconfiguration, prompt injection, drainer di crypto. Roba dove il sangue è digitale e il peggio che possa succedere è che qualcuno perda TRX. Oggi no. Oggi il vettore sono le persone, il payload è chimico, e l'infrastruttura è un gruppo Telegram più una categoria di un sito porno con 62 milioni di visite al mese."
+       data-en="Usually this blog is about SSRF, IAM misconfigurations, prompt injection, crypto drainers. Things where the blood is digital and the worst that can happen is someone loses TRX. Not today. Today the vector is people, the payload is chemical, and the infrastructure is a Telegram group plus a tagged category on a porn site with 62 million monthly visits.">
+      Di solito qui si parla di SSRF, IAM misconfiguration, prompt injection, drainer di crypto. Roba dove il sangue è digitale e il peggio che possa succedere è che qualcuno perda TRX. Oggi no. Oggi il vettore sono le persone, il payload è chimico, e l'infrastruttura è un gruppo Telegram più una categoria di un sito porno con 62 milioni di visite al mese.
+    </p>
+
+    <p data-it="Il motivo per cui ne scriviamo è tecnico. Il caso CNN è un manuale di fallimento sistemico di content moderation, di platform accountability e di cooperazione tra OSINT giornalistica e law enforcement. Se lavori in trust &amp; safety, in CERT, in una procura che si occupa di cybercrime, o se semplicemente vuoi capire &lt;em&gt;perché&lt;/em&gt; certi contenuti restano online per anni pur essendo pubblicamente indicizzati — questo è materiale di studio."
+       data-en="The reason to cover it is technical. The CNN case is a textbook example of systemic content-moderation failure, platform accountability void, and cooperation between investigative OSINT and law enforcement. If you work in trust &amp; safety, in a CERT, in a cybercrime prosecutor's office, or you just want to understand &lt;em&gt;why&lt;/em&gt; certain content stays up for years despite being publicly indexed — this is required reading.">
+      Il motivo per cui ne scriviamo è tecnico. Il caso CNN è un manuale di fallimento sistemico di content moderation, di platform accountability e di cooperazione tra OSINT giornalistica e law enforcement. Se lavori in trust &amp; safety, in CERT, in una procura che si occupa di cybercrime, o se semplicemente vuoi capire <em>perché</em> certi contenuti restano online per anni pur essendo pubblicamente indicizzati — questo è materiale di studio.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// nota sul lessico" data-en="// terminology note">// nota sul lessico</div>
+      <p data-it="Useremo &ldquo;operatori&rdquo; per gli utenti del gruppo Zzz, &ldquo;piattaforma host&rdquo; per Motherless, e &ldquo;piattaforma C2&rdquo; per Telegram (non è C2 in senso stretto, ma il comportamento sociale è quello: comando, coordinamento, exfiltration di contenuti). Le vittime sono &lt;em&gt;vittime&lt;/em&gt;, non target. Qui non ironizziamo su di loro."
+         data-en="We'll use &ldquo;operators&rdquo; for the Zzz group members, &ldquo;host platform&rdquo; for Motherless, and &ldquo;C2 platform&rdquo; for Telegram (not strictly C2, but the social behavior maps: command, coordination, content exfiltration). Victims are &lt;em&gt;victims&lt;/em&gt;, not targets. We're not ironizing them.">
+        Useremo "operatori" per gli utenti del gruppo Zzz, "piattaforma host" per Motherless, e "piattaforma C2" per Telegram (non è C2 in senso stretto, ma il comportamento sociale è quello: comando, coordinamento, exfiltration di contenuti). Le vittime sono <em>vittime</em>, non target. Qui non ironizziamo su di loro.
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <h2 data-it="Timeline verificata" data-en="Verified timeline">Timeline verificata</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">11 Feb 2026</div>
+        <div class="tl-text" data-it="Ofcom UK emette una &lt;strong&gt;Confirmation Decision&lt;/strong&gt; e multa &lt;strong&gt;Kick Online Entertainment S.A.&lt;/strong&gt; (proprietaria di Motherless.com, sede Lussemburgo) per £800.000 (~$1,1M). La multa è procedurale — mancata compliance all'Online Safety Act su processi di moderazione — non riguarda i contenuti specifici." data-en="UK's Ofcom issues a &lt;strong&gt;Confirmation Decision&lt;/strong&gt; and fines &lt;strong&gt;Kick Online Entertainment S.A.&lt;/strong&gt; (owner of Motherless.com, based in Luxembourg) £800,000 (~$1.1M). The fine is procedural — Online Safety Act compliance on moderation processes — not about specific content.">Ofcom UK emette una <strong>Confirmation Decision</strong> e multa <strong>Kick Online Entertainment S.A.</strong> (proprietaria di Motherless.com, sede Lussemburgo) per £800.000 (~$1,1M). La multa è procedurale — mancata compliance all'Online Safety Act su processi di moderazione — non riguarda i contenuti specifici.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">26 Mar 2026</div>
+        <div class="tl-text" data-it="CNN pubblica l'inchiesta &lt;em&gt;&ldquo;Exposing a global online rape academy&rdquo;&lt;/em&gt;. Il gruppo &ldquo;Zzz&rdquo; è tuttora online al momento della pubblicazione." data-en="CNN publishes the investigation &lt;em&gt;&ldquo;Exposing a global online rape academy&rdquo;&lt;/em&gt;. The &ldquo;Zzz&rdquo; group is still online at the time of publication.">CNN pubblica l'inchiesta <em>"Exposing a global online rape academy"</em>. Il gruppo "Zzz" è tuttora online al momento della pubblicazione.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">27 Mar 2026</div>
+        <div class="tl-text" data-it="PBS Amanpour &amp; Company rilancia il caso in prime time USA. Il gruppo &ldquo;Zzz&rdquo; scompare da Telegram nelle ore successive." data-en="PBS Amanpour &amp; Company runs the story in US prime time. The &ldquo;Zzz&rdquo; group disappears from Telegram within hours.">PBS Amanpour &amp; Company rilancia il caso in prime time USA. Il gruppo "Zzz" scompare da Telegram nelle ore successive.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">9 Apr 2026</div>
+        <div class="tl-text" data-it="Arresto in &lt;strong&gt;Lublino, Polonia&lt;/strong&gt;. L'uomo — identificato solo come &ldquo;Piotr&rdquo; dalla stampa — confessa. Procura distrettuale di Lublino, accusa ex art. 197 CP polacco (forma aggravata, vittima incapace di opporre resistenza). Pena edittale: 3-20 anni." data-en="Arrest in &lt;strong&gt;Lublin, Poland&lt;/strong&gt;. The man — identified only as &ldquo;Piotr&rdquo; by the press — confesses. Lublin District Prosecutor's Office, charge under Art. 197 of the Polish Criminal Code (aggravated form, victim unable to resist). Statutory sentence: 3-20 years.">Arresto in <strong>Lublino, Polonia</strong>. L'uomo — identificato solo come "Piotr" dalla stampa — confessa. Procura distrettuale di Lublino, accusa ex art. 197 CP polacco (forma aggravata, vittima incapace di opporre resistenza). Pena edittale: 3-20 anni.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">17 Apr 2026</div>
+        <div class="tl-text" data-it="Parte una petizione pubblica per chiedere il &lt;strong&gt;deplatforming&lt;/strong&gt; di Motherless da parte di payment processor, ad network e registrar. CNN ne dà copertura video." data-en="A public petition launches demanding &lt;strong&gt;deplatforming&lt;/strong&gt; of Motherless by payment processors, ad networks, and registrars. CNN gives it video coverage.">Parte una petizione pubblica per chiedere il <strong>deplatforming</strong> di Motherless da parte di payment processor, ad network e registrar. CNN ne dà copertura video.</div>
+      </div>
+    </div>
+
+    <!-- 01 OSINT Methodology -->
+    <h2 data-it="01 — Metodologia OSINT: come CNN ha bucato la bolla" data-en="01 — OSINT methodology: how CNN pierced the bubble">01 — Metodologia OSINT: come CNN ha bucato la bolla</h2>
+
+    <p data-it="La parte che più interessa un analista threat intel è &lt;em&gt;come ci sono arrivati&lt;/em&gt;. Le ricostruzioni pubbliche di CNN descrivono una catena standard di &lt;strong&gt;pivoting OSINT&lt;/strong&gt; — le stesse tecniche che si usano per mappare infrastrutture C2 di malware, applicate a un ecosistema umano."
+       data-en="The part that most interests a threat intel analyst is &lt;em&gt;how they got there&lt;/em&gt;. CNN's public reconstruction describes a standard &lt;strong&gt;OSINT pivoting&lt;/strong&gt; chain — the same techniques used to map malware C2 infrastructure, applied to a human ecosystem.">
+      La parte che più interessa un analista threat intel è <em>come ci sono arrivati</em>. Le ricostruzioni pubbliche di CNN descrivono una catena standard di <strong>pivoting OSINT</strong> — le stesse tecniche che si usano per mappare infrastrutture C2 di malware, applicate a un ecosistema umano.
+    </p>
+
+    <div class="code-block"><pre><span class="comment" data-it="// Catena di pivoting OSINT — ricostruzione pubblica" data-en="// OSINT pivoting chain — public reconstruction">// Catena di pivoting OSINT — ricostruzione pubblica</span>
+
+[ 01 ] <span class="neutral">Seed discovery</span>      → <span data-it="Motherless.com, tag pubblici (#passedout, #eyecheck)" data-en="Motherless.com, public tags (#passedout, #eyecheck)">Motherless.com, tag pubblici (#passedout, #eyecheck)</span>
+[ 02 ] <span class="neutral">Comment mining</span>     → <span data-it="un utente del sito linka il gruppo Telegram &quot;Zzz&quot;" data-en="a site user links the Telegram group &quot;Zzz&quot;">un utente del sito linka il gruppo Telegram "Zzz"</span>
+[ 03 ] <span class="neutral">Covert enrollment</span>  → <span data-it="creazione di" data-en="creation of">creazione di</span> <span class="ok">sock puppet</span> <span data-it="credibili" data-en="that pass sniff test">credibili</span>
+[ 04 ] <span class="neutral">Lurk + map</span>         → <span data-it="osservazione passiva, mappatura ruoli/vendor" data-en="passive observation, mapping roles/vendors">osservazione passiva, mappatura ruoli/vendor</span>
+[ 05 ] <span class="neutral">Engagement</span>         → <span data-it="scambio messaggi con un operatore loquace" data-en="messaging exchange with a talkative operator">scambio messaggi con un operatore loquace</span>
+[ 06 ] <span class="neutral">Geo-pivoting</span>       → <span data-it="dettagli colloquiali" data-en="conversational details">dettagli colloquiali</span> <span class="danger">→ Lublino, PL</span>
+[ 07 ] <span class="neutral">Physical confirmation</span> → <span data-it="viaggio in loco per conferma identità" data-en="on-site travel for identity confirmation">viaggio in loco per conferma identità</span>
+[ 08 ] <span class="neutral">Handoff LE</span>         → <span data-it="coordinamento con Procura di Lublino" data-en="coordination with Lublin Prosecutor's Office">coordinamento con Procura di Lublino</span>
+[ 09 ] <span class="neutral">Publication</span>        → 26 Mar 2026
+[ 10 ] <span class="neutral">Follow-up</span>          → <span data-it="arresto 9 Apr 2026, confessione" data-en="arrest Apr 9, 2026, confession">arresto 9 Apr 2026, confessione</span></pre></div>
+
+    <p data-it="Tradotto per chi lavora con le macchine: è un &lt;strong&gt;kill chain&lt;/strong&gt; con steps di ricognizione pubblica, compromissione sociale di un gruppo privato, enumerazione dei membri, selezione del target più rumoroso (quello con OPSEC peggiore), triangolazione geografica da side-channel conversazionali, e handoff alla giurisdizione competente. La &ldquo;vulnerabilità&rdquo; sfruttata è una sola: l'&lt;strong&gt;over-sharing&lt;/strong&gt; compulsivo in un ambiente percepito come safe."
+       data-en="Translated for the machine people: this is a &lt;strong&gt;kill chain&lt;/strong&gt; with public recon, social compromise of a private group, member enumeration, selection of the loudest target (the one with the worst OPSEC), geographic triangulation from conversational side-channels, and handoff to the competent jurisdiction. The &ldquo;vulnerability&rdquo; exploited is a single one: compulsive &lt;strong&gt;over-sharing&lt;/strong&gt; in an environment perceived as safe.">
+      Tradotto per chi lavora con le macchine: è un <strong>kill chain</strong> con steps di ricognizione pubblica, compromissione sociale di un gruppo privato, enumerazione dei membri, selezione del target più rumoroso (quello con OPSEC peggiore), triangolazione geografica da side-channel conversazionali, e handoff alla giurisdizione competente. La "vulnerabilità" sfruttata è una sola: l'<strong>over-sharing</strong> compulsivo in un ambiente percepito come safe.
+    </p>
+
+    <p data-it="Chi ha fatto un'operazione undercover sa che la fase più delicata è la quattro: la presenza passiva. Un nuovo iscritto che non interagisce per settimane è sospetto. Un nuovo iscritto che si presenta col trash talk giusto, appena ironico, fonde col rumore di fondo. CNN non ha rivelato la tradecraft — e fa bene, perché la stessa tecnica dovrà essere riutilizzata. Ma la struttura è pubblica: si trova negli handbook di &lt;em&gt;Bellingcat&lt;/em&gt; e nei corsi SANS di OSINT avanzato."
+       data-en="Anyone who has run an undercover operation knows the most delicate phase is number four: passive presence. A new joiner who doesn't interact for weeks is suspicious. A new joiner who shows up with the right trash talk, mildly ironic, blends into the noise floor. CNN hasn't disclosed the tradecraft — and rightly so, because the technique will need to be reused. But the structure is public: see &lt;em&gt;Bellingcat&lt;/em&gt; handbooks and SANS advanced OSINT courses.">
+      Chi ha fatto un'operazione undercover sa che la fase più delicata è la quattro: la presenza passiva. Un nuovo iscritto che non interagisce per settimane è sospetto. Un nuovo iscritto che si presenta col trash talk giusto, appena ironico, fonde col rumore di fondo. CNN non ha rivelato la tradecraft — e fa bene, perché la stessa tecnica dovrà essere riutilizzata. Ma la struttura è pubblica: si trova negli handbook di <em>Bellingcat</em> e nei corsi SANS di OSINT avanzato.
+    </p>
+
+    <!-- 02 Infrastructure -->
+    <h2 data-it="02 — L'infrastruttura: due piattaforme, un Lussemburgo, zero attrito" data-en="02 — The infrastructure: two platforms, one Luxembourg, zero friction">02 — L'infrastruttura: due piattaforme, un Lussemburgo, zero attrito</h2>
+
+    <p data-it="La coppia &lt;strong&gt;Motherless + Telegram&lt;/strong&gt; è ciò che in gergo si chiama un'architettura &lt;em&gt;public-to-private funnel&lt;/em&gt;. Il sito pubblico fa da &lt;strong&gt;attractor&lt;/strong&gt; — traffico di massa, SEO friendly, indicizzato. I commenti e i profili funzionano da ponte. Il gruppo Telegram è il &lt;strong&gt;canale privilegiato&lt;/strong&gt;, dove il contenuto più esplicito, l'operational chat e i servizi a pagamento si scambiano fuori dallo sguardo degli scanner automatici delle tube pubbliche."
+       data-en="The &lt;strong&gt;Motherless + Telegram&lt;/strong&gt; pairing is what's jargon-called a &lt;em&gt;public-to-private funnel&lt;/em&gt;. The public site is the &lt;strong&gt;attractor&lt;/strong&gt; — mass traffic, SEO friendly, indexed. Comments and profiles act as the bridge. The Telegram group is the &lt;strong&gt;privileged channel&lt;/strong&gt;, where the most explicit content, operational chat, and paid services are exchanged away from the automated scanners of public tubes.">
+      La coppia <strong>Motherless + Telegram</strong> è ciò che in gergo si chiama un'architettura <em>public-to-private funnel</em>. Il sito pubblico fa da <strong>attractor</strong> — traffico di massa, SEO friendly, indicizzato. I commenti e i profili funzionano da ponte. Il gruppo Telegram è il <strong>canale privilegiato</strong>, dove il contenuto più esplicito, l'operational chat e i servizi a pagamento si scambiano fuori dallo sguardo degli scanner automatici delle tube pubbliche.
+    </p>
+
+    <div class="arch-diagram">
+      <svg viewBox="0 0 820 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Public-to-private funnel architecture diagram">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff6a00"/></marker>
+          <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff3333"/></marker>
+        </defs>
+        <style>
+          .box{fill:#101010;stroke:#2a2a2a;stroke-width:1.5}
+          .boxOrange{fill:#101010;stroke:#ff6a00;stroke-width:1.5}
+          .boxRed{fill:#101010;stroke:#ff3333;stroke-width:1.5}
+          .lbl{font-family:'Share Tech Mono',monospace;font-size:11px;fill:#888;letter-spacing:1.5px;text-transform:uppercase}
+          .ttl{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;fill:#fff;letter-spacing:0.5px}
+          .desc{font-family:'Barlow',sans-serif;font-size:11px;fill:#bbb}
+          .num{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;fill:#ff6a00}
+          .flow{fill:none;stroke:#ff6a00;stroke-width:1.6}
+          .flowRed{fill:none;stroke:#ff3333;stroke-width:1.6;stroke-dasharray:4 3}
+          .step{font-family:'Share Tech Mono',monospace;font-size:9.5px;fill:#ff6a00;letter-spacing:0.5px}
+        </style>
+        <text x="410" y="22" text-anchor="middle" class="lbl">fig. 2 — public-to-private funnel architecture</text>
+
+        <!-- Layer 1: Attractor -->
+        <rect x="30" y="50" width="220" height="100" class="boxOrange" rx="2"/>
+        <text x="45" y="72" class="num">01</text>
+        <text x="75" y="72" class="lbl">attractor</text>
+        <text x="45" y="97" class="ttl">Motherless.com</text>
+        <text x="45" y="117" class="desc">20.000+ video tag #passedout</text>
+        <text x="45" y="132" class="desc">#eyecheck — SEO pubblico</text>
+        <text x="45" y="146" class="desc" style="fill:#666">62M visits / feb 2026</text>
+
+        <!-- Layer 2: Bridge -->
+        <rect x="300" y="50" width="220" height="100" class="box" rx="2"/>
+        <text x="315" y="72" class="num">02</text>
+        <text x="345" y="72" class="lbl">bridge</text>
+        <text x="315" y="97" class="ttl" data-it="Commenti + profili" data-en="Comments + profiles">Commenti + profili</text>
+        <text x="315" y="117" class="desc" data-it="Link Telegram in chiaro" data-en="Plaintext Telegram links">Link Telegram in chiaro</text>
+        <text x="315" y="132" class="desc" data-it="Zero rate-limit invite" data-en="Zero invite rate-limit">Zero rate-limit invite</text>
+        <text x="315" y="146" class="desc" style="fill:#666" data-it="self-selection dell'utenza" data-en="user self-selection">self-selection dell'utenza</text>
+
+        <!-- Layer 3: C2 -->
+        <rect x="570" y="50" width="220" height="100" class="boxRed" rx="2"/>
+        <text x="585" y="72" class="num" style="fill:#ff3333">03</text>
+        <text x="615" y="72" class="lbl" style="fill:#ff5555">c2 / coord.</text>
+        <text x="585" y="97" class="ttl">Telegram "Zzz"</text>
+        <text x="585" y="117" class="desc" data-it="Gruppo privato ~1.000 utenti" data-en="Private group ~1,000 users">Gruppo privato ~1.000 utenti</text>
+        <text x="585" y="132" class="desc" data-it="Marketplace, livestream, chat" data-en="Marketplace, livestream, chat">Marketplace, livestream, chat</text>
+        <text x="585" y="146" class="desc" style="fill:#666" data-it="media hosted su Telegram" data-en="Telegram-hosted media">media hosted su Telegram</text>
+
+        <!-- Flow arrows top row -->
+        <path d="M250,100 L300,100" class="flow" marker-end="url(#arr)"/>
+        <path d="M520,100 L570,100" class="flow" marker-end="url(#arr)"/>
+        <text x="275" y="92" class="step" text-anchor="middle">discovery</text>
+        <text x="545" y="92" class="step" text-anchor="middle">funnel</text>
+
+        <!-- Layer 4: Payment -->
+        <rect x="170" y="210" width="220" height="100" class="box" rx="2"/>
+        <text x="185" y="232" class="num">04</text>
+        <text x="215" y="232" class="lbl">payment</text>
+        <text x="185" y="257" class="ttl" data-it="Wallet crypto (non reg.)" data-en="Crypto wallet (unreg.)">Wallet crypto (non reg.)</text>
+        <text x="185" y="277" class="desc" data-it="$20/livestream, $175/bottiglia" data-en="$20/livestream, $175/bottle">$20/livestream, $175/bottiglia</text>
+        <text x="185" y="292" class="desc" style="fill:#ff5555" data-it="fuori da Mastercard/Visa rules" data-en="bypasses Mastercard/Visa rules">fuori da Mastercard/Visa rules</text>
+
+        <!-- Layer 5: Legal shell -->
+        <rect x="440" y="210" width="260" height="100" class="box" rx="2"/>
+        <text x="455" y="232" class="num">05</text>
+        <text x="485" y="232" class="lbl">legal shell</text>
+        <text x="455" y="257" class="ttl">Kick Online Entertainment S.A.</text>
+        <text x="455" y="277" class="desc" data-it="Proprietà Motherless — sede LU" data-en="Owns Motherless — based in LU">Proprietà Motherless — sede LU</text>
+        <text x="455" y="292" class="desc" style="fill:#ff5555" data-it="giurisdizione favorevole" data-en="favorable jurisdiction">giurisdizione favorevole</text>
+
+        <!-- Flow arrows bottom connections -->
+        <path d="M680,150 Q680,180 570,260" class="flow" marker-end="url(#arr)"/>
+        <path d="M680,150 Q680,170 280,210" class="flow" marker-end="url(#arr)"/>
+        <path d="M140,150 L280,210" class="flow" marker-end="url(#arr)"/>
+        <text x="500" y="200" class="step" text-anchor="middle" data-it="rev. streams" data-en="rev. streams">rev. streams</text>
+
+        <!-- Law enforcement side reference -->
+        <rect x="30" y="210" width="130" height="100" class="box" rx="2" style="fill:#0a0a0a;stroke-dasharray:4 3"/>
+        <text x="45" y="232" class="num" style="fill:#00ff88">LE</text>
+        <text x="95" y="232" class="lbl" style="fill:#00ff88">handoff</text>
+        <text x="45" y="257" class="ttl" style="font-size:14px" data-it="Procura Lublino" data-en="Lublin Pros.">Procura Lublino</text>
+        <text x="45" y="277" class="desc" data-it="art. 197 CP PL" data-en="Art. 197 Polish CC">art. 197 CP PL</text>
+        <text x="45" y="292" class="desc" style="fill:#666" data-it="arresto 9 apr 2026" data-en="arrest Apr 9, 2026">arresto 9 apr 2026</text>
+
+        <path d="M670,290 Q400,340 160,290" class="flowRed" marker-end="url(#arrR)"/>
+        <text x="410" y="345" text-anchor="middle" class="step" style="fill:#ff5555" data-it="osint + undercover → handoff" data-en="osint + undercover → handoff">osint + undercover → handoff</text>
+      </svg>
+      <div class="arch-caption" data-it="architettura public-to-private funnel — ricostruzione basata su CNN (26 mar 2026)" data-en="public-to-private funnel architecture — reconstruction based on CNN (Mar 26, 2026)">architettura public-to-private funnel — ricostruzione basata su CNN (26 mar 2026)</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-it="Layer" data-en="Layer">Layer</th>
+          <th data-it="Piattaforma" data-en="Platform">Piattaforma</th>
+          <th data-it="Funzione" data-en="Function">Funzione</th>
+          <th data-it="Caratteristica tecnica" data-en="Technical feature">Caratteristica tecnica</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-it="Attractor" data-en="Attractor">Attractor</td>
+          <td><strong>Motherless.com</strong></td>
+          <td data-it="Indicizzazione pubblica, discovery via tag" data-en="Public indexing, discovery via tags">Indicizzazione pubblica, discovery via tag</td>
+          <td data-it="20.000+ video, tag &lt;code&gt;#passedout&lt;/code&gt; &lt;code&gt;#eyecheck&lt;/code&gt;, 62M visite mese totale" data-en="20,000+ videos, tags &lt;code&gt;#passedout&lt;/code&gt; &lt;code&gt;#eyecheck&lt;/code&gt;, 62M total monthly visits">20.000+ video, tag <code>#passedout</code> <code>#eyecheck</code>, 62M visite mese totale</td>
+        </tr>
+        <tr>
+          <td data-it="Bridge" data-en="Bridge">Bridge</td>
+          <td data-it="Commenti + descrizioni utente" data-en="Comments + user descriptions">Commenti + descrizioni utente</td>
+          <td data-it="Link al gruppo privato condivisi in chiaro" data-en="Private group links shared in the clear">Link al gruppo privato condivisi in chiaro</td>
+          <td class="danger" data-it="Zero auth, zero rate-limit sulla condivisione di invite link" data-en="Zero auth, zero rate-limiting on invite-link sharing">Zero auth, zero rate-limit sulla condivisione di invite link</td>
+        </tr>
+        <tr>
+          <td data-it="C2 / coord." data-en="C2 / coord.">C2 / coord.</td>
+          <td><strong>Telegram "Zzz"</strong></td>
+          <td data-it="Coordinamento, scambio contenuti, marketplace" data-en="Coordination, content exchange, marketplace">Coordinamento, scambio contenuti, marketplace</td>
+          <td data-it="Gruppo privato, ~1.000 utenti, E2E parziale, media hosted Telegram" data-en="Private group, ~1,000 users, partial E2E, Telegram-hosted media">Gruppo privato, ~1.000 utenti, E2E parziale, media hosted Telegram</td>
+        </tr>
+        <tr>
+          <td data-it="Payment" data-en="Payment">Payment</td>
+          <td data-it="Wallet crypto (non specificato)" data-en="Crypto wallet (unspecified)">Wallet crypto (non specificato)</td>
+          <td data-it="Livestream a $20, bottle $175, merce digitale" data-en="$20 livestreams, $175 bottles, digital merch">Livestream a $20, bottle $175, merce digitale</td>
+          <td data-it="Fuori dai payment processor regolati" data-en="Outside regulated payment processors">Fuori dai payment processor regolati</td>
+        </tr>
+        <tr>
+          <td data-it="Legal shell" data-en="Legal shell">Legal shell</td>
+          <td><strong>Kick Online Entertainment S.A.</strong></td>
+          <td data-it="Proprietà della piattaforma host" data-en="Owner of the host platform">Proprietà della piattaforma host</td>
+          <td class="danger" data-it="Registrata in Lussemburgo — giurisdizione favorevole" data-en="Registered in Luxembourg — favorable jurisdiction">Registrata in Lussemburgo — giurisdizione favorevole</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-it="Motherless e la categoria che vive dal 2008" data-en="Motherless and the category that's been up since 2008">Motherless e la categoria che vive dal 2008</h3>
+
+    <p data-it="Motherless.com non è un sito nuovo. È un aggregatore di contenuti user-uploaded che esiste dal 2008, storicamente permissivo rispetto alle &ldquo;mainstream tube&rdquo;. Il suo modello di revenue è ads + donazioni + premium account. La categoria &ldquo;sleep&rdquo; non era nascosta in un angolo buio del sito: era &lt;strong&gt;un tag ricercabile&lt;/strong&gt;, con pagina di landing, paginazione e contatore di views. Gli operatori non stavano bypassando la moderazione. Stavano usando la UX come da manuale."
+       data-en="Motherless.com isn't new. It's a user-uploaded aggregator live since 2008, historically more permissive than mainstream tubes. Its revenue model is ads + donations + premium. The &ldquo;sleep&rdquo; category wasn't hidden in a dark corner: it was a &lt;strong&gt;searchable tag&lt;/strong&gt;, with landing page, pagination, view counter. The operators weren't bypassing moderation. They were using the UX by the book.">
+      Motherless.com non è un sito nuovo. È un aggregatore di contenuti user-uploaded che esiste dal 2008, storicamente permissivo rispetto alle "mainstream tube". Il suo modello di revenue è ads + donazioni + premium account. La categoria "sleep" non era nascosta in un angolo buio del sito: era <strong>un tag ricercabile</strong>, con pagina di landing, paginazione e contatore di views. Gli operatori non stavano bypassando la moderazione. Stavano usando la UX come da manuale.
+    </p>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// detection, livello zero" data-en="// detection, level zero">// detection, livello zero</div>
+      <p data-it="Un crawler da 40 righe di Python, che interroga l'endpoint di search del sito con &lt;code&gt;?term=passedout&lt;/code&gt; e conta i risultati, avrebbe rilevato &gt; 20.000 oggetti per anni. La &ldquo;AI-assisted moderation&rdquo; non è riuscita a fare quello che farebbe uno stagista del primo giorno con &lt;code&gt;requests.get()&lt;/code&gt;."
+         data-en="A 40-line Python crawler hitting the site's search endpoint with &lt;code&gt;?term=passedout&lt;/code&gt; and counting results would have flagged 20,000+ items for years. &ldquo;AI-assisted moderation&rdquo; failed at what a first-day intern could do with &lt;code&gt;requests.get()&lt;/code&gt;.">
+        Un crawler da 40 righe di Python, che interroga l'endpoint di search del sito con <code>?term=passedout</code> e conta i risultati, avrebbe rilevato &gt; 20.000 oggetti per anni. La "AI-assisted moderation" non è riuscita a fare quello che farebbe uno stagista del primo giorno con <code>requests.get()</code>.
+      </p>
+    </div>
+
+    <!-- 03 SEO-for-evil -->
+    <h2 data-it="03 — La tassonomia: SEO applicato al male" data-en="03 — The taxonomy: SEO applied to evil">03 — La tassonomia: SEO applicato al male</h2>
+
+    <p data-it="Qui vale la pena soffermarsi, perché è la parte che smonta l'alibi &ldquo;non potevamo saperlo&rdquo; di qualsiasi piattaforma host. CNN ha documentato due tag ricorrenti:"
+       data-en="Worth pausing here, because this is the part that dismantles the &ldquo;we didn't know&rdquo; alibi of any host platform. CNN documented two recurring tags:">
+      Qui vale la pena soffermarsi, perché è la parte che smonta l'alibi "non potevamo saperlo" di qualsiasi piattaforma host. CNN ha documentato due tag ricorrenti:
+    </p>
+
+    <div class="code-block"><pre><span class="comment" data-it="// Tag taxonomy (fonte: CNN)" data-en="// Tag taxonomy (source: CNN)">// Tag taxonomy (fonte: CNN)</span>
+
+<span class="danger">#passedout</span>     → <span data-it="vittima incosciente" data-en="unconscious victim">vittima incosciente</span>
+<span class="danger">#eyecheck</span>      → <span data-it="perpetratore solleva la palpebra" data-en="perpetrator lifts the eyelid">perpetratore solleva la palpebra</span>
+                  <span data-it="per &quot;provare&quot; lo stato di incoscienza" data-en="to &quot;prove&quot; the unconscious state">per &quot;provare&quot; lo stato di incoscienza</span>
+                  <span class="comment" data-it="(alcuni video con &gt; 50.000 views)" data-en="(some videos with &gt; 50,000 views)">(alcuni video con &gt; 50.000 views)</span>
+
+<span class="comment" data-it="// Nota: questi tag erano pubblicamente indicizzati da Google." data-en="// Note: these tags were publicly indexed by Google.">// Nota: questi tag erano pubblicamente indicizzati da Google.</span>
+<span class="comment" data-it="// Se il tuo team trust &amp; safety non ha un alert su &#34;unconscious OR passed out OR eyecheck&#34; è già troppo tardi." data-en="// If your trust &amp; safety team doesn&apos;t alert on &#34;unconscious OR passed out OR eyecheck&#34; you&apos;re already too late.">// Se il tuo team trust &amp; safety non ha un alert su &quot;unconscious OR passed out OR eyecheck&quot; è già troppo tardi.</span></pre></div>
+
+    <p data-it="Vediamolo dal punto di vista dell'adversary. In un forum criminale serio si usano cifrari a sostituzione, slang rotante, URL con entropia alta, link che scadono in minuti. Nel gruppo Zzz e su Motherless no. Il tag era &lt;em&gt;esplicito&lt;/em&gt;, &lt;em&gt;persistente&lt;/em&gt;, &lt;em&gt;cercabile&lt;/em&gt;. Perché? Perché funzionava. L'&lt;strong&gt;OPSEC degli operatori era calibrato sulla moderazione della piattaforma&lt;/strong&gt;, non sulla legge. Se la moderazione è assente, l'OPSEC può essere zero. È il teorema fondamentale del crimine online: il costo di sicurezza dell'attaccante è inversamente proporzionale alla diligenza del difensore."
+       data-en="Let's look at it adversarially. A serious criminal forum uses substitution ciphers, rotating slang, high-entropy URLs, expiring links. Not the Zzz group or Motherless. The tag was &lt;em&gt;explicit&lt;/em&gt;, &lt;em&gt;persistent&lt;/em&gt;, &lt;em&gt;searchable&lt;/em&gt;. Why? Because it worked. The &lt;strong&gt;operators' OPSEC was calibrated to the platform's moderation&lt;/strong&gt;, not to the law. If moderation is absent, OPSEC can be zero. It's the fundamental theorem of online crime: the attacker's security cost is inversely proportional to the defender's diligence.">
+      Vediamolo dal punto di vista dell'adversary. In un forum criminale serio si usano cifrari a sostituzione, slang rotante, URL con entropia alta, link che scadono in minuti. Nel gruppo Zzz e su Motherless no. Il tag era <em>esplicito</em>, <em>persistente</em>, <em>cercabile</em>. Perché? Perché funzionava. L'<strong>OPSEC degli operatori era calibrato sulla moderazione della piattaforma</strong>, non sulla legge. Se la moderazione è assente, l'OPSEC può essere zero. È il teorema fondamentale del crimine online: il costo di sicurezza dell'attaccante è inversamente proporzionale alla diligenza del difensore.
+    </p>
+
+    <div class="pull-quote">
+      <p data-it="Non era steganografia. Era SEO." data-en="It wasn't steganography. It was SEO.">Non era steganografia. Era SEO.</p>
+      <cite data-it="— la tassonomia dei tag, per anni, indicizzata da Google" data-en="— the tag taxonomy, indexed by Google for years">— la tassonomia dei tag, per anni, indicizzata da Google</cite>
+    </div>
+
+    <!-- 04 Monetizzazione -->
+    <h2 data-it="04 — La monetizzazione: $20 al livestream, $175 alla bottiglia" data-en="04 — Monetization: $20 per livestream, $175 per bottle">04 — La monetizzazione: $20 al livestream, $175 alla bottiglia</h2>
+
+    <p data-it="Il momento in cui un ecosistema di abuso passa da sottoforum a &lt;em&gt;mercato&lt;/em&gt; è il momento in cui va preso sul serio come minaccia strutturale. CNN documenta tre revenue stream nel perimetro Zzz:"
+       data-en="The moment an abuse ecosystem shifts from subforum to &lt;em&gt;market&lt;/em&gt; is the moment it becomes a structural threat. CNN documents three revenue streams in the Zzz perimeter:">
+      Il momento in cui un ecosistema di abuso passa da sottoforum a <em>mercato</em> è il momento in cui va preso sul serio come minaccia strutturale. CNN documenta tre revenue stream nel perimetro Zzz:
+    </p>
+
+    <div class="code-block"><pre><span class="comment" data-it="// Revenue breakdown (fonte: CNN)" data-en="// Revenue breakdown (source: CNN)">// Revenue breakdown (fonte: CNN)</span>
+
+┌────────────────────────────────────────────────────────────┐
+│ <span class="ok">1. LIVESTREAM PAY-PER-VIEW</span>                             │
+│    price     : <span data-it="~$20/spettatore" data-en="~$20 / viewer">~$20/spettatore</span>                              │
+│    payment   : <span data-it="criptovaluta (non specificata)" data-en="cryptocurrency (unspecified)">criptovaluta (non specificata)</span>              │
+│    interattiv: <span data-it="il pagante" data-en="the payer">il pagante</span> <span class="danger" data-it="dirige" data-en="directs">dirige</span> <span data-it="l'operatore in real time" data-en="the operator in real time">l'operatore in real time</span> │
+│                                                            │
+│ <span class="ok">2. VOD &amp; <span data-it="IMMAGINI" data-en="IMAGES">IMMAGINI</span></span>                                      │
+│    price     : <span data-it="variabile" data-en="variable">variabile</span>                                   │
+│    channel   : <span data-it="group Telegram + DM 1:1" data-en="Telegram group + 1:1 DM">group Telegram + DM 1:1</span>                     │
+│                                                            │
+│ <span class="ok">3. &quot;SLEEPING LIQUIDS&quot;</span>                                  │
+│    price     : <span data-it="$175 / bottiglia (costa nordafricana)" data-en="$175 / bottle (North African coast)">$175 / bottiglia (costa nordafricana)</span>       │
+│                <span data-it="€150 / bottiglia (altro venditore EU)" data-en="€150 / bottle (other EU vendor)">€150 / bottiglia (altro venditore EU)</span>       │
+│    delivery  : <span data-it="spedizione fisica internazionale" data-en="international physical shipping">spedizione fisica internazionale</span>            │
+└────────────────────────────────────────────────────────────┘
+
+<span class="comment" data-it="// Il livestream interattivo è la parte che spacca la categoria." data-en="// The interactive livestream is what breaks the category.">// Il livestream interattivo è la parte che spacca la categoria.</span>
+<span class="comment" data-it="// Non è un video registrato. È un abuso on-demand, co-diretto dal pagante." data-en="// It isn&apos;t a recorded video. It&apos;s on-demand abuse, co-directed by the payer.">// Non è un video registrato. È un abuso on-demand, co-diretto dal pagante.</span></pre></div>
+
+    <p data-it="Due cose, tecnicamente, contano. La prima: il pagamento in crypto bypassa l'intero sistema dei &lt;strong&gt;Payment Risk&lt;/strong&gt; dei processor mainstream (il famoso concetto di &ldquo;Mastercard rule&rdquo; che nel 2020 ha fatto piegare Pornhub sulla verifica di età e consenso — qui non si applica proprio). La seconda: la compravendita di bottiglie di &ldquo;sleeping liquid&rdquo; a 175 USD configura un reato &lt;em&gt;prima&lt;/em&gt; e &lt;em&gt;oltre&lt;/em&gt; lo stupro — è traffico di sostanze, frode, tentato avvelenamento. Un procuratore ha una scelta di capi d'imputazione larga come un centro commerciale."
+       data-en="Two things matter technically. One: crypto payment bypasses the entire mainstream processors' &lt;strong&gt;Payment Risk&lt;/strong&gt; framework (the famous &ldquo;Mastercard rule&rdquo; that in 2020 bent Pornhub on age/consent verification simply doesn't apply here). Two: selling &ldquo;sleeping liquid&rdquo; bottles at $175 constitutes crime &lt;em&gt;before&lt;/em&gt; and &lt;em&gt;beyond&lt;/em&gt; the rape — substance trafficking, fraud, attempted poisoning. A prosecutor has a charge sheet as wide as a shopping mall.">
+      Due cose, tecnicamente, contano. La prima: il pagamento in crypto bypassa l'intero sistema dei <strong>Payment Risk</strong> dei processor mainstream (il famoso concetto di "Mastercard rule" che nel 2020 ha fatto piegare Pornhub sulla verifica di età e consenso — qui non si applica proprio). La seconda: la compravendita di bottiglie di "sleeping liquid" a 175 USD configura un reato <em>prima</em> e <em>oltre</em> lo stupro — è traffico di sostanze, frode, tentato avvelenamento. Un procuratore ha una scelta di capi d'imputazione larga come un centro commerciale.
+    </p>
+
+    <div class="callout-yellow">
+      <div class="callout-label" data-it="// nota di merito" data-en="// note of merit">// nota di merito</div>
+      <p data-it="CNN non ha nominato le sostanze. Scelta editoriale corretta: fornire un brand name è fornire una &lt;em&gt;SKU&lt;/em&gt;. Questo articolo fa lo stesso. Chi deve sapere (tossicologi, LE, trust &amp; safety) ha già gli elenchi. Chi non deve sapere, non deve."
+         data-en="CNN didn't name the substances. Correct editorial choice: giving a brand name means giving a &lt;em&gt;SKU&lt;/em&gt;. This article does the same. Those who need to know (toxicologists, LE, trust &amp; safety) already have the lists. Those who don't need to, don't.">
+        CNN non ha nominato le sostanze. Scelta editoriale corretta: fornire un brand name è fornire una <em>SKU</em>. Questo articolo fa lo stesso. Chi deve sapere (tossicologi, LE, trust &amp; safety) ha già gli elenchi. Chi non deve sapere, non deve.
+      </p>
+    </div>
+
+    <!-- 05 AI moderation -->
+    <h2 data-it="05 — &ldquo;AI-assisted moderation&rdquo; e altre favole per adulti" data-en="05 — &ldquo;AI-assisted moderation&rdquo; and other bedtime stories">05 — "AI-assisted moderation" e altre favole per adulti</h2>
+
+    <p data-it="Dopo la pubblicazione, Telegram ha rilasciato una dichiarazione che ha la stessa struttura retorica di &lt;em&gt;tutte&lt;/em&gt; le dichiarazioni post-scandalo di Silicon Valley: &ldquo;contenuti che incoraggiano violenza sessuale sono esplicitamente proibiti dai ToS e rimossi quando scoperti&rdquo;. La moderazione — dicono — è &ldquo;AI-assisted&rdquo; più segnalazioni utente."
+       data-en="After publication, Telegram released a statement with the exact rhetorical structure of &lt;em&gt;every&lt;/em&gt; post-scandal Silicon Valley statement: &ldquo;content encouraging sexual violence is explicitly forbidden by ToS and removed when discovered.&rdquo; Moderation — they say — is &ldquo;AI-assisted&rdquo; plus user reports.">
+      Dopo la pubblicazione, Telegram ha rilasciato una dichiarazione che ha la stessa struttura retorica di <em>tutte</em> le dichiarazioni post-scandalo di Silicon Valley: "contenuti che incoraggiano violenza sessuale sono esplicitamente proibiti dai ToS e rimossi quando scoperti". La moderazione — dicono — è "AI-assisted" più segnalazioni utente.
+    </p>
+
+    <p data-it="&ldquo;Quando scoperti&rdquo; fa tutto il lavoro pesante della frase. Se il meccanismo di scoperta è &lt;em&gt;la segnalazione utente&lt;/em&gt; in un gruppo &lt;em&gt;privato&lt;/em&gt; da mille membri che si auto-selezionano come partecipanti attivi — la probabilità di segnalazione tende a zero per costruzione. È come dire che il tuo SIEM intercetta gli attacchi &ldquo;quando un attaccante apre un ticket&rdquo;."
+       data-en="&ldquo;When discovered&rdquo; does all the heavy lifting in that sentence. If the discovery mechanism is &lt;em&gt;user reports&lt;/em&gt; in a &lt;em&gt;private&lt;/em&gt; 1,000-member group of self-selected active participants — reporting probability tends to zero by construction. It's like saying your SIEM catches attacks &ldquo;when the attacker opens a ticket.&rdquo;">
+      "Quando scoperti" fa tutto il lavoro pesante della frase. Se il meccanismo di scoperta è <em>la segnalazione utente</em> in un gruppo <em>privato</em> da mille membri che si auto-selezionano come partecipanti attivi — la probabilità di segnalazione tende a zero per costruzione. È come dire che il tuo SIEM intercetta gli attacchi "quando un attaccante apre un ticket".
+    </p>
+
+    <p data-it="Motherless, dal canto suo, ha mantenuto il profilo comunicativo della lapide: &lt;strong&gt;zero risposta&lt;/strong&gt; alle richieste di commento di CNN. È, tecnicamente, la scelta giusta dal punto di vista del legal risk. È, eticamente, l'ammissione più rumorosa possibile. Quando una piattaforma non può o non vuole difendere i propri processi, c'è solo una conclusione: non ha processi."
+       data-en="Motherless, for its part, kept the communicative profile of a tombstone: &lt;strong&gt;zero response&lt;/strong&gt; to CNN's requests for comment. Technically, it's the right call from a legal-risk standpoint. Ethically, it's the loudest possible admission. When a platform can't or won't defend its processes, there's one conclusion: it has no processes.">
+      Motherless, dal canto suo, ha mantenuto il profilo comunicativo della lapide: <strong>zero risposta</strong> alle richieste di commento di CNN. È, tecnicamente, la scelta giusta dal punto di vista del legal risk. È, eticamente, l'ammissione più rumorosa possibile. Quando una piattaforma non può o non vuole difendere i propri processi, c'è solo una conclusione: non ha processi.
+    </p>
+
+    <!-- 06 Regolatorio -->
+    <h2 data-it="06 — Il buco regolatorio: quando Ofcom si fa Ponzio Pilato" data-en="06 — The regulatory gap: when Ofcom goes full Pontius Pilate">06 — Il buco regolatorio: quando Ofcom si fa Ponzio Pilato</h2>
+
+    <p data-it="L'11 febbraio 2026 — sei settimane prima del pezzo CNN — &lt;strong&gt;Ofcom&lt;/strong&gt;, l'autorità britannica per le comunicazioni, ha emesso una &lt;em&gt;Confirmation Decision&lt;/em&gt; contro Kick Online Entertainment S.A. Multa: £800.000 (~$1,1M). Motivazione: violazioni procedurali dell'Online Safety Act sul processo di moderazione."
+       data-en="On February 11, 2026 — six weeks before the CNN piece — &lt;strong&gt;Ofcom&lt;/strong&gt;, the UK communications authority, issued a &lt;em&gt;Confirmation Decision&lt;/em&gt; against Kick Online Entertainment S.A. Fine: £800,000 (~$1.1M). Grounds: procedural breaches of the Online Safety Act on moderation processes.">
+      L'11 febbraio 2026 — sei settimane prima del pezzo CNN — <strong>Ofcom</strong>, l'autorità britannica per le comunicazioni, ha emesso una <em>Confirmation Decision</em> contro Kick Online Entertainment S.A. Multa: £800.000 (~$1,1M). Motivazione: violazioni procedurali dell'Online Safety Act sul processo di moderazione.
+    </p>
+
+    <p data-it="Poi — e qui serve masticare il passaggio due volte — Ofcom ha dichiarato a CNN che &lt;strong&gt;decidere se un singolo contenuto è illegale &ldquo;è compito della piattaforma, non del regolatore&rdquo;&lt;/strong&gt;. Leggete di nuovo. Il regolatore della safety online dice che l'accertamento dell'illegalità dei contenuti tocca all'operatore vigilato. È &lt;em&gt;il&lt;/em&gt; momento in cui il garante del pollaio dice che la qualifica di &ldquo;volpe&rdquo; la decidono le galline per acclamazione."
+       data-en="Then — and this needs chewing twice — Ofcom told CNN that &lt;strong&gt;deciding whether a single piece of content is illegal &ldquo;is the platform's job, not the regulator's.&rdquo;&lt;/strong&gt; Read it again. The online-safety regulator says that establishing illegality of content is the job of the regulated operator. It's &lt;em&gt;the&lt;/em&gt; moment the henhouse watchdog says that &ldquo;fox&rdquo; is a status the hens decide by acclamation.">
+      Poi — e qui serve masticare il passaggio due volte — Ofcom ha dichiarato a CNN che <strong>decidere se un singolo contenuto è illegale "è compito della piattaforma, non del regolatore"</strong>. Leggete di nuovo. Il regolatore della safety online dice che l'accertamento dell'illegalità dei contenuti tocca all'operatore vigilato. È <em>il</em> momento in cui il garante del pollaio dice che la qualifica di "volpe" la decidono le galline per acclamazione.
+    </p>
+
+    <div class="pull-quote">
+      <p data-it="&ldquo;Decidere se un contenuto è illegale è compito della piattaforma, non del regolatore.&rdquo;" data-en="&ldquo;Deciding whether content is illegal is the platform's job, not the regulator's.&rdquo;">"Decidere se un contenuto è illegale è compito della piattaforma, non del regolatore."</p>
+      <cite data-it="— Ofcom UK, dichiarazione a CNN, marzo 2026" data-en="— Ofcom UK, statement to CNN, March 2026">— Ofcom UK, dichiarazione a CNN, marzo 2026</cite>
+    </div>
+
+    <div class="callout-red">
+      <div class="callout-label" data-it="// principio di &ldquo;arm's length regulation&rdquo;" data-en="// &ldquo;arm's length regulation&rdquo; principle">// principio di "arm's length regulation"</div>
+      <p data-it="La posizione di Ofcom non è pazza in linea di principio — l'Online Safety Act è un regime di &lt;em&gt;duty of care&lt;/em&gt;, non di revisione editoriale. Il regolatore valuta &lt;em&gt;processi&lt;/em&gt;, non singoli contenuti. Ma quando il processo risulta in 20.000 video taggati &lt;code&gt;#passedout&lt;/code&gt; indicizzati per anni, dire &ldquo;non è roba mia&rdquo; è un perfetto esempio di &lt;strong&gt;accountability gap&lt;/strong&gt; strutturale. Il contenuto non ha un regolatore. Ha un'azienda in Lussemburgo."
+         data-en="Ofcom's position isn't insane in principle — the Online Safety Act is a &lt;em&gt;duty of care&lt;/em&gt; regime, not editorial review. The regulator assesses &lt;em&gt;processes&lt;/em&gt;, not individual content. But when the process yields 20,000 videos tagged &lt;code&gt;#passedout&lt;/code&gt; indexed for years, saying &ldquo;not my problem&rdquo; is a perfect example of a structural &lt;strong&gt;accountability gap&lt;/strong&gt;. The content has no regulator. It has a Luxembourg company.">
+        La posizione di Ofcom non è pazza in linea di principio — l'Online Safety Act è un regime di <em>duty of care</em>, non di revisione editoriale. Il regolatore valuta <em>processi</em>, non singoli contenuti. Ma quando il processo risulta in 20.000 video taggati <code>#passedout</code> indicizzati per anni, dire "non è roba mia" è un perfetto esempio di <strong>accountability gap</strong> strutturale. Il contenuto non ha un regolatore. Ha un'azienda in Lussemburgo.
+      </p>
+    </div>
+
+    <!-- 07 Arresto -->
+    <h2 data-it="07 — L'arresto: art. 197 CP polacco, confessione, handoff riuscito" data-en="07 — The arrest: Art. 197 Polish Criminal Code, confession, successful handoff">07 — L'arresto: art. 197 CP polacco, confessione, handoff riuscito</h2>
+
+    <p data-it="Il 9 aprile 2026 la Procura distrettuale di &lt;strong&gt;Lublino&lt;/strong&gt;, in Polonia, ha arrestato un uomo identificato pubblicamente solo come &ldquo;Piotr&rdquo;. Il soggetto ha confessato i fatti. L'accusa è formalizzata ex &lt;strong&gt;art. 197 § 3 pkt 2 Kodeks Karny&lt;/strong&gt; — forma aggravata di stupro con vittima che si trova in uno stato di incapacità di resistere (traduzione dall'originale polacco: &lt;em&gt;&ldquo;wobec osoby pozostającej w stanie wyłączającym swobodę kierowania swoim postępowaniem&rdquo;&lt;/em&gt;). Pena edittale: &lt;strong&gt;3-20 anni&lt;/strong&gt; di reclusione."
+       data-en="On April 9, 2026, the Lublin District Prosecutor's Office in Poland arrested a man publicly identified only as &ldquo;Piotr.&rdquo; He confessed. Charge formalized under &lt;strong&gt;Art. 197 § 3 pkt 2 Kodeks Karny&lt;/strong&gt; — aggravated rape of a victim in a state of inability to resist. Statutory sentence: &lt;strong&gt;3-20 years&lt;/strong&gt; imprisonment.">
+      Il 9 aprile 2026 la Procura distrettuale di <strong>Lublino</strong>, in Polonia, ha arrestato un uomo identificato pubblicamente solo come "Piotr". Il soggetto ha confessato i fatti. L'accusa è formalizzata ex <strong>art. 197 § 3 pkt 2 Kodeks Karny</strong> — forma aggravata di stupro con vittima che si trova in uno stato di incapacità di resistere (traduzione dall'originale polacco: <em>"wobec osoby pozostającej w stanie wyłączającym swobodę kierowania swoim postępowaniem"</em>). Pena edittale: <strong>3-20 anni</strong> di reclusione.
+    </p>
+
+    <p data-it="Dettaglio operativo di merito: prima dell'handoff alla LE, CNN ha compiuto un &lt;strong&gt;physical verification step&lt;/strong&gt; — si è recata fisicamente nella città polacca indicata dagli indizi conversazionali per confermare l'identità. Questo è il gold standard dell'OSINT investigativa: nessun arresto deve partire da una geolocalizzazione &ldquo;quasi certa&rdquo;. L'ultimo miglio lo fa un essere umano che vede una porta di casa."
+       data-en="An operational merit: before the LE handoff, CNN executed a &lt;strong&gt;physical verification step&lt;/strong&gt; — they physically traveled to the Polish town indicated by conversational clues to confirm the identity. This is the gold standard of investigative OSINT: no arrest should proceed from a &ldquo;near-certain&rdquo; geolocation. The last mile is walked by a human who sees a front door.">
+      Dettaglio operativo di merito: prima dell'handoff alla LE, CNN ha compiuto un <strong>physical verification step</strong> — si è recata fisicamente nella città polacca indicata dagli indizi conversazionali per confermare l'identità. Questo è il gold standard dell'OSINT investigativa: nessun arresto deve partire da una geolocalizzazione "quasi certa". L'ultimo miglio lo fa un essere umano che vede una porta di casa.
+    </p>
+
+    <!-- 08 Lezioni -->
+    <h2 data-it="08 — Lezioni tecniche, ad uso di chi lavora in difesa" data-en="08 — Technical lessons, for the defense side">08 — Lezioni tecniche, ad uso di chi lavora in difesa</h2>
+
+    <h3 data-it="Per team Trust &amp; Safety" data-en="For Trust &amp; Safety teams">Per team Trust &amp; Safety</h3>
+    <ul>
+      <li data-it="&lt;strong&gt;Tag auditing continuo&lt;/strong&gt;: query programmatiche settimanali sulla propria tassonomia per keyword di rischio (&lt;code&gt;unconscious&lt;/code&gt;, &lt;code&gt;passedout&lt;/code&gt;, &lt;code&gt;sleeping&lt;/code&gt;, &lt;code&gt;eyecheck&lt;/code&gt;, e i loro stemi). Il fatto che servano delle LLM per farlo è ormai una scusa superata." data-en="&lt;strong&gt;Continuous tag auditing&lt;/strong&gt;: weekly programmatic queries on your taxonomy for risk keywords (&lt;code&gt;unconscious&lt;/code&gt;, &lt;code&gt;passedout&lt;/code&gt;, &lt;code&gt;sleeping&lt;/code&gt;, &lt;code&gt;eyecheck&lt;/code&gt;, and stems). Needing an LLM to do it is no longer an excuse."><strong>Tag auditing continuo</strong>: query programmatiche settimanali sulla propria tassonomia per keyword di rischio (<code>unconscious</code>, <code>passedout</code>, <code>sleeping</code>, <code>eyecheck</code>, e i loro stemi). Il fatto che servano delle LLM per farlo è ormai una scusa superata.</li>
+      <li data-it="&lt;strong&gt;Bridge detection&lt;/strong&gt;: monitoraggio dei link Telegram nei commenti e nelle descrizioni utente. Un'espressione regolare da 30 caratteri copre il 95% dei casi." data-en="&lt;strong&gt;Bridge detection&lt;/strong&gt;: monitor Telegram links in comments and user descriptions. A 30-char regex covers 95% of cases."><strong>Bridge detection</strong>: monitoraggio dei link Telegram nei commenti e nelle descrizioni utente. Un'espressione regolare da 30 caratteri copre il 95% dei casi.</li>
+      <li data-it="&lt;strong&gt;Consent signal verification&lt;/strong&gt;: per le piattaforme di user-generated adult content, l'approccio Mastercard/Visa post-2020 deve essere policy di default, non optional — verifica età + verifica consenso documentata per ogni performer." data-en="&lt;strong&gt;Consent signal verification&lt;/strong&gt;: for UGC adult platforms, the Mastercard/Visa post-2020 approach must be default policy, not optional — documented age + consent verification for each performer."><strong>Consent signal verification</strong>: per le piattaforme di user-generated adult content, l'approccio Mastercard/Visa post-2020 deve essere policy di default, non optional — verifica età + verifica consenso documentata per ogni performer.</li>
+    </ul>
+
+    <h3 data-it="Per analisti Threat Intel e OSINT" data-en="For Threat Intel &amp; OSINT analysts">Per analisti Threat Intel e OSINT</h3>
+    <ul>
+      <li data-it="&lt;strong&gt;Pattern public-to-private funnel&lt;/strong&gt;: cercare sempre il ponte tra tube pubbliche e canali privati. Il ponte è dove gli operatori fanno attrition — e dove l'OSINT entra senza breaching." data-en="&lt;strong&gt;Public-to-private funnel pattern&lt;/strong&gt;: always look for the bridge between public tubes and private channels. The bridge is where operators make attrition — and where OSINT enters without breaching."><strong>Pattern public-to-private funnel</strong>: cercare sempre il ponte tra tube pubbliche e canali privati. Il ponte è dove gli operatori fanno attrition — e dove l'OSINT entra senza breaching.</li>
+      <li data-it="&lt;strong&gt;OPSEC proporzionale alla moderazione&lt;/strong&gt;: dove la moderazione è assente, l'OPSEC degli operatori è ridicolo. Questo è un regalo: pivota veloce, prima che qualcuno maturi." data-en="&lt;strong&gt;OPSEC proportional to moderation&lt;/strong&gt;: where moderation is absent, operator OPSEC is laughable. That's a gift: pivot fast before someone matures."><strong>OPSEC proporzionale alla moderazione</strong>: dove la moderazione è assente, l'OPSEC degli operatori è ridicolo. Questo è un regalo: pivota veloce, prima che qualcuno maturi.</li>
+      <li data-it="&lt;strong&gt;Physical last mile&lt;/strong&gt;: l'OSINT termina con l'essere umano sul posto. Nessun arresto su pura geolocation. La lezione CNN/Lublino è didattica." data-en="&lt;strong&gt;Physical last mile&lt;/strong&gt;: OSINT ends with a human on site. No arrest on pure geolocation. The CNN/Lublin lesson is textbook."><strong>Physical last mile</strong>: l'OSINT termina con l'essere umano sul posto. Nessun arresto su pura geolocation. La lezione CNN/Lublino è didattica.</li>
+    </ul>
+
+    <h3 data-it="Per policy, regulators, CERT" data-en="For policy, regulators, CERT">Per policy, regulators, CERT</h3>
+    <ul>
+      <li data-it="&lt;strong&gt;Mind the Luxembourg gap&lt;/strong&gt;: le jurisdictional-arbitrage di paradiso-fiscale-di-Schengen sono feature, non bug. Ofcom ha fatto quello che poteva (duty of care procedurale) ma non aveva jurisdiction di merito. DSA europeo dovrebbe chiuderlo. Verificheremo." data-en="&lt;strong&gt;Mind the Luxembourg gap&lt;/strong&gt;: jurisdictional arbitrage via Schengen tax havens is a feature, not a bug. Ofcom did what it could (procedural duty of care) but had no merit jurisdiction. EU's DSA should close this. To be verified."><strong>Mind the Luxembourg gap</strong>: le jurisdictional-arbitrage di paradiso-fiscale-di-Schengen sono feature, non bug. Ofcom ha fatto quello che poteva (duty of care procedurale) ma non aveva jurisdiction di merito. DSA europeo dovrebbe chiuderlo. Verificheremo.</li>
+      <li data-it="&lt;strong&gt;Payment deplatforming&lt;/strong&gt;: il vero strangolamento delle economie di abuso passa dai payment processor e dagli ad network, non dai regolatori di comunicazioni. Il caso Pornhub 2020-2021 lo dimostra. La petizione del 17 aprile è già sulla strada giusta." data-en="&lt;strong&gt;Payment deplatforming&lt;/strong&gt;: the real strangulation of abuse economies runs through payment processors and ad networks, not comms regulators. The Pornhub 2020-2021 case proves it. The April 17 petition is on the right track."><strong>Payment deplatforming</strong>: il vero strangolamento delle economie di abuso passa dai payment processor e dagli ad network, non dai regolatori di comunicazioni. Il caso Pornhub 2020-2021 lo dimostra. La petizione del 17 aprile è già sulla strada giusta.</li>
+    </ul>
+
+    <!-- Conclusioni -->
+    <h2 data-it="Conclusioni: una questione di architettura, non di &ldquo;mele marce&rdquo;" data-en="Conclusions: a matter of architecture, not &ldquo;bad apples&rdquo;">Conclusioni: una questione di architettura, non di "mele marce"</h2>
+
+    <p data-it="La tentazione narrativa è chiudere dicendo &ldquo;mille uomini mostri si sono trovati online&rdquo;. È vero, ma è l'analisi più inutile che si possa fare. I mille uomini esistevano. Esistono. Esisteranno. Il punto tecnico è un altro: l'&lt;strong&gt;infrastruttura digitale ha reso il loro coordinamento a costo marginale zero&lt;/strong&gt;, la moderazione ha fallito alla detection di una keyword di inglese elementare, il pagamento ha trovato un rail fuori dal perimetro regolato, e il framework legale più avanzato d'Europa ha dichiarato di non poter decidere."
+       data-en="The narrative temptation is to close with &ldquo;a thousand monstrous men found each other online.&rdquo; True, but the most useless analysis available. The thousand men existed. Exist. Will exist. The technical point is elsewhere: the &lt;strong&gt;digital infrastructure made their coordination free at the margin&lt;/strong&gt;, moderation failed at detecting an elementary English keyword, payment found a rail outside the regulated perimeter, and Europe's most advanced legal framework declared itself unable to rule.">
+      La tentazione narrativa è chiudere dicendo "mille uomini mostri si sono trovati online". È vero, ma è l'analisi più inutile che si possa fare. I mille uomini esistevano. Esistono. Esisteranno. Il punto tecnico è un altro: l'<strong>infrastruttura digitale ha reso il loro coordinamento a costo marginale zero</strong>, la moderazione ha fallito alla detection di una keyword di inglese elementare, il pagamento ha trovato un rail fuori dal perimetro regolato, e il framework legale più avanzato d'Europa ha dichiarato di non poter decidere.
+    </p>
+
+    <p data-it="In threat intel insegniamo una cosa: l'attaccante sceglie la linea di minor resistenza. Lungo la linea Motherless → Zzz → crypto → Lussemburgo la resistenza è &lt;strong&gt;nulla&lt;/strong&gt;. Fino a che non arriva un'inchiesta giornalistica — cioè un attore privato — a fare quello che decine di regolatori pubblici non hanno fatto. Il sistema ha funzionato: non per disegno, ma per coincidenza. &lt;em&gt;This is fine&lt;/em&gt;, come disse il cane nella stanza in fiamme."
+       data-en="In threat intel we teach one thing: the attacker chooses the line of least resistance. Along the line Motherless → Zzz → crypto → Luxembourg, resistance is &lt;strong&gt;zero&lt;/strong&gt;. Until a journalistic investigation — a private actor — does what dozens of public regulators did not. The system worked: not by design, but by coincidence. &lt;em&gt;This is fine&lt;/em&gt;, as the dog in the burning room said.">
+      In threat intel insegniamo una cosa: l'attaccante sceglie la linea di minor resistenza. Lungo la linea Motherless → Zzz → crypto → Lussemburgo la resistenza è <strong>nulla</strong>. Fino a che non arriva un'inchiesta giornalistica — cioè un attore privato — a fare quello che decine di regolatori pubblici non hanno fatto. Il sistema ha funzionato: non per disegno, ma per coincidenza. <em>This is fine</em>, come disse il cane nella stanza in fiamme.
+    </p>
+
+    <p data-it="Due cose ancora. Primo: i cinque giornalisti di CNN — Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón — hanno fatto un lavoro che in qualsiasi altro ambito si chiamerebbe &lt;em&gt;operazione sotto copertura&lt;/em&gt; e avrebbe richiesto mandato. Lo hanno fatto con la cartella stampa del Primo Emendamento e il cuore forte. Standing ovation. Secondo: tre sopravvissute hanno accettato di parlare. Se stai leggendo e sei una di loro — o hai il dubbio di esserlo — il 1522 in Italia è gratuito, 24/7, multilingue. Non lascia tracce in bolletta. Non si deve scusare di niente."
+       data-en="Two more things. First: CNN's five reporters — Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón — did what in any other field would be called &lt;em&gt;undercover work&lt;/em&gt; and would require a warrant. They did it with the First Amendment press pass and a strong heart. Standing ovation. Second: three survivors agreed to speak. If you're reading this and you're one — or you suspect you might be — in Italy 1522 is free, 24/7, multilingual. Leaves no trace on your bill. Doesn't require an apology for anything.">
+      Due cose ancora. Primo: i cinque giornalisti di CNN — Saskya Vandoorne, Kara Fox, Niamh Kennedy, Eleanor Stubbs, Marco Chacón — hanno fatto un lavoro che in qualsiasi altro ambito si chiamerebbe <em>operazione sotto copertura</em> e avrebbe richiesto mandato. Lo hanno fatto con la cartella stampa del Primo Emendamento e il cuore forte. Standing ovation. Secondo: tre sopravvissute hanno accettato di parlare. Se stai leggendo e sei una di loro — o hai il dubbio di esserlo — il 1522 in Italia è gratuito, 24/7, multilingue. Non lascia tracce in bolletta. Non si deve scusare di niente.
+    </p>
+
+    <div class="callout-green">
+      <div class="callout-label" data-it="// stato dell'indagine" data-en="// investigation status">// stato dell'indagine</div>
+      <p data-it="Il gruppo &ldquo;Zzz&rdquo; è chiuso. I video taggati &ldquo;sleep&rdquo; su Motherless — al momento della pubblicazione di questo articolo — risultavano &lt;strong&gt;ancora indicizzati&lt;/strong&gt;. La petizione di deplatforming è attiva. Un arresto effettuato, 999 operatori non identificati noti a CNN. Questa storia non è finita. Stay tuned."
+         data-en="The &ldquo;Zzz&rdquo; group is gone. Motherless &ldquo;sleep&rdquo; tagged videos — at the time of this article's publication — remained &lt;strong&gt;still indexed&lt;/strong&gt;. The deplatforming petition is active. One arrest, 999 operators known to CNN still unidentified. This story isn't over. Stay tuned.">
+        Il gruppo "Zzz" è chiuso. I video taggati "sleep" su Motherless — al momento della pubblicazione di questo articolo — risultavano <strong>ancora indicizzati</strong>. La petizione di deplatforming è attiva. Un arresto effettuato, 999 operatori non identificati noti a CNN. Questa storia non è finita. Stay tuned.
+      </p>
+    </div>
+
+    <!-- Sources -->
+    <div class="sources-box">
+      <h4 data-it="Fonti primarie e verificate" data-en="Primary &amp; verified sources">Fonti primarie e verificate</h4>
+      <ul>
+        <li><strong>CNN</strong> (inchiesta primaria, 26 Mar 2026): <a href="https://edition.cnn.com/interactive/2026/03/world/expose-rape-assault-online-vis-intl/index.html" target="_blank" rel="noopener">Exposing a global 'online rape academy' that is teaching men how to abuse women and evade detection</a> — Vandoorne, Fox, Kennedy, Stubbs, Chacón.</li>
+        <li><strong>CNN</strong> (follow-up, 9 Apr 2026): <a href="https://edition.cnn.com/2026/04/09/europe/polish-arrest-cnn-online-rape-investigation-intl" target="_blank" rel="noopener">Polish man arrested following undercover CNN investigation into online rape networks</a>.</li>
+        <li><strong>CNN</strong> (video, 17 Apr 2026): <a href="https://www.cnn.com/2026/04/17/world/video/petition-deplatform-motherless-porn-website-rape-investigation-vrtc" target="_blank" rel="noopener">Petition to deplatform porn website at center of CNN global rape investigation</a>.</li>
+        <li><strong>Snopes</strong> (fact-check sui numeri): <a href="https://www.snopes.com/fact-check/cnn-online-rape-academy/" target="_blank" rel="noopener">CNN reported on 'online rape academy,' but '62M men' figure misrepresents findings</a> — chiarisce che le 62M sono visite al sito, non membri del gruppo.</li>
+        <li><strong>Cybernews</strong> (angolatura cybercrime): <a href="https://cybernews.com/cybercrime/global-rape-academy-exposed/" target="_blank" rel="noopener">Sex forum users gave their wives lethal cocktails to livestream the rape of their unconscious bodies</a>.</li>
+        <li><strong>PBS Amanpour &amp; Company</strong> (27 Mar 2026): <a href="https://www.pbs.org/wnet/amanpour-and-company/video/march-27-2026-ewh0ax/" target="_blank" rel="noopener">March 27, 2026 episode</a> — rilancio in prime time.</li>
+        <li><strong>The Mirror US</strong>: <a href="https://www.themirror.com/news/us-news/online-rape-academy-men-taught-1795522" target="_blank" rel="noopener">Online 'rape academy' where men are taught how to drug and assault their wives exposed</a>.</li>
+        <li><strong>Outlook India</strong>: <a href="https://www.outlookindia.com/international/cnn-expos%C3%A9-20000-sleep-videos-millions-of-views-online-networks-profiting-from-abuse-of-women" target="_blank" rel="noopener">CNN Exposé: 20,000+ 'Sleep' Videos — Online Networks Profiting from Abuse of Women</a>.</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// metodologia editoriale" data-en="// editorial methodology">// metodologia editoriale</div>
+      <p data-it="Tutte le affermazioni numeriche e giuridiche di questo articolo sono verificate contro ≥2 fonti autorevoli indipendenti. Non sono nominate sostanze, brand di &ldquo;sleeping liquid&rdquo;, username Telegram specifici, wallet address, né ricostruiti metodi tradecraft non già pubblicati. Nessun link operativo. Se ritieni che una fonte sia stata interpretata in modo impreciso, segnala via LinkedIn: rettifichiamo in chiaro."
+         data-en="Every numerical and legal claim in this piece is checked against ≥2 independent authoritative sources. No substances, &ldquo;sleeping liquid&rdquo; brands, specific Telegram usernames, wallet addresses, nor unpublished tradecraft details are named. No operational links. If you believe a source has been interpreted imprecisely, flag it via LinkedIn: we'll correct openly.">
+        Tutte le affermazioni numeriche e giuridiche di questo articolo sono verificate contro ≥2 fonti autorevoli indipendenti. Non sono nominate sostanze, brand di "sleeping liquid", username Telegram specifici, wallet address, né ricostruiti metodi tradecraft non già pubblicati. Nessun link operativo. Se ritieni che una fonte sia stata interpretata in modo impreciso, segnala via LinkedIn: rettifichiamo in chiaro.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="condividi" data-en="share">condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" id="sx" href="#" target="_blank" rel="noopener">𝕏</a>
+      <a class="share-btn" id="sli" href="#" target="_blank" rel="noopener">linkedin</a>
+      <a class="share-btn" id="srd" href="#" target="_blank" rel="noopener">reddit</a>
+      <a class="share-btn" id="sdt" href="#" target="_blank" rel="noopener">dev.to</a>
+      <a class="share-btn" id="swa" href="#" target="_blank" rel="noopener">whatsapp</a>
+      <a class="share-btn" id="stg" href="#" target="_blank" rel="noopener">telegram</a>
+      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+  <footer class="article-footer">
+    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
+    <div class="footer-copy">© 2026 Paolo Costanzo</div>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if(stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try {
+          nav = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if(nav.indexOf('en') === 0) return 'en';
+        if(nav.indexOf('it') === 0) return 'it';
+        return 'it';
+      }
+
+      function setLang(lang){
+        var next = (lang === 'en') ? 'en' : 'it';
+        var root = document.getElementById('html-root');
+        if(root) root.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var v = (next === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-it');
+          if(v === null) return;
+          if(el.tagName === 'META'){
+            el.setAttribute('content', v);
+            return;
+          }
+          if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+            el.setAttribute('placeholder', v);
+            return;
+          }
+          if(el.tagName === 'TITLE'){
+            document.title = v;
+            return;
+          }
+          el.innerHTML = v;
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(b){
+          b.classList.toggle('active', b.textContent.trim().toLowerCase() === next);
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+    // progress bar + back to top
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var sc = doc.scrollTop || document.body.scrollTop;
+      var tot = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('read-bar');
+      if (bar) bar.style.width = (tot > 0 ? (sc / tot * 100) : 0) + '%';
+      var bt = document.getElementById('back-top');
+      if (bt) {
+        bt.classList.toggle('vis', sc > 300);
+        var footer = document.querySelector('footer');
+        if (footer) {
+          var fTop = footer.getBoundingClientRect().top;
+          bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+        }
+      }
+    });
+    // share buttons
+    (function() {
+      var url = window.location.href;
+      var title = (document.querySelector('h1') || {textContent: document.title}).textContent.trim();
+      var enc = encodeURIComponent;
+      var sx = document.getElementById('sx');
+      var swa = document.getElementById('swa');
+      var stg = document.getElementById('stg');
+      var scp = document.getElementById('scp');
+      if (sx) sx.href = 'https://twitter.com/intent/tweet?text=' + enc(title) + '&url=' + enc(url);
+      var sli = document.getElementById('sli');
+      var srd = document.getElementById('srd');
+      var sdt = document.getElementById('sdt');
+      if (sli) sli.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url);
+      if (srd) srd.href = 'https://www.reddit.com/submit?url=' + enc(url) + '&title=' + enc(title);
+      if (sdt) sdt.href = 'https://dev.to/new';
+      if (swa) swa.href = 'https://wa.me/?text=' + enc(title + ' ' + url);
+      if (stg) stg.href = 'https://t.me/share/url?url=' + enc(url) + '&text=' + enc(title);
+      if (scp) scp.addEventListener('click', function() {
+        navigator.clipboard.writeText(url).then(function() {
+          var lang = document.getElementById('html-root').getAttribute('lang');
+          scp.textContent = lang === 'en' ? '✓ copied' : '✓ copiato';
+          scp.classList.add('ok');
+          setTimeout(function() {
+            var l = document.getElementById('html-root').getAttribute('lang');
+            scp.textContent = l === 'en' ? 'copy link' : 'copia link';
+            scp.classList.remove('ok');
+          }, 2000);
+        });
+      });
+    })();
+  </script>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+</body>
+</html>

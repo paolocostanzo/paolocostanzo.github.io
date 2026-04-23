@@ -105,6 +105,17 @@
     .classified-card::after{display:none}
     .redacted{display:inline-block;background:rgba(255,51,51,0.15);color:transparent;user-select:none;letter-spacing:0.02em}
     .classified-card:hover{background:var(--surface)}
+    /* ARCHIVE TOGGLE */
+    .archive-toggle{grid-column:span 2;background:var(--surface);border:1px dashed var(--border);padding:1.4rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;cursor:pointer;font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;transition:all .2s;text-align:center;width:100%}
+    .archive-toggle:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-faint)}
+    .archive-toggle .arrow{display:inline-block;transition:transform .3s;color:var(--orange);font-size:0.7rem}
+    .archive-toggle.open .arrow{transform:rotate(180deg)}
+    .archive-count{color:var(--orange);font-weight:700}
+    .archive-toggle .archive-label-hide{display:none}
+    .archive-toggle.open .archive-label-show{display:none}
+    .archive-toggle.open .archive-label-hide{display:inline}
+    .article-card.archived{display:none}
+    .articles-list.show-archive .article-card.archived{display:flex}
     /* CTF TERMINAL CARD */
     .ctf-card{padding:0;cursor:text;overflow:hidden}
     .ctf-card::after{display:none}
@@ -238,8 +249,26 @@
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
-    <!-- CRYPTO DRAINER — FEATURED (più recente) -->
-    <a class="article-card fade-up d1" data-category="threat-intel pentest ctf" href="crypto-drainer-svuotatasche/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+    <!-- RAPE ACADEMY — FEATURED (più recente) -->
+    <a class="article-card fade-up d1" data-category="threat-intel" href="rape-academy-cnn-threat-intel/" style="grid-column:span 2;border-left:3px solid #ff3333">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Threat Intelligence · OSINT · Content Moderation" data-en="Threat Intelligence · OSINT · Content Moderation">Threat Intelligence · OSINT · Content Moderation</span>
+        <span class="card-date">21 Apr 2026</span>
+      </div>
+      <div class="card-title" data-it="Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori" data-en="Rape Academy: the technical anatomy of a global abuse network that slipped past content moderation, payment rails and regulators">
+        Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori
+      </div>
+      <p class="card-excerpt" data-it="Un'inchiesta CNN infiltra un gruppo Telegram da mille uomini che incitavano e coordinavano stupri sulle proprie compagne. 20.000 video su Motherless.com, tag pubblici &lsquo;#passedout&rsquo; e &lsquo;#eyecheck&rsquo;, livestream a 20 dollari in crypto. Analisi threat intel: come OSINT, piattaforme, payment rail e regolatori hanno fatto quello che hanno fatto — e perché non è &lsquo;normalità&rsquo;." data-en="A CNN investigation infiltrates a 1,000-man Telegram group inciting and coordinating the rape of their own partners. 20,000 videos on Motherless.com, public tags &lsquo;#passedout&rsquo; and &lsquo;#eyecheck&rsquo;, $20 livestreams in crypto. Threat intel breakdown: how OSINT, platforms, payment rails and regulators did what they did — and why none of this is &lsquo;normal&rsquo;.">
+        Un'inchiesta CNN infiltra un gruppo Telegram da mille uomini che incitavano e coordinavano stupri sulle proprie compagne. 20.000 video su Motherless.com, tag pubblici '#passedout' e '#eyecheck', livestream a 20 dollari in crypto. Analisi threat intel: come OSINT, piattaforme, payment rail e regolatori hanno fatto quello che hanno fatto — e perché non è 'normalità'.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (contenuto sensibile)</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">18 min</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- CRYPTO DRAINER -->
+    <a class="article-card fade-up d1" data-category="threat-intel pentest ctf" href="crypto-drainer-svuotatasche/">
       <div class="card-meta">
         <span class="card-tag" data-it="Threat Intelligence · Crypto · OSINT" data-en="Threat Intelligence · Crypto · OSINT">Threat Intelligence · Crypto · OSINT</span>
         <span class="card-date">07 Apr 2026</span>
@@ -311,7 +340,7 @@
     </a>
 
     <!-- TIM -->
-    <a class="article-card fade-up d3" data-category="pentest cve" href="tim-packet-loss-gfn/">
+    <a class="article-card archived fade-up d3" data-category="pentest cve" href="tim-packet-loss-gfn/">
       <div class="card-meta">
         <span class="card-tag" data-it="Pentest · Network · ISP" data-en="Pentest · Network · ISP">Pentest · Network · ISP</span>
         <span class="card-date">10 Mar 2026</span>
@@ -329,7 +358,7 @@
     </a>
 
     <!-- AWS IAM -->
-    <a class="article-card fade-up d3" data-category="cloud pentest cve" href="aws-iam-misconfiguration/">
+    <a class="article-card archived fade-up d3" data-category="cloud pentest cve" href="aws-iam-misconfiguration/">
       <div class="card-meta">
         <span class="card-tag" data-it="Cloud · AWS · IAM" data-en="Cloud · AWS · IAM">Cloud · AWS · IAM</span>
         <span class="card-date">Mar 2026</span>
@@ -347,7 +376,7 @@
     </a>
 
     <!-- PROMPT INJECTION LLM -->
-    <a class="article-card fade-up d3" data-category="ai pentest" href="prompt-injection-llm/">
+    <a class="article-card archived fade-up d3" data-category="ai pentest" href="prompt-injection-llm/">
       <div class="card-meta">
         <span class="card-tag" data-it="AI Security · LLM · Pentest" data-en="AI Security · LLM · Pentest">AI Security · LLM · Pentest</span>
         <span class="card-date">Mar 2026</span>
@@ -408,6 +437,14 @@
         </div>
       </div>
     </div>
+
+    <!-- ARCHIVE TOGGLE -->
+    <button type="button" class="archive-toggle" onclick="toggleArchive(this)" aria-expanded="false">
+      <span class="arrow">▼</span>
+      <span class="archive-label-show" data-it="Mostra articoli precedenti" data-en="Show previous articles">Mostra articoli precedenti</span>
+      <span class="archive-label-hide" data-it="Nascondi articoli precedenti" data-en="Hide previous articles">Nascondi articoli precedenti</span>
+      <span class="archive-count">(3)</span>
+    </button>
 
   </div>
 </section>
@@ -561,6 +598,15 @@ function filterPosts(cat,btn){
     c.style.display = (cat==='all'||c.dataset.category.split(' ').includes(cat))?'':'none';
   });
 }
+
+/* ── ARCHIVE TOGGLE ── */
+function toggleArchive(btn){
+  const list = document.getElementById('articles-list');
+  const isOpen = list.classList.toggle('show-archive');
+  btn.classList.toggle('open', isOpen);
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+window.toggleArchive = toggleArchive;
 
 /* ── INTERSECTION OBSERVER ── */
 const obs = new IntersectionObserver(es=>{
