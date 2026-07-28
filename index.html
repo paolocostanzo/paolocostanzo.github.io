@@ -6,15 +6,40 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="NonèCostanzo — Security Research"
-    data-en="NonèCostanzo — Security Research"
-  >NonèCostanzo — Security Research</title>
+    data-it="Paolo Costanzo — Cloud &amp; AI Security Research"
+    data-en="Paolo Costanzo — Cloud &amp; AI Security Research"
+  >Paolo Costanzo — Cloud &amp; AI Security Research</title>
   <meta
     name="description"
-    data-it="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."
-    data-en="Cloud Security, Ethical Hacking, AI Security. Technical write-ups by Paolo Costanzo."
-    content="Cloud Security, Ethical Hacking, AI Security. Write-up tecnici di Paolo Costanzo."
+    data-it="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata. Di Paolo Costanzo."
+    data-en="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation. By Paolo Costanzo."
+    content="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata. Di Paolo Costanzo."
   />
+  <link rel="canonical" href="https://paolocostanzo.github.io/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Paolo Costanzo — Cloud &amp; AI Security Research"/>
+  <meta property="og:description" content="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/"/>
+  <meta name="twitter:card" content="summary"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "jobTitle": ["Cloud & AI Product Security", "Co-Founder & CEO", "Professor of Cybersecurity & AWS at ITS ICT Piemonte"],
+    "worksFor": { "@type": "Organization", "name": "CoDe – Research and Technological Development" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Politecnico di Torino" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Torino", "addressCountry": "IT" },
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2",
+      "https://www.credly.com/users/paolo.costanzo",
+      "https://paolocostanzo.github.io/"
+    ]
+  }
+  </script>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="alternate" type="application/rss+xml" title="NonèCostanzo — Security Research" href="https://paolocostanzo.github.io/feed.xml"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -115,7 +140,40 @@
     .archive-toggle.open .archive-label-show{display:none}
     .archive-toggle.open .archive-label-hide{display:inline}
     .article-card.archived{display:none}
-    .articles-list.show-archive .article-card.archived{display:flex}
+    body.show-archive .article-card.archived{display:flex}
+    /* POST GROUPS */
+    .post-group{margin-bottom:2.5rem}
+    .post-group.empty{display:none}
+    .group-head{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;padding:0 0 0.9rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+    .group-title{font-family:var(--condensed);font-weight:900;font-size:1.5rem;letter-spacing:0.02em;text-transform:uppercase;color:var(--text)}
+    .group-title .hash{color:var(--orange);font-family:var(--mono);font-size:0.9rem;font-weight:400;margin-right:0.4rem}
+    .group-desc{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.05em}
+    .res-meta{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.75rem}
+    .res-meta span{font-family:var(--mono);font-size:0.58rem;color:var(--muted);border:1px solid var(--border);padding:0.15rem 0.45rem;letter-spacing:0.08em;text-transform:uppercase}
+    .res-meta span.ok{color:var(--orange);border-color:rgba(255,106,0,0.35)}
+    /* CERTIFICATIONS */
+    .certs-section{border-top:1px solid var(--border);background:var(--surface);padding:2.5rem 2rem}
+    .certs-inner{max-width:1100px;margin:0 auto}
+    .certs-block{margin-top:1.75rem}
+    .certs-block h3{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.15em;text-transform:uppercase;font-weight:400;margin-bottom:0.35rem}
+    .certs-block .cb-note{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.04em;margin-bottom:0.9rem;display:block}
+    .certs-grid{display:flex;flex-wrap:wrap;gap:0.5rem}
+    .cert-item{font-family:var(--mono);font-size:0.66rem;color:var(--muted);border:1px solid var(--border);padding:0.35rem 0.75rem;letter-spacing:0.04em;transition:border-color .2s,color .2s}
+    .cert-item:hover{border-color:var(--orange);color:var(--text)}
+    .cert-item.new{border-color:rgba(255,106,0,0.45);color:var(--text)}
+    .cert-item .iss{color:#4a4a4a}
+    .certs-more{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .25s ease,margin-top .3s ease;margin-top:0}
+    .certs-more.open{max-height:600px;opacity:1;margin-top:0.5rem}
+    .certs-toggle{margin-top:1rem;background:none;border:1px dashed var(--border);padding:0.6rem 1.1rem;cursor:pointer;
+                  font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;
+                  display:inline-flex;align-items:center;gap:0.6rem;transition:border-color .2s,color .2s}
+    .certs-toggle:hover{border-color:var(--orange);color:var(--orange)}
+    .certs-toggle .arrow{color:var(--orange);font-size:0.6rem;display:inline-block;transition:transform .3s}
+    .certs-toggle.open .arrow{transform:rotate(180deg)}
+    .certs-toggle .cl-hide{display:none}
+    .certs-toggle.open .cl-show{display:none}
+    .certs-toggle.open .cl-hide{display:inline}
+    .playground-note{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;padding:0 0 1rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
     /* CTF TERMINAL CARD */
     .ctf-card{padding:0;cursor:text;overflow:hidden}
     .ctf-card::after{display:none}
@@ -203,27 +261,27 @@
       <rect width="400" height="600" fill="url(#g)"/>
     </svg>
   </div>
-  <div class="hero-tag fade-up" data-it="Security Research &amp; Writeups" data-en="Security Research &amp; Writeups">Security Research &amp; Writeups</div>
-  <h1 class="fade-up d1">Paolo<br/><span class="accent">Costanzo</span><br/><span class="outline">Hacking</span></h1>
+  <div class="hero-tag fade-up" data-it="Cloud &amp; AI Security Research" data-en="Cloud &amp; AI Security Research">Cloud &amp; AI Security Research</div>
+  <h1 class="fade-up d1">Paolo<br/><span class="accent">Costanzo</span><br/><span class="outline">Research</span></h1>
   <p class="hero-sub fade-up d2">
     <strong
-      data-it="CEO @ CoDe RTD · Docente IT &amp; CyberSec · Cloud AI Security · Ethical Hacker"
-      data-en="CEO @ CoDe RTD · IT &amp; CyberSec Professor · Cloud AI Security · Ethical Hacker"
+      data-it="Independent Security Researcher · Co-Founder @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+      data-en="Independent Security Researcher · Co-Founder @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
     >
-      CEO @ CoDe RTD · Docente IT &amp; CyberSec · Cloud AI Security · Ethical Hacker
+      Independent Security Researcher · Co-Founder @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte
     </strong><br/>
-    <span data-it="Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini."
-          data-en="Technical write-ups, CVE analysis, thoughts on Cloud, AI Security and Penetration Testing. I take things apart, and watch what moves at the edges.">
-      Write-up tecnici, analisi CVE, pensieri su Cloud, AI Security e Penetration Testing. Mi lamento, smonto quello che non torna, e osservo quello che si muove ai margini.
+    <span data-it="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata."
+          data-en="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation.">
+      Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata.
     </span>
   </p>
   <div class="hero-rg fade-up d2">
     <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer" class="rg-link" data-it="Research profile → ResearchGate" data-en="Research profile → ResearchGate">Research profile → ResearchGate</a>
   </div>
   <div class="hero-stats fade-up d3">
-    <div class="stat"><span class="stat-num">AI Security</span><span class="stat-label">LLM · Threat Detection</span></div>
-    <div class="stat"><span class="stat-num">Cloud Sec</span><span class="stat-label">AWS · Azure</span></div>
-    <div class="stat"><span class="stat-num">Pentesting</span><span class="stat-label">Recon · Exploit · Report</span></div>
+    <div class="stat"><span class="stat-num">Cloud Security</span><span class="stat-label">AWS · IAM · Identity</span></div>
+    <div class="stat"><span class="stat-num">Agentic AI</span><span class="stat-label">LLM · MCP · Tool Auth</span></div>
+    <div class="stat"><span class="stat-num">Offensive Validation</span><span class="stat-label">Scope · Evidence · Report</span></div>
   </div>
 </section>
 
@@ -235,11 +293,11 @@
     <span class="filter-label" data-it="// Ultimi post:" data-en="// Latest posts:">// Ultimi post:</span>
     <div class="filters">
       <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
-      <button class="filter-btn" onclick="filterPosts('threat-intel',this)">Threat Intel</button>
       <button class="filter-btn" onclick="filterPosts('cloud',this)">Cloud</button>
-      <button class="filter-btn" onclick="filterPosts('pentest',this)">Pentest</button>
-      <button class="filter-btn" onclick="filterPosts('cve',this)">CVE</button>
       <button class="filter-btn" onclick="filterPosts('ai',this)">AI Security</button>
+      <button class="filter-btn" onclick="filterPosts('threat-intel',this)">Threat Intel</button>
+      <button class="filter-btn" onclick="filterPosts('appsec',this)">AppSec / API</button>
+      <button class="filter-btn" onclick="filterPosts('network',this)">Network</button>
       <button class="filter-btn" onclick="filterPosts('ctf',this)">CTF</button>
     </div>
   </div>
@@ -249,170 +307,147 @@
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
 
-    <!-- OURA PALANTIR — FEATURED (più recente) -->
-    <a class="article-card fade-up d1" data-category="threat-intel ai" href="oura-palantir-biometrici/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+    <!-- OPERATION EPIC FURY — FEATURED -->
+    <a class="article-card fade-up d1" data-category="threat-intel ai" href="operation-epic-fury-cyber-war-iran/" style="grid-column:span 2;border-left:3px solid var(--orange)">
       <div class="card-meta">
-        <span class="card-tag" data-it="Privacy · Wearable · Threat Intel · OSINT" data-en="Privacy · Wearable · Threat Intel · OSINT">Privacy · Wearable · Threat Intel · OSINT</span>
-        <span class="card-date">24 Mag 2026</span>
+        <span class="card-tag" data-it="Threat Intelligence · OSINT · Payload Analysis" data-en="Threat Intelligence · OSINT · Payload Analysis">Threat Intelligence · OSINT · Payload Analysis</span>
+        <span class="card-date">17 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="L'anello, l'algoritmo, e il Pentagono" data-en="The ring, the algorithm, and the Pentagon">
-        L'anello, l'algoritmo, e il Pentagono
+      <div class="card-title" data-it="Operation Epic Fury: analisi OSINT indipendente di una campagna dual-platform" data-en="Operation Epic Fury: independent OSINT analysis of a dual-platform campaign">
+        Operation Epic Fury: analisi OSINT indipendente di una campagna dual-platform
       </div>
-      <p class="card-excerpt" data-it="399&euro; per un anello che misura PPG infrarossi a 250 Hz, temperatura a 0,1&deg;C. 5,5 milioni di unit&agrave; vendute, &dollar;11B di valutazione. E s&igrave;, c'&egrave; Palantir — ma non come pensi, n&eacute; come dice Snopes. Tear-down tecnico (sensori, API v2, endpoint) + ecosistema Palantir/8VC/Anduril/Kinetica + la triade IDF (Lavender, Gospel, Where's Daddy?) + validazione clinica (specificity 73%, REM sottostimato) + class action USA non coperte in Italia + Token Ring 2018 (storia personale). Self-critique inclusa. La domanda non &egrave; &lsquo;&egrave; accurato&rsquo;. &Egrave; &lsquo;a chi serve davvero?&rsquo;." data-en="$399 for a ring that samples infrared PPG at 250 Hz and skin temp at 0.1&deg;C. 5.5M units sold, $11B valuation. And yes, Palantir is in the picture — but not the way you think, nor the way Snopes says. Technical tear-down (sensors, API v2, endpoints) + Palantir/8VC/Anduril/Kinetica ecosystem + the IDF triad (Lavender, Gospel, Where's Daddy?) + clinical validation (73% specificity, REM underestimated) + US class actions uncovered in Italy + Token Ring 2018 (personal story). Self-critique included. The question isn't &lsquo;is it accurate&rsquo;. It's &lsquo;who's it actually for?&rsquo;.">
-        399&euro; per un anello che misura PPG infrarossi a 250 Hz, temperatura a 0,1&deg;C. 5,5 milioni di unit&agrave; vendute, $11B di valutazione. E s&igrave;, c'&egrave; Palantir — ma non come pensi, n&eacute; come dice Snopes. Tear-down tecnico (sensori, API v2, endpoint) + ecosistema Palantir/8VC/Anduril/Kinetica + la triade IDF (Lavender, Gospel, Where's Daddy?) + validazione clinica (specificity 73%, REM sottostimato) + class action USA non coperte in Italia + Token Ring 2018 (storia personale). Self-critique inclusa. La domanda non &egrave; 'è accurato'. &Egrave; 'a chi serve davvero?'.
+      <p class="card-excerpt" data-it="Indagine OSINT su una campagna Android + Windows attribuita a un attore iraniano. Payload Windows non documentato nei report pubblici, C2 secondario con 0/94 detection su VirusTotal al momento dell'analisi, infrastruttura registrata circa 8 mesi prima dell'operazione. Confronto puntuale con i report di Unit 42 e CloudSEK, indicatori di compromissione completi e regole di detection pubblicate insieme al report." data-en="OSINT investigation into an Android + Windows campaign attributed to an Iranian actor. A Windows payload not documented in public reporting, a secondary C2 at 0/94 VirusTotal detections at time of analysis, infrastructure registered roughly 8 months before the operation. Point-by-point comparison with the Unit 42 and CloudSEK reports, full indicators of compromise and detection rules published alongside the report.">
+        Indagine OSINT su una campagna Android + Windows attribuita a un attore iraniano. Payload Windows non documentato nei report pubblici, C2 secondario con 0/94 detection su VirusTotal al momento dell'analisi, infrastruttura registrata circa 8 mesi prima dell'operazione. Confronto puntuale con i report di Unit 42 e CloudSEK, indicatori di compromissione completi e regole di detection pubblicate insieme al report.
       </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
+        <span class="ok">IoC</span>
+        <span class="ok" data-it="Detection rule" data-en="Detection rules">Detection rule</span>
+        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint su ResearchGate</span>
+      </div>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">26 min · v2</span><span class="card-arrow">→</span></div>
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">25 min</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
-    <!-- RAPE ACADEMY -->
-    <a class="article-card fade-up d1" data-category="threat-intel" href="rape-academy-cnn-threat-intel/" style="border-left:3px solid #ff3333">
+    <!-- TRON DRAINER -->
+    <a class="article-card fade-up d1" data-category="threat-intel appsec" href="crypto-drainer-svuotatasche/">
       <div class="card-meta">
-        <span class="card-tag" data-it="Threat Intelligence · OSINT · Content Moderation" data-en="Threat Intelligence · OSINT · Content Moderation">Threat Intelligence · OSINT · Content Moderation</span>
-        <span class="card-date">21 Apr 2026</span>
-      </div>
-      <div class="card-title" data-it="Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori" data-en="Rape Academy: the technical anatomy of a global abuse network that slipped past content moderation, payment rails and regulators">
-        Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori
-      </div>
-      <p class="card-excerpt" data-it="Un'inchiesta CNN infiltra un gruppo Telegram da mille uomini che incitavano e coordinavano stupri sulle proprie compagne. 20.000 video su Motherless.com, tag pubblici &lsquo;#passedout&rsquo; e &lsquo;#eyecheck&rsquo;, livestream a 20 dollari in crypto. Analisi threat intel: come OSINT, piattaforme, payment rail e regolatori hanno fatto quello che hanno fatto — e perché non è &lsquo;normalità&rsquo;." data-en="A CNN investigation infiltrates a 1,000-man Telegram group inciting and coordinating the rape of their own partners. 20,000 videos on Motherless.com, public tags &lsquo;#passedout&rsquo; and &lsquo;#eyecheck&rsquo;, $20 livestreams in crypto. Threat intel breakdown: how OSINT, platforms, payment rails and regulators did what they did — and why none of this is &lsquo;normal&rsquo;.">
-        Un'inchiesta CNN infiltra un gruppo Telegram da mille uomini che incitavano e coordinavano stupri sulle proprie compagne. 20.000 video su Motherless.com, tag pubblici '#passedout' e '#eyecheck', livestream a 20 dollari in crypto. Analisi threat intel: come OSINT, piattaforme, payment rail e regolatori hanno fatto quello che hanno fatto — e perché non è 'normalità'.
-      </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (contenuto sensibile)</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">18 min</span><span class="card-arrow">→</span></div>
-      </div>
-    </a>
-
-    <!-- CRYPTO DRAINER -->
-    <a class="article-card fade-up d1" data-category="threat-intel pentest ctf" href="crypto-drainer-svuotatasche/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="Threat Intelligence · Crypto · OSINT" data-en="Threat Intelligence · Crypto · OSINT">Threat Intelligence · Crypto · OSINT</span>
+        <span class="card-tag" data-it="Threat Intelligence · OSINT · On-chain" data-en="Threat Intelligence · OSINT · On-chain">Threat Intelligence · OSINT · On-chain</span>
         <span class="card-date">07 Apr 2026</span>
       </div>
-      <div class="card-title" data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale." data-en="I wanted to write a quick article. I dismantled a criminal org instead.">
-        Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale.
+      <div class="card-title" data-it="Anatomia di un wallet drainer-as-a-service su rete TRON" data-en="Anatomy of a TRON wallet drainer-as-a-service">
+        Anatomia di un wallet drainer-as-a-service su rete TRON
       </div>
-      <p class="card-excerpt" data-it="Un'email di phishing, un'intera Pasqua bruciata, e la solita curiosità malsana. Risultato: $13.960 in criptovalute rubate documentate, canali Telegram infiltrati, infrastruttura C2 mappata, e io con la colomba ancora incartata. WIP. Il takedown è imminente." data-en="A phishing email, an entire Easter vacation burned, and the usual unhealthy curiosity. Result: $13,960 in documented stolen crypto, infiltrated Telegram channels, mapped C2 infrastructure, and my Easter cake still wrapped. WIP. Takedown incoming.">
-        Un'email di phishing, un'intera Pasqua bruciata, e la solita curiosità malsana. Risultato: $13.960 in criptovalute rubate documentate, canali Telegram infiltrati, infrastruttura C2 mappata, e io con la colomba ancora incartata. WIP. Il takedown è imminente.
+      <p class="card-excerpt" data-it="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain." data-en="Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data.">
+        Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain.
       </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
+        <span class="ok" data-it="Dati on-chain" data-en="On-chain data">Dati on-chain</span>
+        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint su ResearchGate</span>
+      </div>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (era Pasqua)" data-en="Hard (it was Easter)">Hard (era Pasqua)</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">35 min · WIP</span><span class="card-arrow">→</span></div>
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">35 min · WIP</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- WEARABLE BIOMETRIC TELEMETRY -->
+    <a class="article-card fade-up d1" data-category="threat-intel ai" href="oura-palantir-biometrici/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Privacy · Wearable · OSINT" data-en="Privacy · Wearable · OSINT">Privacy · Wearable · OSINT</span>
+        <span class="card-date">24 Mag 2026</span>
+      </div>
+      <div class="card-title" data-it="Telemetria biometrica indossabile: tear-down tecnico e catena di trattamento dei dati" data-en="Wearable biometric telemetry: technical tear-down and data supply chain">
+        Telemetria biometrica indossabile: tear-down tecnico e catena di trattamento dei dati
+      </div>
+      <p class="card-excerpt" data-it="Tear-down di un anello a sensori (PPG infrarosso campionato a 250 Hz, temperatura cutanea a 0,1 &deg;C), analisi delle API v2 e degli endpoint di sincronizzazione, ricostruzione documentale della catena societaria e di investimento, verifica della letteratura clinica disponibile (specificit&agrave; 73%, sottostima della fase REM) e delle class action statunitensi. Con sezione di autocritica e limiti espliciti." data-en="Tear-down of a sensor ring (infrared PPG sampled at 250 Hz, skin temperature at 0.1&deg;C), analysis of the v2 API and sync endpoints, documentary reconstruction of the corporate and investment chain, review of the available clinical literature (73% specificity, underestimated REM stage) and of the US class actions. With a self-critique section and explicit limitations.">
+        Tear-down di un anello a sensori (PPG infrarosso campionato a 250 Hz, temperatura cutanea a 0,1 &deg;C), analisi delle API v2 e degli endpoint di sincronizzazione, ricostruzione documentale della catena societaria e di investimento, verifica della letteratura clinica disponibile (specificit&agrave; 73%, sottostima della fase REM) e delle class action statunitensi. Con sezione di autocritica e limiti espliciti.
+      </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
+        <span class="ok" data-it="Fonti citate" data-en="Cited sources">Fonti citate</span>
+        <span>v2</span>
+      </div>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">26 min · v2</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
     <!-- SSRF IMDS -->
-    <a class="article-card fade-up d2" data-category="cloud pentest cve" href="ssrf-imds-ec2-credentials/">
+    <a class="article-card fade-up d2" data-category="cloud appsec" href="ssrf-imds-ec2-credentials/">
       <div class="card-meta">
-        <span class="card-tag" data-it="Cloud · Pentest · SSRF" data-en="Cloud · Pentest · SSRF">Cloud · Pentest · SSRF</span>
+        <span class="card-tag" data-it="Cloud · AWS · SSRF · IAM" data-en="Cloud · AWS · SSRF · IAM">Cloud · AWS · SSRF · IAM</span>
         <span class="card-date">31 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="Una GET, 169.254.169.254, credenziali IAM sul piatto" data-en="One GET, 169.254.169.254, IAM credentials served fresh">
-        Una GET, 169.254.169.254, credenziali IAM sul piatto
+      <div class="card-title" data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2" data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance">
+        SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2
       </div>
-      <p class="card-excerpt" data-it="IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione è sufficiente per rubare le credenziali IAM dell'istanza EC2. Capital One, 106 milioni di record, 80 milioni di multa. HttpTokens: required esiste dal 2019. Forse è ora di abilitarlo." data-en="IMDSv1 requires no authentication. One SSRF in your app is enough to steal EC2 IAM credentials. Capital One, 106 million records, $80M fine. HttpTokens: required has existed since 2019. Maybe it's time to enable it.">
-        IMDSv1 non richiede autenticazione. Una SSRF nella tua applicazione è sufficiente per rubare le credenziali IAM dell'istanza EC2. Capital One, 106 milioni di record, 80 milioni di multa. HttpTokens: required esiste dal 2019. Forse è ora di abilitarlo.
+      <p class="card-excerpt" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.">
+        Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo.
       </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Lab riproducibile</span>
+        <span class="ok" data-it="Mitigazioni" data-en="Mitigations">Mitigazioni</span>
+      </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">14 min</span><span class="card-arrow">→</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">14 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- COORDINATED ABUSE NETWORK -->
+    <a class="article-card fade-up d2" data-category="threat-intel" href="rape-academy-cnn-threat-intel/" style="border-left:3px solid #ff3333">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Threat Intelligence · OSINT · Content Moderation" data-en="Threat Intelligence · OSINT · Content Moderation">Threat Intelligence · OSINT · Content Moderation</span>
+        <span class="card-date">21 Apr 2026</span>
+      </div>
+      <div class="card-title" data-it="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria" data-en="Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response">
+        Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria
+      </div>
+      <p class="card-excerpt" data-it="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Basata su fonti giornalistiche e documentali pubbliche. Contenuto sensibile." data-en="Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Based on public journalistic and documentary sources. Sensitive content.">
+        A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Basata su fonti giornalistiche e documentali pubbliche. Contenuto sensibile.
+      </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
+        <span class="ok" data-it="Fonti pubbliche" data-en="Public sources">Fonti pubbliche</span>
+        <span data-it="Contenuto sensibile" data-en="Sensitive content">Contenuto sensibile</span>
+      </div>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (contenuto sensibile)</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">18 min</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
     <!-- CARDPUTER -->
-    <a class="article-card fade-up d2" data-category="pentest ctf" href="cardputer-adv-wifi-security/">
+    <a class="article-card fade-up d2" data-category="network ctf" href="cardputer-adv-wifi-security/">
       <div class="card-meta">
-        <span class="card-tag" data-it="Pentest · WiFi · Hardware" data-en="Pentest · WiFi · Hardware">Pentest · WiFi · Hardware</span>
+        <span class="card-tag" data-it="Wi-Fi · Hardware · Lab" data-en="Wi-Fi · Hardware · Lab">Wi-Fi · Hardware · Lab</span>
         <span class="card-date">21 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="40€, 2 minuti, e uno studente che non si fida più del Wi-Fi gratis" data-en="€40, 2 minutes, and a student who'll never trust free Wi-Fi again">
-        40€, 2 minuti, e uno studente che non si fida più del Wi-Fi gratis
+      <div class="card-title" data-it="Evil portal, beacon spam e deauth: lab Wi-Fi su hardware da 40 €" data-en="Evil portal, beacon spam and deauth: a €40 hardware Wi-Fi lab">
+        Evil portal, beacon spam e deauth: lab Wi-Fi su hardware da 40 €
       </div>
-      <p class="card-excerpt" data-it="Cardputer-Adv in tasca, Bruce firmware, e una classe di professionisti convinti di sapere già tutto sul Wi-Fi. Evil Portal, beacon spam, deauth attack — quello che succede quando porti 40€ di hardware offensivo in aula e qualcuno, puntualmente, ci casca." data-en="Cardputer-Adv in your pocket, Bruce firmware, and a class of professionals convinced they knew all about Wi-Fi. Evil Portal, beacon spam, deauth attack — what happens when you bring €40 of offensive hardware into the classroom and someone, inevitably, falls for it.">
-        Cardputer-Adv in tasca, Bruce firmware, e una classe di professionisti convinti di sapere già tutto sul Wi-Fi. Evil Portal, beacon spam, deauth attack — quello che succede quando porti 40€ di hardware offensivo in aula e qualcuno, puntualmente, ci casca.
+      <p class="card-excerpt" data-it="Lab d'aula su rete di laboratorio isolata: Cardputer-Adv con firmware Bruce, evil portal, beacon spam e deauthentication su 802.11. Setup hardware, comandi, risultati osservati e contromisure lato client e infrastruttura (802.11w/PMF, verifica del captive portal, DNS e certificati)." data-en="Classroom lab on an isolated lab network: Cardputer-Adv with Bruce firmware, evil portal, beacon spam and 802.11 deauthentication. Hardware setup, commands, observed results and client- and infrastructure-side countermeasures (802.11w/PMF, captive portal verification, DNS and certificates).">
+        Lab d'aula su rete di laboratorio isolata: Cardputer-Adv con firmware Bruce, evil portal, beacon spam e deauthentication su 802.11. Setup hardware, comandi, risultati osservati e contromisure lato client e infrastruttura (802.11w/PMF, verifica del captive portal, DNS e certificati).
       </p>
+      <div class="res-meta">
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Lab riproducibile</span>
+        <span class="ok" data-it="Contromisure" data-en="Countermeasures">Contromisure</span>
+      </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot dot-easy"></div><span class="difficulty-text" style="color:#00ff88">Easy</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">12 min</span><span class="card-arrow">→</span></div>
-      </div>
-    </a>
-
-    <!-- OPERATION EPIC FURY -->
-    <a class="article-card archived fade-up d3" data-category="threat-intel pentest" href="operation-epic-fury-cyber-war-iran/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="Threat Intelligence · Malware Analysis" data-en="Threat Intelligence · Malware Analysis">Threat Intelligence · Malware Analysis</span>
-        <span class="card-date">17 Mar 2026</span>
-      </div>
-      <div class="card-title" data-it="Operation Epic Fury: quello che i report non hanno trovato" data-en="Operation Epic Fury: what the reports missed">
-        Operation Epic Fury: quello che i report non hanno trovato
-      </div>
-      <p class="card-excerpt" data-it="Indagine OSINT originale sulla campagna iraniana (Android + Windows) che ha colpito i civili israeliani. Payload Windows inedito, C2 secondario 0/94 VT, infrastruttura attiva 8 mesi prima — tutto quello che Unit 42, CloudSEK e gli altri non avevano trovato." data-en="Original OSINT investigation into the Iranian dual-platform campaign (Android + Windows) targeting Israeli civilians. Undisclosed Windows payload, secondary C2 with 0/94 VT, infrastructure active 8 months before the operation — everything Unit 42, CloudSEK and others missed.">
-        Indagine OSINT originale sulla campagna iraniana (Android + Windows) che ha colpito i civili israeliani. Payload Windows inedito, C2 secondario 0/94 VT, infrastruttura attiva 8 mesi prima — tutto quello che Unit 42, CloudSEK e gli altri non avevano trovato.
-      </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">25 min</span><span class="card-arrow">→</span></div>
-      </div>
-    </a>
-
-    <!-- TIM -->
-    <a class="article-card archived fade-up d3" data-category="pentest cve" href="tim-packet-loss-gfn/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="Pentest · Network · ISP" data-en="Pentest · Network · ISP">Pentest · Network · ISP</span>
-        <span class="card-date">10 Mar 2026</span>
-      </div>
-      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP Black Hole" data-en="TIM, GeForce Now and the ICMP Black Hole">
-        TIM, GeForce Now e l'ICMP Black Hole
-      </div>
-      <p class="card-excerpt" data-it="Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps." data-en="How I diagnosed (and worked around) an ICMP Black Hole on TIM that caused packet loss on GeForce Now and capped bandwidth at 26 Mbps on a 1 Gbps line.">
-        Come ho diagnosticato (e aggirato) un ICMP Black Hole su rete TIM che causava packet loss su GeForce Now e limitava la banda a 26 Mbps su 1 Gbps.
-      </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">15 min</span><span class="card-arrow">→</span></div>
-      </div>
-    </a>
-
-    <!-- AWS IAM -->
-    <a class="article-card archived fade-up d3" data-category="cloud pentest cve" href="aws-iam-misconfiguration/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="Cloud · AWS · IAM" data-en="Cloud · AWS · IAM">Cloud · AWS · IAM</span>
-        <span class="card-date">Mar 2026</span>
-      </div>
-      <div class="card-title" data-it="AWS IAM: i 5 errori di configurazione più comuni" data-en="AWS IAM: the 5 most common misconfigurations">
-        AWS IAM: i 5 errori di configurazione più comuni
-      </div>
-      <p class="card-excerpt" data-it="Wildcard policy, root senza MFA, access key esposte, ruoli troppo permissivi e logging disabilitato. Cinque errori che vedo ripetersi in ogni audit cloud — e come correggerli prima che lo faccia qualcun altro." data-en="Wildcard policies, root without MFA, exposed access keys, overly permissive roles and disabled logging. Five mistakes I see on every cloud audit — and how to fix them before someone else does.">
-        Wildcard policy, root senza MFA, access key esposte, ruoli troppo permissivi e logging disabilitato. Cinque errori che vedo ripetersi in ogni audit cloud — e come correggerli prima che lo faccia qualcun altro.
-      </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">→</span></div>
-      </div>
-    </a>
-
-    <!-- PROMPT INJECTION LLM -->
-    <a class="article-card archived fade-up d3" data-category="ai pentest" href="prompt-injection-llm/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="AI Security · LLM · Pentest" data-en="AI Security · LLM · Pentest">AI Security · LLM · Pentest</span>
-        <span class="card-date">Mar 2026</span>
-      </div>
-      <div class="card-title" data-it="Prompt Injection su LLM aziendali: come funziona davvero" data-en="Prompt Injection on enterprise LLMs: how it really works">
-        Prompt Injection su LLM aziendali: come funziona davvero
-      </div>
-      <p class="card-excerpt" data-it="I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Walk-through pratico di come ragiona un attaccante quando incontra un LLM 'aziendale' collegato a dati interni." data-en="Enterprise language models have attack surfaces almost nobody considers. A practical walk-through of how an attacker thinks when facing a corporate LLM wired into internal data.">
-        I modelli linguistici nelle aziende hanno superfici d'attacco che quasi nessuno considera. Walk-through pratico di come ragiona un attaccante quando incontra un LLM "aziendale" collegato a dati interni.
-      </p>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">→</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">12 min</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
     <!-- CLASSIFIED -->
-    <div class="article-card classified-card fade-up d3" data-category="pentest threat-intel">
+    <div class="article-card classified-card fade-up d3" data-category="threat-intel">
       <div class="card-meta">
         <span class="card-tag" style="color:#ff3333;border-color:#ff3333">[ CLASSIFIED ]</span>
         <span class="card-date" style="color:#333">???</span>
@@ -424,22 +459,22 @@
         // ACCESS DENIED<br/>
         // Clearance level: INSUFFICIENT<br/>
         // Next post loading...<br/>
-        <span style="color:rgba(255,106,0,0.3)">// ETA: soon™</span>
+        <span style="color:rgba(255,106,0,0.3)">// ETA: soon&trade;</span>
       </p>
       <div class="card-footer" style="border-top-color:#1a1a1a">
         <div style="font-family:var(--mono);font-size:0.6rem;color:#2a2a2a;letter-spacing:0.15em">TOP SECRET // NOFORN</div>
-        <div style="font-family:var(--mono);font-size:0.7rem;color:#2a2a2a">🔒</div>
+        <div style="font-family:var(--mono);font-size:0.7rem;color:#2a2a2a">&#128274;</div>
       </div>
     </div>
 
     <!-- CTF TERMINAL CARD -->
-    <div class="article-card ctf-card fade-up d4" data-category="ctf" onclick="document.getElementById('term-inp').focus()">
+    <div class="article-card ctf-card fade-up d3" data-category="ctf" style="grid-column:span 2" onclick="document.getElementById('term-inp').focus()">
       <div class="term-titlebar">
         <span class="term-dot" style="background:#ff5f57"></span>
         <span class="term-dot" style="background:#febc2e"></span>
         <span class="term-dot" style="background:#28c840"></span>
         <span class="term-titlebar-label" data-it="guest@nonè:~/ctf — bash" data-en="guest@nonè:~/ctf — bash">guest@nonè:~/ctf — bash</span>
-        <span class="term-score" id="term-score">🏴 0/5</span>
+        <span class="term-score" id="term-score">&#127988; 0/5</span>
       </div>
       <div class="term-body">
         <div class="term-out" id="term-out"><span class="to" data-it="// CTF CHALLENGE — 5 flag da trovare" data-en="// CTF CHALLENGE — find 5 flags">// CTF CHALLENGE — 5 flag da trovare</span>
@@ -456,12 +491,66 @@
       </div>
     </div>
 
+    <!-- AWS IAM -->
+    <a class="article-card archived fade-up d3" data-category="cloud" href="aws-iam-misconfiguration/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Cloud · AWS · IAM" data-en="Cloud · AWS · IAM">Cloud · AWS · IAM</span>
+        <span class="card-date">Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni" data-en="AWS IAM: five recurring misconfigurations and how to fix them">
+        AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni
+      </div>
+      <p class="card-excerpt" data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework." data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls.">
+        Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- PROMPT INJECTION -->
+    <a class="article-card archived fade-up d3" data-category="ai appsec" href="prompt-injection-llm/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="AI Security · LLM · AppSec" data-en="AI Security · LLM · AppSec">AI Security · LLM · AppSec</span>
+        <span class="card-date">Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="Prompt injection su LLM aziendali: superficie d'attacco e contromisure" data-en="Prompt injection on enterprise LLMs: attack surface and mitigations">
+        Prompt injection su LLM aziendali: superficie d'attacco e contromisure
+      </div>
+      <p class="card-excerpt" data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call, e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni." data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain, and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging.">
+        Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call, e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- TIM -->
+    <a class="article-card archived fade-up d3" data-category="network" href="tim-packet-loss-gfn/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Network · ISP · Diagnostica" data-en="Network · ISP · Diagnostics">Network · ISP · Diagnostica</span>
+        <span class="card-date">10 Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP black hole" data-en="TIM, GeForce Now and the ICMP black hole">
+        TIM, GeForce Now e l'ICMP black hole
+      </div>
+      <p class="card-excerpt" data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS." data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround.">
+        Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS.
+      </p>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">15 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
     <!-- ARCHIVE TOGGLE -->
     <button type="button" class="archive-toggle" onclick="toggleArchive(this)" aria-expanded="false">
-      <span class="arrow">▼</span>
+      <span class="arrow">&#9660;</span>
       <span class="archive-label-show" data-it="Mostra articoli precedenti" data-en="Show previous articles">Mostra articoli precedenti</span>
       <span class="archive-label-hide" data-it="Nascondi articoli precedenti" data-en="Hide previous articles">Nascondi articoli precedenti</span>
-      <span class="archive-count">(4)</span>
+      <span class="archive-count">(3)</span>
     </button>
 
   </div>
@@ -477,22 +566,61 @@
     </div>
     <div class="skills-grid">
       <span class="skill-badge hi">Cloud Security</span>
-      <span class="skill-badge hi">AI Security</span>
-      <span class="skill-badge hi">Ethical Hacking</span>
-      <span class="skill-badge hi">Penetration Testing</span>
-      <span class="skill-badge hi">MITRE ATT&amp;CK</span>
+      <span class="skill-badge hi">Identity &amp; Access (IAM)</span>
+      <span class="skill-badge hi">Agentic AI / MCP Security</span>
       <span class="skill-badge hi">Threat Modeling</span>
+      <span class="skill-badge hi">Application &amp; API Security</span>
+      <span class="skill-badge">Threat Intelligence</span>
+      <span class="skill-badge">OSINT</span>
       <span class="skill-badge">Network Security</span>
-      <span class="skill-badge">Incident Response</span>
-      <span class="skill-badge">Malware Analysis</span>
-      <span class="skill-badge">Digital Forensics</span>
-      <span class="skill-badge">SecOps</span>
-      <span class="skill-badge">AWS Security</span>
-      <span class="skill-badge">Azure Security</span>
-      <span class="skill-badge">LLM Security</span>
-      <span class="skill-badge">API Security</span>
-      <span class="skill-badge">Red Team</span>
+      <span class="skill-badge">Offensive Validation</span>
+      <span class="skill-badge">Security Reporting</span>
     </div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="certs-section fade-up">
+  <div class="certs-inner">
+    <div class="skills-header">
+      <span class="skills-label" data-it="// Certificazioni &amp; badge" data-en="// Certifications &amp; badges">// Certificazioni &amp; badge</span>
+      <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" rel="noopener noreferrer" class="credly-btn"
+         data-it="Verifica su Credly →" data-en="Verify on Credly →">Verifica su Credly →</a>
+    </div>
+
+    <div class="certs-grid" style="margin-top:1.5rem">
+      <span class="cert-item new">AWS Academy Educator <span class="iss">· AWS Training &amp; Certification · 2026</span></span>
+      <span class="cert-item new">Claude Partner Badge — Claude Code <span class="iss">· Anthropic · 2026</span></span>
+      <span class="cert-item new">Secure AI/ML-Driven Software Development <span class="iss">· The Linux Foundation · 2026</span></span>
+      <span class="cert-item new">EU Cyber Resilience Act (CRA) <span class="iss">· The Linux Foundation · 2026</span></span>
+      <span class="cert-item">AWS Academy Graduate — Cloud Architecting <span class="iss">· AWS Academy</span></span>
+      <span class="cert-item">AWS Academy Graduate — Cloud Security Foundations <span class="iss">· AWS Academy</span></span>
+      <span class="cert-item">Fortinet Certified Associate — Cybersecurity <span class="iss">· Fortinet</span></span>
+      <span class="cert-item">Model Context Protocol: Advanced Topics <span class="iss">· Anthropic</span></span>
+      <span class="cert-item">Operationalizing MITRE ATT&amp;CK v13 <span class="iss">· AttackIQ</span></span>
+      <span class="cert-item">Ethical Hacker <span class="iss">· Cisco Networking Academy</span></span>
+    </div>
+
+    <div class="certs-grid certs-more" id="certs-more">
+      <span class="cert-item">ATT&amp;CK Security Stack Mappings: AWS <span class="iss">· AttackIQ</span></span>
+      <span class="cert-item">Strategic Cybersecurity Management <span class="iss">· AttackIQ</span></span>
+      <span class="cert-item">API Penetration Testing <span class="iss">· APIsec University</span></span>
+      <span class="cert-item">CyberOps Associate <span class="iss">· Cisco Networking Academy</span></span>
+      <span class="cert-item">Network Security <span class="iss">· Cisco Networking Academy</span></span>
+      <span class="cert-item">Cisco Certified Instructor <span class="iss">· Networking Academy</span></span>
+      <span class="cert-item">FortiGate 7.6 Operator <span class="iss">· Fortinet</span></span>
+      <span class="cert-item">Cyber Security Certificate <span class="iss">· TryHackMe</span></span>
+      <span class="cert-item">Building with the Claude API <span class="iss">· Anthropic</span></span>
+      <span class="cert-item">Claude Code in Action <span class="iss">· Anthropic</span></span>
+      <span class="cert-item">Claude in Amazon Bedrock <span class="iss">· Anthropic</span></span>
+      <span class="cert-item">Red Hat AI Foundations — Executive <span class="iss">· Red Hat</span></span>
+    </div>
+
+    <button type="button" class="certs-toggle" onclick="toggleCerts(this)" aria-expanded="false" aria-controls="certs-more">
+      <span class="arrow">&#9660;</span>
+      <span class="cl-show" data-it="Mostra tutte (+12)" data-en="Show all (+12)">Mostra tutte (+12)</span>
+      <span class="cl-hide" data-it="Mostra meno" data-en="Show less">Mostra meno</span>
+    </button>
   </div>
 </div>
 
@@ -609,22 +737,45 @@ document.getElementById('mob-overlay').addEventListener('click',function(e){
 });
 
 /* ── FILTER ── */
+function refreshGroups(){
+  document.querySelectorAll('.post-group').forEach(g=>{
+    const visible = [...g.querySelectorAll('.article-card[data-category]')]
+      .some(c => c.style.display !== 'none' && getComputedStyle(c).display !== 'none');
+    g.classList.toggle('empty', !visible);
+  });
+}
 function filterPosts(cat,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.article-card[data-category]').forEach(c=>{
     c.style.display = (cat==='all'||c.dataset.category.split(' ').includes(cat))?'':'none';
   });
+  refreshGroups();
 }
+window.filterPosts = filterPosts;
+
+/* ── CERTS TOGGLE ── */
+function toggleCerts(btn){
+  const box = document.getElementById('certs-more');
+  const open = box.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+window.toggleCerts = toggleCerts;
 
 /* ── ARCHIVE TOGGLE ── */
 function toggleArchive(btn){
-  const list = document.getElementById('articles-list');
-  const isOpen = list.classList.toggle('show-archive');
+  const isOpen = document.body.classList.toggle('show-archive');
   btn.classList.toggle('open', isOpen);
   btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  refreshGroups();
 }
 window.toggleArchive = toggleArchive;
+
+/* keep archive counter honest */
+document.querySelectorAll('.archive-toggle .archive-count').forEach(el=>{
+  el.textContent = '(' + document.querySelectorAll('.article-card.archived').length + ')';
+});
 
 /* ── INTERSECTION OBSERVER ── */
 const obs = new IntersectionObserver(es=>{
@@ -680,7 +831,7 @@ document.querySelectorAll('.fade-up').forEach(el=>{
         1:`<span class="tm">Prova il comando <span class="to">whoami</span> (o <span class="to">chi</span>)</span>`,
         2:`<span class="tm">In Linux i file nascosti iniziano con <span class="to">.</span>\nProva: <span class="to">ls -a</span> poi <span class="to">cat .vault</span></span>`,
         3:`<span class="tm">ROT13: ogni lettera avanza di 13 posizioni.\n<span class="to">S→F, Y→L, N→A, T→G</span>... decifra il banner della porta 1337.</span>`,
-        4:`<span class="tm">Base64 si decodifica ovunque — browser console:\n<span class="to">atob("${b64}")</span></span>`,
+        4:`<span class="tm">Base64 si decodifica ovunque — browser console:\n<span class="to">atob("${flag4b64}")</span></span>`,
         5:`<span class="tm">Apri il sorgente della pagina.\n<span class="to">Ctrl+U</span> o <span class="to">view-source:paolocostanzo.github.io</span>\nCerca nei commenti HTML.</span>`,
       },
       hintMissing: n=>`<span class="tr">hint: sfida ${n} non esiste (1-5)</span>`,
@@ -704,7 +855,7 @@ document.querySelectorAll('.fade-up').forEach(el=>{
         1:`<span class="tm">Try <span class="to">whoami</span> (or <span class="to">chi</span>)</span>`,
         2:`<span class="tm">In Linux, hidden files start with <span class="to">.</span>\nTry: <span class="to">ls -a</span> then <span class="to">cat .vault</span></span>`,
         3:`<span class="tm">ROT13: shift each letter by 13 positions.\n<span class="to">S→F, Y→L, N→A, T→G</span>... decode the port 1337 banner.</span>`,
-        4:`<span class="tm">You can decode base64 anywhere — browser console:\n<span class="to">atob("${b64}")</span></span>`,
+        4:`<span class="tm">You can decode base64 anywhere — browser console:\n<span class="to">atob("${flag4b64}")</span></span>`,
         5:`<span class="tm">Open the page source.\n<span class="to">Ctrl+U</span> or <span class="to">view-source:paolocostanzo.github.io</span>\nLook in HTML comments.</span>`,
       },
       hintMissing: n=>`<span class="tr">hint: challenge ${n} does not exist (1-5)</span>`,
