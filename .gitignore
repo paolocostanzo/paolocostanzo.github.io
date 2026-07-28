@@ -1,0 +1,26 @@
+# ── Internal working files — do not publish ──
+# Il sito pubblica solo HTML e i suoi asset (immagini, favicon, feed, security.txt).
+# Tutto il resto è materiale di lavoro e resta in locale.
+
+# Documenti e proposte
+*.docx
+*.pdf
+*.pptx
+*.xlsx
+
+# Bozze, appunti e ricerca non pubblicata
+social-posts*.md
+Email_e_Prezzi_*.md
+living-off-the-agent-research/
+paolocostanzo-profile/
+
+# Tooling e ambienti
+.claude/
+node_modules/
+_to_delete/
+
+# Sistema e lock
+.DS_Store
+.~lock.*#
+*.lock
+PROMPT_LOVABLE_*.md
