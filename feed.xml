@@ -1,87 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>NonèCostanzo — Security Research</title>
+    <title>Paolo Costanzo — Independent Cybersecurity Research</title>
     <link>https://paolocostanzo.github.io</link>
-    <description>Technical write-ups, CVE analysis, thoughts on Cloud, AI Security and Penetration Testing by Paolo Costanzo.</description>
+    <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>07 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
 
     <item>
-      <title>I Wanted to Write a Quick Article. I Dismantled a Criminal Org Instead.</title>
-      <link>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</link>
-      <guid>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</guid>
-      <pubDate>07 Apr 2026 00:00:00 +0000</pubDate>
-      <description>A phishing email, an entire Easter vacation burned, and a rabbit hole that led to $13,960 stolen, infiltrated Telegram channels, mapped C2 infrastructure. Crypto Drainer-as-a-Service on the TRON network.</description>
-      <category>Threat Intelligence</category>
-      <category>Crypto</category>
+      <title>Wearable Biometric Telemetry: Technical Tear-down and Data Supply Chain</title>
+      <link>https://paolocostanzo.github.io/oura-palantir-biometrici/</link>
+      <guid>https://paolocostanzo.github.io/oura-palantir-biometrici/</guid>
+      <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
+      <description>Tear-down of a sensor ring (infrared PPG at 250 Hz, skin temperature at 0.1 °C), analysis of the v2 API and sync endpoints, documentary reconstruction of the corporate and investment chain, review of the clinical literature and of the US class actions. Includes a self-critique section and explicit limitations.</description>
+      <category>Privacy</category>
+      <category>Wearable</category>
       <category>OSINT</category>
     </item>
 
     <item>
-      <title>One GET, 169.254.169.254, IAM Credentials Served Fresh</title>
+      <title>Coordinated Abuse Network on Telegram: Content Moderation, Payment Rails and Regulatory Response</title>
+      <link>https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/</link>
+      <guid>https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0000</pubDate>
+      <description>Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Public journalistic and documentary sources. Sensitive content.</description>
+      <category>Threat Intelligence</category>
+      <category>OSINT</category>
+      <category>Content Moderation</category>
+    </item>
+
+    <item>
+      <title>Anatomy of a TRON Wallet Drainer-as-a-Service</title>
+      <link>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</link>
+      <guid>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</guid>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <description>Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data.</description>
+      <category>Threat Intelligence</category>
+      <category>OSINT</category>
+      <category>On-chain</category>
+    </item>
+
+    <item>
+      <title>SSRF → IMDSv1: Exfiltrating IAM Credentials from an EC2 Instance</title>
       <link>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</link>
       <guid>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</guid>
-      <pubDate>31 Mar 2026 00:00:00 +0000</pubDate>
-      <description>IMDSv1 requires no authentication. One SSRF in your app is enough to steal EC2 IAM credentials. Capital One, 106 million records, $80M fine. HttpTokens: required has existed since 2019.</description>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role&#x27;s temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.</description>
       <category>Cloud</category>
-      <category>Pentest</category>
+      <category>AWS</category>
       <category>SSRF</category>
     </item>
 
     <item>
-      <title>€40, 2 Minutes, and a Student Who'll Never Trust Free Wi-Fi Again</title>
+      <title>Evil Portal, Beacon Spam and Deauth: a €40 Hardware Wi-Fi Lab</title>
       <link>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</link>
       <guid>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</guid>
-      <pubDate>21 Mar 2026 00:00:00 +0000</pubDate>
-      <description>Cardputer-Adv in your pocket, Bruce firmware, and a class of professionals convinced they knew all about Wi-Fi. Evil Portal, beacon spam, deauth attack in the classroom.</description>
-      <category>Pentest</category>
-      <category>WiFi</category>
+      <pubDate>Sat, 21 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Classroom lab on an isolated lab network: Cardputer-Adv with Bruce firmware, evil portal, beacon spam and 802.11 deauthentication. Hardware setup, commands, observed results and client- and infrastructure-side countermeasures (802.11w/PMF, captive portal verification, DNS and certificates).</description>
+      <category>Wi-Fi</category>
       <category>Hardware</category>
+      <category>Lab</category>
     </item>
 
     <item>
-      <title>Operation Epic Fury: What the Reports Missed</title>
+      <title>Operation Epic Fury: Independent OSINT Analysis of a Dual-Platform Campaign</title>
       <link>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</link>
       <guid>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</guid>
-      <pubDate>17 Mar 2026 00:00:00 +0000</pubDate>
-      <description>Original OSINT investigation into the Iranian dual-platform campaign targeting Israeli civilians. Undisclosed Windows payload, secondary C2 with 0/94 VT, infrastructure active 8 months before anyone noticed.</description>
+      <pubDate>Tue, 17 Mar 2026 00:00:00 +0000</pubDate>
+      <description>OSINT investigation into an Android + Windows campaign attributed to an Iranian actor. A Windows payload not documented in public reporting, a secondary C2 at 0/94 VirusTotal detections at time of analysis, infrastructure registered roughly 8 months before the operation. Comparison with the Unit 42 and CloudSEK reports, IoCs and detection rules.</description>
       <category>Threat Intelligence</category>
-      <category>Malware Analysis</category>
+      <category>OSINT</category>
+      <category>Payload Analysis</category>
     </item>
 
     <item>
       <title>TIM, GeForce Now and the ICMP Black Hole</title>
       <link>https://paolocostanzo.github.io/tim-packet-loss-gfn/</link>
       <guid>https://paolocostanzo.github.io/tim-packet-loss-gfn/</guid>
-      <pubDate>10 Mar 2026 00:00:00 +0000</pubDate>
-      <description>How I diagnosed and worked around an ICMP Black Hole on TIM's network that caused 10% packet loss on GeForce Now and capped bandwidth at 26 Mbps on a 1 Gbps line.</description>
-      <category>Pentest</category>
+      <pubDate>Tue, 10 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround.</description>
       <category>Network</category>
       <category>ISP</category>
+      <category>Diagnostics</category>
     </item>
 
     <item>
-      <title>AWS IAM: The 5 Most Common Misconfigurations</title>
+      <title>AWS IAM: Five Recurring Misconfigurations and How to Fix Them</title>
       <link>https://paolocostanzo.github.io/aws-iam-misconfiguration/</link>
       <guid>https://paolocostanzo.github.io/aws-iam-misconfiguration/</guid>
-      <pubDate>01 Mar 2026 00:00:00 +0000</pubDate>
-      <description>Wildcard policies, root without MFA, exposed access keys, overly permissive roles and disabled logging. Five mistakes I see on every cloud audit — and how to fix them.</description>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls.</description>
       <category>Cloud</category>
       <category>AWS</category>
       <category>IAM</category>
     </item>
 
     <item>
-      <title>Prompt Injection on Enterprise LLMs: How It Really Works</title>
+      <title>Prompt Injection on Enterprise LLMs: Attack Surface and Mitigations</title>
       <link>https://paolocostanzo.github.io/prompt-injection-llm/</link>
       <guid>https://paolocostanzo.github.io/prompt-injection-llm/</guid>
-      <pubDate>01 Mar 2026 00:00:00 +0000</pubDate>
-      <description>Enterprise language models have attack surfaces almost nobody considers. A practical walk-through of how an attacker thinks when facing a corporate LLM wired into internal data.</description>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 +0000</pubDate>
+      <description>An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging.</description>
       <category>AI Security</category>
       <category>LLM</category>
-      <category>Pentest</category>
+      <category>AppSec</category>
     </item>
 
   </channel>

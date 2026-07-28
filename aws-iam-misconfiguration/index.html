@@ -6,14 +6,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo"
-    data-en="AWS IAM: the 5 most common misconfigurations — NonèCostanzo"
-  >AWS IAM: i 5 errori di configurazione più comuni — NonèCostanzo</title>
+    data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni — NonèCostanzo"
+    data-en="AWS IAM: five recurring misconfigurations and how to fix them — NonèCostanzo"
+  >AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni — NonèCostanzo</title>
   <meta
     name="description"
-    data-it="Cosa succede davvero quando le policy IAM sono troppo permissive."
-    data-en="What really happens when IAM policies are too permissive."
-    content="Cosa succede davvero quando le policy IAM sono troppo permissive."
+    data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."
+    data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."
+    content="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -83,7 +83,59 @@
     .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
     .auth-human{height:100%;background:var(--orange)}
     .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
-  </style>
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+  <link rel="canonical" href="https://paolocostanzo.github.io/aws-iam-misconfiguration/"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" content="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"/>
+  <meta property="og:description" content="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/aws-iam-misconfiguration/"/>
+  <meta property="article:published_time" content="2026-03-01"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"/>
+  <meta name="twitter:description" content="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni",
+  "description": "Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework.",
+  "datePublished": "2026-03-01",
+  "inLanguage": "it",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/aws-iam-misconfiguration/"
+  },
+  "url": "https://paolocostanzo.github.io/aws-iam-misconfiguration/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  }
+}
+  </script>
 </head>
 <body>
   <div id="read-bar"></div>
@@ -109,11 +161,9 @@
       </div>
     </div>
     <h1
-      data-it="AWS IAM: i 5 errori di configurazione più comuni"
-      data-en="AWS IAM: the 5 most common misconfigurations"
-    >
-      AWS IAM: i 5 errori di configurazione più comuni
-    </h1>
+      data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"
+      data-en="AWS IAM: five recurring misconfigurations and how to fix them"
+    >AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni</h1>
     <p class="article-intro"
        data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi."
        data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for — and how to close the door before they even knock."
@@ -145,8 +195,8 @@
     </div>
     <h2 data-it="Il problema reale" data-en="The real problem">Il problema reale</h2>
     <p
-      data-it="Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. \u003cstrong\u003eLa maggior parte dei compromessi AWS parte da IAM.\u003c/strong\u003e"
-      data-en="When people talk about cloud breaches, the story is always the same: sophisticated attack, zero-day, hoodie hacker. Reality is almost always more boring. \u003cstrong\u003eMost AWS compromises start from IAM.\u003c/strong\u003e"
+      data-it="Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong>"
+      data-en="When people talk about cloud breaches, the story is always the same: sophisticated attack, zero-day, hoodie hacker. Reality is almost always more boring. <strong>Most AWS compromises start from IAM.</strong>"
     >
       Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong>
     </p>
@@ -165,8 +215,8 @@
         Action: "*" — La policy che fa tutto
       </div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
-         data-it="Una policy con \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003eAction: \"*\"\u003c/code\u003e concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa."
-         data-en="A policy with \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003eAction: \"*\"\u003c/code\u003e gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything."
+         data-it="Una policy con <code style=\"color:var(--orange);font-family:var(--mono)\">Action: \"*\"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa."
+         data-en="A policy with <code style=\"color:var(--orange);font-family:var(--mono)\">Action: \"*\"</code> gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything."
       >
         Una policy con <code style="color:var(--orange);font-family:var(--mono)">Action: "*"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa.
       </p>
@@ -209,8 +259,8 @@
       </p>
     </div>
     <p
-      data-it="La soluzione non è nascondere le chiavi meglio. È non usarle. \u003cstrong\u003eIAM Roles per EC2, Lambda, ECS\u003c/strong\u003e — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico."
-      data-en="The solution is not to hide keys better. It is not to use them at all. \u003cstrong\u003eIAM Roles for EC2, Lambda, ECS\u003c/strong\u003e — temporary credentials rotate automatically and cannot be exfiltrated in the classic way."
+      data-it="La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico."
+      data-en="The solution is not to hide keys better. It is not to use them at all. <strong>IAM Roles for EC2, Lambda, ECS</strong> — temporary credentials rotate automatically and cannot be exfiltrated in the classic way."
     >
       La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico.
     </p>
@@ -223,8 +273,8 @@
         Trust policy aperta a qualsiasi account
       </div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
-         data-it="Un ruolo con trust policy che permette l'assume da \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003earn:aws:iam::*:root\u003c/code\u003e può essere assunto da qualsiasi account AWS nel mondo."
-         data-en="A role with a trust policy that allows assume from \u003ccode style=\"color:var(--orange);font-family:var(--mono)\"\u003earn:aws:iam::*:root\u003c/code\u003e can be assumed by any AWS account in the world."
+         data-it="Un ruolo con trust policy che permette l'assume da <code style=\"color:var(--orange);font-family:var(--mono)\">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo."
+         data-en="A role with a trust policy that allows assume from <code style=\"color:var(--orange);font-family:var(--mono)\">arn:aws:iam::*:root</code> can be assumed by any AWS account in the world."
       >
         Un ruolo con trust policy che permette l'assume da <code style="color:var(--orange);font-family:var(--mono)">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo.
       </p>
@@ -251,8 +301,8 @@
       </p>
     </div>
     <p
-      data-it="\u003cstrong\u003eIl root account non dovrebbe mai essere usato per operazioni quotidiane.\u003c/strong\u003e Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi."
-      data-en="\u003cstrong\u003eThe root account should never be used for daily operations.\u003c/strong\u003e You create it, enable hardware MFA, lock it away. For everything else you use IAM users or roles with least privilege."
+      data-it="<strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi."
+      data-en="<strong>The root account should never be used for daily operations.</strong> You create it, enable hardware MFA, lock it away. For everything else you use IAM users or roles with least privilege."
     >
       <strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi.
     </p>
@@ -274,8 +324,8 @@
     <div class="callout">
       <div class="callout-label" data-it="// Strumenti consigliati" data-en="// Recommended tools">// Strumenti consigliati</div>
       <p
-        data-it="\u003cstrong\u003eProwler\u003c/strong\u003e — audit automatizzato AWS con centinaia di check IAM.\u003cbr/\u003e\u003cstrong\u003eIAM Access Analyzer\u003c/strong\u003e — nativo AWS, gratuito, trova accessi pubblici e cross-account.\u003cbr/\u003e\u003cstrong\u003eCloudTrail + Athena\u003c/strong\u003e — analisi storica di chi ha fatto cosa e quando."
-        data-en="\u003cstrong\u003eProwler\u003c/strong\u003e — automated AWS audit with hundreds of IAM checks.\u003cbr/\u003e\u003cstrong\u003eIAM Access Analyzer\u003c/strong\u003e — native AWS, free, finds public and cross-account access.\u003cbr/\u003e\u003cstrong\u003eCloudTrail + Athena\u003c/strong\u003e — historical analysis of who did what and when."
+        data-it="<strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando."
+        data-en="<strong>Prowler</strong> — automated AWS audit with hundreds of IAM checks.<br/><strong>IAM Access Analyzer</strong> — native AWS, free, finds public and cross-account access.<br/><strong>CloudTrail + Athena</strong> — historical analysis of who did what and when."
       >
         <strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando.
       </p>
@@ -306,6 +356,27 @@
       <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
     </div>
   </div>
+  <!-- AUTHOR BOX -->
+  <aside class="author-box">
+    <div class="ab-head">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    </div>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role"
+         data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+         data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio"
+       data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+       data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" href="mailto:me@paolocostanzo.com"
+         data-it="Scrivimi →" data-en="Get in touch →">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+    </div>
+  </aside>
   <footer class="article-footer">
     <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>

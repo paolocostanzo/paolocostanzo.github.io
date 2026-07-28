@@ -11,14 +11,14 @@
        Tecnicamente sai già dove guardare. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="Rape Academy: anatomia tecnica di una rete di abuso globale — NonèCostanzo"
-    data-en="Rape Academy: the technical anatomy of a global abuse network — NonèCostanzo"
-  >Rape Academy: anatomia tecnica di una rete di abuso globale — NonèCostanzo</title>
+    data-it="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria — NonèCostanzo"
+    data-en="Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response — NonèCostanzo"
+  >Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria — NonèCostanzo</title>
   <meta
     name="description"
-    data-it="Un'inchiesta CNN infiltra un gruppo Telegram da mille utenti, mappa 20.000 video su Motherless.com, espone livestream a 20 dollari in crypto e venditori di 'sleeping liquids' a 175 dollari. Analisi threat intel: infrastruttura, OSINT, fallimento di content moderation, vuoto regolatorio."
-    data-en="A CNN investigation infiltrates a 1,000-member Telegram group, maps 20,000 videos on Motherless.com, exposes $20 livestreams in crypto and $175 'sleeping liquids'. Threat intel breakdown: infrastructure, OSINT, content moderation failure, regulatory gap."
-    content="Un'inchiesta CNN infiltra un gruppo Telegram da mille utenti, mappa 20.000 video su Motherless.com, espone livestream a 20 dollari in crypto e venditori di 'sleeping liquids' a 175 dollari. Analisi threat intel: infrastruttura, OSINT, fallimento di content moderation, vuoto regolatorio."
+    data-it="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Fonti giornalistiche e documentali pubbliche. Contenuto sensibile."
+    data-en="Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Public journalistic and documentary sources. Sensitive content."
+    content="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Fonti giornalistiche e documentali pubbliche. Contenuto sensibile."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -135,7 +135,59 @@
     .arch-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}
     .arch-caption{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-top:0.75rem}
     .figure-note{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.05em;text-align:center;margin-top:-1rem;margin-bottom:2rem;font-style:italic}
-  </style>
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+  <link rel="canonical" href="https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" content="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria"/>
+  <meta property="og:description" content="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Fonti giornalistiche e documentali pubbliche. Contenuto sensibile."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/"/>
+  <meta property="article:published_time" content="2026-04-21"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria"/>
+  <meta name="twitter:description" content="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Fonti giornalistiche e documentali pubbliche. Contenuto sensibile."/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria",
+  "description": "A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Fonti giornalistiche e documentali pubbliche. Contenuto sensibile.",
+  "datePublished": "2026-04-21",
+  "inLanguage": "it",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/"
+  },
+  "url": "https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  }
+}
+  </script>
 </head>
 <body>
   <div id="read-bar"></div>
@@ -161,7 +213,7 @@
       <span class="meta-item" data-it="18 min di lettura" data-en="18 min read">18 min di lettura</span>
       <span class="difficulty-badge"><span class="dot"></span><span data-it="Hard (tema sensibile)" data-en="Hard (sensitive topic)">Hard (tema sensibile)</span></span>
     </div>
-    <h1 data-it="Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori" data-en="Rape Academy: the technical anatomy of a global abuse network that slipped past content moderation, payment rails and regulators">Rape Academy: anatomia tecnica di una rete di abuso globale che ha bucato content moderation, payment rails e regolatori</h1>
+    <h1 data-it="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria" data-en="Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response">Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria</h1>
     <p class="article-intro"
       data-it="Il 26 marzo 2026 CNN ha pubblicato un'inchiesta durata mesi. Cinque giornalisti si sono infiltrati sotto copertura in un gruppo Telegram da mille utenti chiamato &ldquo;Zzz&rdquo;, hanno mappato 20.000 video di &ldquo;sleep content&rdquo; su Motherless.com, documentato livestream a venti dollari a spettatore pagati in criptovaluta e venditori di &ldquo;sleeping liquids&rdquo; a 175 dollari a bottiglia. Qui non si fa cronaca: si fa threat intel. Guardiamo l'infrastruttura, i tag, il pagamento, la risposta delle piattaforme, e il pilatismo di un regolatore che si è dichiarato felicemente incompetente."
       data-en="On March 26, 2026, CNN published a months-long investigation. Five journalists went undercover inside a 1,000-member Telegram group called &ldquo;Zzz,&rdquo; mapped 20,000 &ldquo;sleep content&rdquo; videos on Motherless.com, documented $20-per-viewer livestreams paid in cryptocurrency, and vendors selling &ldquo;sleeping liquids&rdquo; at $175 per bottle. This isn't news coverage: it's threat intel. We look at the infrastructure, the tagging taxonomy, the payment rails, the platforms' responses, and the Pontius Pilate moment of a regulator that declared itself cheerfully incompetent.">
@@ -714,6 +766,27 @@
       <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
     </div>
   </div>
+  <!-- AUTHOR BOX -->
+  <aside class="author-box">
+    <div class="ab-head">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    </div>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role"
+         data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+         data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio"
+       data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+       data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" href="mailto:me@paolocostanzo.com"
+         data-it="Scrivimi →" data-en="Get in touch →">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+    </div>
+  </aside>
   <footer class="article-footer">
     <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>

@@ -11,14 +11,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale. — NonèCostanzo"
-    data-en="I wanted to write a quick article. I dismantled a criminal org instead. — NonèCostanzo"
-  >Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale. — NonèCostanzo</title>
+    data-it="Anatomia di un wallet drainer-as-a-service su rete TRON — NonèCostanzo"
+    data-en="Anatomy of a TRON wallet drainer-as-a-service — NonèCostanzo"
+  >Anatomia di un wallet drainer-as-a-service su rete TRON — NonèCostanzo</title>
   <meta
     name="description"
-    data-it="Una email di phishing, un'intera Pasqua bruciata, e un rabbit hole che ha portato a $13.960 rubati, canali Telegram infiltrati, infrastruttura C2 mappata, e io che spiega a Claude Code che no, non era davvero una CTF."
-    data-en="A phishing email, an entire Easter vacation burned, and a rabbit hole that led to $13,960 stolen, infiltrated Telegram channels, mapped C2 infrastructure, and me explaining to Claude Code that no, it wasn't actually a CTF."
-    content="Una email di phishing, un'intera Pasqua bruciata, e un rabbit hole che ha portato a $13.960 rubati, canali Telegram infiltrati, infrastruttura C2 mappata, e io che spiega a Claude Code che no, non era davvero una CTF."
+    data-it="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain."
+    data-en="Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data."
+    content="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -123,7 +123,59 @@
     .tl-date{font-family:var(--mono);font-size:0.68rem;color:var(--orange);letter-spacing:0.1em;margin-bottom:0.3rem}
     .tl-text{font-size:0.9rem;color:#bbb;line-height:1.7}
     .tl-text strong{color:var(--text)}
-  </style>
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+  <link rel="canonical" href="https://paolocostanzo.github.io/crypto-drainer-svuotatasche/"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" content="Anatomia di un wallet drainer-as-a-service su rete TRON"/>
+  <meta property="og:description" content="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/crypto-drainer-svuotatasche/"/>
+  <meta property="article:published_time" content="2026-04-07"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Anatomia di un wallet drainer-as-a-service su rete TRON"/>
+  <meta name="twitter:description" content="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain."/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Anatomia di un wallet drainer-as-a-service su rete TRON",
+  "description": "Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain.",
+  "datePublished": "2026-04-07",
+  "inLanguage": "it",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/"
+  },
+  "url": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  }
+}
+  </script>
 </head>
 <body>
   <div id="read-bar"></div>
@@ -154,9 +206,9 @@
       </div>
     </div>
     <h1
-      data-it="Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale."
-      data-en="I wanted to write a quick article. I dismantled a criminal org instead."
-    >Volevo scrivere un articolo leggero. Ho smantellato un'organizzazione criminale.</h1>
+      data-it="Anatomia di un wallet drainer-as-a-service su rete TRON"
+      data-en="Anatomy of a TRON wallet drainer-as-a-service"
+    >Anatomia di un wallet drainer-as-a-service su rete TRON</h1>
     <p class="article-intro"
        data-it="Una email di phishing, un'intera Pasqua sacrificata sull'altare dell'OSINT, e l'inevitabile rabbit hole che non avevo messo in agenda. Nel mezzo: un payload JavaScript da 319KB che si esporta come NcAffiliateDrainer, una transazione increaseApproval con importo 0xffffff...fffff (unlimited), quattro canali Telegram infiltrati, tre playbook di social engineering in russo, tredici template di landing page, e io che devo spiegare a Claude Code che no — non era davvero una CTF."
        data-en="A phishing email, an entire Easter vacation sacrificed at the altar of OSINT, and the inevitable rabbit hole I hadn't scheduled. In between: a 319KB JavaScript payload exporting as NcAffiliateDrainer, an increaseApproval transaction set to 0xffffff...fffff (unlimited), four infiltrated Telegram channels, three social engineering playbooks in Russian, thirteen landing page templates, and me explaining to Claude Code that no — it wasn't actually a CTF."
@@ -1183,6 +1235,27 @@ Stato: <span class="ok">ATTIVO</span>
   </div>
 
   <!-- Footer -->
+  <!-- AUTHOR BOX -->
+  <aside class="author-box">
+    <div class="ab-head">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    </div>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role"
+         data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+         data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio"
+       data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+       data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" href="mailto:me@paolocostanzo.com"
+         data-it="Scrivimi →" data-en="Get in touch →">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+    </div>
+  </aside>
   <footer class="article-footer">
     <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← tutti gli articoli</a>
     <span class="footer-copy" data-it="&copy; 2026 paolocostanzo.github.io &middot; indagine in corso" data-en="© 2026 paolocostanzo.github.io · investigation ongoing">© 2026 paolocostanzo.github.io · indagine in corso</span>
