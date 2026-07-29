@@ -18,6 +18,7 @@ paolocostanzo-profile/
 .claude/
 node_modules/
 _to_delete/
+deploy-*.sh
 
 # Sistema e lock
 .DS_Store
