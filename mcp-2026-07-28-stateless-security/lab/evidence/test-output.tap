@@ -1,0 +1,101 @@
+TAP version 13
+# Subtest: T01 baseline: the official client uses the modern revision without a protocol session
+ok 1 - T01 baseline: the official client uses the modern revision without a protocol session
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"era":"modern","revision":"2026-07-28","methods":["server/discover","tools/call"],"toolCall":{"headerVersion":"2026-07-28","headerMethod":"tools/call","headerName":"create_scan","envelopeMethod":"tools/call","envelopeName":"create_scan","envelopeVersion":"2026-07-28"},"initializeSeen":false,"sessionIdSeen":false,"externalFetchBlocked":true}
+# Subtest: T02 auth: a missing bearer token is rejected before the MCP handler
+ok 2 - T02 auth: a missing bearer token is rejected before the MCP handler
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"status":401,"challenge":"Bearer","handlerRequests":0,"toolDispatches":0}
+# Subtest: T03 auth: an unknown bearer token is rejected before the MCP handler
+ok 3 - T03 auth: an unknown bearer token is rejected before the MCP handler
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"status":401,"error":"invalid_token","handlerRequests":0,"toolDispatches":0}
+# Subtest: T04 vulnerable: Mallory can read Alice data with the returned handle
+ok 4 - T04 vulnerable: Mallory can read Alice data with the returned handle
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"owner":"alice","reader":"mallory","handleFormat":"uuid-v4","noteMatched":true,"crossPrincipalRead":true}
+# Subtest: T05 vulnerable: Mallory can modify Alice data with the returned handle
+ok 5 - T05 vulnerable: Mallory can modify Alice data with the returned handle
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"owner":"alice","writer":"mallory","statusObservedByOwner":"completed"}
+# Subtest: T06 hardened: principal binding blocks Mallory cross-read
+ok 6 - T06 hardened: principal binding blocks Mallory cross-read
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"actor":"mallory","action":"read_scan","handleFormat":"uuid-v4","denied":true,"error":"generic"}
+# Subtest: T07 hardened: principal binding blocks Mallory cross-write and preserves owner access
+ok 7 - T07 hardened: principal binding blocks Mallory cross-write and preserves owner access
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"malloryWriteDenied":true,"ownerStateBefore":"pending","ownerWriteAfter":"completed"}
+# Subtest: T08 hardened: expired state is rejected and removed without sleeping
+ok 8 - T08 hardened: expired state is rejected and removed without sleeping
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"expired":true,"genericError":true,"storeEntriesAfterCleanup":0}
+# Subtest: T09 hardened: denied audit events correlate attempts without controlled secrets
+ok 9 - T09 hardened: denied audit events correlate attempts without controlled secrets
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"actor":"mallory","outcome":"denied","reason":"not_found_or_not_owner","traceId":"trace-test-001","hashLength":64}
+# Subtest: T10 protocol: header/body mismatch returns -32020 before dispatch
+ok 10 - T10 protocol: header/body mismatch returns -32020 before dispatch
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"status":400,"code":-32020,"requestIdPreserved":true,"dispatched":false}
+# Subtest: T11 protocol: a modern request without _meta returns -32602 before dispatch
+ok 11 - T11 protocol: a modern request without _meta returns -32602 before dispatch
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"status":400,"code":-32602,"requestIdPreserved":true,"dispatched":false}
+# Subtest: T12 protocol: an unsupported future revision returns -32022 and the supported list
+ok 12 - T12 protocol: an unsupported future revision returns -32022 and the supported list
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"status":400,"code":-32022,"supported":["2026-07-28"],"requestIdPreserved":true,"dispatched":false}
+# Subtest: T13 key binding: the concatenated composite key is ambiguous, the tuple key is not
+ok 13 - T13 key binding: the concatenated composite key is ambiguous, the tuple key is not
+  ---
+  duration_ms: <VARIABLE>
+  type: 'test'
+  ...
+# {"victim":"tenant-a:svc","attacker":"tenant-a","naiveKeyCollision":true,"tupleKeyCollision":false}
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms <VARIABLE>

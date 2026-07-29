@@ -5,8 +5,20 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 24 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>MCP 2026-07-28: Stateless Does Not Mean State-Free</title>
+      <link>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</link>
+      <guid>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</guid>
+      <pubDate>Wed, 29 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Revision 2026-07-28 removes MCP protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared under identical tokens and UUIDs, 13/13 tests, fully in-process lab. The composite key the specification recommends turns out to be bypassable when the principal id contains the delimiter.</description>
+      <category>Agentic AI</category>
+      <category>MCP</category>
+      <category>Tool Authorization</category>
+      <category>Cloud Security</category>
+    </item>
 
     <item>
       <title>Wearable Biometric Telemetry: Technical Tear-down and Data Supply Chain</title>

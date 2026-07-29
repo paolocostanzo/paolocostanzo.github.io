@@ -1,0 +1,24 @@
+{
+  "name": "mcp-2026-07-28-state-handle-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local, in-process security lab for MCP 2026-07-28 state-handle ownership.",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "lab:baseline": "node --test --test-concurrency=1 test/01-baseline.test.mjs",
+    "lab:attack": "node --test --test-concurrency=1 test/03-vulnerable.test.mjs",
+    "lab:fixed": "node --test --test-concurrency=1 test/04-hardened.test.mjs",
+    "lab:headers": "node --test --test-concurrency=1 test/05-protocol.test.mjs",
+    "lab:keys": "node --test --test-concurrency=1 test/06-key-binding.test.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "evidence": "node scripts/generate-evidence.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.4.3"
+  }
+}

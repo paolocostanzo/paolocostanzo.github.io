@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-07-29T12:48:51.027Z",
+  "command": "node --test --test-concurrency=1 --test-reporter=tap test/01-baseline.test.mjs test/02-auth.test.mjs test/03-vulnerable.test.mjs test/04-hardened.test.mjs test/05-protocol.test.mjs test/06-key-binding.test.mjs",
+  "exitCode": 0,
+  "summary": {
+    "tests": 13,
+    "pass": 13,
+    "fail": 0
+  },
+  "publicationGate": {
+    "expectedTests": 13,
+    "passed": true
+  },
+  "runtime": {
+    "node": "v22.22.3",
+    "sdkClient": "2.0.0",
+    "sdkServer": "2.0.0",
+    "zod": "4.4.3"
+  },
+  "git": {
+    "sourceCommit": "c30161116d5182e49e67c555e5387a2e13db4852",
+    "sourceDirty": true
+  },
+  "sourceSha256": {
+    "README.md": "2b7599ee8e7b9cf1368ede112d242dc565a5ee09e308a13742a3eec181203d64",
+    "package.json": "dbae6236d1a165bc1dcb64d2aca5c9c0055db304e595921a50c7fc5762241563",
+    "package-lock.json": "84bf22e17ba5c9558387a88c3fe4532b113d52d7b3d021a1ebde23b37d8af571",
+    "scripts/generate-evidence.mjs": "d6e1258cbf7ccdbb4b778a6cdaa1cee436bfcfe0ece3ca04ffd78442b54a2683",
+    "src/harness.mjs": "2452cd7f44be1414e1beef1525212167eb06b98fa1437cb4683568fd9bce7791",
+    "test/01-baseline.test.mjs": "2ec290edc2a1da636da3d60cd86039b46b8464a2064612958853451f436c6a97",
+    "test/02-auth.test.mjs": "ff6acf06bfefac0006a38a232402b2120d78785bdb8724528120721489be9c1e",
+    "test/03-vulnerable.test.mjs": "28f92a215836fd76f9b6dcf28199b18443f60daed3b16d7d0de00a15868ebb0b",
+    "test/04-hardened.test.mjs": "7c95084713b68744d888b9f298eca97d03c423d1f8dcd58196939cc20d6e18ea",
+    "test/05-protocol.test.mjs": "0e654df236f6dbe690f64c963c31194048ef28a0f8eef79006ff1c3f1de25abb",
+    "test/06-key-binding.test.mjs": "791345902652fee64d9ad7cbda88ff29bddd13cd504ca47cd71611815cd4bcd3"
+  }
+}
