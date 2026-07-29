@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-29T12:48:51.027Z",
+  "generatedAt": "2026-07-29T13:13:30.640Z",
   "command": "node --test --test-concurrency=1 --test-reporter=tap test/01-baseline.test.mjs test/02-auth.test.mjs test/03-vulnerable.test.mjs test/04-hardened.test.mjs test/05-protocol.test.mjs test/06-key-binding.test.mjs",
   "exitCode": 0,
   "summary": {
@@ -12,14 +12,14 @@
     "passed": true
   },
   "runtime": {
-    "node": "v22.22.3",
+    "node": "v26.4.0",
     "sdkClient": "2.0.0",
     "sdkServer": "2.0.0",
     "zod": "4.4.3"
   },
   "git": {
-    "sourceCommit": "c30161116d5182e49e67c555e5387a2e13db4852",
-    "sourceDirty": true
+    "sourceCommit": "2929781f351ab6aedc1097802bb351e1628ec5c6",
+    "sourceDirty": false
   },
   "sourceSha256": {
     "README.md": "2b7599ee8e7b9cf1368ede112d242dc565a5ee09e308a13742a3eec181203d64",
