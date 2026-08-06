@@ -255,28 +255,28 @@
       </tbody>
     </table>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># estraggo il Cookie da ogni GET, in ordine di cattura</span>
-tshark -r &lt;capture.pcap&gt; -Y "<span class="ok">http.request</span>" -T fields -e <span class="ok">http.cookie</span></pre>
+<pre><span class="comment"># salvo il Cookie di OGNI beacon (GET / con hotel_sess_state), in ordine di cattura</span>
+<span class="neutral">tshark -r &lt;capture.pcap&gt; -Y 'http.cookie contains "hotel_sess_state"' \</span>
+       -T fields -e <span class="ok">http.cookie</span> &gt; cookies.txt</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># pull the Cookie from every GET, in capture order</span>
-tshark -r &lt;capture.pcap&gt; -Y "<span class="ok">http.request</span>" -T fields -e <span class="ok">http.cookie</span></pre>
+<pre><span class="comment"># save the Cookie of EVERY beacon (GET / with hotel_sess_state), in capture order</span>
+<span class="neutral">tshark -r &lt;capture.pcap&gt; -Y 'http.cookie contains "hotel_sess_state"' \</span>
+       -T fields -e <span class="ok">http.cookie</span> &gt; cookies.txt</pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># 30 stringhe base64, una per ogni tasto premuto</span>
-<span class="neutral">HA==</span>
-<span class="neutral">AA==</span>
-<span class="neutral">BQ==</span>
-<span class="neutral">Mw==</span>
-<span class="comment"># ... e cosi' via, 30 in totale</span></pre>
+<pre><span class="comment"># cookies.txt: una riga per tasto, formato hotel_sess_state=&lt;base64&gt;</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="comment"># ... 30 righe in totale (valori mascherati: policy)</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># 30 base64 strings, one per keystroke</span>
-<span class="neutral">HA==</span>
-<span class="neutral">AA==</span>
-<span class="neutral">BQ==</span>
-<span class="neutral">Mw==</span>
-<span class="comment"># ... and so on, 30 in total</span></pre>
+<pre><span class="comment"># cookies.txt: one line per key, format hotel_sess_state=&lt;base64&gt;</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="neutral">hotel_sess_state=████</span>
+<span class="comment"># ... 30 lines total (values masked: policy)</span></pre>
 </div></div>
     <p data-it="Risultato: &lt;strong&gt;30 stringhe base64&lt;/strong&gt;, una per keystroke. Ognuna decodifica a un solo byte cifrato. Adesso tocca invertire la cifratura." data-en="Result: &lt;strong&gt;30 base64 strings&lt;/strong&gt;, one per keystroke. Each decodes to a single encrypted byte. Now I just have to reverse the encryption.">Risultato: <strong>30 stringhe base64</strong>, una per keystroke. Ognuna decodifica a un solo byte cifrato. Adesso tocca invertire la cifratura.</p>
 
@@ -284,20 +284,26 @@ tshark -r &lt;capture.pcap&gt; -Y "<span class="ok">http.request</span>" -T fiel
     <p data-it="Per decodificare devo ripercorrere lo script all'indietro: &lt;strong&gt;base64-decode&lt;/strong&gt; e poi &lt;strong&gt;XOR&lt;/strong&gt; con la stessa chiave. La domanda vera è: &lt;em&gt;quale&lt;/em&gt; parte della chiave?" data-en="To decode I retrace the script backwards: &lt;strong&gt;base64-decode&lt;/strong&gt; and then &lt;strong&gt;XOR&lt;/strong&gt; with the same key. The real question is: &lt;em&gt;which&lt;/em&gt; part of the key?">Per decodificare devo ripercorrere lo script all'indietro: <strong>base64-decode</strong> e poi <strong>XOR</strong> con la stessa chiave. La domanda vera è: <em>quale</em> parte della chiave?</p>
     <p data-it="Qui c'è il dettaglio che mi diverte. La &lt;code&gt;xor()&lt;/code&gt; indicizza la chiave con &lt;code&gt;i % len(key)&lt;/code&gt;, ma &lt;code&gt;sendltr()&lt;/code&gt; cifra &lt;strong&gt;un carattere alla volta&lt;/strong&gt;: il messaggio è lungo 1 byte, quindi &lt;code&gt;i&lt;/code&gt; vale sempre 0 e l'indice non avanza mai oltre il primo carattere. La chiave «robusta» da 25 caratteri collassa su un solo byte: &lt;code&gt;H&lt;/code&gt; (0x48). In pratica è un XOR a byte singolo — bruteforzabile in 256 tentativi, e con &lt;code&gt;THM{&lt;/code&gt; come plaintext noto non serve nemmeno indovinare la chiave: si generalizza a qualunque «cifratura per token» che azzera lo stato a ogni chiamata." data-en="Here's the detail I enjoy. &lt;code&gt;xor()&lt;/code&gt; indexes the key with &lt;code&gt;i % len(key)&lt;/code&gt;, but &lt;code&gt;sendltr()&lt;/code&gt; encrypts &lt;strong&gt;one character at a time&lt;/strong&gt;: the message is 1 byte long, so &lt;code&gt;i&lt;/code&gt; is always 0 and the index never moves past the first character. The &quot;robust&quot; 25-char key collapses to a single byte: &lt;code&gt;H&lt;/code&gt; (0x48). It's effectively single-byte XOR — brute-forceable in 256 tries, and with &lt;code&gt;THM{&lt;/code&gt; as known plaintext you don't even need to guess the key: it generalizes to any &quot;per-token encryption&quot; that resets its state on every call.">Qui c'è il dettaglio che mi diverte. La <code>xor()</code> indicizza la chiave con <code>i % len(key)</code>, ma <code>sendltr()</code> cifra <strong>un carattere alla volta</strong>: il messaggio è lungo 1 byte, quindi <code>i</code> vale sempre 0 e l'indice non avanza mai oltre il primo carattere. La chiave «robusta» da 25 caratteri collassa su un solo byte: <code>H</code> (0x48). In pratica è un XOR a byte singolo — bruteforzabile in 256 tentativi, e con <code>THM{</code> come plaintext noto non serve nemmeno indovinare la chiave: si generalizza a qualunque «cifratura per token» che azzera lo stato a ogni chiamata.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># ricetta CyberChef: From Base64  -&gt;  XOR key=H (UTF8)</span>
-<span class="comment"># riproducibile in una riga, XOR a byte singolo:</span>
-<span class="neutral">python3 -c 'import base64,sys</span>
-<span class="neutral">for v in open("cookies.txt"):</span>
-<span class="neutral">    b=base64.b64decode(v.strip())</span>
-    sys.stdout.write("".join(chr(x^<span class="ok">0x48</span>) for x in b))'</pre>
+<pre><span class="comment"># decodifica: strip prefisso, base64, XOR con 'H' (0x48) — XOR a byte singolo</span>
+<span class="neutral">python3 -c 'import base64</span>
+<span class="neutral">out=""</span>
+<span class="neutral">for line in open("cookies.txt"):</span>
+<span class="neutral">    v=line.strip().split("hotel_sess_state=")[-1]</span>
+<span class="neutral">    if not v: continue</span>
+    out+="".join(chr(x^<span class="ok">0x48</span>) for x in base64.b64decode(v))
+<span class="neutral">print(out)'</span>
+<span class="comment"># -&gt; la flag (in chiaro solo sul TUO pcap)</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># CyberChef recipe: From Base64  -&gt;  XOR key=H (UTF8)</span>
-<span class="comment"># reproducible in one line, single-byte XOR:</span>
-<span class="neutral">python3 -c 'import base64,sys</span>
-<span class="neutral">for v in open("cookies.txt"):</span>
-<span class="neutral">    b=base64.b64decode(v.strip())</span>
-    sys.stdout.write("".join(chr(x^<span class="ok">0x48</span>) for x in b))'</pre>
+<pre><span class="comment"># decode: strip prefix, base64, XOR with 'H' (0x48) -- single-byte XOR</span>
+<span class="neutral">python3 -c 'import base64</span>
+<span class="neutral">out=""</span>
+<span class="neutral">for line in open("cookies.txt"):</span>
+<span class="neutral">    v=line.strip().split("hotel_sess_state=")[-1]</span>
+<span class="neutral">    if not v: continue</span>
+    out+="".join(chr(x^<span class="ok">0x48</span>) for x in base64.b64decode(v))
+<span class="neutral">print(out)'</span>
+<span class="comment"># -&gt; the flag (cleartext only on YOUR pcap)</span></pre>
 </div></div>
 
     <h2 data-it="[05] Flag e difesa" data-en="[05] Flag and defense" id='difesa'>[05] Flag e difesa</h2>
