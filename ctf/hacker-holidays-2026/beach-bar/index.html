@@ -185,7 +185,7 @@
 
     <div class="tldr">
       <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
-      <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela una password del DB riusata da root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks a DB password reused by root.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela una password del DB riusata da root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
+      <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela la stream-pass di un demone root, riusata come password di root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks a root daemon's stream-pass, reused as the root password.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela la stream-pass di un demone root, riusata come password di root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
     </div>
 
     <div class="callout">
@@ -286,7 +286,7 @@
 <span class="comment"># Ctrl+Z → torna alla TUA shell locale</span>
 <span class="neutral">stty raw -echo; fg</span>   <span class="comment"># [sulla tua macchina]</span>
 <span class="neutral">export TERM=xterm</span>   <span class="comment"># [di nuovo sul target]</span>
-<span class="neutral">id            # uid=1000(bartender)</span>
+<span class="neutral">id            # uid=1001(bartender)</span>
 <span class="comment"># la flag utente sta nella home dell'utente (cwd variabile: uso una glob)</span>
 cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>
@@ -296,7 +296,7 @@ cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">███�
 <span class="comment"># Ctrl+Z → back to YOUR local shell</span>
 <span class="neutral">stty raw -echo; fg</span>   <span class="comment"># [on your machine]</span>
 <span class="neutral">export TERM=xterm</span>   <span class="comment"># [back on the target]</span>
-<span class="neutral">id            # uid=1000(bartender)</span>
+<span class="neutral">id            # uid=1001(bartender)</span>
 <span class="comment"># the user flag lives in the user's home (cwd varies: use a glob)</span>
 cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>
@@ -306,8 +306,8 @@ cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">███�
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># cosa dice ad alta voce un processo</span>
 <span class="neutral">ps aux | grep python</span>
-# bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
-<span class="comment"># quella password del DB è riusata per l'account root (credential reuse): la provo con su</span>
+# root ... /opt/beach-bar/jukeboxd/jukeboxd.py <span class="danger">--stream-pass ████</span> ...
+<span class="comment"># un demone jukebox gira come ROOT e mette la stream-pass sulla command line; è riusata come password di root (credential reuse): la provo con su</span>
 <span class="neutral">su root</span>
 <span class="comment"># password: ████</span>
 cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
@@ -315,8 +315,8 @@ cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># what a process says out loud</span>
 <span class="neutral">ps aux | grep python</span>
-# bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
-<span class="comment"># that same DB password is reused for the root account (credential reuse): I try it with su</span>
+# root ... /opt/beach-bar/jukeboxd/jukeboxd.py <span class="danger">--stream-pass ████</span> ...
+<span class="comment"># a jukebox daemon runs as ROOT and puts its stream-pass on the command line; it's reused as the root password (credential reuse): I try it with su</span>
 <span class="neutral">su root</span>
 <span class="comment"># password: ████</span>
 cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
