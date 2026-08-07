@@ -137,7 +137,7 @@
   "headline":"Room 404: .git esposto e git-dumper",
   "description":"Writeup TryHackMe Room 404: .git esposto, dump con git-dumper e flag nascosta nella history dei commit. Recon, exploit e lezione difensiva.",
   "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/og.png"],"datePublished":"2026-07-28T09:00:00+02:00","dateModified":"2026-07-28T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Room 404, Web, TryHackMe, CTF walkthrough",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Room 404, Web, CTF walkthrough",
   "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/",
   "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
   "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
@@ -173,14 +173,13 @@
   <div class="article-header">
     <div class="article-meta">
       <span class="tag">Web</span><span class="tag">TryHackMe</span>
-      <span class="tag">TryHackMe</span>
       <time class="meta-item" datetime="2026-07-28" data-it="28 Lug 2026" data-en="28 Jul 2026">28 Lug 2026</time>
       <span class="meta-item" data-it="4 min di lettura" data-en="4 min read">4 min di lettura</span>
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// il commit lo cancelli, la history no" data-en="// you delete the commit, not the history">// il commit lo cancelli, la history no</span>
     </div>
     <h1 data-it="Room 404: quando il .git finisce in produzione" data-en="Room 404: when .git ships to production">Room 404: quando il .git finisce in produzione</h1>
-    <p class="article-intro" data-it="«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente sia esposto, è che un innocuo &lt;code&gt;.git&lt;/code&gt; in produzione consegna l'intera &lt;em&gt;storia&lt;/em&gt; del progetto, inclusi i segreti che lo sviluppatore credeva di aver cancellato. Si continua da dove eravamo rimasti al Day 01: la piattaforma guest del Byte Lotus è andata online di corsa e lo sviluppatore del turno di notte ha spedito più del previsto." data-en="&quot;Dump the exposed source and find the flag,&quot; says the room. On paper it's easy, and it really is — but the real lesson isn't that the source code is exposed, it's that a harmless-looking &lt;code&gt;.git&lt;/code&gt; in production hands over the project's entire &lt;em&gt;history&lt;/em&gt;, including secrets the developer thought they'd already deleted. This picks up where Day 01 left off: the Byte Lotus guest platform went live in a hurry and the night-shift developer shipped more than intended.">«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente sia esposto, è che un innocuo <code>.git</code> in produzione consegna l'intera <em>storia</em> del progetto, inclusi i segreti che lo sviluppatore credeva di aver cancellato. Si continua da dove eravamo rimasti al Day 01: la piattaforma guest del Byte Lotus è andata online di corsa e lo sviluppatore del turno di notte ha spedito più del previsto.</p>
+    <p class="article-intro" data-it="«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente sia esposto, è che un innocuo &lt;code&gt;.git&lt;/code&gt; in produzione consegna l'intera &lt;em&gt;storia&lt;/em&gt; del progetto, inclusi i segreti che lo sviluppatore credeva di aver cancellato. La piattaforma guest del Byte Lotus è andata online di corsa e lo sviluppatore del turno di notte ha spedito più del previsto." data-en="&quot;Dump the exposed source and find the flag,&quot; says the room. On paper it's easy, and it really is — but the real lesson isn't that the source code is exposed, it's that a harmless-looking &lt;code&gt;.git&lt;/code&gt; in production hands over the project's entire &lt;em&gt;history&lt;/em&gt;, including secrets the developer thought they'd already deleted. The Byte Lotus guest platform went live in a hurry and the night-shift developer shipped more than intended.">«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente sia esposto, è che un innocuo <code>.git</code> in produzione consegna l'intera <em>storia</em> del progetto, inclusi i segreti che lo sviluppatore credeva di aver cancellato. La piattaforma guest del Byte Lotus è andata online di corsa e lo sviluppatore del turno di notte ha spedito più del previsto.</p>
   </div>
   <div class="article-body">
 
@@ -191,7 +190,7 @@
 
     <div class="callout">
       <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
-      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina: il web risponde sulla porta &lt;strong&gt;8080&lt;/strong&gt;, che trovi con &lt;code&gt;nmap -sV -p- &amp;lt;target&amp;gt;&lt;/code&gt;. Tutto gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina. Servono: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt; e &lt;code&gt;git-dumper&lt;/code&gt; (&lt;code&gt;pip install git-dumper&lt;/code&gt;)." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP: the web service answers on port &lt;strong&gt;8080&lt;/strong&gt;, which you find with &lt;code&gt;nmap -sV -p- &amp;lt;target&amp;gt;&lt;/code&gt;. Everything runs on &lt;strong&gt;your&lt;/strong&gt; machine. You need: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt; and &lt;code&gt;git-dumper&lt;/code&gt; (&lt;code&gt;pip install git-dumper&lt;/code&gt;).">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina: il web risponde sulla porta <strong>8080</strong>, che trovi con <code>nmap -sV -p- &lt;target&gt;</code>. Tutto gira sulla <strong>tua</strong> macchina. Servono: <code>curl</code>, <code>git</code> e <code>git-dumper</code> (<code>pip install git-dumper</code>).</p>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina: il web risponde sulla porta &lt;strong&gt;8080&lt;/strong&gt;, che trovi con &lt;code&gt;nmap -sV -p- &amp;lt;target&amp;gt;&lt;/code&gt;. Tutto gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina. Servono: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt; e &lt;code&gt;git-dumper&lt;/code&gt; (&lt;code&gt;pip install git-dumper --break-system-packages&lt;/code&gt;)." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP: the web service answers on port &lt;strong&gt;8080&lt;/strong&gt;, which you find with &lt;code&gt;nmap -sV -p- &amp;lt;target&amp;gt;&lt;/code&gt;. Everything runs on &lt;strong&gt;your&lt;/strong&gt; machine. You need: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt; and &lt;code&gt;git-dumper&lt;/code&gt; (&lt;code&gt;pip install git-dumper --break-system-packages&lt;/code&gt;).">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina: il web risponde sulla porta <strong>8080</strong>, che trovi con <code>nmap -sV -p- &lt;target&gt;</code>. Tutto gira sulla <strong>tua</strong> macchina. Servono: <code>curl</code>, <code>git</code> e <code>git-dumper</code> (<code>pip install git-dumper --break-system-packages</code>).</p>
     </div>
 
     <h2 data-it="[01] Recon: il canarino .git/HEAD" data-en="[01] Recon: the .git/HEAD canary" id='recon'>[01] Recon: il canarino .git/HEAD</h2>
@@ -219,12 +218,10 @@ HTTP/1.1 <span class="ok">200 OK</span>
     <p data-it="Esposizione confermata. Ora ricostruisco l'intero repository con &lt;code&gt;git-dumper&lt;/code&gt;, che fa il lavoro sporco al posto mio e mi restituisce un repo locale del tutto normale." data-en="Exposure confirmed. Now I rebuild the entire repository with &lt;code&gt;git-dumper&lt;/code&gt;, which does the dirty work for me and gives back a perfectly normal local repo.">Esposizione confermata. Ora ricostruisco l'intero repository con <code>git-dumper</code>, che fa il lavoro sporco al posto mio e mi restituisce un repo locale del tutto normale.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># git-dumper ricostruisce il repo dagli oggetti/ref/pack</span>
-<span class="neutral">pip install git-dumper --break-system-packages</span>
 <span class="neutral">git-dumper http://&lt;target&gt;:8080/.git/ ./bytelotus</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># git-dumper rebuilds the repo from objects/refs/packs</span>
-<span class="neutral">pip install git-dumper --break-system-packages</span>
 <span class="neutral">git-dumper http://&lt;target&gt;:8080/.git/ ./bytelotus</span></pre>
 </div></div>
     <p data-it="Nessun &lt;em&gt;directory listing&lt;/em&gt;? Non serve. &lt;code&gt;git-dumper&lt;/code&gt; parte da &lt;code&gt;.git/HEAD&lt;/code&gt; e &lt;code&gt;.git/refs&lt;/code&gt;, legge &lt;code&gt;packed-refs&lt;/code&gt; e &lt;code&gt;objects/info/packs&lt;/code&gt;, poi cammina il grafo degli oggetti scaricandoli uno a uno. Git è un archivio &lt;em&gt;content-addressable&lt;/em&gt;: basta conoscere gli hash — che vivono nei ref e nei pack — per tirare giù l'intero database. Il risultato è un repo identico a un &lt;code&gt;git clone&lt;/code&gt;." data-en="No &lt;em&gt;directory listing&lt;/em&gt;? Doesn't matter. &lt;code&gt;git-dumper&lt;/code&gt; starts from &lt;code&gt;.git/HEAD&lt;/code&gt; and &lt;code&gt;.git/refs&lt;/code&gt;, reads &lt;code&gt;packed-refs&lt;/code&gt; and &lt;code&gt;objects/info/packs&lt;/code&gt;, then walks the object graph downloading them one by one. Git is a &lt;em&gt;content-addressable&lt;/em&gt; store: knowing the hashes — which live in the refs and packs — is enough to pull down the whole database. The result is a repo identical to a &lt;code&gt;git clone&lt;/code&gt;.">Nessun <em>directory listing</em>? Non serve. <code>git-dumper</code> parte da <code>.git/HEAD</code> e <code>.git/refs</code>, legge <code>packed-refs</code> e <code>objects/info/packs</code>, poi cammina il grafo degli oggetti scaricandoli uno a uno. Git è un archivio <em>content-addressable</em>: basta conoscere gli hash — che vivono nei ref e nei pack — per tirare giù l'intero database. Il risultato è un repo identico a un <code>git clone</code>.</p>
@@ -260,14 +257,14 @@ HTTP/1.1 <span class="ok">200 OK</span>
 <pre><span class="comment"># La flag vive in un vecchio commit, poi «rimossa» su HEAD</span>
 <span class="neutral">git log --all -p -S 'THM{'</span>
 <span class="neutral"></span>
-<span class="comment"># nel diff di un vecchio commit ricompare la riga poi «rimossa» su HEAD:</span>
+<span class="comment"># nel commit che «ripulisce» il file la flag compare come riga rimossa:</span>
 -    FLAG = "<span class="danger">THM{<span class="redaction">████████████████████</span>}</span>"</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># The flag lives in an old commit, then "removed" on HEAD</span>
 <span class="neutral">git log --all -p -S 'THM{'</span>
 <span class="neutral"></span>
-<span class="comment"># in an old commit's diff the removed line reappears (later 'cleaned' on HEAD):</span>
+<span class="comment"># in the cleanup commit the flag shows up as a removed line:</span>
 -    FLAG = "<span class="danger">THM{<span class="redaction">████████████████████</span>}</span>"</pre>
 </div></div>
     <!-- policy: la flag è sempre oscurata, per scelta editoriale -->

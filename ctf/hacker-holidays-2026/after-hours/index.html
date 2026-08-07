@@ -186,7 +186,7 @@
 
     <div class="tldr">
       <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
-      <ul><li data-it="I 5 file (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) sono il &lt;strong&gt;repository WMI&lt;/strong&gt; di Windows: la persistenza è una &lt;strong&gt;WMI Event Subscription&lt;/strong&gt; fileless, invisibile ad autoruns." data-en="The 5 files (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) are the Windows &lt;strong&gt;WMI repository&lt;/strong&gt;: the persistence is a fileless &lt;strong&gt;WMI Event Subscription&lt;/strong&gt;, invisible to autoruns.">I 5 file (<code>INDEX.BTR</code>, <code>MAPPING*.MAP</code>, <code>OBJECTS.DATA</code>) sono il <strong>repository WMI</strong> di Windows: la persistenza è una <strong>WMI Event Subscription</strong> fileless, invisibile ad autoruns.</li><li data-it="Un &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; lancia &lt;code&gt;powershell -enc&lt;/code&gt;; il comando (base64/UTF-16LE) è un &lt;strong&gt;loader&lt;/strong&gt; che legge una proprietà da una classe WMI." data-en="A &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; runs &lt;code&gt;powershell -enc&lt;/code&gt;; the command (base64/UTF-16LE) is a &lt;strong&gt;loader&lt;/strong&gt; reading a property off a WMI class.">Un <code>CommandLineEventConsumer</code> lancia <code>powershell -enc</code>; il comando (base64/UTF-16LE) è un <strong>loader</strong> che legge una proprietà da una classe WMI.</li><li data-it="La &lt;strong&gt;classe custom&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (nome finto-legittimo) tiene il payload nella proprietà &lt;code&gt;ConfigData&lt;/code&gt; = base64(deflate(assembly .NET))." data-en="The &lt;strong&gt;custom class&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (fake-legit name) stores the payload in its &lt;code&gt;ConfigData&lt;/code&gt; property = base64(deflate(.NET assembly)).">La <strong>classe custom</strong> <code>Win32_HardwareTelemetry</code> (nome finto-legittimo) tiene il payload nella proprietà <code>ConfigData</code> = base64(deflate(assembly .NET)).</li><li data-it="Ricostruito l'assembly, dentro c'è &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: la &lt;strong&gt;password del backdoor è la flag&lt;/strong&gt; (in base64). C'è pure un guard anti-analisi." data-en="Rebuild the assembly and inside is &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: the &lt;strong&gt;backdoor password is the flag&lt;/strong&gt; (base64). There's an anti-analysis guard too.">Ricostruito l'assembly, dentro c'è <code>net user patch &lt;base64&gt; /add</code>: la <strong>password del backdoor è la flag</strong> (in base64). C'è pure un guard anti-analisi.</li></ul>
+      <ul><li data-it="I 5 file (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) sono il &lt;strong&gt;repository WMI&lt;/strong&gt; di Windows: la persistenza è una &lt;strong&gt;WMI Event Subscription&lt;/strong&gt; fileless, invisibile ai check classici (Startup / Scheduled Tasks / Run key) e storico punto cieco dei tool di autoruns." data-en="The 5 files (&lt;code&gt;INDEX.BTR&lt;/code&gt;, &lt;code&gt;MAPPING*.MAP&lt;/code&gt;, &lt;code&gt;OBJECTS.DATA&lt;/code&gt;) are the Windows &lt;strong&gt;WMI repository&lt;/strong&gt;: the persistence is a fileless &lt;strong&gt;WMI Event Subscription&lt;/strong&gt;, invisible to the classic checks (Startup / Scheduled Tasks / Run keys) and a historical blind spot of autoruns tooling.">I 5 file (<code>INDEX.BTR</code>, <code>MAPPING*.MAP</code>, <code>OBJECTS.DATA</code>) sono il <strong>repository WMI</strong> di Windows: la persistenza è una <strong>WMI Event Subscription</strong> fileless, invisibile ai check classici (Startup / Scheduled Tasks / Run key) e storico punto cieco dei tool di autoruns.</li><li data-it="Un &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; lancia &lt;code&gt;powershell -enc&lt;/code&gt;; il comando (base64/UTF-16LE) è un &lt;strong&gt;loader&lt;/strong&gt; che legge una proprietà da una classe WMI." data-en="A &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; runs &lt;code&gt;powershell -enc&lt;/code&gt;; the command (base64/UTF-16LE) is a &lt;strong&gt;loader&lt;/strong&gt; reading a property off a WMI class.">Un <code>CommandLineEventConsumer</code> lancia <code>powershell -enc</code>; il comando (base64/UTF-16LE) è un <strong>loader</strong> che legge una proprietà da una classe WMI.</li><li data-it="La &lt;strong&gt;classe custom&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (nome finto-legittimo) tiene il payload nella proprietà &lt;code&gt;ConfigData&lt;/code&gt; = base64(deflate(assembly .NET))." data-en="The &lt;strong&gt;custom class&lt;/strong&gt; &lt;code&gt;Win32_HardwareTelemetry&lt;/code&gt; (fake-legit name) stores the payload in its &lt;code&gt;ConfigData&lt;/code&gt; property = base64(deflate(.NET assembly)).">La <strong>classe custom</strong> <code>Win32_HardwareTelemetry</code> (nome finto-legittimo) tiene il payload nella proprietà <code>ConfigData</code> = base64(deflate(assembly .NET)).</li><li data-it="Ricostruito l'assembly, dentro c'è &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: la &lt;strong&gt;password del backdoor è la flag&lt;/strong&gt; (in base64). C'è pure un guard anti-analisi." data-en="Rebuild the assembly and inside is &lt;code&gt;net user patch &amp;lt;base64&amp;gt; /add&lt;/code&gt;: the &lt;strong&gt;backdoor password is the flag&lt;/strong&gt; (base64). There's an anti-analysis guard too.">Ricostruito l'assembly, dentro c'è <code>net user patch &lt;base64&gt; /add</code>: la <strong>password del backdoor è la flag</strong> (in base64). C'è pure un guard anti-analisi.</li></ul>
     </div>
     <div class="callout">
   <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
@@ -218,20 +218,28 @@
 <span class="neutral">  | grep -iE 'EventConsumer|EventFilter|FilterToConsumerBinding' \</span>
 <span class="neutral">  | sort | uniq -c | sort -rn | head</span>
 <span class="warn">__FilterToConsumerBinding</span>   # c'e una subscription REALE
-<span class="warn">CommandLineEventConsumer</span>    # il consumer che ESEGUE un comando</pre>
+<span class="warn">CommandLineEventConsumer</span>    # il consumer che ESEGUE un comando
+<span class="neutral"></span>
+<span class="comment"># mostra la query WQL del filtro: il trigger a tema «ore piccole»</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -iE 'SELECT .*FROM .*(Win32_LocalTime|__InstanceModification)'</span>
+<span class="comment"># es.: SELECT * FROM __InstanceModificationEvent ... Win32_LocalTime ...   ← il trigger «ore piccole»</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="neutral">strings -a OBJECTS.DATA \</span>
 <span class="neutral">  | grep -iE 'EventConsumer|EventFilter|FilterToConsumerBinding' \</span>
 <span class="neutral">  | sort | uniq -c | sort -rn | head</span>
 <span class="warn">__FilterToConsumerBinding</span>   # there IS a real subscription
-<span class="warn">CommandLineEventConsumer</span>    # the consumer that RUNS a command</pre>
+<span class="warn">CommandLineEventConsumer</span>    # the consumer that RUNS a command
+<span class="neutral"></span>
+<span class="comment"># show the filter's WQL query: the "small hours" trigger</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -iE 'SELECT .*FROM .*(Win32_LocalTime|__InstanceModification)'</span>
+<span class="comment"># e.g.: SELECT * FROM __InstanceModificationEvent ... Win32_LocalTime ...   ← the "small hours" trigger</span></pre>
 </div></div>
 
     <h2 data-it="[03] Il comando: PowerShell offuscato" data-en="[03] The command: obfuscated PowerShell" id='loader'>[03] Il comando: PowerShell offuscato</h2>
     <p data-it="Il &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; ha un &lt;code&gt;CommandLineTemplate&lt;/code&gt;: è il comando che scatta al trigger. Lo estraggo, e trovo un classico &lt;code&gt;powershell -enc&lt;/code&gt; — dove &lt;code&gt;-enc&lt;/code&gt; vuole base64 di testo &lt;strong&gt;UTF-16LE&lt;/strong&gt;." data-en="The &lt;code&gt;CommandLineEventConsumer&lt;/code&gt; carries a &lt;code&gt;CommandLineTemplate&lt;/code&gt;: the command fired on trigger. I extract it and find a classic &lt;code&gt;powershell -enc&lt;/code&gt; — where &lt;code&gt;-enc&lt;/code&gt; expects base64 of &lt;strong&gt;UTF-16LE&lt;/strong&gt; text.">Il <code>CommandLineEventConsumer</code> ha un <code>CommandLineTemplate</code>: è il comando che scatta al trigger. Lo estraggo, e trovo un classico <code>powershell -enc</code> — dove <code>-enc</code> vuole base64 di testo <strong>UTF-16LE</strong>.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
+<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'cmd /C powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
 <span class="comment"># cmd /C powershell.exe -Sta -Nop -Window Hidden -enc JABmAGkAbABlAC...</span>
 <span class="neutral"></span>
 <span class="comment"># -enc = base64 di UTF-16LE: decodifico</span>
@@ -239,7 +247,7 @@
 <span class="neutral">echo $ENC | base64 -d | iconv -f UTF-16LE -t UTF-8</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
+<pre><span class="neutral">strings -a OBJECTS.DATA | grep -oE 'cmd /C powershell.exe .*-enc [A-Za-z0-9+/=]+'</span>
 <span class="comment"># cmd /C powershell.exe -Sta -Nop -Window Hidden -enc JABmAGkAbABlAC...</span>
 <span class="neutral"></span>
 <span class="comment"># -enc = base64 of UTF-16LE: decode it</span>
@@ -247,7 +255,8 @@
 <span class="neutral">echo $ENC | base64 -d | iconv -f UTF-16LE -t UTF-8</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
-<pre><span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
+<pre><span class="comment"># ← output del comando sopra: il loader decodificato (da leggere, non da eseguire)</span>
+<span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
 <span class="neutral">$o = New-Object IO.MemoryStream;</span>
 <span class="neutral">$d = New-Object IO.Compression.DeflateStream(</span>
 <span class="neutral">       [IO.MemoryStream][Convert]::FromBase64String($file),</span>
@@ -256,7 +265,8 @@
 <span class="danger">[Reflection.Assembly]::Load($o.ToArray()).EntryPoint.Invoke($null,...)</span>   # .NET in memoria</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
+<pre><span class="comment"># ← output of the command above: the decoded loader (read it, don't run it)</span>
+<span class="neutral">$file = ([WmiClass]'ROOT\cimv2:Win32_HardwareTelemetry').Properties['ConfigData'].Value;</span>
 <span class="neutral">$o = New-Object IO.MemoryStream;</span>
 <span class="neutral">$d = New-Object IO.Compression.DeflateStream(</span>
 <span class="neutral">       [IO.MemoryStream][Convert]::FromBase64String($file),</span>
@@ -285,8 +295,13 @@
     <h2 data-it="[05] Ricostruire il payload .NET" data-en="[05] Rebuild the .NET payload" id='rebuild'>[05] Ricostruire il payload .NET</h2>
     <p data-it="Rifaccio a mano quello che farebbe il loader: estraggo il blob &lt;code&gt;ConfigData&lt;/code&gt;, lo decodifico da base64 e lo decomprimo. Attenzione: &lt;code&gt;DeflateStream&lt;/code&gt; usa &lt;strong&gt;raw deflate&lt;/strong&gt; (senza header zlib/gzip) → in Python è &lt;code&gt;zlib.decompress(dati, -15)&lt;/code&gt;. Il risultato inizia con &lt;code&gt;MZ&lt;/code&gt;: è un PE, un assembly .NET." data-en="I redo by hand what the loader would do: extract the &lt;code&gt;ConfigData&lt;/code&gt; blob, base64-decode and decompress it. Careful: &lt;code&gt;DeflateStream&lt;/code&gt; is &lt;strong&gt;raw deflate&lt;/strong&gt; (no zlib/gzip header) → in Python that's &lt;code&gt;zlib.decompress(data, -15)&lt;/code&gt;. The result starts with &lt;code&gt;MZ&lt;/code&gt;: it's a PE, a .NET assembly.">Rifaccio a mano quello che farebbe il loader: estraggo il blob <code>ConfigData</code>, lo decodifico da base64 e lo decomprimo. Attenzione: <code>DeflateStream</code> usa <strong>raw deflate</strong> (senza header zlib/gzip) → in Python è <code>zlib.decompress(dati, -15)</code>. Il risultato inizia con <code>MZ</code>: è un PE, un assembly .NET.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># 1) estrai il blob ConfigData (il base64 lungo che inizia con 7VZ)</span>
-<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}={0,2}' | grep '^7VZ' &gt; cfg.b64</span>
+<pre><span class="comment"># 0) individua il blob: prime 40 lettere delle stringhe base64 lunghe (spunta il prefisso 7VZ)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}' | cut -c1-40</span>
+<span class="comment"># 7VZ...   ← il blob ConfigData inizia cosi</span>
+<span class="neutral"></span>
+<span class="comment"># 1) estrai il blob ConfigData (filtro NON ancorato sul prefisso 7VZ)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '7VZ[A-Za-z0-9+/]{200,}={0,2}' &gt; cfg.b64</span>
+<span class="neutral">wc -lc cfg.b64</span>   <span class="comment"># atteso: 1 riga, byte &gt; 0 (se e vuoto, il filtro non ha agganciato nulla)</span>
 <span class="neutral"></span>
 <span class="comment"># 2) base64 -&gt; RAW deflate (-15) -&gt; assembly</span>
 <span class="neutral">python3 -c "import base64,zlib; open('payload.bin','wb').write(zlib.decompress(base64.b64decode(open('cfg.b64').read().strip()), -15))"</span>
@@ -295,8 +310,13 @@
 <span class="ok">PE32 executable ... Mono/.Net assembly</span>   # payload ricostruito</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># 1) extract the ConfigData blob (the long base64 starting with 7VZ)</span>
-<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}={0,2}' | grep '^7VZ' &gt; cfg.b64</span>
+<pre><span class="comment"># 0) locate the blob: first 40 chars of the long base64 strings (spot the 7VZ prefix)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '[A-Za-z0-9+/]{200,}' | cut -c1-40</span>
+<span class="comment"># 7VZ...   ← the ConfigData blob starts like this</span>
+<span class="neutral"></span>
+<span class="comment"># 1) extract the ConfigData blob (filter NOT anchored, keyed on the 7VZ prefix)</span>
+<span class="neutral">strings -a OBJECTS.DATA | grep -oE '7VZ[A-Za-z0-9+/]{200,}={0,2}' &gt; cfg.b64</span>
+<span class="neutral">wc -lc cfg.b64</span>   <span class="comment"># expected: 1 line, bytes &gt; 0 (if empty, the filter matched nothing)</span>
 <span class="neutral"></span>
 <span class="comment"># 2) base64 -&gt; RAW deflate (-15) -&gt; assembly</span>
 <span class="neutral">python3 -c "import base64,zlib; open('payload.bin','wb').write(zlib.decompress(base64.b64decode(open('cfg.b64').read().strip()), -15))"</span>
@@ -308,12 +328,12 @@
     <h2 data-it="[06] La flag dentro l'assembly" data-en="[06] The flag inside the assembly" id='flag'>[06] La flag dentro l'assembly</h2>
     <p data-it="Le stringhe dei letterali .NET sono in &lt;strong&gt;UTF-16&lt;/strong&gt;, quindi le cerco con &lt;code&gt;strings -e l&lt;/code&gt;. Salta fuori l'azione vera del malware — e un dettaglio da manuale." data-en="The .NET string literals are &lt;strong&gt;UTF-16&lt;/strong&gt;, so I search with &lt;code&gt;strings -e l&lt;/code&gt;. Out comes the malware's real action — and a textbook detail.">Le stringhe dei letterali .NET sono in <strong>UTF-16</strong>, quindi le cerco con <code>strings -e l</code>. Salta fuori l'azione vera del malware — e un dettaglio da manuale.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch'</span>
+<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch|bytelotus'</span>
 <span class="danger">/c net user patch VEhN████████████████████████████████████ /add</span>   # crea un backdoor; la password E la flag (base64, oscurata)
 <span class="warn">Execution halted: Environment mismatch.</span>    # guard: gira solo sulla macchina giusta (bytelotusdc)</pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch'</span>
+<pre><span class="neutral">strings -a -e l payload.bin | grep -iE 'net user|halt|mismatch|bytelotus'</span>
 <span class="danger">/c net user patch VEhN████████████████████████████████████ /add</span>   # creates a backdoor; the password IS the flag (base64, masked)
 <span class="warn">Execution halted: Environment mismatch.</span>    # guard: only runs on the right host (bytelotusdc)</pre>
 </div></div>

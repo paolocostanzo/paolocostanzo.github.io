@@ -137,7 +137,7 @@
   "headline":"Beach Bar: RCE PyYAML unsafe load",
   "description":"Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux.",
   "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"],"datePublished":"2026-07-31T09:00:00+02:00","dateModified":"2026-07-31T09:00:00+02:00","inLanguage":"it","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Beach Bar, Boot2root, TryHackMe, CTF walkthrough",
+  "keywords":"TryHackMe, Hacker Holidays 2026, Beach Bar, Boot2root, CTF walkthrough",
   "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/",
   "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
   "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
@@ -173,7 +173,6 @@
   <div class="article-header">
     <div class="article-meta">
       <span class="tag">Boot2root</span><span class="tag">TryHackMe</span>
-      <span class="tag">TryHackMe</span>
       <time class="meta-item" datetime="2026-07-31" data-it="31 Lug 2026" data-en="31 Jul 2026">31 Lug 2026</time>
       <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min di lettura</span>
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
@@ -186,12 +185,12 @@
 
     <div class="tldr">
       <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
-      <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela la password di root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks the root password.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela la password di root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
+      <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela una password del DB riusata da root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks a DB password reused by root.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela una password del DB riusata da root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
     </div>
 
     <div class="callout">
       <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
-      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina e &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; con il tuo IP sulla VPN (&lt;code&gt;ip a show tun0&lt;/code&gt;). Il listener &lt;code&gt;nc&lt;/code&gt; gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina; dal foothold in poi i comandi girano &lt;strong&gt;sul target&lt;/strong&gt;. Servono: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; e un browser." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP and &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; for your VPN IP (&lt;code&gt;ip a show tun0&lt;/code&gt;). The &lt;code&gt;nc&lt;/code&gt; listener runs on &lt;strong&gt;your&lt;/strong&gt; machine; from the foothold onwards commands run &lt;strong&gt;on the target&lt;/strong&gt;. You need: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; and a browser.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina e <code>&lt;attacker&gt;</code> con il tuo IP sulla VPN (<code>ip a show tun0</code>). Il listener <code>nc</code> gira sulla <strong>tua</strong> macchina; dal foothold in poi i comandi girano <strong>sul target</strong>. Servono: <code>nmap</code>, <code>netcat</code> e un browser.</p>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina e &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; con il tuo IP sulla VPN (&lt;code&gt;ip a show tun0&lt;/code&gt;). Il listener &lt;code&gt;nc&lt;/code&gt; gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina; dal foothold in poi i comandi girano &lt;strong&gt;sul target&lt;/strong&gt;. Servono: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt; e un browser." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP and &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; for your VPN IP (&lt;code&gt;ip a show tun0&lt;/code&gt;). The &lt;code&gt;nc&lt;/code&gt; listener runs on &lt;strong&gt;your&lt;/strong&gt; machine; from the foothold onwards commands run &lt;strong&gt;on the target&lt;/strong&gt;. You need: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt;, &lt;code&gt;curl&lt;/code&gt; and a browser.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina e <code>&lt;attacker&gt;</code> con il tuo IP sulla VPN (<code>ip a show tun0</code>). Il listener <code>nc</code> gira sulla <strong>tua</strong> macchina; dal foothold in poi i comandi girano <strong>sul target</strong>. Servono: <code>nmap</code>, <code>netcat</code>, <code>curl</code> e un browser.</p>
     </div>
 
     <h2 data-it="[01] Ricognizione e superficie" data-en="[01] Recon and attack surface" id='recon'>[01] Ricognizione e superficie</h2>
@@ -257,12 +256,12 @@
     <h2 data-it="[03] RCE via PyYAML unsafe load" data-en="[03] RCE via PyYAML unsafe load" id='exploit'>[03] RCE via PyYAML unsafe load</h2>
     <p data-it="Una feature che accetta YAML grezzo da un utente autenticato è esattamente il tipo di cosa da testare per l'esecuzione di codice. Apro un listener — ricordandomi di aprire la porta sulla VPN, altrimenti la shell non torna indietro." data-en="A feature that eats raw YAML from a logged-in user is exactly the kind of thing to test for code execution. I open a listener — remembering to open the port on the VPN, or the shell never comes back.">Una feature che accetta YAML grezzo da un utente autenticato è esattamente il tipo di cosa da testare per l'esecuzione di codice. Apro un listener — ricordandomi di aprire la porta sulla VPN, altrimenti la shell non torna indietro.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># apri PRIMA la porta sulla VPN, poi ascolta</span>
+<pre><span class="comment"># apri PRIMA la porta sul tuo firewall locale (altrimenti il callback dalla VPN viene droppato), poi ascolta</span>
 <span class="neutral">sudo ufw allow 4444/tcp   # se hai un firewall locale</span>
 <span class="neutral">nc -lvnp 4444</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># open the port on the VPN FIRST, then listen</span>
+<pre><span class="comment"># open the port on your LOCAL firewall FIRST (otherwise the VPN callback gets dropped), then listen</span>
 <span class="neutral">sudo ufw allow 4444/tcp   # if you run a local firewall</span>
 <span class="neutral">nc -lvnp 4444</span></pre>
 </div></div>
@@ -282,22 +281,24 @@
     <p data-it="Un dettaglio di metodo che vale la pena isolare: &lt;code&gt;check_output&lt;/code&gt; blocca finché il comando non termina e solleva un'eccezione se l'exit code è diverso da zero. Se il listener non è ancora in ascolto (o la porta è chiusa sulla VPN), &lt;code&gt;bash -c&lt;/code&gt; fallisce, l'eccezione risale e l'app risponde &lt;strong&gt;500&lt;/strong&gt; — nessuna shell. Per questo apro porta e listener &lt;em&gt;prima&lt;/em&gt; di inviare il payload; in scenari più fragili &lt;code&gt;os.system&lt;/code&gt; è più tollerante perché non solleva sul return code." data-en="A method detail worth isolating: &lt;code&gt;check_output&lt;/code&gt; blocks until the command finishes and raises an exception on a non-zero exit code. If the listener isn't up yet (or the port is closed on the VPN), &lt;code&gt;bash -c&lt;/code&gt; fails, the exception bubbles up and the app returns &lt;strong&gt;500&lt;/strong&gt; — no shell. That's why I open the port and listener &lt;em&gt;before&lt;/em&gt; sending the payload; in more fragile scenarios &lt;code&gt;os.system&lt;/code&gt; is more forgiving because it doesn't raise on the return code.">Un dettaglio di metodo che vale la pena isolare: <code>check_output</code> blocca finché il comando non termina e solleva un'eccezione se l'exit code è diverso da zero. Se il listener non è ancora in ascolto (o la porta è chiusa sulla VPN), <code>bash -c</code> fallisce, l'eccezione risale e l'app risponde <strong>500</strong> — nessuna shell. Per questo apro porta e listener <em>prima</em> di inviare il payload; in scenari più fragili <code>os.system</code> è più tollerante perché non solleva sul return code.</p>
     <p data-it="Torna una shell come &lt;strong&gt;bartender&lt;/strong&gt;. È un po' zoppa (niente frecce, niente tab), quindi la stabilizzo e leggo la prima bandiera." data-en="A shell comes back as &lt;strong&gt;bartender&lt;/strong&gt;. It's a bit crippled (no arrow keys, no tab), so I stabilize it and read the first flag.">Torna una shell come <strong>bartender</strong>. È un po' zoppa (niente frecce, niente tab), quindi la stabilizzo e leggo la prima bandiera.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># TTY decente</span>
+<pre><span class="comment"># TTY decente — [sul target]</span>
 <span class="neutral">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
-<span class="comment"># Ctrl+Z</span>
-<span class="neutral">stty raw -echo; fg</span>
-<span class="neutral">export TERM=xterm</span>
+<span class="comment"># Ctrl+Z → torna alla TUA shell locale</span>
+<span class="neutral">stty raw -echo; fg</span>   <span class="comment"># [sulla tua macchina]</span>
+<span class="neutral">export TERM=xterm</span>   <span class="comment"># [di nuovo sul target]</span>
 <span class="neutral">id            # uid=1000(bartender)</span>
-cat user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+<span class="comment"># la flag utente sta nella home dell'utente (cwd variabile: uso una glob)</span>
+cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># a decent TTY</span>
+<pre><span class="comment"># a decent TTY — [on the target]</span>
 <span class="neutral">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
-<span class="comment"># Ctrl+Z</span>
-<span class="neutral">stty raw -echo; fg</span>
-<span class="neutral">export TERM=xterm</span>
+<span class="comment"># Ctrl+Z → back to YOUR local shell</span>
+<span class="neutral">stty raw -echo; fg</span>   <span class="comment"># [on your machine]</span>
+<span class="neutral">export TERM=xterm</span>   <span class="comment"># [back on the target]</span>
 <span class="neutral">id            # uid=1000(bartender)</span>
-cat user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
+<span class="comment"># the user flag lives in the user's home (cwd varies: use a glob)</span>
+cat /home/*/user.txt  # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
 </div></div>
 
     <h2 data-it="[04] Privesc: il processo troppo loquace" data-en="[04] Privesc: the process that talks too much" id='root'>[04] Privesc: il processo troppo loquace</h2>
@@ -306,6 +307,7 @@ cat user.txt  # <span class="ok">THM{<span class="redaction">██████�
 <pre><span class="comment"># cosa dice ad alta voce un processo</span>
 <span class="neutral">ps aux | grep python</span>
 # bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
+<span class="comment"># quella password del DB è riusata per l'account root (credential reuse): la provo con su</span>
 <span class="neutral">su root</span>
 <span class="comment"># password: ████</span>
 cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>
@@ -314,6 +316,7 @@ cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████
 <pre><span class="comment"># what a process says out loud</span>
 <span class="neutral">ps aux | grep python</span>
 # bartender ... python3 app.py <span class="danger">--db-pass=████</span> ...
+<span class="comment"># that same DB password is reused for the root account (credential reuse): I try it with su</span>
 <span class="neutral">su root</span>
 <span class="comment"># password: ████</span>
 cat /root/root.txt   # <span class="ok">THM{<span class="redaction">████████████████████</span>}</span></pre>

