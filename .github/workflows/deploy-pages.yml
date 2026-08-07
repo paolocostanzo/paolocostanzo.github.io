@@ -8,8 +8,10 @@ permissions:
   pages: write
   id-token: write
 concurrency:
+  # false: non annullare un deploy già in corso — GitHub Pages non gestisce
+  # bene la cancellazione a metà pubblicazione. I push successivi accodano.
   group: "pages-deploy"
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   deploy:
     environment:
@@ -19,6 +21,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # Il sito pubblica solo HTML e i suoi asset: tooling e file di repo
+      # restano fuori dall'artifact (stessa logica del .gitignore).
+      - name: Rimuovi i file non pubblicabili
+        run: rm -rf tools README.md .github .git
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'

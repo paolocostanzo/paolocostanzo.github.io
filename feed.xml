@@ -5,8 +5,20 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>CTF Writeups — Hacker Holidays 2026 (Byte Lotus Hotel)</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</guid>
+      <pubDate>Thu, 06 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Step-by-step writeups for the TryHackMe Hacker Holidays 2026 series: a room a day across OSINT, web, cloud, forensics and boot2root. Every writeup is a reproducible runbook with methodology, defensive notes and redacted flags — the method is the point, not the flag value.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+      <category>Offensive Validation</category>
+    </item>
 
     <item>
       <title>MCP 2026-07-28: Stateless Does Not Mean State-Free</title>
