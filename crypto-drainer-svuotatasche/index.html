@@ -152,33 +152,34 @@
   <meta name="twitter:title" content="Anatomia di un wallet drainer-as-a-service su rete TRON"/>
   <meta name="twitter:description" content="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain."/>
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Anatomia di un wallet drainer-as-a-service su rete TRON",
-  "description": "Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain.",
-  "datePublished": "2026-04-07",
-  "inLanguage": "it",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/"
-  },
-  "url": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/",
-  "author": {
-    "@type": "Person",
-    "name": "Paolo Costanzo",
-    "url": "https://www.paolocostanzo.com",
-    "sameAs": [
-      "https://www.linkedin.com/in/paolocostanzoit/",
-      "https://github.com/paolocostanzo",
-      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
-    ]
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Paolo Costanzo"
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Anatomia di un wallet drainer-as-a-service su rete TRON",
+    "image": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/og.png",
+    "description": "Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain.",
+    "datePublished": "2026-04-07",
+    "inLanguage": "it",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/"
+    },
+    "url": "https://paolocostanzo.github.io/crypto-drainer-svuotatasche/",
+    "author": {
+      "@type": "Person",
+      "name": "Paolo Costanzo",
+      "url": "https://www.paolocostanzo.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/paolocostanzoit/",
+        "https://github.com/paolocostanzo",
+        "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+      ]
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Paolo Costanzo"
+    }
   }
-}
   </script>
 </head>
 <body>
@@ -335,7 +336,7 @@ Your security is our top priority.</pre>
     <p data-it="Ecco lo screenshot del pannello bot Telegram per la configurazione dei wallet — la stessa identica lista del JSON. Tutti abilitati:" data-en="Here's the screenshot of the Telegram bot panel for wallet configuration — the exact same list as the JSON. All enabled:">Ecco lo screenshot del pannello bot Telegram per la configurazione dei wallet — la stessa identica lista del JSON. Tutti abilitati:</p>
 
     <div style="max-width:360px;margin:1.5rem 0;border:1px solid var(--border)">
-      <img src="evidence-bot-walletconfig.jpg" alt="Bot Telegram - Wallet Configuration: trust, bitget, bybit, tronlink, okx, ledger, walletconnect tutti abilitati" style="width:100%;display:block" loading="lazy"/>
+      <img src="evidence-bot-walletconfig.jpg" alt="Bot Telegram - Wallet Configuration: trust, bitget, bybit, tronlink, okx, ledger, walletconnect tutti abilitati" style="width:100%;display:block;height:auto" loading="lazy"/ width="710" height="1052">
     </div>
     <p style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);margin-top:-0.5rem" data-it="EXHIBIT A — Screenshot dal bot Telegram di gestione. 7 wallet. Tutti verdi. Tutti attivi." data-en="EXHIBIT A — Screenshot from the Telegram management bot. 7 wallets. All green. All active.">EXHIBIT A — Screenshot dal bot Telegram di gestione. 7 wallet. Tutti verdi. Tutti attivi.</p>
 
@@ -752,15 +753,15 @@ HTTP/2 <span class="danger">403</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-design-01.jpg" alt="Fake ByBit AML verification landing page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-01.jpg" alt="Fake ByBit AML verification landing page" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="646">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;ByBitAML&lt;/code&gt; &mdash; &quot;Official Bybit AML Verification&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;ByBitAML&lt;/code&gt; — &quot;Official Bybit AML Verification&quot;"><code style="font-family:var(--mono);font-size:0.65rem">ByBitAML</code> — "Official Bybit AML Verification"</p>
       </div>
       <div>
-        <img src="pd-design-02.jpg" alt="Fake Trust Wallet AML page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-02.jpg" alt="Fake Trust Wallet AML page" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="640">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TrustAML&lt;/code&gt; &mdash; &quot;Checking wallets for dirty money&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TrustAML&lt;/code&gt; — &quot;Checking wallets for dirty money&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TrustAML</code> — "Checking wallets for dirty money"</p>
       </div>
       <div>
-        <img src="pd-design-03.jpg" alt="Fake AML Check page with Trust Score" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-03.jpg" alt="Fake AML Check page with Trust Score" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="640">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AML_BOT&lt;/code&gt; &mdash; &quot;AML Check&quot; con Trust Score finto" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AML_BOT&lt;/code&gt; — &quot;AML Check&quot; with fake Trust Score"><code style="font-family:var(--mono);font-size:0.65rem">AML_BOT</code> — "AML Check" con Trust Score finto</p>
       </div>
     </div>
@@ -769,15 +770,15 @@ HTTP/2 <span class="danger">403</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-design-04.jpg" alt="Fake TRON TRX airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-04.jpg" alt="Fake TRON TRX airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="747">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TronDROP&lt;/code&gt; &mdash; &quot;THE BIGGEST TRON AIRDROP&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TronDROP&lt;/code&gt; — &quot;THE BIGGEST TRON AIRDROP&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TronDROP</code> — "THE BIGGEST TRON AIRDROP"</p>
       </div>
       <div>
-        <img src="pd-design-05.jpg" alt="Fake Tether USDT airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-05.jpg" alt="Fake Tether USDT airdrop page" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="747">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TetherDROP&lt;/code&gt; &mdash; &quot;THE BIGGEST USDT AIRDROP&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;TetherDROP&lt;/code&gt; — &quot;THE BIGGEST USDT AIRDROP&quot;"><code style="font-family:var(--mono);font-size:0.65rem">TetherDROP</code> — "THE BIGGEST USDT AIRDROP"</p>
       </div>
       <div>
-        <img src="pd-design-08.jpg" alt="Fake USDT TRC-20 Airdrop 1M distribution" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-08.jpg" alt="Fake USDT TRC-20 Airdrop 1M distribution" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="643">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;USDT_DROP&lt;/code&gt; &mdash; &quot;1,000,000 USDT Distribution&quot; al 42%" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;USDT_DROP&lt;/code&gt; — &quot;1,000,000 USDT Distribution&quot; at 42%"><code style="font-family:var(--mono);font-size:0.65rem">USDT_DROP</code> — "1,000,000 USDT Distribution" al 42%</p>
       </div>
     </div>
@@ -786,11 +787,11 @@ HTTP/2 <span class="danger">403</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-design-06.jpg" alt="Fake AlgoFlow exchange platform" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-06.jpg" alt="Fake AlgoFlow exchange platform" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="639">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AlgoSwap&lt;/code&gt; &mdash; &quot;AlgoFlow: Powered by algorithm&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;AlgoSwap&lt;/code&gt; — &quot;AlgoFlow: Powered by algorithm&quot;"><code style="font-family:var(--mono);font-size:0.65rem">AlgoSwap</code> — "AlgoFlow: Powered by algorithm"</p>
       </div>
       <div>
-        <img src="pd-design-12.jpg" alt="Fake TRX/USDT swap exchange" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-12.jpg" alt="Fake TRX/USDT swap exchange" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="641">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trx-swap&lt;/code&gt; &mdash; Finto exchange USDT&harr;TRX" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trx-swap&lt;/code&gt; — Fake USDT↔TRX exchange"><code style="font-family:var(--mono);font-size:0.65rem">trx-swap</code> — Finto exchange USDT↔TRX</p>
       </div>
     </div>
@@ -799,15 +800,15 @@ HTTP/2 <span class="danger">403</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-design-07.jpg" alt="Fake RedotPay invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-07.jpg" alt="Fake RedotPay invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="642">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;RedotInvoice&lt;/code&gt; &mdash; &quot;1000 USDT&quot; con countdown" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;RedotInvoice&lt;/code&gt; — &quot;1000 USDT&quot; with countdown"><code style="font-family:var(--mono);font-size:0.65rem">RedotInvoice</code> — "1000 USDT" con countdown</p>
       </div>
       <div>
-        <img src="pd-design-11.jpg" alt="Fake Trust Wallet invoice 100 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-11.jpg" alt="Fake Trust Wallet invoice 100 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="639">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-invoice&lt;/code&gt; &mdash; 100 USDT, bottone &quot;Receive&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-invoice&lt;/code&gt; — 100 USDT, &quot;Receive&quot; button"><code style="font-family:var(--mono);font-size:0.65rem">trust-invoice</code> — 100 USDT, bottone "Receive"</p>
       </div>
       <div>
-        <img src="pd-design-13.jpg" alt="Fake Cryptomus invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-13.jpg" alt="Fake Cryptomus invoice 1000 USDT" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="642">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;cryptomus-invoice&lt;/code&gt; &mdash; 815 USDT via Cryptomus" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;cryptomus-invoice&lt;/code&gt; — 815 USDT via Cryptomus"><code style="font-family:var(--mono);font-size:0.65rem">cryptomus-invoice</code> — 815 USDT via Cryptomus</p>
       </div>
     </div>
@@ -816,11 +817,11 @@ HTTP/2 <span class="danger">403</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-design-09.jpg" alt="Fake Trust Wallet crypto card page" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-09.jpg" alt="Fake Trust Wallet crypto card page" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="641">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-crypto-card&lt;/code&gt; &mdash; &quot;Create Your Cryptocurrency Card&quot;" data-en="&lt;code style=&quot;font-family:var(--mono);font-size:0.65rem&quot;&gt;trust-crypto-card&lt;/code&gt; — &quot;Create Your Cryptocurrency Card&quot;"><code style="font-family:var(--mono);font-size:0.65rem">trust-crypto-card</code> — "Create Your Cryptocurrency Card"</p>
       </div>
       <div>
-        <img src="pd-design-10.jpg" alt="Fake Trust Wallet USDT receipt generator" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-design-10.jpg" alt="Fake Trust Wallet USDT receipt generator" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="640">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="Variante: &quot;Generate USDT Receipts from Trust Wallet&quot;" data-en="Variant: &quot;Generate USDT Receipts from Trust Wallet&quot;">Variante: "Generate USDT Receipts from Trust Wallet"</p>
       </div>
     </div>
@@ -1041,29 +1042,29 @@ Stato: <span class="ok">ATTIVO</span>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
       <div>
-        <img src="pd-payment-01.jpg" alt="Tronscan: 1,501 USDT transfer - 08 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-01.jpg" alt="Tronscan: 1,501 USDT transfer - 08 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="515">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$1.501&lt;/strong&gt; USDT — 08 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$1,501&lt;/strong&gt; USDT — 08 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$1.501</strong> USDT — 08 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
       </div>
       <div>
-        <img src="pd-payment-02.jpg" alt="Tronscan: 3,258 USDT transfer - 09 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-02.jpg" alt="Tronscan: 3,258 USDT transfer - 09 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="537">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$3.258&lt;/strong&gt; USDT — 09 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$3,258&lt;/strong&gt; USDT — 09 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$3.258</strong> USDT — 09 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
       </div>
       <div>
-        <img src="pd-payment-03.jpg" alt="Tronscan: 2,105 USDT transfer - 10 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-03.jpg" alt="Tronscan: 2,105 USDT transfer - 10 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="533">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$2.105&lt;/strong&gt; USDT — 10 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$2,105&lt;/strong&gt; USDT — 10 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$2.105</strong> USDT — 10 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1rem 0 1.5rem">
       <div>
-        <img src="pd-payment-04.jpg" alt="Tronscan: 3,705 USDT transfer - 13 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-04.jpg" alt="Tronscan: 3,705 USDT transfer - 13 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="526">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$3.705&lt;/strong&gt; USDT — 13 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · il più alto" data-en="&lt;strong style='color:var(--text)'&gt;$3,705&lt;/strong&gt; USDT — 13 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · highest recorded"><strong style="color:var(--text)">$3.705</strong> USDT — 13 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span> · il più alto</p>
       </div>
       <div>
-        <img src="pd-payment-05.jpg" alt="Tronscan: 2,550 USDT transfer - 23 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-05.jpg" alt="Tronscan: 2,550 USDT transfer - 23 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="1280" height="488">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$2.550&lt;/strong&gt; USDT — 23 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;" data-en="&lt;strong style='color:var(--text)'&gt;$2,550&lt;/strong&gt; USDT — 23 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt;"><strong style="color:var(--text)">$2.550</strong> USDT — 23 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span></p>
       </div>
       <div>
-        <img src="pd-payment-06.jpg" alt="TronLink: 843 USDT TRC20 transfer - 28 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange)" loading="lazy">
+        <img src="pd-payment-06.jpg" alt="TronLink: 843 USDT TRC20 transfer - 28 Jan 2026" style="width:100%;border-radius:8px;border:1px solid var(--orange);height:auto" loading="lazy" width="748" height="1230">
         <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.4rem" data-it="&lt;strong style='color:var(--text)'&gt;$843&lt;/strong&gt; USDT — 28 Gen 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · ultimo visibile" data-en="&lt;strong style='color:var(--text)'&gt;$843&lt;/strong&gt; USDT — 28 Jan 2026&lt;br&gt;&lt;span style='color:#4caf50'&gt;CONFIRMED&lt;/span&gt; · last visible"><strong style="color:var(--text)">$843</strong> USDT — 28 Gen 2026<br><span style="color:#4caf50">CONFIRMED</span> · ultimo visibile</p>
       </div>
     </div>

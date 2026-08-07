@@ -175,7 +175,7 @@
       <span class="tag">OSINT</span><span class="tag">TryHackMe</span>
       <span class="tag">TryHackMe</span>
       <time class="meta-item" datetime="2026-07-25" data-it="25 Lug 2026" data-en="25 Jul 2026">25 Lug 2026</time>
-      <span class="meta-item" data-it="5 min" data-en="5 min">5 min</span>
+      <span class="meta-item" data-it="5 min di lettura" data-en="5 min read">5 min di lettura</span>
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// il volantino diceva «o forse no». Era un sì." data-en="// the brochure said &quot;or not&quot;. It was a yes.">// il volantino diceva «o forse no». Era un sì.</span>
     </div>
@@ -187,6 +187,11 @@
     <div class="tldr">
       <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
       <ul><li data-it="Il task è un &lt;strong&gt;brochure PNG&lt;/strong&gt; del Byte Lotus Hotel: metadati puliti, il hint è testuale." data-en="The task is a &lt;strong&gt;PNG brochure&lt;/strong&gt; of Byte Lotus Hotel: clean metadata, the hint is printed text.">Il task è un <strong>brochure PNG</strong> del Byte Lotus Hotel: metadati puliti, il hint è testuale.</li><li data-it="Hint «Find us on Instagram... or not» → pivot &lt;strong&gt;SOCMINT&lt;/strong&gt; su &lt;code&gt;thebytelotusresort&lt;/code&gt;." data-en="Hint &quot;Find us on Instagram... or not&quot; → &lt;strong&gt;SOCMINT&lt;/strong&gt; pivot to &lt;code&gt;thebytelotusresort&lt;/code&gt;.">Hint «Find us on Instagram... or not» → pivot <strong>SOCMINT</strong> su <code>thebytelotusresort</code>.</li><li data-it="L'account segue &lt;strong&gt;1 solo&lt;/strong&gt; profilo, &lt;code&gt;veratheconcierge&lt;/code&gt;: il grafo dei follow è la briciola." data-en="The account follows &lt;strong&gt;only 1&lt;/strong&gt; profile, &lt;code&gt;veratheconcierge&lt;/code&gt;: the follow graph is the crumb.">L'account segue <strong>1 solo</strong> profilo, <code>veratheconcierge</code>: il grafo dei follow è la briciola.</li><li data-it="Tre post = tre blob &lt;code&gt;Base64&lt;/code&gt;: concatenati e decodificati danno la flag &lt;code&gt;THM{...}&lt;/code&gt;." data-en="Three posts = three &lt;code&gt;Base64&lt;/code&gt; blobs: concatenated and decoded they yield the flag &lt;code&gt;THM{...}&lt;/code&gt;.">Tre post = tre blob <code>Base64</code>: concatenati e decodificati danno la flag <code>THM{...}</code>.</li><li data-it="Lezione: &lt;strong&gt;scrubba i metadati&lt;/strong&gt;, audita i following, non fidarti del Base64 come protezione." data-en="Lesson: &lt;strong&gt;scrub metadata&lt;/strong&gt;, audit followings, don't trust Base64 as protection.">Lezione: <strong>scrubba i metadati</strong>, audita i following, non fidarti del Base64 come protezione.</li></ul>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
+      <p data-it="Nessuna macchina da avviare: si parte dal &lt;code&gt;.png&lt;/code&gt; allegato alla room e si lavora sulla &lt;strong&gt;tua&lt;/strong&gt; macchina, più un browser per la parte social. Servono: &lt;code&gt;exiftool&lt;/code&gt;, &lt;code&gt;strings&lt;/code&gt;, &lt;code&gt;base64&lt;/code&gt;." data-en="No box to deploy: you start from the &lt;code&gt;.png&lt;/code&gt; attached to the room and work on &lt;strong&gt;your&lt;/strong&gt; machine, plus a browser for the social part. You need: &lt;code&gt;exiftool&lt;/code&gt;, &lt;code&gt;strings&lt;/code&gt;, &lt;code&gt;base64&lt;/code&gt;.">Nessuna macchina da avviare: si parte dal <code>.png</code> allegato alla room e si lavora sulla <strong>tua</strong> macchina, più un browser per la parte social. Servono: <code>exiftool</code>, <code>strings</code>, <code>base64</code>.</p>
     </div>
 
     <h2 data-it="[01] Recon: l'immagine e i suoi silenzi" data-en="[01] Recon: the image and its silences" id='recon'>[01] Recon: l'immagine e i suoi silenzi</h2>

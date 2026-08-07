@@ -189,6 +189,11 @@
       <ul><li data-it="Recon: solo SSH e HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); il web è l'unica via." data-en="Recon: only SSH and HTTP (&lt;strong&gt;gunicorn&lt;/strong&gt;); the web app is the only way in.">Recon: solo SSH e HTTP (<strong>gunicorn</strong>); il web è l'unica via.</li><li data-it="Login demo &lt;code&gt;dj/dj&lt;/code&gt; lasciata nel &lt;code&gt;view-source&lt;/code&gt;." data-en="Demo &lt;code&gt;dj/dj&lt;/code&gt; login left in the &lt;code&gt;view-source&lt;/code&gt;.">Login demo <code>dj/dj</code> lasciata nel <code>view-source</code>.</li><li data-it="Import playlist usa &lt;code&gt;yaml.load&lt;/code&gt; unsafe → RCE con &lt;code&gt;!!python/object/apply&lt;/code&gt;." data-en="Playlist import uses unsafe &lt;code&gt;yaml.load&lt;/code&gt; → RCE via &lt;code&gt;!!python/object/apply&lt;/code&gt;.">Import playlist usa <code>yaml.load</code> unsafe → RCE con <code>!!python/object/apply</code>.</li><li data-it="Reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, poi &lt;code&gt;ps aux&lt;/code&gt; rivela la password di root." data-en="Reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, then &lt;code&gt;ps aux&lt;/code&gt; leaks the root password.">Reverse shell come <strong>bartender</strong>, poi <code>ps aux</code> rivela la password di root.</li><li data-it="Difesa: &lt;code&gt;safe_load&lt;/code&gt; e mai segreti negli argomenti CLI." data-en="Defense: &lt;code&gt;safe_load&lt;/code&gt; and never secrets in CLI args.">Difesa: <code>safe_load</code> e mai segreti negli argomenti CLI.</li></ul>
     </div>
 
+    <div class="callout">
+      <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// prima di iniziare</div>
+      <p data-it="Sostituisci &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina e &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; con il tuo IP sulla VPN (&lt;code&gt;ip a show tun0&lt;/code&gt;). Il listener &lt;code&gt;nc&lt;/code&gt; gira sulla &lt;strong&gt;tua&lt;/strong&gt; macchina; dal foothold in poi i comandi girano &lt;strong&gt;sul target&lt;/strong&gt;. Servono: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; e un browser." data-en="Swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the box IP and &lt;code&gt;&amp;lt;attacker&amp;gt;&lt;/code&gt; for your VPN IP (&lt;code&gt;ip a show tun0&lt;/code&gt;). The &lt;code&gt;nc&lt;/code&gt; listener runs on &lt;strong&gt;your&lt;/strong&gt; machine; from the foothold onwards commands run &lt;strong&gt;on the target&lt;/strong&gt;. You need: &lt;code&gt;nmap&lt;/code&gt;, &lt;code&gt;netcat&lt;/code&gt; and a browser.">Sostituisci <code>&lt;target&gt;</code> con l'IP della macchina e <code>&lt;attacker&gt;</code> con il tuo IP sulla VPN (<code>ip a show tun0</code>). Il listener <code>nc</code> gira sulla <strong>tua</strong> macchina; dal foothold in poi i comandi girano <strong>sul target</strong>. Servono: <code>nmap</code>, <code>netcat</code> e un browser.</p>
+    </div>
+
     <h2 data-it="[01] Ricognizione e superficie" data-en="[01] Recon and attack surface" id='recon'>[01] Ricognizione e superficie</h2>
     <p data-it="L'IP della macchina va dritto nel browser: si apre «Beach Bar // Sign in», una web app su porta 80. In parallelo lancio &lt;code&gt;nmap&lt;/code&gt; per capire con cosa ho a che fare." data-en="The machine IP goes straight into the browser: up comes &quot;Beach Bar // Sign in&quot;, a web app on port 80. In parallel I fire &lt;code&gt;nmap&lt;/code&gt; to see what I'm dealing with.">L'IP della macchina va dritto nel browser: si apre «Beach Bar // Sign in», una web app su porta 80. In parallelo lancio <code>nmap</code> per capire con cosa ho a che fare.</p>
     <div class="lang-it"><div class="code-block">
@@ -212,11 +217,21 @@
   <p data-it="Nel &lt;code&gt;view-source&lt;/code&gt; del login, un regalo: «staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)». Un commento così nel sorgente è la chiave sotto lo zerbino." data-en="In the login's &lt;code&gt;view-source&lt;/code&gt;, a gift: &quot;staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)&quot;. A comment like that in the source is the key under the doormat.">Nel <code>view-source</code> del login, un regalo: «staff note: demo DJ login still enabled for the soft opening — dj / dj, swap before the season (ticket BAR-7)». Un commento così nel sorgente è la chiave sotto lo zerbino.</p>
 </div>
     <div class="lang-it"><div class="code-block">
-<pre><span class="comment"># credenziali demo ancora vive → dashboard DJ</span>
+<pre><span class="comment"># il commento vive nel sorgente del login, non nella pagina renderizzata</span>
+<span class="neutral">curl -s http://&lt;target&gt;/login | grep -i -B1 -A1 'staff note'</span>
+<span class="neutral">&lt;!-- staff note: demo DJ login still enabled for the soft opening</span>
+<span class="neutral">     — dj / dj, swap before the season (ticket BAR-7) --&gt;</span>
+<span class="neutral"></span>
+<span class="comment"># le uso sul form: http://&lt;target&gt;/login → dashboard DJ</span>
 <span class="neutral">dj / dj</span></pre>
 </div></div>
 <div class="lang-en"><div class="code-block">
-<pre><span class="comment"># demo creds still alive → DJ dashboard</span>
+<pre><span class="comment"># the comment lives in the login source, not in the rendered page</span>
+<span class="neutral">curl -s http://&lt;target&gt;/login | grep -i -B1 -A1 'staff note'</span>
+<span class="neutral">&lt;!-- staff note: demo DJ login still enabled for the soft opening</span>
+<span class="neutral">     — dj / dj, swap before the season (ticket BAR-7) --&gt;</span>
+<span class="neutral"></span>
+<span class="comment"># use them on the form: http://&lt;target&gt;/login → DJ dashboard</span>
 <span class="neutral">dj / dj</span></pre>
 </div></div>
     <p data-it="Dentro, una dashboard DJ per «il set di stasera» con due pulsanti interessanti: &lt;strong&gt;Export&lt;/strong&gt; e &lt;strong&gt;Import&lt;/strong&gt; di una playlist in formato YAML. Faccio prima Export per vedere il formato." data-en="Inside, a DJ dashboard for &quot;tonight's set&quot; with two interesting buttons: &lt;strong&gt;Export&lt;/strong&gt; and &lt;strong&gt;Import&lt;/strong&gt; of a playlist as YAML. I hit Export first to learn the format.">Dentro, una dashboard DJ per «il set di stasera» con due pulsanti interessanti: <strong>Export</strong> e <strong>Import</strong> di una playlist in formato YAML. Faccio prima Export per vedere il formato.</p>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://paolocostanzo.github.io/</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://paolocostanzo.github.io/aws-iam-misconfiguration/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/</loc><lastmod>2026-08-07</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://paolocostanzo.github.io/aws-iam-misconfiguration/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/cardputer-adv-wifi-security/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/crypto-drainer-svuotatasche/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -18,11 +18,11 @@
   <url><loc>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://paolocostanzo.github.io/ctf/</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</loc><lastmod>2026-07-29</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/oura-palantir-biometrici/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/prompt-injection-llm/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://paolocostanzo.github.io/tim-packet-loss-gfn/</loc><lastmod>2026-07-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/operation-epic-fury-cyber-war-iran/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/oura-palantir-biometrici/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/prompt-injection-llm/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/rape-academy-cnn-threat-intel/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://paolocostanzo.github.io/tim-packet-loss-gfn/</loc><lastmod>2026-08-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
