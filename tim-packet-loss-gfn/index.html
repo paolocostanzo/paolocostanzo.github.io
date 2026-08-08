@@ -10,14 +10,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="TIM, GeForce Now e l'ICMP black hole — NonèCostanzo"
-    data-en="TIM, GeForce Now and the ICMP black hole — NonèCostanzo"
-  >TIM, GeForce Now and the ICMP black hole — NonèCostanzo</title>
+    data-it="TIM, GeForce Now e l'ICMP black hole: 10% di packet loss"
+    data-en="TIM, GeForce Now and the ICMP black hole: 10% packet loss"
+  >TIM, GeForce Now and the ICMP black hole: 10% packet loss</title>
   <meta
     name="description"
-    data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS."
-    data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround."
-    content="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround."
+    data-it="Un ICMP black hole sulla rete d'accesso impedisce la Path MTU Discovery: packet loss su GeForce Now e 26 Mbps su una linea da 1 Gbps. Diagnosi e workaround MTU/MSS."
+    data-en="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround."
+    content="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -123,8 +123,8 @@
   <link rel="canonical" href="https://paolocostanzo.github.io/tim-packet-loss-gfn/"/>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" content="TIM, GeForce Now e l'ICMP black hole"/>
-  <meta property="og:description" data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS." data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround." content="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround."/>
+  <meta property="og:title" content="TIM, GeForce Now and the ICMP black hole: 10% packet loss"/>
+  <meta property="og:description" data-it="Un ICMP black hole sulla rete d'accesso impedisce la Path MTU Discovery: packet loss su GeForce Now e 26 Mbps su una linea da 1 Gbps. Diagnosi e workaround MTU/MSS." data-en="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround." content="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/tim-packet-loss-gfn/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/tim-packet-loss-gfn/og.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -133,37 +133,37 @@
   <meta property="article:author" content="Paolo Costanzo"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/tim-packet-loss-gfn/og.png"/>
-  <meta name="twitter:title" content="TIM, GeForce Now e l'ICMP black hole"/>
-  <meta name="twitter:description" data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS." data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround." content="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround."/>
+  <meta name="twitter:title" content="TIM, GeForce Now and the ICMP black hole: 10% packet loss"/>
+  <meta name="twitter:description" data-it="Un ICMP black hole sulla rete d'accesso impedisce la Path MTU Discovery: packet loss su GeForce Now e 26 Mbps su una linea da 1 Gbps. Diagnosi e workaround MTU/MSS." data-en="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround." content="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround."/>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "TIM, GeForce Now e l'ICMP black hole",
-    "image": "https://paolocostanzo.github.io/tim-packet-loss-gfn/og.png",
-    "description": "Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS.",
-    "datePublished": "2026-03-10",
-    "inLanguage":"en",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://paolocostanzo.github.io/tim-packet-loss-gfn/"
-    },
-    "url": "https://paolocostanzo.github.io/tim-packet-loss-gfn/",
-    "author": {
-      "@type": "Person",
-      "name": "Paolo Costanzo",
-      "url": "https://www.paolocostanzo.com",
-      "sameAs": [
-        "https://www.linkedin.com/in/paolocostanzoit/",
-        "https://github.com/paolocostanzo",
-        "https://www.researchgate.net/profile/Paolo-Costanzo-2"
-      ]
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Paolo Costanzo"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "TIM, GeForce Now and the ICMP black hole: 10% packet loss",
+  "image": "https://paolocostanzo.github.io/tim-packet-loss-gfn/og.png",
+  "description": "An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround.",
+  "datePublished": "2026-03-10",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/tim-packet-loss-gfn/"
+  },
+  "url": "https://paolocostanzo.github.io/tim-packet-loss-gfn/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
   }
+}
   </script>
 </head>
 <body>
@@ -173,8 +173,8 @@
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
-        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>

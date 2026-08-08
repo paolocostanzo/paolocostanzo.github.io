@@ -175,16 +175,40 @@ HTML_RULES = [
     (re.compile(r'\.lang-en\{display:none\}'), '.lang-it{display:none}'),
     (re.compile(r'"inLanguage"\s*:\s*"it"'), '"inLanguage":"en"'),
     (re.compile(r'(<meta property="og:locale"[^>]*?)content="it_IT"'), r'\1content="en_US"'),
-    # language switch: EN is the active button now
-    (re.compile(r'<button class="lang-btn active"((?:(?!</button>).)*?)setLang\(\'it\'\)((?:(?!</button>).)*?)>IT</button>'),
-     r'<button class="lang-btn"\1setLang(\'it\')\2>IT</button>'),
-    (re.compile(r'<button class="lang-btn"((?:(?!</button>).)*?)setLang\(\'en\'\)((?:(?!</button>).)*?)>EN</button>'),
-     r'<button class="lang-btn active"\1setLang(\'en\')\2>EN</button>'),
-    (re.compile(r'(<button class="lang-btn(?: active)?"(?:(?!</button>).)*?setLang\(\'it\'\)(?:(?!</button>).)*?)aria-pressed="true"'),
-     r'\1aria-pressed="false"'),
-    (re.compile(r'(<button class="lang-btn(?: active)?"(?:(?!</button>).)*?setLang\(\'en\'\)(?:(?!</button>).)*?)aria-pressed="false"'),
-     r'\1aria-pressed="true"'),
 ]
+
+
+def flip_lang_buttons(raw):
+    """EN becomes the pressed button; IT stops being the default.
+
+    Deliberately a function and not a regex replacement. The earlier version used
+    raw strings for the replacement side — r"...setLang(\\'it\\')..." — where \\'
+    keeps its backslash, so every page shipped onclick="setLang(\\'it\\')". Inside
+    a double-quoted HTML attribute that is not parseable JavaScript, the handler
+    never compiled, and the language toggle was dead sitewide. Building the tag
+    here means the quoting is written once, in one place, and can be read.
+    """
+    n = 0
+
+    def sub(m):
+        nonlocal n
+        tag = m.group(0)
+        lang = re.search(r"setLang\('(it|en)'\)", tag)
+        if not lang:
+            return tag
+        active = lang.group(1) == 'en'
+        out = re.sub(r'class="lang-btn(?: active)?"',
+                     'class="lang-btn active"' if active else 'class="lang-btn"', tag)
+        if 'aria-pressed' in out:
+            out = re.sub(r'aria-pressed="(?:true|false)"',
+                         'aria-pressed="%s"' % ('true' if active else 'false'), out)
+        else:
+            out = out[:-1] + ' aria-pressed="%s">' % ('true' if active else 'false')
+        if out != tag:
+            n += 1
+        return out
+
+    return re.sub(r'<button class="lang-btn[^"]*"[^>]*>', sub, raw), n
 
 META_ATTR = {'description', 'og:description', 'og:title', 'og:locale',
              'twitter:description', 'twitter:title'}
@@ -242,7 +266,8 @@ def process(path, report):
     raw, n_dom, unbalanced = flip_dom(raw)
 
     raw, n_res = fix_resolve_initial(raw)
-    n_js = n_res
+    raw, n_btn = flip_lang_buttons(raw)
+    n_js = n_res + n_btn
     for rx, rep in JS_RULES + HTML_RULES:
         raw, k = rx.subn(rep, raw)
         n_js += k

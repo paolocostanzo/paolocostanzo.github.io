@@ -5,7 +5,7 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup">Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup</title>
+  <title data-it="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup">Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup</title>
   <meta name="description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
@@ -116,7 +116,7 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup"/>
+  <meta property="og:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup"/>
   <meta property="og:description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"/>
@@ -128,14 +128,14 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup"/>
+  <meta name="twitter:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup"/>
   <meta name="twitter:description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"/>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup",
+  "headline": "Overheard at Breakfast — TryHackMe Hacker Holidays 2026 Day 6 Writeup",
   "description": "Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted.",
   "image": [
     "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"
@@ -189,8 +189,8 @@
       <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
       <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang(\'it\')" aria-pressed="true">IT</button>
-        <button class="lang-btn active" onclick="setLang(\'en\')" aria-pressed="false">EN</button>
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>

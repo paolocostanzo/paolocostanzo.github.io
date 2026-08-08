@@ -9,13 +9,13 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2 — NonèCostanzo"
-    data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance — NonèCostanzo"
-  >SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance — NonèCostanzo</title>
+    data-it="SSRF → IMDSv1: esfiltrare credenziali IAM da un'istanza EC2"
+    data-en="SSRF → IMDSv1: exfiltrating IAM credentials from EC2"
+  >SSRF → IMDSv1: exfiltrating IAM credentials from EC2</title>
   <meta name="description"
-    data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo."
-    data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies."
-    content="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies."
+    data-it="Una GET a 169.254.169.254 e IMDSv1 consegna le credenziali del ruolo dell'istanza. Lab riproducibile, caso Capital One (106 milioni di record), HttpTokens=required."
+    data-en="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required."
+    content="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required."
   />
   <link rel="canonical" href="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
@@ -115,11 +115,10 @@
     .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
     @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
 </style>
-  <link rel="canonical" href="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"/>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" content="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2"/>
-  <meta property="og:description" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies." content="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies."/>
+  <meta property="og:title" content="SSRF → IMDSv1: exfiltrating IAM credentials from EC2"/>
+  <meta property="og:description" data-it="Una GET a 169.254.169.254 e IMDSv1 consegna le credenziali del ruolo dell'istanza. Lab riproducibile, caso Capital One (106 milioni di record), HttpTokens=required." data-en="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required." content="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/og.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -128,37 +127,37 @@
   <meta property="article:author" content="Paolo Costanzo"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/og.png"/>
-  <meta name="twitter:title" content="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2"/>
-  <meta name="twitter:description" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies." content="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies."/>
+  <meta name="twitter:title" content="SSRF → IMDSv1: exfiltrating IAM credentials from EC2"/>
+  <meta name="twitter:description" data-it="Una GET a 169.254.169.254 e IMDSv1 consegna le credenziali del ruolo dell'istanza. Lab riproducibile, caso Capital One (106 milioni di record), HttpTokens=required." data-en="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required." content="One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required."/>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2",
-    "image": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/og.png",
-    "description": "Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo.",
-    "datePublished": "2026-03-31",
-    "inLanguage":"en",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"
-    },
-    "url": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/",
-    "author": {
-      "@type": "Person",
-      "name": "Paolo Costanzo",
-      "url": "https://www.paolocostanzo.com",
-      "sameAs": [
-        "https://www.linkedin.com/in/paolocostanzoit/",
-        "https://github.com/paolocostanzo",
-        "https://www.researchgate.net/profile/Paolo-Costanzo-2"
-      ]
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Paolo Costanzo"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SSRF → IMDSv1: exfiltrating IAM credentials from EC2",
+  "image": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/og.png",
+  "description": "One GET to 169.254.169.254 and IMDSv1 hands over the instance role's credentials. Reproducible lab, the Capital One case (106 million records), HttpTokens=required.",
+  "datePublished": "2026-03-31",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/"
+  },
+  "url": "https://paolocostanzo.github.io/ssrf-imds-ec2-credentials/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
   }
+}
   </script>
 </head>
 <body>
@@ -169,8 +168,8 @@
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
-        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>
@@ -524,8 +523,8 @@
 
     <p
       data-it='La storia si ripete — stavolta con budget cloud invece che con hardware da 40€, ma la struttura narrativa è identica. Nell&apos;articolo precedente era il PMF: un checkbox nel pannello admin del router, introdotto nel 2009, che nessuno apriva perché &lt;em&gt;"il Wi-Fi funziona"&lt;/em&gt; e aprire il pannello admin richiede di ricordare la password che è scritta sul Post-it sotto il router. Qui è HttpTokens: required: un parametro di configurazione EC2, disponibile dal 2019, che nessuno imposta perché &lt;em&gt;"l&apos;app funziona"&lt;/em&gt; e il ticket per l&apos;infrastruttura è rimasto in backlog da sei sprint. Il vettore cambia, il formato cambia, l&apos;inerzia dell&apos;operatore è invariata con una costanza che farebbe invidia a una legge fisica.'
-      data-en='The story repeats — this time with cloud budget instead of €40 hardware, but the narrative structure is identical. The previous article had PMF: a checkbox in the router admin panel, introduced in 2009, that nobody opened because &lt;em&gt;"the Wi-Fi works"&lt;/em&gt; and opening the admin panel requires remembering the password written on the Post-it under the router. Here it&apos;s HttpTokens: required: an EC2 configuration parameter, available since 2019, that nobody sets because &lt;em&gt;"the app works"&lt;/em&gt; and the infrastructure ticket has been in backlog for six sprints. The attack vector changes, the format changes, operator inertia remains constant with a consistency that would make a physical law jealous.'
-    >The story repeats — this time with cloud budget instead of €40 hardware, but the narrative structure is identical. The previous article had PMF: a checkbox in the router admin panel, introduced in 2009, that nobody opened because <em>"the Wi-Fi works"</em> and opening the admin panel requires remembering the password written on the Post-it under the router. Here it's HttpTokens: required: an EC2 configuration parameter, available since 2019, that nobody sets because <em>"the app works"</em> and the infrastructure ticket has been in backlog for six sprints. The attack vector changes, the format changes, operator inertia remains constant with a consistency that would make a physical law jealous.</p>
+      data-en='The story repeats — this time with cloud budget instead of €40 hardware, but the narrative structure is identical. <a href="../cardputer-adv-wifi-security/" style="color:var(--orange)">The previous article</a> had PMF: a checkbox in the router admin panel, introduced in 2009, that nobody opened because &lt;em&gt;"the Wi-Fi works"&lt;/em&gt; and opening the admin panel requires remembering the password written on the Post-it under the router. Here it&apos;s HttpTokens: required: an EC2 configuration parameter, available since 2019, that nobody sets because &lt;em&gt;"the app works"&lt;/em&gt; and the infrastructure ticket has been in backlog for six sprints. The attack vector changes, the format changes, operator inertia remains constant with a consistency that would make a physical law jealous.'
+    >The story repeats — this time with cloud budget instead of €40 hardware, but the narrative structure is identical. <a href="../cardputer-adv-wifi-security/" style="color:var(--orange)">The previous article</a> had PMF: a checkbox in the router admin panel, introduced in 2009, that nobody opened because <em>"the Wi-Fi works"</em> and opening the admin panel requires remembering the password written on the Post-it under the router. Here it's HttpTokens: required: an EC2 configuration parameter, available since 2019, that nobody sets because <em>"the app works"</em> and the infrastructure ticket has been in backlog for six sprints. The attack vector changes, the format changes, operator inertia remains constant with a consistency that would make a physical law jealous.</p>
 
     <div class="cve-badge" data-it="CVE-CLOUD-2019-CAPITALONE — Severity: CRITICA — Status: AMPIAMENTE EVITABILE — Patch: HttpTokens: required" data-en="CVE-CLOUD-2019-CAPITALONE — Severity: CRITICAL — Status: WIDELY PREVENTABLE — Patch: HttpTokens: required">CVE-CLOUD-2019-CAPITALONE — Severity: CRITICAL — Status: WIDELY PREVENTABLE — Patch: HttpTokens: required</div>
 
@@ -853,7 +852,7 @@
     }
     // Restore saved lang
     const savedLang = localStorage.getItem('lang');
-    if (savedLang && savedLang !== 'it') setLang(savedLang);
+    if (savedLang && savedLang !== 'en') setLang(savedLang);
 
     // Read progress bar
     const bar = document.getElementById('read-bar');

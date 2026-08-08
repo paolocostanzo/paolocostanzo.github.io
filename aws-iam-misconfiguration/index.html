@@ -6,14 +6,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni — NonèCostanzo"
-    data-en="AWS IAM: five recurring misconfigurations and how to fix them — NonèCostanzo"
-  >AWS IAM: five recurring misconfigurations and how to fix them — NonèCostanzo</title>
+    data-it="AWS IAM: cinque misconfigurazioni ricorrenti e le correzioni"
+    data-en="AWS IAM: five recurring misconfigurations and how to fix them"
+  >AWS IAM: five recurring misconfigurations and how to fix them</title>
   <meta
     name="description"
-    data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."
-    data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."
-    content="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."
+    data-it="Una chiave AWS in un commit pubblico viene usata in meno di 5 minuti. Cinque misconfigurazioni IAM — wildcard, root senza MFA, chiavi statiche — e le correzioni."
+    data-en="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes."
+    content="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -99,8 +99,8 @@
   <link rel="canonical" href="https://paolocostanzo.github.io/aws-iam-misconfiguration/"/>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" content="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"/>
-  <meta property="og:description" data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework." data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls." content="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."/>
+  <meta property="og:title" content="AWS IAM: five recurring misconfigurations and how to fix them"/>
+  <meta property="og:description" data-it="Una chiave AWS in un commit pubblico viene usata in meno di 5 minuti. Cinque misconfigurazioni IAM — wildcard, root senza MFA, chiavi statiche — e le correzioni." data-en="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes." content="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/aws-iam-misconfiguration/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/aws-iam-misconfiguration/og.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -109,37 +109,37 @@
   <meta property="article:author" content="Paolo Costanzo"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/aws-iam-misconfiguration/og.png"/>
-  <meta name="twitter:title" content="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"/>
-  <meta name="twitter:description" data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework." data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls." content="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."/>
+  <meta name="twitter:title" content="AWS IAM: five recurring misconfigurations and how to fix them"/>
+  <meta name="twitter:description" data-it="Una chiave AWS in un commit pubblico viene usata in meno di 5 minuti. Cinque misconfigurazioni IAM — wildcard, root senza MFA, chiavi statiche — e le correzioni." data-en="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes." content="An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes."/>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni",
-    "image": "https://paolocostanzo.github.io/aws-iam-misconfiguration/og.png",
-    "description": "Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework.",
-    "datePublished": "2026-03-01",
-    "inLanguage":"en",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://paolocostanzo.github.io/aws-iam-misconfiguration/"
-    },
-    "url": "https://paolocostanzo.github.io/aws-iam-misconfiguration/",
-    "author": {
-      "@type": "Person",
-      "name": "Paolo Costanzo",
-      "url": "https://www.paolocostanzo.com",
-      "sameAs": [
-        "https://www.linkedin.com/in/paolocostanzoit/",
-        "https://github.com/paolocostanzo",
-        "https://www.researchgate.net/profile/Paolo-Costanzo-2"
-      ]
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Paolo Costanzo"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AWS IAM: five recurring misconfigurations and how to fix them",
+  "image": "https://paolocostanzo.github.io/aws-iam-misconfiguration/og.png",
+  "description": "An AWS key in a public commit is used in under 5 minutes. Five IAM misconfigurations — wildcards, root without MFA, static keys, open trust — and their fixes.",
+  "datePublished": "2026-03-01",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/aws-iam-misconfiguration/"
+  },
+  "url": "https://paolocostanzo.github.io/aws-iam-misconfiguration/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
   }
+}
   </script>
 </head>
 <body>
@@ -149,8 +149,8 @@
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
-        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>

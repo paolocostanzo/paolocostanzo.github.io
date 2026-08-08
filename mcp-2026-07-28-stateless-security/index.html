@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="robots" content="index,follow"/>
   <title
-    data-it="MCP 2026-07-28: stateless non significa senza stato — Paolo Costanzo"
-    data-en="MCP 2026-07-28: stateless does not mean state-free — Paolo Costanzo"
-  >MCP 2026-07-28: stateless does not mean state-free — Paolo Costanzo</title>
+    data-it="MCP 2026-07-28: stateless non significa senza stato"
+    data-en="MCP 2026-07-28: stateless does not mean state-free"
+  >MCP 2026-07-28: stateless does not mean state-free</title>
   <meta name="description"
-    data-it="Analisi e laboratorio su MCP 2026-07-28: sessioni di protocollo, stato applicativo, state handle e autorizzazione."
-    data-en="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization."
-    content="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization."
+    data-it="La revisione elimina le sessioni di protocollo. Un lab da 13 test: la lookup sul solo handle fa passare un altro principal, e anche la chiave owner:handle cade."
+    data-en="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too."
+    content="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too."
   />
   <link rel="canonical" href="https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
@@ -22,8 +22,8 @@
 
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
-  <meta property="og:title" content="MCP 2026-07-28: stateless non significa senza stato"/>
-  <meta property="og:description" data-it="Analisi e laboratorio su MCP 2026-07-28: sessioni di protocollo, stato applicativo, state handle e autorizzazione." data-en="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization." content="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization."/>
+  <meta property="og:title" content="MCP 2026-07-28: stateless does not mean state-free"/>
+  <meta property="og:description" data-it="La revisione elimina le sessioni di protocollo. Un lab da 13 test: la lookup sul solo handle fa passare un altro principal, e anche la chiave owner:handle cade." data-en="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too." content="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/og.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -31,36 +31,36 @@
   <meta property="article:author" content="Paolo Costanzo"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/og.png"/>
-  <meta name="twitter:title" content="MCP 2026-07-28: stateless non significa senza stato"/>
-  <meta name="twitter:description" data-it="Analisi e laboratorio su MCP 2026-07-28: sessioni di protocollo, stato applicativo, state handle e autorizzazione." data-en="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization." content="Analysis and lab on MCP 2026-07-28: protocol sessions, application state, state handles and authorization."/>
+  <meta name="twitter:title" content="MCP 2026-07-28: stateless does not mean state-free"/>
+  <meta name="twitter:description" data-it="La revisione elimina le sessioni di protocollo. Un lab da 13 test: la lookup sul solo handle fa passare un altro principal, e anche la chiave owner:handle cade." data-en="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too." content="The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too."/>
 
   <meta property="article:published_time" content="2026-07-29T00:00:00Z"/>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "MCP 2026-07-28: stateless non significa senza stato",
-    "image": "https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/og.png",
-    "description": "Conformance test eseguibile del MUST NOT sugli state handle introdotto dalla revisione MCP 2026-07-28, con tre strategie di chiave a confronto e un lab riproducibile.",
-    "inLanguage":"en",
-    "datePublished": "2026-07-29",
-    "dateModified": "2026-07-29",
-    "author": {
-      "@type": "Person",
-      "name": "Paolo Costanzo",
-      "url": "https://www.paolocostanzo.com"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Paolo Costanzo"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/"
-    },
-    "keywords": "MCP, Model Context Protocol, agentic AI, state handle, IDOR, BOLA, tool authorization, cloud security",
-    "isAccessibleForFree": true
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MCP 2026-07-28: stateless does not mean state-free",
+  "image": "https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/og.png",
+  "description": "The revision drops protocol sessions. A 13-test lab: handle-only lookup lets another principal read the job, and the spec's own owner:handle key falls too.",
+  "inLanguage": "en",
+  "datePublished": "2026-07-29",
+  "dateModified": "2026-07-29",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/"
+  },
+  "keywords": "MCP, Model Context Protocol, agentic AI, state handle, IDOR, BOLA, tool authorization, cloud security",
+  "isAccessibleForFree": true
+}
   </script>
 
   <style>
@@ -199,8 +199,8 @@
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle" aria-label="Language selector">
-        <button class="lang-btn" type="button" onclick="setLang(\'it\')">IT</button>
-        <button class="lang-btn active" type="button" onclick="setLang(\'en\')">EN</button>
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>

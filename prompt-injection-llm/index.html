@@ -6,14 +6,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
-    data-it="Prompt injection su LLM aziendali: superficie d'attacco e contromisure — NonèCostanzo"
-    data-en="Prompt injection on enterprise LLMs: attack surface and mitigations — NonèCostanzo"
-  >Prompt injection on enterprise LLMs: attack surface and mitigations — NonèCostanzo</title>
+    data-it="Prompt injection su LLM aziendali: superficie e contromisure"
+    data-en="Prompt injection on enterprise LLMs: surface and mitigations"
+  >Prompt injection on enterprise LLMs: surface and mitigations</title>
   <meta
     name="description"
-    data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni."
-    data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging."
-    content="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging."
+    data-it="Quando un LLM legge documenti interni e chiama tool, va trattato come un utente privilegiato. PDF ostili in knowledge base e le difese che stanno fuori dal modello."
+    data-en="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model."
+    content="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -96,8 +96,8 @@
   <link rel="canonical" href="https://paolocostanzo.github.io/prompt-injection-llm/"/>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" content="Prompt injection su LLM aziendali: superficie d'attacco e contromisure"/>
-  <meta property="og:description" data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni." data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging." content="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging."/>
+  <meta property="og:title" content="Prompt injection on enterprise LLMs: surface and mitigations"/>
+  <meta property="og:description" data-it="Quando un LLM legge documenti interni e chiama tool, va trattato come un utente privilegiato. PDF ostili in knowledge base e le difese che stanno fuori dal modello." data-en="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model." content="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/prompt-injection-llm/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/prompt-injection-llm/og.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -106,37 +106,37 @@
   <meta property="article:author" content="Paolo Costanzo"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/prompt-injection-llm/og.png"/>
-  <meta name="twitter:title" content="Prompt injection su LLM aziendali: superficie d'attacco e contromisure"/>
-  <meta name="twitter:description" data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni." data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging." content="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging."/>
+  <meta name="twitter:title" content="Prompt injection on enterprise LLMs: surface and mitigations"/>
+  <meta name="twitter:description" data-it="Quando un LLM legge documenti interni e chiama tool, va trattato come un utente privilegiato. PDF ostili in knowledge base e le difese che stanno fuori dal modello." data-en="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model." content="Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model."/>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "Prompt injection su LLM aziendali: superficie d'attacco e contromisure",
-    "image": "https://paolocostanzo.github.io/prompt-injection-llm/og.png",
-    "description": "Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni.",
-    "datePublished": "2026-03-01",
-    "inLanguage":"en",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://paolocostanzo.github.io/prompt-injection-llm/"
-    },
-    "url": "https://paolocostanzo.github.io/prompt-injection-llm/",
-    "author": {
-      "@type": "Person",
-      "name": "Paolo Costanzo",
-      "url": "https://www.paolocostanzo.com",
-      "sameAs": [
-        "https://www.linkedin.com/in/paolocostanzoit/",
-        "https://github.com/paolocostanzo",
-        "https://www.researchgate.net/profile/Paolo-Costanzo-2"
-      ]
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Paolo Costanzo"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Prompt injection on enterprise LLMs: surface and mitigations",
+  "image": "https://paolocostanzo.github.io/prompt-injection-llm/og.png",
+  "description": "Once an LLM can read internal documents and call tools, treat it as a privileged user. Hostile PDFs in the knowledge base, and defenses that sit outside the model.",
+  "datePublished": "2026-03-01",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/prompt-injection-llm/"
+  },
+  "url": "https://paolocostanzo.github.io/prompt-injection-llm/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
   }
+}
   </script>
 </head>
 <body>
@@ -146,8 +146,8 @@
       <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
-        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
       </div>
     </div>
   </header>
