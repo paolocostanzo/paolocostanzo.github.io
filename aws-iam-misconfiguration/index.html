@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="it" id="html-root">
+<html lang="en" id="html-root">
 <head>
   <meta charset="UTF-8"/>
-  <!-- Easter egg: se stai leggendo il sorgente, ricorda che la vera vuln è quasi sempre IAM → troppo *Allow* e troppo poco least privilege. -->
+  <!-- Easter egg: if you're reading the source, remember the real vuln is almost always IAM → too much *Allow*, nowhere near enough least privilege. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
     data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni — NonèCostanzo"
     data-en="AWS IAM: five recurring misconfigurations and how to fix them — NonèCostanzo"
-  >AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni — NonèCostanzo</title>
+  >AWS IAM: five recurring misconfigurations and how to fix them — NonèCostanzo</title>
   <meta
     name="description"
     data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."
     data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."
-    content="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework."
+    content="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -119,7 +119,7 @@
     "image": "https://paolocostanzo.github.io/aws-iam-misconfiguration/og.png",
     "description": "Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework.",
     "datePublished": "2026-03-01",
-    "inLanguage": "it",
+    "inLanguage":"en",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://paolocostanzo.github.io/aws-iam-misconfiguration/"
@@ -146,11 +146,11 @@
   <div id="read-bar"></div>
   <header>
     <div class="header-inner">
-      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← indietro</a>
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
       <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
       <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('it')">IT</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
+        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
       </div>
     </div>
   </header>
@@ -168,189 +168,143 @@
     <h1
       data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni"
       data-en="AWS IAM: five recurring misconfigurations and how to fix them"
-    >AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni</h1>
+    >AWS IAM: five recurring misconfigurations and how to fix them</h1>
     <p class="article-intro"
        data-it="Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi."
        data-en="What really happens when IAM policies are too permissive. How an attacker thinks, what they look for — and how to close the door before they even knock."
-    >
-      Cosa succede davvero quando le policy IAM sono troppo permissive. Come un attaccante ragiona, cosa cerca — e come chiudere la porta prima che bussi.
-    </p>
+    >What really happens when IAM policies are too permissive. How an attacker thinks, what they look for — and how to close the door before they even knock.</p>
   </div>
   <div class="article-body">
     <div class="tldr">
       <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
       <ul>
         <li data-it="Il 90% dei breach cloud parte da IAM mal configurato, non da exploit zero-day"
-            data-en="90% of cloud breaches start from misconfigured IAM, not zero-day exploits">
-          Il 90% dei breach cloud parte da IAM mal configurato, non da exploit zero-day
-        </li>
+            data-en="90% of cloud breaches start from misconfigured IAM, not zero-day exploits">90% of cloud breaches start from misconfigured IAM, not zero-day exploits</li>
         <li data-it="Wildcard su Action e Resource sono una backdoor aperta"
-            data-en="Wildcards on Action and Resource are an always-open backdoor">
-          Wildcard su Action e Resource sono una backdoor aperta
-        </li>
+            data-en="Wildcards on Action and Resource are an always-open backdoor">Wildcards on Action and Resource are an always-open backdoor</li>
         <li data-it="Le chiavi di accesso statiche sono il peccato originale del cloud"
-            data-en="Static access keys are the original sin of the cloud">
-          Le chiavi di accesso statiche sono il peccato originale del cloud
-        </li>
+            data-en="Static access keys are the original sin of the cloud">Static access keys are the original sin of the cloud</li>
         <li data-it="Strumenti come Prowler e IAM Access Analyzer trovano i problemi in minuti"
-            data-en="Tools like Prowler and IAM Access Analyzer find issues in minutes">
-          Strumenti come Prowler e IAM Access Analyzer trovano i problemi in minuti
-        </li>
+            data-en="Tools like Prowler and IAM Access Analyzer find issues in minutes">Tools like Prowler and IAM Access Analyzer find issues in minutes</li>
       </ul>
     </div>
-    <h2 data-it="Il problema reale" data-en="The real problem">Il problema reale</h2>
+    <h2 data-it="Il problema reale" data-en="The real problem">The real problem</h2>
     <p
       data-it="Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong>"
       data-en="When people talk about cloud breaches, the story is always the same: sophisticated attack, zero-day, hoodie hacker. Reality is almost always more boring. <strong>Most AWS compromises start from IAM.</strong>"
-    >
-      Quando si parla di breach cloud, la narrativa dominante è sempre la stessa: attacco sofisticato, zero-day, hacker con cappuccio. La realtà è quasi sempre più banale. <strong>La maggior parte dei compromessi AWS parte da IAM.</strong>
-    </p>
+    >When people talk about cloud breaches, the story is always the same: sophisticated attack, zero-day, hoodie hacker. Reality is almost always more boring. <strong>Most AWS compromises start from IAM.</strong></p>
     <p
       data-it="Non perché IAM sia difettoso. Perché è potente, flessibile, e quella flessibilità viene usata male — spesso per velocità, spesso per comodità. Il risultato è lo stesso."
       data-en="Not because IAM is broken, but because it is powerful and flexible — and that flexibility is often abused, for speed or convenience. The result is the same."
-    >
-      Non perché IAM sia difettoso. Perché è potente, flessibile, e quella flessibilità viene usata male — spesso per velocità, spesso per comodità. Il risultato è lo stesso.
-    </p>
-    <h2 data-it="Errore #1 — Wildcard su Action" data-en="Mistake #1 — Wildcards on Action">Errore #1 — Wildcard su Action</h2>
+    >Not because IAM is broken, but because it is powerful and flexible — and that flexibility is often abused, for speed or convenience. The result is the same.</p>
+    <h2 data-it="Errore #1 — Wildcard su Action" data-en="Mistake #1 — Wildcards on Action">Mistake #1 — Wildcards on Action</h2>
     <div class="error-card">
       <div class="error-num">// 01</div>
       <div class="error-title"
-           data-it="Action: \"*\" — La policy che fa tutto"
-           data-en="Action: \"*\" — The policy that does everything">
-        Action: "*" — La policy che fa tutto
-      </div>
+           data-it="Action: &quot;*&quot; — La policy che fa tutto"
+           data-en="Action: &quot;*&quot; — The policy that does everything">Action: "*" — The policy that does everything</div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
-         data-it="Una policy con <code style=\"color:var(--orange);font-family:var(--mono)\">Action: \"*\"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa."
-         data-en="A policy with <code style=\"color:var(--orange);font-family:var(--mono)\">Action: \"*\"</code> gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything."
-      >
-        Una policy con <code style="color:var(--orange);font-family:var(--mono)">Action: "*"</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa.
-      </p>
+         data-it="Una policy con <code style=&quot;color:var(--orange);font-family:var(--mono)&quot;>Action: &quot;*&quot;</code> concede all'identità la possibilità di eseguire qualsiasi operazione AWS. Listare bucket S3, creare utenti IAM, accedere a Secrets Manager. Qualsiasi cosa."
+         data-en="A policy with <code style=&quot;color:var(--orange);font-family:var(--mono)&quot;>Action: &quot;*&quot;</code> gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything."
+      >A policy with <code style="color:var(--orange);font-family:var(--mono)">Action: "*"</code> gives an identity the ability to perform any AWS operation. Listing S3 buckets, creating IAM users, reading Secrets Manager. Everything.</p>
     </div>
-    <div class="code-block"><pre><span class="comment" data-it="// ❌ Quello che si vede troppo spesso" data-en="// ❌ What you see far too often">// ❌ Quello che si vede troppo spesso</span>
+    <div class="code-block"><pre><span class="comment" data-it="// ❌ Quello che si vede troppo spesso" data-en="// ❌ What you see far too often">// ❌ What you see far too often</span>
 {
   "Effect": "Allow",
   "Action": <span class="danger">"*"</span>,
   "Resource": <span class="danger">"*"</span>
 }
 
-<span class="comment" data-it="// ✅ Quello che dovrebbe esserci" data-en="// ✅ What should be there instead">// ✅ Quello che dovrebbe esserci</span>
+<span class="comment" data-it="// ✅ Quello che dovrebbe esserci" data-en="// ✅ What should be there instead">// ✅ What should be there instead</span>
 {
   "Effect": "Allow",
   "Action": ["s3:GetObject", "s3:PutObject"],
   "Resource": <span class="ok">"arn:aws:s3:::my-specific-bucket/*"</span>
 }</pre></div>
-    <h2 data-it="Errore #2 — Chiavi di accesso statiche" data-en="Mistake #2 — Static access keys">Errore #2 — Chiavi di accesso statiche</h2>
+    <h2 data-it="Errore #2 — Chiavi di accesso statiche" data-en="Mistake #2 — Static access keys">Mistake #2 — Static access keys</h2>
     <div class="error-card">
       <div class="error-num">// 02</div>
       <div class="error-title"
            data-it="Access Key hardcoded nel codice"
-           data-en="Access keys hardcoded in code">
-        Access Key hardcoded nel codice
-      </div>
+           data-en="Access keys hardcoded in code">Access keys hardcoded in code</div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
          data-it="Le chiavi statiche non scadono, non ruotano automaticamente, e quando finiscono in un repo GitHub (anche per 30 secondi) sono già nelle mani di qualcuno."
          data-en="Static keys do not expire, they do not rotate automatically, and once they end up in a GitHub repo (even for 30 seconds) they are already in someone else's hands."
-      >
-        Le chiavi statiche non scadono, non ruotano automaticamente, e quando finiscono in un repo GitHub (anche per 30 secondi) sono già nelle mani di qualcuno.
-      </p>
+      >Static keys do not expire, they do not rotate automatically, and once they end up in a GitHub repo (even for 30 seconds) they are already in someone else's hands.</p>
     </div>
     <div class="callout">
-      <div class="callout-label" data-it="// Attenzione" data-en="// Warning">// Attenzione</div>
+      <div class="callout-label" data-it="// Attenzione" data-en="// Warning">// Warning</div>
       <p
         data-it="Da quando una chiave AWS appare in un commit pubblico a quando viene usata: meno di 5 minuti in media. I bot che scansionano GitHub in tempo reale cercano esattamente questo pattern."
         data-en="From the moment an AWS key appears in a public commit to the moment it is used: less than 5 minutes on average. Bots scanning GitHub in real time look exactly for this pattern."
-      >
-        Da quando una chiave AWS appare in un commit pubblico a quando viene usata: meno di 5 minuti in media. I bot che scansionano GitHub in tempo reale cercano esattamente questo pattern.
-      </p>
+      >From the moment an AWS key appears in a public commit to the moment it is used: less than 5 minutes on average. Bots scanning GitHub in real time look exactly for this pattern.</p>
     </div>
     <p
       data-it="La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico."
       data-en="The solution is not to hide keys better. It is not to use them at all. <strong>IAM Roles for EC2, Lambda, ECS</strong> — temporary credentials rotate automatically and cannot be exfiltrated in the classic way."
-    >
-      La soluzione non è nascondere le chiavi meglio. È non usarle. <strong>IAM Roles per EC2, Lambda, ECS</strong> — le credenziali temporanee rotano automaticamente e non possono essere esfiltrate nel modo classico.
-    </p>
-    <h2 data-it="Errore #3 — Ruoli cross-account senza condizioni" data-en="Mistake #3 — Cross-account roles without conditions">Errore #3 — Ruoli cross-account senza condizioni</h2>
+    >The solution is not to hide keys better. It is not to use them at all. <strong>IAM Roles for EC2, Lambda, ECS</strong> — temporary credentials rotate automatically and cannot be exfiltrated in the classic way.</p>
+    <h2 data-it="Errore #3 — Ruoli cross-account senza condizioni" data-en="Mistake #3 — Cross-account roles without conditions">Mistake #3 — Cross-account roles without conditions</h2>
     <div class="error-card">
       <div class="error-num">// 03</div>
       <div class="error-title"
            data-it="Trust policy aperta a qualsiasi account"
-           data-en="Trust policy open to any account">
-        Trust policy aperta a qualsiasi account
-      </div>
+           data-en="Trust policy open to any account">Trust policy open to any account</div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
-         data-it="Un ruolo con trust policy che permette l'assume da <code style=\"color:var(--orange);font-family:var(--mono)\">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo."
-         data-en="A role with a trust policy that allows assume from <code style=\"color:var(--orange);font-family:var(--mono)\">arn:aws:iam::*:root</code> can be assumed by any AWS account in the world."
-      >
-        Un ruolo con trust policy che permette l'assume da <code style="color:var(--orange);font-family:var(--mono)">arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo.
-      </p>
+         data-it="Un ruolo con trust policy che permette l'assume da <code style=&quot;color:var(--orange);font-family:var(--mono)&quot;>arn:aws:iam::*:root</code> può essere assunto da qualsiasi account AWS nel mondo."
+         data-en="A role with a trust policy that allows assume from <code style=&quot;color:var(--orange);font-family:var(--mono)&quot;>arn:aws:iam::*:root</code> can be assumed by any AWS account in the world."
+      >A role with a trust policy that allows assume from <code style="color:var(--orange);font-family:var(--mono)">arn:aws:iam::*:root</code> can be assumed by any AWS account in the world.</p>
     </div>
-    <div class="code-block"><pre><span class="comment" data-it="// ❌ Trust policy aperta" data-en="// ❌ Open trust policy">// ❌ Trust policy aperta</span>
+    <div class="code-block"><pre><span class="comment" data-it="// ❌ Trust policy aperta" data-en="// ❌ Open trust policy">// ❌ Open trust policy</span>
 "Principal": { "AWS": <span class="danger">"arn:aws:iam::*:root"</span> }
 
-<span class="comment" data-it="// ✅ Specifica l'account e aggiungi ExternalId" data-en="// ✅ Specify the account and add an ExternalId">// ✅ Specifica l'account e aggiungi ExternalId</span>
+<span class="comment" data-it="// ✅ Specifica l'account e aggiungi ExternalId" data-en="// ✅ Specify the account and add an ExternalId">// ✅ Specify the account and add an ExternalId</span>
 "Principal": { "AWS": <span class="ok">"arn:aws:iam::123456789012:root"</span> },
 "Condition": { "StringEquals": { "sts:ExternalId": <span class="ok">"MySecretExternalId"</span> } }</pre></div>
-    <h2 data-it="Errore #4 — MFA non abilitata" data-en="Mistake #4 — MFA not enabled">Errore #4 — MFA non abilitata</h2>
+    <h2 data-it="Errore #4 — MFA non abilitata" data-en="Mistake #4 — MFA not enabled">Mistake #4 — MFA not enabled</h2>
     <div class="error-card">
       <div class="error-num">// 04</div>
       <div class="error-title"
            data-it="Root account senza MFA"
-           data-en="Root account without MFA">
-        Root account senza MFA
-      </div>
+           data-en="Root account without MFA">Root account without MFA</div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
          data-it="L'account root AWS ha accesso illimitato e non può essere ristretto da policy. Senza MFA, una password compromessa equivale a perdita totale dell'ambiente."
          data-en="The AWS root account has unlimited access and cannot be restricted by policies. Without MFA, a compromised password equals total environment loss."
-      >
-        L'account root AWS ha accesso illimitato e non può essere ristretto da policy. Senza MFA, una password compromessa equivale a perdita totale dell'ambiente.
-      </p>
+      >The AWS root account has unlimited access and cannot be restricted by policies. Without MFA, a compromised password equals total environment loss.</p>
     </div>
     <p
       data-it="<strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi."
       data-en="<strong>The root account should never be used for daily operations.</strong> You create it, enable hardware MFA, lock it away. For everything else you use IAM users or roles with least privilege."
-    >
-      <strong>Il root account non dovrebbe mai essere usato per operazioni quotidiane.</strong> Si crea, si abilita MFA hardware, si chiude in cassaforte. Per tutto il resto si usano utenti IAM o ruoli con permessi minimi.
-    </p>
-    <h2 data-it="Errore #5 — Permission boundary assenti" data-en="Mistake #5 — Missing permission boundaries">Errore #5 — Permission boundary assenti</h2>
+    ><strong>The root account should never be used for daily operations.</strong> You create it, enable hardware MFA, lock it away. For everything else you use IAM users or roles with least privilege.</p>
+    <h2 data-it="Errore #5 — Permission boundary assenti" data-en="Mistake #5 — Missing permission boundaries">Mistake #5 — Missing permission boundaries</h2>
     <div class="error-card">
       <div class="error-num">// 05</div>
       <div class="error-title"
            data-it="Nessun limite massimo ai permessi delegabili"
-           data-en="No upper bound on delegable permissions">
-        Nessun limite massimo ai permessi delegabili
-      </div>
+           data-en="No upper bound on delegable permissions">No upper bound on delegable permissions</div>
       <p style="font-size:0.9rem;color:#bbb;margin-top:0.5rem;"
          data-it="Senza permission boundary, un utente con permessi di creazione ruoli può creare un ruolo con più permessi di quanti ne abbia lui stesso. È privilege escalation by design."
          data-en="Without permission boundaries, a user allowed to create roles can create a role with more permissions than they have themselves. It's privilege escalation by design."
-      >
-        Senza permission boundary, un utente con permessi di creazione ruoli può creare un ruolo con più permessi di quanti ne abbia lui stesso. È privilege escalation by design.
-      </p>
+      >Without permission boundaries, a user allowed to create roles can create a role with more permissions than they have themselves. It's privilege escalation by design.</p>
     </div>
     <div class="callout">
-      <div class="callout-label" data-it="// Strumenti consigliati" data-en="// Recommended tools">// Strumenti consigliati</div>
+      <div class="callout-label" data-it="// Strumenti consigliati" data-en="// Recommended tools">// Recommended tools</div>
       <p
         data-it="<strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando."
         data-en="<strong>Prowler</strong> — automated AWS audit with hundreds of IAM checks.<br/><strong>IAM Access Analyzer</strong> — native AWS, free, finds public and cross-account access.<br/><strong>CloudTrail + Athena</strong> — historical analysis of who did what and when."
-      >
-        <strong>Prowler</strong> — audit automatizzato AWS con centinaia di check IAM.<br/><strong>IAM Access Analyzer</strong> — nativo AWS, gratuito, trova accessi pubblici e cross-account.<br/><strong>CloudTrail + Athena</strong> — analisi storica di chi ha fatto cosa e quando.
-      </p>
+      ><strong>Prowler</strong> — automated AWS audit with hundreds of IAM checks.<br/><strong>IAM Access Analyzer</strong> — native AWS, free, finds public and cross-account access.<br/><strong>CloudTrail + Athena</strong> — historical analysis of who did what and when.</p>
     </div>
-    <h2 data-it="Conclusione" data-en="Conclusion">Conclusione</h2>
+    <h2 data-it="Conclusione" data-en="Conclusion">Conclusion</h2>
     <p
       data-it="IAM è la superficie d'attacco più sottovalutata del cloud. Richiede di pensare come un attaccante per vedere i problemi. Cosa può fare questo ruolo? Chi può assumerlo? Da dove?"
       data-en="IAM is the most underestimated attack surface in the cloud. You have to think like an attacker to see the problems. What can this role do? Who can assume it? From where?"
-    >
-      IAM è la superficie d'attacco più sottovalutata del cloud. Richiede di pensare come un attaccante per vedere i problemi. Cosa può fare questo ruolo? Chi può assumerlo? Da dove?
-    </p>
+    >IAM is the most underestimated attack surface in the cloud. You have to think like an attacker to see the problems. What can this role do? Who can assume it? From where?</p>
     <p
       data-it="Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report."
       data-en="Asking those questions before everyone else is exactly the difference between an assessment and an incident report."
-    >
-      Fare quelle domande prima degli altri è esattamente la differenza tra un assessment e un incident report.
-    </p>
+    >Asking those questions before everyone else is exactly the difference between an assessment and an incident report.</p>
   </div>
   <div class="share-wrap">
-    <span class="share-lbl" data-it="condividi" data-en="share">condividi</span>
+    <span class="share-lbl" data-it="condividi" data-en="share">share</span>
     <div class="share-btns">
       <a class="share-btn" id="sx" href="#" target="_blank" rel="noopener">𝕏</a>
       <a class="share-btn" id="sli" href="#" target="_blank" rel="noopener">linkedin</a>
@@ -358,13 +312,13 @@
       <a class="share-btn" id="sdt" href="#" target="_blank" rel="noopener">dev.to</a>
       <a class="share-btn" id="swa" href="#" target="_blank" rel="noopener">whatsapp</a>
       <a class="share-btn" id="stg" href="#" target="_blank" rel="noopener">telegram</a>
-      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copia link</button>
+      <button class="share-btn" id="scp" data-it="copia link" data-en="copy link">copy link</button>
     </div>
   </div>
   <!-- AUTHOR BOX -->
   <aside class="author-box">
     <div class="ab-head">
-      <span class="ab-label" data-it="// L'autore" data-en="// The author">// L'autore</span>
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
     </div>
     <div class="ab-name">Paolo Costanzo</div>
     <div class="ab-role"
@@ -372,10 +326,10 @@
          data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
     <p class="ab-bio"
        data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
-       data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile.</p>
+       data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
     <div class="ab-links">
       <a class="ab-cta" href="mailto:me@paolocostanzo.com"
-         data-it="Scrivimi →" data-en="Get in touch →">Scrivimi →</a>
+         data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
       <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
       <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -383,7 +337,7 @@
     </div>
   </aside>
   <footer class="article-footer">
-    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Torna agli articoli</a>
+    <a href="../" data-it="← Torna agli articoli" data-en="← Back to articles">← Back to articles</a>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
     <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
   </footer>
@@ -400,8 +354,8 @@
         } catch(e) {}
         nav = String(nav).toLowerCase();
         if(nav.indexOf('en') === 0) return 'en';
-        if(nav.indexOf('it') === 0) return 'it';
-        return 'it';
+        if(nav.indexOf('it') === 0) return 'en';
+        return 'en';
       }
 
       function setLang(lang){

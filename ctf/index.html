@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it" id="html-root">
+<html lang="en" id="html-root">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title data-it="CTF &amp; Walkthroughs — NonèCostanzo" data-en="CTF &amp; Walkthroughs — NonèCostanzo">CTF &amp; Walkthroughs — NonèCostanzo</title>
-  <meta name="description" data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform." content="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma."/>
+  <meta name="description" data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform." content="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -53,16 +53,16 @@
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
   <meta property="og:title" data-it="CTF &amp; Walkthroughs" data-en="CTF &amp; Walkthroughs" content="CTF &amp; Walkthroughs"/>
-  <meta property="og:description" data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform." content="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma."/>
+  <meta property="og:description" data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform." content="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
-  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="it_IT"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="en_US"/>
   <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/og.png"/>
   <script type="application/ld+json">
 {
   "@context":"https://schema.org","@type":"CollectionPage","name":"CTF & Walkthroughs",
-  "description":"Walkthrough e risoluzioni di CTF: metodologia, exploitation e note difensive.","url":"https://paolocostanzo.github.io/ctf/","inLanguage":"it",
+  "description":"Walkthrough e risoluzioni di CTF: metodologia, exploitation e note difensive.","url":"https://paolocostanzo.github.io/ctf/","inLanguage":"en",
   "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
   "hasPart":{"@type":"ItemList","itemListElement":[
     {"@type":"ListItem","position":1,"name":"Hacker Holidays 2026","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"}
@@ -74,32 +74,32 @@
   <header><div class="header-inner">
     <a class="back-link" href="/" data-it="← home" data-en="← home">← home</a>
     <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
-    <div class="lang-toggle"><button class="lang-btn active" onclick="setLang('it')" aria-pressed="true">IT</button><button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button></div>
+    <div class="lang-toggle"><button class="lang-btn" onclick="setLang(\'it\')" aria-pressed="true">IT</button><button class="lang-btn active" onclick="setLang(\'en\')" aria-pressed="false">EN</button></div>
   </div></header>
   <nav class="crumb" aria-label="breadcrumb"><span class="here">CTF</span></nav>
   <div class="hero">
     <div class="kicker">// ctf &amp; walkthroughs</div>
     <h1 data-it="CTF &amp; Walkthroughs" data-en="CTF &amp; Walkthroughs">CTF &amp; Walkthroughs</h1>
-    <p data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform.">Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma.</p>
+    <p data-it="Walkthrough e risoluzioni di CTF: metodologia passo-passo, tecniche di exploitation e note difensive. Organizzati per evento e piattaforma." data-en="CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform.">CTF walkthroughs and solutions: step-by-step methodology, exploitation techniques and defensive notes. Organised by event and platform.</p>
   </div>
   <main class="section">
-<div class="sec-label" data-it="// Serie &amp; eventi" data-en="// Series &amp; events">// Serie &amp; eventi</div>
+<div class="sec-label" data-it="// Serie &amp; eventi" data-en="// Series &amp; events">// Series & events</div>
     <div class="grid">
     <a class="card" href="/ctf/hacker-holidays-2026/">
-      <div class="c-meta"><span class="c-cat">TryHackMe</span><span class="c-diff" style="color:#ff6a00">Series</span><span class="c-date" data-it="Ago 2026" data-en="Aug 2026">Ago 2026</span></div>
+      <div class="c-meta"><span class="c-cat">TryHackMe</span><span class="c-diff" style="color:#ff6a00">Series</span><span class="c-date" data-it="Ago 2026" data-en="Aug 2026">Aug 2026</span></div>
       <div class="c-title" data-it="Hacker Holidays 2026" data-en="Hacker Holidays 2026">Hacker Holidays 2026</div>
-      <div class="c-desc" data-it="Evento a tema Byte Lotus Hotel, una room al giorno: OSINT, web, cloud, forensics, boot2root. 11 writeup con metodologia riproducibile." data-en="Byte Lotus Hotel-themed event, a room a day: OSINT, web, cloud, forensics, boot2root. 11 writeups with reproducible methodology.">Evento a tema Byte Lotus Hotel, una room al giorno: OSINT, web, cloud, forensics, boot2root. 11 writeup con metodologia riproducibile.</div>
-      <span class="c-arrow" data-it="apri →" data-en="open →">apri →</span>
+      <div class="c-desc" data-it="Evento a tema Byte Lotus Hotel, una room al giorno: OSINT, web, cloud, forensics, boot2root. 11 writeup con metodologia riproducibile." data-en="Byte Lotus Hotel-themed event, a room a day: OSINT, web, cloud, forensics, boot2root. 11 writeups with reproducible methodology.">Byte Lotus Hotel-themed event, a room a day: OSINT, web, cloud, forensics, boot2root. 11 writeups with reproducible methodology.</div>
+      <span class="c-arrow" data-it="apri →" data-en="open →">open →</span>
     </a>
     </div>
   </main>
   <div class="footer">
     <a href="/" data-it="← home" data-en="← home">← home</a>
-    <span data-it="© 2026 NonèCostanzo — lab autorizzati, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised labs, for educational purposes">© 2026 NonèCostanzo — lab autorizzati, per scopi educativi</span>
+    <span data-it="© 2026 NonèCostanzo — lab autorizzati, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised labs, for educational purposes">© 2026 NonèCostanzo — authorised labs, for educational purposes</span>
   </div>
   <script>
     function setLang(lang){document.querySelectorAll('[data-'+lang+']').forEach(el=>{const v=el.getAttribute('data-'+lang);if(el.tagName==='META'){el.setAttribute('content',v);}else if(el.tagName==='TITLE'){document.title=v;}else{el.innerHTML=v;}});document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});localStorage.setItem('lang',lang);}
-    const s=localStorage.getItem('lang'); if(s&&s!=='it')setLang(s);
+    const s=localStorage.getItem('lang'); if(s&&s!=='en')setLang(s);
   </script>
 </body>
 </html>

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Rigenera sitemap.xml a partire dalle pagine tracciate da git.
+"""Regenerate sitemap.xml from the git-tracked pages.
 
     python3 tools/generate-sitemap.py
 
-lastmod viene dall'ultimo commit che ha toccato la pagina, così non va mai
-fuori sincrono a mano. priority/changefreq seguono la profondità del path.
+lastmod comes from the last commit that touched each page, so it can never
+drift out of sync by hand. priority/changefreq follow the path depth.
 """
 
 import subprocess
@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://paolocostanzo.github.io"
 
-# pagine escluse dall'indice: 404 e file di verifica dei motori di ricerca
+# pages kept out of the index: 404 and search-engine verification files
 SKIP = {"404.html", "google33d681ac15aa231f.html"}
 
 
@@ -42,7 +42,7 @@ def weight(path):
     if path == "index.html":
         return "1.0", "weekly"
     if path.startswith("ctf/"):
-        # hub /ctf/ e hub di serie: 0.8 — singole room: 0.7
+        # /ctf/ hub and series hubs: 0.8 — individual rooms: 0.7
         return ("0.7", "monthly") if path.count("/") >= 3 else ("0.8", "weekly")
     return "0.6", "monthly"
 
@@ -64,7 +64,7 @@ def main():
         + "\n</urlset>\n"
     )
     (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
-    print(f"sitemap.xml rigenerata — {len(rows)} URL")
+    print(f"sitemap.xml regenerated — {len(rows)} URLs")
 
 
 if __name__ == "__main__":

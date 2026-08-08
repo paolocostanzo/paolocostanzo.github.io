@@ -1,27 +1,31 @@
 # ── Internal working files — do not publish ──
-# Il sito pubblica solo HTML e i suoi asset (immagini, favicon, feed, security.txt).
-# Tutto il resto è materiale di lavoro e resta in locale.
+# The site ships only HTML and its assets (images, favicon, feed, security.txt).
+# Everything else is working material and stays local.
 
-# Documenti e proposte
+# Documents and proposals
 *.docx
 *.pdf
 *.pptx
 *.xlsx
 
-# Bozze, appunti e ricerca non pubblicata
+# Drafts, notes and unpublished research
 social-posts*.md
 Email_e_Prezzi_*.md
 living-off-the-agent-research/
 paolocostanzo-profile/
 
-# Tooling e ambienti
+# Tooling and environments
 .claude/
 node_modules/
 _to_delete/
 deploy-*.sh
 
-# Sistema e lock
+# OS cruft and lock files
 .DS_Store
 .~lock.*#
 *.lock
 PROMPT_LOVABLE_*.md
+
+# Python bytecode
+__pycache__/
+*.pyc

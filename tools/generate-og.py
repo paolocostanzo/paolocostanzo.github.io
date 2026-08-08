@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Genera le Open Graph image del sito (1200x630) nello stile della sezione CTF.
+"""Generate the site's Open Graph images (1200x630) in the CTF section's style.
 
-Uso:
-    python3 tools/generate-og.py            # rigenera tutte le immagini del manifest
-    python3 tools/generate-og.py ctf home   # rigenera solo le chiavi indicate
+Usage:
+    python3 tools/generate-og.py            # regenerate every image in the manifest
+    python3 tools/generate-og.py ctf home   # regenerate only the given keys
 
-Le immagini finiscono accanto alla pagina che rappresentano (es. ctf/og.png).
-Font: Arial Bold per il titolo, Menlo per mono. Su Linux servono i font
-DejaVu — vedi FONT_CANDIDATES.
+Images are written next to the page they represent (e.g. ctf/og.png).
+Fonts: Arial Bold for the title, Menlo for mono. On Linux the DejaVu fonts are
+required instead — see FONT_CANDIDATES.
 """
 
 import sys
@@ -45,7 +45,7 @@ def font(kind, size):
     for path in FONT_CANDIDATES[kind]:
         if Path(path).exists():
             return ImageFont.truetype(path, size)
-    raise SystemExit(f"nessun font '{kind}' trovato: installa DejaVu o Liberation")
+    raise SystemExit(f"no '{kind}' font found: install DejaVu or Liberation")
 
 
 def text_w(draw, s, f, tracking=0):
@@ -56,7 +56,7 @@ def text_w(draw, s, f, tracking=0):
 
 
 def draw_tracked(draw, xy, s, f, fill, tracking=0):
-    """Disegna testo con letter-spacing (PIL non lo supporta nativamente)."""
+    """Draw text with letter-spacing (PIL has no native support for it)."""
     x, y = xy
     if not tracking:
         draw.text((x, y), s, font=f, fill=fill)
@@ -82,11 +82,11 @@ def wrap(draw, words, f, max_w, tracking=0):
 
 
 def fit_title(draw, title, accent_words, max_w, max_lines=2, hi=86, lo=40):
-    """Riduce il corpo finché il titolo entra in max_lines righe.
+    """Shrink the point size until the title fits in max_lines lines.
 
-    Restituisce (font, righe) dove ogni riga è una lista di (parola, colore).
-    Il bug della vecchia ctf/og.png era proprio qui: nessun controllo di
-    overflow, quindi il titolo usciva dal canvas.
+    Returns (font, lines) where each line is a list of (word, color).
+    This is exactly where the old ctf/og.png bug lived: with no overflow check
+    the title ran straight off the canvas.
     """
     words = title.split()
     n_accent = min(accent_words, len(words))
@@ -290,8 +290,8 @@ def main():
     keys = sys.argv[1:] or list(MANIFEST)
     unknown = [k for k in keys if k not in MANIFEST]
     if unknown:
-        raise SystemExit(f"chiavi sconosciute: {', '.join(unknown)}")
-    print(f"Genero {len(keys)} OG image:")
+        raise SystemExit(f"unknown keys: {', '.join(unknown)}")
+    print(f"Generating {len(keys)} OG image(s):")
     for key in keys:
         spec = MANIFEST[key]
         render(spec, ROOT / spec["out"])

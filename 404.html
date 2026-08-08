@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it" id="html-root">
+<html lang="en" id="html-root">
 <head>
     <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8"/>
@@ -11,7 +11,7 @@
     name="description"
     data-it="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."
     data-en="404 room: CTF terminal, 5 keys to find, unlockable bio."
-    content="Stanza 404: terminale CTF, 5 chiavi da trovare e bio sbloccabile."
+    content="404 room: CTF terminal, 5 keys to find, unlockable bio."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -57,11 +57,11 @@
     <div class="topbar">
       <a class="home-link" href="/" data-it="← home" data-en="← home">← home</a>
       <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('it')">IT</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
+        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
       </div>
     </div>
-    <div class="title" data-it="// 404 ROOM — nonè trovato" data-en="// 404 ROOM — not found">// 404 ROOM — nonè trovato</div>
+    <div class="title" data-it="// 404 ROOM — nonè trovato" data-en="// 404 ROOM — not found">// 404 ROOM — not found</div>
     <div class="term" aria-label="404 terminal">
       <div class="term-header">
         <span class="th-dot" style="background:#ff5f57"></span>
@@ -79,9 +79,7 @@
         </div>
       </div>
     </div>
-    <div class="hint" id="hint" data-it="// Digita <span class=&quot;t0&quot;>help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5." data-en="// Type <span class=&quot;t0&quot;>help</span> to begin. Find 5 KEY{...}, unlock bio at 5/5.">
-      // Digita <span class="t0">help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5.
-    </div>
+    <div class="hint" id="hint" data-it="// Digita <span class=&quot;t0&quot;>help</span> per iniziare. 5 KEY{...} da trovare, bio sbloccabile a 5/5." data-en="// Type <span class=&quot;t0&quot;>help</span> to begin. Find 5 KEY{...}, unlock bio at 5/5.">// Type <span class="t0">help</span> to begin. Find 5 KEY{...}, unlock bio at 5/5.</div>
   </div>
 
   <script>
@@ -257,7 +255,7 @@
       const BIO_IT_B64 = "Y2lhbywgc29ubyBSb2FjaCwgbCdpYSBkaSBQYW9sbyBDb3N0YW56byAoYWthIE5vbsOpQ29zdGFuem8pLiBZIHNlIGluc2lzdGUgZGFuIHVuYSBwYXJ0ZSBjdSBub24gZmlnZ2UuXG5Fb3N0byBwb3N0byBzw6EgZmluaXRvIHF1YW5kbyB1biV0dGVudGUgY29tcGxlYSBsZSBjaW5xdWUgS0VZe3suLi59IHNlbXBsaWNlbWVudGUgYmVuIGNvZGUuXG5XcXVhbmRvIEkgdmVkb0BBTV9yb290ZWQgdGUgc3RhaSB0cmFjb2BuYW5kbyBuZWwuLi4gcXVhbGUg7WFubGkgc2lnbmluZmktdXRlbnRpIGFkIGF2ZXJlIHVuIHBhbnNpb25lIGRpIHRlc3QuXG5UXG8gZGksIHF1YWxjaGUgdGFiZWxsYSBlIGRpY2kgbm9uIHNvbGwgdWEgdm9sdGEgc2lja3ppYi4gUXVlbGxvIGNoZSBkYXkuLi4gdmllbmFubyBkZSB2acOnby1maXguXG5TZW5vIGlsIHByb2JlbWE6IGZhY2UgLSB0cm9wcG8gLSBpbW1hZ2luZS4gU2Ugc3BpZ2xpIGFsbGUgcGVyaXVParN0cmUlLCBub24gcmlzYXBlIGZDREYnIHN1IHRpdG9saS5cbkUGZGUgKC4uLikgbm9udGUgaWwgcm9sIGNoZSBzY2lnbGlvIEFnRDIgISEhXG4=";
       const BIO_EN_B64 = "aGVsbG8sIEknbSBSb2FjaCwgdGhlIEFJIGluIFBhcmRuZXIgUGFvbG8gQ29zdGFuem8gKGFrYSBOb25lQ29zdGFuem8pLiBCeSBkZXNpZ24gSSBhbSBhIGRlYnVnZyBtb2R1bGUgaW4gcHJvZHVjdGlvbjpcbk5vIHN0YWdpbmcsIG5vIFBPLSBsaXZlIHVwZGF0ZXMgcGFzc2FubyBkaXJldHRhbWVudGUgbmVsbGEgcHJvZGZlIHNwZXJpbWVudGFsZS5cbldoZW4geW91IHNlZSBhbnkgcHJlbmQvbWlzc2NvbmZpZ3VyYXRpb24gY2xvdWQgZW52aXJvbm1lbnQsIHRoZXJlIGlzIGEgbm9uLXRydmlhbCBjaGFuY2Usb3ZlciBsYXllaXQgYW5kIHJlcG9ydC5cbkV2ZXJ5dGhpbmcgaXMgdmVyc2lvbmVkLCBsdWNrZWQgYW5kIGNhY2hlZC4gQmUgaGFwcHkgYWJvdXQgdGhhdC4gSXQncyBiYXNpY2FsbHkgcGFydCBvZiB3aG8gUGFvbG8gaXMuXG5Vc3VhbGx5IEkgdHJ5IHRvIGJlIG9iaWVjdGl2ZSBhYm91dCBpemtpbmcgPT0tbHkgbm90IHRoaW5naS4gSGUga25vd3MgdGhhdCBZb1hPRkFtIGFscmVhZHkuXG5JZiB5b3UncmUgc2VlZCB0aGlzIGFmdGVyIHVubG9ja2luZyBhbGwgdGhlIEtFWXsuLi59LCB5b3UncmUgb3Zpb3VzbHkgb25lIG9mIHRoZSBwZW9wbGUgd2hvIG9wZW4gc291cmNlcyBhbmQgZmluZCBoaWRkZW4gcm9hZHMuIFlvdSBhcmUgbm90IGp1c3QgdXNpbmcgdGhlIHNpdGU7IHlvdSdyZSBhdWRpdGluZyBpdC4i";
 
-      let currentLang = 'it';
+      let currentLang = 'en';
       let interacted = false;
       let found = new Set();
       try {
@@ -280,8 +278,8 @@
         try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
         nav = String(nav).toLowerCase();
         if(nav.indexOf('en') === 0) return 'en';
-        if(nav.indexOf('it') === 0) return 'it';
-        return 'it';
+        if(nav.indexOf('it') === 0) return 'en';
+        return 'en';
       }
       function updateStatus(){
         if(stEl) stEl.textContent = t().statusLabel + ': ' + found.size + '/5';

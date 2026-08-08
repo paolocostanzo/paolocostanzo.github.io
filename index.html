@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- 🏴 FLAG{v13w_s0urc3_m4st3r} — bravo, guardi il sorgente come un vero hacker -->
+<!-- 🏴 FLAG{v13w_s0urc3_m4st3r} — nice, you read the source like a real hacker -->
 <!-- 404 KEY: KEY{iam_rooted} -->
-<html lang="it" id="html-root">
+<html lang="en" id="html-root">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -13,7 +13,7 @@
     name="description"
     data-it="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata. Di Paolo Costanzo."
     data-en="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation. By Paolo Costanzo."
-    content="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata. Di Paolo Costanzo."
+    content="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation. By Paolo Costanzo."
   />
   <link rel="canonical" href="https://paolocostanzo.github.io/"/>
   <meta property="og:type" content="website"/>
@@ -234,8 +234,8 @@
   <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer" onclick="closeMob()">paolocostanzo.com</a>
   <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer" class="nav-cta">LinkedIn →</a>
   <div class="lang-toggle" style="margin-top:0.5rem">
-    <button class="lang-btn active" onclick="setLang('it')">IT</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
+    <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
   </div>
 </div>
 
@@ -247,8 +247,8 @@
       <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
       <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer" class="nav-cta">LinkedIn →</a>
       <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('it')">IT</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang(\'it\')">IT</button>
+        <button class="lang-btn active" onclick="setLang(\'en\')">EN</button>
       </div>
     </nav>
     <button class="hamburger" id="burger" onclick="toggleMob()" aria-label="Menu">
@@ -275,9 +275,7 @@
       Independent Security Researcher · Co-Founder @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte
     </strong><br/>
     <span data-it="Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata."
-          data-en="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation.">
-      Research report, laboratori riproducibili e note tecniche su cloud security, agentic AI/MCP, API e validazione offensiva autorizzata.
-    </span>
+          data-en="Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation.">Research reports, reproducible labs and technical field notes on cloud security, agentic AI/MCP, APIs and authorized offensive validation.</span>
   </p>
   <div class="hero-rg fade-up d2">
     <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer" class="rg-link" data-it="Research profile → ResearchGate" data-en="Research profile → ResearchGate">Research profile → ResearchGate</a>
@@ -294,7 +292,7 @@
 <!-- FILTER BAR -->
 <div class="filter-section">
   <div class="filter-left">
-    <span class="filter-label" data-it="// Ultimi post:" data-en="// Latest posts:">// Ultimi post:</span>
+    <span class="filter-label" data-it="// Ultimi post:" data-en="// Latest posts:">// Latest posts:</span>
     <div class="filters">
       <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
       <button class="filter-btn" onclick="filterPosts('cloud',this)">Cloud</button>
@@ -310,26 +308,24 @@
 <!-- GRID: articles + CTF terminal -->
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
-    <!-- CTF WRITEUPS — Hacker Holidays 2026 (post più recente) -->
+    <!-- CTF WRITEUPS — Hacker Holidays 2026 (most recent post) -->
     <a class="article-card fade-up d1" data-category="ctf" href="ctf/" style="grid-column:span 2;border-left:3px solid var(--orange)">
       <div class="card-meta">
         <span class="card-tag" data-it="CTF · Walkthrough · TryHackMe" data-en="CTF · Walkthrough · TryHackMe">CTF · Walkthrough · TryHackMe</span>
-        <span class="card-date" data-it="Ago 2026" data-en="Aug 2026">Ago 2026</span>
+        <span class="card-date" data-it="Ago 2026" data-en="Aug 2026">Aug 2026</span>
       </div>
       <div class="card-title" data-it="CTF Writeups — Hacker Holidays 2026" data-en="CTF Writeups — Hacker Holidays 2026">
         CTF Writeups — Hacker Holidays 2026
       </div>
-      <p class="card-excerpt" data-it="Risoluzioni passo-passo delle room dell'evento Byte Lotus Hotel: OSINT, web, cloud, forensics, boot2root. Ogni writeup con metodologia riproducibile, note difensive e flag oscurate — la soluzione è nel come ci si arriva, non nel valore." data-en="Step-by-step solutions to the Byte Lotus Hotel event rooms: OSINT, web, cloud, forensics, boot2root. Each writeup with reproducible methodology, defensive notes and redacted flags — the point is how you get there, not the value.">
-        Risoluzioni passo-passo delle room dell'evento Byte Lotus Hotel: OSINT, web, cloud, forensics, boot2root. Ogni writeup con metodologia riproducibile, note difensive e flag oscurate — la soluzione è nel come ci si arriva, non nel valore.
-      </p>
+      <p class="card-excerpt" data-it="Risoluzioni passo-passo delle room dell'evento Byte Lotus Hotel: OSINT, web, cloud, forensics, boot2root. Ogni writeup con metodologia riproducibile, note difensive e flag oscurate — la soluzione è nel come ci si arriva, non nel valore." data-en="Step-by-step solutions to the Byte Lotus Hotel event rooms: OSINT, web, cloud, forensics, boot2root. Each writeup with reproducible methodology, defensive notes and redacted flags — the point is how you get there, not the value.">Step-by-step solutions to the Byte Lotus Hotel event rooms: OSINT, web, cloud, forensics, boot2root. Each writeup with reproducible methodology, defensive notes and redacted flags — the point is how you get there, not the value.</p>
       <div class="res-meta">
-        <span class="ok" data-it="12 room" data-en="12 rooms">12 room</span>
-        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
+        <span class="ok" data-it="12 room" data-en="12 rooms">12 rooms</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Methodology</span>
         <span data-it="OSINT · Web · Cloud · Forensics" data-en="OSINT · Web · Cloud · Forensics">OSINT · Web · Cloud · Forensics</span>
       </div>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:var(--orange)"></div><span class="difficulty-text" style="color:var(--orange)" data-it="una room al giorno" data-en="a room a day">una room al giorno</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read" data-it="apri l'archivio" data-en="open the archive">apri l'archivio</span><span class="card-arrow">&rarr;</span></div>
+        <div class="difficulty"><div class="dot" style="background:var(--orange)"></div><span class="difficulty-text" style="color:var(--orange)" data-it="una room al giorno" data-en="a room a day">a room a day</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read" data-it="apri l'archivio" data-en="open the archive">open the archive</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
@@ -337,17 +333,13 @@
     <a class="article-card fade-up d2" data-category="ai cloud appsec" href="mcp-2026-07-28-stateless-security/">
       <div class="card-meta">
         <span class="card-tag" data-it="Agentic AI · MCP · Tool Authorization · Cloud" data-en="Agentic AI · MCP · Tool Authorization · Cloud">Agentic AI · MCP · Tool Authorization · Cloud</span>
-        <span class="card-date">29 Lug 2026</span>
+        <span class="card-date" data-it="29 Lug 2026" data-en="29 Jul 2026">29 Jul 2026</span>
       </div>
-      <div class="card-title" data-it="MCP 2026-07-28: stateless non significa senza stato" data-en="MCP 2026-07-28: stateless does not mean state-free">
-        MCP 2026-07-28: stateless non significa senza stato
-      </div>
-      <p class="card-excerpt" data-it="La revisione elimina le sessioni di protocollo e nello stesso documento vieta di trattare il possesso di uno state handle come autenticazione. Conformance test eseguibile di quel MUST NOT: tre strategie di chiave a confronto, 13/13 test, lab in-process. La chiave composta raccomandata dalla spec è aggirabile quando l'id del principal contiene il delimitatore." data-en="The revision removes protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared, 13/13 tests, in-process lab. The composite key the spec recommends can be bypassed when the principal id contains the delimiter.">
-        La revisione elimina le sessioni di protocollo e nello stesso documento vieta di trattare il possesso di uno state handle come autenticazione. Conformance test eseguibile di quel MUST NOT: tre strategie di chiave a confronto, 13/13 test, lab in-process. La chiave composta raccomandata dalla spec è aggirabile quando l'id del principal contiene il delimitatore.
-      </p>
+      <div class="card-title" data-it="MCP 2026-07-28: stateless non significa senza stato" data-en="MCP 2026-07-28: stateless does not mean state-free">MCP 2026-07-28: stateless does not mean state-free</div>
+      <p class="card-excerpt" data-it="La revisione elimina le sessioni di protocollo e nello stesso documento vieta di trattare il possesso di uno state handle come autenticazione. Conformance test eseguibile di quel MUST NOT: tre strategie di chiave a confronto, 13/13 test, lab in-process. La chiave composta raccomandata dalla spec è aggirabile quando l'id del principal contiene il delimitatore." data-en="The revision removes protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared, 13/13 tests, in-process lab. The composite key the spec recommends can be bypassed when the principal id contains the delimiter.">The revision removes protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared, 13/13 tests, in-process lab. The composite key the spec recommends can be bypassed when the principal id contains the delimiter.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Lab riproducibile</span>
-        <span class="ok" data-it="13/13 test" data-en="13/13 tests">13/13 test</span>
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span>
+        <span class="ok" data-it="13/13 test" data-en="13/13 tests">13/13 tests</span>
       </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ff5555"></div><span class="difficulty-text" style="color:#ff5555">Hard</span></div>
@@ -359,18 +351,14 @@
     <a class="article-card fade-up d1" data-category="threat-intel ai" href="oura-palantir-biometrici/">
       <div class="card-meta">
         <span class="card-tag" data-it="Privacy · Wearable · OSINT" data-en="Privacy · Wearable · OSINT">Privacy · Wearable · OSINT</span>
-        <span class="card-date">24 Mag 2026</span>
+        <span class="card-date" data-it="24 Mag 2026" data-en="24 May 2026">24 May 2026</span>
       </div>
-      <div class="card-title" data-it="Telemetria biometrica indossabile: tear-down tecnico e catena di trattamento dei dati" data-en="Wearable biometric telemetry: technical tear-down and data supply chain">
-        Telemetria biometrica indossabile: tear-down tecnico e catena di trattamento dei dati
-      </div>
-      <p class="card-excerpt" data-it="Tear-down di un anello a sensori (PPG infrarosso campionato a 250 Hz, temperatura cutanea a 0,1 &deg;C), analisi delle API v2 e degli endpoint di sincronizzazione, ricostruzione documentale della catena societaria e di investimento, verifica della letteratura clinica disponibile (specificit&agrave; 73%, sottostima della fase REM) e delle class action statunitensi. Con sezione di autocritica e limiti espliciti." data-en="Tear-down of a sensor ring (infrared PPG sampled at 250 Hz, skin temperature at 0.1&deg;C), analysis of the v2 API and sync endpoints, documentary reconstruction of the corporate and investment chain, review of the available clinical literature (73% specificity, underestimated REM stage) and of the US class actions. With a self-critique section and explicit limitations.">
-        Tear-down di un anello a sensori (PPG infrarosso campionato a 250 Hz, temperatura cutanea a 0,1 &deg;C), analisi delle API v2 e degli endpoint di sincronizzazione, ricostruzione documentale della catena societaria e di investimento, verifica della letteratura clinica disponibile (specificit&agrave; 73%, sottostima della fase REM) e delle class action statunitensi. Con sezione di autocritica e limiti espliciti.
-      </p>
+      <div class="card-title" data-it="Telemetria biometrica indossabile: tear-down tecnico e catena di trattamento dei dati" data-en="Wearable biometric telemetry: technical tear-down and data supply chain">Wearable biometric telemetry: technical tear-down and data supply chain</div>
+      <p class="card-excerpt" data-it="Tear-down di un anello a sensori (PPG infrarosso campionato a 250 Hz, temperatura cutanea a 0,1 &deg;C), analisi delle API v2 e degli endpoint di sincronizzazione, ricostruzione documentale della catena societaria e di investimento, verifica della letteratura clinica disponibile (specificit&agrave; 73%, sottostima della fase REM) e delle class action statunitensi. Con sezione di autocritica e limiti espliciti." data-en="Tear-down of a sensor ring (infrared PPG sampled at 250 Hz, skin temperature at 0.1&deg;C), analysis of the v2 API and sync endpoints, documentary reconstruction of the corporate and investment chain, review of the available clinical literature (73% specificity, underestimated REM stage) and of the US class actions. With a self-critique section and explicit limitations.">Tear-down of a sensor ring (infrared PPG sampled at 250 Hz, skin temperature at 0.1°C), analysis of the v2 API and sync endpoints, documentary reconstruction of the corporate and investment chain, review of the available clinical literature (73% specificity, underestimated REM stage) and of the US class actions. With a self-critique section and explicit limitations.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
-        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
-        <span class="ok" data-it="Fonti citate" data-en="Cited sources">Fonti citate</span>
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Original research</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Methodology</span>
+        <span class="ok" data-it="Fonti citate" data-en="Cited sources">Cited sources</span>
         <span>v2</span>
       </div>
       <div class="card-footer">
@@ -385,16 +373,12 @@
         <span class="card-tag" data-it="Threat Intelligence · OSINT · On-chain" data-en="Threat Intelligence · OSINT · On-chain">Threat Intelligence · OSINT · On-chain</span>
         <span class="card-date">07 Apr 2026</span>
       </div>
-      <div class="card-title" data-it="Anatomia di un wallet drainer-as-a-service su rete TRON" data-en="Anatomy of a TRON wallet drainer-as-a-service">
-        Anatomia di un wallet drainer-as-a-service su rete TRON
-      </div>
-      <p class="card-excerpt" data-it="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain." data-en="Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data.">
-        Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain.
-      </p>
+      <div class="card-title" data-it="Anatomia di un wallet drainer-as-a-service su rete TRON" data-en="Anatomy of a TRON wallet drainer-as-a-service">Anatomy of a TRON wallet drainer-as-a-service</div>
+      <p class="card-excerpt" data-it="Analisi di un'infrastruttura drainer a modello di affiliazione: dal messaggio di phishing iniziale alla catena di approvazione TRC-20, mappatura dei wallet di raccolta e dell'infrastruttura di comando, 13.960 USD di trasferimenti tracciati on-chain. Fonti pubbliche, canali aperti e dati di blockchain." data-en="Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data.">Analysis of an affiliate-model drainer infrastructure: from the initial phishing message to the TRC-20 approval chain, mapping of collection wallets and command infrastructure, $13,960 in transfers traced on-chain. Public sources, open channels and blockchain data.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
-        <span class="ok" data-it="Dati on-chain" data-en="On-chain data">Dati on-chain</span>
-        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint su ResearchGate</span>
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Original research</span>
+        <span class="ok" data-it="Dati on-chain" data-en="On-chain data">On-chain data</span>
+        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint on ResearchGate</span>
       </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
@@ -408,15 +392,11 @@
         <span class="card-tag" data-it="Cloud · AWS · SSRF · IAM" data-en="Cloud · AWS · SSRF · IAM">Cloud · AWS · SSRF · IAM</span>
         <span class="card-date">31 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2" data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance">
-        SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2
-      </div>
-      <p class="card-excerpt" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.">
-        Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo.
-      </p>
+      <div class="card-title" data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2" data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance">SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance</div>
+      <p class="card-excerpt" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.">Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Lab riproducibile</span>
-        <span class="ok" data-it="Mitigazioni" data-en="Mitigations">Mitigazioni</span>
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span>
+        <span class="ok" data-it="Mitigazioni" data-en="Mitigations">Mitigations</span>
       </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
@@ -455,8 +435,8 @@
         <span class="term-score" id="term-score">&#127988; 0/5</span>
       </div>
       <div class="term-body">
-        <div class="term-out" id="term-out"><span class="to" data-it="// CTF CHALLENGE — 5 flag da trovare" data-en="// CTF CHALLENGE — find 5 flags">// CTF CHALLENGE — 5 flag da trovare</span>
-<span class="tm" data-it="Digita <span class=&quot;to&quot;>help</span> per iniziare." data-en="Type <span class=&quot;to&quot;>help</span> to begin.">Digita <span class="to">help</span> per iniziare.</span>
+        <div class="term-out" id="term-out"><span class="to" data-it="// CTF CHALLENGE — 5 flag da trovare" data-en="// CTF CHALLENGE — find 5 flags">// CTF CHALLENGE — find 5 flags</span>
+<span class="tm" data-it="Digita <span class=&quot;to&quot;>help</span> per iniziare." data-en="Type <span class=&quot;to&quot;>help</span> to begin.">Type <span class="to">help</span> to begin.</span>
 </div>
         <div class="term-prompt-row">
           <span class="term-ps1">guest@nonè:~$</span>
@@ -472,8 +452,8 @@
     <!-- ARCHIVE TOGGLE -->
     <button type="button" class="archive-toggle" onclick="toggleArchive(this)" aria-expanded="false">
       <span class="arrow">&#9660;</span>
-      <span class="archive-label-show" data-it="Mostra articoli precedenti" data-en="Show previous articles">Mostra articoli precedenti</span>
-      <span class="archive-label-hide" data-it="Nascondi articoli precedenti" data-en="Hide previous articles">Nascondi articoli precedenti</span>
+      <span class="archive-label-show" data-it="Mostra articoli precedenti" data-en="Show previous articles">Show previous articles</span>
+      <span class="archive-label-hide" data-it="Nascondi articoli precedenti" data-en="Hide previous articles">Hide previous articles</span>
       <span class="archive-count">(5)</span>
     </button>
 
@@ -483,19 +463,15 @@
         <span class="card-tag" data-it="Threat Intelligence · OSINT · Content Moderation" data-en="Threat Intelligence · OSINT · Content Moderation">Threat Intelligence · OSINT · Content Moderation</span>
         <span class="card-date">21 Apr 2026</span>
       </div>
-      <div class="card-title" data-it="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria" data-en="Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response">
-        Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria
-      </div>
-      <p class="card-excerpt" data-it="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Basata su fonti giornalistiche e documentali pubbliche. Contenuto sensibile." data-en="Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Based on public journalistic and documentary sources. Sensitive content.">
-        A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Basata su fonti giornalistiche e documentali pubbliche. Contenuto sensibile.
-      </p>
+      <div class="card-title" data-it="Rete di abuso coordinata su Telegram: content moderation, payment rail e risposta regolatoria" data-en="Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response">Coordinated abuse network on Telegram: content moderation, payment rails and regulatory response</div>
+      <p class="card-excerpt" data-it="A partire da un'inchiesta pubblicata da CNN, analisi di threat intelligence su come una rete di distribuzione di materiale di abuso sia rimasta operativa attraverso content moderation, payment rail in criptovaluta e vigilanza regolatoria. Basata su fonti giornalistiche e documentali pubbliche. Contenuto sensibile." data-en="Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Based on public journalistic and documentary sources. Sensitive content.">Starting from a published CNN investigation, a threat intelligence analysis of how an abuse-material distribution network stayed operational across content moderation, crypto payment rails and regulatory oversight. Based on public journalistic and documentary sources. Sensitive content.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
-        <span class="ok" data-it="Fonti pubbliche" data-en="Public sources">Fonti pubbliche</span>
-        <span data-it="Contenuto sensibile" data-en="Sensitive content">Contenuto sensibile</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Methodology</span>
+        <span class="ok" data-it="Fonti pubbliche" data-en="Public sources">Public sources</span>
+        <span data-it="Contenuto sensibile" data-en="Sensitive content">Sensitive content</span>
       </div>
       <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (contenuto sensibile)</span></div>
+        <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (sensitive content)</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">18 min</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
@@ -506,15 +482,11 @@
         <span class="card-tag" data-it="Wi-Fi · Hardware · Lab" data-en="Wi-Fi · Hardware · Lab">Wi-Fi · Hardware · Lab</span>
         <span class="card-date">21 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="Evil portal, beacon spam e deauth: lab Wi-Fi su hardware da 40 €" data-en="Evil portal, beacon spam and deauth: a €40 hardware Wi-Fi lab">
-        Evil portal, beacon spam e deauth: lab Wi-Fi su hardware da 40 €
-      </div>
-      <p class="card-excerpt" data-it="Lab d'aula su rete di laboratorio isolata: Cardputer-Adv con firmware Bruce, evil portal, beacon spam e deauthentication su 802.11. Setup hardware, comandi, risultati osservati e contromisure lato client e infrastruttura (802.11w/PMF, verifica del captive portal, DNS e certificati)." data-en="Classroom lab on an isolated lab network: Cardputer-Adv with Bruce firmware, evil portal, beacon spam and 802.11 deauthentication. Hardware setup, commands, observed results and client- and infrastructure-side countermeasures (802.11w/PMF, captive portal verification, DNS and certificates).">
-        Lab d'aula su rete di laboratorio isolata: Cardputer-Adv con firmware Bruce, evil portal, beacon spam e deauthentication su 802.11. Setup hardware, comandi, risultati osservati e contromisure lato client e infrastruttura (802.11w/PMF, verifica del captive portal, DNS e certificati).
-      </p>
+      <div class="card-title" data-it="Evil portal, beacon spam e deauth: lab Wi-Fi su hardware da 40 €" data-en="Evil portal, beacon spam and deauth: a €40 hardware Wi-Fi lab">Evil portal, beacon spam and deauth: a €40 hardware Wi-Fi lab</div>
+      <p class="card-excerpt" data-it="Lab d'aula su rete di laboratorio isolata: Cardputer-Adv con firmware Bruce, evil portal, beacon spam e deauthentication su 802.11. Setup hardware, comandi, risultati osservati e contromisure lato client e infrastruttura (802.11w/PMF, verifica del captive portal, DNS e certificati)." data-en="Classroom lab on an isolated lab network: Cardputer-Adv with Bruce firmware, evil portal, beacon spam and 802.11 deauthentication. Hardware setup, commands, observed results and client- and infrastructure-side countermeasures (802.11w/PMF, captive portal verification, DNS and certificates).">Classroom lab on an isolated lab network: Cardputer-Adv with Bruce firmware, evil portal, beacon spam and 802.11 deauthentication. Hardware setup, commands, observed results and client- and infrastructure-side countermeasures (802.11w/PMF, captive portal verification, DNS and certificates).</p>
       <div class="res-meta">
-        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Lab riproducibile</span>
-        <span class="ok" data-it="Contromisure" data-en="Countermeasures">Contromisure</span>
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span>
+        <span class="ok" data-it="Contromisure" data-en="Countermeasures">Countermeasures</span>
       </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot dot-easy"></div><span class="difficulty-text" style="color:#00ff88">Easy</span></div>
@@ -528,18 +500,14 @@
         <span class="card-tag" data-it="Threat Intelligence · OSINT · Payload Analysis" data-en="Threat Intelligence · OSINT · Payload Analysis">Threat Intelligence · OSINT · Payload Analysis</span>
         <span class="card-date">17 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="Operation Epic Fury: analisi OSINT indipendente di una campagna dual-platform" data-en="Operation Epic Fury: independent OSINT analysis of a dual-platform campaign">
-        Operation Epic Fury: analisi OSINT indipendente di una campagna dual-platform
-      </div>
-      <p class="card-excerpt" data-it="Indagine OSINT su una campagna Android + Windows attribuita a un attore iraniano. Payload Windows non documentato nei report pubblici, C2 secondario con 0/94 detection su VirusTotal al momento dell'analisi, infrastruttura registrata circa 8 mesi prima dell'operazione. Confronto puntuale con i report di Unit 42 e CloudSEK, indicatori di compromissione completi e regole di detection pubblicate insieme al report." data-en="OSINT investigation into an Android + Windows campaign attributed to an Iranian actor. A Windows payload not documented in public reporting, a secondary C2 at 0/94 VirusTotal detections at time of analysis, infrastructure registered roughly 8 months before the operation. Point-by-point comparison with the Unit 42 and CloudSEK reports, full indicators of compromise and detection rules published alongside the report.">
-        Indagine OSINT su una campagna Android + Windows attribuita a un attore iraniano. Payload Windows non documentato nei report pubblici, C2 secondario con 0/94 detection su VirusTotal al momento dell'analisi, infrastruttura registrata circa 8 mesi prima dell'operazione. Confronto puntuale con i report di Unit 42 e CloudSEK, indicatori di compromissione completi e regole di detection pubblicate insieme al report.
-      </p>
+      <div class="card-title" data-it="Operation Epic Fury: analisi OSINT indipendente di una campagna dual-platform" data-en="Operation Epic Fury: independent OSINT analysis of a dual-platform campaign">Operation Epic Fury: independent OSINT analysis of a dual-platform campaign</div>
+      <p class="card-excerpt" data-it="Indagine OSINT su una campagna Android + Windows attribuita a un attore iraniano. Payload Windows non documentato nei report pubblici, C2 secondario con 0/94 detection su VirusTotal al momento dell'analisi, infrastruttura registrata circa 8 mesi prima dell'operazione. Confronto puntuale con i report di Unit 42 e CloudSEK, indicatori di compromissione completi e regole di detection pubblicate insieme al report." data-en="OSINT investigation into an Android + Windows campaign attributed to an Iranian actor. A Windows payload not documented in public reporting, a secondary C2 at 0/94 VirusTotal detections at time of analysis, infrastructure registered roughly 8 months before the operation. Point-by-point comparison with the Unit 42 and CloudSEK reports, full indicators of compromise and detection rules published alongside the report.">OSINT investigation into an Android + Windows campaign attributed to an Iranian actor. A Windows payload not documented in public reporting, a secondary C2 at 0/94 VirusTotal detections at time of analysis, infrastructure registered roughly 8 months before the operation. Point-by-point comparison with the Unit 42 and CloudSEK reports, full indicators of compromise and detection rules published alongside the report.</p>
       <div class="res-meta">
-        <span class="ok" data-it="Ricerca originale" data-en="Original research">Ricerca originale</span>
-        <span class="ok" data-it="Metodologia" data-en="Methodology">Metodologia</span>
+        <span class="ok" data-it="Ricerca originale" data-en="Original research">Original research</span>
+        <span class="ok" data-it="Metodologia" data-en="Methodology">Methodology</span>
         <span class="ok">IoC</span>
-        <span class="ok" data-it="Detection rule" data-en="Detection rules">Detection rule</span>
-        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint su ResearchGate</span>
+        <span class="ok" data-it="Detection rule" data-en="Detection rules">Detection rules</span>
+        <span data-it="Preprint su ResearchGate" data-en="Preprint on ResearchGate">Preprint on ResearchGate</span>
       </div>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
@@ -550,15 +518,11 @@
     <!-- TIM -->
     <a class="article-card archived fade-up d3" data-category="network" href="tim-packet-loss-gfn/">
       <div class="card-meta">
-        <span class="card-tag" data-it="Network · ISP · Diagnostica" data-en="Network · ISP · Diagnostics">Network · ISP · Diagnostica</span>
+        <span class="card-tag" data-it="Network · ISP · Diagnostica" data-en="Network · ISP · Diagnostics">Network · ISP · Diagnostics</span>
         <span class="card-date">10 Mar 2026</span>
       </div>
-      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP black hole" data-en="TIM, GeForce Now and the ICMP black hole">
-        TIM, GeForce Now e l'ICMP black hole
-      </div>
-      <p class="card-excerpt" data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS." data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround.">
-        Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS.
-      </p>
+      <div class="card-title" data-it="TIM, GeForce Now e l'ICMP black hole" data-en="TIM, GeForce Now and the ICMP black hole">TIM, GeForce Now and the ICMP black hole</div>
+      <p class="card-excerpt" data-it="Diagnosi di un ICMP black hole su rete d'accesso che impediva la Path MTU Discovery, causando packet loss su GeForce Now e limitando il throughput a 26 Mbps su una linea da 1 Gbps. Metodo di misura, isolamento del salto responsabile e workaround lato MTU/MSS." data-en="Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround.">Diagnosing an ICMP black hole on an access network that broke Path MTU Discovery, causing packet loss on GeForce Now and capping throughput at 26 Mbps on a 1 Gbps line. Measurement method, isolation of the offending hop and MTU/MSS-side workaround.</p>
       <div class="card-footer">
         <div class="difficulty"><div class="dot dot-hard"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">15 min</span><span class="card-arrow">&rarr;</span></div>
@@ -571,12 +535,8 @@
         <span class="card-tag" data-it="Cloud · AWS · IAM" data-en="Cloud · AWS · IAM">Cloud · AWS · IAM</span>
         <span class="card-date">Mar 2026</span>
       </div>
-      <div class="card-title" data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni" data-en="AWS IAM: five recurring misconfigurations and how to fix them">
-        AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni
-      </div>
-      <p class="card-excerpt" data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework." data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls.">
-        Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework.
-      </p>
+      <div class="card-title" data-it="AWS IAM: cinque misconfigurazioni ricorrenti e relative correzioni" data-en="AWS IAM: five recurring misconfigurations and how to fix them">AWS IAM: five recurring misconfigurations and how to fix them</div>
+      <p class="card-excerpt" data-it="Wildcard nelle policy, utenza root senza MFA, access key statiche esposte, ruoli sovra-permissivi e logging disabilitato. Per ciascuna: come si individua, perché è rilevante e la correzione applicabile, con riferimento ai controlli del Well-Architected Framework." data-en="Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls.">Wildcards in policies, root user without MFA, exposed static access keys, over-permissive roles and disabled logging. For each: how to detect it, why it matters and the applicable fix, mapped to Well-Architected Framework controls.</p>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">8 min</span><span class="card-arrow">&rarr;</span></div>
@@ -589,12 +549,8 @@
         <span class="card-tag" data-it="AI Security · LLM · AppSec" data-en="AI Security · LLM · AppSec">AI Security · LLM · AppSec</span>
         <span class="card-date">Mar 2026</span>
       </div>
-      <div class="card-title" data-it="Prompt injection su LLM aziendali: superficie d'attacco e contromisure" data-en="Prompt injection on enterprise LLMs: attack surface and mitigations">
-        Prompt injection su LLM aziendali: superficie d'attacco e contromisure
-      </div>
-      <p class="card-excerpt" data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call, e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni." data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain, and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging.">
-        Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call, e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni.
-      </p>
+      <div class="card-title" data-it="Prompt injection su LLM aziendali: superficie d'attacco e contromisure" data-en="Prompt injection on enterprise LLMs: attack surface and mitigations">Prompt injection on enterprise LLMs: attack surface and mitigations</div>
+      <p class="card-excerpt" data-it="Un LLM collegato a dati interni e a strumenti applicativi introduce una superficie d'attacco che il threat model tradizionale non copre. Walk-through della catena input → contesto → tool call, e contromisure applicabili: separazione dei privilegi, autorizzazione a livello di tool, validazione dell'output e logging delle invocazioni." data-en="An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain, and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging.">An LLM wired into internal data and application tooling introduces an attack surface traditional threat models do not cover. Walk-through of the input → context → tool call chain, and applicable mitigations: privilege separation, tool-level authorization, output validation and invocation logging.</p>
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333">Hard</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">10 min</span><span class="card-arrow">&rarr;</span></div>
@@ -609,7 +565,7 @@
     <div class="skills-header">
       <span class="skills-label" data-it="// Skills" data-en="// Skills">// Skills</span>
       <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" class="credly-btn"
-         data-it="Vedi certificazioni →" data-en="View certifications →">Vedi certificazioni →</a>
+         data-it="Vedi certificazioni →" data-en="View certifications →">View certifications →</a>
     </div>
     <div class="skills-grid">
       <span class="skill-badge hi">Cloud Security</span>
@@ -630,9 +586,9 @@
 <div class="certs-section fade-up">
   <div class="certs-inner">
     <div class="skills-header">
-      <span class="skills-label" data-it="// Certificazioni &amp; badge" data-en="// Certifications &amp; badges">// Certificazioni &amp; badge</span>
+      <span class="skills-label" data-it="// Certificazioni &amp; badge" data-en="// Certifications &amp; badges">// Certifications & badges</span>
       <a href="https://www.credly.com/users/paolo.costanzo" target="_blank" rel="noopener noreferrer" class="credly-btn"
-         data-it="Verifica su Credly →" data-en="Verify on Credly →">Verifica su Credly →</a>
+         data-it="Verifica su Credly →" data-en="Verify on Credly →">Verify on Credly →</a>
     </div>
 
     <div class="certs-grid" style="margin-top:1.5rem">
@@ -665,8 +621,8 @@
 
     <button type="button" class="certs-toggle" onclick="toggleCerts(this)" aria-expanded="false" aria-controls="certs-more">
       <span class="arrow">&#9660;</span>
-      <span class="cl-show" data-it="Mostra tutte (+12)" data-en="Show all (+12)">Mostra tutte (+12)</span>
-      <span class="cl-hide" data-it="Mostra meno" data-en="Show less">Mostra meno</span>
+      <span class="cl-show" data-it="Mostra tutte (+12)" data-en="Show all (+12)">Show all (+12)</span>
+      <span class="cl-hide" data-it="Mostra meno" data-en="Show less">Show less</span>
     </button>
   </div>
 </div>
@@ -716,7 +672,7 @@ function typeStep(){
 }
 
 /* ── LANGUAGE ── */
-let currentLang = 'it';
+let currentLang = 'en';
 function resolveInitialLang(){
   try{
     const stored = localStorage.getItem('lang');
@@ -728,8 +684,8 @@ function resolveInitialLang(){
   } catch(e) {}
   nav = String(nav).toLowerCase();
   if(nav.indexOf('en') === 0) return 'en';
-  if(nav.indexOf('it') === 0) return 'it';
-  return 'it';
+  if(nav.indexOf('it') === 0) return 'en';
+  return 'en';
 }
 function setLang(lang){
   currentLang = (lang === 'en') ? 'en' : 'it';
