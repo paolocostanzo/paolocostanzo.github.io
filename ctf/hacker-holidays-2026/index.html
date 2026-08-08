@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Hacker Holidays 2026 — NonèCostanzo" data-en="Hacker Holidays 2026 — NonèCostanzo">Hacker Holidays 2026 — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point." content="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point."/>
+  <title data-it="TryHackMe Hacker Holidays 2026 — writeup ITA delle 14 room — NonèCostanzo" data-en="TryHackMe Hacker Holidays 2026 — All 14 Room Writeups — NonèCostanzo">TryHackMe Hacker Holidays 2026 — All 14 Room Writeups — NonèCostanzo</title>
+  <meta name="description" data-it="Tutte le 14 room di TryHackMe Hacker Holidays 2026, dal Day 0 al Day 13: OSINT, web, cloud, forensics, boot2root. Guida ITA, flag oscurate: conta il metodo." data-en="All 14 TryHackMe Hacker Holidays 2026 walkthroughs, Day 0 to Day 13: OSINT, web, AWS and Azure, forensics, boot2root. Flags redacted, the method is the point." content="All 14 TryHackMe Hacker Holidays 2026 walkthroughs, Day 0 to Day 13: OSINT, web, AWS and Azure, forensics, boot2root. Flags redacted, the method is the point."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -52,8 +52,8 @@
   </style>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Hacker Holidays 2026" data-en="Hacker Holidays 2026" content="Hacker Holidays 2026"/>
-  <meta property="og:description" data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point." content="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point."/>
+  <meta property="og:title" data-it="TryHackMe Hacker Holidays 2026 — writeup ITA delle 14 room — NonèCostanzo" data-en="TryHackMe Hacker Holidays 2026 — All 14 Room Writeups — NonèCostanzo" content="TryHackMe Hacker Holidays 2026 — All 14 Room Writeups — NonèCostanzo"/>
+  <meta property="og:description" data-it="Tutte le 14 room di TryHackMe Hacker Holidays 2026, dal Day 0 al Day 13: OSINT, web, cloud, forensics, boot2root. Guida ITA, flag oscurate: conta il metodo." data-en="All 14 TryHackMe Hacker Holidays 2026 walkthroughs, Day 0 to Day 13: OSINT, web, AWS and Azure, forensics, boot2root. Flags redacted, the method is the point." content="All 14 TryHackMe Hacker Holidays 2026 walkthroughs, Day 0 to Day 13: OSINT, web, AWS and Azure, forensics, boot2root. Flags redacted, the method is the point."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -61,26 +61,111 @@
   <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"CollectionPage","name":"Hacker Holidays 2026 — writeup",
-  "description":"Writeup della serie TryHackMe Hacker Holidays 2026.","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/","inLanguage":"en",
-  "isPartOf":{"@type":"CollectionPage","@id":"https://paolocostanzo.github.io/ctf/"},
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "hasPart":{"@type":"ItemList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"The Brochure","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"},
-    {"@type":"ListItem","position":2,"name":"The Concierge Knows Too Much","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"},
-    {"@type":"ListItem","position":3,"name":"Room 404","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"},
-    {"@type":"ListItem","position":4,"name":"Complimentary","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"},
-    {"@type":"ListItem","position":5,"name":"Packed Light","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"},
-    {"@type":"ListItem","position":6,"name":"Beach Bar","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"},
-    {"@type":"ListItem","position":7,"name":"Overheard at Breakfast","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"},
-    {"@type":"ListItem","position":8,"name":"Do Not Disturb","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"},
-    {"@type":"ListItem","position":9,"name":"Towel on the Sunbed","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"},
-    {"@type":"ListItem","position":10,"name":"CryptoCabana","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"},
-    {"@type":"ListItem","position":11,"name":"The Hollow Shell","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"},
-    {"@type":"ListItem","position":12,"name":"Infinity Pool","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"},
-    {"@type":"ListItem","position":13,"name":"After Hours","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"},
-    {"@type":"ListItem","position":14,"name":"The Guestbook","url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"}
-  ]}
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "TryHackMe Hacker Holidays 2026 — All 14 Room Writeups — NonèCostanzo",
+  "description": "All 14 TryHackMe Hacker Holidays 2026 walkthroughs, Day 0 to Day 13: OSINT, web, AWS and Azure, forensics, boot2root. Flags redacted, the method is the point.",
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "CollectionPage",
+    "@id": "https://paolocostanzo.github.io/ctf/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "hasPart": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "The Brochure",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "The Concierge Knows Too Much",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Room 404",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Complimentary",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Packed Light",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "Beach Bar",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "Overheard at Breakfast",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "Do Not Disturb",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "name": "Towel on the Sunbed",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "name": "CryptoCabana",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "name": "The Hollow Shell",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "name": "Infinity Pool",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 13,
+        "name": "After Hours",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 14,
+        "name": "The Guestbook",
+        "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"
+      }
+    ]
+  },
+  "keywords": "TryHackMe Hacker Holidays 2026, Hacker Holidays 2026 writeup, Hacker Holidays 2026 walkthrough, Byte Lotus Hotel, TryHackMe writeup, TryHackMe walkthrough, all rooms Day 0-13, CTF writeup, writeup ITA, guida TryHackMe, soluzione TryHackMe, OSINT, web exploitation, cloud security, forensics, boot2root, Paolo Costanzo"
 }
   </script>
 </head>
@@ -93,7 +178,7 @@
   <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <span class="here">Hacker Holidays 2026</span></nav>
   <div class="hero">
     <div class="kicker">TryHackMe · Series</div>
-    <h1 data-it="Hacker Holidays 2026" data-en="Hacker Holidays 2026">Hacker Holidays 2026</h1>
+    <h1 data-it="Hacker Holidays 2026: quattordici notti al Byte Lotus — 14 writeup TryHackMe, dal Day 0 al Day 13" data-en="Hacker Holidays 2026: fourteen nights at the Byte Lotus — 14 TryHackMe writeups, Day 0 to Day 13">Hacker Holidays 2026: fourteen nights at the Byte Lotus — 14 TryHackMe writeups, Day 0 to Day 13</h1>
     <p data-it="Writeup della serie TryHackMe Hacker Holidays 2026 (tema Byte Lotus Hotel): una room al giorno, da OSINT a web, cloud, forensics e boot2root. Flag sempre oscurate: conta il metodo." data-en="Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point.">Writeups for the TryHackMe Hacker Holidays 2026 series (Byte Lotus Hotel theme): a room a day, from OSINT to web, cloud, forensics and boot2root. Flags always redacted: the method is the point.</p>
   </div>
   <main class="section">

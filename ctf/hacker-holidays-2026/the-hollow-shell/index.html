@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo">The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): runbook completo — zip-slip nell'upload, bypass allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn."/>
+  <title data-it="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup ITA" data-en="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup">The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 10: zip-slip contro un'allowlist che legge solo il manifest, poi template Jinja avvelenato su un worker gunicorn nuovo. Flag oscurate." data-en="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted." content="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" content="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): runbook completo — zip-slip nell'upload, bypass allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn."/>
+  <meta property="og:title" data-it="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup ITA" data-en="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup" content="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 10: zip-slip contro un'allowlist che legge solo il manifest, poi template Jinja avvelenato su un worker gunicorn nuovo. Flag oscurate." data-en="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted." content="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" data-en="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo" content="The Hollow Shell (THM): zip-slip → SSTI → RCE — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): runbook completo — zip-slip nell'upload, bypass allowlist, SSTI su template Jinja e RCE su Flask/gunicorn." data-en="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn." content="TryHackMe The Hollow Shell writeup (Hacker Holidays 2026): full runbook — upload zip-slip, allowlist bypass, SSTI on Jinja templates and RCE on Flask/gunicorn."/>
+  <meta name="twitter:title" data-it="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup ITA" data-en="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup" content="The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 10: zip-slip contro un'allowlist che legge solo il manifest, poi template Jinja avvelenato su un worker gunicorn nuovo. Flag oscurate." data-en="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted." content="Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"The Hollow Shell (THM): zip-slip \u2192 SSTI \u2192 RCE",
-  "description":"Writeup TryHackMe The Hollow Shell (Hacker Holidays 2026): runbook completo \u2014 zip-slip nell'upload, bypass allowlist, SSTI su template Jinja e RCE su Flask/gunicorn.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"],"datePublished":"2026-08-05T09:00:00+02:00","dateModified":"2026-08-05T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, The Hollow Shell, Web, TryHackMe, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — The Hollow Shell"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup",
+  "description": "Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/og.png"
+  ],
+  "datePublished": "2026-08-05T09:00:00+02:00",
+  "dateModified": "2026-08-05T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "The Hollow Shell TryHackMe, The Hollow Shell writeup, The Hollow Shell walkthrough, Hacker Holidays 2026 Day 10, Byte Lotus Hotel, zip-slip, path traversal zip extraction, arbitrary file write, manifest allowlist bypass, template poisoning, Jinja template overwrite, gunicorn worker cache bust, Flask RCE, writeup ITA, guida zip-slip",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — The Hollow Shell"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -179,7 +206,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// ../../ con affetto" data-en="// ../../ with love">// ../../ with love</span>
     </div>
-    <h1 data-it="The Hollow Shell: zip-slip nell'upload, poi SSTI, poi shell" data-en="The Hollow Shell: upload zip-slip, then SSTI, then shell">The Hollow Shell: upload zip-slip, then SSTI, then shell</h1>
+    <h1 data-it="The Hollow Shell: zip-slip nell'upload, template avvelenato, poi shell — TryHackMe Hacker Holidays 2026, Day 10" data-en="The Hollow Shell: upload zip-slip, a poisoned template, then shell — TryHackMe Hacker Holidays 2026, Day 10">The Hollow Shell: upload zip-slip, a poisoned template, then shell — TryHackMe Hacker Holidays 2026, Day 10</h1>
     <p class="article-intro" data-it="Un portale invita a caricare una «shell» — un pacchetto .zip di ambiance balneare per i tablet delle camere. La room ti sussurra di cercare degli «automation hook»: non farlo, sono un depistaggio. La vera catena è un estrattore di zip che si fida dei nomi dei file, un allowlist che guarda dalla parte sbagliata, e un dettaglio della cache dei template di Jinja che trasforma una scrittura arbitraria in RCE. Qui sotto ogni comando è pronto da incollare, sostituendo &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; con l&#x27;IP della macchina target." data-en="A portal invites you to upload a &quot;shell&quot; — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for &quot;automation hooks&quot;: don't, they're a red herring. The real chain is a zip extractor that trusts filenames, an allowlist looking the wrong way, and a Jinja template-cache detail that turns an arbitrary write into RCE. Every command below is copy-paste ready — swap &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; for the target box IP.">A portal invites you to upload a "shell" — a .zip pack of seaside ambiance for the room tablets. The room whispers at you to hunt for "automation hooks": don't, they're a red herring. The real chain is a zip extractor that trusts filenames, an allowlist looking the wrong way, and a Jinja template-cache detail that turns an arbitrary write into RCE. Every command below is copy-paste ready — swap <code>&lt;target&gt;</code> for the target box IP.</p>
   </div>
   <div class="article-body">

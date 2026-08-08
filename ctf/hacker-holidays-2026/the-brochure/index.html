@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="The Brochure: OSINT e pivot Instagram — NonèCostanzo" data-en="The Brochure: Instagram OSINT pivot — NonèCostanzo">The Brochure: Instagram OSINT pivot — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe The Brochure (OSINT): dal brochure PNG all'account Instagram, pivot SOCMINT sui following e tre post Base64 uniti fino alla flag." data-en="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag." content="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag."/>
+  <title data-it="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup ITA" data-en="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup">The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 0: gli EXIF sono puliti, l'indizio è stampato. Dal PNG all'account Instagram, all'unico profilo seguito, tre post Base64. Flag oscurate." data-en="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted." content="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="The Brochure: OSINT e pivot Instagram — NonèCostanzo" data-en="The Brochure: Instagram OSINT pivot — NonèCostanzo" content="The Brochure: Instagram OSINT pivot — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe The Brochure (OSINT): dal brochure PNG all'account Instagram, pivot SOCMINT sui following e tre post Base64 uniti fino alla flag." data-en="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag." content="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag."/>
+  <meta property="og:title" data-it="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup ITA" data-en="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup" content="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 0: gli EXIF sono puliti, l'indizio è stampato. Dal PNG all'account Instagram, all'unico profilo seguito, tre post Base64. Flag oscurate." data-en="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted." content="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="The Brochure: OSINT e pivot Instagram — NonèCostanzo" data-en="The Brochure: Instagram OSINT pivot — NonèCostanzo" content="The Brochure: Instagram OSINT pivot — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe The Brochure (OSINT): dal brochure PNG all'account Instagram, pivot SOCMINT sui following e tre post Base64 uniti fino alla flag." data-en="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag." content="Writeup TryHackMe The Brochure (OSINT): from the PNG brochure to an Instagram account, a SOCMINT following pivot and three Base64 posts joined into the flag."/>
+  <meta name="twitter:title" data-it="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup ITA" data-en="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup" content="The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 0: gli EXIF sono puliti, l'indizio è stampato. Dal PNG all'account Instagram, all'unico profilo seguito, tre post Base64. Flag oscurate." data-en="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted." content="Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"The Brochure: OSINT e pivot Instagram",
-  "description":"Writeup TryHackMe The Brochure (OSINT): dal brochure PNG all'account Instagram, pivot SOCMINT sui following e tre post Base64 uniti fino alla flag.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/og.png"],"datePublished":"2026-07-25T09:00:00+02:00","dateModified":"2026-07-25T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, The Brochure, OSINT, TryHackMe, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — The Brochure"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup",
+  "description": "Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/og.png"
+  ],
+  "datePublished": "2026-07-25T09:00:00+02:00",
+  "dateModified": "2026-07-25T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "The Brochure TryHackMe, The Brochure writeup, The Brochure walkthrough, Hacker Holidays 2026 Day 0, Byte Lotus Hotel, OSINT, SOCMINT, Instagram OSINT, following graph pivot, PNG metadata, exiftool, Base64, writeup ITA, guida OSINT, soluzione The Brochure",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — The Brochure"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// il volantino diceva «o forse no». Era un sì." data-en="// the brochure said &quot;or not&quot;. It was a yes.">// the brochure said "or not". It was a yes.</span>
     </div>
-    <h1 data-it="The Brochure: quando un volantino ti porta su Instagram" data-en="The Brochure: when a brochure walks you into Instagram">The Brochure: when a brochure walks you into Instagram</h1>
+    <h1 data-it="The Brochure: quando un volantino ti porta su Instagram — TryHackMe Hacker Holidays 2026, Day 0" data-en="The Brochure: when a brochure walks you into Instagram — TryHackMe Hacker Holidays 2026, Day 0">The Brochure: when a brochure walks you into Instagram — TryHackMe Hacker Holidays 2026, Day 0</h1>
     <p class="article-intro" data-it="Giorno 00, categoria OSINT, difficoltà &lt;strong&gt;Easy&lt;/strong&gt;. Il tipo di sfida che mi piace: non si risolve con un exploit ma leggendo con attenzione. Il task è un brochure del &lt;em&gt;Byte Lotus Hotel&lt;/em&gt; salvato come &lt;code&gt;.png&lt;/code&gt;. Niente shell, niente payload: solo un'immagine e la pazienza di seguire le briciole. Spoiler: le briciole portano su Instagram, e da lì al Base64." data-en="Day 00, OSINT category, &lt;strong&gt;Easy&lt;/strong&gt; difficulty. The kind of challenge I enjoy: you don't solve it with an exploit, you solve it by reading carefully. The task is a &lt;em&gt;Byte Lotus Hotel&lt;/em&gt; brochure saved as a &lt;code&gt;.png&lt;/code&gt;. No shell, no payload: just an image and the patience to follow the crumbs. Spoiler: the crumbs lead to Instagram, and from there to Base64.">Day 00, OSINT category, <strong>Easy</strong> difficulty. The kind of challenge I enjoy: you don't solve it with an exploit, you solve it by reading carefully. The task is a <em>Byte Lotus Hotel</em> brochure saved as a <code>.png</code>. No shell, no payload: just an image and the patience to follow the crumbs. Spoiler: the crumbs lead to Instagram, and from there to Base64.</p>
   </div>
   <div class="article-body">

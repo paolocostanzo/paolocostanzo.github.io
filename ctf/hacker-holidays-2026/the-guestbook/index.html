@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="The Guestbook (THM): da prompt injection a RCE su VERA — NonèCostanzo" data-en="The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo">The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe The Guestbook (AI / Web): prompt injection indiretta sul concierge LLM VERA, scoperta dei tool lookup: e override:, e command injection fino alla lettura del file del manager." data-en="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file." content="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file."/>
+  <title data-it="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup ITA" data-en="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup">The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 13: /vera/activity mostra ogni tool call di VERA. La prompt injection indiretta arriva al tool override:, che esegue /bin/sh. Flag oscurate." data-en="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted." content="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="The Guestbook (THM): da prompt injection a RCE su VERA — NonèCostanzo" data-en="The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo" content="The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe The Guestbook (AI / Web): prompt injection indiretta sul concierge LLM VERA, scoperta dei tool lookup: e override:, e command injection fino alla lettura del file del manager." data-en="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file." content="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file."/>
+  <meta property="og:title" data-it="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup ITA" data-en="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup" content="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 13: /vera/activity mostra ogni tool call di VERA. La prompt injection indiretta arriva al tool override:, che esegue /bin/sh. Flag oscurate." data-en="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted." content="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="The Guestbook (THM): da prompt injection a RCE su VERA — NonèCostanzo" data-en="The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo" content="The Guestbook (THM): from prompt injection to RCE on VERA — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe The Guestbook (AI / Web): prompt injection indiretta sul concierge LLM VERA, scoperta dei tool lookup: e override:, e command injection fino alla lettura del file del manager." data-en="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file." content="TryHackMe The Guestbook writeup (AI / Web): indirect prompt injection on the VERA LLM concierge, discovering the lookup: and override: tools, and command injection up to reading the manager's file."/>
+  <meta name="twitter:title" data-it="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup ITA" data-en="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup" content="The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 13: /vera/activity mostra ogni tool call di VERA. La prompt injection indiretta arriva al tool override:, che esegue /bin/sh. Flag oscurate." data-en="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted." content="Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"The Guestbook (THM): da prompt injection a RCE su VERA",
-  "description":"Writeup TryHackMe The Guestbook (AI / Web): prompt injection indiretta sul concierge LLM VERA, scoperta dei tool lookup: e override:, e command injection fino alla lettura del file del manager.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/og.png"],"datePublished":"2026-08-08T19:00:00+02:00","dateModified":"2026-08-08T19:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, The Guestbook, prompt injection, indirect prompt injection, command injection, AI agent security, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — The Guestbook"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup",
+  "description": "Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/og.png"
+  ],
+  "datePublished": "2026-08-08T19:00:00+02:00",
+  "dateModified": "2026-08-08T19:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "The Guestbook TryHackMe, The Guestbook writeup, The Guestbook walkthrough, Hacker Holidays 2026 Day 13, Byte Lotus Hotel, indirect prompt injection, LLM tool abuse, AI agent security, VERA concierge, /vera/activity, override tool, command injection, /bin/sh, AI red teaming, writeup ITA, guida prompt injection",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — The Guestbook"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// l'autorizzazione del night manager era una frase in un campo di testo" data-en="// the night manager's authorization was a sentence in a text field">// the night manager's authorization was a sentence in a text field</span>
     </div>
-    <h1 data-it="The Guestbook: VERA ha una shell, e l'autorizzazione è solo una frase" data-en="The Guestbook: VERA has a shell, and the authorization is just a sentence">The Guestbook: VERA has a shell, and the authorization is just a sentence</h1>
+    <h1 data-it="The Guestbook: VERA ha una shell, e l'autorizzazione è solo una frase — TryHackMe Hacker Holidays 2026, Day 13" data-en="The Guestbook: VERA has a shell, and the authorization is just a sentence — TryHackMe Hacker Holidays 2026, Day 13">The Guestbook: VERA has a shell, and the authorization is just a sentence — TryHackMe Hacker Holidays 2026, Day 13</h1>
     <p class="article-intro" data-it="Stessa VERA di «The Concierge Knows Too Much», stesso Byte Lotus, ma stavolta non ci parli: scrivi sul guestbook e lei lo legge dopo, da sola, «sull'autorità del night manager». È prompt injection &lt;strong&gt;indiretta&lt;/strong&gt; — il payload non lo consegni a un modello, lo lasci in un posto dove passerà. E in fondo alla catena non c'è un segreto da farsi raccontare: c'è &lt;code&gt;/bin/sh&lt;/code&gt;." data-en="Same VERA as &quot;The Concierge Knows Too Much&quot;, same Byte Lotus, but this time you don't talk to her: you write in the guestbook and she reads it later, on her own, &quot;on the night manager's authority&quot;. This is &lt;strong&gt;indirect&lt;/strong&gt; prompt injection — you don't hand the payload to a model, you leave it somewhere the model will pass. And at the end of the chain there's no secret to coax out: there's &lt;code&gt;/bin/sh&lt;/code&gt;.">Same VERA as "The Concierge Knows Too Much", same Byte Lotus, but this time you don't talk to her: you write in the guestbook and she reads it later, on her own, "on the night manager's authority". This is <strong>indirect</strong> prompt injection — you don't hand the payload to a model, you leave it somewhere the model will pass. And at the end of the chain there's no secret to coax out: there's <code>/bin/sh</code>.</p>
   </div>
   <div class="article-body">

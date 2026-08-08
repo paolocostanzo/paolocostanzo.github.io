@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo">After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor."/>
+  <title data-it="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup ITA" data-en="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup">After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 12: niente parser WMI dedicato — strings e python3 scavano OBJECTS.DATA fino al CommandLineEventConsumer e al payload .NET. Flag oscurate." data-en="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted." content="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo" content="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor."/>
+  <meta property="og:title" data-it="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup ITA" data-en="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup" content="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 12: niente parser WMI dedicato — strings e python3 scavano OBJECTS.DATA fino al CommandLineEventConsumer e al payload .NET. Flag oscurate." data-en="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted." content="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="After Hours (THM): persistenza WMI fileless → payload .NET — NonèCostanzo" data-en="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo" content="After Hours (THM): fileless WMI persistence → .NET payload — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics — persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor." data-en="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor." content="TryHackMe After Hours writeup (Hacker Holidays 2026): forensics runbook — fileless WMI persistence in the OBJECTS.DATA repository, CommandLineEventConsumer with PowerShell -enc, custom Win32_HardwareTelemetry class, base64+deflate .NET payload and the flag in the backdoor."/>
+  <meta name="twitter:title" data-it="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup ITA" data-en="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup" content="After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 12: niente parser WMI dedicato — strings e python3 scavano OBJECTS.DATA fino al CommandLineEventConsumer e al payload .NET. Flag oscurate." data-en="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted." content="Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"After Hours (THM): persistenza WMI fileless \u2192 payload .NET",
-  "description":"Writeup TryHackMe After Hours (Hacker Holidays 2026): runbook forensics \u2014 persistenza WMI fileless nel repository OBJECTS.DATA, CommandLineEventConsumer con PowerShell -enc, classe custom Win32_HardwareTelemetry, payload .NET base64+deflate e flag nella backdoor.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"],"datePublished":"2026-08-07T09:00:00+02:00","dateModified":"2026-08-07T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, After Hours, Forensics, WMI, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — After Hours"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup",
+  "description": "Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/og.png"
+  ],
+  "datePublished": "2026-08-07T09:00:00+02:00",
+  "dateModified": "2026-08-07T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "After Hours TryHackMe, After Hours writeup, After Hours walkthrough, Hacker Holidays 2026 Day 12, Byte Lotus Hotel, WMI persistence, fileless malware, WMI Event Subscription, OBJECTS.DATA, INDEX.BTR, CommandLineEventConsumer, powershell -enc, Win32_HardwareTelemetry, base64 deflate .NET assembly, DFIR, Windows forensics, writeup ITA",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — After Hours"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -179,7 +206,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// WMI: dove i malware vanno in vacanza" data-en="// WMI: where malware takes its holidays">// WMI: where malware takes its holidays</span>
     </div>
-    <h1 data-it="After Hours: la backdoor che timbra il cartellino dal repository WMI" data-en="After Hours: the backdoor clocking in from the WMI repository">After Hours: the backdoor clocking in from the WMI repository</h1>
+    <h1 data-it="After Hours: la backdoor che timbra il cartellino dal repository WMI — TryHackMe Hacker Holidays 2026, Day 12" data-en="After Hours: the backdoor clocking in from the WMI repository — TryHackMe Hacker Holidays 2026, Day 12">After Hours: the backdoor clocking in from the WMI repository — TryHackMe Hacker Holidays 2026, Day 12</h1>
     <p class="article-intro" data-it="A luci spente e ospiti a nanna, una macchina di back-office del Byte Lotus continua a fare login nelle ore piccole — ben dopo che il tecnico del turno di notte è andato a casa. In Startup, Scheduled Tasks e chiavi Run del registro non c'è niente: qualunque cosa la tenga viva si nasconde in un angolo che «i tool di solito non pensano di controllare». Traduzione: &lt;strong&gt;persistenza WMI fileless&lt;/strong&gt;, e l'unico modo per beccarla è scavare a mano nel repository. L'allegato è proprio quello: i 5 file grezzi del repository WMI. Ogni comando qui sotto gira sulla &lt;em&gt;tua&lt;/em&gt; macchina, offline." data-en="Lights off, guests asleep, and a Byte Lotus back-office box keeps logging in during the small hours — long after the night-shift tech has gone home. Startup, Scheduled Tasks and registry Run keys show nothing: whatever keeps it alive hides in a corner &quot;tools don't think to check&quot;. Translation: &lt;strong&gt;fileless WMI persistence&lt;/strong&gt;, and the only way to catch it is to dig through the repository by hand. The attachment is exactly that: the 5 raw files of the WMI repository. Every command below runs on &lt;em&gt;your&lt;/em&gt; machine, offline.">Lights off, guests asleep, and a Byte Lotus back-office box keeps logging in during the small hours — long after the night-shift tech has gone home. Startup, Scheduled Tasks and registry Run keys show nothing: whatever keeps it alive hides in a corner "tools don't think to check". Translation: <strong>fileless WMI persistence</strong>, and the only way to catch it is to dig through the repository by hand. The attachment is exactly that: the 5 raw files of the WMI repository. Every command below runs on <em>your</em> machine, offline.</p>
   </div>
   <div class="article-body">

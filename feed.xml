@@ -19,6 +19,146 @@
       <category>TryHackMe</category>
       <category>Offensive Validation</category>
     </item>
+    <item>
+      <title>The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/</guid>
+      <pubDate>Sat, 08 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 13 walkthrough: /vera/activity shows every tool call VERA makes. Indirect prompt injection reaches the override: tool, which runs /bin/sh. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>After Hours — TryHackMe Hacker Holidays 2026 Day 12 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/after-hours/</guid>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 12 forensics walkthrough: no specialist parser — strings and python3 carve OBJECTS.DATA to a CommandLineEventConsumer and a .NET payload. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Infinity Pool — TryHackMe Hacker Holidays 2026 Day 11 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/infinity-pool/</guid>
+      <pubDate>Thu, 06 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 11 walkthrough: command injection on a Flask netcheck, hard-coded FreePBX 16 UCP creds (CVE-2026-46376), a key in a voicemail, then root. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>The Hollow Shell — TryHackMe Hacker Holidays 2026 Day 10 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-hollow-shell/</guid>
+      <pubDate>Wed, 05 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 10 walkthrough: zip-slip beats an allowlist that only reads the manifest, then a poisoned Jinja template fires on a fresh gunicorn worker. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/</guid>
+      <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/</guid>
+      <pubDate>Mon, 03 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/</guid>
+      <pubDate>Sun, 02 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/</guid>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/</guid>
+      <pubDate>Fri, 31 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/</guid>
+      <pubDate>Thu, 30 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/</guid>
+      <pubDate>Wed, 29 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/</guid>
+      <pubDate>Tue, 28 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/</guid>
+      <pubDate>Mon, 27 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn&#x27;t authentication, so she lists the VIPs herself. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>The Brochure — TryHackMe Hacker Holidays 2026 Day 0 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-brochure/</guid>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Day 0 walkthrough: the EXIF is clean, the clue is printed. From the PNG brochure to an Instagram account, its only following, three Base64 posts. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
 
     <item>
       <title>MCP 2026-07-28: Stateless Does Not Mean State-Free</title>

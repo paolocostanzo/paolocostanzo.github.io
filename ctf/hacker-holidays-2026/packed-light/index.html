@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Packed Light: keylogger nei Cookie HTTP — NonèCostanzo" data-en="Packed Light: keylogger in HTTP Cookies — NonèCostanzo">Packed Light: keylogger in HTTP Cookies — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Packed Light: analisi pcap, canale coperto in un header Cookie, keylogger Python e decodifica XOR a un byte per arrivare alla flag." data-en="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag." content="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag."/>
+  <title data-it="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup ITA" data-en="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup">Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 4: dal pcap al keylogger che esfiltra i tasti nei Cookie HTTP. Cifra un carattere alla volta, quindi resta XOR a un byte. Flag oscurate." data-en="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted." content="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Packed Light: keylogger nei Cookie HTTP — NonèCostanzo" data-en="Packed Light: keylogger in HTTP Cookies — NonèCostanzo" content="Packed Light: keylogger in HTTP Cookies — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Packed Light: analisi pcap, canale coperto in un header Cookie, keylogger Python e decodifica XOR a un byte per arrivare alla flag." data-en="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag." content="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag."/>
+  <meta property="og:title" data-it="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup ITA" data-en="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup" content="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 4: dal pcap al keylogger che esfiltra i tasti nei Cookie HTTP. Cifra un carattere alla volta, quindi resta XOR a un byte. Flag oscurate." data-en="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted." content="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Packed Light: keylogger nei Cookie HTTP — NonèCostanzo" data-en="Packed Light: keylogger in HTTP Cookies — NonèCostanzo" content="Packed Light: keylogger in HTTP Cookies — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Packed Light: analisi pcap, canale coperto in un header Cookie, keylogger Python e decodifica XOR a un byte per arrivare alla flag." data-en="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag." content="Writeup TryHackMe Packed Light: pcap analysis, covert channel in a Cookie header, Python keylogger and single-byte XOR decoding to reach the flag."/>
+  <meta name="twitter:title" data-it="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup ITA" data-en="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup" content="Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 4: dal pcap al keylogger che esfiltra i tasti nei Cookie HTTP. Cifra un carattere alla volta, quindi resta XOR a un byte. Flag oscurate." data-en="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted." content="Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Packed Light: keylogger nei Cookie HTTP",
-  "description":"Writeup TryHackMe Packed Light: analisi pcap, canale coperto in un header Cookie, keylogger Python e decodifica XOR a un byte per arrivare alla flag.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/og.png"],"datePublished":"2026-07-30T09:00:00+02:00","dateModified":"2026-07-30T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"Hacker Holidays 2026, Packed Light, Forensics, TryHackMe, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Packed Light"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Packed Light — TryHackMe Hacker Holidays 2026 Day 4 Writeup",
+  "description": "Day 4 forensics walkthrough: from pcap to a keylogger exfiltrating keystrokes in Cookie headers. One char at a time, so it stays single-byte XOR. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/og.png"
+  ],
+  "datePublished": "2026-07-30T09:00:00+02:00",
+  "dateModified": "2026-07-30T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Packed Light TryHackMe, Packed Light writeup, Packed Light walkthrough, Hacker Holidays 2026 Day 4, Byte Lotus Hotel, pcap analysis, Wireshark, tshark http.cookie, keylogger exfiltration, covert channel, single-byte XOR, CyberChef, network forensics, writeup ITA, analisi pcap",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/packed-light/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Packed Light"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// il Cookie non era per la sessione, era per te" data-en="// the Cookie wasn't for the session, it was for you">// the Cookie wasn't for the session, it was for you</span>
     </div>
-    <h1 data-it="Packed Light — esfiltrazione keylog nei Cookie HTTP" data-en="Packed Light — keylog exfiltration in HTTP Cookies">Packed Light — keylog exfiltration in HTTP Cookies</h1>
+    <h1 data-it="Packed Light: esfiltrazione keylog nei Cookie HTTP — TryHackMe Hacker Holidays 2026, Day 4" data-en="Packed Light: keylog exfiltration in HTTP Cookies — TryHackMe Hacker Holidays 2026, Day 4">Packed Light: keylog exfiltration in HTTP Cookies — TryHackMe Hacker Holidays 2026, Day 4</h1>
     <p class="article-intro" data-it="Rete guest del Byte Lotus, un pcap corto e una soffiata di @0xMia: il suo portatile «pinga» un indirizzo a caso sulla porta 8080 ogni secondo, preciso come un orologio, e gli header &lt;em&gt;sanno di app finta&lt;/em&gt;. Traduzione: c'è un canale coperto che esfiltra dati sotto il naso di tutti. Vediamo dove finiscono i byte, li rimettiamo in fila e li decodifichiamo fino alla flag." data-en="Byte Lotus guest network, a short pcap and a tip from @0xMia: her laptop &quot;pings&quot; some random address on port 8080 every second, clockwork-precise, and the headers &lt;em&gt;smell like a fake app&lt;/em&gt;. Translation: a covert channel is exfiltrating data in plain sight. Let's find where the bytes go, line them back up and decode them all the way to the flag.">Byte Lotus guest network, a short pcap and a tip from @0xMia: her laptop "pings" some random address on port 8080 every second, clockwork-precise, and the headers <em>smell like a fake app</em>. Translation: a covert channel is exfiltrating data in plain sight. Let's find where the bytes go, line them back up and decode them all the way to the flag.</p>
   </div>
   <div class="article-body">

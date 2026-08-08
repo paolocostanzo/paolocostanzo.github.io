@@ -47,21 +47,28 @@ def set_bilingual_tag(raw, tag, it, en, attr_filter=None):
 
 def set_meta(raw, key, it, en):
     """<meta name|property="key" data-it=".." data-en=".." content=".."/>"""
+    hits = [0]
+
     def sub(m):
         tag = m.group(0)
         k = re.search(r'(?:property|name)="([^"]+)"', tag)
         if not k or k.group(1) != key:
             return tag
-        tag = re.sub(r'data-it="(?:[^"\\]|\\.)*"', 'data-it="%s"' % esc(it), tag)
-        tag = re.sub(r'data-en="(?:[^"\\]|\\.)*"', 'data-en="%s"' % esc(en), tag)
-        tag = re.sub(r'content="(?:[^"\\]|\\.)*"', 'content="%s"' % esc(en), tag)
-        return tag
+        out = re.sub(r'data-it="(?:[^"\\]|\\.)*"', 'data-it="%s"' % esc(it), tag)
+        out = re.sub(r'data-en="(?:[^"\\]|\\.)*"', 'data-en="%s"' % esc(en), out)
+        out = re.sub(r'content="(?:[^"\\]|\\.)*"', 'content="%s"' % esc(en), out)
+        if out != tag:
+            hits[0] += 1
+        return out
 
-    return re.subn(r'<meta\b[^>]*>', sub, raw)
+    raw = re.sub(r'<meta\b[^>]*>', sub, raw)
+    return raw, hits[0]
 
 
 def set_jsonld(raw, en_title, en_desc, keywords):
     """Only the TechArticle / CollectionPage block, and only three fields."""
+    hits = [0]
+
     def sub(m):
         body = m.group(1)
         try:
@@ -77,10 +84,12 @@ def set_jsonld(raw, en_title, en_desc, keywords):
         data['description'] = en_desc
         if keywords:
             data['keywords'] = keywords
+        hits[0] += 1
         return '<script type="application/ld+json">\n%s\n  </script>' % json.dumps(
             data, ensure_ascii=False, indent=2)
 
-    return re.subn(r'(?is)<script type="application/ld\+json">(.*?)</script>', sub, raw)
+    raw = re.sub(r'(?is)<script type="application/ld\+json">(.*?)</script>', sub, raw)
+    return raw, hits[0]
 
 
 def apply_page(root, entry):

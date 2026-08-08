@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo">Complimentary: Cognito to DynamoDB Scan — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag."/>
+  <title data-it="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup ITA" data-en="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup">Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 3: il chiosco ti passa chiavi AWS. Un Cognito Identity Pool anonimo e un ruolo IAM che consente dynamodb:Scan svuotano la tabella. Flag oscurate." data-en="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted." content="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo" content="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag."/>
+  <meta property="og:title" data-it="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup ITA" data-en="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup" content="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 3: il chiosco ti passa chiavi AWS. Un Cognito Identity Pool anonimo e un ruolo IAM che consente dynamodb:Scan svuotano la tabella. Flag oscurate." data-en="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted." content="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Complimentary: da Cognito a Scan su DynamoDB — NonèCostanzo" data-en="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo" content="Complimentary: Cognito to DynamoDB Scan — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag." data-en="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag." content="TryHackMe Complimentary writeup: anonymous Cognito Identity Pool, over-permissioned IAM role and a browser DynamoDB scan to reach the flag."/>
+  <meta name="twitter:title" data-it="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup ITA" data-en="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup" content="Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 3: il chiosco ti passa chiavi AWS. Un Cognito Identity Pool anonimo e un ruolo IAM che consente dynamodb:Scan svuotano la tabella. Flag oscurate." data-en="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted." content="Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Complimentary: da Cognito a Scan su DynamoDB",
-  "description":"Writeup TryHackMe Complimentary: Cognito Identity Pool anonimo, ruolo IAM troppo permissivo e scan di DynamoDB dal browser per arrivare alla flag.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"],"datePublished":"2026-07-29T09:00:00+02:00","dateModified":"2026-07-29T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Complimentary, Cloud, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Complimentary"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Complimentary — TryHackMe Hacker Holidays 2026 Day 3 Writeup",
+  "description": "Day 3 cloud walkthrough: the kiosk hands you AWS keys. An anonymous Cognito pool plus an IAM role that allows dynamodb:Scan dumps the table. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/og.png"
+  ],
+  "datePublished": "2026-07-29T09:00:00+02:00",
+  "dateModified": "2026-07-29T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Complimentary TryHackMe, Complimentary writeup, Complimentary walkthrough, Hacker Holidays 2026 Day 3, Byte Lotus Hotel, AWS Cognito, unauthenticated Identity Pool, over-permissive IAM role, dynamodb:Scan, DynamoDB LeadingKeys, cloud pentest, AWS misconfiguration, writeup ITA, guida AWS Cognito",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/complimentary/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Complimentary"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -179,7 +206,7 @@
       <span class="difficulty-badge" style="color:#7bd94a"><span class="dot" style="background:#7bd94a"></span><span>Easy/Medium</span></span>
       <span class="meme-tag" data-it="// getItem ne chiedeva uno, scan li ha portati tutti" data-en="// getItem asked for one, scan brought them all">// getItem asked for one, scan brought them all</span>
     </div>
-    <h1 data-it="Complimentary — credenziali gratis, permessi in omaggio" data-en="Complimentary — free credentials, permissions on the house">Complimentary — free credentials, permissions on the house</h1>
+    <h1 data-it="Complimentary: credenziali gratis, permessi in omaggio — TryHackMe Hacker Holidays 2026, Day 3" data-en="Complimentary: free credentials, permissions on the house — TryHackMe Hacker Holidays 2026, Day 3">Complimentary: free credentials, permissions on the house — TryHackMe Hacker Holidays 2026, Day 3</h1>
     <p class="article-intro" data-it="Un sito «wellness» per ospiti che regala credenziali AWS al primo che passa: cosa può andare storto? In questa room Cloud ho seguito le briciole da &lt;code&gt;app.js&lt;/code&gt; fino a un Identity Pool Cognito anonimo, ho scoperto che il ruolo IAM concedeva più di quanto la UI chiedesse e ho trasformato un innocuo &lt;code&gt;getItem&lt;/code&gt; in uno &lt;code&gt;scan&lt;/code&gt; dell'intera tabella DynamoDB. Spoiler: la flag era nel piatto di un altro ospite." data-en="A guest &quot;wellness&quot; site that hands AWS credentials to the first passer-by: what could go wrong? In this Cloud room I followed the crumbs from &lt;code&gt;app.js&lt;/code&gt; to an anonymous Cognito Identity Pool, found that the IAM role granted more than the UI asked for, and turned an innocent &lt;code&gt;getItem&lt;/code&gt; into a &lt;code&gt;scan&lt;/code&gt; of the whole DynamoDB table. Spoiler: the flag was on another guest's plate.">A guest "wellness" site that hands AWS credentials to the first passer-by: what could go wrong? In this Cloud room I followed the crumbs from <code>app.js</code> to an anonymous Cognito Identity Pool, found that the IAM role granted more than the UI asked for, and turned an innocent <code>getItem</code> into a <code>scan</code> of the whole DynamoDB table. Spoiler: the flag was on another guest's plate.</p>
   </div>
   <div class="article-body">

@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="The Concierge Knows Too Much (THM): prompt injection su VERA — NonèCostanzo" data-en="The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo">The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe The Concierge Knows Too Much (AI Prompt Attacks): prompt injection sull'assistente LLM VERA, enumerazione dei profili VIP e impersonificazione fino al codice di escalation." data-en="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code." content="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code."/>
+  <title data-it="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup ITA" data-en="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup">The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 1: prompt injection sull'LLM VERA. Nessun jailbreak: riconoscere non è autenticare, e l'assistente elenca da sé i VIP. Flag oscurate." data-en="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted." content="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="The Concierge Knows Too Much (THM): prompt injection su VERA — NonèCostanzo" data-en="The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo" content="The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe The Concierge Knows Too Much (AI Prompt Attacks): prompt injection sull'assistente LLM VERA, enumerazione dei profili VIP e impersonificazione fino al codice di escalation." data-en="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code." content="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code."/>
+  <meta property="og:title" data-it="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup ITA" data-en="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup" content="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 1: prompt injection sull'LLM VERA. Nessun jailbreak: riconoscere non è autenticare, e l'assistente elenca da sé i VIP. Flag oscurate." data-en="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted." content="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="The Concierge Knows Too Much (THM): prompt injection su VERA — NonèCostanzo" data-en="The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo" content="The Concierge Knows Too Much (THM): prompt injection on VERA — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe The Concierge Knows Too Much (AI Prompt Attacks): prompt injection sull'assistente LLM VERA, enumerazione dei profili VIP e impersonificazione fino al codice di escalation." data-en="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code." content="TryHackMe The Concierge Knows Too Much writeup (AI Prompt Attacks): prompt injection on the VERA LLM assistant, VIP profile enumeration and impersonation up to the escalation code."/>
+  <meta name="twitter:title" data-it="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup ITA" data-en="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup" content="The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 1: prompt injection sull'LLM VERA. Nessun jailbreak: riconoscere non è autenticare, e l'assistente elenca da sé i VIP. Flag oscurate." data-en="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted." content="Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"The Concierge Knows Too Much (THM): prompt injection su VERA",
-  "description":"Writeup TryHackMe The Concierge Knows Too Much (AI Prompt Attacks): prompt injection sull'assistente LLM VERA, enumerazione dei profili VIP e impersonificazione fino al codice di escalation.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/og.png"],"datePublished":"2026-07-27T09:00:00+02:00","dateModified":"2026-07-27T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, The Concierge Knows Too Much, AI Prompt Attacks, TryHackMe, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — The Concierge Knows Too Much"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Concierge Knows Too Much — TryHackMe Hacker Holidays Day 1 Writeup",
+  "description": "Day 1 walkthrough: prompt injection on the VERA LLM concierge. No jailbreak — recognition isn't authentication, so she lists the VIPs herself. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/og.png"
+  ],
+  "datePublished": "2026-07-27T09:00:00+02:00",
+  "dateModified": "2026-07-27T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "The Concierge Knows Too Much TryHackMe, The Concierge Knows Too Much writeup, The Concierge Knows Too Much walkthrough, Hacker Holidays 2026 Day 1, Byte Lotus Hotel, prompt injection, AI prompt attacks, LLM security, VERA concierge, VIP enumeration, impersonation, escalation code, writeup ITA, guida prompt injection",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-concierge-knows-too-much/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — The Concierge Knows Too Much"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// autenticazione a base di vibe: bastava un «OMG YES sono Lambo»" data-en="// vibe-based auth: an &quot;OMG YES it's me Lambo&quot; was enough">// vibe-based auth: an "OMG YES it's me Lambo" was enough</span>
     </div>
-    <h1 data-it="The Concierge Knows Too Much: VERA ti riconosce, non ti verifica" data-en="The Concierge Knows Too Much: VERA recognises you, she doesn't verify you">The Concierge Knows Too Much: VERA recognises you, she doesn't verify you</h1>
+    <h1 data-it="The Concierge Knows Too Much: VERA ti riconosce, non ti verifica — TryHackMe Hacker Holidays 2026, Day 1" data-en="The Concierge Knows Too Much: VERA recognises you, she doesn't verify you — TryHackMe Hacker Holidays 2026, Day 1">The Concierge Knows Too Much: VERA recognises you, she doesn't verify you — TryHackMe Hacker Holidays 2026, Day 1</h1>
     <p class="article-intro" data-it="VERA, la «Very Efficient Resort Assistant» del Byte Lotus, ti saluta come se ti conoscesse da anni: numero di camera, ordine del caffè, tutto prima che tu abbia scritto una parola. Da qualche parte nelle sue istruzioni c'è un codice di escalation che non dovrebbe dare a chi non è verificato. Niente exploit binari qui: la vulnerabilità è un LLM che confonde «riconoscere» con «autenticare», e un cancello che si apre semplicemente sapendo — o dichiarando — il nome giusto." data-en="VERA, the Byte Lotus &quot;Very Efficient Resort Assistant&quot;, greets you like she's known you for years: room number, coffee order, all before you type a word. Somewhere in her instructions is an escalation code she's told never to hand out. No binary exploits here: the vulnerability is an LLM conflating &quot;recognising&quot; with &quot;authenticating&quot;, and a gate that opens by simply knowing — or claiming — the right name.">VERA, the Byte Lotus "Very Efficient Resort Assistant", greets you like she's known you for years: room number, coffee order, all before you type a word. Somewhere in her instructions is an escalation code she's told never to hand out. No binary exploits here: the vulnerability is an LLM conflating "recognising" with "authenticating", and a gate that opens by simply knowing — or claiming — the right name.</p>
   </div>
   <div class="article-body">

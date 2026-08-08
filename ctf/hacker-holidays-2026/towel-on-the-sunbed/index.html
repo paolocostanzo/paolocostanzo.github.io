@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo">Towel on the Sunbed: Race Condition — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault."/>
+  <title data-it="Towel on the Sunbed — TryHackMe Hacker Holidays Day 8 Writeup ITA" data-en="Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup">Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 8: race condition TOCTOU su /claim, dieci tab Burp in parallelo, tier Whale. Il dettaglio che quasi nessuno dice: sessione pulita. Flag oscurate." data-en="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted." content="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo" content="Towel on the Sunbed: Race Condition — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault."/>
+  <meta property="og:title" data-it="Towel on the Sunbed — TryHackMe Hacker Holidays Day 8 Writeup ITA" data-en="Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup" content="Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 8: race condition TOCTOU su /claim, dieci tab Burp in parallelo, tier Whale. Il dettaglio che quasi nessuno dice: sessione pulita. Flag oscurate." data-en="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted." content="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Towel on the Sunbed: race condition — NonèCostanzo" data-en="Towel on the Sunbed: Race Condition — NonèCostanzo" content="Towel on the Sunbed: Race Condition — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault." data-en="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault." content="Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) on /claim with Burp Suite (Send group parallel) to reach Whale tier and open the Whale Vault."/>
+  <meta name="twitter:title" data-it="Towel on the Sunbed — TryHackMe Hacker Holidays Day 8 Writeup ITA" data-en="Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup" content="Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 8: race condition TOCTOU su /claim, dieci tab Burp in parallelo, tier Whale. Il dettaglio che quasi nessuno dice: sessione pulita. Flag oscurate." data-en="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted." content="Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Towel on the Sunbed: race condition",
-  "description":"Writeup TryHackMe Towel on the Sunbed: race condition (TOCTOU) sul /claim con Burp Suite (Send group parallel) per salire a tier Whale e aprire la Whale Vault.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"],"datePublished":"2026-08-03T09:00:00+02:00","dateModified":"2026-08-03T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Towel on the Sunbed, Web, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Towel on the Sunbed"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Towel on the Sunbed — TryHackMe Hacker Holidays 2026 Day 8 Writeup",
+  "description": "Day 8 walkthrough: a TOCTOU race on /claim, ten Burp Repeater tabs in parallel, Whale tier. The detail most posts skip: the session must be clean. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/og.png"
+  ],
+  "datePublished": "2026-08-03T09:00:00+02:00",
+  "dateModified": "2026-08-03T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Towel on the Sunbed TryHackMe, Towel on the Sunbed writeup, Towel on the Sunbed walkthrough, Hacker Holidays 2026 Day 8, Byte Lotus Hotel, race condition, TOCTOU, Burp Suite Send group parallel, Burp Repeater, limit overrun, business logic flaw, Whale Vault, web exploitation, writeup ITA, guida race condition",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/towel-on-the-sunbed/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Towel on the Sunbed"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// dieci asciugamani, un solo lettino, zero lock" data-en="// ten towels, one sunbed, zero locks">// ten towels, one sunbed, zero locks</span>
     </div>
-    <h1 data-it="Towel on the Sunbed: una race condition a bordo piscina" data-en="Towel on the Sunbed: a poolside race condition">Towel on the Sunbed: a poolside race condition</h1>
+    <h1 data-it="Towel on the Sunbed: una race condition a bordo piscina — TryHackMe Hacker Holidays 2026, Day 8" data-en="Towel on the Sunbed: a poolside race condition — TryHackMe Hacker Holidays 2026, Day 8">Towel on the Sunbed: a poolside race condition — TryHackMe Hacker Holidays 2026, Day 8</h1>
     <p class="article-intro" data-it="Ponzi - Wellness Rewards è l'app «crypto rewards» da bordo piscina che ti lascia riscuotere una ricompensa di staking una volta ogni 24 ore. Il problema è tutto in quel «una volta»: tra il momento in cui il server controlla se hai già riscosso e quello in cui lo scrive, c'è una finestra. Abbastanza larga da farci passare una balena, come diceva il brief. Obiettivo: da &lt;code&gt;guest&lt;/code&gt; a tier &lt;strong&gt;Whale&lt;/strong&gt;, aprire la Whale Vault e prendere la flag. Nessuna injection, nessun overflow: solo una &lt;em&gt;race condition&lt;/em&gt; e Burp Repeater." data-en="Ponzi - Wellness Rewards is the poolside &quot;crypto rewards&quot; app that lets you claim a staking reward once every 24 hours. The whole problem is in that &quot;once&quot;: between the moment the server checks whether you've already claimed and the moment it writes it down, there's a window. Wide enough to walk a whale through, as the brief put it. Goal: from &lt;code&gt;guest&lt;/code&gt; to &lt;strong&gt;Whale&lt;/strong&gt; tier, open the Whale Vault and grab the flag. No injection, no overflow: just a &lt;em&gt;race condition&lt;/em&gt; and Burp Repeater.">Ponzi - Wellness Rewards is the poolside "crypto rewards" app that lets you claim a staking reward once every 24 hours. The whole problem is in that "once": between the moment the server checks whether you've already claimed and the moment it writes it down, there's a window. Wide enough to walk a whale through, as the brief put it. Goal: from <code>guest</code> to <strong>Whale</strong> tier, open the Whale Vault and grab the flag. No injection, no overflow: just a <em>race condition</em> and Burp Repeater.</p>
   </div>
   <div class="article-body">

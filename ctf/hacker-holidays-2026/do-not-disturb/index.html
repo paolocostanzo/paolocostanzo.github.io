@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo">Do Not Disturb: NoSQL, SSTI & Node inspector — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box."/>
+  <title data-it="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup ITA" data-en="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup">Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 7: bypass login con $ne, SSTI EJS su /staff/preview, RCE e root senza mai avere uid=0, con node --inspect e il gruppo disk. Flag oscurate." data-en="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted." content="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo" content="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box."/>
+  <meta property="og:title" data-it="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup ITA" data-en="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup" content="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 7: bypass login con $ne, SSTI EJS su /staff/preview, RCE e root senza mai avere uid=0, con node --inspect e il gruppo disk. Flag oscurate." data-en="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted." content="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Do Not Disturb: NoSQL, SSTI e Node inspector — NonèCostanzo" data-en="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo" content="Do Not Disturb: NoSQL, SSTI &amp; Node inspector — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express." data-en="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box." content="Writeup TryHackMe Do Not Disturb: NoSQL injection login bypass, EJS SSTI, RCE and privesc via Node --inspect and the disk group. Node/Express box."/>
+  <meta name="twitter:title" data-it="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup ITA" data-en="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup" content="Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 7: bypass login con $ne, SSTI EJS su /staff/preview, RCE e root senza mai avere uid=0, con node --inspect e il gruppo disk. Flag oscurate." data-en="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted." content="Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Do Not Disturb: NoSQL, SSTI e Node inspector",
-  "description":"Writeup TryHackMe Do Not Disturb: bypass login NoSQL injection, SSTI EJS, RCE e privesc via Node --inspect e gruppo disk. Boot2root Node/Express.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"],"datePublished":"2026-08-02T09:00:00+02:00","dateModified":"2026-08-02T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Do Not Disturb, Boot2root, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Do Not Disturb"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Do Not Disturb — TryHackMe Hacker Holidays 2026 Day 7 Writeup",
+  "description": "Day 7 boot2root walkthrough: $ne login bypass, EJS SSTI on /staff/preview, RCE, then root without uid=0 via node --inspect and the disk group. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/og.png"
+  ],
+  "datePublished": "2026-08-02T09:00:00+02:00",
+  "dateModified": "2026-08-02T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Do Not Disturb TryHackMe, Do Not Disturb writeup, Do Not Disturb walkthrough, Hacker Holidays 2026 Day 7, Byte Lotus Hotel, NoSQL injection, $ne login bypass, EJS SSTI, server-side template injection, Node.js RCE, global.process.mainModule.require, node --inspect 9229, Chrome DevTools Protocol, disk group debugfs, privilege escalation, boot2root, writeup ITA",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/do-not-disturb/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Do Not Disturb"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
       <span class="meme-tag" data-it="// il cartello «Do Not Disturb» non copre la porta 9229" data-en="// the 'Do Not Disturb' sign doesn't cover port 9229">// the 'Do Not Disturb' sign doesn't cover port 9229</span>
     </div>
-    <h1 data-it="Do Not Disturb: dal bordo piscina a root, un anello alla volta" data-en="Do Not Disturb: from poolside to root, one link at a time">Do Not Disturb: from poolside to root, one link at a time</h1>
+    <h1 data-it="Do Not Disturb: dal bordo piscina a root, un anello alla volta — TryHackMe Hacker Holidays 2026, Day 7" data-en="Do Not Disturb: from poolside to root, one link at a time — TryHackMe Hacker Holidays 2026, Day 7">Do Not Disturb: from poolside to root, one link at a time — TryHackMe Hacker Holidays 2026, Day 7</h1>
     <p class="article-intro" data-it="Byte Lotus è una piattaforma di booking per cabana e lettini a bordo piscina, e a quanto pare qualcuno ci sta già giocando: wallet che cambiano da soli, sessioni dirottate. Ci sono entrato anch'io, ma con metodo: una login che si fidava troppo del JSON, una feature «staff» che si fidava ancora di più, e un debugger Node lasciato in ascolto. Nessuno di questi bug è «critico» da solo; il problema, come sempre, è la catena." data-en="Byte Lotus is a booking platform for poolside cabanas and sunbeds, and someone was clearly already playing with it: wallets changing on their own, hijacked sessions. I got in too, but methodically: a login that trusted JSON too much, a &quot;staff&quot; feature that trusted it even more, and a Node debugger left listening. None of these bugs is &quot;critical&quot; on its own; the problem, as always, is the chain.">Byte Lotus is a booking platform for poolside cabanas and sunbeds, and someone was clearly already playing with it: wallets changing on their own, hijacked sessions. I got in too, but methodically: a login that trusted JSON too much, a "staff" feature that trusted it even more, and a Node debugger left listening. None of these bugs is "critical" on its own; the problem, as always, is the chain.</p>
   </div>
   <div class="article-body">

@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Overheard at Breakfast: OSINT Gravatar — NonèCostanzo" data-en="Overheard at Breakfast: Gravatar OSINT — NonèCostanzo">Overheard at Breakfast: Gravatar OSINT — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Overheard at Breakfast: OSINT da chat Discord a Gravatar, hash MD5 dell'email ed endpoint .json con aboutMe in base64 fino alla flag." data-en="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag." content="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag."/>
+  <title data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup">Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Overheard at Breakfast: OSINT Gravatar — NonèCostanzo" data-en="Overheard at Breakfast: Gravatar OSINT — NonèCostanzo" content="Overheard at Breakfast: Gravatar OSINT — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Overheard at Breakfast: OSINT da chat Discord a Gravatar, hash MD5 dell'email ed endpoint .json con aboutMe in base64 fino alla flag." data-en="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag." content="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag."/>
+  <meta property="og:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Overheard at Breakfast: OSINT Gravatar — NonèCostanzo" data-en="Overheard at Breakfast: Gravatar OSINT — NonèCostanzo" content="Overheard at Breakfast: Gravatar OSINT — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Overheard at Breakfast: OSINT da chat Discord a Gravatar, hash MD5 dell'email ed endpoint .json con aboutMe in base64 fino alla flag." data-en="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag." content="TryHackMe Overheard at Breakfast writeup: OSINT from a Discord chat to Gravatar, the email MD5 hash and the .json endpoint hiding aboutMe base64 up to the flag."/>
+  <meta name="twitter:title" data-it="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup ITA" data-en="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup" content="Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 6: uno screenshot Discord lascia scappare un'email, l'MD5 normalizzato apre il Gravatar e /{md5}.json nasconde tutto in aboutMe. Flag oscurate." data-en="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted." content="Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Overheard at Breakfast: OSINT Gravatar",
-  "description":"Writeup TryHackMe Overheard at Breakfast: OSINT da chat Discord a Gravatar, hash MD5 dell'email ed endpoint .json con aboutMe in base64 fino alla flag.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"],"datePublished":"2026-08-01T09:00:00+02:00","dateModified":"2026-08-01T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Overheard at Breakfast, OSINT, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Overheard at Breakfast"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Overheard at Breakfast — TryHackMe Hacker Holidays Day 6 Writeup",
+  "description": "Day 6 OSINT walkthrough: a Discord screenshot leaks an email, the normalised MD5 opens the Gravatar, and /{md5}.json hides the flag in aboutMe. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/og.png"
+  ],
+  "datePublished": "2026-08-01T09:00:00+02:00",
+  "dateModified": "2026-08-01T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Overheard at Breakfast TryHackMe, Overheard at Breakfast writeup, Overheard at Breakfast walkthrough, Hacker Holidays 2026 Day 6, Byte Lotus Hotel, Gravatar OSINT, email MD5 hash, Gravatar json endpoint, aboutMe base64, email enumeration, Discord OSINT, writeup ITA, guida OSINT Gravatar",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/overheard-at-breakfast/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Overheard at Breakfast"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// bio cancellata, hash immortale" data-en="// your email's MD5 never forgets">// your email's MD5 never forgets</span>
     </div>
-    <h1 data-it="Overheard at Breakfast: l'email che ti segue via Gravatar" data-en="Overheard at Breakfast: the email that follows you via Gravatar">Overheard at Breakfast: the email that follows you via Gravatar</h1>
+    <h1 data-it="Overheard at Breakfast: l'email che ti segue via Gravatar — TryHackMe Hacker Holidays 2026, Day 6" data-en="Overheard at Breakfast: the email that follows you via Gravatar — TryHackMe Hacker Holidays 2026, Day 6">Overheard at Breakfast: the email that follows you via Gravatar — TryHackMe Hacker Holidays 2026, Day 6</h1>
     <p class="article-intro" data-it="Giorno 06 degli Hacker Holidays, categoria OSINT: niente exploit, niente shell, solo uno screenshot di Discord e la pessima abitudine di lasciare la propria email in chat. Il bersaglio, «Lambo», dice di aver mollato i social ma di essersi tenuto un profilo — peccato che su &lt;strong&gt;Gravatar&lt;/strong&gt; l'identità non sia il profilo, ma l'&lt;strong&gt;hash MD5&lt;/strong&gt; dell'email. E l'hash, a differenza della bio, non lo cancelli con un click. Ho trasformato un indirizzo email in un URL deterministico, ho interrogato l'endpoint &lt;code&gt;.json&lt;/code&gt; invece della pagina web curata, e mi sono ritrovato in mano un campo &lt;code&gt;aboutMe&lt;/code&gt; con dentro la flag in base64. Storia breve, lezione lunga." data-en="Day 06 of Hacker Holidays, OSINT category: no exploit, no shell, just a Discord screenshot and the terrible habit of dropping your email in chat. The target, &quot;Lambo&quot;, says he quit social media but kept one profile — too bad that on &lt;strong&gt;Gravatar&lt;/strong&gt; identity isn't the profile, it's the &lt;strong&gt;MD5 hash&lt;/strong&gt; of the email. And unlike a bio, you don't wipe a hash with one click. I turned an email address into a deterministic URL, queried the &lt;code&gt;.json&lt;/code&gt; endpoint instead of the curated web page, and ended up holding an &lt;code&gt;aboutMe&lt;/code&gt; field with the flag sitting inside it in base64. Short story, long lesson.">Day 06 of Hacker Holidays, OSINT category: no exploit, no shell, just a Discord screenshot and the terrible habit of dropping your email in chat. The target, "Lambo", says he quit social media but kept one profile — too bad that on <strong>Gravatar</strong> identity isn't the profile, it's the <strong>MD5 hash</strong> of the email. And unlike a bio, you don't wipe a hash with one click. I turned an email address into a deterministic URL, queried the <code>.json</code> endpoint instead of the curated web page, and ended up holding an <code>aboutMe</code> field with the flag sitting inside it in base64. Short story, long lesson.</p>
   </div>
   <div class="article-body">

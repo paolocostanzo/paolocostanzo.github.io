@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo">Beach Bar: PyYAML unsafe load RCE — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux."/>
+  <title data-it="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup ITA" data-en="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup">Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 5: credenziali demo nel view-source, yaml.load non sicuro rende l'import playlist una RCE, ps aux svela la password di root. Flag oscurate." data-en="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted." content="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo" content="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux."/>
+  <meta property="og:title" data-it="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup ITA" data-en="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup" content="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 5: credenziali demo nel view-source, yaml.load non sicuro rende l'import playlist una RCE, ps aux svela la password di root. Flag oscurate." data-en="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted." content="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Beach Bar: RCE PyYAML unsafe load — NonèCostanzo" data-en="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo" content="Beach Bar: PyYAML unsafe load RCE — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux." data-en="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux." content="TryHackMe Beach Bar writeup (Boot2root): RCE via PyYAML unsafe load in the YAML playlist import, reverse shell as bartender and root privesc via ps aux."/>
+  <meta name="twitter:title" data-it="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup ITA" data-en="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup" content="Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 5: credenziali demo nel view-source, yaml.load non sicuro rende l'import playlist una RCE, ps aux svela la password di root. Flag oscurate." data-en="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted." content="Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Beach Bar: RCE PyYAML unsafe load",
-  "description":"Writeup TryHackMe Beach Bar (Boot2root): RCE via PyYAML unsafe load nell'import playlist YAML, reverse shell come bartender e privesc a root con ps aux.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"],"datePublished":"2026-07-31T09:00:00+02:00","dateModified":"2026-07-31T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Beach Bar, Boot2root, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Beach Bar"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Beach Bar — TryHackMe Hacker Holidays 2026 Day 5 Writeup",
+  "description": "Day 5 boot2root walkthrough: demo creds in view-source, an unsafe yaml.load turns a playlist import into RCE, ps aux leaks the root password. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/og.png"
+  ],
+  "datePublished": "2026-07-31T09:00:00+02:00",
+  "dateModified": "2026-07-31T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Beach Bar TryHackMe, Beach Bar writeup, Beach Bar walkthrough, Hacker Holidays 2026 Day 5, Byte Lotus Hotel, PyYAML unsafe load, yaml.load RCE, !!python/object/apply, insecure deserialization, reverse shell, ps aux password leak, privilege escalation, boot2root, writeup ITA, guida PyYAML",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/beach-bar/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Beach Bar"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// importa la playlist, esporta la shell" data-en="// import the playlist, export the shell">// import the playlist, export the shell</span>
     </div>
-    <h1 data-it="Beach Bar — dal jukebox YAML alla root" data-en="Beach Bar — from the YAML jukebox to root">Beach Bar — from the YAML jukebox to root</h1>
+    <h1 data-it="Beach Bar: dal jukebox YAML alla root — TryHackMe Hacker Holidays 2026, Day 5" data-en="Beach Bar: from the YAML jukebox to root — TryHackMe Hacker Holidays 2026, Day 5">Beach Bar: from the YAML jukebox to root — TryHackMe Hacker Holidays 2026, Day 5</h1>
     <p class="article-intro" data-it="Byte Lotus, spiaggia, un jukebox web che accetta richieste da chiunque abbia un telefono. Il DJ però ha lasciato in giro più della musica: una login demo ancora accesa e una feature che si fida troppo del mio YAML. In questa room passo dal &lt;code&gt;view-source&lt;/code&gt; a una reverse shell come &lt;strong&gt;bartender&lt;/strong&gt;, e da un processo troppo loquace alla root. Boot2root da manuale, con due lezioni che vedo ancora in produzione." data-en="Byte Lotus, a beach, a web jukebox that takes requests from anyone with a phone. The DJ left behind more than music though: a demo login still switched on and a feature that trusts my YAML far too much. In this room I go from &lt;code&gt;view-source&lt;/code&gt; to a reverse shell as &lt;strong&gt;bartender&lt;/strong&gt;, and from a too-talkative process to root. A textbook Boot2root, with two lessons I still see in production.">Byte Lotus, a beach, a web jukebox that takes requests from anyone with a phone. The DJ left behind more than music though: a demo login still switched on and a feature that trusts my YAML far too much. In this room I go from <code>view-source</code> to a reverse shell as <strong>bartender</strong>, and from a too-talkative process to root. A textbook Boot2root, with two lessons I still see in production.</p>
   </div>
   <div class="article-body">

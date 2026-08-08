@@ -5,8 +5,8 @@
   <!-- flag withheld until the event ends: no real value in this file -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-it="Room 404: .git esposto e git-dumper — NonèCostanzo" data-en="Room 404: exposed .git &amp; git-dumper — NonèCostanzo">Room 404: exposed .git & git-dumper — NonèCostanzo</title>
-  <meta name="description" data-it="Writeup TryHackMe Room 404: .git esposto, dump con git-dumper e flag nascosta nella history dei commit. Recon, exploit e lezione difensiva." data-en="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson." content="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson."/>
+  <title data-it="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup ITA" data-en="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup">Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup</title>
+  <meta name="description" data-it="Walkthrough Day 2: una curl a /.git/HEAD conferma la fuga, git-dumper ricostruisce il repo e la flag è in un commit solo apparentemente ripulito. Flag oscurate." data-en="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted." content="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -116,8 +116,8 @@
   </style>
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
-  <meta property="og:title" data-it="Room 404: .git esposto e git-dumper — NonèCostanzo" data-en="Room 404: exposed .git &amp; git-dumper — NonèCostanzo" content="Room 404: exposed .git &amp; git-dumper — NonèCostanzo"/>
-  <meta property="og:description" data-it="Writeup TryHackMe Room 404: .git esposto, dump con git-dumper e flag nascosta nella history dei commit. Recon, exploit e lezione difensiva." data-en="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson." content="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson."/>
+  <meta property="og:title" data-it="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup ITA" data-en="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup" content="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough Day 2: una curl a /.git/HEAD conferma la fuga, git-dumper ricostruisce il repo e la flag è in un commit solo apparentemente ripulito. Flag oscurate." data-en="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted." content="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -128,20 +128,47 @@
   <meta property="article:author" content="https://www.paolocostanzo.com"/>
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" data-it="Room 404: .git esposto e git-dumper — NonèCostanzo" data-en="Room 404: exposed .git &amp; git-dumper — NonèCostanzo" content="Room 404: exposed .git &amp; git-dumper — NonèCostanzo"/>
-  <meta name="twitter:description" data-it="Writeup TryHackMe Room 404: .git esposto, dump con git-dumper e flag nascosta nella history dei commit. Recon, exploit e lezione difensiva." data-en="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson." content="TryHackMe Room 404 writeup: exposed .git, git-dumper dump, and the flag hidden in commit history. Recon, exploit, and defensive lesson."/>
+  <meta name="twitter:title" data-it="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup ITA" data-en="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup" content="Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough Day 2: una curl a /.git/HEAD conferma la fuga, git-dumper ricostruisce il repo e la flag è in un commit solo apparentemente ripulito. Flag oscurate." data-en="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted." content="Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/og.png"/>
   <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"TechArticle",
-  "headline":"Room 404: .git esposto e git-dumper",
-  "description":"Writeup TryHackMe Room 404: .git esposto, dump con git-dumper e flag nascosta nella history dei commit. Recon, exploit e lezione difensiva.",
-  "image":["https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/og.png"],"datePublished":"2026-07-28T09:00:00+02:00","dateModified":"2026-07-28T09:00:00+02:00","inLanguage":"en","articleSection":"CTF",
-  "keywords":"TryHackMe, Hacker Holidays 2026, Room 404, Web, CTF walkthrough",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"},"url":"https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/",
-  "author":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com","sameAs":["https://www.linkedin.com/in/paolocostanzoit/","https://github.com/paolocostanzo","https://www.researchgate.net/profile/Paolo-Costanzo-2"]},
-  "publisher":{"@type":"Person","name":"Paolo Costanzo","url":"https://www.paolocostanzo.com"},
-  "about":{"@type":"Thing","name":"TryHackMe — Room 404"}
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup",
+  "description": "Day 2 walkthrough: one curl to /.git/HEAD confirms the leak, git-dumper rebuilds the repo, and the flag sits in a supposedly cleaned commit. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/og.png"
+  ],
+  "datePublished": "2026-07-28T09:00:00+02:00",
+  "dateModified": "2026-07-28T09:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Room 404 TryHackMe, Room 404 writeup, Room 404 walkthrough, Hacker Holidays 2026 Day 2, Byte Lotus Hotel, exposed .git, git-dumper, .git/HEAD, git log --all -p, commit history secrets, source code disclosure, writeup ITA, .git esposto, guida git-dumper",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Room 404"
+  }
 }
   </script>
   <script type="application/ld+json">
@@ -178,7 +205,7 @@
       <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span>Easy</span></span>
       <span class="meme-tag" data-it="// il commit lo cancelli, la history no" data-en="// you delete the commit, not the history">// you delete the commit, not the history</span>
     </div>
-    <h1 data-it="Room 404: quando il .git finisce in produzione" data-en="Room 404: when .git ships to production">Room 404: when .git ships to production</h1>
+    <h1 data-it="Room 404: quando il .git finisce in produzione — TryHackMe Hacker Holidays 2026, Day 2" data-en="Room 404: when .git ships to production — TryHackMe Hacker Holidays 2026, Day 2">Room 404: when .git ships to production — TryHackMe Hacker Holidays 2026, Day 2</h1>
     <p class="article-intro" data-it="«Dumpa il sorgente esposto e trova la flag», dice la room. Sulla carta è facile, e in effetti lo è — ma la lezione vera non è che il codice sorgente sia esposto, è che un innocuo &lt;code&gt;.git&lt;/code&gt; in produzione consegna l'intera &lt;em&gt;storia&lt;/em&gt; del progetto, inclusi i segreti che lo sviluppatore credeva di aver cancellato. La piattaforma guest del Byte Lotus è andata online di corsa e lo sviluppatore del turno di notte ha spedito più del previsto." data-en="&quot;Dump the exposed source and find the flag,&quot; says the room. On paper it's easy, and it really is — but the real lesson isn't that the source code is exposed, it's that a harmless-looking &lt;code&gt;.git&lt;/code&gt; in production hands over the project's entire &lt;em&gt;history&lt;/em&gt;, including secrets the developer thought they'd already deleted. The Byte Lotus guest platform went live in a hurry and the night-shift developer shipped more than intended.">"Dump the exposed source and find the flag," says the room. On paper it's easy, and it really is — but the real lesson isn't that the source code is exposed, it's that a harmless-looking <code>.git</code> in production hands over the project's entire <em>history</em>, including secrets the developer thought they'd already deleted. The Byte Lotus guest platform went live in a hurry and the night-shift developer shipped more than intended.</p>
   </div>
   <div class="article-body">
