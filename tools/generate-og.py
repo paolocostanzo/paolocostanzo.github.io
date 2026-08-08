@@ -265,6 +265,15 @@ MANIFEST = {
         "footer": "Field note",
         "badge": "MEDIUM",
     },
+    "guestbook": {
+        "out": "ctf/hacker-holidays-2026/the-guestbook/og.png",
+        "kicker": "TRYHACKME · HACKER HOLIDAYS 2026 · AI / WEB",
+        "title": "THE GUESTBOOK",
+        "accent": 1,
+        "subtitle": "Prompt injection indiretta su VERA, fino a /bin/sh",
+        "footer": "CTF writeup",
+        "badge": "MEDIUM",
+    },
     "prompt-injection": {
         "out": "prompt-injection-llm/og.png",
         "kicker": "AI SECURITY · LLM · APPSEC",
