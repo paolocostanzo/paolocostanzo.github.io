@@ -290,7 +290,7 @@ MANIFEST = {
         "accent": 1,
         "subtitle": "An autologon secret unwinds DPAPI into a VeraCrypt vault",
         "footer": "CTF writeup · Day 14",
-        "badge": "MEDIUM",
+        "badge": "HARD",
     },
     "hh-the-brochure": {
         "out": "ctf/hacker-holidays-2026/the-brochure/og.png",
