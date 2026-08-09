@@ -276,12 +276,21 @@ MANIFEST = {
     },
     "hh-hub": {
         "out": "ctf/hacker-holidays-2026/og.png",
-        "kicker": "CTF WRITEUPS · TRYHACKME · DAY 0 TO DAY 13",
+        "kicker": "CTF WRITEUPS · TRYHACKME · DAY 0 TO DAY 14",
         "title": "HACKER HOLIDAYS 2026",
         "accent": 1,
         "subtitle": "Byte Lotus Hotel · one room a day · OSINT / web / cloud / forensics",
-        "footer": "All 14 room writeups",
+        "footer": "All 15 room writeups",
         "badge": "SERIES",
+    },
+    "hh-management-wants-a-word": {
+        "out": "ctf/hacker-holidays-2026/management-wants-a-word/og.png",
+        "kicker": "TRYHACKME · HACKER HOLIDAYS 2026 · DAY 14 · FORENSICS",
+        "title": "MANAGEMENT WANTS A WORD",
+        "accent": 1,
+        "subtitle": "An autologon secret unwinds DPAPI into a VeraCrypt vault",
+        "footer": "CTF writeup · Day 14",
+        "badge": "MEDIUM",
     },
     "hh-the-brochure": {
         "out": "ctf/hacker-holidays-2026/the-brochure/og.png",

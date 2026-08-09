@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- flag withheld until the event ends: no real value in this file -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-it="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup ITA" data-en="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup">Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup</title>
+  <meta name="description" data-it="Walkthrough forensics Day 14: un segreto di autologon nella hive SECURITY sblocca la catena DPAPI fino alla password salvata in Chrome, che apre un volume VeraCrypt. Flag oscurate." data-en="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted." content="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted."/>
+  <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+    :root{--orange:#ff6a00;--orange-faint:rgba(255,106,0,0.06);--black:#080808;--surface:#101010;--surface2:#161616;--border:#222;--text:#e8e8e8;--muted:#666;--mono:'Share Tech Mono',monospace;--sans:'Barlow',sans-serif;--condensed:'Barlow Condensed',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .back-link{font-family:var(--mono);font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:0.85rem}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--orange);padding:0.2rem 0.6rem}
+    .meta-item{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em}
+    .difficulty-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.4rem}
+    .dot{width:6px;height:6px;border-radius:50%}
+    h1{font-family:var(--condensed);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.1rem;color:var(--muted);max-width:760px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);margin:3rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 0.75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:var(--muted);font-style:italic}
+    .article-body ul,.article-body ol{margin:1rem 0 1.25rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:0.4rem}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;color:var(--orange);line-height:1.8;white-space:pre}
+    .code-block .comment{color:var(--muted)}
+    .code-block .danger{color:#ff3333}
+    .code-block .ok{color:#00ff88}
+    .code-block .neutral{color:#aaa}
+    .code-block .warn{color:#ffaa00}
+    .callout{background:var(--orange-faint);border:1px solid rgba(255,106,0,0.25);border-left:3px solid var(--orange);padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-red{background:rgba(255,51,51,0.04);border:1px solid rgba(255,51,51,0.2);border-left:3px solid #ff3333;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-red .callout-label{font-family:var(--mono);font-size:0.65rem;color:#ff5555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-red p{font-size:0.9rem;color:var(--text);margin:0}
+    .callout-green{background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.15);border-left:3px solid #00ff88;padding:1.25rem 1.5rem;margin:2rem 0}
+    .callout-green .callout-label{font-family:var(--mono);font-size:0.65rem;color:#00ff88;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem}
+    .callout-green p{font-size:0.9rem;color:var(--text);margin:0}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:0.7rem;color:var(--orange);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:0.4rem}
+    .tldr p{font-size:0.88rem;color:var(--muted);margin:1rem 0 0;line-height:1.7}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:0.78rem}
+    th{text-align:left;color:var(--orange);padding:0.6rem 0.75rem;border-bottom:1px solid var(--border);letter-spacing:0.1em;text-transform:uppercase}
+    td{padding:0.55rem 0.75rem;border-bottom:1px solid #1a1a1a;color:#bbb;vertical-align:top}
+    td.ok{color:#00ff88}
+    td.danger{color:#ff5555}
+    td.warn{color:#ffaa00}
+    td strong{color:var(--text)}
+    tr:last-child td{border-bottom:none}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:0.75rem;color:var(--orange);letter-spacing:0.1em;transition:opacity 0.2s}
+    .footer-copy{font-family:var(--mono);font-size:0.65rem;color:var(--muted);opacity:0.5}
+    @media(max-width:768px){h1{font-size:2rem}table{font-size:0.7rem}}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:0.65rem;padding:0.3rem 0.6rem;background:transparent;color:var(--muted);border:none;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all .2s}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.45rem 0.7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    .share-wrap{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--border)}
+    .share-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0}
+    .share-btns{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .share-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.65rem;background:transparent;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+    .share-btn:hover{color:var(--orange);border-color:var(--orange)}
+    .share-btn.ok{color:#00ff88;border-color:#00ff88}
+    .auth-wrap{display:flex;align-items:center;gap:0.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+    .cve-badge{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.3);color:#ff5555;padding:0.3rem 0.75rem;letter-spacing:0.05em;margin:0.5rem 0}
+    .lang-it{display:none}
+      /* AUTHOR BOX */
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .author-box .ab-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase}
+    .author-box .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:0.02em;margin-top:0.5rem;line-height:1}
+    .author-box .ab-role{font-family:var(--mono);font-size:0.68rem;color:var(--orange);margin-top:0.45rem;line-height:1.6}
+    .author-box .ab-bio{font-size:0.9rem;color:var(--muted);line-height:1.65;margin-top:0.9rem}
+    .author-box .ab-links{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;align-items:center}
+    .author-box .ab-links a{font-family:var(--mono);font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:0.4rem 0.8rem;letter-spacing:0.08em;transition:border-color .2s,color .2s}
+    .author-box .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .author-box .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .author-box .ab-links a.ab-cta:hover{background:var(--orange);color:var(--black)}
+    @media(max-width:600px){.author-box{margin:2.5rem 1.25rem 0;padding:1.25rem}}
+</style>
+
+  <style>
+    .article-body code,.tldr code,.callout code,.callout-red code,.callout-green code{font-family:var(--mono);color:var(--orange)}
+    .redaction{font-family:var(--mono);color:var(--orange);letter-spacing:2px}
+    .crumb{max-width:960px;margin:0 auto;padding:1rem 2rem 0;font-family:var(--mono);font-size:0.66rem;color:#5f5f5f;letter-spacing:0.08em}
+    .crumb a{color:var(--muted)}.crumb a:hover{color:var(--orange)}.crumb .here{color:var(--orange)}
+    .meme-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;border:1px dashed var(--border);padding:0.25rem 0.6rem}
+  </style>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
+  <meta property="og:title" data-it="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup ITA" data-en="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup" content="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup"/>
+  <meta property="og:description" data-it="Walkthrough forensics Day 14: un segreto di autologon nella hive SECURITY sblocca la catena DPAPI fino alla password salvata in Chrome, che apre un volume VeraCrypt. Flag oscurate." data-en="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted." content="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/og.png"/>
+  <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="The Guestbook — CTF walkthrough"/>
+  <meta property="og:locale" data-it="it_IT" data-en="en_US" content="en_US"/>
+  <meta property="article:published_time" content="2026-08-08T19:00:00+02:00"/>
+  <meta property="article:modified_time" content="2026-08-08T19:00:00+02:00"/>
+  <meta property="article:author" content="https://www.paolocostanzo.com"/>
+  <meta property="article:section" content="CTF"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" data-it="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup ITA" data-en="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup" content="Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup"/>
+  <meta name="twitter:description" data-it="Walkthrough forensics Day 14: un segreto di autologon nella hive SECURITY sblocca la catena DPAPI fino alla password salvata in Chrome, che apre un volume VeraCrypt. Flag oscurate." data-en="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted." content="Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted."/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/og.png"/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup",
+  "description": "Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome's saved password, which opens a VeraCrypt vault. Flags redacted.",
+  "image": [
+    "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/og.png"
+  ],
+  "datePublished": "2026-08-09T18:00:00+02:00",
+  "dateModified": "2026-08-09T18:00:00+02:00",
+  "inLanguage": "en",
+  "articleSection": "CTF",
+  "keywords": "Management Wants a Word, TryHackMe, Hacker Holidays 2026, Day 14, Byte Lotus Hotel, DPAPI, LSA secrets, DefaultPassword, autologon, Chrome Login Data, VeraCrypt, AES-XTS, KAPE, Windows forensics, writeup, walkthrough, writeup ITA",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/"
+  },
+  "url": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/paolocostanzoit/",
+      "https://github.com/paolocostanzo",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "TryHackMe — Management Wants a Word"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "CTF",
+      "item": "https://paolocostanzo.github.io/ctf/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Hacker Holidays 2026",
+      "item": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Management Wants a Word",
+      "item": "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/"
+    }
+  ]
+}
+  </script>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="/ctf/hacker-holidays-2026/" data-it="← Hacker Holidays 2026" data-en="← Hacker Holidays 2026">← Hacker Holidays 2026</a>
+      <div class="logo"><span class="dim">nonè@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle">
+        <button class="lang-btn" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+  <nav class="crumb" aria-label="breadcrumb"><a href="/ctf/">CTF</a> / <a href="/ctf/hacker-holidays-2026/">Hacker Holidays 2026</a> / <span class="here">Management Wants a Word</span></nav>
+  <main>
+  <article>
+  <div class="article-header">
+  <div class="kicker" data-it="// la chiave del vault era nel registro" data-en="// the vault key was in the registry">// the vault key was in the registry</div>
+  <h1 data-it="Management Wants a Word: la chiave del vault era nel registro — TryHackMe Hacker Holidays 2026, Day 14" data-en="Management Wants a Word: the vault key was in the registry all along — TryHackMe Hacker Holidays 2026, Day 14">Management Wants a Word: the vault key was in the registry all along — TryHackMe Hacker Holidays 2026, Day 14</h1>
+  <div class="article-meta">
+    <span class="tag">Forensics</span><span class="tag">TryHackMe</span>
+    <time class="meta-item" datetime="2026-08-09" data-it="09 Ago 2026" data-en="09 Aug 2026">09 Aug 2026</time>
+    <span class="meta-item" data-it="11 min di lettura" data-en="11 min read">11 min read</span>
+    <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span>Medium</span></span>
+  </div>
+  <div class="tldr">
+    <div class="tldr-label" data-it="// in breve" data-en="// tl;dr">// tl;dr</div>
+    <p data-it="Una raccolta KAPE dalla workstation di VERA. Chrome ha salvato la password di un portale che non puoi leggere, ma Windows tiene in chiaro la password di autologon in un segreto LSA — e quella basta a srotolare DPAPI fino in fondo. La password recuperata apre un file da 100 MiB che sembra rumore puro ed è un volume VeraCrypt. Dentro, la flag è dipinta dentro una fattura: in tutta la raccolta la stringa THM{ non compare mai." data-en="A KAPE triage from VERA's workstation. Chrome saved a portal password you cannot read, but Windows keeps the autologon password in cleartext in an LSA secret — and that is enough to unwind DPAPI all the way. The recovered password opens a 100 MiB file that looks like pure noise and is a VeraCrypt volume. Inside, the flag is painted into an invoice: the string THM{ appears nowhere in the whole collection.">A KAPE triage from VERA's workstation. Chrome saved a portal password you cannot read, but Windows keeps the autologon password in cleartext in an LSA secret — and that is enough to unwind DPAPI all the way. The recovered password opens a 100 MiB file that looks like pure noise and is a VeraCrypt volume. Inside, the flag is painted into an invoice: the string THM{ appears nowhere in the whole collection.</p>
+  </div>
+  <div class="article-body">
+  <div class="callout">
+    <div class="callout-label" data-it="// prima di iniziare" data-en="// before you start">// before you start</div>
+    <p data-it="Questa room non ha una macchina da attaccare: si scarica un archivio e si lavora offline. Tutti i comandi girano &lt;strong&gt;sulla tua macchina&lt;/strong&gt;. Servono &lt;code&gt;impacket&lt;/code&gt;, &lt;code&gt;pypykatz&lt;/code&gt;, &lt;code&gt;sleuthkit&lt;/code&gt; e &lt;code&gt;python3&lt;/code&gt; con &lt;code&gt;cryptography&lt;/code&gt; e &lt;code&gt;Pillow&lt;/code&gt;. Il percorso &lt;code&gt;KAPE/C/&lt;/code&gt; qui sotto è la radice dell'archivio estratto." data-en="There is no box to attack here: you download an archive and work offline. Every command runs &lt;strong&gt;on your own machine&lt;/strong&gt;. You need &lt;code&gt;impacket&lt;/code&gt;, &lt;code&gt;pypykatz&lt;/code&gt;, &lt;code&gt;sleuthkit&lt;/code&gt;, and &lt;code&gt;python3&lt;/code&gt; with &lt;code&gt;cryptography&lt;/code&gt; and &lt;code&gt;Pillow&lt;/code&gt;. The &lt;code&gt;KAPE/C/&lt;/code&gt; path below is the root of the extracted archive.">There is no box to attack here: you download an archive and work offline. Every command runs <strong>on your own machine</strong>. You need <code>impacket</code>, <code>pypykatz</code>, <code>sleuthkit</code>, and <code>python3</code> with <code>cryptography</code> and <code>Pillow</code>. The <code>KAPE/C/</code> path below is the root of the extracted archive.</p>
+  </div>
+  <h2 data-it="[01] Cosa c'è davvero nell'archivio" data-en="[01] What the collection actually is" id="s01">[01] What the collection actually is</h2>
+  <p data-it="È una raccolta KAPE: hive di registro da &lt;code&gt;C/Windows/System32/config&lt;/code&gt; e il profilo utente da &lt;code&gt;C/Users/vera&lt;/code&gt;. Nessun EVTX, nessun &lt;code&gt;$MFT&lt;/code&gt;, nessun prefetch. Quando mancano i log, restano due sole superfici: il registro e il profilo del browser." data-en="It is a KAPE triage: registry hives from &lt;code&gt;C/Windows/System32/config&lt;/code&gt; and a user profile from &lt;code&gt;C/Users/vera&lt;/code&gt;. No EVTX, no &lt;code&gt;$MFT&lt;/code&gt;, no prefetch. When the logs are missing, two surfaces are left: the registry and the browser profile.">It is a KAPE triage: registry hives from <code>C/Windows/System32/config</code> and a user profile from <code>C/Users/vera</code>. No EVTX, no <code>$MFT</code>, no prefetch. When the logs are missing, two surfaces are left: the registry and the browser profile.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ find KAPE/C -type f | wc -l</span>
+<span class="ok">456</span>
+
+<span class="cmd">$ find KAPE/C -type f -printf '%s %p\n' | sort -rn | head -3</span>
+<span class="ok">104857600  KAPE/C/Users/vera/Documents/backup</span>
+<span class="neutral"> 74854892  .../Chrome For Testing/User Data/optimization_guide_model_store/...</span>
+<span class="neutral"> 70254592  KAPE/C/Windows/System32/config/SOFTWARE</span>
+
+<span class="neutral"># il browser e' "Chrome For Testing": la build da automazione, non quella di un umano</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ find KAPE/C -type f | wc -l</span>
+<span class="ok">456</span>
+
+<span class="cmd">$ find KAPE/C -type f -printf '%s %p\n' | sort -rn | head -3</span>
+<span class="ok">104857600  KAPE/C/Users/vera/Documents/backup</span>
+<span class="neutral"> 74854892  .../Chrome For Testing/User Data/optimization_guide_model_store/...</span>
+<span class="neutral"> 70254592  KAPE/C/Windows/System32/config/SOFTWARE</span>
+
+<span class="neutral"># the browser is "Chrome For Testing": the automation build, not a human's</span></pre></div></div>
+  <p data-it="Il file più grande del profilo si chiama &lt;code&gt;backup&lt;/code&gt;, non ha estensione ed è lungo esattamente 100 MiB. Un file che pesa una potenza di due tonda raramente è un backup." data-en="The biggest file in the profile is called &lt;code&gt;backup&lt;/code&gt;, has no extension, and is exactly 100 MiB long. A file whose size is a round power of two is rarely a backup.">The biggest file in the profile is called <code>backup</code>, has no extension, and is exactly 100 MiB long. A file whose size is a round power of two is rarely a backup.</p>
+  <h2 data-it="[02] Il portale, e una password che non puoi leggere" data-en="[02] The portal, and a password you cannot read" id="s02">[02] The portal, and a password you cannot read</h2>
+  <p data-it="La cronologia di Chrome dice dove andava VERA: un portale interno, e un &lt;code&gt;/login&lt;/code&gt; che una volta ha risposto con un errore." data-en="Chrome's history says where VERA was going: an internal portal, and a &lt;code&gt;/login&lt;/code&gt; that answered with an error once.">Chrome's history says where VERA was going: an internal portal, and a <code>/login</code> that answered with an error once.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ sqlite3 "Default/History" "select url,title from urls"</span>
+<span class="ok">http://bytelotus.thm:8080/        SecureVault Portal</span>
+<span class="neutral">http://bytelotus.thm:8080/login   Error response</span>
+
+<span class="cmd">$ sqlite3 "Default/Login Data" "select origin_url,username_value from logins"</span>
+<span class="ok">http://bytelotus.thm:8080/|VeraSecretVault</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ sqlite3 "Default/History" "select url,title from urls"</span>
+<span class="ok">http://bytelotus.thm:8080/        SecureVault Portal</span>
+<span class="neutral">http://bytelotus.thm:8080/login   Error response</span>
+
+<span class="cmd">$ sqlite3 "Default/Login Data" "select origin_url,username_value from logins"</span>
+<span class="ok">http://bytelotus.thm:8080/|VeraSecretVault</span></pre></div></div>
+  <p data-it="L'utente è in chiaro, la password no. Chrome su Windows la conserva come blob &lt;code&gt;v10&lt;/code&gt;: tre byte di tag, dodici di nonce, poi ciphertext e tag GCM. La chiave AES sta in &lt;code&gt;Local State&lt;/code&gt;, e quella è avvolta in DPAPI — che per un account locale si sblocca solo con la password dell'utente." data-en="The username is in the clear, the password is not. Chrome on Windows stores it as a &lt;code&gt;v10&lt;/code&gt; blob: three tag bytes, twelve of nonce, then ciphertext and a GCM tag. The AES key lives in &lt;code&gt;Local State&lt;/code&gt;, and that one is wrapped in DPAPI — which for a local account only unwraps with the user's password.">The username is in the clear, the password is not. Chrome on Windows stores it as a <code>v10</code> blob: three tag bytes, twelve of nonce, then ciphertext and a GCM tag. The AES key lives in <code>Local State</code>, and that one is wrapped in DPAPI — which for a local account only unwraps with the user's password.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ python3 -c 'import sqlite3;print(sqlite3.connect("Login Data").execute("select password_value from logins").fetchone()[0].hex())'</span>
+<span class="ok">763130</span><span class="neutral">c88a72a64f35f63e883ea0a7f6...</span>
+<span class="neutral">  ^^^^^^ "v10"    12 byte di nonce, poi ciphertext + tag a 16 byte  = 56 byte in tutto</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ python3 -c 'import sqlite3;print(sqlite3.connect("Login Data").execute("select password_value from logins").fetchone()[0].hex())'</span>
+<span class="ok">763130</span><span class="neutral">c88a72a64f35f63e883ea0a7f6...</span>
+<span class="neutral">  ^^^^^^ "v10"    12 nonce bytes, then ciphertext + 16-byte tag  = 56 bytes total</span></pre></div></div>
+  <h2 data-it="[03] Windows la password te la regala" data-en="[03] Windows hands the password over" id="s03">[03] Windows hands the password over</h2>
+  <p data-it="Per sbloccare DPAPI serve la password di &lt;code&gt;vera&lt;/code&gt;. Non serve craccarla: le hive ci sono tutte, e &lt;code&gt;secretsdump&lt;/code&gt; legge anche i segreti LSA." data-en="Unwrapping DPAPI needs &lt;code&gt;vera&lt;/code&gt;'s password. There is nothing to crack: the hives are all here, and &lt;code&gt;secretsdump&lt;/code&gt; reads LSA secrets too.">Unwrapping DPAPI needs <code>vera</code>'s password. There is nothing to crack: the hives are all here, and <code>secretsdump</code> reads LSA secrets too.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ impacket-secretsdump -sam SAM -system SYSTEM -security SECURITY LOCAL</span>
+<span class="neutral">[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)</span>
+<span class="neutral">vera:1000:aad3b435b51404eeaad3b435b51404ee:1241186a4aac4f34f4bf7ace71b396a8:::</span>
+<span class="neutral">[*] Dumping LSA Secrets</span>
+<span class="neutral">[*] DefaultPassword</span>
+<span class="ok">(Unknown User):minivera</span>
+
+<span class="cmd">$ python3 -c 'import hashlib;print(hashlib.new("md4","minivera".encode("utf-16le")).hexdigest())'</span>
+<span class="ok">1241186a4aac4f34f4bf7ace71b396a8</span><span class="neutral">   # combacia con l'hash NT di vera</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ impacket-secretsdump -sam SAM -system SYSTEM -security SECURITY LOCAL</span>
+<span class="neutral">[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)</span>
+<span class="neutral">vera:1000:aad3b435b51404eeaad3b435b51404ee:1241186a4aac4f34f4bf7ace71b396a8:::</span>
+<span class="neutral">[*] Dumping LSA Secrets</span>
+<span class="neutral">[*] DefaultPassword</span>
+<span class="ok">(Unknown User):minivera</span>
+
+<span class="cmd">$ python3 -c 'import hashlib;print(hashlib.new("md4","minivera".encode("utf-16le")).hexdigest())'</span>
+<span class="ok">1241186a4aac4f34f4bf7ace71b396a8</span><span class="neutral">   # matches vera's NT hash</span></pre></div></div>
+  <div class="callout-red">
+    <div class="callout-label" data-it="// il punto della room" data-en="// this is the room">// this is the room</div>
+    <p data-it="&lt;code&gt;DefaultPassword&lt;/code&gt; è il segreto LSA che Windows scrive quando abiliti l'autologon. Non è un hash: è la password in chiaro, nella hive SECURITY, perché il sistema deve poterla rileggere a ogni avvio. Chi ha configurato quel chiosco ha barattato una comodità per l'intera catena di segreti dell'utente." data-en="&lt;code&gt;DefaultPassword&lt;/code&gt; is the LSA secret Windows writes when you enable autologon. It is not a hash: it is the cleartext password, sitting in the SECURITY hive, because the system has to read it back at every boot. Whoever set that kiosk up traded one convenience for the user's entire chain of secrets."><code>DefaultPassword</code> is the LSA secret Windows writes when you enable autologon. It is not a hash: it is the cleartext password, sitting in the SECURITY hive, because the system has to read it back at every boot. Whoever set that kiosk up traded one convenience for the user's entire chain of secrets.</p>
+  </div>
+  <h2 data-it="[04] Srotolare DPAPI" data-en="[04] Unwinding DPAPI" id="s04">[04] Unwinding DPAPI</h2>
+  <p data-it="Da qui è meccanico: la password e il SID producono le prekey, le prekey aprono la masterkey dell'utente, la masterkey apre la chiave di Chrome, la chiave di Chrome decifra il blob." data-en="From here it is mechanical: password and SID produce the prekeys, the prekeys open the user's masterkey, the masterkey opens Chrome's key, and Chrome's key decrypts the blob.">From here it is mechanical: password and SID produce the prekeys, the prekeys open the user's masterkey, the masterkey opens Chrome's key, and Chrome's key decrypts the blob.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="neutral"># il SID e' il nome della cartella sotto AppData/Roaming/Microsoft/Protect/</span>
+<span class="cmd">$ SID=S-1-5-21-2529683458-431225740-1723070931-1000</span>
+<span class="cmd">$ pypykatz dpapi prekey password "$SID" 'minivera' -o prekeys.txt</span>
+<span class="cmd">$ pypykatz dpapi masterkey "Protect/$SID/c90719ef-5b98-474e-b934-136d606a702a" \</span>
+<span class="cmd">      prekeys.txt -o masterkeys.json</span>
+
+<span class="cmd">$ pypykatz dpapi chrome masterkeys.json "User Data/Local State" \</span>
+<span class="cmd">      --logindata "User Data/Default/Login Data"</span>
+<span class="ok">user: VeraSecretVault  pass: </span><span class="danger">Wh4t1sV3raD0inG0nTh1sH0st</span>
+<span class="neutral">  url: http://bytelotus.thm:8080/login</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="neutral"># the SID is the folder name under AppData/Roaming/Microsoft/Protect/</span>
+<span class="cmd">$ SID=S-1-5-21-2529683458-431225740-1723070931-1000</span>
+<span class="cmd">$ pypykatz dpapi prekey password "$SID" 'minivera' -o prekeys.txt</span>
+<span class="cmd">$ pypykatz dpapi masterkey "Protect/$SID/c90719ef-5b98-474e-b934-136d606a702a" \</span>
+<span class="cmd">      prekeys.txt -o masterkeys.json</span>
+
+<span class="cmd">$ pypykatz dpapi chrome masterkeys.json "User Data/Local State" \</span>
+<span class="cmd">      --logindata "User Data/Default/Login Data"</span>
+<span class="ok">user: VeraSecretVault  pass: </span><span class="danger">Wh4t1sV3raD0inG0nTh1sH0st</span>
+<span class="neutral">  url: http://bytelotus.thm:8080/login</span></pre></div></div>
+  <p data-it="La password, letta ad alta voce, è la domanda che dà il titolo alla room: &lt;em&gt;what is Vera doing on this host&lt;/em&gt;." data-en="Read out loud, the password is the question the room is named after: &lt;em&gt;what is Vera doing on this host&lt;/em&gt;.">Read out loud, the password is the question the room is named after: <em>what is Vera doing on this host</em>.</p>
+  <h2 data-it="[05] 100 MiB che non sono un file" data-en="[05] 100 MiB that is not a file" id="s05">[05] 100 MiB that is not a file</h2>
+  <p data-it="Torniamo a &lt;code&gt;backup&lt;/code&gt;. &lt;code&gt;file&lt;/code&gt; dice solo «data». L'entropia dice molto di più." data-en="Back to &lt;code&gt;backup&lt;/code&gt;. &lt;code&gt;file&lt;/code&gt; just says &quot;data&quot;. The entropy says a lot more.">Back to <code>backup</code>. <code>file</code> just says "data". The entropy says a lot more.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ python3 - <<'EOF'</span>
+<span class="neutral">import math,collections</span>
+<span class="neutral">f=open("backup","rb")</span>
+<span class="neutral">for i in range(100):</span>
+<span class="neutral">    b=f.read(1024*1024); c=collections.Counter(b)</span>
+<span class="neutral">    print(round(-sum((v/len(b))*math.log2(v/len(b)) for v in c.values()),2), end=" ")</span>
+<span class="cmd">EOF</span>
+<span class="ok">8.0 8.0 8.0 8.0 8.0 ... 8.0</span><span class="neutral">   # tutti e 100 i blocchi</span>
+
+<span class="neutral"># 8.00 su tutto il file: niente header, niente struttura, niente ripetizioni.</span>
+<span class="neutral"># Un archivio compresso avrebbe comunque un header. Questo e' un container.</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ python3 - <<'EOF'</span>
+<span class="neutral">import math,collections</span>
+<span class="neutral">f=open("backup","rb")</span>
+<span class="neutral">for i in range(100):</span>
+<span class="neutral">    b=f.read(1024*1024); c=collections.Counter(b)</span>
+<span class="neutral">    print(round(-sum((v/len(b))*math.log2(v/len(b)) for v in c.values()),2), end=" ")</span>
+<span class="cmd">EOF</span>
+<span class="ok">8.0 8.0 8.0 8.0 8.0 ... 8.0</span><span class="neutral">   # all 100 blocks</span>
+
+<span class="neutral"># 8.00 across the whole file: no header, no structure, no repetition.</span>
+<span class="neutral"># A compressed archive would still have a header. This is a container.</span></pre></div></div>
+  <p data-it="Un volume VeraCrypt è indistinguibile da rumore per costruzione: nessun magic in chiaro, il salt è i primi 64 byte e tutto il resto è cifrato. Si prova la password che abbiamo appena recuperato." data-en="A VeraCrypt volume is indistinguishable from noise by design: no cleartext magic, the salt is the first 64 bytes and everything else is encrypted. So you try the password you just recovered.">A VeraCrypt volume is indistinguishable from noise by design: no cleartext magic, the salt is the first 64 bytes and everything else is encrypted. So you try the password you just recovered.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ printf '%s' 'Wh4t1sV3raD0inG0nTh1sH0st' | cryptsetup tcryptDump --veracrypt --key-file=- backup</span>
+<span class="ok">VERACRYPT header information for backup</span>
+<span class="ok">Version:        5</span>
+<span class="ok">PBKDF2 hash:    sha512</span>
+<span class="ok">Cipher chain:   aes</span>
+<span class="ok">Cipher mode:    xts-plain64</span>
+<span class="ok">MK offset:      131072</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ printf '%s' 'Wh4t1sV3raD0inG0nTh1sH0st' | cryptsetup tcryptDump --veracrypt --key-file=- backup</span>
+<span class="ok">VERACRYPT header information for backup</span>
+<span class="ok">Version:        5</span>
+<span class="ok">PBKDF2 hash:    sha512</span>
+<span class="ok">Cipher chain:   aes</span>
+<span class="ok">Cipher mode:    xts-plain64</span>
+<span class="ok">MK offset:      131072</span></pre></div></div>
+  <h2 data-it="[06] Aprirlo senza essere root" data-en="[06] Opening it without root" id="s06">[06] Opening it without root</h2>
+  <p data-it="&lt;code&gt;cryptsetup open&lt;/code&gt; vuole device-mapper, quindi root. Se non ce l'hai — o non vuoi montare niente su una macchina d'analisi — il formato è documentato abbastanza da fare tutto offline: PBKDF2-HMAC-SHA512 sul salt, AES-XTS sull'header, master key all'offset 192 dell'header decifrato." data-en="&lt;code&gt;cryptsetup open&lt;/code&gt; wants device-mapper, so root. If you do not have it — or you would rather not mount anything on an analysis box — the format is documented well enough to do it all offline: PBKDF2-HMAC-SHA512 over the salt, AES-XTS over the header, master keys at offset 192 of the decrypted header."><code>cryptsetup open</code> wants device-mapper, so root. If you do not have it — or you would rather not mount anything on an analysis box — the format is documented well enough to do it all offline: PBKDF2-HMAC-SHA512 over the salt, AES-XTS over the header, master keys at offset 192 of the decrypted header.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="neutral">from cryptography.hazmat.primitives import hashes</span>
+<span class="neutral">from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes</span>
+<span class="neutral">from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC</span>
+
+<span class="neutral">head = open("backup","rb").read(512)</span>
+<span class="neutral">salt, enc = head[:64], head[64:512]</span>
+<span class="neutral">hk = PBKDF2HMAC(hashes.SHA512(), 64, salt, 500_000).derive(b"Wh4t1sV3raD0inG0nTh1sH0st")</span>
+
+<span class="neutral">def xts(key, data, unit):</span>
+<span class="neutral">    c = Cipher(algorithms.AES(key), modes.XTS(unit.to_bytes(16,"little"))).decryptor()</span>
+<span class="neutral">    return c.update(data) + c.finalize()</span>
+
+<span class="neutral">dec = xts(hk, enc, 0)</span>
+<span class="neutral">assert dec[:4] == b"VERA"</span>
+<span class="neutral">keys  = dec[192:192+64]         </span><span class="warn"># primaria || secondaria</span>
+<span class="neutral">start = int.from_bytes(dec[44:52], "big")   </span><span class="ok"># 131072</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="neutral">from cryptography.hazmat.primitives import hashes</span>
+<span class="neutral">from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes</span>
+<span class="neutral">from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC</span>
+
+<span class="neutral">head = open("backup","rb").read(512)</span>
+<span class="neutral">salt, enc = head[:64], head[64:512]</span>
+<span class="neutral">hk = PBKDF2HMAC(hashes.SHA512(), 64, salt, 500_000).derive(b"Wh4t1sV3raD0inG0nTh1sH0st")</span>
+
+<span class="neutral">def xts(key, data, unit):</span>
+<span class="neutral">    c = Cipher(algorithms.AES(key), modes.XTS(unit.to_bytes(16,"little"))).decryptor()</span>
+<span class="neutral">    return c.update(data) + c.finalize()</span>
+
+<span class="neutral">dec = xts(hk, enc, 0)</span>
+<span class="neutral">assert dec[:4] == b"VERA"</span>
+<span class="neutral">keys  = dec[192:192+64]         </span><span class="warn"># primary || secondary</span>
+<span class="neutral">start = int.from_bytes(dec[44:52], "big")   </span><span class="ok"># 131072</span></pre></div></div>
+  <div class="callout-red">
+    <div class="callout-label" data-it="// il dettaglio che fa perdere un'ora" data-en="// the detail that costs you an hour">// the detail that costs you an hour</div>
+    <p data-it="L'header si decifra con data unit 0, e viene la tentazione di ripartire da 0 anche per l'area dati. Non è così: il numero di data unit XTS &lt;strong&gt;continua a contare dall'inizio del volume&lt;/strong&gt;. Il primo settore dei dati è l'unit &lt;code&gt;131072 / 512 = 256&lt;/code&gt;. Sbagliarlo non dà errore: restituisce rumore, identico a una password errata." data-en="The header decrypts with data unit 0, and it is tempting to restart from 0 for the data area too. It does not: the XTS data unit number &lt;strong&gt;keeps counting from the start of the volume&lt;/strong&gt;. The first data sector is unit &lt;code&gt;131072 / 512 = 256&lt;/code&gt;. Getting it wrong throws no error: it returns noise, indistinguishable from a wrong password.">The header decrypts with data unit 0, and it is tempting to restart from 0 for the data area too. It does not: the XTS data unit number <strong>keeps counting from the start of the volume</strong>. The first data sector is unit <code>131072 / 512 = 256</code>. Getting it wrong throws no error: it returns noise, indistinguishable from a wrong password.</p>
+  </div>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ python3 vcdec.py backup 'Wh4t1sV3raD0inG0nTh1sH0st' vault.img</span>
+<span class="cmd">$ file vault.img</span>
+<span class="ok">vault.img: DOS/MBR boot sector, OEM-ID "MSDOS5.0", FAT (32 bit), sectors 204288</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ python3 vcdec.py backup 'Wh4t1sV3raD0inG0nTh1sH0st' vault.img</span>
+<span class="cmd">$ file vault.img</span>
+<span class="ok">vault.img: DOS/MBR boot sector, OEM-ID "MSDOS5.0", FAT (32 bit), sectors 204288</span></pre></div></div>
+  <h2 data-it="[07] Dentro il vault" data-en="[07] Inside the vault" id="s07">[07] Inside the vault</h2>
+  <div class="lang-it"><div class="code-block"><pre><span class="cmd">$ fls -r -p vault.img</span>
+<span class="warn">d/d * 4:   New folder</span><span class="neutral">        <- cancellata</span>
+<span class="neutral">d/d   5:   $RECYCLE.BIN</span>
+<span class="ok">d/d   8:   secret_financial_documents</span>
+<span class="ok">r/r  40:   secret_financial_documents/important_invoice_byte_lotus.pdf</span>
+<span class="ok">r/r  43:   secret_financial_documents/transactions_q3.csv</span>
+
+<span class="cmd">$ icat vault.img 43</span>
+<span class="neutral">Date,Reference,Vendor,Description,Amount,Status</span>
+<span class="neutral">2026-07-02,TXN-10481,Byte Lotus Catering,Staff refreshments,842.16,Approved</span>
+<span class="warn">2026-07-12,TXN-10531,Internal Adjustment,Image asset correction,0.00,Archived</span>
+<span class="neutral">2026-07-15,TXN-10547,Byte Lotus Resorts,Guest accommodation,3840.00,Approved</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="cmd">$ fls -r -p vault.img</span>
+<span class="warn">d/d * 4:   New folder</span><span class="neutral">        <- deleted</span>
+<span class="neutral">d/d   5:   $RECYCLE.BIN</span>
+<span class="ok">d/d   8:   secret_financial_documents</span>
+<span class="ok">r/r  40:   secret_financial_documents/important_invoice_byte_lotus.pdf</span>
+<span class="ok">r/r  43:   secret_financial_documents/transactions_q3.csv</span>
+
+<span class="cmd">$ icat vault.img 43</span>
+<span class="neutral">Date,Reference,Vendor,Description,Amount,Status</span>
+<span class="neutral">2026-07-02,TXN-10481,Byte Lotus Catering,Staff refreshments,842.16,Approved</span>
+<span class="warn">2026-07-12,TXN-10531,Internal Adjustment,Image asset correction,0.00,Archived</span>
+<span class="neutral">2026-07-15,TXN-10547,Byte Lotus Resorts,Guest accommodation,3840.00,Approved</span></pre></div></div>
+  <p data-it="Una riga non è come le altre: importo zero, stato &lt;em&gt;Archived&lt;/em&gt;, e una descrizione che parla di un'immagine invece che di una spesa. È il cartello che indica dove guardare." data-en="One row is not like the others: zero amount, &lt;em&gt;Archived&lt;/em&gt; status, and a description about an image rather than an expense. It is the signpost for where to look.">One row is not like the others: zero amount, <em>Archived</em> status, and a description about an image rather than an expense. It is the signpost for where to look.</p>
+  <p data-it="La cartella cancellata, invece, è un vicolo cieco: le voci di directory non ci sono più e lo spazio non allocato è pulito. Vale la pena verificarlo invece di darlo per scontato — &lt;code&gt;blkls vault.img&lt;/code&gt; restituisce 103 MB senza una sola stringa utile." data-en="The deleted folder, on the other hand, is a dead end: its directory entries are gone and the unallocated space is clean. Worth checking rather than assuming — &lt;code&gt;blkls vault.img&lt;/code&gt; returns 103 MB without a single useful string.">The deleted folder, on the other hand, is a dead end: its directory entries are gone and the unallocated space is clean. Worth checking rather than assuming — <code>blkls vault.img</code> returns 103 MB without a single useful string.</p>
+  <h2 data-it="[08] La flag è fatta di pixel" data-en="[08] The flag is made of pixels" id="s08">[08] The flag is made of pixels</h2>
+  <p data-it="Il PDF non contiene testo: contiene un'immagine. L'oggetto 1 è un &lt;code&gt;/Image&lt;/code&gt; FlateDecode 636×724 a 8 bit per componente, e 636 × 724 × 3 = 1.381.392, cioè esattamente i byte che escono dalla decompressione. È RGB grezzo, basta impacchettarlo." data-en="The PDF holds no text: it holds an image. Object 1 is a FlateDecode &lt;code&gt;/Image&lt;/code&gt;, 636×724, 8 bits per component, and 636 × 724 × 3 = 1,381,392 — exactly the number of bytes that come out of the decompression. It is raw RGB, so you just wrap it.">The PDF holds no text: it holds an image. Object 1 is a FlateDecode <code>/Image</code>, 636×724, 8 bits per component, and 636 × 724 × 3 = 1,381,392 — exactly the number of bytes that come out of the decompression. It is raw RGB, so you just wrap it.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="neutral">import re, zlib</span>
+<span class="neutral">from PIL import Image</span>
+<span class="neutral">d = open("important_invoice_byte_lotus.pdf","rb").read()</span>
+<span class="neutral">m = re.search(rb"/Subtype\s*/Image.*?stream\r?\n(.*?)endstream", d, re.S)</span>
+<span class="neutral">raw = zlib.decompress(m.group(1))</span>
+<span class="neutral">Image.frombytes("RGB", (636,724), raw).save("invoice.png")</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="neutral">import re, zlib</span>
+<span class="neutral">from PIL import Image</span>
+<span class="neutral">d = open("important_invoice_byte_lotus.pdf","rb").read()</span>
+<span class="neutral">m = re.search(rb"/Subtype\s*/Image.*?stream\r?\n(.*?)endstream", d, re.S)</span>
+<span class="neutral">raw = zlib.decompress(m.group(1))</span>
+<span class="neutral">Image.frombytes("RGB", (636,724), raw).save("invoice.png")</span></pre></div></div>
+  <p data-it="Viene fuori una fattura della Byte Lotus Resorts. La prima riga della tabella, dove dovrebbe esserci una voce di spesa, contiene la flag." data-en="Out comes a Byte Lotus Resorts invoice. The first row of the table, where a line item should be, contains the flag.">Out comes a Byte Lotus Resorts invoice. The first row of the table, where a line item should be, contains the flag.</p>
+  <div class="lang-it"><div class="code-block"><pre><span class="neutral">NO.  DESCRIPTION                          QTY   PRICE   TOTAL</span>
+<span class="neutral"> 1.  Flag: </span><span class="ok">THM{</span><span class="redaction" aria-label="redacted flag">████████████████████</span><span class="ok">}</span><span class="neutral">    1    $100    $100</span></pre></div></div><div class="lang-en"><div class="code-block"><pre><span class="neutral">NO.  DESCRIPTION                          QTY   PRICE   TOTAL</span>
+<span class="neutral"> 1.  Flag: </span><span class="ok">THM{</span><span class="redaction" aria-label="redacted flag">████████████████████</span><span class="ok">}</span><span class="neutral">    1    $100    $100</span></pre></div></div>
+  <div class="callout">
+    <div class="callout-label" data-it="// leggerla senza sbagliarla" data-en="// reading it without getting it wrong">// reading it without getting it wrong</div>
+    <p data-it="Una flag renderizzata a 636 px di larghezza è piena di trappole: &lt;code&gt;l&lt;/code&gt; contro &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;0&lt;/code&gt; contro &lt;code&gt;o&lt;/code&gt;. Invece di indovinare conviene misurare i glifi. Nella stessa riga c'è &lt;code&gt;$100&lt;/code&gt;, stesso font e stesso corpo: il carattere dubbio dopo la &lt;code&gt;A&lt;/code&gt; è largo 2 px e alto 8, identico alla &lt;code&gt;l&lt;/code&gt; di «Flag» a inizio riga, quindi è una elle minuscola. Il glifo tondo è alto 8 e non 6: è altezza di cifra, non altezza-x, quindi è uno zero e non una o." data-en="A flag rendered at 636 px wide is full of traps: &lt;code&gt;l&lt;/code&gt; versus &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;0&lt;/code&gt; versus &lt;code&gt;o&lt;/code&gt;. Rather than guessing, measure the glyphs. The same row carries &lt;code&gt;$100&lt;/code&gt; in the same font at the same size: the doubtful character after the &lt;code&gt;A&lt;/code&gt; is 2 px wide and 8 tall, identical to the &lt;code&gt;l&lt;/code&gt; in &quot;Flag&quot; at the start of the line, so it is a lowercase L. The round glyph is 8 tall, not 6 — digit height, not x-height — so it is a zero, not an o.">A flag rendered at 636 px wide is full of traps: <code>l</code> versus <code>1</code>, <code>0</code> versus <code>o</code>. Rather than guessing, measure the glyphs. The same row carries <code>$100</code> in the same font at the same size: the doubtful character after the <code>A</code> is 2 px wide and 8 tall, identical to the <code>l</code> in "Flag" at the start of the line, so it is a lowercase L. The round glyph is 8 tall, not 6 — digit height, not x-height — so it is a zero, not an o.</p>
+  </div>
+  <div class="callout-green">
+    <div class="callout-label" data-it="// nota" data-en="// note">// note</div>
+    <p data-it="In tutta la raccolta la stringa &lt;code&gt;THM{&lt;/code&gt; non compare mai, in nessuna codifica. Non esiste una scorciatoia con &lt;code&gt;grep -r&lt;/code&gt;: la flag esiste solo dopo aver decifrato il container, ed è dentro un'immagine dentro un PDF. È una room costruita perché la catena vada percorsa tutta." data-en="The string &lt;code&gt;THM{&lt;/code&gt; never appears anywhere in the collection, in any encoding. There is no &lt;code&gt;grep -r&lt;/code&gt; shortcut: the flag only exists after the container is decrypted, and it sits inside an image inside a PDF. This room is built so the chain has to be walked end to end.">The string <code>THM{</code> never appears anywhere in the collection, in any encoding. There is no <code>grep -r</code> shortcut: the flag only exists after the container is decrypted, and it sits inside an image inside a PDF. This room is built so the chain has to be walked end to end.</p>
+  </div>
+  <h2 data-it="[09] Difesa" data-en="[09] Defense" id="s09">[09] Defense</h2>
+  <table>
+    <thead><tr>
+      <th data-it="Debolezza" data-en="Weakness">Weakness</th>
+      <th data-it="Perché è costata tutto" data-en="Why it cost everything">Why it cost everything</th>
+      <th data-it="Correzione" data-en="Fix">Fix</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><code>DefaultPassword</code></td>
+        <td data-it="L'autologon scrive la password in chiaro nella hive SECURITY. Chi legge quella hive ha la password, non un hash da craccare." data-en="Autologon writes the password in cleartext into the SECURITY hive. Anyone who reads that hive has the password, not a hash to crack.">Autologon writes the password in cleartext into the SECURITY hive. Anyone who reads that hive has the password, not a hash to crack.</td>
+        <td data-it="Niente autologon sulle macchine che tengono segreti. Se serve davvero, usa un account senza privilegi e senza DPAPI da proteggere." data-en="No autologon on machines that hold secrets. If it is truly needed, use an account with no privileges and no DPAPI material worth taking.">No autologon on machines that hold secrets. If it is truly needed, use an account with no privileges and no DPAPI material worth taking.</td>
+      </tr>
+      <tr>
+        <td data-it="Password salvate nel browser" data-en="Browser-saved passwords">Browser-saved passwords</td>
+        <td data-it="La cifratura di Chrome vale quanto la password dell'utente: recuperata quella, il blob v10 si apre da solo." data-en="Chrome's encryption is worth exactly as much as the user's password: once that is recovered, the v10 blob opens on its own.">Chrome's encryption is worth exactly as much as the user's password: once that is recovered, the v10 blob opens on its own.</td>
+        <td data-it="Password manager separato per le credenziali di servizio, e nessun salvataggio nel profilo di un account di automazione." data-en="A separate password manager for service credentials, and no saving into the profile of an automation account.">A separate password manager for service credentials, and no saving into the profile of an automation account.</td>
+      </tr>
+      <tr>
+        <td data-it="Riuso della password" data-en="Password reuse">Password reuse</td>
+        <td data-it="La stessa password apre il portale e il volume VeraCrypt: un solo recupero, due sistemi." data-en="The same password opens the portal and the VeraCrypt volume: one recovery, two systems.">The same password opens the portal and the VeraCrypt volume: one recovery, two systems.</td>
+        <td data-it="Chiavi distinte per il contenitore e per l'applicazione, e keyfile invece della sola passphrase dove il dato lo merita." data-en="Distinct keys for the container and for the application, and a keyfile rather than a passphrase alone where the data deserves it.">Distinct keys for the container and for the application, and a keyfile rather than a passphrase alone where the data deserves it.</td>
+      </tr>
+      <tr>
+        <td data-it="Raccolta di triage" data-en="Triage collection">Triage collection</td>
+        <td data-it="Una raccolta KAPE contiene le hive e il profilo: da sola basta a ricostruire tutti i segreti dell'utente." data-en="A KAPE collection carries the hives and the profile: on its own it is enough to reconstruct every secret the user had.">A KAPE collection carries the hives and the profile: on its own it is enough to reconstruct every secret the user had.</td>
+        <td data-it="Trattare le raccolte forensi come materiale da credenziali: cifrate a riposo, accesso tracciato, cancellazione a scadenza." data-en="Treat forensic collections as credential material: encrypted at rest, access logged, deleted on a schedule.">Treat forensic collections as credential material: encrypted at rest, access logged, deleted on a schedule.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 data-it="[10] Nota di metodo" data-en="[10] Method note" id="s10">[10] Method note</h2>
+  <p data-it="Due volte, in questa room, ho scambiato dati cifrati per dati corrotti. La prima con &lt;code&gt;backup&lt;/code&gt;: entropia 8.00 non significa «file rotto», significa «container», e l'ho capito solo misurandola invece di guardare l'output di &lt;code&gt;file&lt;/code&gt;. La seconda con l'area dati del volume: la numerazione XTS sbagliata restituisce rumore esattamente come una password sbagliata, e per qualche minuto ho creduto che la password fosse quella sbagliata." data-en="Twice in this room I mistook encrypted data for corrupted data. First with &lt;code&gt;backup&lt;/code&gt;: entropy 8.00 does not mean &quot;broken file&quot;, it means &quot;container&quot;, and I only saw it by measuring instead of reading what &lt;code&gt;file&lt;/code&gt; said. Then with the volume's data area: the wrong XTS numbering returns noise in exactly the same way a wrong password does, and for a few minutes I believed the password was the problem.">Twice in this room I mistook encrypted data for corrupted data. First with <code>backup</code>: entropy 8.00 does not mean "broken file", it means "container", and I only saw it by measuring instead of reading what <code>file</code> said. Then with the volume's data area: the wrong XTS numbering returns noise in exactly the same way a wrong password does, and for a few minutes I believed the password was the problem.</p>
+  <p data-it="Il fumetto della room dice che VERA era il concierge, il manager e il team di escalation, tutti e tre insieme. La parte forense racconta la stessa cosa da un'altra angolazione: un solo host, un solo account, un solo segreto — e tutto il resto viene da lì." data-en="The room's comic says VERA was the concierge, the manager and the escalation team, all at once. The forensic half tells the same story from another angle: one host, one account, one secret — and everything else follows from it.">The room's comic says VERA was the concierge, the manager and the escalation team, all at once. The forensic half tells the same story from another angle: one host, one account, one secret — and everything else follows from it.</p>
+</div><!-- /article-body -->
+  </article>
+  </main>
+
+  <div class="share-wrap">
+    <span class="share-lbl" data-it="// condividi" data-en="// share">// share</span>
+    <div class="share-btns">
+      <a class="share-btn" href="https://x.com/intent/tweet?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fthe-guestbook%2F&via=PaoloCostanzoit" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fpaolocostanzo.github.io%2Fctf%2Fhacker-holidays-2026%2Fthe-guestbook%2F" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="share-btn" onclick="copyLink(this)" data-it="copia link" data-en="copy link">copy link</button>
+    </div>
+  </div>
+
+  <aside class="author-box">
+    <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
+    <div class="ab-name">Paolo Costanzo</div>
+    <div class="ab-role" data-it="Ricercatore indipendente di sicurezza · Co-Founder &amp;amp; CEO @ CoDe RTD · Docente di Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte" data-en="Independent Security Researcher · Co-Founder &amp;amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp;amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+    <p class="ab-bio" data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile." data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
+    <div class="ab-links">
+      <a class="ab-cta" data-it="Scrivimi →" data-en="Get in touch →" href="mailto:me@paolocostanzo.com">Get in touch →</a>
+      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </aside>
+  <div class="article-footer">
+    <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← all event writeups</a>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorized lab, for educational purposes">© 2026 NonèCostanzo — authorized lab, for educational purposes</span>
+  </div>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+  <script>
+    function setLang(lang){
+      document.querySelectorAll('[data-'+lang+']').forEach(el=>{const val=el.getAttribute('data-'+lang);
+        if(el.tagName==='META'){el.setAttribute('content',val);}else if(el.tagName==='TITLE'){document.title=val;}else{el.innerHTML=val;}});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.toLowerCase()===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+      document.querySelectorAll('.lang-it').forEach(el=>el.style.display=lang==='it'?'block':'none');
+      document.querySelectorAll('.lang-en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+      localStorage.setItem('lang',lang);
+    }
+    function copyLink(btn){const en=document.documentElement.lang==='en';
+      navigator.clipboard.writeText(window.location.href).then(()=>{btn.textContent=en?'copied ✓':'copiato ✓';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=en?'copy link':'copia link';btn.classList.remove('ok');},2000);});}
+    const s=localStorage.getItem('lang'); if(s&&s!=='en')setLang(s);
+    const bar=document.getElementById('read-bar'),bt=document.getElementById('back-top');
+    window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%';bt.classList.toggle('vis',h.scrollTop>400);},{passive:true});
+  </script>
+</body>
+</html>

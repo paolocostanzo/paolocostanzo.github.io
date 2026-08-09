@@ -20,6 +20,16 @@
       <category>Offensive Validation</category>
     </item>
     <item>
+      <title>Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/</guid>
+      <pubDate>Sun, 09 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Day 14 forensics walkthrough: an autologon secret in the SECURITY hive unwinds DPAPI to Chrome&#x27;s saved password, which opens a VeraCrypt vault. Flags redacted.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+    </item>
+    <item>
       <title>The Guestbook — TryHackMe Hacker Holidays 2026 Day 13 Writeup</title>
       <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/</link>
       <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/the-guestbook/</guid>
