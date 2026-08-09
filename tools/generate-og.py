@@ -326,7 +326,7 @@ MANIFEST = {
         "accent": 1,
         "subtitle": "Anonymous Cognito identity pool to dynamodb:Scan on AWS",
         "footer": "CTF writeup · Day 3",
-        "badge": "MEDIUM",
+        "badge": "EASY",
     },
     "hh-packed-light": {
         "out": "ctf/hacker-holidays-2026/packed-light/og.png",
