@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title data-it="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup ITA" data-en="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup">CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup</title>
-  <meta name="description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted."/>
+  <meta name="description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted."/>
   <link rel="canonical" href="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"/>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -117,7 +117,7 @@
   <meta property="og:type" content="article"/>
   <meta property="og:site_name" content="NonèCostanzo — Paolo Costanzo"/>
   <meta property="og:title" data-it="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup ITA" data-en="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup" content="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup"/>
-  <meta property="og:description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted."/>
+  <meta property="og:description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted."/>
   <meta property="og:url" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/"/>
   <meta property="og:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"/>
   <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
@@ -129,14 +129,14 @@
   <meta property="article:section" content="CTF"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" data-it="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup ITA" data-en="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup" content="CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup"/>
-  <meta name="twitter:description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted."/>
+  <meta name="twitter:description" data-it="Walkthrough Day 9: un SAS token Azure over-scoped elenca tutto l'account, container nascosto, Key Vault e il segreto in una vecchia versione. Flag oscurate." data-en="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted." content="Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted."/>
   <meta name="twitter:image" content="https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"/>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
   "headline": "CryptoCabana — TryHackMe Hacker Holidays 2026 Day 9 Writeup",
-  "description": "Day 9 Azure walkthrough: an over-scoped SAS token lists the whole account, a hidden container leads to Key Vault, the flag in an old version. Flags redacted.",
+  "description": "Day 9 Azure walkthrough: an over-scoped SAS token lists the account, a hidden container leads to Key Vault, a flag shard to an older blob. Flags redacted.",
   "image": [
     "https://paolocostanzo.github.io/ctf/hacker-holidays-2026/cryptocabana/og.png"
   ],
@@ -207,7 +207,7 @@
       <span class="meme-tag" data-it="// backup nel cloud, chiavi nel sorgente" data-en="// backups in the cloud, keys in the source">// backups in the cloud, keys in the source</span>
     </div>
     <h1 data-it="CryptoCabana: quando il SAS token dice troppo — TryHackMe Hacker Holidays 2026, Day 9" data-en="CryptoCabana: when the SAS token says too much — TryHackMe Hacker Holidays 2026, Day 9">CryptoCabana: when the SAS token says too much — TryHackMe Hacker Holidays 2026, Day 9</h1>
-    <p class="article-intro" data-it="Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con uno scope tanto largo da lasciarmi elencare l'intero storage account. Da lì in poi è tutta discesa: un container nascosto, un service principal e un Key Vault. Ti racconto come ci sono arrivato, e perché una rotazione senza pulizia non chiude niente." data-en="A kiosk that offers to &quot;safely back up&quot; your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broadly that I could list the entire storage account. From there it's all downhill: a hidden container, a service principal, and a Key Vault. Here's how I got in, and why rotating a secret without cleanup closes nothing.">A kiosk that offers to "safely back up" your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broadly that I could list the entire storage account. From there it's all downhill: a hidden container, a service principal, and a Key Vault. Here's how I got in, and why rotating a secret without cleanup closes nothing.</p>
+    <p class="article-intro" data-it="Un chiosco che ti offre di «mettere al sicuro» la tua seed phrase su Azure: cosa mai potrebbe andare storto? Il sito serve al browser un SAS token con uno scope tanto largo da lasciarmi elencare l'intero storage account. Da lì in poi è tutta discesa: un container nascosto, un service principal e un Key Vault. Ti racconto come ci sono arrivato, e perché una rotazione senza pulizia non chiude niente." data-en="A kiosk that offers to &quot;safely back up&quot; your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broadly that I could list the entire storage account. From there it's plain sailing: a hidden container, a service principal, and a Key Vault. Here's how I got in, and why rotating a secret without cleanup closes nothing.">A kiosk that offers to "safely back up" your seed phrase on Azure: what could possibly go wrong? The site hands the browser a SAS token scoped so broadly that I could list the entire storage account. From there it's plain sailing: a hidden container, a service principal, and a Key Vault. Here's how I got in, and why rotating a secret without cleanup closes nothing.</p>
   </div>
   <div class="article-body">
 
@@ -518,7 +518,7 @@ echo "$OLD_VER"   # e.g. <span class="ok">3d6492d2c6f74123bc754a9ded22b2a0</span
   </aside>
   <div class="article-footer">
     <a data-it="← tutti i writeup dell'evento" data-en="← all event writeups" href="/ctf/hacker-holidays-2026/">← all event writeups</a>
-    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorised lab, for educational purposes">© 2026 NonèCostanzo — authorised lab, for educational purposes</span>
+    <span class="footer-copy" data-it="© 2026 NonèCostanzo — lab autorizzato, per scopi educativi" data-en="© 2026 NonèCostanzo — authorized lab, for educational purposes">© 2026 NonèCostanzo — authorized lab, for educational purposes</span>
   </div>
   <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
   <script>
