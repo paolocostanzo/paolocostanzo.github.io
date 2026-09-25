@@ -12,6 +12,7 @@
 # NOTE: the deploy workflow only strips tools/, README.md, .github/ and .git —
 # anything committed here would go live. _crosspost/ must stay out of the repo.
 _crosspost/
+_redazione/
 social-posts*.md
 Email_e_Prezzi_*.md
 living-off-the-agent-research/

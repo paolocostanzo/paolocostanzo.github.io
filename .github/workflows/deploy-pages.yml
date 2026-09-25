@@ -3,6 +3,15 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Called by publish-scheduled.yml: a push made with GITHUB_TOKEN does not
+  # trigger other workflows, so the scheduled merge has to invoke the deploy.
+  # The caller passes the SHA it just pushed: github.sha would still point at
+  # main as it was when the schedule fired, i.e. without the new post.
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: true
 permissions:
   contents: read
   pages: write
@@ -20,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/configure-pages@v5
       # The site ships only HTML and its assets: tooling and repo-only files
       # stay out of the artifact (same rationale as .gitignore).

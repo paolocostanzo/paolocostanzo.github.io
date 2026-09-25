@@ -1,0 +1,61 @@
+name: Publish scheduled posts
+# A post waiting for its day lives on a branch named post/YYYY-MM-DD-<slug>,
+# already complete (page, OG image, feed, sitemap). Every Tuesday morning the
+# branches whose date has come are fast-forwarded into main and the site is
+# redeployed. A branch that no longer fast-forwards is left alone and reported:
+# nothing is published that was not reviewed exactly as it will go live.
+on:
+  schedule:
+    - cron: '0 6 * * 2'   # Tuesday 06:00 UTC = 08:00 in Italy in summer, 07:00 in winter
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: "publish-scheduled"
+  cancel-in-progress: false
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.merge.outputs.published }}
+      sha: ${{ steps.merge.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: merge
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          today=$(date -u +%F)
+          published=0
+          failed=0
+          for ref in $(git for-each-ref --format='%(refname:short)' 'refs/remotes/origin/post/*' | sort); do
+            branch=${ref#origin/}
+            day=$(echo "$branch" | grep -oE '^post/[0-9]{4}-[0-9]{2}-[0-9]{2}' | cut -d/ -f2)
+            [ -n "$day" ] || { echo "::warning::$branch: name has no date, skipped"; continue; }
+            [[ "$day" > "$today" ]] && { echo "$branch: due $day, not yet"; continue; }
+            if git merge --ff-only "$ref"; then
+              git push origin HEAD:main
+              git push origin --delete "$branch"
+              echo "Published $branch"
+              published=1
+            else
+              echo "::error::$branch does not fast-forward onto main — rebase it and re-run"
+              failed=1
+            fi
+          done
+          echo "published=$published" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          # Fail the run so GitHub e-mails the owner: a post that should have
+          # gone out this morning is still waiting.
+          [ "$failed" = 0 ]
+  deploy:
+    needs: merge
+    # !cancelled(): still deploy what did merge when another branch failed.
+    if: ${{ !cancelled() && needs.merge.outputs.published == '1' }}
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      ref: ${{ needs.merge.outputs.sha }}
