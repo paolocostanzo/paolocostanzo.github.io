@@ -193,6 +193,15 @@ MANIFEST = {
         "footer": "Reproducible lab",
         "badge": "HARD",
     },
+    "outside-the-prompt": {
+        "out": "outside-the-prompt-ai-agent-vulnerabilities-summer-2026/og.png",
+        "kicker": "AGENTIC AI · AI SECURITY · MCP · SUMMER 2026",
+        "title": "OUTSIDE THE PROMPT",
+        "accent": 1,
+        "subtitle": "Ten AI agent vulnerabilities · in seven, the model never had to be fooled",
+        "footer": "Series · part 1 of 5",
+        "badge": "MEDIUM",
+    },
     "oura": {
         "out": "oura-palantir-biometrici/og.png",
         "kicker": "PRIVACY · WEARABLE · OSINT",

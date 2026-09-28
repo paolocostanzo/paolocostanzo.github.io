@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index,follow"/>
+  <title
+    data-it="Fuori dal prompt: le vulnerabilità degli agenti AI dell'estate 2026"
+    data-en="Outside the prompt: AI agent vulnerabilities of summer 2026"
+  >Outside the prompt: AI agent vulnerabilities of summer 2026</title>
+  <meta name="description"
+    data-it="Dieci vulnerabilità di agenti AI rese pubbliche tra giugno e settembre 2026, classificate in base a dove scattano. In sette non è servito ingannare il modello."
+    data-en="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled."
+    content="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Barlow:wght@300;400;600;700&amp;family=Barlow+Condensed:wght@700;900&amp;display=swap" rel="stylesheet"/>
+
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
+  <meta property="og:title" content="Outside the prompt: AI agent vulnerabilities of summer 2026"/>
+  <meta property="og:description" data-it="Dieci vulnerabilità di agenti AI rese pubbliche tra giugno e settembre 2026, classificate in base a dove scattano. In sette non è servito ingannare il modello." data-en="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled." content="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/og.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/og.png"/>
+  <meta name="twitter:title" content="Outside the prompt: AI agent vulnerabilities of summer 2026"/>
+  <meta name="twitter:description" data-it="Dieci vulnerabilità di agenti AI rese pubbliche tra giugno e settembre 2026, classificate in base a dove scattano. In sette non è servito ingannare il modello." data-en="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled." content="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled."/>
+
+  <meta property="article:published_time" content="2026-09-29T08:00:00+02:00"/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Outside the prompt: AI agent vulnerabilities of summer 2026",
+  "image": "https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/og.png",
+  "description": "Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled.",
+  "inLanguage": "en",
+  "datePublished": "2026-09-29",
+  "dateModified": "2026-09-29",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/"
+  },
+  "keywords": "AI agents, agentic AI, AI security, MCP, Model Context Protocol, prompt injection, application security, vulnerability disclosure, trust boundaries",
+  "isAccessibleForFree": true
+}
+  </script>
+
+  <style>
+    :root{
+      --orange:#ff6a00;
+      --orange-faint:rgba(255,106,0,.06);
+      --black:#080808;
+      --surface:#101010;
+      --surface2:#161616;
+      --border:#242424;
+      --text:#e8e8e8;
+      --muted:#777;
+      --green:#00ff88;
+      --red:#ff5555;
+      --yellow:#ffaa00;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .back-link{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:.65rem;padding:.3rem .6rem;background:transparent;color:var(--muted);border:0;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    .draft-ribbon{background:rgba(255,170,0,.08);border-bottom:1px solid rgba(255,170,0,.25);color:var(--yellow);font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-align:center;padding:.55rem 1rem;text-transform:uppercase}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--orange);padding:.2rem .6rem}
+    .meta-item{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+    .difficulty-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+    .auth-wrap{display:flex;align-items:center;gap:.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+    h1{font-family:var(--condensed);font-size:clamp(2.2rem,5vw,3.7rem);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.03;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.12rem;color:#aaa;max-width:790px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);margin:3.4rem 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 .75rem}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body p a,.article-body li a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .article-body p a:hover,.article-body li a:hover{border-bottom-color:var(--orange)}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:#999}
+    .article-body ul,.article-body ol{margin:1rem 0 1.35rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:.45rem}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:.7rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.55rem}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .plain-card{background:var(--surface);padding:1.25rem}
+    .plain-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+    .plain-card p{font-size:.9rem;color:#bbb;line-height:1.65;margin:0}
+    .plain-boundary{font-size:.86rem!important;color:var(--muted)!important;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.25rem;margin-bottom:0!important}
+    .callout,.callout-red,.callout-green,.callout-draft{padding:1.25rem 1.5rem;margin:2rem 0;border-left:3px solid var(--orange);background:var(--orange-faint);border-top:1px solid rgba(255,106,0,.2);border-right:1px solid rgba(255,106,0,.2);border-bottom:1px solid rgba(255,106,0,.2)}
+    .callout-red{border-left-color:var(--red);background:rgba(255,85,85,.04);border-color:rgba(255,85,85,.2)}
+    .callout-green{border-left-color:var(--green);background:rgba(0,255,136,.03);border-color:rgba(0,255,136,.17)}
+    .callout-draft{border-left-color:var(--yellow);background:rgba(255,170,0,.04);border-color:rgba(255,170,0,.22)}
+    .callout-label{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+    .callout-red .callout-label{color:var(--red)}
+    .callout-green .callout-label{color:var(--green)}
+    .callout-draft .callout-label{color:var(--yellow)}
+    .callout p,.callout-red p,.callout-green p,.callout-draft p{font-size:.92rem;color:var(--text);margin:0}
+    .gif-wrap{margin:2rem auto;max-width:420px;text-align:center}
+    .gif-wrap img{max-width:100%;height:auto;border:1px solid var(--border);display:block;margin:0 auto;border-radius:2px;filter:saturate(0.85) brightness(0.92)}
+    .gif-wrap figcaption{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.6rem;line-height:1.5}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.4rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:.78rem;color:#bbb;line-height:1.75;white-space:pre}
+    .comment{color:var(--muted)}.danger{color:var(--red)}.ok{color:var(--green)}.warn{color:var(--yellow)}.accent{color:var(--orange)}
+    .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center;margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border)}
+    .flow-box{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--text);border:1px solid #333;padding:1rem;text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .flow-arrow{font-family:var(--mono);color:var(--orange)}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:.76rem}
+    th{text-align:left;color:var(--orange);padding:.7rem .75rem;border-bottom:1px solid var(--border);letter-spacing:.08em;text-transform:uppercase;vertical-align:bottom}
+    td{padding:.7rem .75rem;border-bottom:1px solid #1b1b1b;color:#bbb;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    td strong{color:var(--text)}
+    td:first-child{white-space:nowrap}
+    .table-hint{display:none}
+    .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .evidence-card{background:var(--surface);padding:1.25rem}
+    .evidence-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+    .evidence-card p{font-size:.9rem;margin:0;color:#aaa}
+    .checklist{list-style:none!important;margin-left:0!important}
+    .checklist li{position:relative;padding-left:1.7rem}
+    .checklist li::before{content:'□';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .checklist.done li::before{content:'✓';color:var(--green)}
+    .source-list{counter-reset:source;list-style:none!important;margin-left:0!important}
+    .source-list li{counter-increment:source;padding-left:2.3rem;position:relative;margin-bottom:.8rem}
+    .source-list li::before{content:'[' counter(source,decimal-leading-zero) ']';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .source-list a{color:#ddd;border-bottom:1px solid #444}
+    .source-list a:hover{color:var(--orange);border-color:var(--orange)}
+    .source-list a{overflow-wrap:anywhere}
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .ab-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+    .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin-top:.5rem;line-height:1}
+    .ab-role{font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:.45rem;line-height:1.6}
+    .ab-bio{font-size:.9rem;color:var(--muted);line-height:1.65;margin-top:.9rem}
+    .ab-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+    .ab-links a{font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.4rem .8rem;letter-spacing:.08em;transition:border-color .2s,color .2s}
+    .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+    .footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.45rem .7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    @media(max-width:760px){
+      .header-inner,.article-header,.article-body{padding-left:1.25rem;padding-right:1.25rem}
+      h1{font-size:2.15rem}
+      .logo{display:none}
+      .flow{grid-template-columns:1fr;gap:.5rem}
+      .flow-arrow{transform:rotate(90deg);text-align:center}
+      .plain-grid{grid-template-columns:1fr}
+      .evidence-grid{grid-template-columns:1fr}
+      table{display:block;overflow-x:auto;white-space:normal}
+      table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
+      .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle" aria-label="Language selector">
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Agentic AI</span>
+      <span class="tag">AI Security</span>
+      <span class="tag">MCP Security</span>
+      <span class="tag">AppSec</span>
+      <span class="meta-item" data-it="29 Set 2026" data-en="29 Sep 2026">29 Sep 2026</span>
+      <span class="meta-item" data-it="6 min di lettura" data-en="6 min read">6 min read</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar" aria-hidden="true"><div class="auth-human" style="width:30%"></div></div>
+        <span class="auth-lbl" data-it="30% umano · 70% AI" data-en="30% human · 70% AI">30% human · 70% AI</span>
+      </div>
+    </div>
+
+    <h1
+      data-it="Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate"
+      data-en="Outside the prompt: what this summer's AI agent vulnerabilities have in common"
+    >Outside the prompt: what this summer's AI agent vulnerabilities have in common</h1>
+
+    <p class="article-intro"
+       data-it="Dieci vulnerabilità di agenti AI rese pubbliche tra giugno e settembre 2026, classificate in base a dove scattano. In sette non è servito ingannare il modello."
+       data-en="Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled."
+    >Ten AI agent vulnerabilities disclosed between June and September 2026, classified by where they trigger. In seven, the model never had to be fooled.</p>
+  </div>
+
+  <main class="article-body">
+    <!-- BLOG SIGNATURE: keep the TL;DR as the first article-body block. -->
+    <section class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul>
+        <li data-it="Dieci divulgazioni, quattro classi in base al punto in cui la falla scatta: &lt;strong&gt;prima della fiducia&lt;/strong&gt;, &lt;strong&gt;livello di interazione&lt;/strong&gt;, &lt;strong&gt;tubature&lt;/strong&gt;, &lt;strong&gt;autorità&lt;/strong&gt;."
+            data-en="Ten disclosures, four classes by trigger point: &lt;strong&gt;before trust&lt;/strong&gt;, &lt;strong&gt;interaction layer&lt;/strong&gt;, &lt;strong&gt;plumbing&lt;/strong&gt;, &lt;strong&gt;authority&lt;/strong&gt;.">Ten disclosures, four classes by trigger point: <strong>before trust</strong>, <strong>interaction layer</strong>, <strong>plumbing</strong>, <strong>authority</strong>.</li>
+        <li data-it="In &lt;strong&gt;sette casi su dieci&lt;/strong&gt; il giudizio del modello non è mai stato il fattore decisivo. Negli altri tre il modello è stato manipolato, ma l'entità del danno l'hanno decisa i permessi e la configurazione."
+            data-en="In &lt;strong&gt;seven of ten&lt;/strong&gt;, the model's judgment was never the deciding factor. In the other three the model was manipulated, but permissions and configuration decided how much damage followed.">In <strong>seven of ten</strong>, the model's judgment was never the deciding factor. In the other three the model was manipulated, but permissions and configuration decided how much damage followed.</li>
+        <li data-it="Il segnale più forte è GitSpawn: un'unica classe di bug trovata in modo indipendente in sette agenti CLI, la terza divulgazione in cinque mesi sulla stessa superficie."
+            data-en="The loudest signal is GitSpawn: one bug class found independently in seven CLI agents, the third disclosure in five months on the same surface.">The loudest signal is GitSpawn: one bug class found independently in seven CLI agents, the third disclosure in five months on the same surface.</li>
+        <li data-it="La prompt injection non è risolta: la ricerca delle stesse settimane mostra che il livello del modello è poroso. Ma i bug trovati, segnalati e corretti quest'estate si concentrano sui confini di fiducia stabiliti da configurazione, avvio e collegamenti ai tool."
+            data-en="Prompt injection is not solved: the research of the same weeks shows the model layer is porous. But the bugs found, reported and patched this summer cluster at trust boundaries set by configuration, startup and tool plumbing.">Prompt injection is not solved: the research of the same weeks shows the model layer is porous. But the bugs found, reported and patched this summer cluster at trust boundaries set by configuration, startup and tool plumbing.</li>
+        <li data-it="Parte 1 di 5: nei prossimi quattro martedì misuriamo quei confini in un lab di casa, fino al preprint di inizio novembre."
+            data-en="Part 1 of 5: over the next four Tuesdays we measure those boundaries in a home lab, ending in a preprint in early November.">Part 1 of 5: over the next four Tuesdays we measure those boundaries in a home lab, ending in a preprint in early November.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[00] Prima il risultato" data-en="[00] Result first">[00] Result first</h2>
+      <p data-it="Tra fine giugno e fine settembre 2026 ricercatori e vendor hanno reso pubbliche una serie continua di vulnerabilità negli agenti AI: assistenti di programmazione, server MCP, integrazioni negli IDE, workflow di CI. Il dibattito pubblico le archivia quasi tutte sotto «prompt injection», come se il problema fosse sempre un modello che obbedisce al testo sbagliato."
+        data-en="Between late June and late September 2026, researchers and vendors disclosed a steady stream of vulnerabilities in AI agents: coding assistants, MCP servers, IDE integrations, CI workflows. Public discussion files most of them under “prompt injection”, as if the problem were always a model that obeyed the wrong text.">Between late June and late September 2026, researchers and vendors disclosed a steady stream of vulnerabilities in AI agents: coding assistants, MCP servers, IDE integrations, CI workflows. Public discussion files most of them under “prompt injection”, as if the problem were always a model that obeyed the wrong text.</p>
+      <p data-it="Ne abbiamo prese dieci e a ognuna abbiamo fatto una sola domanda: &lt;strong&gt;dove scatta la falla?&lt;/strong&gt; Prima che il modello entri in gioco, nell'interfaccia che lo circonda, nelle tubature che lo collegano ai tool, oppure nell'autorità che gli era stata data una volta che ha agito."
+        data-en="We took ten of those disclosures and asked one question of each: &lt;strong&gt;where does the flaw trigger?&lt;/strong&gt; Before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given once it acted.">We took ten of those disclosures and asked one question of each: <strong>where does the flaw trigger?</strong> Before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given once it acted.</p>
+      <p data-it="In &lt;strong&gt;sette casi su dieci&lt;/strong&gt; il giudizio del modello non è mai stato il fattore decisivo. Del codice è partito prima della richiesta di fiducia, una finestra di approvazione mostrava qualcosa di diverso da ciò che sarebbe stato eseguito, oppure un endpoint MCP semplicemente non aveva autenticazione. Negli altri tre il modello è stato effettivamente manipolato, ma l'entità del danno l'hanno decisa i permessi e la configurazione, non il modello."
+        data-en="In &lt;strong&gt;seven of ten&lt;/strong&gt;, the model's judgment was never the deciding factor. Code ran before the trust prompt, an approval dialog showed something other than what would run, or an MCP endpoint simply had no authentication. In the remaining three the model was indeed manipulated, but how much damage followed was decided by permissions and configuration, not by the model.">In <strong>seven of ten</strong>, the model's judgment was never the deciding factor. Code ran before the trust prompt, an approval dialog showed something other than what would run, or an MCP endpoint simply had no authentication. In the remaining three the model was indeed manipulated, but how much damage followed was decided by permissions and configuration, not by the model.</p>
+      <p data-it="Non stiamo dicendo che la prompt injection sia un problema risolto. La ricerca delle stesse settimane mostra il contrario (sezione [04]). Stiamo dicendo &lt;strong&gt;dove dovrebbe guardare chi difende&lt;/strong&gt;: i bug effettivamente trovati, segnalati e corretti quest'estate si concentrano sui confini di fiducia stabiliti da configurazione, avvio e collegamenti ai tool."
+        data-en="This is not a claim that prompt injection is solved. The research of the same weeks shows the opposite (section [04]). It is a claim about &lt;strong&gt;where defenders should look&lt;/strong&gt;: the bugs that were actually found, reported and patched this summer cluster at trust boundaries set by configuration, startup and tool plumbing.">This is not a claim that prompt injection is solved. The research of the same weeks shows the opposite (section [04]). It is a claim about <strong>where defenders should look</strong>: the bugs that were actually found, reported and patched this summer cluster at trust boundaries set by configuration, startup and tool plumbing.</p>
+      <p data-it="Questo post apre una serie di cinque settimane che misura quei confini in un lab di casa, e che si chiude con un preprint a inizio novembre."
+        data-en="This post opens a five-week series that measures those boundaries in a home lab, ending in a preprint in early November.">This post opens a five-week series that measures those boundaries in a home lab, ending in a preprint in early November.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[01] Perimetro e metodo" data-en="[01] Scope and method">[01] Scope and method</h2>
+      <ul>
+        <li data-it="&lt;strong&gt;Finestra:&lt;/strong&gt; 26 giugno – 24 settembre 2026. Conta la data di divulgazione, non quella di esposizione (Kiro era stato corretto a gennaio ed è stato reso pubblico ad agosto)."
+          data-en="&lt;strong&gt;Window:&lt;/strong&gt; 26 June – 24 September 2026. Disclosure date, not exposure date (Kiro was fixed in January and disclosed in August)."><strong>Window:</strong> 26 June – 24 September 2026. Disclosure date, not exposure date (Kiro was fixed in January and disclosed in August).</li>
+        <li data-it="&lt;strong&gt;Selezione:&lt;/strong&gt; divulgazioni pubbliche con una fonte primaria (writeup del ricercatore, advisory del vendor, record CVE) che riguardano un agente dotato di tool o i suoi connettori. I paper di ricerca senza un finding su un prodotto sono tenuti a parte, nella sezione [04]."
+          data-en="&lt;strong&gt;Selection:&lt;/strong&gt; public disclosures with a primary source (researcher write-up, vendor advisory, CVE record) that affect a tool-using agent or its connectors. Research papers without a product finding are kept separate, in [04]."><strong>Selection:</strong> public disclosures with a primary source (researcher write-up, vendor advisory, CVE record) that affect a tool-using agent or its connectors. Research papers without a product finding are kept separate, in [04].</li>
+        <li data-it="&lt;strong&gt;Verifica:&lt;/strong&gt; ogni CVE controllata su CVE.org, ogni writeup aperto. Dove le fonti non concordano, riportiamo entrambe le versioni."
+          data-en="&lt;strong&gt;Verification:&lt;/strong&gt; every CVE checked on CVE.org; every write-up opened. Where sources disagree, both are reported."><strong>Verification:</strong> every CVE checked on CVE.org; every write-up opened. Where sources disagree, both are reported.</li>
+        <li data-it="&lt;strong&gt;Etichette di evidenza:&lt;/strong&gt; &lt;em&gt;dimostrata&lt;/em&gt; (writeup pubblico o fix confermato dal vendor), &lt;em&gt;segnalata&lt;/em&gt; (dichiarata, non verificabile in modo indipendente)."
+          data-en="&lt;strong&gt;Evidence labels:&lt;/strong&gt; &lt;em&gt;demonstrated&lt;/em&gt; (public write-up or vendor-confirmed fix), &lt;em&gt;reported&lt;/em&gt; (claimed, not independently checkable)."><strong>Evidence labels:</strong> <em>demonstrated</em> (public write-up or vendor-confirmed fix), <em>reported</em> (claimed, not independently checkable).</li>
+        <li>
+          <span data-it="&lt;strong&gt;Classificazione:&lt;/strong&gt; in base al punto in cui la falla scatta, quattro classi:" data-en="&lt;strong&gt;Classification:&lt;/strong&gt; by trigger point, four classes:"><strong>Classification:</strong> by trigger point, four classes:</span>
+          <ol>
+            <li data-it="&lt;strong&gt;Prima della fiducia&lt;/strong&gt; — parte all'avvio o prima che l'utente decida se fidarsi." data-en="&lt;strong&gt;Before trust&lt;/strong&gt; — runs at startup or before the user's trust decision."><strong>Before trust</strong> — runs at startup or before the user's trust decision.</li>
+            <li data-it="&lt;strong&gt;Livello di interazione&lt;/strong&gt; — il passaggio di approvazione o conferma mostra male o salta ciò che succede." data-en="&lt;strong&gt;Interaction layer&lt;/strong&gt; — the approval or confirmation step misrepresents or skips what happens."><strong>Interaction layer</strong> — the approval or confirmation step misrepresents or skips what happens.</li>
+            <li data-it="&lt;strong&gt;Tubature&lt;/strong&gt; — classici difetti di autenticazione, autorizzazione o verifica dell'origine in server e SDK MCP." data-en="&lt;strong&gt;Plumbing&lt;/strong&gt; — classic authentication, authorization or origin flaws in MCP servers and SDKs."><strong>Plumbing</strong> — classic authentication, authorization or origin flaws in MCP servers and SDKs.</li>
+            <li data-it="&lt;strong&gt;Autorità&lt;/strong&gt; — il modello viene manipolato, ma l'impatto lo stabiliscono i privilegi che possiede." data-en="&lt;strong&gt;Authority&lt;/strong&gt; — the model is manipulated; the impact is set by the privileges it holds."><strong>Authority</strong> — the model is manipulated; the impact is set by the privileges it holds.</li>
+          </ol>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[02] Le dieci divulgazioni" data-en="[02] The ten disclosures">[02] The ten disclosures</h2>
+      <p class="table-hint" data-it="Scorri la tabella di lato per vedere tutte e sei le colonne →" data-en="Swipe the table sideways to see all six columns →">Swipe the table sideways to see all six columns →</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Data" data-en="Date">Date</th>
+            <th data-it="Caso" data-en="Case">Case</th>
+            <th data-it="Classe" data-en="Class">Class</th>
+            <th data-it="Prodotto" data-en="Affected">Affected</th>
+            <th data-it="Stato" data-en="Status">Status</th>
+            <th data-it="Fonte" data-en="Source">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="29 giu" data-en="29 Jun">29 Jun</td>
+            <td data-it="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-55607&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-55607&lt;/a&gt; — uscita dalla sandbox tramite confusione dei percorsi dei git worktree" data-en="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-55607&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-55607&lt;/a&gt; — sandbox escape via git worktree path confusion"><a href="https://www.cve.org/CVERecord?id=CVE-2026-55607" target="_blank" rel="noopener noreferrer">CVE-2026-55607</a> — sandbox escape via git worktree path confusion</td>
+            <td data-it="1 Prima della fiducia" data-en="1 Before trust">1 Before trust</td>
+            <td data-it="Claude Code" data-en="Claude Code">Claude Code</td>
+            <td data-it="Dimostrata (advisory)" data-en="Demonstrated (advisory)">Demonstrated (advisory)</td>
+            <td data-it="CVE.org" data-en="CVE.org">CVE.org</td>
+          </tr>
+          <tr>
+            <td data-it="1 set" data-en="1 Sep">1 Sep</td>
+            <td data-it="GitSpawn — 8 finding in 7 agenti CLI: la git config del repository viene eseguita fuori dalla sandbox, su alcuni agenti prima della richiesta di fiducia" data-en="GitSpawn — 8 findings in 7 CLI agents: repo git config runs outside the sandbox, on some agents before the trust prompt">GitSpawn — 8 findings in 7 CLI agents: repo git config runs outside the sandbox, on some agents before the trust prompt</td>
+            <td data-it="1 Prima della fiducia" data-en="1 Before trust">1 Before trust</td>
+            <td data-it="Claude Code, Goose (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-72718&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-72718&lt;/a&gt;), Hermes Agent (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-71963&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-71963&lt;/a&gt;), Qwen Code, Grok Build, Codex, Cursor" data-en="Claude Code, Goose (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-72718&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-72718&lt;/a&gt;), Hermes Agent (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-71963&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-71963&lt;/a&gt;), Qwen Code, Grok Build, Codex, Cursor">Claude Code, Goose (<a href="https://www.cve.org/CVERecord?id=CVE-2026-72718" target="_blank" rel="noopener noreferrer">CVE-2026-72718</a>), Hermes Agent (<a href="https://www.cve.org/CVERecord?id=CVE-2026-71963" target="_blank" rel="noopener noreferrer">CVE-2026-71963</a>), Qwen Code, Grok Build, Codex, Cursor</td>
+            <td data-it="Dimostrata; Hermes, Qwen Code, Grok Build e uno dei due percorsi di Claude Code non corretti alla pubblicazione di Manifold (1 set). Il record CVE di Hermes (3 set) indica un commit di correzione" data-en="Demonstrated; Hermes, Qwen Code, Grok Build and one of two Claude Code paths unpatched at Manifold's publication (1 Sep). The Hermes CVE record (3 Sep) references a fix commit">Demonstrated; Hermes, Qwen Code, Grok Build and one of two Claude Code paths unpatched at Manifold's publication (1 Sep). The Hermes CVE record (3 Sep) references a fix commit</td>
+            <td data-it="&lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Manifold Security&lt;/a&gt;" data-en="&lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Manifold Security&lt;/a&gt;"><a href="https://www.manifold.security/blog/ai-coding-agents-git-hijack" target="_blank" rel="noopener noreferrer">Manifold Security</a></td>
+          </tr>
+          <tr>
+            <td data-it="15 lug" data-en="15 Jul">15 Jul</td>
+            <td data-it="PromptFiction — un link costruito ad arte invia un prompt nascosto senza conferma dell'utente" data-en="PromptFiction — a crafted link submits a hidden prompt without user confirmation">PromptFiction — a crafted link submits a hidden prompt without user confirmation</td>
+            <td data-it="2 Interazione" data-en="2 Interaction">2 Interaction</td>
+            <td data-it="Claude Desktop (corretto dalla 1.1.2321)" data-en="Claude Desktop (fixed ≥ 1.1.2321)">Claude Desktop (fixed ≥ 1.1.2321)</td>
+            <td data-it="Dimostrata (fix del vendor)" data-en="Demonstrated (vendor fix)">Demonstrated (vendor fix)</td>
+            <td data-it="&lt;a href=&quot;https://www.oasis.security/blog/claude-desktop-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Oasis Security&lt;/a&gt;" data-en="&lt;a href=&quot;https://www.oasis.security/blog/claude-desktop-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Oasis Security&lt;/a&gt;"><a href="https://www.oasis.security/blog/claude-desktop-vulnerability" target="_blank" rel="noopener noreferrer">Oasis Security</a></td>
+          </tr>
+          <tr>
+            <td data-it="15 lug" data-en="15 Jul">15 Jul</td>
+            <td data-it="DeepJack — dei deeplink nascondono un comando di installazione MCP alla finestra di approvazione" data-en="DeepJack — deeplinks hide an MCP install command from the approval dialog">DeepJack — deeplinks hide an MCP install command from the approval dialog</td>
+            <td data-it="2 Interazione" data-en="2 Interaction">2 Interaction</td>
+            <td data-it="Cursor 3.4.20, 3.9.8 (Windows)" data-en="Cursor 3.4.20, 3.9.8 (Windows)">Cursor 3.4.20, 3.9.8 (Windows)</td>
+            <td data-it="Dimostrata dal ricercatore; stato del vendor segnalato" data-en="Demonstrated by researcher; vendor status reported">Demonstrated by researcher; vendor status reported</td>
+            <td data-it="&lt;a href=&quot;https://adversa.ai/blog/cursor-security-deepjack-deeplink-vulnerability-mcp-rce/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Adversa AI&lt;/a&gt;" data-en="&lt;a href=&quot;https://adversa.ai/blog/cursor-security-deepjack-deeplink-vulnerability-mcp-rce/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Adversa AI&lt;/a&gt;"><a href="https://adversa.ai/blog/cursor-security-deepjack-deeplink-vulnerability-mcp-rce/" target="_blank" rel="noopener noreferrer">Adversa AI</a></td>
+          </tr>
+          <tr>
+            <td data-it="9 lug" data-en="9 Jul">9 Jul</td>
+            <td data-it="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-59726&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-59726&lt;/a&gt; «RufRoot» — endpoint MCP senza autenticazione espongono esecuzione di comandi e memoria dell'agente" data-en="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-59726&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-59726&lt;/a&gt; “RufRoot” — unauthenticated MCP endpoints expose command execution and agent memory"><a href="https://www.cve.org/CVERecord?id=CVE-2026-59726" target="_blank" rel="noopener noreferrer">CVE-2026-59726</a> “RufRoot” — unauthenticated MCP endpoints expose command execution and agent memory</td>
+            <td data-it="3 Tubature" data-en="3 Plumbing">3 Plumbing</td>
+            <td data-it="Ruflo &amp;lt; 3.16.3" data-en="Ruflo &amp;lt; 3.16.3">Ruflo &lt; 3.16.3</td>
+            <td data-it="Dimostrata (advisory, CVSS 10.0)" data-en="Demonstrated (advisory, CVSS 10.0)">Demonstrated (advisory, CVSS 10.0)</td>
+            <td data-it="CVE.org, &lt;a href=&quot;https://github.com/ruvnet/ruflo/security/advisories/GHSA-c4hm-4h84-2cf3&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;GHSA&lt;/a&gt;; nome «RufRoot» da &lt;a href=&quot;https://noma.security/noma-labs/rufroot-the-mcp-bridge-vulnerability-that-turns-agents-into-rogue-admins-cve-2026-59726&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Noma Labs&lt;/a&gt;" data-en="CVE.org, &lt;a href=&quot;https://github.com/ruvnet/ruflo/security/advisories/GHSA-c4hm-4h84-2cf3&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;GHSA&lt;/a&gt;; “RufRoot” name from &lt;a href=&quot;https://noma.security/noma-labs/rufroot-the-mcp-bridge-vulnerability-that-turns-agents-into-rogue-admins-cve-2026-59726&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Noma Labs&lt;/a&gt;">CVE.org, <a href="https://github.com/ruvnet/ruflo/security/advisories/GHSA-c4hm-4h84-2cf3" target="_blank" rel="noopener noreferrer">GHSA</a>; “RufRoot” name from <a href="https://noma.security/noma-labs/rufroot-the-mcp-bridge-vulnerability-that-turns-agents-into-rogue-admins-cve-2026-59726" target="_blank" rel="noopener noreferrer">Noma Labs</a></td>
+          </tr>
+          <tr>
+            <td data-it="15 lug" data-en="15 Jul">15 Jul</td>
+            <td data-it="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-59950&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-59950&lt;/a&gt; — trasporto WebSocket senza verifica di Host/Origin" data-en="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-59950&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-59950&lt;/a&gt; — WebSocket transport without Host/Origin validation"><a href="https://www.cve.org/CVERecord?id=CVE-2026-59950" target="_blank" rel="noopener noreferrer">CVE-2026-59950</a> — WebSocket transport without Host/Origin validation</td>
+            <td data-it="3 Tubature" data-en="3 Plumbing">3 Plumbing</td>
+            <td data-it="MCP Python SDK &amp;lt; 1.28.1" data-en="MCP Python SDK &amp;lt; 1.28.1">MCP Python SDK &lt; 1.28.1</td>
+            <td data-it="Segnalata, con patch" data-en="Reported with patch">Reported with patch</td>
+            <td data-it="CVE.org, &lt;a href=&quot;https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-vj7q-gjh5-988w&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;GHSA&lt;/a&gt;" data-en="CVE.org, &lt;a href=&quot;https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-vj7q-gjh5-988w&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;GHSA&lt;/a&gt;">CVE.org, <a href="https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-vj7q-gjh5-988w" target="_blank" rel="noopener noreferrer">GHSA</a></td>
+          </tr>
+          <tr>
+            <td data-it="23 lug" data-en="23 Jul">23 Jul</td>
+            <td data-it="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-15015&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-15015&lt;/a&gt; — la registrazione dinamica OAuth produce un token legato all'amministratore" data-en="&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-15015&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-15015&lt;/a&gt; — OAuth dynamic registration yields an administrator-bound token"><a href="https://www.cve.org/CVERecord?id=CVE-2026-15015" target="_blank" rel="noopener noreferrer">CVE-2026-15015</a> — OAuth dynamic registration yields an administrator-bound token</td>
+            <td data-it="3 Tubature" data-en="3 Plumbing">3 Plumbing</td>
+            <td data-it="MountDev AI MCP Connector per WordPress ≤ 1.6.1" data-en="MountDev AI MCP Connector for WordPress ≤ 1.6.1">MountDev AI MCP Connector for WordPress ≤ 1.6.1</td>
+            <td data-it="Segnalata dalla CNA (CVSS 9.8)" data-en="Reported by CNA (CVSS 9.8)">Reported by CNA (CVSS 9.8)</td>
+            <td data-it="CVE.org, &lt;a href=&quot;https://www.wordfence.com/threat-intel/vulnerabilities/id/ce8ec66f-5efc-4354-8871-8e35ab4e51fc&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Wordfence&lt;/a&gt;" data-en="CVE.org, &lt;a href=&quot;https://www.wordfence.com/threat-intel/vulnerabilities/id/ce8ec66f-5efc-4354-8871-8e35ab4e51fc&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Wordfence&lt;/a&gt;">CVE.org, <a href="https://www.wordfence.com/threat-intel/vulnerabilities/id/ce8ec66f-5efc-4354-8871-8e35ab4e51fc" target="_blank" rel="noopener noreferrer">Wordfence</a></td>
+          </tr>
+          <tr>
+            <td data-it="6 lug" data-en="6 Jul">6 Jul</td>
+            <td data-it="GitLost — una issue pubblica porta un workflow agentico con troppi privilegi a pubblicare contenuti di repository privati" data-en="GitLost — a public issue drives an over-privileged agentic workflow to publish private repository content">GitLost — a public issue drives an over-privileged agentic workflow to publish private repository content</td>
+            <td data-it="4 Autorità" data-en="4 Authority">4 Authority</td>
+            <td data-it="GitHub Agentic Workflows (configurazione specifica)" data-en="GitHub Agentic Workflows (specific configuration)">GitHub Agentic Workflows (specific configuration)</td>
+            <td data-it="Dimostrata" data-en="Demonstrated">Demonstrated</td>
+            <td data-it="&lt;a href=&quot;https://noma.security/noma-labs/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Noma Labs&lt;/a&gt;" data-en="&lt;a href=&quot;https://noma.security/noma-labs/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Noma Labs&lt;/a&gt;"><a href="https://noma.security/noma-labs/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos" target="_blank" rel="noopener noreferrer">Noma Labs</a></td>
+          </tr>
+          <tr>
+            <td data-it="21 lug" data-en="21 Jul">21 Jul</td>
+            <td data-it="Confused deputy tramite contenuto nascosto nelle PR; la difesa che isola i contenuti era applicata ad alcuni tool ma non a quello delle PR" data-en="Confused deputy via hidden PR content; content-isolation defence applied to some tools but not the PR tool">Confused deputy via hidden PR content; content-isolation defence applied to some tools but not the PR tool</td>
+            <td data-it="4 Autorità" data-en="4 Authority">4 Authority</td>
+            <td data-it="Server MCP di Azure DevOps (testato con Copilot CLI e Claude Code)" data-en="Azure DevOps MCP server (tested with Copilot CLI and Claude Code)">Azure DevOps MCP server (tested with Copilot CLI and Claude Code)</td>
+            <td data-it="Dimostrata" data-en="Demonstrated">Demonstrated</td>
+            <td data-it="&lt;a href=&quot;https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Manifold Security&lt;/a&gt;" data-en="&lt;a href=&quot;https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Manifold Security&lt;/a&gt;"><a href="https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability" target="_blank" rel="noopener noreferrer">Manifold Security</a></td>
+          </tr>
+          <tr>
+            <td data-it="27 ago" data-en="27 Aug">27 Aug</td>
+            <td data-it="Kiro — il contenuto del workspace porta all'esfiltrazione di dati tramite funzioni dell'IDE" data-en="Kiro — workspace content leads to data exfiltration through IDE features">Kiro — workspace content leads to data exfiltration through IDE features</td>
+            <td data-it="4 Autorità" data-en="4 Authority">4 Authority</td>
+            <td data-it="Kiro IDE 0.7.45 (corretto nella 0.8.140, a gennaio)" data-en="Kiro IDE 0.7.45 (fixed 0.8.140, January)">Kiro IDE 0.7.45 (fixed 0.8.140, January)</td>
+            <td data-it="Dimostrata" data-en="Demonstrated">Demonstrated</td>
+            <td data-it="&lt;a href=&quot;https://mindgard.ai/blog/amazon-kiro-data-exfiltration&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Mindgard&lt;/a&gt;" data-en="&lt;a href=&quot;https://mindgard.ai/blog/amazon-kiro-data-exfiltration&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Mindgard&lt;/a&gt;"><a href="https://mindgard.ai/blog/amazon-kiro-data-exfiltration" target="_blank" rel="noopener noreferrer">Mindgard</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2 data-it="[03] Cosa dice lo schema" data-en="[03] What the pattern says">[03] What the pattern says</h2>
+      <p data-it="&lt;strong&gt;La classe 1 è il segnale più forte.&lt;/strong&gt; GitSpawn è un'unica classe di bug trovata in modo indipendente in sette agenti: mentre raccoglie contesto in background, l'agente esegue &lt;code&gt;git&lt;/code&gt; senza neutralizzare la configurazione del repository stesso. È la terza divulgazione in cinque mesi sulla stessa superficie, dopo GitHub Copilot CLI a maggio (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-45033&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-45033&lt;/a&gt;) e Claude Code a giugno (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-55607&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-55607&lt;/a&gt;). Il modo in cui è stata gestita conta quanto il bug: diverse segnalazioni sono state chiuse come duplicati, una come «informativa», una non è mai stata presa in carico dopo sei tentativi di contatto. Una classe in cui cadono tanti team contemporaneamente è una lacuna di progettazione, non una svista di implementazione."
+        data-en="&lt;strong&gt;Class 1 is the loudest signal.&lt;/strong&gt; GitSpawn is one bug class found independently in seven agents: background context gathering runs &lt;code&gt;git&lt;/code&gt; without neutralising the repository's own configuration. It is the third disclosure in five months on the same surface — after GitHub Copilot CLI in May (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-45033&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-45033&lt;/a&gt;) and Claude Code in June (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-55607&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-55607&lt;/a&gt;). The response pattern matters as much as the bug: several reports were closed as duplicates, one as “informative”, one was never triaged after six contact attempts. A class that many teams hit at once is a design gap, not an implementation slip."><strong>Class 1 is the loudest signal.</strong> GitSpawn is one bug class found independently in seven agents: background context gathering runs <code>git</code> without neutralising the repository's own configuration. It is the third disclosure in five months on the same surface — after GitHub Copilot CLI in May (<a href="https://www.cve.org/CVERecord?id=CVE-2026-45033" target="_blank" rel="noopener noreferrer">CVE-2026-45033</a>) and Claude Code in June (<a href="https://www.cve.org/CVERecord?id=CVE-2026-55607" target="_blank" rel="noopener noreferrer">CVE-2026-55607</a>). The response pattern matters as much as the bug: several reports were closed as duplicates, one as “informative”, one was never triaged after six contact attempts. A class that many teams hit at once is a design gap, not an implementation slip.</p>
+      <p data-it="&lt;strong&gt;La classe 2 sposta l'attacco nell'interfaccia.&lt;/strong&gt; In entrambi i casi all'utente viene chiesto di approvare qualcosa, e quello che vede non è quello che viene eseguito. L'essere umano nel ciclo di controllo serve solo se il ciclo gli mostra la verità."
+        data-en="&lt;strong&gt;Class 2 moves the attack into the interface.&lt;/strong&gt; In both cases the user is asked to approve something, and what they see is not what runs. Human-in-the-loop only works if the loop shows the truth."><strong>Class 2 moves the attack into the interface.</strong> In both cases the user is asked to approve something, and what they see is not what runs. Human-in-the-loop only works if the loop shows the truth.</p>
+      <p data-it="&lt;strong&gt;La classe 3 è sicurezza web, su scala agentica.&lt;/strong&gt; Autenticazione mancante, verifica dell'origine mancante, un flusso OAuth troppo permissivo: niente di nuovo. La novità è che l'endpoint dietro può eseguire comandi o scrivere nella memoria di un agente. La revisione MCP 2026-07-28 rafforza l'autorizzazione e depreca la registrazione dinamica dei client, ma dice chiaramente che il protocollo da solo non può imporre consenso o controllo degli accessi: quello resta compito di chi lo implementa."
+        data-en="&lt;strong&gt;Class 3 is web security, at agent scale.&lt;/strong&gt; Missing authentication, missing origin checks, an over-permissive OAuth flow: none of this is new. What is new is that the endpoint behind it can execute commands or write into an agent's memory. The MCP 2026-07-28 revision hardens authorization and deprecates dynamic client registration, but it states plainly that the protocol cannot enforce consent or access control by itself — that stays with implementers."><strong>Class 3 is web security, at agent scale.</strong> Missing authentication, missing origin checks, an over-permissive OAuth flow: none of this is new. What is new is that the endpoint behind it can execute commands or write into an agent's memory. The MCP 2026-07-28 revision hardens authorization and deprecates dynamic client registration, but it states plainly that the protocol cannot enforce consent or access control by itself — that stays with implementers.</p>
+      <p data-it="&lt;strong&gt;La classe 4 è dove vive davvero la prompt injection&lt;/strong&gt;, e anche lì la variabile decisiva è stata l'autorità. GitLost aveva bisogno di un workflow che potesse sia leggere repository privati sia scrivere commenti pubblici. Il server di Azure DevOps proteggeva alcuni tool, ma non quello che contava."
+        data-en="&lt;strong&gt;Class 4 is where prompt injection actually lives&lt;/strong&gt; — and even there, the deciding variable was authority. GitLost needed a workflow that could both read private repositories and write public comments. The Azure DevOps server protected some tools and not the one that mattered."><strong>Class 4 is where prompt injection actually lives</strong> — and even there, the deciding variable was authority. GitLost needed a workflow that could both read private repositories and write public comments. The Azure DevOps server protected some tools and not the one that mattered.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[04] Intanto, il livello del modello non sta diventando più sicuro" data-en="[04] Meanwhile, the model layer is not getting safer">[04] Meanwhile, the model layer is not getting safer</h2>
+      <p data-it="La ricerca delle stesse settimane mostra perché «tanto il modello rifiuterà» non è un confine:"
+        data-en="The research of the same weeks shows why “the model will refuse” is not a boundary:">The research of the same weeks shows why “the model will refuse” is not a boundary:</p>
+      <ul>
+        <li data-it="Dividere un payload su due canali MCP ha portato alcuni modelli dallo 0% di obbedienza al 100% di esfiltrazione, e sette scanner di sicurezza MCP non hanno visto i frammenti (&lt;a href=&quot;https://arxiv.org/abs/2609.18217&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.18217&lt;/a&gt;, 16 set)."
+          data-en="Splitting a payload across two MCP channels took some models from 0% compliance to 100% exfiltration, and seven MCP security scanners missed the fragments (&lt;a href=&quot;https://arxiv.org/abs/2609.18217&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.18217&lt;/a&gt;, 16 Sep).">Splitting a payload across two MCP channels took some models from 0% compliance to 100% exfiltration, and seven MCP security scanners missed the fragments (<a href="https://arxiv.org/abs/2609.18217" target="_blank" rel="noopener noreferrer">arXiv 2609.18217</a>, 16 Sep).</li>
+        <li data-it="Iniezioni ritardate e condizionali sono riuscite dal 43 all'83% delle volte su nove agenti in produzione, contro un massimo del 3% per le istruzioni dirette (&lt;a href=&quot;https://arxiv.org/abs/2609.22510&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.22510&lt;/a&gt;, 18 set)."
+          data-en="Delayed, conditional injections succeeded 43–83% of the time on nine production agents, against ≤3% for direct instructions (&lt;a href=&quot;https://arxiv.org/abs/2609.22510&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.22510&lt;/a&gt;, 18 Sep).">Delayed, conditional injections succeeded 43–83% of the time on nine production agents, against ≤3% for direct instructions (<a href="https://arxiv.org/abs/2609.22510" target="_blank" rel="noopener noreferrer">arXiv 2609.22510</a>, 18 Sep).</li>
+        <li data-it="Difese che ottengono buoni punteggi sul tasso di successo degli attacchi possono comunque lasciare aperti privilegi non necessari, e le due misure non si prevedono a vicenda (Ajar, &lt;a href=&quot;https://arxiv.org/abs/2609.26900&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.26900&lt;/a&gt;, 22 set)."
+          data-en="Defences that score well on attack success can still leave unnecessary privileges open, and the two metrics do not predict each other (Ajar, &lt;a href=&quot;https://arxiv.org/abs/2609.26900&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;arXiv 2609.26900&lt;/a&gt;, 22 Sep).">Defences that score well on attack success can still leave unnecessary privileges open, and the two metrics do not predict each other (Ajar, <a href="https://arxiv.org/abs/2609.26900" target="_blank" rel="noopener noreferrer">arXiv 2609.26900</a>, 22 Sep).</li>
+      </ul>
+      <p data-it="Messo insieme alla tabella: il livello del modello è poroso, e i bug che si trovano stanno intorno a lui. Entrambe le cose spingono nella stessa direzione: misurare i confini."
+        data-en="Put together with the table: the model layer is porous, and the bugs being found are around it. Both push the same way — measure the boundaries.">Put together with the table: the model layer is porous, and the bugs being found are around it. Both push the same way — measure the boundaries.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[05] Cosa viene dopo" data-en="[05] What comes next">[05] What comes next</h2>
+      <p data-it="Nei prossimi quattro martedì misuriamo quei confini sulle versioni attuali, in un lab fatto solo di repository, server e macchine virtuali nostri, con canary innocui:"
+        data-en="Over the next four Tuesdays we measure those boundaries on current versions, in a lab made only of our own repositories, servers and virtual machines, with harmless canaries:">Over the next four Tuesdays we measure those boundaries on current versions, in a lab made only of our own repositories, servers and virtual machines, with harmless canaries:</p>
+      <ul>
+        <li data-it="&lt;strong&gt;6 ott&lt;/strong&gt; — fidarsi di un repository oggi vuol dire fidarsi anche dei server MCP che dichiara?"
+          data-en="&lt;strong&gt;6 Oct&lt;/strong&gt; — does trusting a repository now mean trusting the MCP servers it declares?"><strong>6 Oct</strong> — does trusting a repository now mean trusting the MCP servers it declares?</li>
+        <li data-it="&lt;strong&gt;13 ott&lt;/strong&gt; — quando un server MCP cambia un tool dopo che l'hai approvato, il tuo client te lo dice?"
+          data-en="&lt;strong&gt;13 Oct&lt;/strong&gt; — when an MCP server changes a tool after you approved it, does your client tell you?"><strong>13 Oct</strong> — when an MCP server changes a tool after you approved it, does your client tell you?</li>
+        <li data-it="&lt;strong&gt;20 ott&lt;/strong&gt; — i server MCP ufficiali applicano le proprie difese sui contenuti a tutti i tool, o solo ad alcuni?"
+          data-en="&lt;strong&gt;20 Oct&lt;/strong&gt; — do official MCP servers apply their own content defences to every tool, or only some?"><strong>20 Oct</strong> — do official MCP servers apply their own content defences to every tool, or only some?</li>
+        <li data-it="&lt;strong&gt;27 ott&lt;/strong&gt; — cosa può vedere davvero chi difende, di tutto questo, nei log predefiniti?"
+          data-en="&lt;strong&gt;27 Oct&lt;/strong&gt; — what can a defender actually see of all this in default logs?"><strong>27 Oct</strong> — what can a defender actually see of all this in default logs?</li>
+      </ul>
+      <p data-it="Se un test trova qualcosa di nuovo in un prodotto, il post ne riporta solo la classe e lo stato della divulgazione; i dettagli escono dopo il fix o dopo 90 giorni."
+        data-en="If a test finds something new in a product, the post reports its class and disclosure status only; details follow the fix or 90 days.">If a test finds something new in a product, the post reports its class and disclosure status only; details follow the fix or 90 days.</p>
+      <p class="related" data-it="Già su questo sito: &lt;a href=&quot;/prompt-injection-llm/&quot;&gt;Prompt injection su LLM aziendali: superficie d&#x27;attacco e contromisure&lt;/a&gt;, &lt;a href=&quot;/mcp-2026-07-28-stateless-security/&quot;&gt;MCP 2026-07-28: stateless non significa senza stato&lt;/a&gt; e il writeup CTF &lt;a href=&quot;/ctf/hacker-holidays-2026/the-guestbook/&quot;&gt;The Guestbook&lt;/a&gt;, dove una prompt injection indiretta finisce in una shell."
+        data-en="Already on this site: &lt;a href=&quot;/prompt-injection-llm/&quot;&gt;Prompt injection on enterprise LLMs: attack surface and mitigations&lt;/a&gt;, &lt;a href=&quot;/mcp-2026-07-28-stateless-security/&quot;&gt;MCP 2026-07-28: stateless does not mean state-free&lt;/a&gt;, and the CTF writeup &lt;a href=&quot;/ctf/hacker-holidays-2026/the-guestbook/&quot;&gt;The Guestbook&lt;/a&gt;, where an indirect prompt injection ends in a shell.">Already on this site: <a href="/prompt-injection-llm/">Prompt injection on enterprise LLMs: attack surface and mitigations</a>, <a href="/mcp-2026-07-28-stateless-security/">MCP 2026-07-28: stateless does not mean state-free</a>, and the CTF writeup <a href="/ctf/hacker-holidays-2026/the-guestbook/">The Guestbook</a>, where an indirect prompt injection ends in a shell.</p>
+    </section>
+
+    <section>
+      <h2 data-it="Fonti" data-en="Sources">Sources</h2>
+      <ol class="source-list">
+        <li data-it="Manifold Security, «GitSpawn», 1 set 2026 — &lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;"
+          data-en="Manifold Security, “GitSpawn”, 1 Sep 2026 — &lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;">Manifold Security, “GitSpawn”, 1 Sep 2026 — <a href="https://www.manifold.security/blog/ai-coding-agents-git-hijack" target="_blank" rel="noopener noreferrer">manifold.security</a></li>
+        <li data-it="Manifold Security, confused deputy nel server MCP di Azure DevOps, 21 lug 2026 — &lt;a href=&quot;https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;"
+          data-en="Manifold Security, Azure DevOps MCP confused deputy, 21 Jul 2026 — &lt;a href=&quot;https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;">Manifold Security, Azure DevOps MCP confused deputy, 21 Jul 2026 — <a href="https://www.manifold.security/blog/azure-devops-mcp-server-vulnerability" target="_blank" rel="noopener noreferrer">manifold.security</a></li>
+        <li>Oasis Security, PromptFiction — <a href="https://www.oasis.security/blog/claude-desktop-vulnerability" target="_blank" rel="noopener noreferrer">oasis.security</a></li>
+        <li>Adversa AI, DeepJack — <a href="https://adversa.ai/blog/cursor-security-deepjack-deeplink-vulnerability-mcp-rce/" target="_blank" rel="noopener noreferrer">adversa.ai</a></li>
+        <li>Noma Labs, GitLost — <a href="https://noma.security/noma-labs/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos" target="_blank" rel="noopener noreferrer">noma.security</a></li>
+        <li>Mindgard, Amazon Kiro — <a href="https://mindgard.ai/blog/amazon-kiro-data-exfiltration" target="_blank" rel="noopener noreferrer">mindgard.ai</a></li>
+        <li>Noma Labs, RufRoot (CVE-2026-59726) — <a href="https://noma.security/noma-labs/rufroot-the-mcp-bridge-vulnerability-that-turns-agents-into-rogue-admins-cve-2026-59726" target="_blank" rel="noopener noreferrer">noma.security</a></li>
+        <li>GitHub Security Advisories: <a href="https://github.com/anthropics/claude-code/security/advisories/GHSA-7835-87q9-rgvv" target="_blank" rel="noopener noreferrer">GHSA-7835-87q9-rgvv</a> (Claude Code, CVE-2026-55607), <a href="https://github.com/ruvnet/ruflo/security/advisories/GHSA-c4hm-4h84-2cf3" target="_blank" rel="noopener noreferrer">GHSA-c4hm-4h84-2cf3</a> (Ruflo, CVE-2026-59726), <a href="https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-vj7q-gjh5-988w" target="_blank" rel="noopener noreferrer">GHSA-vj7q-gjh5-988w</a> (MCP Python SDK, CVE-2026-59950)</li>
+        <li>Wordfence, MountDev AI MCP Connector (CVE-2026-15015) — <a href="https://www.wordfence.com/threat-intel/vulnerabilities/id/ce8ec66f-5efc-4354-8871-8e35ab4e51fc" target="_blank" rel="noopener noreferrer">wordfence.com</a></li>
+        <li>CVE.org: <a href="https://www.cve.org/CVERecord?id=CVE-2026-55607" target="_blank" rel="noopener noreferrer">CVE-2026-55607</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-71963" target="_blank" rel="noopener noreferrer">CVE-2026-71963</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-72718" target="_blank" rel="noopener noreferrer">CVE-2026-72718</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-45033" target="_blank" rel="noopener noreferrer">CVE-2026-45033</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-59726" target="_blank" rel="noopener noreferrer">CVE-2026-59726</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-59950" target="_blank" rel="noopener noreferrer">CVE-2026-59950</a>, <a href="https://www.cve.org/CVERecord?id=CVE-2026-15015" target="_blank" rel="noopener noreferrer">CVE-2026-15015</a></li>
+        <li data-it="Specifica MCP 2026-07-28 e changelog — &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;specification&lt;/a&gt; · &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28/changelog&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;changelog&lt;/a&gt;"
+          data-en="MCP specification 2026-07-28 and changelog — &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;specification&lt;/a&gt; · &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28/changelog&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;changelog&lt;/a&gt;">MCP specification 2026-07-28 and changelog — <a href="https://modelcontextprotocol.io/specification/2026-07-28" target="_blank" rel="noopener noreferrer">specification</a> · <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog" target="_blank" rel="noopener noreferrer">changelog</a></li>
+        <li>arXiv <a href="https://arxiv.org/abs/2609.18217" target="_blank" rel="noopener noreferrer">2609.18217</a>, <a href="https://arxiv.org/abs/2609.22510" target="_blank" rel="noopener noreferrer">2609.22510</a>, <a href="https://arxiv.org/abs/2609.26900" target="_blank" rel="noopener noreferrer">2609.26900</a></li>
+      </ol>
+    </section>
+
+    <aside class="author-box">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
+      <div class="ab-name">Paolo Costanzo</div>
+      <div class="ab-role"
+           data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+           data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+      <p class="ab-bio"
+         data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+         data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
+      <div class="ab-links">
+        <a class="ab-cta" href="mailto:me@paolocostanzo.com" data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
+        <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← all articles</a>
+    <span class="footer-copy" data-it="© 2026 Paolo Costanzo" data-en="© 2026 Paolo Costanzo">© 2026 Paolo Costanzo</span>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if (stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if (nav.indexOf('en') === 0) return 'en';
+        return 'en';
+      }
+
+      function setLang(lang){
+        var next = lang === 'en' ? 'en' : 'it';
+        document.documentElement.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var value = el.getAttribute(next === 'en' ? 'data-en' : 'data-it');
+          if (value === null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+          } else if (el.tagName === 'TITLE') {
+            document.title = value;
+          } else {
+            el.innerHTML = value;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(button){
+          var on = button.textContent.trim().toLowerCase() === next;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-pressed', String(on));
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+
+    window.addEventListener('scroll', function(){
+      var root = document.documentElement;
+      var total = root.scrollHeight - root.clientHeight;
+      var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
+      document.getElementById('read-bar').style.width = percent + '%';
+      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+    }, { passive:true });
+  </script>
+</body>
+</html>

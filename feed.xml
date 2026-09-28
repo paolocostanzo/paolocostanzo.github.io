@@ -5,8 +5,20 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 08:00:00 +0200</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Outside the Prompt: What This Summer's AI Agent Vulnerabilities Have in Common</title>
+      <link>https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/</link>
+      <guid>https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/</guid>
+      <pubDate>Tue, 29 Sep 2026 08:00:00 +0200</pubDate>
+      <description>Ten AI agent vulnerabilities disclosed between late June and late September 2026 (coding assistants, MCP servers, IDE integrations, CI workflows), classified by where the flaw triggers: before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given once it acted. In seven of ten, the model's judgment was never the deciding factor. The first post of a five-week series that measures these trust boundaries in a home lab, ending in a preprint in early November.</description>
+      <category>Agentic AI</category>
+      <category>AI Security</category>
+      <category>MCP Security</category>
+      <category>AppSec</category>
+    </item>
 
     <item>
       <title>CTF Writeups — Hacker Holidays 2026 (Byte Lotus Hotel)</title>

@@ -308,8 +308,27 @@
 <!-- GRID: articles + CTF terminal -->
 <section class="articles-section">
   <div class="articles-list" id="articles-list">
-    <!-- CTF WRITEUPS — Hacker Holidays 2026 (most recent post) -->
-    <a class="article-card fade-up d1" data-category="ctf" href="ctf/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+    <!-- OUTSIDE THE PROMPT 2026-09-29 (most recent post) -->
+    <a class="article-card fade-up d1" data-category="ai appsec" href="outside-the-prompt-ai-agent-vulnerabilities-summer-2026/" style="grid-column:span 2;border-left:3px solid var(--orange)">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Agentic AI · AI Security · MCP · AppSec" data-en="Agentic AI · AI Security · MCP · AppSec">Agentic AI · AI Security · MCP · AppSec</span>
+        <span class="card-date" data-it="29 Set 2026" data-en="29 Sep 2026">29 Sep 2026</span>
+      </div>
+      <div class="card-title" data-it="Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate" data-en="Outside the prompt: what this summer's AI agent vulnerabilities have in common">Outside the prompt: what this summer's AI agent vulnerabilities have in common</div>
+      <p class="card-excerpt" data-it="Dieci vulnerabilità di agenti AI rese pubbliche tra fine giugno e fine settembre 2026 (assistenti di programmazione, server MCP, integrazioni negli IDE, workflow di CI), classificate in base a dove scatta la falla: prima che il modello entri in gioco, nell'interfaccia che lo circonda, nelle tubature che lo collegano ai tool, oppure nell'autorità che gli era stata data. In sette casi su dieci il giudizio del modello non è mai stato il fattore decisivo. Apre una serie di cinque settimane che si chiude con un preprint a inizio novembre." data-en="Ten AI agent vulnerabilities disclosed between late June and late September 2026 (coding assistants, MCP servers, IDE integrations, CI workflows), classified by where the flaw triggers: before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given. In seven of ten, the model's judgment was never the deciding factor. Opens a five-week series ending in a preprint in early November.">Ten AI agent vulnerabilities disclosed between late June and late September 2026 (coding assistants, MCP servers, IDE integrations, CI workflows), classified by where the flaw triggers: before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given. In seven of ten, the model's judgment was never the deciding factor. Opens a five-week series ending in a preprint in early November.</p>
+      <div class="res-meta">
+        <span class="ok" data-it="10 divulgazioni" data-en="10 disclosures">10 disclosures</span>
+        <span class="ok" data-it="Fonti primarie verificate" data-en="Verified primary sources">Verified primary sources</span>
+        <span data-it="Serie · parte 1 di 5" data-en="Series · part 1 of 5">Series · part 1 of 5</span>
+      </div>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">6 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- CTF WRITEUPS — Hacker Holidays 2026 -->
+    <a class="article-card fade-up d2" data-category="ctf" href="ctf/">
       <div class="card-meta">
         <span class="card-tag" data-it="CTF · Walkthrough · TryHackMe" data-en="CTF · Walkthrough · TryHackMe">CTF · Walkthrough · TryHackMe</span>
         <span class="card-date" data-it="Ago 2026" data-en="Aug 2026">Aug 2026</span>
@@ -386,24 +405,6 @@
       </div>
     </a>
 
-    <!-- SSRF IMDS -->
-    <a class="article-card fade-up d2" data-category="cloud appsec" href="ssrf-imds-ec2-credentials/">
-      <div class="card-meta">
-        <span class="card-tag" data-it="Cloud · AWS · SSRF · IAM" data-en="Cloud · AWS · SSRF · IAM">Cloud · AWS · SSRF · IAM</span>
-        <span class="card-date">31 Mar 2026</span>
-      </div>
-      <div class="card-title" data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2" data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance">SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance</div>
-      <p class="card-excerpt" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.">Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.</p>
-      <div class="res-meta">
-        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span>
-        <span class="ok" data-it="Mitigazioni" data-en="Mitigations">Mitigations</span>
-      </div>
-      <div class="card-footer">
-        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
-        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">14 min</span><span class="card-arrow">&rarr;</span></div>
-      </div>
-    </a>
-
     <!-- CLASSIFIED -->
     <div class="article-card classified-card fade-up d3" data-category="threat-intel">
       <div class="card-meta">
@@ -454,7 +455,7 @@
       <span class="arrow">&#9660;</span>
       <span class="archive-label-show" data-it="Mostra articoli precedenti" data-en="Show previous articles">Show previous articles</span>
       <span class="archive-label-hide" data-it="Nascondi articoli precedenti" data-en="Hide previous articles">Hide previous articles</span>
-      <span class="archive-count">(5)</span>
+      <span class="archive-count">(7)</span>
     </button>
 
     <!-- COORDINATED ABUSE NETWORK -->
@@ -473,6 +474,24 @@
       <div class="card-footer">
         <div class="difficulty"><div class="dot" style="background:#ff3333"></div><span class="difficulty-text" style="color:#ff3333" data-it="Hard (contenuto sensibile)" data-en="Hard (sensitive content)">Hard (sensitive content)</span></div>
         <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">18 min</span><span class="card-arrow">&rarr;</span></div>
+      </div>
+    </a>
+
+    <!-- SSRF IMDS -->
+    <a class="article-card archived fade-up d2" data-category="cloud appsec" href="ssrf-imds-ec2-credentials/">
+      <div class="card-meta">
+        <span class="card-tag" data-it="Cloud · AWS · SSRF · IAM" data-en="Cloud · AWS · SSRF · IAM">Cloud · AWS · SSRF · IAM</span>
+        <span class="card-date">31 Mar 2026</span>
+      </div>
+      <div class="card-title" data-it="SSRF → IMDSv1: esfiltrazione di credenziali IAM da un'istanza EC2" data-en="SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance">SSRF → IMDSv1: exfiltrating IAM credentials from an EC2 instance</div>
+      <p class="card-excerpt" data-it="Lab riproducibile su ambiente di proprietà: da una SSRF applicativa verso 169.254.169.254 fino alle credenziali temporanee del ruolo dell'istanza. Contesto documentato (Capital One, 106 milioni di record, 80 milioni di dollari di sanzione) e mitigazioni verificabili: HttpTokens=required, hop limit, policy di ruolo a privilegio minimo." data-en="Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.">Reproducible lab on an owned environment: from an application-level SSRF against 169.254.169.254 to the instance role's temporary credentials. Documented context (Capital One, 106 million records, $80M fine) and verifiable mitigations: HttpTokens=required, hop limit, least-privilege role policies.</p>
+      <div class="res-meta">
+        <span class="ok" data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span>
+        <span class="ok" data-it="Mitigazioni" data-en="Mitigations">Mitigations</span>
+      </div>
+      <div class="card-footer">
+        <div class="difficulty"><div class="dot" style="background:#ffaa00"></div><span class="difficulty-text" style="color:#ffaa00">Medium</span></div>
+        <div style="display:flex;align-items:center;gap:0.75rem"><span class="card-read">14 min</span><span class="card-arrow">&rarr;</span></div>
       </div>
     </a>
 
@@ -716,7 +735,9 @@ function setLang(lang){
   });
 
   document.querySelectorAll('.lang-btn').forEach(b=>{
-    b.classList.toggle('active', b.textContent.trim().toLowerCase() === currentLang);
+    const on = b.textContent.trim().toLowerCase() === currentLang;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', String(on));
   });
   try { localStorage.setItem('lang', currentLang); } catch(e) {}
 }
