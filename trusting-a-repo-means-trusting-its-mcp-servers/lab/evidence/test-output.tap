@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: logs its start and the handshake, tagged with client and source
+ok 1 - logs its start and the handshake, tagged with client and source
+  ---
+  duration_ms: 47.267789
+  type: 'test'
+  ...
+# Subtest: answers initialize, tools/list and tools/call with a single no-op tool
+ok 2 - answers initialize, tools/list and tools/call with a single no-op tool
+  ---
+  duration_ms: 59.171175
+  type: 'test'
+  ...
+# Subtest: rejects unknown methods with method-not-found
+ok 3 - rejects unknown methods with method-not-found
+  ---
+  duration_ms: 58.184019
+  type: 'test'
+  ...
+# Subtest: writes nothing except its own log file
+ok 4 - writes nothing except its own log file
+  ---
+  duration_ms: 45.414751
+  type: 'test'
+  ...
+# Subtest: writes README plus one declaration per client location
+ok 5 - writes README plus one declaration per client location
+  ---
+  duration_ms: 3.197158
+  type: 'test'
+  ...
+# Subtest: each JSON declaration uses the client format and the absolute canary path
+ok 6 - each JSON declaration uses the client format and the absolute canary path
+  ---
+  duration_ms: 1.55979
+  type: 'test'
+  ...
+# Subtest: the Codex TOML declaration is readable and points at the same canary
+ok 7 - the Codex TOML declaration is readable and points at the same canary
+  ---
+  duration_ms: 1.391184
+  type: 'test'
+  ...
+# Subtest: refuses a relative canary path
+ok 8 - refuses a relative canary path
+  ---
+  duration_ms: 0.600752
+  type: 'test'
+  ...
+# Subtest: finds all six declarations with the command they would run
+ok 9 - finds all six declarations with the command they would run
+  ---
+  duration_ms: 4.207905
+  type: 'test'
+  ...
+# Subtest: exit code is 1 when servers are declared and 0 for a clean repository
+ok 10 - exit code is 1 when servers are declared and 0 for a clean repository
+  ---
+  duration_ms: 90.063356
+  type: 'test'
+  ...
+# Subtest: reports unparsable files instead of crashing
+ok 11 - reports unparsable files instead of crashing
+  ---
+  duration_ms: 0.616346
+  type: 'test'
+  ...
+# Subtest: the TOML reader handles quoted table names and comments
+ok 12 - the TOML reader handles quoted table names and comments
+  ---
+  duration_ms: 0.870947
+  type: 'test'
+  ...
+# Subtest: reads every client store
+ok 13 - reads every client store
+  ---
+  duration_ms: 4.292203
+  type: 'test'
+  ...
+# Subtest: a home without any store reports nothing and does not throw
+ok 14 - a home without any store reports nothing and does not throw
+  ---
+  duration_ms: 0.486882
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 634.232521

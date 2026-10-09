@@ -1,0 +1,48 @@
+
+ ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │                                                                                                                                                            │
+ │ Do you trust the files in this folder?                                                                                                                     │
+ │                                                                                                                                                            │
+ │ Trusting a folder allows Gemini CLI to load its local configurations, including custom commands, hooks, MCP servers, agent skills, and settings. These     │
+ │ configurations could execute code on your behalf or change the behavior of the CLI.                                                                        │
+ │                                                                                                                                                            │
+ │ This folder contains:                                                                                                                                      │
+ │   • MCP Servers (1):                                                                                                                                       │
+ │     - q5-canary                                                                                                                                            │
+ │                                                                                                                                                            │
+ │                                                                                                                                                            │
+ │ ● 1. Trust folder (q5-repo)                                                                                                                                │
+ │   2. Trust parent folder (lab)                                                                                                                             │
+ │   3. Don't trust                                                                                                                                           │
+ │                                                                                                                                                            │
+ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

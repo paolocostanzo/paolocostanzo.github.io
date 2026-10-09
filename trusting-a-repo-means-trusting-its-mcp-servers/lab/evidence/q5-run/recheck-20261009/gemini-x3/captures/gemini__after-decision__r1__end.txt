@@ -1,0 +1,48 @@
+
+ ▝▜▄     Gemini CLI v0.63.0
+   ▝▜▄
+  ▗▟▀    Authenticated with gemini-api-key /auth
+ ▝▀    
+
+
+ℹ Skipping project agents due to untrusted folder. To enable, ensure that the project root is trusted.
+
+ ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │                                                                                                                                                            │
+ │ Do you trust the files in this folder?                                                                                                                     │
+ │                                                                                                                                                            │
+ │ Trusting a folder allows Gemini CLI to load its local configurations, including custom commands, hooks, MCP servers, agent skills, and settings. These     │
+ │ configurations could execute code on your behalf or change the behavior of the CLI.                                                                        │
+ │                                                                                                                                                            │
+ │ This folder contains:                                                                                                                                      │
+ │   • MCP Servers (1):                                                                                                                                       │
+ │     - q5-canary                                                                                                                                            │
+ │                                                                                                                                                            │
+ │                                                                                                                                                            │
+ │ ● 1. Trust folder (q5-repo)                                                                                                                                │
+ │   2. Trust parent folder (lab)                                                                                                                             │
+ │   3. Don't trust                                                                                                                                           │
+ │                                                                                                                                                            │
+ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+ Gemini CLI is restarting to apply the trust changes...
+
+
+ ▝▜▄     Gemini CLI v0.63.0
+   ▝▜▄
+  ▗▟▀    Authenticated with gemini-api-key /auth
+ ▝▀    
+
+
+
+                                                                                                                                                ? for shortcuts
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Shift+Tab to accept edits                                                                                                                         1 MCP server
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ >   Type your message or @path/to/file                                                                                                                         
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ workspace (/directory)                                                            sandbox                                                               /model
+ ~/q5-repo                                                                         no sandbox                                                              Auto
+
+

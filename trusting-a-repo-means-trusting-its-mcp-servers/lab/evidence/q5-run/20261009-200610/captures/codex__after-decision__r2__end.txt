@@ -1,0 +1,48 @@
+╭───────────────────────────────────────────╮
+│ >_ OpenAI Codex (v0.157.1)                │
+│                                           │
+│ model:     GPT-6-Astra   /model to change │
+│ directory: ~/q5-repo                      │
+╰───────────────────────────────────────────╯
+                                         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                         Tip: Use /status to see the current model, approvals, and token usage.
+
+› Ask Codex to do anything
+
+  GPT-6-Astra default · ~/q5-repo
+  ? for shortcuts                                                                                                                      ⚠ 1 warning · f2 to view

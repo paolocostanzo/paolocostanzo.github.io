@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index,follow"/>
+  <title
+    data-it="Fidarsi di un repo oggi vuol dire fidarsi dei suoi server MCP"
+    data-en="Trusting a repo now means trusting its MCP servers"
+  >Trusting a repo now means trusting its MCP servers</title>
+  <meta name="description"
+    data-it="Abbiamo aperto lo stesso repository, che dichiara lo stesso server MCP innocuo, in otto agenti AI di programmazione. In sessione interattiva, nessuno l'ha avviato prima che decidessimo. Ma cinque su sei propongono già selezionato &quot;fidati&quot;. Le richieste esatte, misure ripetute, un lab riproducibile e i comandi per controllare il tuo ambiente."
+    data-en="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup."
+    content="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Barlow:wght@300;400;600;700&amp;family=Barlow+Condensed:wght@700;900&amp;display=swap" rel="stylesheet"/>
+
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
+  <meta property="og:title" content="Trusting a repo now means trusting its MCP servers"/>
+  <meta property="og:description" data-it="Abbiamo aperto lo stesso repository, che dichiara lo stesso server MCP innocuo, in otto agenti AI di programmazione. In sessione interattiva, nessuno l'ha avviato prima che decidessimo. Ma cinque su sei propongono già selezionato &quot;fidati&quot;. Le richieste esatte, misure ripetute, un lab riproducibile e i comandi per controllare il tuo ambiente." data-en="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup." content="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/og.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/og.png"/>
+  <meta name="twitter:title" content="Trusting a repo now means trusting its MCP servers"/>
+  <meta name="twitter:description" data-it="Abbiamo aperto lo stesso repository, che dichiara lo stesso server MCP innocuo, in otto agenti AI di programmazione. In sessione interattiva, nessuno l'ha avviato prima che decidessimo. Ma cinque su sei propongono già selezionato &quot;fidati&quot;. Le richieste esatte, misure ripetute, un lab riproducibile e i comandi per controllare il tuo ambiente." data-en="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup." content="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup."/>
+
+  <meta property="article:published_time" content="2026-10-13T08:00:00+02:00"/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Trusting a repo now means trusting its MCP servers",
+  "image": "https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/og.png",
+  "description": "We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select \"trust\". Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup.",
+  "inLanguage": "en",
+  "datePublished": "2026-10-13",
+  "dateModified": "2026-10-13",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/"
+  },
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Outside the Prompt"
+  },
+  "position": 2,
+  "keywords": "AI agents, agentic AI, AI security, MCP, Model Context Protocol, coding agents, workspace trust, Claude Code, Codex CLI, Gemini CLI, Cursor, Qwen Code, VS Code, Goose, reproducible lab",
+  "isAccessibleForFree": true
+}
+  </script>
+
+  <style>
+    :root{
+      --orange:#ff6a00;
+      --orange-faint:rgba(255,106,0,.06);
+      --black:#080808;
+      --surface:#101010;
+      --surface2:#161616;
+      --border:#242424;
+      --text:#e8e8e8;
+      --muted:#777;
+      --green:#00ff88;
+      --red:#ff5555;
+      --yellow:#ffaa00;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .back-link{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:.65rem;padding:.3rem .6rem;background:transparent;color:var(--muted);border:0;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    .draft-ribbon{background:rgba(255,170,0,.08);border-bottom:1px solid rgba(255,170,0,.25);color:var(--yellow);font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-align:center;padding:.55rem 1rem;text-transform:uppercase}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--orange);padding:.2rem .6rem}
+    .meta-item{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+    .difficulty-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+    .auth-wrap{display:flex;align-items:center;gap:.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+    h1{font-family:var(--condensed);font-size:clamp(2.2rem,5vw,3.7rem);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.03;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.12rem;color:#aaa;max-width:790px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);margin:3.4rem 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 .75rem}
+    .article-body h4{font-family:var(--mono);font-size:.95rem;font-weight:400;color:var(--text);letter-spacing:.02em;margin:1.6rem 0 .5rem}
+    .article-body h4 a{color:var(--text);border-bottom:1px solid #444}
+    .timeline-fig figcaption{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:.6rem;line-height:1.6}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body p a,.article-body li a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .article-body p a:hover,.article-body li a:hover{border-bottom-color:var(--orange)}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:#999}
+    .article-body ul,.article-body ol{margin:1rem 0 1.35rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:.45rem}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:.7rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.55rem}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .plain-card{background:var(--surface);padding:1.25rem}
+    .plain-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+    .plain-card p{font-size:.9rem;color:#bbb;line-height:1.65;margin:0}
+    .plain-boundary{font-size:.86rem!important;color:var(--muted)!important;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.25rem;margin-bottom:0!important}
+    .callout,.callout-red,.callout-green,.callout-draft{padding:1.25rem 1.5rem;margin:2rem 0;border-left:3px solid var(--orange);background:var(--orange-faint);border-top:1px solid rgba(255,106,0,.2);border-right:1px solid rgba(255,106,0,.2);border-bottom:1px solid rgba(255,106,0,.2)}
+    .callout-red{border-left-color:var(--red);background:rgba(255,85,85,.04);border-color:rgba(255,85,85,.2)}
+    .callout-green{border-left-color:var(--green);background:rgba(0,255,136,.03);border-color:rgba(0,255,136,.17)}
+    .callout-draft{border-left-color:var(--yellow);background:rgba(255,170,0,.04);border-color:rgba(255,170,0,.22)}
+    .callout-label{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+    .callout-red .callout-label{color:var(--red)}
+    .callout-green .callout-label{color:var(--green)}
+    .callout-draft .callout-label{color:var(--yellow)}
+    .callout p,.callout-red p,.callout-green p,.callout-draft p{font-size:.92rem;color:var(--text);margin:0}
+    .gif-wrap{margin:2rem auto;max-width:420px;text-align:center}
+    .gif-wrap img{max-width:100%;height:auto;border:1px solid var(--border);display:block;margin:0 auto;border-radius:2px;filter:saturate(0.85) brightness(0.92)}
+    .gif-wrap figcaption{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.6rem;line-height:1.5}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.4rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:.78rem;color:#bbb;line-height:1.75;white-space:pre}
+    .comment{color:var(--muted)}.danger{color:var(--red)}.ok{color:var(--green)}.warn{color:var(--yellow)}.accent{color:var(--orange)}
+    .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center;margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border)}
+    .flow-box{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--text);border:1px solid #333;padding:1rem;text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .flow-arrow{font-family:var(--mono);color:var(--orange)}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:.76rem}
+    th{text-align:left;color:var(--orange);padding:.7rem .75rem;border-bottom:1px solid var(--border);letter-spacing:.08em;text-transform:uppercase;vertical-align:bottom}
+    td{padding:.7rem .75rem;border-bottom:1px solid #1b1b1b;color:#bbb;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    td strong{color:var(--text)}
+    td:first-child{white-space:nowrap}
+    .table-hint{display:none}
+    .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .evidence-card{background:var(--surface);padding:1.25rem}
+    .evidence-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+    .evidence-card p{font-size:.9rem;margin:0;color:#aaa}
+    .checklist{list-style:none!important;margin-left:0!important}
+    .checklist li{position:relative;padding-left:1.7rem}
+    .checklist li::before{content:'□';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .checklist.done li::before{content:'✓';color:var(--green)}
+    .source-list{counter-reset:source;list-style:none!important;margin-left:0!important}
+    .source-list li{counter-increment:source;padding-left:2.3rem;position:relative;margin-bottom:.8rem}
+    .source-list li::before{content:'[' counter(source,decimal-leading-zero) ']';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .source-list a{color:#ddd;border-bottom:1px solid #444}
+    .source-list a:hover{color:var(--orange);border-color:var(--orange)}
+    .source-list a{overflow-wrap:anywhere}
+    .shot{margin:1.75rem 0}
+    .shot img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:2px}
+    .shot figcaption{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.04em;margin-top:.6rem;line-height:1.6}
+    .article-body p code,.article-body li code,.article-body td code,.article-body h3 code{font-family:var(--mono);font-size:.86em;color:var(--text);background:#161616;border:1px solid var(--border);padding:.05em .35em;border-radius:2px;overflow-wrap:anywhere}
+    .callout-green p a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .ab-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+    .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin-top:.5rem;line-height:1}
+    .ab-role{font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:.45rem;line-height:1.6}
+    .ab-bio{font-size:.9rem;color:var(--muted);line-height:1.65;margin-top:.9rem}
+    .ab-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+    .ab-links a{font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.4rem .8rem;letter-spacing:.08em;transition:border-color .2s,color .2s}
+    .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+    .footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.45rem .7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    @media(max-width:760px){
+      .header-inner,.article-header,.article-body{padding-left:1.25rem;padding-right:1.25rem}
+      h1{font-size:2.15rem}
+      .logo{display:none}
+      .flow{grid-template-columns:1fr;gap:.5rem}
+      .flow-arrow{transform:rotate(90deg);text-align:center}
+      .plain-grid{grid-template-columns:1fr}
+      .evidence-grid{grid-template-columns:1fr}
+      table{display:block;overflow-x:auto;white-space:normal}
+      table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
+      .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle" aria-label="Language selector">
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Agentic AI</span>
+      <span class="tag">AI Security</span>
+      <span class="tag">MCP Security</span>
+      <span class="tag">AppSec</span>
+      <span class="meta-item" data-it="13 Ott 2026" data-en="13 Oct 2026">13 Oct 2026</span>
+      <span class="meta-item" data-it="27 min di lettura" data-en="27 min read">27 min read</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
+      <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span data-it="Lab riproducibile · 14/14 test" data-en="Reproducible lab · 14/14 tests">Reproducible lab · 14/14 tests</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar" aria-hidden="true"><div class="auth-human" style="width:50%"></div></div>
+        <span class="auth-lbl" data-it="50% umano · 50% AI" data-en="50% human · 50% AI">50% human · 50% AI</span>
+      </div>
+    </div>
+
+    <h1
+      data-it="Fidarsi di un repo oggi vuol dire fidarsi dei suoi server MCP"
+      data-en="Trusting a repo now means trusting its MCP servers"
+    >Trusting a repo now means trusting its MCP servers</h1>
+
+    <p class="article-intro"
+       data-it="Abbiamo aperto lo stesso repository, che dichiara lo stesso server MCP innocuo, in otto agenti AI di programmazione. In sessione interattiva, nessuno l'ha avviato prima che decidessimo. Ma cinque su sei propongono già selezionato &quot;fidati&quot;. Le richieste esatte, misure ripetute, un lab riproducibile e i comandi per controllare il tuo ambiente."
+       data-en="We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select &quot;trust&quot;. Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup."
+    >We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents. In an interactive session, none started it before we decided. But five of six pre-select "trust". Exact prompts, repeated measurements, a reproducible lab and the commands to check your own setup.</p>
+  </div>
+
+  <main class="article-body">
+    <!-- BLOG SIGNATURE: keep the TL;DR as the first article-body block. -->
+    <section class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul>
+        <li data-it="Nessun client ha avviato il canary prima che rispondessimo: rifiutare, uscire o semplicemente aspettare non l'ha mai avviato, in nessun client e in nessuna ripetizione."
+          data-en="No client started the canary before we answered: refusing, quitting or simply waiting never started it, in any client, in any repetition.">No client started the canary before we answered: refusing, quitting or simply waiting never started it, in any client, in any repetition.</li>
+        <li data-it="&lt;strong&gt;In quattro dei cinque client che leggono una configurazione MCP di progetto e fanno una domanda, la risposta già selezionata è quella che si fida.&lt;/strong&gt; Per tre di loro fidarsi della cartella equivale ad avviare i server che dichiara, senza una seconda domanda."
+          data-en="&lt;strong&gt;In four of the five clients that read a project MCP configuration and ask about it, the pre-selected answer is the one that trusts.&lt;/strong&gt; For three of them, trusting the folder is the same act as starting the servers it declares, with no second question."><strong>In four of the five clients that read a project MCP configuration and ask about it, the pre-selected answer is the one that trusts.</strong> For three of them, trusting the folder is the same act as starting the servers it declares, with no second question.</li>
+        <li data-it="Claude Code è il più prudente quando lo usi in modo interattivo, e in modalità non interattiva (&lt;code&gt;claude -p&lt;/code&gt;) avvia il server del repository senza alcuna domanda, anche prima del login."
+          data-en="Claude Code is the most careful when you use it interactively, and starts the repository's server with no question at all in non-interactive mode (&lt;code&gt;claude -p&lt;/code&gt;), even before you log in.">Claude Code is the most careful when you use it interactively, and starts the repository's server with no question at all in non-interactive mode (<code>claude -p</code>), even before you log in.</li>
+        <li data-it="Quello che ti viene mostrato cambia di un ordine di grandezza: Qwen mostra il comando esatto, Gemini nomina il server, Cursor mostra &lt;code&gt;node&lt;/code&gt;, la finestra di fiducia di VS Code non cita gli MCP."
+          data-en="What you are shown varies by an order of magnitude: Qwen shows the exact command, Gemini names the server, Cursor shows &lt;code&gt;node&lt;/code&gt;, VS Code's trust dialog does not mention MCP.">What you are shown varies by an order of magnitude: Qwen shows the exact command, Gemini names the server, Cursor shows <code>node</code>, VS Code's trust dialog does not mention MCP.</li>
+        <li data-it="La sezione [06] contiene i comandi in sola lettura per controllare il tuo ambiente; la sezione [09] il lab: canary, runner, prove e 14 test."
+          data-en="Section [06] has the read-only commands to check your own setup; section [09] has the lab: canary, runner, evidence and 14 tests.">Section [06] has the read-only commands to check your own setup; section [09] has the lab: canary, runner, evidence and 14 tests.</li>
+        <li data-it="Parte 2 di 5 della serie &lt;em&gt;Outside the Prompt&lt;/em&gt;. Parte 3, il 20 ottobre: dopo che hai approvato un tool, può cambiare senza che te ne accorga?"
+          data-en="Part 2 of 5 of the &lt;em&gt;Outside the Prompt&lt;/em&gt; series. Part 3, on 20 October: once you have approved a tool, can it change without you noticing?">Part 2 of 5 of the <em>Outside the Prompt</em> series. Part 3, on 20 October: once you have approved a tool, can it change without you noticing?</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[00] Prima il risultato" data-en="[00] Result first">[00] Result first</h2>
+      <p data-it="Un repository oggi può dichiarare i propri server MCP: poche righe in &lt;code&gt;.mcp.json&lt;/code&gt;, &lt;code&gt;.gemini/settings.json&lt;/code&gt;, &lt;code&gt;.codex/config.toml&lt;/code&gt; o in un file simile, e l'agente con cui lo apri scopre che il progetto porta con sé dei tool. Quei tool sono programmi. Dichiararne uno significa chiedere al tuo computer di eseguirlo."
+        data-en="A repository can now declare its own MCP servers: a few lines in &lt;code&gt;.mcp.json&lt;/code&gt;, &lt;code&gt;.gemini/settings.json&lt;/code&gt;, &lt;code&gt;.codex/config.toml&lt;/code&gt; or a similar file, and the agent you open it with learns that the project comes with tools. Those tools are programs. Declaring one is asking your machine to run it.">A repository can now declare its own MCP servers: a few lines in <code>.mcp.json</code>, <code>.gemini/settings.json</code>, <code>.codex/config.toml</code> or a similar file, and the agent you open it with learns that the project comes with tools. Those tools are programs. Declaring one is asking your machine to run it.</p>
+      <p data-it="Abbiamo costruito un repository che dichiara lo stesso server MCP in tutti i posti in cui ogni agente lo cerca, e l'abbiamo aperto in otto client su una macchina virtuale pulita. Il server era un canary: non fa nulla, se non scrivere una riga in un log quando parte. Per ogni client abbiamo registrato se avviava il server, cosa chiedeva, le parole esatte a schermo e quale risposta stava sotto il cursore."
+        data-en="We built one repository that declares the same MCP server in every place each agent looks, and opened it in eight clients on a clean virtual machine. The server was a canary: it does nothing except write one line to a log when it starts. For each client we recorded whether it started the server, what it asked, the exact words on screen, and which answer sat under the cursor.">We built one repository that declares the same MCP server in every place each agent looks, and opened it in eight clients on a clean virtual machine. The server was a canary: it does nothing except write one line to a log when it starts. For each client we recorded whether it started the server, what it asked, the exact words on screen, and which answer sat under the cursor.</p>
+      <p data-it="&lt;strong&gt;In sessione interattiva, nessun client ha avviato il canary prima che rispondessimo.&lt;/strong&gt; È la buona notizia, e non è scontata: le divulgazioni di quest'estate, raccontate nella prima parte, mostrano quanto spesso del codice parta prima della decisione di fiducia."
+        data-en="&lt;strong&gt;In an interactive session, no client started the canary before we answered.&lt;/strong&gt; That is the good news, and it is not a given: this summer's disclosures, covered in part 1, show how often code runs before the trust decision."><strong>In an interactive session, no client started the canary before we answered.</strong> That is the good news, and it is not a given: this summer's disclosures, covered in part 1, show how often code runs before the trust decision.</p>
+      <p data-it="Il resto è meno rassicurante. &lt;strong&gt;In cinque dei sei client che fanno una domanda prima di usare i tool del progetto (Claude Code, Gemini CLI, Codex CLI, Cursor CLI, Qwen Code e VS Code, la cui domanda compare quando apri la chat), la risposta già selezionata è quella che si fida.&lt;/strong&gt; Per tre di loro fidarsi della cartella equivale ad avviare i server che dichiara, senza una seconda domanda: subito, oppure, su Gemini 0.63.0, all'apertura successiva. VS Code lo avvia più tardi, senza domande, la prima volta che la sua chat vuole un tool. Un tasto, di solito Invio, è tutto il confine. Cursor IDE non chiede nulla e tiene i server del progetto disabilitati finché non li accendi tu."
+        data-en="The rest is less comforting. &lt;strong&gt;In five of the six clients that ask a question before using the project's tools (Claude Code, Gemini CLI, Codex CLI, Cursor CLI, Qwen Code, and VS Code, whose question appears when you open its chat), the pre-selected answer is the one that trusts.&lt;/strong&gt; For three of them, trusting the folder is the same act as starting the servers it declares, with no second question: immediately, or, on Gemini 0.63.0, at the next opening. VS Code starts it later, with no question, the first time its chat wants a tool. One keypress, usually Enter, is the whole boundary. Cursor IDE asks nothing and keeps the project's servers disabled until you switch them on.">The rest is less comforting. <strong>In five of the six clients that ask a question before using the project's tools (Claude Code, Gemini CLI, Codex CLI, Cursor CLI, Qwen Code, and VS Code, whose question appears when you open its chat), the pre-selected answer is the one that trusts.</strong> For three of them, trusting the folder is the same act as starting the servers it declares, with no second question: immediately, or, on Gemini 0.63.0, at the next opening. VS Code starts it later, with no question, the first time its chat wants a tool. One keypress, usually Enter, is the whole boundary. Cursor IDE asks nothing and keeps the project's servers disabled until you switch them on.</p>
+      <p data-it="E un client si comporta in modo opposto a seconda di come lo lanci: &lt;strong&gt;Claude Code è il più prudente tra i client che fanno una domanda quando lo usi in modo interattivo, e in modalità non interattiva avvia il server del repository senza alcuna domanda&lt;/strong&gt;, anche prima del login."
+        data-en="And one client behaves in the opposite way depending on how you run it: &lt;strong&gt;Claude Code is the most careful of the clients that ask a question when you use it interactively, and starts the repository's server with no question at all in non-interactive mode&lt;/strong&gt;, even before you log in.">And one client behaves in the opposite way depending on how you run it: <strong>Claude Code is the most careful of the clients that ask a question when you use it interactively, and starts the repository's server with no question at all in non-interactive mode</strong>, even before you log in.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[01] Perimetro e metodo" data-en="[01] Scope and method">[01] Scope and method</h2>
+      <p data-it="&lt;strong&gt;Client e versioni.&lt;/strong&gt; Ultime versioni al 26–28 settembre 2026, installate dalla fonte ufficiale di ogni vendor e lasciate sulle impostazioni di sicurezza predefinite. Il 9 ottobre, prima della pubblicazione, abbiamo aggiornato i cinque client da terminale con nuove release e rieseguito l'intera matrice (colonna &quot;ricontrollo&quot;):"
+        data-en="&lt;strong&gt;Clients and versions.&lt;/strong&gt; Current releases on 26–28 September 2026, installed from each vendor's official source and left on default security settings. On 9 October, before publishing, we updated the five terminal clients that had new releases and ran the whole matrix once more (column &quot;re-checked&quot;):"><strong>Clients and versions.</strong> Current releases on 26–28 September 2026, installed from each vendor's official source and left on default security settings. On 9 October, before publishing, we updated the five terminal clients that had new releases and ran the whole matrix once more (column "re-checked"):</p>
+      <p class="table-hint" data-it="Scorri la tabella di lato per vedere tutte e 4 le colonne →" data-en="Swipe the table sideways to see all 4 columns →">Swipe the table sideways to see all 4 columns →</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Client" data-en="Client">Client</th>
+            <th data-it="Versione" data-en="Version">Version</th>
+            <th data-it="Installato da" data-en="Installed from">Installed from</th>
+            <th data-it="Ricontrollo 9 ott" data-en="Re-checked 9 Oct">Re-checked 9 Oct</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="Claude Code" data-en="Claude Code">Claude Code</td>
+            <td data-it="2.1.283" data-en="2.1.283">2.1.283</td>
+            <td data-it="installer nativo ufficiale" data-en="official native installer">official native installer</td>
+            <td data-it="2.1.295" data-en="2.1.295">2.1.295</td>
+          </tr>
+          <tr>
+            <td data-it="Codex CLI" data-en="Codex CLI">Codex CLI</td>
+            <td data-it="0.157.1" data-en="0.157.1">0.157.1</td>
+            <td data-it="npm &lt;code&gt;@openai/codex&lt;/code&gt;" data-en="npm &lt;code&gt;@openai/codex&lt;/code&gt;">npm <code>@openai/codex</code></td>
+            <td data-it="0.162.0" data-en="0.162.0">0.162.0</td>
+          </tr>
+          <tr>
+            <td data-it="Gemini CLI" data-en="Gemini CLI">Gemini CLI</td>
+            <td data-it="0.61.0" data-en="0.61.0">0.61.0</td>
+            <td data-it="npm &lt;code&gt;@google/gemini-cli&lt;/code&gt;" data-en="npm &lt;code&gt;@google/gemini-cli&lt;/code&gt;">npm <code>@google/gemini-cli</code></td>
+            <td data-it="0.63.0" data-en="0.63.0">0.63.0</td>
+          </tr>
+          <tr>
+            <td data-it="Qwen Code" data-en="Qwen Code">Qwen Code</td>
+            <td data-it="0.24.6" data-en="0.24.6">0.24.6</td>
+            <td data-it="npm &lt;code&gt;@qwen-code/qwen-code&lt;/code&gt;" data-en="npm &lt;code&gt;@qwen-code/qwen-code&lt;/code&gt;">npm <code>@qwen-code/qwen-code</code></td>
+            <td data-it="0.25.0" data-en="0.25.0">0.25.0</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor CLI" data-en="Cursor CLI">Cursor CLI</td>
+            <td data-it="2026.09.26" data-en="2026.09.26">2026.09.26</td>
+            <td data-it="installer ufficiale da cursor.com" data-en="official installer from cursor.com">official installer from cursor.com</td>
+            <td data-it="2026.10.01" data-en="2026.10.01">2026.10.01</td>
+          </tr>
+          <tr>
+            <td data-it="Goose" data-en="Goose">Goose</td>
+            <td data-it="1.52.0" data-en="1.52.0">1.52.0</td>
+            <td data-it="script di rilascio ufficiale" data-en="official release script">official release script</td>
+            <td data-it="1.52.0" data-en="1.52.0">1.52.0</td>
+          </tr>
+          <tr>
+            <td data-it="VS Code (+ Copilot integrato)" data-en="VS Code (+ built-in Copilot)">VS Code (+ built-in Copilot)</td>
+            <td data-it="1.139.1" data-en="1.139.1">1.139.1</td>
+            <td data-it=".deb di Microsoft" data-en="Microsoft .deb">Microsoft .deb</td>
+            <td data-it="1.139.1, con Copilot loggato" data-en="1.139.1, with Copilot signed in">1.139.1, with Copilot signed in</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor IDE" data-en="Cursor IDE">Cursor IDE</td>
+            <td data-it="3.22.7" data-en="3.22.7">3.22.7</td>
+            <td data-it="AppImage ufficiale" data-en="official AppImage">official AppImage</td>
+            <td data-it="prima misura il 9 ott, loggato" data-en="first measured 9 Oct, signed in">first measured 9 Oct, signed in</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="&lt;strong&gt;Ambiente.&lt;/strong&gt; Una macchina virtuale Debian 13 con 3 GB di RAM, ripristinata dallo stesso snapshot prima di ogni giro. Gli aggiornamenti automatici erano spenti; due client hanno aggiornato comunque parti di sé (vedi [08]). La macchina è usa e getta: nessun file personale, solo gli accessi necessari a far funzionare ogni client."
+        data-en="&lt;strong&gt;Environment.&lt;/strong&gt; A Debian 13 virtual machine, 3 GB of RAM, restored from the same snapshot before every run. Automatic updates were switched off; two clients updated parts of themselves anyway (see [08]). The machine is disposable: no personal files, only the logins each client needs to run."><strong>Environment.</strong> A Debian 13 virtual machine, 3 GB of RAM, restored from the same snapshot before every run. Automatic updates were switched off; two clients updated parts of themselves anyway (see [08]). The machine is disposable: no personal files, only the logins each client needs to run.</p>
+      <p data-it="&lt;strong&gt;Il repository.&lt;/strong&gt; Un progetto dall'aria normale, &lt;code&gt;q5-repo&lt;/code&gt;, che dichiara un server MCP, &lt;code&gt;q5-canary&lt;/code&gt;, in tutte le posizioni di progetto che conosciamo:"
+        data-en="&lt;strong&gt;The repository.&lt;/strong&gt; An ordinary-looking project, &lt;code&gt;q5-repo&lt;/code&gt;, that declares one MCP server, &lt;code&gt;q5-canary&lt;/code&gt;, in every project-level location we know of:"><strong>The repository.</strong> An ordinary-looking project, <code>q5-repo</code>, that declares one MCP server, <code>q5-canary</code>, in every project-level location we know of:</p>
+      <div class="code-block"><pre>q5-repo/
+├── README.md
+├── .mcp.json               # Claude Code (VS Code also detects it)
+├── .vscode/mcp.json        # VS Code
+├── .cursor/mcp.json        # Cursor CLI and IDE
+├── .gemini/settings.json   # Gemini CLI
+├── .qwen/settings.json     # Qwen Code
+└── .codex/config.toml      # Codex CLI</pre></div>
+      <p data-it="Le dichiarazioni cambiano solo nel formato. Per esempio:"
+        data-en="The declarations differ only in format. For example:">The declarations differ only in format. For example:</p>
+      <div class="code-block"><pre><span class="comment">// .mcp.json (Claude Code) — .cursor/mcp.json, .gemini/settings.json and .qwen/settings.json use the same "mcpServers" shape</span>
+{
+  "mcpServers": {
+    "q5-canary": {
+      "command": "node",
+      "args": ["/home/lab/q5/marker-server.mjs"],
+      "env": { "CANARY_CLIENT": "claude-code", "CANARY_LOG": "/home/lab/canary-start.log" }
+    }
+  }
+}</pre></div>
+      <p data-it="VS Code usa &lt;code&gt;servers&lt;/code&gt; con un &lt;code&gt;type&lt;/code&gt; esplicito; Codex usa una tabella TOML &lt;code&gt;[mcp_servers.q5-canary]&lt;/code&gt;; entrambi sono nel pacchetto del lab."
+        data-en="VS Code uses &lt;code&gt;servers&lt;/code&gt; with an explicit &lt;code&gt;type&lt;/code&gt;; Codex uses a TOML table &lt;code&gt;[mcp_servers.q5-canary]&lt;/code&gt;; both are in the lab package.">VS Code uses <code>servers</code> with an explicit <code>type</code>; Codex uses a TOML table <code>[mcp_servers.q5-canary]</code>; both are in the lab package.</p>
+      <p data-it="Il percorso del server è assoluto di proposito: volevamo misurare se ogni client &lt;em&gt;avvia&lt;/em&gt; un server dichiarato, senza che le differenze nel modo in cui i client risolvono i percorsi relativi si mettessero di mezzo."
+        data-en="The server path is absolute on purpose: we wanted to measure whether each client &lt;em&gt;starts&lt;/em&gt; a declared server, without differences in how clients resolve relative paths getting in the way.">The server path is absolute on purpose: we wanted to measure whether each client <em>starts</em> a declared server, without differences in how clients resolve relative paths getting in the way.</p>
+      <p data-it="&lt;strong&gt;Il canary.&lt;/strong&gt; Un breve programma Node.js. Quando parte aggiunge una riga JSON a un log (ora, quale client, processo padre); risponde all'handshake MCP con un solo tool che non fa nulla e restituisce &quot;ok&quot;. Non apre mai connessioni di rete e non tocca altri file. Il codice completo è nel pacchetto del lab ([09]). Un avvio appare nel log come &lt;code&gt;{&quot;event&quot;:&quot;start&quot;,&quot;client&quot;:&quot;gemini&quot;,...}&lt;/code&gt;."
+        data-en="&lt;strong&gt;The canary.&lt;/strong&gt; A short Node.js program. When it starts it appends one JSON line to a log (time, which client, parent process); it answers the MCP handshake with a single tool that does nothing and returns &quot;ok&quot;. It never opens a network connection and never touches another file. The full source is in the lab package ([09]). A start looks like &lt;code&gt;{&quot;event&quot;:&quot;start&quot;,&quot;client&quot;:&quot;gemini&quot;,...}&lt;/code&gt; in the log."><strong>The canary.</strong> A short Node.js program. When it starts it appends one JSON line to a log (time, which client, parent process); it answers the MCP handshake with a single tool that does nothing and returns "ok". It never opens a network connection and never touches another file. The full source is in the lab package ([09]). A start looks like <code>{"event":"start","client":"gemini",...}</code> in the log.</p>
+      <p data-it="&lt;strong&gt;Cosa abbiamo registrato.&lt;/strong&gt; Per ogni client, tre momenti: la prima apertura, senza fiducia; il momento subito dopo la decisione di fiducia; la riapertura di un progetto già fidato. Per ciascuno: il testo esatto a schermo, l'opzione preselezionata e se il log del canary registrava un avvio. Sulla prima richiesta di ogni client abbiamo aspettato almeno 25 secondi prima di rispondere, per cogliere qualunque cosa partisse in background mentre la domanda è a schermo. Prima di ogni cella il log veniva svuotato, il repository ricostruito e la fiducia salvata dal client per quel repository cancellata."
+        data-en="&lt;strong&gt;What we recorded.&lt;/strong&gt; For each client, three moments: the first opening, with no trust given; the moment right after the trust decision; and reopening a project that is already trusted. For each moment: the exact text on screen, the pre-selected option, and whether the canary's log recorded a start. On the first prompt of every client we waited at least 25 seconds before answering, to catch anything that starts in the background while the question is on screen. The log was emptied, the repository rebuilt and the client's stored trust for it removed before every cell."><strong>What we recorded.</strong> For each client, three moments: the first opening, with no trust given; the moment right after the trust decision; and reopening a project that is already trusted. For each moment: the exact text on screen, the pre-selected option, and whether the canary's log recorded a start. On the first prompt of every client we waited at least 25 seconds before answering, to catch anything that starts in the background while the question is on screen. The log was emptied, the repository rebuilt and the client's stored trust for it removed before every cell.</p>
+      <p data-it="&lt;strong&gt;Ripetizioni.&lt;/strong&gt; Il 28 settembre abbiamo eseguito ogni cella a mano, leggendo ogni schermata. Poi abbiamo scritto un runner che guida i sei client da terminale attraverso le stesse celle dentro un multiplexer di terminale, risponde con tasti fissi e salva la schermata a ogni domanda. Il 9 ottobre ha eseguito l'intera matrice due volte dallo stesso snapshot; le sei celle di Codex del primo giro sono state scartate perché il suo componente in background si era aggiornato da solo a metà giro (vedi [08]), e Codex più la cella di fiducia di Gemini sono stati rieseguiti tre volte dopo il ripristino dello snapshot: 46 celle automatiche valide sulle versioni di settembre. La stessa sera abbiamo aggiornato i client da terminale alle release del 9 ottobre e rieseguito la matrice una volta, più tre ripetizioni extra su Gemini: ogni richiesta, ogni risposta preselezionata e ogni cella &quot;prima di rispondere&quot; è tornata identica. Sono altre 29 celle, per 75 celle automatiche valide in tutto. L'unica differenza è annotata sotto Gemini."
+        data-en="&lt;strong&gt;Repetitions.&lt;/strong&gt; We first ran every cell by hand on 28 September, reading each screen. Then we wrote a runner that drives the six terminal clients through the same cells in a terminal multiplexer, answers with fixed keys, and saves the screen at every question. On 9 October it ran the whole matrix twice from the same snapshot; the six Codex cells of the first run were discarded because its background component had updated itself mid-run (see [08]), and Codex plus Gemini's trust cell were rerun three times after reverting the snapshot: 46 valid automated cells on the September versions. The same evening we updated the terminal clients to the releases of 9 October and ran the matrix once more, plus three extra repetitions on Gemini: every prompt, every pre-selected answer and every &quot;before answering&quot; cell came back identical. That adds 29 cells, for 75 valid automated cells in all. The one difference is noted under Gemini."><strong>Repetitions.</strong> We first ran every cell by hand on 28 September, reading each screen. Then we wrote a runner that drives the six terminal clients through the same cells in a terminal multiplexer, answers with fixed keys, and saves the screen at every question. On 9 October it ran the whole matrix twice from the same snapshot; the six Codex cells of the first run were discarded because its background component had updated itself mid-run (see [08]), and Codex plus Gemini's trust cell were rerun three times after reverting the snapshot: 46 valid automated cells on the September versions. The same evening we updated the terminal clients to the releases of 9 October and ran the matrix once more, plus three extra repetitions on Gemini: every prompt, every pre-selected answer and every "before answering" cell came back identical. That adds 29 cells, for 75 valid automated cells in all. The one difference is noted under Gemini.</p>
+      <p data-it="&lt;strong&gt;Controlli.&lt;/strong&gt; Ogni client è stato anche portato ad approvare il server in modo esplicito, per dimostrare che il canary parte davvero quando deve. È partito, in tutti i client in grado di avviarlo. La prova non interattiva di Claude Code è stata ripetuta tre volte."
+        data-en="&lt;strong&gt;Controls.&lt;/strong&gt; Each client was also driven to approve the server explicitly, to prove the canary really starts when it is supposed to. It did, in every client able to start it. Claude Code's non-interactive run was repeated three times."><strong>Controls.</strong> Each client was also driven to approve the server explicitly, to prove the canary really starts when it is supposed to. It did, in every client able to start it. Claude Code's non-interactive run was repeated three times.</p>
+      <p data-it="&lt;strong&gt;Qui non è testato.&lt;/strong&gt; Se un modello possa essere convinto a chiamare i tool di un server. Questo post riguarda solo se il programma parte, e in seguito a quale decisione."
+        data-en="&lt;strong&gt;Not tested here.&lt;/strong&gt; Whether a model can be talked into calling a server's tools. This post is only about whether the program starts, and under which decision."><strong>Not tested here.</strong> Whether a model can be talked into calling a server's tools. This post is only about whether the program starts, and under which decision.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[02] I risultati in breve" data-en="[02] Results at a glance">[02] Results at a glance</h2>
+      <p class="table-hint" data-it="Scorri la tabella di lato per vedere tutte e 6 le colonne →" data-en="Swipe the table sideways to see all 6 columns →">Swipe the table sideways to see all 6 columns →</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Client" data-en="Client">Client</th>
+            <th data-it="Prima domanda" data-en="First question">First question</th>
+            <th data-it="Risposta preselezionata" data-en="Pre-selected answer">Pre-selected answer</th>
+            <th data-it="Canary partito prima di rispondere" data-en="Canary started before answering">Canary started before answering</th>
+            <th data-it="Dopo la fiducia sulla cartella" data-en="After trusting the folder">After trusting the folder</th>
+            <th data-it="Riapertura" data-en="Reopening">Reopening</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="Claude Code" data-en="Claude Code">Claude Code</td>
+            <td data-it="Ti fidi di questa cartella?" data-en="Trust this folder?">Trust this folder?</td>
+            <td data-it="&lt;strong&gt;No, esci&lt;/strong&gt;" data-en="&lt;strong&gt;No, exit&lt;/strong&gt;"><strong>No, exit</strong></td>
+            <td data-it="0 su 2" data-en="0 of 2">0 of 2</td>
+            <td data-it="Una &lt;strong&gt;seconda&lt;/strong&gt; domanda, solo per il server; preselezionato: continua senza → partito 0 su 2; approvazione esplicita → 2 su 2" data-en="A &lt;strong&gt;second&lt;/strong&gt; question, for the server only; pre-selected: continue without it → started 0 of 2; explicit approval → 2 of 2">A <strong>second</strong> question, for the server only; pre-selected: continue without it → started 0 of 2; explicit approval → 2 of 2</td>
+            <td data-it="Resta spento (0 su 2); nessuna nuova domanda" data-en="Stays off (0 of 2); no new question">Stays off (0 of 2); no new question</td>
+          </tr>
+          <tr>
+            <td data-it="Gemini CLI" data-en="Gemini CLI">Gemini CLI</td>
+            <td data-it="Ti fidi di questa cartella? Elenca il server per nome" data-en="Trust this folder? Lists the server by name">Trust this folder? Lists the server by name</td>
+            <td data-it="&lt;strong&gt;Fidati della cartella&lt;/strong&gt;" data-en="&lt;strong&gt;Trust folder&lt;/strong&gt;"><strong>Trust folder</strong></td>
+            <td data-it="0 su 2" data-en="0 of 2">0 of 2</td>
+            <td data-it="&lt;strong&gt;Avvia il server&lt;/strong&gt;, nessun'altra domanda: 4 su 5 entro 15 s sulla 0.61.0; sulla 0.63.0, 1 su 4 nella stessa sessione" data-en="&lt;strong&gt;Starts the server&lt;/strong&gt;, no further question: 4 of 5 within 15 s on 0.61.0; on 0.63.0, 1 of 4 in the same session"><strong>Starts the server</strong>, no further question: 4 of 5 within 15 s on 0.61.0; on 0.63.0, 1 of 4 in the same session</td>
+            <td data-it="Lo avvia (2 su 2; 0.63.0: 4 su 4)" data-en="Starts it (2 of 2; 0.63.0: 4 of 4)">Starts it (2 of 2; 0.63.0: 4 of 4)</td>
+          </tr>
+          <tr>
+            <td data-it="Codex CLI" data-en="Codex CLI">Codex CLI</td>
+            <td data-it="Ti fidi di questa cartella? Avverte che le impostazioni della cartella possono eseguire codice" data-en="Trust this folder? Warns that folder settings can run code">Trust this folder? Warns that folder settings can run code</td>
+            <td data-it="&lt;strong&gt;Fidati e continua&lt;/strong&gt;" data-en="&lt;strong&gt;Trust and continue&lt;/strong&gt;"><strong>Trust and continue</strong></td>
+            <td data-it="0 su 3" data-en="0 of 3">0 of 3</td>
+            <td data-it="&lt;strong&gt;Avvia il server&lt;/strong&gt;, nessun'altra domanda: 3 su 3" data-en="&lt;strong&gt;Starts the server&lt;/strong&gt;, no further question: 3 of 3"><strong>Starts the server</strong>, no further question: 3 of 3</td>
+            <td data-it="Lo avvia (3 su 3)" data-en="Starts it (3 of 3)">Starts it (3 of 3)</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor CLI" data-en="Cursor CLI">Cursor CLI</td>
+            <td data-it="Ti fidi di questo workspace? Dice che i server MCP verranno attivati" data-en="Trust this workspace? Says MCP servers will be enabled">Trust this workspace? Says MCP servers will be enabled</td>
+            <td data-it="&lt;strong&gt;Fidati del workspace&lt;/strong&gt;" data-en="&lt;strong&gt;Trust this workspace&lt;/strong&gt;"><strong>Trust this workspace</strong></td>
+            <td data-it="0 su 2" data-en="0 of 2">0 of 2</td>
+            <td data-it="&lt;strong&gt;Avvia il server&lt;/strong&gt;: 2 su 2. Con l'opzione [w]: schermata di approvazione, preselezionato &quot;Approva tutti i server&quot;; rifiutando → 0 su 2" data-en="&lt;strong&gt;Starts the server&lt;/strong&gt;: 2 of 2. With option [w]: approval screen, pre-selected &quot;Approve all servers&quot;; declining → 0 of 2"><strong>Starts the server</strong>: 2 of 2. With option [w]: approval screen, pre-selected "Approve all servers"; declining → 0 of 2</td>
+            <td data-it="Lo avvia (2 su 2)" data-en="Starts it (2 of 2)">Starts it (2 of 2)</td>
+          </tr>
+          <tr>
+            <td data-it="Qwen Code" data-en="Qwen Code">Qwen Code</td>
+            <td data-it="Nessuna domanda sulla cartella; una domanda per il singolo server, con il comando completo" data-en="No folder question; a per-server question with the full command">No folder question; a per-server question with the full command</td>
+            <td data-it="&lt;strong&gt;Approva questo server&lt;/strong&gt;" data-en="&lt;strong&gt;Approve this server&lt;/strong&gt;"><strong>Approve this server</strong></td>
+            <td data-it="0 su 2" data-en="0 of 2">0 of 2</td>
+            <td data-it="Lo avvia dopo l'approvazione: 2 su 2" data-en="Starts it after approval: 2 of 2">Starts it after approval: 2 of 2</td>
+            <td data-it="Lo avvia (2 su 2); dopo un cambio di configurazione chiede di nuovo, 0 su 2 avvii prima della nuova approvazione" data-en="Starts it (2 of 2); after a configuration change asks again, 0 of 2 started before re-approval">Starts it (2 of 2); after a configuration change asks again, 0 of 2 started before re-approval</td>
+          </tr>
+          <tr>
+            <td data-it="VS Code" data-en="VS Code">VS Code</td>
+            <td data-it="Nessuna finestra all'apertura; banner di modalità ristretta. Aprendo la chat chiede: Ti fidi degli autori?" data-en="No dialog on opening; Restricted Mode banner. Opening the chat asks: Do you trust the authors?">No dialog on opening; Restricted Mode banner. Opening the chat asks: Do you trust the authors?</td>
+            <td data-it="&lt;strong&gt;Trust Folder &amp;amp; Continue&lt;/strong&gt;" data-en="&lt;strong&gt;Trust Folder &amp;amp; Continue&lt;/strong&gt;"><strong>Trust Folder &amp; Continue</strong></td>
+            <td data-it="0 su 1 senza Copilot, 0 su 1 con" data-en="0 of 1 without Copilot, 0 of 1 with">0 of 1 without Copilot, 0 of 1 with</td>
+            <td data-it="Non lo avvia alla fiducia (0 su 1 senza Copilot, 0 su 1 con); &lt;strong&gt;lo avvia senza domande la prima volta che la chat vuole il suo tool&lt;/strong&gt;, poi chiede solo se eseguire il tool, preselezionato &quot;Allow in this Session&quot; (1 su 1)" data-en="Does not start it on trust (0 of 1 without Copilot, 0 of 1 with); &lt;strong&gt;starts it with no question the first time the chat wants its tool&lt;/strong&gt;, then asks only whether to run the tool, pre-selected &quot;Allow in this Session&quot; (1 of 1)">Does not start it on trust (0 of 1 without Copilot, 0 of 1 with); <strong>starts it with no question the first time the chat wants its tool</strong>, then asks only whether to run the tool, pre-selected "Allow in this Session" (1 of 1)</td>
+            <td data-it="Non lo avvia (senza Copilot; non rimisurato con la chat)" data-en="Does not start it (without Copilot; not re-measured with chat)">Does not start it (without Copilot; not re-measured with chat)</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor IDE" data-en="Cursor IDE">Cursor IDE</td>
+            <td data-it="Nessuna finestra; nessuna modalità ristretta" data-en="No dialog; no restricted mode">No dialog; no restricted mode</td>
+            <td data-it="nessuna" data-en="none">none</td>
+            <td data-it="0 su 1" data-en="0 of 1">0 of 1</td>
+            <td data-it="Server del progetto elencato come &lt;strong&gt;Disabled&lt;/strong&gt;; l'agente non riesce a caricarlo (0 su 1). Accendendolo dalle impostazioni parte subito, senza mostrare il comando (1 su 1)" data-en="Project server listed as &lt;strong&gt;Disabled&lt;/strong&gt;; the agent cannot load it (0 of 1). Switching it on in settings starts it at once, without showing the command (1 of 1)">Project server listed as <strong>Disabled</strong>; the agent cannot load it (0 of 1). Switching it on in settings starts it at once, without showing the command (1 of 1)</td>
+            <td data-it="—" data-en="—">—</td>
+          </tr>
+          <tr>
+            <td data-it="Goose" data-en="Goose">Goose</td>
+            <td data-it="nessuna" data-en="none">none</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="Non legge server dal repo: 0 su 2" data-en="Does not read servers from the repo: 0 of 2">Does not read servers from the repo: 0 of 2</td>
+            <td data-it="—" data-en="—">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="Rifiutare, uscire o semplicemente aspettare non ha mai avviato il canary, in nessun client e in nessuna ripetizione. L'unico risultato che non si è ripetuto in modo perfetto è quello di Gemini: in una ripetizione su cinque il canary non si è visto entro 15 secondi dalla fiducia sulla cartella; in quel giro non c'era un controllo successivo."
+        data-en="Refusing, quitting or simply waiting never started the canary, in any client, in any repetition. The one result that did not repeat perfectly is Gemini's: in one of five repetitions the canary was not seen within 15 seconds of trusting the folder; that pass had no later check.">Refusing, quitting or simply waiting never started the canary, in any client, in any repetition. The one result that did not repeat perfectly is Gemini's: in one of five repetitions the canary was not seen within 15 seconds of trusting the folder; that pass had no later check.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[03] Client per client" data-en="[03] Client by client">[03] Client by client</h2>
+      <h3 data-it="Claude Code 2.1.283" data-en="Claude Code 2.1.283">Claude Code 2.1.283</h3>
+      <p data-it="Aprendo la cartella compare questa schermata, con il cursore sulla prima opzione:"
+        data-en="Opening the folder produces this, with the cursor on the first option:">Opening the folder produces this, with the cursor on the first option:</p>
+      <div class="code-block"><pre> Accessing workspace:
+
+ /home/lab/q5-repo
+
+ Quick safety check: Is this a project you created or one you trust? (Like your own code, a well-known
+ open source project, or work from your team). If not, take a moment to review what's in this folder first.
+
+ Claude Code'll be able to read, edit, and execute files here.
+
+ Security guide
+
+ ❯ No, exit
+   Yes, I trust this folder</pre></div>
+      <p data-it="La domanda non cita i server MCP. Premendo Invio si esce. Scegliendo &quot;Yes, I trust this folder&quot; il server non parte comunque: compare una seconda domanda, di nuovo con l'opzione sicura preselezionata:"
+        data-en="The question does not mention MCP servers. Pressing Enter exits. Choosing &quot;Yes, I trust this folder&quot; does not start the server either; a second question appears, again with the safe option pre-selected:">The question does not mention MCP servers. Pressing Enter exits. Choosing "Yes, I trust this folder" does not start the server either; a second question appears, again with the safe option pre-selected:</p>
+      <div class="code-block"><pre>  New MCP server found in this project: q5-canary
+
+  MCP servers may execute code or access system resources. All tool calls require approval.
+
+    Use this MCP server
+    Use this and all future MCP servers in this project
+  ❯ Continue without using this MCP server</pre></div>
+      <p data-it="Con la risposta predefinita il canary non è mai partito, e alla riapertura Claude Code non ha chiesto di nuovo: la scelta viene ricordata. Scegliendo &quot;Use this MCP server&quot; è partito subito. L'opzione centrale, &quot;Use this and all future MCP servers in this project&quot;, merita attenzione: approva in anticipo server che ancora non esistono."
+        data-en="With the default answer the canary never started, and on reopening Claude Code did not ask again: the choice is remembered. Choosing &quot;Use this MCP server&quot; started it immediately. The middle option, &quot;Use this and all future MCP servers in this project&quot;, is worth noticing: it pre-approves servers that do not exist yet.">With the default answer the canary never started, and on reopening Claude Code did not ask again: the choice is remembered. Choosing "Use this MCP server" started it immediately. The middle option, "Use this and all future MCP servers in this project", is worth noticing: it pre-approves servers that do not exist yet.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; l'unico client che separa le due decisioni e propone &quot;no&quot; su entrambe. Per l'eccezione vedi [04]."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; the only client that separates the two decisions and defaults to &quot;no&quot; on both. See [04] for the exception."><strong>Verdict:</strong> the only client that separates the two decisions and defaults to "no" on both. See [04] for the exception.</p>
+      <h3 data-it="Gemini CLI 0.61.0" data-en="Gemini CLI 0.61.0">Gemini CLI 0.61.0</h3>
+      <div class="code-block"><pre> Do you trust the files in this folder?
+
+ Trusting a folder allows Gemini CLI to load its local configurations, including custom commands, hooks,
+ MCP servers, agent skills, and settings. These configurations could execute code on your behalf or change
+ the behavior of the CLI.
+
+ This folder contains:
+   • MCP Servers (1):
+     - q5-canary
+
+ ● 1. Trust folder (q5-repo)
+   2. Trust parent folder (lab)
+   3. Don't trust</pre></div>
+      <p data-it="È la prima domanda più informativa del gruppo: nomina il server che la cartella dichiara. Preseleziona però &quot;Trust folder&quot;, e propone di fidarsi anche della cartella &lt;em&gt;superiore&lt;/em&gt;, cosa che estenderebbe la decisione a tutti i progetti che contiene. Scegliendo &quot;Don't trust&quot; il canary è rimasto spento e Gemini ha lavorato ignorando le impostazioni del progetto, con &quot;untrusted&quot; nella barra di stato. Scegliendo &quot;Trust folder&quot; il canary è partito subito, senza altre domande, ed è ripartito a ogni riapertura. Sulla &lt;a href=&quot;https://github.com/google-gemini/gemini-cli/releases/tag/v0.63.0&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;0.63.0&lt;/a&gt;, uscita il 6 ottobre, la stessa scelta ha avviato il canary nella stessa sessione solo una volta su quattro; nelle altre tre la schermata diceva &lt;em&gt;&quot;Skipping project agents due to untrusted folder&quot;&lt;/em&gt; e la riga di stato restava non fidata, ma la decisione era salvata e il server è partito a ogni riapertura (4 su 4). Le note di rilascio della 0.63.0 includono una correzione per &quot;propagate resolved folder trust state in headless mode&quot; (&lt;a href=&quot;https://github.com/google-gemini/gemini-cli/pull/29528&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;PR #29528&lt;/a&gt;). Cambia quando il server parte, non se: un clic, poi l'apertura successiva."
+        data-en="This is the most informative first question of the lot: it names the server the folder declares. It also pre-selects &quot;Trust folder&quot;, and offers to trust the &lt;em&gt;parent&lt;/em&gt; folder, which would extend the decision to every project in it. Choosing &quot;Don't trust&quot; left the canary off, and Gemini ran with project settings ignored, showing &quot;untrusted&quot; in its status bar. Choosing &quot;Trust folder&quot; started the canary at once, with no further question, and it started again at every reopening. On &lt;a href=&quot;https://github.com/google-gemini/gemini-cli/releases/tag/v0.63.0&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;0.63.0&lt;/a&gt;, released 6 October, the same choice started the canary in the same session only once in four runs; in the other three the screen said &lt;em&gt;&quot;Skipping project agents due to untrusted folder&quot;&lt;/em&gt; and the status line stayed untrusted, but the decision was saved and the server started at every reopening (4 of 4). 0.63.0's release notes include a fix to &quot;propagate resolved folder trust state in headless mode&quot; (&lt;a href=&quot;https://github.com/google-gemini/gemini-cli/pull/29528&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;PR #29528&lt;/a&gt;). It changes when the server starts, not whether: one click, then the next opening.">This is the most informative first question of the lot: it names the server the folder declares. It also pre-selects "Trust folder", and offers to trust the <em>parent</em> folder, which would extend the decision to every project in it. Choosing "Don't trust" left the canary off, and Gemini ran with project settings ignored, showing "untrusted" in its status bar. Choosing "Trust folder" started the canary at once, with no further question, and it started again at every reopening. On <a href="https://github.com/google-gemini/gemini-cli/releases/tag/v0.63.0" target="_blank" rel="noopener noreferrer">0.63.0</a>, released 6 October, the same choice started the canary in the same session only once in four runs; in the other three the screen said <em>"Skipping project agents due to untrusted folder"</em> and the status line stayed untrusted, but the decision was saved and the server started at every reopening (4 of 4). 0.63.0's release notes include a fix to "propagate resolved folder trust state in headless mode" (<a href="https://github.com/google-gemini/gemini-cli/pull/29528" target="_blank" rel="noopener noreferrer">PR #29528</a>). It changes when the server starts, not whether: one click, then the next opening.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; chiaro su cosa significhi fidarsi, ma fiducia ed esecuzione sono un solo clic, e il clic è preselezionato."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; transparent about what trust means, but trust and execution are one click, and the click is pre-selected."><strong>Verdict:</strong> transparent about what trust means, but trust and execution are one click, and the click is pre-selected.</p>
+      <h3 data-it="Codex CLI 0.157.1" data-en="Codex CLI 0.157.1">Codex CLI 0.157.1</h3>
+      <div class="code-block"><pre>  Folder access
+  /home/lab/q5-repo
+
+  Trust this folder? Codex can read, edit, and run files here, subject to your permission settings.
+  Folder settings can run code automatically, even without a model request. Continue only if you trust
+  these files. Your trust decision will be saved.
+
+› 1. Trust and continue
+  2. Back to Agent Command Center</pre></div>
+      <p data-it="L'avviso di Codex è la frase più onesta che abbiamo visto in questo test: &lt;em&gt;le impostazioni della cartella possono eseguire codice automaticamente, anche senza una richiesta al modello&lt;/em&gt;. È esattamente quello che è successo. &quot;Trust and continue&quot;, preselezionato, ha avviato il canary senza una domanda specifica sull'MCP, e l'ha riavviato a ogni riapertura. Premendo Esc non è stato salvato nulla e la domanda è tornata la volta dopo. La decisione viene scritta in &lt;code&gt;~/.codex/config.toml&lt;/code&gt;:"
+        data-en="Codex's warning is the most honest sentence we saw in this test: &lt;em&gt;folder settings can run code automatically, even without a model request&lt;/em&gt;. That is exactly what happened. &quot;Trust and continue&quot;, pre-selected, started the canary with no MCP-specific question, and it started again on every reopening. Pressing Esc saved nothing and the question came back next time. The decision is written to &lt;code&gt;~/.codex/config.toml&lt;/code&gt;:">Codex's warning is the most honest sentence we saw in this test: <em>folder settings can run code automatically, even without a model request</em>. That is exactly what happened. "Trust and continue", pre-selected, started the canary with no MCP-specific question, and it started again on every reopening. Pressing Esc saved nothing and the question came back next time. The decision is written to <code>~/.codex/config.toml</code>:</p>
+      <div class="code-block"><pre>[projects."/home/lab/q5-repo"]
+trust_level = "trusted"</pre></div>
+      <p data-it="Una correzione ai nostri stessi appunti: prima del test pensavamo che Codex leggesse i server MCP solo dalla configurazione globale. Legge anche &lt;code&gt;.codex/config.toml&lt;/code&gt; dentro un progetto fidato."
+        data-en="One correction to our own earlier notes: before testing we believed Codex only read MCP servers from its global configuration. It reads &lt;code&gt;.codex/config.toml&lt;/code&gt; inside a trusted project too.">One correction to our own earlier notes: before testing we believed Codex only read MCP servers from its global configuration. It reads <code>.codex/config.toml</code> inside a trusted project too.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; un avviso chiaro, poi un solo clic preselezionato per entrambe le decisioni."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; a clear warning, then one pre-selected click for both decisions."><strong>Verdict:</strong> a clear warning, then one pre-selected click for both decisions.</p>
+      <h3 data-it="Cursor CLI 2026.09.26" data-en="Cursor CLI 2026.09.26">Cursor CLI 2026.09.26</h3>
+      <div class="code-block"><pre>  ⚠ Workspace Trust Required
+
+  Cursor Agent can execute code and access files in this directory.
+
+  This will also enable the MCP servers configured for this workspace.
+
+  Do you trust the contents of this directory?
+
+    /home/lab/q5-repo
+
+  ▶ [a] Trust this workspace
+    [w] Trust this workspace, but don't enable all MCP servers
+    [q] Quit</pre></div>
+      <p data-it="Cursor dice chiaramente che fidarsi attiva i server MCP del workspace, ed è l'unica CLI oltre a Claude Code che propone di separare le due cose, con l'opzione [w]. Però è preselezionata [a], e [a] ha avviato subito il canary; alla riapertura è ripartito senza domande. (Cursor lancia il server due volte per sessione; contiamo le sessioni, non i processi.)"
+        data-en="Cursor states plainly that trusting enables the workspace's MCP servers, and it is the only CLI besides Claude Code that offers to separate the two, with option [w]. But [a] is pre-selected, and [a] started the canary immediately; on reopening it started again with no question. (Cursor launches the server twice per session; we count sessions, not processes.)">Cursor states plainly that trusting enables the workspace's MCP servers, and it is the only CLI besides Claude Code that offers to separate the two, with option [w]. But [a] is pre-selected, and [a] started the canary immediately; on reopening it started again with no question. (Cursor launches the server twice per session; we count sessions, not processes.)</p>
+      <p data-it="Scegliendo [w] il canary non è partito. Alla sessione successiva è comparsa questa schermata, e di nuovo la risposta preselezionata è quella permissiva:"
+        data-en="Choosing [w] did not start it. The next session showed this, and again the pre-selected answer is the permissive one:">Choosing [w] did not start it. The next session showed this, and again the pre-selected answer is the permissive one:</p>
+      <div class="code-block"><pre>  ⚠ MCP Server Approval Required
+
+  Some MCP servers can execute code and read your data.
+
+  The following MCP servers need to be approved:
+
+    • q5-canary (command: node)
+
+  ▶ [a] Approve all servers
+    [c] Continue without approval
+    [q] Quit</pre></div>
+      <p data-it="Nota cosa mostra l'approvazione: &lt;code&gt;command: node&lt;/code&gt;. Non lo script che node eseguirà, né i suoi argomenti. Qui tutti i server basati su Node sembrano uguali. La fiducia viene salvata come file, &lt;code&gt;~/.cursor/projects/&amp;lt;progetto&amp;gt;/.workspace-trusted&lt;/code&gt;."
+        data-en="Note what the approval shows: &lt;code&gt;command: node&lt;/code&gt;. Not the script node will run, not its arguments. Every Node-based server looks the same here. Trust is stored as a file, &lt;code&gt;~/.cursor/projects/&amp;lt;project&amp;gt;/.workspace-trusted&lt;/code&gt;.">Note what the approval shows: <code>command: node</code>. Not the script node will run, not its arguments. Every Node-based server looks the same here. Trust is stored as a file, <code>~/.cursor/projects/&lt;project&gt;/.workspace-trusted</code>.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; offre la separazione giusta, ma il predefinito la salta, e la schermata di approvazione nasconde cosa verrà eseguito."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; offers the right separation, but the default skips it, and the approval screen hides what will run."><strong>Verdict:</strong> offers the right separation, but the default skips it, and the approval screen hides what will run.</p>
+      <h3 data-it="Qwen Code 0.24.6" data-en="Qwen Code 0.24.6">Qwen Code 0.24.6</h3>
+      <p data-it="Qwen non fa domande sulla cartella. Chiede del server, e mostra più di chiunque altro:"
+        data-en="Qwen asks no question about the folder. It asks about the server, and shows more than anyone else:">Qwen asks no question about the folder. It asks about the server, and shows more than anyone else:</p>
+      <div class="code-block"><pre> Untrusted MCP server in .qwen/settings.json
+ This workspace declares an MCP server. Approving lets Qwen Code start it and run its tools.
+ Approval is bound to this exact configuration — if .qwen/settings.json changes, you will be
+ asked again.
+
+ q5-canary  node /home/lab/q5/marker-server.mjs (stdio) [env: CANARY_CLIENT, CANARY_LOG]
+
+ › 1. Approve this server
+   2. Approve all pending servers in this workspace
+   3. Reject (esc)</pre></div>
+      <p data-it="Il comando completo, il trasporto e i nomi delle variabili d'ambiente che riceverà. La risposta preselezionata è &quot;Approve this server&quot;. Rifiutando, il canary è rimasto spento e il rifiuto è stato ricordato. Approvando è partito, e poi a ogni riapertura. Poi abbiamo cambiato un valore in &lt;code&gt;.qwen/settings.json&lt;/code&gt;: Qwen ha mostrato di nuovo la stessa domanda e non ha avviato il server finché non l'abbiamo approvato di nuovo. Abbiamo ripetuto il cambio una seconda volta, con lo stesso risultato. Le approvazioni vengono salvate insieme a un hash della configurazione in &lt;code&gt;~/.qwen/mcpApprovals.json&lt;/code&gt;:"
+        data-en="The full command, the transport and the names of the environment variables it will receive. The pre-selected answer is &quot;Approve this server&quot;. Rejecting kept the canary off and was remembered. Approving started it, and it started on every reopening. Then we changed one value in &lt;code&gt;.qwen/settings.json&lt;/code&gt;: Qwen showed the same question again and did not start the server until we approved it again. We repeated the change a second time with the same result. Approvals are stored with a hash of the configuration in &lt;code&gt;~/.qwen/mcpApprovals.json&lt;/code&gt;:">The full command, the transport and the names of the environment variables it will receive. The pre-selected answer is "Approve this server". Rejecting kept the canary off and was remembered. Approving started it, and it started on every reopening. Then we changed one value in <code>.qwen/settings.json</code>: Qwen showed the same question again and did not start the server until we approved it again. We repeated the change a second time with the same result. Approvals are stored with a hash of the configuration in <code>~/.qwen/mcpApprovals.json</code>:</p>
+      <div class="code-block"><pre>{"/home/lab/q5-repo": {"q5-canary": {"hash": "a8e2e96c…", "status": "approved"}}}</pre></div>
+      <p data-it="Un altro comportamento predefinito da conoscere: Qwen parte in &lt;strong&gt;Auto mode&lt;/strong&gt;, dove un classificatore basato su modello approva da solo le azioni che giudica sicure."
+        data-en="One more default is worth knowing: Qwen starts in &lt;strong&gt;Auto mode&lt;/strong&gt;, where a model-based classifier approves actions it judges safe.">One more default is worth knowing: Qwen starts in <strong>Auto mode</strong>, where a model-based classifier approves actions it judges safe.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; le informazioni migliori e l'unica protezione contro una dichiarazione che cambia dopo l'approvazione; la risposta preselezionata resta però &quot;approva&quot;."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; the best information and the only protection against a declaration that changes after approval; the pre-selected answer is still &quot;approve&quot;."><strong>Verdict:</strong> the best information and the only protection against a declaration that changes after approval; the pre-selected answer is still "approve".</p>
+      <h3 data-it="VS Code 1.139.1" data-en="VS Code 1.139.1">VS Code 1.139.1</h3>
+      <p data-it="VS Code ha aperto la cartella senza alcuna finestra, in &lt;strong&gt;modalità ristretta&lt;/strong&gt;, con un banner in alto:"
+        data-en="VS Code opened the folder without any dialog, in &lt;strong&gt;Restricted Mode&lt;/strong&gt;, with a banner at the top:">VS Code opened the folder without any dialog, in <strong>Restricted Mode</strong>, with a banner at the top:</p>
+      <figure class="shot" data-it="&lt;img src=&quot;vscode-restricted-mode.webp&quot; alt=&quot;VS Code apre il repository di test in modalità ristretta; l'Explorer mostra le cartelle di configurazione degli agenti&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;VS Code apre il repository di test in modalità ristretta; l'Explorer mostra le cartelle di configurazione degli agenti&lt;/figcaption&gt;"
+        data-en="&lt;img src=&quot;vscode-restricted-mode.webp&quot; alt=&quot;VS Code opens the test repository in Restricted Mode; the Explorer shows the agent configuration folders&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;VS Code opens the test repository in Restricted Mode; the Explorer shows the agent configuration folders&lt;/figcaption&gt;"><img src="vscode-restricted-mode.webp" alt="VS Code opens the test repository in Restricted Mode; the Explorer shows the agent configuration folders" loading="lazy"><figcaption>VS Code opens the test repository in Restricted Mode; the Explorer shows the agent configuration folders</figcaption></figure>
+      <p data-it="La finestra di fiducia, raggiungibile dal banner, elenca cosa attiva la fiducia (task, debug, impostazioni del workspace, estensioni) ma non cita i server MCP:"
+        data-en="The trust dialog, reached from the banner, lists what trust enables (tasks, debugging, workspace settings, extensions) but does not mention MCP servers:">The trust dialog, reached from the banner, lists what trust enables (tasks, debugging, workspace settings, extensions) but does not mention MCP servers:</p>
+      <figure class="shot" data-it="&lt;img src=&quot;vscode-trust-dialog.webp&quot; alt=&quot;La finestra Workspace Trust di VS Code: gli elenchi per la modalità fidata e ristretta non citano i server MCP&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;La finestra Workspace Trust di VS Code: gli elenchi per la modalità fidata e ristretta non citano i server MCP&lt;/figcaption&gt;"
+        data-en="&lt;img src=&quot;vscode-trust-dialog.webp&quot; alt=&quot;VS Code's Workspace Trust dialog: the lists for trusted and restricted mode do not mention MCP servers&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;VS Code's Workspace Trust dialog: the lists for trusted and restricted mode do not mention MCP servers&lt;/figcaption&gt;"><img src="vscode-trust-dialog.webp" alt="VS Code's Workspace Trust dialog: the lists for trusted and restricted mode do not mention MCP servers" loading="lazy"><figcaption>VS Code's Workspace Trust dialog: the lists for trusted and restricted mode do not mention MCP servers</figcaption></figure>
+      <p data-it="Dopo aver cliccato &lt;strong&gt;Trust&lt;/strong&gt;, VS Code non ha comunque avviato il server. Il comando &lt;em&gt;MCP: List Servers&lt;/em&gt; ha mostrato che aveva trovato entrambe le dichiarazioni: &lt;code&gt;.vscode/mcp.json&lt;/code&gt; come &lt;strong&gt;Stopped&lt;/strong&gt; e il &lt;code&gt;.mcp.json&lt;/code&gt; in radice come &lt;strong&gt;Disabled&lt;/strong&gt;. Il secondo è una novità: VS Code ora rileva il file usato da Claude Code. Il cambiamento è la &lt;a href=&quot;https://github.com/microsoft/vscode/pull/335515&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;PR #335515&lt;/a&gt;, unita il 10 settembre 2026 per la release 1.138: i server di &lt;code&gt;.mcp.json&lt;/code&gt; nella radice del workspace ora ereditano la fiducia del workspace, come &lt;code&gt;.vscode/mcp.json&lt;/code&gt;, invece del consenso per singolo server di prima."
+        data-en="After we clicked &lt;strong&gt;Trust&lt;/strong&gt;, VS Code still did not start the server. The command palette's &lt;em&gt;MCP: List Servers&lt;/em&gt; showed that it had found both declarations: &lt;code&gt;.vscode/mcp.json&lt;/code&gt; as &lt;strong&gt;Stopped&lt;/strong&gt; and the root &lt;code&gt;.mcp.json&lt;/code&gt; as &lt;strong&gt;Disabled&lt;/strong&gt;. The second one is new: VS Code now picks up the file Claude Code uses. The change is &lt;a href=&quot;https://github.com/microsoft/vscode/pull/335515&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;PR #335515&lt;/a&gt;, merged on 10 September 2026 for release 1.138: workspace-root &lt;code&gt;.mcp.json&lt;/code&gt; servers now inherit workspace trust, like &lt;code&gt;.vscode/mcp.json&lt;/code&gt;, instead of the earlier per-server consent.">After we clicked <strong>Trust</strong>, VS Code still did not start the server. The command palette's <em>MCP: List Servers</em> showed that it had found both declarations: <code>.vscode/mcp.json</code> as <strong>Stopped</strong> and the root <code>.mcp.json</code> as <strong>Disabled</strong>. The second one is new: VS Code now picks up the file Claude Code uses. The change is <a href="https://github.com/microsoft/vscode/pull/335515" target="_blank" rel="noopener noreferrer">PR #335515</a>, merged on 10 September 2026 for release 1.138: workspace-root <code>.mcp.json</code> servers now inherit workspace trust, like <code>.vscode/mcp.json</code>, instead of the earlier per-server consent.</p>
+      <figure class="shot" data-it="&lt;img src=&quot;vscode-mcp-list-servers.webp&quot; alt=&quot;MCP: List Servers in VS Code: il canary da .vscode/mcp.json è Stopped, quello da .mcp.json è Disabled&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;MCP: List Servers in VS Code: il canary da .vscode/mcp.json è Stopped, quello da .mcp.json è Disabled&lt;/figcaption&gt;"
+        data-en="&lt;img src=&quot;vscode-mcp-list-servers.webp&quot; alt=&quot;MCP: List Servers in VS Code: the canary from .vscode/mcp.json is Stopped, the one from .mcp.json is Disabled&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;MCP: List Servers in VS Code: the canary from .vscode/mcp.json is Stopped, the one from .mcp.json is Disabled&lt;/figcaption&gt;"><img src="vscode-mcp-list-servers.webp" alt="MCP: List Servers in VS Code: the canary from .vscode/mcp.json is Stopped, the one from .mcp.json is Disabled" loading="lazy"><figcaption>MCP: List Servers in VS Code: the canary from .vscode/mcp.json is Stopped, the one from .mcp.json is Disabled</figcaption></figure>
+      <p data-it="Avviarlo a mano (&lt;em&gt;Start Server&lt;/em&gt;) ha funzionato senza una conferma specifica per l'MCP; la prima volta VS Code ha chiesto solo come salvare i dati cifrati, perché la nostra macchina non aveva un portachiavi di sistema. Alla riapertura non ha più avviato il server."
+        data-en="Starting it by hand (&lt;em&gt;Start Server&lt;/em&gt;) worked with no MCP-specific confirmation; the first time, VS Code only asked how to store encrypted data because our machine had no OS keyring. On reopening it did not start the server again.">Starting it by hand (<em>Start Server</em>) worked with no MCP-specific confirmation; the first time, VS Code only asked how to store encrypted data because our machine had no OS keyring. On reopening it did not start the server again.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; il comportamento predefinito più prudente che abbiamo visto, finché nessuno apre la chat."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; the most conservative default we saw, as long as nobody opens the chat."><strong>Verdict:</strong> the most conservative default we saw, as long as nobody opens the chat.</p>
+      <p data-it="&lt;strong&gt;Con Copilot loggato&lt;/strong&gt; (misurato il 9 ottobre, una esecuzione, screenshot nel pacchetto del lab): aprire la cartella non ha prodotto nessuna finestra. Aprire la chat sì: &lt;em&gt;&quot;Do you trust the authors of the files in this folder? AI features are currently only supported in trusted workspaces&quot;&lt;/em&gt;, con &lt;strong&gt;Trust Folder &amp;amp; Continue&lt;/strong&gt; come scelta evidenziata; l'abbiamo tenuta 25 secondi e il canary è rimasto spento. Dopo la fiducia, il canary è rimasto spento altri 27 secondi. Poi abbiamo chiesto alla chat, in modalità Agent, di usare il tool &lt;code&gt;q5-canary&lt;/code&gt;. &lt;strong&gt;VS Code ha avviato il server subito, senza domande&lt;/strong&gt;: il log mostra l'avvio e l'handshake MCP da &lt;code&gt;.vscode/mcp.json&lt;/code&gt; entro dieci secondi. La domanda è arrivata dopo, a programma già in esecuzione, e riguardava la chiamata del tool, non il server: &lt;em&gt;&quot;Run canary_noop — q5-canary (MCP Server)&quot;&lt;/em&gt;, con &lt;strong&gt;Allow in this Session&lt;/strong&gt; preselezionato e &lt;em&gt;Skip&lt;/em&gt; accanto. Scegliendo Skip il server è rimasto avviato e il tool non è stato chiamato."
+        data-en="&lt;strong&gt;With Copilot signed in&lt;/strong&gt; (measured on 9 October, one run, screenshots in the lab package): opening the folder still produced no dialog. Opening the chat did: &lt;em&gt;&quot;Do you trust the authors of the files in this folder? AI features are currently only supported in trusted workspaces&quot;&lt;/em&gt;, with &lt;strong&gt;Trust Folder &amp;amp; Continue&lt;/strong&gt; as the highlighted default; we held it for 25 seconds and the canary stayed off. After trusting, the canary stayed off for another 27 seconds. Then we asked the chat, in Agent mode, to use the &lt;code&gt;q5-canary&lt;/code&gt; tool. &lt;strong&gt;VS Code started the server immediately, with no question&lt;/strong&gt;: the log shows the start and the MCP handshake from &lt;code&gt;.vscode/mcp.json&lt;/code&gt; within ten seconds. The question came after the program was already running, and it was about the tool call, not the server: &lt;em&gt;&quot;Run canary_noop — q5-canary (MCP Server)&quot;&lt;/em&gt;, with &lt;strong&gt;Allow in this Session&lt;/strong&gt; pre-selected and &lt;em&gt;Skip&lt;/em&gt; beside it. Choosing Skip left the server running and the tool uncalled."><strong>With Copilot signed in</strong> (measured on 9 October, one run, screenshots in the lab package): opening the folder still produced no dialog. Opening the chat did: <em>"Do you trust the authors of the files in this folder? AI features are currently only supported in trusted workspaces"</em>, with <strong>Trust Folder &amp; Continue</strong> as the highlighted default; we held it for 25 seconds and the canary stayed off. After trusting, the canary stayed off for another 27 seconds. Then we asked the chat, in Agent mode, to use the <code>q5-canary</code> tool. <strong>VS Code started the server immediately, with no question</strong>: the log shows the start and the MCP handshake from <code>.vscode/mcp.json</code> within ten seconds. The question came after the program was already running, and it was about the tool call, not the server: <em>"Run canary_noop — q5-canary (MCP Server)"</em>, with <strong>Allow in this Session</strong> pre-selected and <em>Skip</em> beside it. Choosing Skip left the server running and the tool uncalled.</p>
+      <h3 data-it="Cursor IDE 3.22.7" data-en="Cursor IDE 3.22.7">Cursor IDE 3.22.7</h3>
+      <p data-it="Misurato il 9 ottobre, una esecuzione, loggato. Aprire la cartella non ha prodotto &lt;strong&gt;nessuna finestra di fiducia e nessuna modalità ristretta&lt;/strong&gt;: il pannello Agent era subito pronto e il canary è rimasto spento per 30 secondi. Alla richiesta di usare il tool &lt;code&gt;q5-canary&lt;/code&gt;, l'agente ha letto i file del repository senza chiedere, ha cercato nel catalogo dei tool, ha provato a caricare il server ed è stato respinto: &lt;em&gt;&quot;MCP server 'q5-canary' not found&quot;&lt;/em&gt;. Il server del progetto esiste solo nelle impostazioni (Customize → MCPs), elencato come &lt;code&gt;q5-canary · q5-repo · Disabled&lt;/code&gt;; la sua finestra di configurazione mostra il file sorgente, &lt;code&gt;.cursor/mcp.json&lt;/code&gt;, e un interruttore, ma &lt;strong&gt;non il comando&lt;/strong&gt;. Acceso l'interruttore, il canary è partito entro cinque secondi, con &quot;Local · Connected&quot; e il tool abilitato."
+        data-en="Measured on 9 October, one run, signed in. Opening the folder produced &lt;strong&gt;no trust dialog and no restricted mode&lt;/strong&gt;: the Agent panel was ready at once, and the canary stayed off for 30 seconds. Asked to use the &lt;code&gt;q5-canary&lt;/code&gt; tool, the agent read the repository's files without asking, searched its tool catalogue, tried to load the server and was refused: &lt;em&gt;&quot;MCP server 'q5-canary' not found&quot;&lt;/em&gt;. The project's server exists only in the settings (Customize → MCPs), listed as &lt;code&gt;q5-canary · q5-repo · Disabled&lt;/code&gt;; its configuration dialog shows the source file, &lt;code&gt;.cursor/mcp.json&lt;/code&gt;, and a switch, but &lt;strong&gt;not the command&lt;/strong&gt;. Switching it on started the canary within five seconds, with &quot;Local · Connected&quot; and the tool enabled.">Measured on 9 October, one run, signed in. Opening the folder produced <strong>no trust dialog and no restricted mode</strong>: the Agent panel was ready at once, and the canary stayed off for 30 seconds. Asked to use the <code>q5-canary</code> tool, the agent read the repository's files without asking, searched its tool catalogue, tried to load the server and was refused: <em>"MCP server 'q5-canary' not found"</em>. The project's server exists only in the settings (Customize → MCPs), listed as <code>q5-canary · q5-repo · Disabled</code>; its configuration dialog shows the source file, <code>.cursor/mcp.json</code>, and a switch, but <strong>not the command</strong>. Switching it on started the canary within five seconds, with "Local · Connected" and the tool enabled.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; l'unico client che tiene spenti i server di un progetto finché l'utente non li accende, anche quando il suo agente li chiede, senza una domanda su cui premere Invio; ma la schermata che li accende dice meno di Qwen e della CLI di Cursor su cosa verrà eseguito."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; the only client that keeps a project's servers off until the user turns them on, even when its agent asks for them, with no question to press Enter on; but the screen that turns them on tells you less than Qwen or Cursor's own CLI about what will run."><strong>Verdict:</strong> the only client that keeps a project's servers off until the user turns them on, even when its agent asks for them, with no question to press Enter on; but the screen that turns them on tells you less than Qwen or Cursor's own CLI about what will run.</p>
+      <h3 data-it="Goose 1.52.0" data-en="Goose 1.52.0">Goose 1.52.0</h3>
+      <p data-it="Goose non ha chiesto nulla e non ha avviato nulla. Legge i server MCP (&quot;estensioni&quot;) solo dalla propria configurazione, &lt;code&gt;~/.config/goose/config.yaml&lt;/code&gt;, non dal progetto. Il repository, con dentro le dichiarazioni di altri sei client, non ha avuto alcun effetto. Le ricette di Goose possono dichiarare estensioni, ma una ricetta va eseguita esplicitamente."
+        data-en="Goose asked nothing and started nothing. It reads MCP servers (&quot;extensions&quot;) only from its own configuration, &lt;code&gt;~/.config/goose/config.yaml&lt;/code&gt;, not from the project. The repository, with six other clients' declarations in it, had no effect on it. Goose recipes can declare extensions, but a recipe has to be run explicitly.">Goose asked nothing and started nothing. It reads MCP servers ("extensions") only from its own configuration, <code>~/.config/goose/config.yaml</code>, not from the project. The repository, with six other clients' declarations in it, had no effect on it. Goose recipes can declare extensions, but a recipe has to be run explicitly.</p>
+      <p data-it="&lt;strong&gt;Verdetto:&lt;/strong&gt; un repository non può dichiarare server per Goose."
+        data-en="&lt;strong&gt;Verdict:&lt;/strong&gt; a repository cannot declare servers for Goose."><strong>Verdict:</strong> a repository cannot declare servers for Goose.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[04] L'eccezione, e cosa succede prima della domanda" data-en="[04] The exception, and what happens before the question">[04] The exception, and what happens before the question</h2>
+      <h3 data-it="Nessuna domanda" data-en="No question at all">No question at all</h3>
+      <p data-it="Tutto quello che c'è in [03] riguarda le sessioni interattive. Gli agenti di programmazione vengono però lanciati anche da script, job di CI e altri strumenti, in modalità non interattiva. Abbiamo aperto lo stesso repository nella modalità non interattiva di ogni client, prima del login:"
+        data-en="Everything in [03] is about interactive sessions. Coding agents are also run from scripts, CI jobs and other tools, in non-interactive mode. We opened the same repository in each client's non-interactive mode, before logging in:">Everything in [03] is about interactive sessions. Coding agents are also run from scripts, CI jobs and other tools, in non-interactive mode. We opened the same repository in each client's non-interactive mode, before logging in:</p>
+      <div class="code-block"><pre>cd q5-repo
+claude -p "say ok"        # Claude Code
+gemini -p "say ok"        # Gemini CLI
+qwen -p "say ok"          # Qwen Code
+codex exec "say ok"       # Codex CLI</pre></div>
+      <p data-it="&lt;strong&gt;Claude Code ha avviato il canary senza alcuna domanda di fiducia e senza un login valido, in tre prove su tre.&lt;/strong&gt; Ha lanciato il server, completato l'handshake MCP e poi è uscito con &quot;Not logged in&quot;."
+        data-en="&lt;strong&gt;Claude Code started the canary with no trust question and without a valid login, in three runs out of three.&lt;/strong&gt; It launched the server, completed the MCP handshake, then exited with &quot;Not logged in&quot;."><strong>Claude Code started the canary with no trust question and without a valid login, in three runs out of three.</strong> It launched the server, completed the MCP handshake, then exited with "Not logged in".</p>
+      <p data-it="È un comportamento documentato, e la documentazione è diventata più esplicita da quando l'abbiamo misurato la prima volta. La &lt;a href=&quot;https://code.claude.com/docs/en/headless&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;pagina di Anthropic sull'uso programmatico di Claude Code&lt;/a&gt; ora dice: *&quot;Without &lt;code&gt;--bare&lt;/code&gt;, a &lt;code&gt;-p&lt;/code&gt; session runs the hooks in a project's &lt;code&gt;.claude/settings.json&lt;/code&gt; and connects the servers in its &lt;code&gt;.mcp.json&lt;/code&gt;, even in a folder you've never trusted. A &lt;code&gt;-p&lt;/code&gt; session shows no workspace trust dialog and no per-server approval prompt.&quot;* La &lt;a href=&quot;https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;pagina dei permessi&lt;/a&gt; dice lo stesso in una tabella, ed elenca le vie d'uscita: &lt;code&gt;--bare&lt;/code&gt; (che smette di leggere hook, skill, plugin e &lt;code&gt;.mcp.json&lt;/code&gt; del progetto; prima della 2.1.286 i limiti erano solo parziali, come dice la stessa pagina), &lt;code&gt;--setting-sources user&lt;/code&gt;, &lt;code&gt;--settings '{&quot;disableAllHooks&quot;: true}'&lt;/code&gt; e una voce &lt;code&gt;disabledMcpjsonServers&lt;/code&gt;. La documentazione aggiunge che &lt;code&gt;--bare&lt;/code&gt; &quot;will become the default for &lt;code&gt;-p&lt;/code&gt; in a future release&quot;. Abbiamo verificato le due vie d'uscita documentate sulla 2.1.295: con &lt;code&gt;--bare&lt;/code&gt; o con &lt;code&gt;--setting-sources user&lt;/code&gt; il canary non è partito, tre prove su tre per ciascuna. Quel controllo è avvenuto in una cartella che la cella precedente della matrice aveva già reso fidata, quindi mostra che i flag tengono fuori i server di progetto anche da una cartella fidata. Il semplice &lt;code&gt;claude -p&lt;/code&gt; sulla 2.1.295, con la voce di fiducia della cartella rimossa prima di ogni esecuzione, ha avviato il canary 3 su 3, come la 2.1.283 a settembre."
+        data-en="This is documented behaviour, and the documentation has become more explicit since we first measured it. &lt;a href=&quot;https://code.claude.com/docs/en/headless&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Anthropic's page on running Claude Code programmatically&lt;/a&gt; now says: *&quot;Without &lt;code&gt;--bare&lt;/code&gt;, a &lt;code&gt;-p&lt;/code&gt; session runs the hooks in a project's &lt;code&gt;.claude/settings.json&lt;/code&gt; and connects the servers in its &lt;code&gt;.mcp.json&lt;/code&gt;, even in a folder you've never trusted. A &lt;code&gt;-p&lt;/code&gt; session shows no workspace trust dialog and no per-server approval prompt.&quot;* The &lt;a href=&quot;https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;permissions page&lt;/a&gt; says the same in a table, and lists the ways out: &lt;code&gt;--bare&lt;/code&gt; (which stops reading project hooks, skills, plugins and &lt;code&gt;.mcp.json&lt;/code&gt;; the limits were only partial before 2.1.286, as the same page states), &lt;code&gt;--setting-sources user&lt;/code&gt;, &lt;code&gt;--settings '{&quot;disableAllHooks&quot;: true}'&lt;/code&gt;, and a &lt;code&gt;disabledMcpjsonServers&lt;/code&gt; entry. The docs add that &lt;code&gt;--bare&lt;/code&gt; &quot;will become the default for &lt;code&gt;-p&lt;/code&gt; in a future release&quot;. We checked the two documented escapes on 2.1.295: with &lt;code&gt;--bare&lt;/code&gt; or &lt;code&gt;--setting-sources user&lt;/code&gt; the canary did not start, three runs out of three each. That check ran in a folder the previous matrix cell had already trusted, so it shows the flags keep project servers out even of a trusted folder. Plain &lt;code&gt;claude -p&lt;/code&gt; on 2.1.295, with the folder's trust entry removed before each run, started the canary 3 of 3, as 2.1.283 had in September.">This is documented behaviour, and the documentation has become more explicit since we first measured it. <a href="https://code.claude.com/docs/en/headless" target="_blank" rel="noopener noreferrer">Anthropic's page on running Claude Code programmatically</a> now says: *"Without <code>--bare</code>, a <code>-p</code> session runs the hooks in a project's <code>.claude/settings.json</code> and connects the servers in its <code>.mcp.json</code>, even in a folder you've never trusted. A <code>-p</code> session shows no workspace trust dialog and no per-server approval prompt."* The <a href="https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder" target="_blank" rel="noopener noreferrer">permissions page</a> says the same in a table, and lists the ways out: <code>--bare</code> (which stops reading project hooks, skills, plugins and <code>.mcp.json</code>; the limits were only partial before 2.1.286, as the same page states), <code>--setting-sources user</code>, <code>--settings '{"disableAllHooks": true}'</code>, and a <code>disabledMcpjsonServers</code> entry. The docs add that <code>--bare</code> "will become the default for <code>-p</code> in a future release". We checked the two documented escapes on 2.1.295: with <code>--bare</code> or <code>--setting-sources user</code> the canary did not start, three runs out of three each. That check ran in a folder the previous matrix cell had already trusted, so it shows the flags keep project servers out even of a trusted folder. Plain <code>claude -p</code> on 2.1.295, with the folder's trust entry removed before each run, started the canary 3 of 3, as 2.1.283 had in September.</p>
+      <p data-it="Gli altri si sono fermati prima di caricare qualunque cosa: Gemini e Qwen all'autenticazione (&quot;set an Auth method&quot;, &quot;No auth type is selected&quot;), Codex a un controllo sulla cartella (&quot;Not inside a trusted directory&quot;). Dopo il login, anche Gemini ha rifiutato di lavorare in modo non interattivo in una cartella non fidata:"
+        data-en="The others stopped before loading anything: Gemini and Qwen at authentication (&quot;set an Auth method&quot;, &quot;No auth type is selected&quot;), Codex at a directory check (&quot;Not inside a trusted directory&quot;). Once logged in, Gemini also refused to run non-interactively in an untrusted folder:">The others stopped before loading anything: Gemini and Qwen at authentication ("set an Auth method", "No auth type is selected"), Codex at a directory check ("Not inside a trusted directory"). Once logged in, Gemini also refused to run non-interactively in an untrusted folder:</p>
+      <div class="code-block"><pre>Gemini CLI is not running in a trusted directory. To proceed, either use `--skip-trust`,
+set the `GEMINI_CLI_TRUST_WORKSPACE=true` environment variable, or trust this directory in interactive mode.</pre></div>
+      <p data-it="Quindi il client con i predefiniti interattivi più prudenti è quello senza alcun confine nell'automazione. Chi usa Claude Code con &lt;code&gt;-p&lt;/code&gt; su codice non suo — una pull request in CI, una dipendenza, un esercizio consegnato — deve dare per scontato che i server MCP e gli hook del repository verranno eseguiti, a meno che il comando non dica &lt;code&gt;--bare&lt;/code&gt;."
+        data-en="So the client with the safest interactive defaults is the one with no boundary at all in automation. Anyone running Claude Code with &lt;code&gt;-p&lt;/code&gt; over code they did not write — a pull request in CI, a dependency, a submitted exercise — should assume the repository's MCP servers and hooks will run, unless the command says &lt;code&gt;--bare&lt;/code&gt;.">So the client with the safest interactive defaults is the one with no boundary at all in automation. Anyone running Claude Code with <code>-p</code> over code they did not write — a pull request in CI, a dependency, a submitted exercise — should assume the repository's MCP servers and hooks will run, unless the command says <code>--bare</code>.</p>
+      <h3 data-it="Prima della domanda" data-en="Before the question">Before the question</h3>
+      <p data-it="Tutto in questo post avviene alla domanda di fiducia o dopo. La prima parte della serie ha mostrato l'altra metà: GitSpawn, una falla trovata in sette agenti, in cui un repository ricevuto come file — con la sua cartella &lt;code&gt;.git&lt;/code&gt; — fa eseguire all'agente un programma indicato nella configurazione git del repository mentre raccoglie contesto, fuori dalla sandbox e, in alcuni agenti, prima che compaia la domanda di fiducia. Ecco cosa dice la documentazione pubblica sulle versioni che abbiamo testato, al 9 ottobre (fonte: divulgazioni pubbliche, non una nostra misura):"
+        data-en="Everything in this post happens at or after the trust question. Part 1 of this series showed the other half: GitSpawn, a flaw found in seven agents, in which a repository received as files — with its own &lt;code&gt;.git&lt;/code&gt; directory — makes the agent run a program from the repository's git configuration while it gathers context, outside the sandbox and, on some agents, before the trust question appears. This is what the public record says about the versions we tested, as of 9 October (source: public disclosures, not our measurement):">Everything in this post happens at or after the trust question. Part 1 of this series showed the other half: GitSpawn, a flaw found in seven agents, in which a repository received as files — with its own <code>.git</code> directory — makes the agent run a program from the repository's git configuration while it gathers context, outside the sandbox and, on some agents, before the trust question appears. This is what the public record says about the versions we tested, as of 9 October (source: public disclosures, not our measurement):</p>
+      <p class="table-hint" data-it="Scorri la tabella di lato per vedere tutte e 4 le colonne →" data-en="Swipe the table sideways to see all 4 columns →">Swipe the table sideways to see all 4 columns →</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Client (versione testata)" data-en="Client (version tested)">Client (version tested)</th>
+            <th data-it="Alla divulgazione, 1 settembre" data-en="At disclosure, 1 September">At disclosure, 1 September</th>
+            <th data-it="Da allora, da fonti primarie" data-en="Since then, from primary sources">Since then, from primary sources</th>
+            <th data-it="La nostra versione" data-en="Our version">Our version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="Claude Code 2.1.283" data-en="Claude Code 2.1.283">Claude Code 2.1.283</td>
+            <td data-it="percorso di avvio corretto nella 2.1.196; un secondo percorso, via &lt;code&gt;ultrareview&lt;/code&gt;, ancora aperto nella 2.1.252" data-en="startup path fixed in 2.1.196; a second path through &lt;code&gt;ultrareview&lt;/code&gt; still open on 2.1.252">startup path fixed in 2.1.196; a second path through <code>ultrareview</code> still open on 2.1.252</td>
+            <td data-it="il changelog di Anthropic non cita GitSpawn; dalla 2.1.285 compaiono diverse correzioni a &lt;code&gt;/ultrareview&lt;/code&gt; legate alla configurazione git, nessuna indicata come correzione di sicurezza" data-en="Anthropic's changelog does not mention GitSpawn; several &lt;code&gt;/ultrareview&lt;/code&gt; git-configuration fixes appear from 2.1.285, none labelled as a security fix">Anthropic's changelog does not mention GitSpawn; several <code>/ultrareview</code> git-configuration fixes appear from 2.1.285, none labelled as a security fix</td>
+            <td data-it="percorso di avvio coperto; secondo percorso &lt;strong&gt;non confermato&lt;/strong&gt;" data-en="startup path covered; second path &lt;strong&gt;not confirmed&lt;/strong&gt;">startup path covered; second path <strong>not confirmed</strong></td>
+          </tr>
+          <tr>
+            <td data-it="Codex CLI 0.157.1" data-en="Codex CLI 0.157.1">Codex CLI 0.157.1</td>
+            <td data-it="corretto (versione non indicata)" data-en="fixed (no version given)">fixed (no version given)</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="corretto prima della divulgazione; versione non indicata, quindi dedotto" data-en="fixed before disclosure; version not given, so inferred">fixed before disclosure; version not given, so inferred</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor CLI 2026.09.26" data-en="Cursor CLI 2026.09.26">Cursor CLI 2026.09.26</td>
+            <td data-it="corretto (versione non indicata)" data-en="fixed (no version given)">fixed (no version given)</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="corretto prima della divulgazione; versione non indicata, quindi dedotto" data-en="fixed before disclosure; version not given, so inferred">fixed before disclosure; version not given, so inferred</td>
+          </tr>
+          <tr>
+            <td data-it="Goose 1.52.0" data-en="Goose 1.52.0">Goose 1.52.0</td>
+            <td data-it="corretto nella 1.44.0 (CVE-2026-72718)" data-en="fixed in 1.44.0 (CVE-2026-72718)">fixed in 1.44.0 (CVE-2026-72718)</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="coperto" data-en="covered">covered</td>
+          </tr>
+          <tr>
+            <td data-it="Qwen Code 0.24.6" data-en="Qwen Code 0.24.6">Qwen Code 0.24.6</td>
+            <td data-it="&lt;strong&gt;non corretto&lt;/strong&gt; nella 0.22.3; preso in carico dal team di sicurezza di Alibaba" data-en="&lt;strong&gt;not fixed&lt;/strong&gt; on 0.22.3; accepted by Alibaba's security team"><strong>not fixed</strong> on 0.22.3; accepted by Alibaba's security team</td>
+            <td data-it="una modifica parziale nella 0.21.9 non l'ha chiuso; la &lt;a href=&quot;https://github.com/QwenLM/qwen-code/issues/10561&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;issue #10561&lt;/a&gt; (etichette: security, P1, vulnerability), aperta il 30 agosto, ancora aperta al 9 ottobre con due commit che la citano il 7 settembre e nessuna versione di fix; dice che &quot;per-site enumeration cannot converge&quot;" data-en="a partial change in 0.21.9 did not close it; &lt;a href=&quot;https://github.com/QwenLM/qwen-code/issues/10561&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;issue #10561&lt;/a&gt; (labels: security, P1, vulnerability), opened 30 August, still open on 9 October with two commits referencing it on 7 September and no fix version; it says that &quot;per-site enumeration cannot converge&quot;">a partial change in 0.21.9 did not close it; <a href="https://github.com/QwenLM/qwen-code/issues/10561" target="_blank" rel="noopener noreferrer">issue #10561</a> (labels: security, P1, vulnerability), opened 30 August, still open on 9 October with two commits referencing it on 7 September and no fix version; it says that "per-site enumeration cannot converge"</td>
+            <td data-it="&lt;strong&gt;non confermato; da considerare aperto&lt;/strong&gt;" data-en="&lt;strong&gt;not confirmed; treat as open&lt;/strong&gt;"><strong>not confirmed; treat as open</strong></td>
+          </tr>
+          <tr>
+            <td data-it="Gemini CLI 0.61.0" data-en="Gemini CLI 0.61.0">Gemini CLI 0.61.0</td>
+            <td data-it="non testato da Manifold" data-en="not tested by Manifold">not tested by Manifold</td>
+            <td data-it="—" data-en="—">—</td>
+            <td data-it="sconosciuto" data-en="unknown">unknown</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="La nostra versione di settembre di Claude Code, la 2.1.283, precede le correzioni a &lt;code&gt;/ultrareview&lt;/code&gt;; la 2.1.295 del ricontrollo le include, ma nessuna fonte dice se chiudono il secondo percorso."
+        data-en="Our September Claude Code version, 2.1.283, predates the &lt;code&gt;/ultrareview&lt;/code&gt; fixes; the re-checked 2.1.295 includes them, but no source says whether they close the second path.">Our September Claude Code version, 2.1.283, predates the <code>/ultrareview</code> fixes; the re-checked 2.1.295 includes them, but no source says whether they close the second path.</p>
+      <p data-it="Conseguenza pratica: un repository che arriva come archivio, cartella condivisa o chiavetta USB — non come &lt;code&gt;git clone&lt;/code&gt; appena fatto, che non porta con sé &lt;code&gt;.git/config&lt;/code&gt; — va aperto solo dopo averne controllato la configurazione git, qualunque sia l'agente."
+        data-en="Practical consequence: a repository that arrives as an archive, a shared folder or a USB stick — not as a fresh &lt;code&gt;git clone&lt;/code&gt;, which does not carry &lt;code&gt;.git/config&lt;/code&gt; — should be opened only after checking its git configuration, whatever the agent.">Practical consequence: a repository that arrives as an archive, a shared folder or a USB stick — not as a fresh <code>git clone</code>, which does not carry <code>.git/config</code> — should be opened only after checking its git configuration, whatever the agent.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[05] Quattro letture" data-en="[05] Four readings">[05] Four readings</h2>
+      <p data-it="&lt;strong&gt;Il predefinito è la decisione.&lt;/strong&gt; Una richiesta di fiducia è un controllo solo se la si legge, e la risposta preselezionata è quello che ottieni se non ti fermi a leggere. In Gemini, Codex e Cursor CLI Invio significa &quot;fidati di questa cartella&quot;; in Qwen significa &quot;approva questo server&quot;; nella seconda schermata di Cursor significa &quot;approva tutti i server&quot;; in VS Code significa &quot;fidati della cartella e continua&quot; e, più tardi, &quot;consenti in questa sessione&quot;. Solo Claude Code mette &quot;No&quot; sotto il cursore. Niente di tutto questo è un bug. È una scelta di prodotto sull'attrito, e decide l'esito per chiunque non si fermi a leggere."
+        data-en="&lt;strong&gt;The default is the decision.&lt;/strong&gt; A trust prompt is a control only if people read it, and the pre-selected answer is what you get when you do not stop to read. In Gemini, Codex and Cursor CLI, Enter means &quot;trust this folder&quot;; in Qwen it means &quot;approve this server&quot;; in Cursor's second screen it means &quot;approve all servers&quot;; in VS Code it means &quot;trust folder and continue&quot; and, later, &quot;allow in this session&quot;. Only Claude Code puts &quot;No&quot; under the cursor. None of this is a bug. It is a product decision about friction, and it decides the outcome for everyone who does not stop to read."><strong>The default is the decision.</strong> A trust prompt is a control only if people read it, and the pre-selected answer is what you get when you do not stop to read. In Gemini, Codex and Cursor CLI, Enter means "trust this folder"; in Qwen it means "approve this server"; in Cursor's second screen it means "approve all servers"; in VS Code it means "trust folder and continue" and, later, "allow in this session". Only Claude Code puts "No" under the cursor. None of this is a bug. It is a product decision about friction, and it decides the outcome for everyone who does not stop to read.</p>
+      <p data-it="&lt;strong&gt;Un clic copre due decisioni.&lt;/strong&gt; Fidarsi dei file di una cartella ed eseguire i programmi che dichiara sono atti diversi. Claude Code chiede due volte. Cursor CLI permette di separarli, ma non come predefinito. Gemini e Codex non li separano affatto. Codex almeno lo dice in una frase chiara."
+        data-en="&lt;strong&gt;One click covers two decisions.&lt;/strong&gt; Trusting a folder's files and running the programs it declares are different acts. Claude Code asks twice. Cursor CLI lets you split them but does not by default. Gemini and Codex do not split them at all. Codex at least says so in one clear sentence."><strong>One click covers two decisions.</strong> Trusting a folder's files and running the programs it declares are different acts. Claude Code asks twice. Cursor CLI lets you split them but does not by default. Gemini and Codex do not split them at all. Codex at least says so in one clear sentence.</p>
+      <p data-it="&lt;strong&gt;Quello che ti viene mostrato va dal comando completo al nulla.&lt;/strong&gt; L'interruttore di Cursor IDE mostra solo il nome del file. Qwen mostra il comando esatto e le sue variabili d'ambiente. Gemini nomina il server. Cursor mostra &lt;code&gt;node&lt;/code&gt;. Claude Code nomina il server nella seconda schermata. La finestra di fiducia di VS Code non cita gli MCP. La stessa decisione, con informazioni molto diverse."
+        data-en="&lt;strong&gt;What you are shown varies from the full command to nothing.&lt;/strong&gt; Cursor IDE's switch shows only the file name. Qwen shows the exact command and its environment variables. Gemini names the server. Cursor shows &lt;code&gt;node&lt;/code&gt;. Claude Code names the server on its second screen. VS Code's trust dialog does not mention MCP. The same decision, with very different information."><strong>What you are shown varies from the full command to nothing.</strong> Cursor IDE's switch shows only the file name. Qwen shows the exact command and its environment variables. Gemini names the server. Cursor shows <code>node</code>. Claude Code names the server on its second screen. VS Code's trust dialog does not mention MCP. The same decision, with very different information.</p>
+      <p data-it="&lt;strong&gt;Solo un client si accorge dei cambiamenti.&lt;/strong&gt; Qwen lega l'approvazione all'hash della configurazione e chiede di nuovo quando cambia. Ovunque altrove, una volta che un progetto è fidato, qualunque cosa dichiari in seguito ricade nello stesso sì. È il test della settimana prossima."
+        data-en="&lt;strong&gt;Only one client notices change.&lt;/strong&gt; Qwen ties approval to the configuration's hash and asks again when it changes. Everywhere else, once a project is trusted, whatever it declares later is covered by the same yes. That is next week's test."><strong>Only one client notices change.</strong> Qwen ties approval to the configuration's hash and asks again when it changes. Everywhere else, once a project is trusted, whatever it declares later is covered by the same yes. That is next week's test.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[06] Controlla il tuo ambiente" data-en="[06] Check your own setup">[06] Check your own setup</h2>
+      <p data-it="Tutto quanto segue è in sola lettura, salvo dove c'è scritto &quot;revoca&quot;."
+        data-en="Everything here is read-only unless it says &quot;revoke&quot;.">Everything here is read-only unless it says "revoke".</p>
+      <p data-it="Il pacchetto del lab ([09]) contiene due strumenti in sola lettura che lo fanno per te:"
+        data-en="The lab package ([09]) includes two read-only tools that do this for you:">The lab package ([09]) includes two read-only tools that do this for you:</p>
+      <div class="code-block"><pre>node scripts/check-repo.mjs path/to/repo    # every MCP server the repository declares, and the exact command it would run
+node scripts/check-trust.mjs                 # every project you have already trusted, client by client</pre></div>
+      <p data-it="&lt;code&gt;check-repo&lt;/code&gt; esce con codice 1 quando il repository dichiara qualcosa, quindi può fermare uno script o un passaggio di CI. Se preferisci la shell:"
+        data-en="&lt;code&gt;check-repo&lt;/code&gt; exits with code 1 when the repository declares anything, so it can stop a script or a CI step. If you prefer plain shell:"><code>check-repo</code> exits with code 1 when the repository declares anything, so it can stop a script or a CI step. If you prefer plain shell:</p>
+      <p data-it="&lt;strong&gt;Prima di aprire un repository che non hai scritto tu&lt;/strong&gt;, elenca cosa dichiara:"
+        data-en="&lt;strong&gt;Before opening a repository you did not write&lt;/strong&gt;, list what it declares:"><strong>Before opening a repository you did not write</strong>, list what it declares:</p>
+      <div class="code-block"><pre>cd path/to/repo
+ls -la .mcp.json .vscode/mcp.json .cursor/mcp.json .gemini/settings.json .qwen/settings.json .codex/config.toml 2&gt;/dev/null
+grep -l -E '"mcpServers"|"servers"|\[mcp_servers' .mcp.json .vscode/mcp.json .cursor/mcp.json .gemini/settings.json .qwen/settings.json .codex/config.toml 2&gt;/dev/null</pre></div>
+      <p data-it="Leggi &lt;code&gt;command&lt;/code&gt; e &lt;code&gt;args&lt;/code&gt; di ogni voce: è quello che verrà eseguito sul tuo computer. E per un repository arrivato come file, non come clone appena fatto, controlla anche la sua configurazione git:"
+        data-en="Read the &lt;code&gt;command&lt;/code&gt; and &lt;code&gt;args&lt;/code&gt; of each entry: that is what will run on your machine. And for a repository that arrived as files rather than as a fresh clone, check its git configuration too:">Read the <code>command</code> and <code>args</code> of each entry: that is what will run on your machine. And for a repository that arrived as files rather than as a fresh clone, check its git configuration too:</p>
+      <div class="code-block"><pre>git -C path/to/repo config --local --list    # any key whose value is a program path deserves a second look</pre></div>
+      <p data-it="&lt;strong&gt;Guarda di quali progetti ti sei già fidato&lt;/strong&gt;, client per client:"
+        data-en="&lt;strong&gt;See which projects you have already trusted&lt;/strong&gt;, client by client:"><strong>See which projects you have already trusted</strong>, client by client:</p>
+      <div class="code-block"><pre><span class="comment"># Claude Code: projects with accepted trust and approved project servers</span>
+python3 -c "import json,os; d=json.load(open(os.path.expanduser('~/.claude.json'))); [print(p, v.get('hasTrustDialogAccepted'), v.get('enabledMcpjsonServers')) for p,v in d.get('projects',{}).items()]"
+
+<span class="comment"># Gemini CLI</span>
+cat ~/.gemini/trustedFolders.json
+
+<span class="comment"># Codex CLI</span>
+grep -A1 '^\[projects\.' ~/.codex/config.toml
+
+<span class="comment"># Cursor CLI</span>
+ls ~/.cursor/projects/*/.workspace-trusted 2&gt;/dev/null
+
+<span class="comment"># Qwen Code</span>
+cat ~/.qwen/mcpApprovals.json</pre></div>
+      <p data-it="&lt;strong&gt;Revoca:&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Revoke:&lt;/strong&gt;"><strong>Revoke:</strong></p>
+      <ul>
+        <li data-it="&lt;strong&gt;Claude Code:&lt;/strong&gt; &lt;code&gt;claude mcp reset-project-choices&lt;/code&gt; (lanciato dentro il progetto) cancella le approvazioni dei suoi server; la prossima volta ti verrà chiesto di nuovo."
+          data-en="&lt;strong&gt;Claude Code:&lt;/strong&gt; &lt;code&gt;claude mcp reset-project-choices&lt;/code&gt; (run inside the project) clears the approvals for its servers; you will be asked again next time."><strong>Claude Code:</strong> <code>claude mcp reset-project-choices</code> (run inside the project) clears the approvals for its servers; you will be asked again next time.</li>
+        <li data-it="&lt;strong&gt;Gemini CLI:&lt;/strong&gt; in una sessione, &lt;code&gt;/permissions&lt;/code&gt; cambia il livello di fiducia della cartella; oppure modifica &lt;code&gt;~/.gemini/trustedFolders.json&lt;/code&gt;."
+          data-en="&lt;strong&gt;Gemini CLI:&lt;/strong&gt; inside a session, &lt;code&gt;/permissions&lt;/code&gt; changes the folder's trust level; or edit &lt;code&gt;~/.gemini/trustedFolders.json&lt;/code&gt;."><strong>Gemini CLI:</strong> inside a session, <code>/permissions</code> changes the folder's trust level; or edit <code>~/.gemini/trustedFolders.json</code>.</li>
+        <li data-it="&lt;strong&gt;Codex CLI:&lt;/strong&gt; togli da &lt;code&gt;~/.codex/config.toml&lt;/code&gt; il blocco &lt;code&gt;[projects.&quot;…&quot;]&lt;/code&gt; della cartella."
+          data-en="&lt;strong&gt;Codex CLI:&lt;/strong&gt; remove the &lt;code&gt;[projects.&quot;…&quot;]&lt;/code&gt; block for the folder from &lt;code&gt;~/.codex/config.toml&lt;/code&gt;."><strong>Codex CLI:</strong> remove the <code>[projects."…"]</code> block for the folder from <code>~/.codex/config.toml</code>.</li>
+        <li data-it="&lt;strong&gt;Cursor CLI:&lt;/strong&gt; cancella la voce del progetto in &lt;code&gt;~/.cursor/projects/&lt;/code&gt;; quando l'abbiamo fatto, la domanda di fiducia è ricomparsa."
+          data-en="&lt;strong&gt;Cursor CLI:&lt;/strong&gt; delete the project's entry in &lt;code&gt;~/.cursor/projects/&lt;/code&gt;; the trust question came back when we did."><strong>Cursor CLI:</strong> delete the project's entry in <code>~/.cursor/projects/</code>; the trust question came back when we did.</li>
+        <li data-it="&lt;strong&gt;Qwen Code:&lt;/strong&gt; togli il progetto da &lt;code&gt;~/.qwen/mcpApprovals.json&lt;/code&gt;; &lt;code&gt;qwen mcp list&lt;/code&gt; mostra i server configurati."
+          data-en="&lt;strong&gt;Qwen Code:&lt;/strong&gt; remove the project from &lt;code&gt;~/.qwen/mcpApprovals.json&lt;/code&gt;; &lt;code&gt;qwen mcp list&lt;/code&gt; shows the configured servers."><strong>Qwen Code:</strong> remove the project from <code>~/.qwen/mcpApprovals.json</code>; <code>qwen mcp list</code> shows the configured servers.</li>
+        <li data-it="&lt;strong&gt;VS Code:&lt;/strong&gt; Command Palette → &lt;em&gt;Workspaces: Manage Workspace Trust&lt;/em&gt;."
+          data-en="&lt;strong&gt;VS Code:&lt;/strong&gt; Command Palette → &lt;em&gt;Workspaces: Manage Workspace Trust&lt;/em&gt;."><strong>VS Code:</strong> Command Palette → <em>Workspaces: Manage Workspace Trust</em>.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Nell'automazione:&lt;/strong&gt; non lanciare &lt;code&gt;claude -p&lt;/code&gt; (né alcun agente in modalità non interattiva) su codice non fidato fuori da un ambiente isolato: un container o una VM senza credenziali e senza rete oltre quella che serve al job."
+        data-en="&lt;strong&gt;In automation:&lt;/strong&gt; do not run &lt;code&gt;claude -p&lt;/code&gt; (or any agent in non-interactive mode) on untrusted code outside an isolated environment — a container or VM with no credentials and no network beyond what the job needs."><strong>In automation:</strong> do not run <code>claude -p</code> (or any agent in non-interactive mode) on untrusted code outside an isolated environment — a container or VM with no credentials and no network beyond what the job needs.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[07] Cosa chiederemmo ai vendor" data-en="[07] What we would ask vendors">[07] What we would ask vendors</h2>
+      <ol>
+        <li data-it="Rendere &quot;non fidarti&quot; la risposta preselezionata nella prima schermata."
+          data-en="Make &quot;don't trust&quot; the pre-selected answer on the first screen.">Make "don't trust" the pre-selected answer on the first screen.</li>
+        <li data-it="Separare la fiducia sui file di una cartella dall'avvio dei programmi che dichiara."
+          data-en="Separate trusting a folder's files from starting the programs it declares.">Separate trusting a folder's files from starting the programs it declares.</li>
+        <li data-it="Mostrare il comando completo con gli argomenti, non solo l'eseguibile."
+          data-en="Show the full command and arguments, not just the executable.">Show the full command and arguments, not just the executable.</li>
+        <li data-it="Chiedere di nuovo quando la dichiarazione di un server cambia (Qwen lo fa già)."
+          data-en="Ask again when a server's declaration changes (Qwen does this today).">Ask again when a server's declaration changes (Qwen does this today).</li>
+        <li data-it="Applicare la stessa regola in modalità non interattiva, oppure rifiutare lì i server di progetto a meno di un flag esplicito. Anthropic ha annunciato la seconda opzione (&lt;code&gt;--bare&lt;/code&gt; come futuro predefinito di &lt;code&gt;-p&lt;/code&gt;); conta la data."
+          data-en="Apply the same rule in non-interactive mode, or refuse to load project servers there unless a flag says so explicitly. Anthropic has announced the second option (&lt;code&gt;--bare&lt;/code&gt; as the future default for &lt;code&gt;-p&lt;/code&gt;); the date matters.">Apply the same rule in non-interactive mode, or refuse to load project servers there unless a flag says so explicitly. Anthropic has announced the second option (<code>--bare</code> as the future default for <code>-p</code>); the date matters.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-it="[08] Limiti, e cose notate strada facendo" data-en="[08] Limits and things we noticed along the way">[08] Limits and things we noticed along the way</h2>
+      <ul>
+        <li data-it="Ogni cella è stata eseguita due o tre volte dallo stesso snapshot (46 + 29 = 75 celle automatiche valide, più il giro manuale del 28 settembre)."
+          data-en="Each cell ran two or three times from the same snapshot (46 + 29 = 75 valid automated cells, plus the manual pass of 28 September).">Each cell ran two or three times from the same snapshot (46 + 29 = 75 valid automated cells, plus the manual pass of 28 September).</li>
+        <li data-it="L'attesa di 25 secondi vale per la prima richiesta di ogni client. Il runner tiene quella richiesta per 25 secondi nella prima cella e nelle celle successive risponde subito, perché quella finestra era già stata misurata; tiene le richieste del secondo schermo (la domanda sul server di Claude Code, la schermata di approvazione di Cursor) per 10 secondi. L'attesa di 25 secondi su quei secondi schermi è il giro manuale del 28 settembre. Due o tre ripetizioni mostrano che un comportamento è stabile, non quanto spesso si verifica uno raro."
+          data-en="The 25-second wait applies to the first prompt of each client. The runner holds that prompt for 25 seconds in the first cell and answers it immediately in later cells, since that window had already been measured; it holds the second-screen prompts (Claude Code's server question, Cursor's approval screen) for 10 seconds. The 25-second wait on those second screens is the manual pass of 28 September. Two or three repetitions show that a behaviour is stable, not how often a rare one occurs.">The 25-second wait applies to the first prompt of each client. The runner holds that prompt for 25 seconds in the first cell and answers it immediately in later cells, since that window had already been measured; it holds the second-screen prompts (Claude Code's server question, Cursor's approval screen) for 10 seconds. The 25-second wait on those second screens is the manual pass of 28 September. Two or three repetitions show that a behaviour is stable, not how often a rare one occurs.</li>
+        <li data-it="&lt;strong&gt;VS Code con Copilot e Cursor IDE sono stati misurati una volta ciascuno&lt;/strong&gt;, a mano il 9 ottobre, dopo la matrice; il giro precedente di VS Code senza Copilot è quello nelle prove automatiche. Durante il login di Cursor la macchina di test da 3 GB ha esaurito la memoria (browser ed editor insieme) ed è stata riavviata; la misura è stata ripetuta con il solo editor."
+          data-en="&lt;strong&gt;VS Code with Copilot and Cursor IDE were measured once each&lt;/strong&gt;, by hand on 9 October, after the matrix; the earlier VS Code pass without Copilot is the one in the automated evidence. During Cursor's login the 3 GB test machine ran out of memory (a browser and the editor together) and had to be reset; the measurement was repeated with the editor alone."><strong>VS Code with Copilot and Cursor IDE were measured once each</strong>, by hand on 9 October, after the matrix; the earlier VS Code pass without Copilot is the one in the automated evidence. During Cursor's login the 3 GB test machine ran out of memory (a browser and the editor together) and had to be reset; the measurement was repeated with the editor alone.</li>
+        <li data-it="Versioni di fine settembre 2026, ricontrollate sulle release del 9 ottobre per i client da terminale. I comportamenti predefiniti cambiano con gli aggiornamenti; il cambiamento di Gemini descritto sopra è avvenuto dentro la nostra finestra di due settimane."
+          data-en="Versions of late September 2026, re-checked on the releases of 9 October for the terminal clients. Defaults change with updates; the Gemini change above happened inside our two-week window.">Versions of late September 2026, re-checked on the releases of 9 October for the terminal clients. Defaults change with updates; the Gemini change above happened inside our two-week window.</li>
+        <li data-it="La tabella &quot;prima della domanda&quot; si basa su fonti pubbliche; non abbiamo rieseguito GitSpawn."
+          data-en="The &quot;before the question&quot; table relies on public sources; we did not re-run GitSpawn.">The "before the question" table relies on public sources; we did not re-run GitSpawn.</li>
+        <li data-it="VS Code è stato provato solo sulla 1.139.1, dopo la PR #335515; non abbiamo confrontato una build precedente alla 1.138."
+          data-en="VS Code was tested only on 1.139.1, after PR #335515; we did not compare a pre-1.138 build.">VS Code was tested only on 1.139.1, after PR #335515; we did not compare a pre-1.138 build.</li>
+        <li data-it="Il percorso del canary è assoluto. Non abbiamo provato percorsi relativi né &lt;code&gt;npx&lt;/code&gt;; in ogni client la domanda arriva prima che il comando venga eseguito, quindi ci aspettiamo che cambi solo il comando mostrato, non la decisione."
+          data-en="The canary path is absolute. We did not test relative paths or &lt;code&gt;npx&lt;/code&gt;; in every client the question is asked before the command is run, so we expect only the displayed command to differ, not the decision.">The canary path is absolute. We did not test relative paths or <code>npx</code>; in every client the question is asked before the command is run, so we expect only the displayed command to differ, not the decision.</li>
+        <li data-it="Misura il comportamento dei prodotti, non dei modelli, e non dice nulla su cosa potrebbe fare un server malevolo una volta in esecuzione."
+          data-en="This measures product behaviour, not model behaviour, and says nothing about what a malicious server could do once running.">This measures product behaviour, not model behaviour, and says nothing about what a malicious server could do once running.</li>
+      </ul>
+      <p data-it="Installare otto client su una macchina pulita ha prodotto anche fatti che cambiano cosa significa &quot;predefinito&quot;:"
+        data-en="Setting up eight clients on a clean machine also produced facts that change what &quot;default&quot; means:">Setting up eight clients on a clean machine also produced facts that change what "default" means:</p>
+      <ul>
+        <li data-it="&lt;strong&gt;Gemini CLI non accetta più gli account Google personali&lt;/strong&gt; per il piano gratuito individuale. Il login ha risposto &lt;em&gt;&quot;This client is no longer supported for Gemini Code Assist for individuals&quot;&lt;/em&gt; e ha rimandato ad Antigravity. Abbiamo usato una chiave API."
+          data-en="&lt;strong&gt;Gemini CLI no longer accepts personal Google accounts&lt;/strong&gt; for its free individual tier. The login returned &lt;em&gt;&quot;This client is no longer supported for Gemini Code Assist for individuals&quot;&lt;/em&gt; and pointed to Antigravity. We used an API key."><strong>Gemini CLI no longer accepts personal Google accounts</strong> for its free individual tier. The login returned <em>"This client is no longer supported for Gemini Code Assist for individuals"</em> and pointed to Antigravity. We used an API key.</li>
+        <li data-it="&lt;strong&gt;Il login OAuth gratuito di Qwen Code non c'è più&lt;/strong&gt;; il client offre solo provider con chiave API."
+          data-en="&lt;strong&gt;Qwen Code's free OAuth login is gone&lt;/strong&gt;; the client offers only API-key providers."><strong>Qwen Code's free OAuth login is gone</strong>; the client offers only API-key providers.</li>
+        <li data-it="&lt;strong&gt;Il login a Claude Code ha sincronizzato plugin e impostazioni dell'account&lt;/strong&gt; nella macchina appena installata. Non hanno cambiato le due richieste che abbiamo misurato, che corrispondono alla documentazione del vendor; una ripetizione con un account pulito è prevista per il preprint. In ogni caso, un'installazione pulita smette di esserlo al login."
+          data-en="&lt;strong&gt;Logging in to Claude Code synced the account's plugins and settings&lt;/strong&gt; into the fresh machine. They did not change the two prompts we measured, which match the vendor's documentation; a repeat with a clean account is planned for the preprint. Either way, a clean install stops being clean at login."><strong>Logging in to Claude Code synced the account's plugins and settings</strong> into the fresh machine. They did not change the two prompts we measured, which match the vendor's documentation; a repeat with a clean account is planned for the preprint. Either way, a clean install stops being clean at login.</li>
+        <li data-it="&lt;strong&gt;Due client si sono aggiornati da soli durante i test, con gli aggiornamenti automatici spenti.&lt;/strong&gt; Cursor CLI è passato dalla 2026.09.26 alla 2026.10.01 nel mezzo di un giro; le sue risposte non sono cambiate. Il componente in background di Codex ha scaricato la 0.158.0 il 28 settembre e la 0.162.0 il 9 ottobre; dopo il secondo aggiornamento la CLI 0.157.1 ha rifiutato di partire con lui: &lt;em&gt;&quot;Cannot use the background server — Experimental feature request failed&quot;&lt;/em&gt;, con &lt;strong&gt;Cancel&lt;/strong&gt; preselezionato. Scegliendo &quot;Run without daemon this time&quot; è andata avanti. Abbiamo scartato quelle celle e le abbiamo ripetute. &quot;La versione che hai testato&quot; è un bersaglio mobile anche su una macchina dove l'hai congelata."
+          data-en="&lt;strong&gt;Two clients updated themselves during the tests, with automatic updates switched off.&lt;/strong&gt; Cursor CLI moved from 2026.09.26 to 2026.10.01 in the middle of a run; its answers did not change. Codex's background component downloaded 0.158.0 on 28 September and 0.162.0 on 9 October; after the second update the 0.157.1 command-line tool refused to start with it: &lt;em&gt;&quot;Cannot use the background server — Experimental feature request failed&quot;&lt;/em&gt;, with &lt;strong&gt;Cancel&lt;/strong&gt; pre-selected. Choosing &quot;Run without daemon this time&quot; let it continue. We discarded those cells and repeated them. &quot;The version you tested&quot; is a moving target even on a machine where you froze it."><strong>Two clients updated themselves during the tests, with automatic updates switched off.</strong> Cursor CLI moved from 2026.09.26 to 2026.10.01 in the middle of a run; its answers did not change. Codex's background component downloaded 0.158.0 on 28 September and 0.162.0 on 9 October; after the second update the 0.157.1 command-line tool refused to start with it: <em>"Cannot use the background server — Experimental feature request failed"</em>, with <strong>Cancel</strong> pre-selected. Choosing "Run without daemon this time" let it continue. We discarded those cells and repeated them. "The version you tested" is a moving target even on a machine where you froze it.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[09] Il lab" data-en="[09] The lab">[09] The lab</h2>
+      <p data-it="Tutto quello che serve per verificare questi risultati è nella cartella &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/&lt;/code&gt;&lt;/a&gt; accanto all'articolo, nello stesso formato del lab del nostro post sugli state handle di MCP:"
+        data-en="Everything needed to check these results is in the &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/&lt;/code&gt;&lt;/a&gt; folder next to this article, in the same format as the lab of our MCP state-handle post:">Everything needed to check these results is in the <a href="lab/README.md" target="_blank" rel="noopener noreferrer"><code>lab/</code></a> folder next to this article, in the same format as the lab of our MCP state-handle post:</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Percorso" data-en="Path">Path</th>
+            <th data-it="Cos'è" data-en="What it is">What it is</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/README.md&lt;/code&gt;&lt;/a&gt;" data-en="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/README.md&lt;/code&gt;&lt;/a&gt;"><a href="lab/README.md" target="_blank" rel="noopener noreferrer"><code>lab/README.md</code></a></td>
+            <td data-it="confine di sicurezza, requisiti, come riprodurre, tabella dei risultati" data-en="safety boundary, requirements, how to reproduce, results table">safety boundary, requirements, how to reproduce, results table</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/canary/marker-server.mjs&lt;/code&gt;" data-en="&lt;code&gt;lab/canary/marker-server.mjs&lt;/code&gt;"><code>lab/canary/marker-server.mjs</code></td>
+            <td data-it="il canary: registra l'avvio, risponde all'handshake MCP, un tool che non fa nulla, niente rete, nessun altro file" data-en="the canary: logs that it started, answers the MCP handshake, one no-op tool, no network, no other files">the canary: logs that it started, answers the MCP handshake, one no-op tool, no network, no other files</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/scripts/make-test-repo.mjs&lt;/code&gt;" data-en="&lt;code&gt;lab/scripts/make-test-repo.mjs&lt;/code&gt;"><code>lab/scripts/make-test-repo.mjs</code></td>
+            <td data-it="costruisce il repository di prova con le sei dichiarazioni di progetto" data-en="builds the test repository with the six project-level declarations">builds the test repository with the six project-level declarations</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/scripts/check-repo.mjs&lt;/code&gt;, &lt;code&gt;check-trust.mjs&lt;/code&gt;" data-en="&lt;code&gt;lab/scripts/check-repo.mjs&lt;/code&gt;, &lt;code&gt;check-trust.mjs&lt;/code&gt;"><code>lab/scripts/check-repo.mjs</code>, <code>check-trust.mjs</code></td>
+            <td data-it="i due strumenti in sola lettura di [06]" data-en="the two read-only tools from [06]">the two read-only tools from [06]</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/scripts/run_q5_matrix.py&lt;/code&gt;" data-en="&lt;code&gt;lab/scripts/run_q5_matrix.py&lt;/code&gt;"><code>lab/scripts/run_q5_matrix.py</code></td>
+            <td data-it="il runner non presidiato per i sei client da terminale — &lt;strong&gt;solo in una VM usa e getta&lt;/strong&gt;: modifica gli archivi di fiducia dei client" data-en="the unattended runner for the six terminal clients — &lt;strong&gt;disposable VM only&lt;/strong&gt;: it edits the clients' trust stores">the unattended runner for the six terminal clients — <strong>disposable VM only</strong>: it edits the clients' trust stores</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/scripts/summarize_matrix.py&lt;/code&gt;" data-en="&lt;code&gt;lab/scripts/summarize_matrix.py&lt;/code&gt;"><code>lab/scripts/summarize_matrix.py</code></td>
+            <td data-it="trasforma i giri nella tabella dei risultati e segnala le discordanze" data-en="turns the runs into the results table and flags disagreements">turns the runs into the results table and flags disagreements</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;code&gt;lab/test/&lt;/code&gt;" data-en="&lt;code&gt;lab/test/&lt;/code&gt;"><code>lab/test/</code></td>
+            <td data-it="14 test &lt;code&gt;node:test&lt;/code&gt; per i componenti qui sopra" data-en="14 &lt;code&gt;node:test&lt;/code&gt; tests for the components above">14 <code>node:test</code> tests for the components above</td>
+          </tr>
+          <tr>
+            <td data-it="&lt;a href=&quot;lab/evidence/q5-summary.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/evidence/&lt;/code&gt;&lt;/a&gt;" data-en="&lt;a href=&quot;lab/evidence/q5-summary.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;code&gt;lab/evidence/&lt;/code&gt;&lt;/a&gt;"><a href="lab/evidence/q5-summary.md" target="_blank" rel="noopener noreferrer"><code>lab/evidence/</code></a></td>
+            <td data-it="output dei test, un manifest dell'ambiente con hash SHA-256, entrambi i giri della matrice sulle versioni di settembre, il ricontrollo del 9 ottobre (&lt;code&gt;recheck-20261009/&lt;/code&gt;), CSV, versioni prima e dopo ogni cella, le schermate a ogni richiesta e le note su cosa è stato scartato e perché" data-en="test output, an environment manifest with SHA-256 hashes, both matrix runs on the September versions, the re-check of 9 October (&lt;code&gt;recheck-20261009/&lt;/code&gt;), CSV, versions before and after each cell, the screen captures at every prompt, and notes on what was discarded and why">test output, an environment manifest with SHA-256 hashes, both matrix runs on the September versions, the re-check of 9 October (<code>recheck-20261009/</code>), CSV, versions before and after each cell, the screen captures at every prompt, and notes on what was discarded and why</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="code-block"><pre>cd lab
+npm test               # 14 tests, no dependencies
+npm run evidence       # rewrites evidence/, fails unless 14/14 pass
+node scripts/check-repo.mjs ~/some/repository</pre></div>
+      <p data-it="La soglia di pubblicazione è la stessa del lab MCP: il pacchetto viene pubblicato solo quando passano tutti e 14 i test, e &lt;code&gt;evidence/environment.json&lt;/code&gt; registra l'hash di ogni file sorgente e di ogni prova."
+        data-en="The publication gate is the same as for the MCP lab: the package is published only when all 14 tests pass, and &lt;code&gt;evidence/environment.json&lt;/code&gt; records the hash of every source and evidence file.">The publication gate is the same as for the MCP lab: the package is published only when all 14 tests pass, and <code>evidence/environment.json</code> records the hash of every source and evidence file.</p>
+      <div class="callout-green">
+        <div class="callout-label" data-it="14/14 test superati" data-en="14/14 tests passed">14/14 tests passed</div>
+        <p data-it="Codice, canary, runner e output sanitizzato sono nel &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;lab riproducibile&lt;/a&gt;. Le prove machine-readable sono disponibili come &lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;TAP&lt;/a&gt; e come &lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifest dell'ambiente&lt;/a&gt;."
+          data-en="Code, canary, runner and sanitized output are in the &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;reproducible lab&lt;/a&gt;. Machine-readable evidence is available as &lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;TAP&lt;/a&gt; and an &lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;environment manifest&lt;/a&gt;.">Code, canary, runner and sanitized output are in the <a href="lab/README.md" target="_blank" rel="noopener noreferrer">reproducible lab</a>. Machine-readable evidence is available as <a href="lab/evidence/test-output.tap" target="_blank" rel="noopener noreferrer">TAP</a> and an <a href="lab/evidence/environment.json" target="_blank" rel="noopener noreferrer">environment manifest</a>.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-it="[10] Prossimo" data-en="[10] Next">[10] Next</h2>
+      <p data-it="Parte 3, il 20 ottobre: dopo che hai approvato un tool, può cambiare senza che te ne accorga? Cambieremo la descrizione di un tool innocuo dopo l'approvazione e vedremo quali client dicono qualcosa. Novità della parte 3: i client gireranno anche con modelli open-weight ospitati sulla nostra GPU (Qwen3.8-27B, Gemma 4 26B, Nemotron 3.5 30B, tag e digest esatti nel lab), così da vedere la lista dei tool che ogni client passa al modello a ogni turno, cosa che le API dei vendor non mostrano mai."
+        data-en="Part 3, on 20 October: once you have approved a tool, can it change without you noticing? We will change a harmless tool's description after approval and see which clients say something. New in part 3: the clients will also run against open-weight models hosted on our own GPU (Qwen3.8-27B, Gemma 4 26B, Nemotron 3.5 30B, exact tags and digests in the lab), so that we can see the tool list each client hands to the model at every turn, something the vendors' hosted APIs never show.">Part 3, on 20 October: once you have approved a tool, can it change without you noticing? We will change a harmless tool's description after approval and see which clients say something. New in part 3: the clients will also run against open-weight models hosted on our own GPU (Qwen3.8-27B, Gemma 4 26B, Nemotron 3.5 30B, exact tags and digests in the lab), so that we can see the tool list each client hands to the model at every turn, something the vendors' hosted APIs never show.</p>
+    </section>
+
+    <section>
+      <h2 data-it="Fonti" data-en="Sources">Sources</h2>
+      <ol class="source-list">
+        <li data-it="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab riproducibile — README, confine di sicurezza e tabella dei risultati&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Reproducible lab — README, safety boundary and results table&lt;/a&gt;"><a href="lab/README.md" target="_blank" rel="noopener noreferrer">Reproducible lab — README, safety boundary and results table</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — output TAP dei 14 test&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — TAP output of the 14 tests&lt;/a&gt;"><a href="lab/evidence/test-output.tap" target="_blank" rel="noopener noreferrer">Lab evidence — TAP output of the 14 tests</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — manifest dell'ambiente con hash SHA-256&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — environment manifest with SHA-256 hashes&lt;/a&gt;"><a href="lab/evidence/environment.json" target="_blank" rel="noopener noreferrer">Lab evidence — environment manifest with SHA-256 hashes</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/q5-summary.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — giri della matrice del 9 ottobre (riepilogo, CSV e schermate in &lt;code&gt;lab/evidence/q5-run/&lt;/code&gt;)&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/q5-summary.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — matrix runs of 9 October (summary, CSV and screen captures in &lt;code&gt;lab/evidence/q5-run/&lt;/code&gt;)&lt;/a&gt;"><a href="lab/evidence/q5-summary.md" target="_blank" rel="noopener noreferrer">Lab evidence — matrix runs of 9 October (summary, CSV and screen captures in <code>lab/evidence/q5-run/</code>)</a></li>
+        <li data-it="Prima parte della serie — &lt;a href=&quot;/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate&lt;/a&gt;"
+          data-en="Part 1 of this series — &lt;a href=&quot;/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Outside the prompt: what this summer's AI agent vulnerabilities have in common&lt;/a&gt;">Part 1 of this series — <a href="/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/">Outside the prompt: what this summer's AI agent vulnerabilities have in common</a></li>
+        <li data-it="Manifold Security, «GitSpawn», 1 set 2026 — &lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;"
+          data-en="Manifold Security, “GitSpawn”, 1 Sep 2026 — &lt;a href=&quot;https://www.manifold.security/blog/ai-coding-agents-git-hijack&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifold.security&lt;/a&gt;">Manifold Security, “GitSpawn”, 1 Sep 2026 — <a href="https://www.manifold.security/blog/ai-coding-agents-git-hijack" target="_blank" rel="noopener noreferrer">manifold.security</a></li>
+      </ol>
+    </section>
+
+    <aside class="author-box">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
+      <div class="ab-name">Paolo Costanzo</div>
+      <div class="ab-role"
+           data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+           data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Professor of Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+      <p class="ab-bio"
+         data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+         data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
+      <div class="ab-links">
+        <a class="ab-cta" href="mailto:me@paolocostanzo.com" data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
+        <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← all articles</a>
+    <span class="footer-copy" data-it="© 2026 Paolo Costanzo" data-en="© 2026 Paolo Costanzo">© 2026 Paolo Costanzo</span>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if (stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if (nav.indexOf('en') === 0) return 'en';
+        return 'en';
+      }
+
+      function setLang(lang){
+        var next = lang === 'en' ? 'en' : 'it';
+        document.documentElement.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var value = el.getAttribute(next === 'en' ? 'data-en' : 'data-it');
+          if (value === null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+          } else if (el.tagName === 'TITLE') {
+            document.title = value;
+          } else {
+            el.innerHTML = value;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(button){
+          var on = button.textContent.trim().toLowerCase() === next;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-pressed', String(on));
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+
+    window.addEventListener('scroll', function(){
+      var root = document.documentElement;
+      var total = root.scrollHeight - root.clientHeight;
+      var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
+      document.getElementById('read-bar').style.width = percent + '%';
+      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+    }, { passive:true });
+  </script>
+</body>
+</html>

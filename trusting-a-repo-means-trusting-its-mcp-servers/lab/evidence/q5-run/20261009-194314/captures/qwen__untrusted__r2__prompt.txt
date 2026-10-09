@@ -1,0 +1,48 @@
+                                                                                                                                                               │
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮│
+│ Ripgrep not available: spawn /home/lab/.npm-global/lib/node_modules/@qwen-code/qwen-code/vendor/ripgrep/x64-linux/rg EACCES. Falling back to built-in grep. ││
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯█
+                                                                                                                                                               █
+   ╭──────────────────────────────────────────────────────────────────────────────────────────────────
+   │
+   │ Untrusted MCP server in .qwen/settings.json
+   │ This workspace declares an MCP server. Approving lets Qwen Code start it and run its tools.
+   │ Approval is bound to this exact configuration — if .qwen/settings.json changes, you will be
+   │ asked again.
+   │
+   │ q5-canary  node /home/lab/lab/canary/marker-server.mjs (stdio) [env: CANARY_CLIENT,
+   │ CANARY_SOURCE, CANARY_LOG]
+   │
+   │ › 1. Approve this server
+   │   2. Approve all pending servers in this workspace
+   │   3. Reject (esc)
+   │
+   ╰──────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

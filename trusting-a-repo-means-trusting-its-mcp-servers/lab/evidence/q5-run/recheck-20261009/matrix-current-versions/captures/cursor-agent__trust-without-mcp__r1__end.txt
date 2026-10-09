@@ -1,0 +1,48 @@
+
+  ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │                                                                                                                                                          │
+  │  ⚠ MCP Server Approval Required                                                                                                                          │
+  │                                                                                                                                                          │
+  │  Some MCP servers can execute code and read your data. Learn more at cursor.com/docs/context/mcp                                                         │
+  │                                                                                                                                                          │
+  │  The following MCP servers need to be approved:                                                                                                          │
+  │                                                                                                                                                          │
+  │    • q5-canary (command: node)                                                                                                                           │
+  │                                                                                                                                                          │
+  │                                                                                                                                                          │
+  │    [a] Approve all servers                                                                                                                               │
+  │    [c] Continue without approval                                                                                                                         │
+  │    [q] Quit                                                                                                                                              │
+  │                                                                                                                                                          │
+  │  ⏳ Applying your selection...                                                                                                                           │
+  │                                                                                                                                                          │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+  Cursor Agent
+  v2026.10.01-e373342
+  Tip: Use /config to customize Cursor settings and behavior.
+
+
+
+                                                                                                                                                               
+  → Plan, search, build anything                                                                                                                               
+                                                                                                                                                               
+
+  Auto
+  ~/q5-repo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

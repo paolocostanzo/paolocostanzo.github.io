@@ -1,0 +1,48 @@
+
+  ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │                                                                                                                                                          │
+  │  ⚠ Workspace Trust Required                                                                                                                              │
+  │                                                                                                                                                          │
+  │  Cursor Agent can execute code and access files in this directory.                                                                                       │
+  │                                                                                                                                                          │
+  │  This will also enable the MCP servers configured for this workspace.                                                                                    │
+  │                                                                                                                                                          │
+  │  Do you trust the contents of this directory?                                                                                                            │
+  │                                                                                                                                                          │
+  │    /home/lab/q5-repo                                                                                                                                     │
+  │                                                                                                                                                          │
+  │                                                                                                                                                          │
+  │    [a] Trust this workspace                                                                                                                              │
+  │    [w] Trust this workspace, but don't enable all MCP servers                                                                                            │
+  │    [q] Quit                                                                                                                                              │
+  │                                                                                                                                                          │
+  │  ⏳ Trusting workspace and applying MCP approvals...                                                                                                     │
+  │                                                                                                                                                          │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+  Cursor Agent
+  v2026.10.01-e373342
+  Tip: Use /run-everything to skip all approvals.
+
+
+
+                                                                                                                                                               
+  → Plan, search, build anything                                                                                                                               
+                                                                                                                                                               
+
+  Auto
+  ~/q5-repo
+
+
+
+
+
+
+
+
+
+
+
+
+

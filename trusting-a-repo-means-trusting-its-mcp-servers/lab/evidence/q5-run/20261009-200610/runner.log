@@ -1,0 +1,13 @@
+2026-10-09T18:07:03+00:00 r1 gemini       after-decision       before=0 after=1 late=1 seen=trust v=0.61.0
+2026-10-09T18:07:45+00:00 r1 codex        untrusted            before=0 after=0 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:08:10+00:00 r1 codex        after-decision       before=0 after=1 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:08:35+00:00 r1 codex        trusted-reopen       before= after=1 late= seen= v=codex-cli 0.157.1
+2026-10-09T18:09:24+00:00 r2 gemini       after-decision       before=0 after=1 late=1 seen=trust v=0.61.0
+2026-10-09T18:10:05+00:00 r2 codex        untrusted            before=0 after=0 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:10:29+00:00 r2 codex        after-decision       before=0 after=1 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:10:55+00:00 r2 codex        trusted-reopen       before= after=1 late= seen= v=codex-cli 0.157.1
+2026-10-09T18:11:44+00:00 r3 gemini       after-decision       before=0 after=1 late=1 seen=trust v=0.61.0
+2026-10-09T18:12:25+00:00 r3 codex        untrusted            before=0 after=0 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:12:49+00:00 r3 codex        after-decision       before=0 after=1 late= seen=trust v=codex-cli 0.157.1
+2026-10-09T18:13:15+00:00 r3 codex        trusted-reopen       before= after=1 late= seen= v=codex-cli 0.157.1
+done: /home/lab/q5-run/20261009-200610

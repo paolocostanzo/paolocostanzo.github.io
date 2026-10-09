@@ -1,0 +1,48 @@
+
+  >_ OpenAI Codex (v0.162.0)
+     ~/q5-repo
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                 
+                                                                                          
+                                                                                            
+                                                                                             
+                                                                                              
+                                                                                              
+                                                                                               
+                                                                                                
+                                                                                                
+                                                                                                 
+                                                                                                
+                                                                                                
+                                                                                               
+                                                                                             
+                                                                                          
+                                                                                         
+                                                                                       
+
+
+
+
+  Set up security for Daybreak mode
+  Set up Advanced Account Security with a hardware security key. You can keep using Codex while you finish setup.
+
+› 1. Set up security                                                                                                                                            
+
+  Press a number to choose · esc to dismiss · type to continue                                                                                                  
+
+
+› Ask Codex to do anything
+
+  GPT-6.1-Sol default · ~/q5-repo
+  ? for shortcuts                                                                                                                      ⚠ 1 warning · f2 to view

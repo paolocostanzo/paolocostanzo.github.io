@@ -193,6 +193,15 @@ MANIFEST = {
         "footer": "Reproducible lab",
         "badge": "HARD",
     },
+    "trusting-a-repo": {
+        "out": "trusting-a-repo-means-trusting-its-mcp-servers/og.png",
+        "kicker": "AGENTIC AI · AI SECURITY · MCP · REPRODUCIBLE LAB",
+        "title": "TRUSTING A REPO",
+        "accent": 1,
+        "subtitle": "Eight coding agents, one canary MCP server · five of six pre-select trust",
+        "footer": "Series · part 2 of 5",
+        "badge": "MEDIUM",
+    },
     "outside-the-prompt": {
         "out": "outside-the-prompt-ai-agent-vulnerabilities-summer-2026/og.png",
         "kicker": "AGENTIC AI · AI SECURITY · MCP · SUMMER 2026",
