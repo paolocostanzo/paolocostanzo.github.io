@@ -188,23 +188,42 @@
       table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
       .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
     }
-    /* publications page */
-    .pub-list{list-style:none!important;margin:1.25rem 0 0 0!important}
-    .pub{padding:1.25rem 0;border-bottom:1px solid #1b1b1b}
-    .pub:last-child{border-bottom:0}
-    .pub-title{font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--text);line-height:1.5;margin:0 0 .4rem}
-    .pub-title a{color:var(--text);border-bottom:1px solid #444}
-    .pub-title a:hover{color:var(--orange);border-color:var(--orange)}
-    .pub-title em{font-weight:300;color:#999;font-style:normal}
-    .pub-meta{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.04em;line-height:1.8;margin:0}
-    .pub-meta a{color:#ddd;border-bottom:1px solid #444}
-    .pub-meta a:hover{color:var(--orange);border-color:var(--orange)}
-    .pub-meta .sep{color:#444;padding:0 .35rem}
-    .pub-note{font-size:.95rem!important;color:#aaa!important;margin:.5rem 0 0!important}
-    .author-box.top{margin:0 0 1rem;max-width:none}
-    .ab-links a.orcid{display:inline-flex;align-items:center;gap:.45rem}
-    .orcid-icon{width:14px;height:14px;flex-shrink:0}
-    .ab-links .ab-plain{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.08em;padding:.4rem 0}
+    /* publications page v2 */
+    .ids{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem}
+    .ids a,.ids span.soon{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;padding:.5rem .8rem;border:1px solid var(--border);color:var(--text);background:var(--surface);text-decoration:none}
+    .ids a:hover{border-color:var(--orange);color:var(--orange)}
+    .ids a.primary{border-color:#a6ce39;color:#d8f08c}
+    .ids span.soon{color:var(--muted);border-style:dashed}
+    .orcid-icon{width:15px;height:15px;flex-shrink:0}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:0 0 1.25rem}
+    .stat{background:var(--surface);border:1px solid var(--border);padding:.9rem .8rem;text-align:left;cursor:pointer;color:var(--text);font:inherit}
+    .stat:hover,.stat.on{border-color:var(--orange)}
+    .stat b{display:block;font-family:var(--condensed);font-size:2rem;line-height:1;color:var(--orange)}
+    .stat span{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1rem}
+    .chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .75rem;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
+    .chip.on,.chip:hover{color:var(--orange);border-color:var(--orange)}
+    .cards{display:flex;flex-direction:column;gap:.8rem;margin:0 0 2rem}
+    .card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--border);padding:1.1rem 1.2rem}
+    .card[data-type=preprint]{border-left-color:var(--orange)}
+    .card[data-type=lab]{border-left-color:var(--green)}
+    .card[data-type=patent]{border-left-color:var(--yellow)}
+    .card[data-type=prep]{border-left-color:#8a8aff;border-style:dashed solid dashed solid}
+    .card.hide{display:none}
+    .c-top{display:flex;flex-wrap:wrap;gap:.35rem .9rem;align-items:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--muted);margin-bottom:.45rem}
+    .badge{padding:.15rem .45rem;border:1px solid currentColor;text-transform:uppercase;font-size:.62rem;letter-spacing:.12em}
+    .b-preprint{color:var(--orange)}.b-lab{color:var(--green)}.b-patent{color:var(--yellow)}.b-prep{color:#a8a8ff}
+    .c-title{font-family:var(--sans);font-weight:600;font-size:1.06rem;line-height:1.45;color:var(--text);margin:0 0 .35rem}
+    .c-sub{font-size:.93rem;color:#9a9a9a;line-height:1.55;margin:0 0 .8rem}
+    .c-actions{display:flex;flex-wrap:wrap;gap:.45rem}
+    .act{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;padding:.42rem .7rem;border:1px solid var(--border);background:var(--black);color:var(--text);cursor:pointer;text-decoration:none}
+    .act:hover{border-color:var(--orange);color:var(--orange)}
+    .act.main{border-color:var(--orange);color:var(--orange)}
+    .act.done{border-color:var(--green);color:var(--green)}
+    .cite-box{background:var(--surface);border:1px dashed var(--border);padding:1rem 1.2rem;margin:0 0 1rem}
+    .cite-box p{font-size:.93rem!important;color:#aaa!important;margin:.35rem 0!important}
+    .cite-box code{font-size:.8rem}
+    @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.card{padding:1rem}.c-title{font-size:1rem}}
   </style>
 </head>
 
@@ -226,7 +245,7 @@
   <div class="article-header">
     <div class="article-meta">
       <span class="tag" data-it="Pubblicazioni" data-en="Publications">Publications</span>
-      <span class="meta-item" data-it="Aggiornata l'11 ott 2026" data-en="Updated 11 Oct 2026">Updated 11 Oct 2026</span>
+      <span class="meta-item" data-it="Aggiornata il 12 ott 2026" data-en="Updated 12 Oct 2026">Updated 12 Oct 2026</span>
     </div>
 
     <h1
@@ -235,97 +254,99 @@
     >Publications</h1>
 
     <p class="article-intro"
-       data-it="Preprint, brevetti, lavori in preparazione e i lab riproducibili dietro i post di questo sito. Ogni voce rimanda al suo record pubblico."
-       data-en="Preprints, patents, work in preparation and the reproducible labs behind the posts on this site. Every entry links to its public record."
-    >Preprints, patents, work in preparation and the reproducible labs behind the posts on this site. Every entry links to its public record.</p>
+       data-it="Tutto ciò che ho pubblicato, ognuno con un identificativo permanente. Filtra per tipo, apri il record o copia una citazione già pronta."
+       data-en="Everything I have published, each with a permanent identifier. Filter by type, open the record, or copy a ready-made citation."
+    >Everything I have published, each with a permanent identifier. Filter by type, open the record, or copy a ready-made citation.</p>
   </div>
 
   <main class="article-body">
-    <aside class="author-box top">
-      <span class="ab-label" data-it="// Autore" data-en="// Author">// Author</span>
-      <div class="ab-name">Paolo Costanzo</div>
-      <div class="ab-role"
-           data-it="Ricercatore indipendente in sicurezza informatica · Co-fondatore e CEO, CoDe RTD (Torino) · Docente di cybersecurity (ITS ICT Piemonte, Forte Chance ETS)"
-           data-en="Independent security researcher · Co-founder &amp;amp; CEO, CoDe RTD (Turin, Italy) · Cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS)">Independent security researcher · Co-founder &amp; CEO, CoDe RTD (Turin, Italy) · Cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS)</div>
-      <div class="ab-links">
-        <a class="orcid" href="https://orcid.org/0009-0005-7205-5945" target="_blank" rel="noopener noreferrer"><svg class="orcid-icon" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/><path fill="#FFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/></svg><span data-it="ORCID 0009-0005-7205-5945" data-en="ORCID 0009-0005-7205-5945">ORCID 0009-0005-7205-5945</span></a>
-        <a href="https://zenodo.org/search?q=creators.name%3A%22Costanzo%2C%20Paolo%22" target="_blank" rel="noopener noreferrer" data-it="Zenodo" data-en="Zenodo">Zenodo</a>
-        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer" data-it="ResearchGate" data-en="ResearchGate">ResearchGate</a>
-        <span class="ab-plain" data-it="arXiv: in arrivo con il preprint di novembre 2026" data-en="arXiv: coming with the November 2026 preprint">arXiv: coming with the November 2026 preprint</span>
-      </div>
+    <nav class="ids" aria-label="Researcher identifiers">
+      <a class="primary" href="https://orcid.org/0009-0005-7205-5945" target="_blank" rel="noopener noreferrer"><svg class="orcid-icon" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/><path fill="#FFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/></svg><span data-it="ORCID 0009-0005-7205-5945" data-en="ORCID 0009-0005-7205-5945">ORCID 0009-0005-7205-5945</span></a>
+      <a href="https://zenodo.org/search?q=creators.name%3A%22Costanzo%2C%20Paolo%22" target="_blank" rel="noopener noreferrer"><span data-it="Zenodo" data-en="Zenodo">Zenodo</span></a>
+      <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer"><span data-it="ResearchGate" data-en="ResearchGate">ResearchGate</span></a>
+      <a href="https://github.com/paolocostanzo/outside-the-prompt-lab" target="_blank" rel="noopener noreferrer"><span data-it="GitHub · lab harness" data-en="GitHub · lab harness">GitHub · lab harness</span></a>
+      <span class="soon"><span data-it="arXiv · da novembre 2026" data-en="arXiv · from November 2026">arXiv · from November 2026</span></span>
+    </nav>
+    <div class="stats">
+      <button type="button" class="stat" data-filter="preprint"><b>2</b><span data-it="Preprint" data-en="Preprints">Preprints</span></button>
+      <button type="button" class="stat" data-filter="patent"><b>3</b><span data-it="Brevetti" data-en="Patents">Patents</span></button>
+      <button type="button" class="stat" data-filter="lab"><b>2</b><span data-it="Lab riproducibili" data-en="Reproducible labs">Reproducible labs</span></button>
+      <button type="button" class="stat" data-filter="prep"><b>1</b><span data-it="In preparazione" data-en="In preparation">In preparation</span></button>
+    </div>
+    <div class="chips" role="toolbar">
+      <button type="button" class="chip on" data-filter="all"><span data-it="Tutto" data-en="All">All</span></button>
+      <button type="button" class="chip" data-filter="preprint"><span data-it="Preprint" data-en="Preprints">Preprints</span></button>
+      <button type="button" class="chip" data-filter="patent"><span data-it="Brevetti" data-en="Patents">Patents</span></button>
+      <button type="button" class="chip" data-filter="lab"><span data-it="Lab riproducibili" data-en="Reproducible labs">Reproducible labs</span></button>
+      <button type="button" class="chip" data-filter="prep"><span data-it="In preparazione" data-en="In preparation">In preparation</span></button>
+    </div>
+    <section class="cards" id="works">
+      <article class="card" data-type="prep">
+        <div class="c-top"><span class="badge b-prep"><span data-it="In preparazione" data-en="In preparation">In preparation</span></span><span data-it="nov 2026 (previsto)" data-en="Nov 2026 (planned)">Nov 2026 (planned)</span><span>Empirical Software Engineering</span></div>
+        <h3 class="c-title" data-it="Outside the Prompt: misurare dove gli agenti AI di programmazione si fidano di repository, tool e connettori"
+          data-en="Outside the Prompt: measuring where AI coding agents trust repositories, tools and connectors">Outside the Prompt: measuring where AI coding agents trust repositories, tools and connectors</h3>
+        <p class="c-sub" data-it="Preprint (Zenodo + arXiv) e invio a rivista. Nasce dalla serie in cinque parti del blog; prima delle misure mancanti viene depositata una preregistrazione."
+          data-en="Preprint (Zenodo + arXiv) and journal submission. Built from the five-part blog series; a preregistration is deposited before the remaining measurements.">Preprint (Zenodo + arXiv) and journal submission. Built from the five-part blog series; a preregistration is deposited before the remaining measurements.</p>
+        <div class="c-actions"><a class="act main" href="../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/"><span data-it="Parte 1" data-en="Part 1">Part 1</span></a><a class="act" href="../trusting-a-repo-means-trusting-its-mcp-servers/"><span data-it="Parte 2" data-en="Part 2">Part 2</span></a></div>
+      </article>
+      <article class="card" data-type="lab">
+        <div class="c-top"><span class="badge b-lab"><span data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span></span><span data-it="13 ott 2026" data-en="13 Oct 2026">13 Oct 2026</span><span>MIT</span></div>
+        <h3 class="c-title" data-it="Trusting a repo — harness del lab"
+          data-en="Trusting a repo — lab harness">Trusting a repo — lab harness</h3>
+        <p class="c-sub" data-it="Server MCP canary innocuo, generatore del repository di prova, controlli in sola lettura e runner usati per misurare otto client. 14 test automatici; prove con hash SHA-256."
+          data-en="Harmless canary MCP server, test-repository generator, read-only checks and the runner used to measure eight coding-agent clients. 14 automated tests; evidence with SHA-256 hashes.">Harmless canary MCP server, test-repository generator, read-only checks and the runner used to measure eight coding-agent clients. 14 automated tests; evidence with SHA-256 hashes.</p>
+        <div class="c-actions"><a class="act main" href="https://github.com/paolocostanzo/outside-the-prompt-lab" target="_blank" rel="noopener noreferrer"><span data-it="Repository" data-en="Repository">Repository</span></a><a class="act" href="../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md"><span data-it="README del lab" data-en="Lab README">Lab README</span></a><a class="act" href="../trusting-a-repo-means-trusting-its-mcp-servers/"><span data-it="Articolo" data-en="Article">Article</span></a></div>
+      </article>
+      <article class="card" data-type="lab">
+        <div class="c-top"><span class="badge b-lab"><span data-it="Lab riproducibile" data-en="Reproducible lab">Reproducible lab</span></span><span data-it="29 lug 2026" data-en="29 Jul 2026">29 Jul 2026</span></div>
+        <h3 class="c-title" data-it="MCP 2026-07-28: stateless non significa senza stato — lab di conformità"
+          data-en="MCP 2026-07-28: stateless does not mean state-free — conformance lab">MCP 2026-07-28: stateless does not mean state-free — conformance lab</h3>
+        <p class="c-sub" data-it="Test di conformità eseguibile della regola della specifica per cui uno state handle non è autenticazione: tre strategie di chiave a confronto, 13/13 test, lab in-process."
+          data-en="Executable conformance test of the specification's rule that a state handle is not authentication: three key strategies compared, 13/13 tests, in-process lab.">Executable conformance test of the specification's rule that a state handle is not authentication: three key strategies compared, 13/13 tests, in-process lab.</p>
+        <div class="c-actions"><a class="act main" href="../mcp-2026-07-28-stateless-security/lab/README.md"><span data-it="README del lab" data-en="Lab README">Lab README</span></a><a class="act" href="../mcp-2026-07-28-stateless-security/"><span data-it="Articolo" data-en="Article">Article</span></a></div>
+      </article>
+      <article class="card" data-type="preprint">
+        <div class="c-top"><span class="badge b-preprint"><span data-it="Preprint" data-en="Preprint">Preprint</span></span><span data-it="12 apr 2026" data-en="12 Apr 2026">12 Apr 2026</span><span>DOI 10.5281/zenodo.19535888</span></div>
+        <h3 class="c-title" data-it="Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network"
+          data-en="Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network">Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network</h3>
+        <p class="c-sub" data-it="Analisi indipendente di un servizio di drainer ad affiliazione che opera sulla rete TRON."
+          data-en="Independent analysis of an affiliate-based drainer-as-a-service operating on the TRON network.">Independent analysis of an affiliate-based drainer-as-a-service operating on the TRON network.</p>
+        <div class="c-actions"><a class="act main" href="https://doi.org/10.5281/zenodo.19535888" target="_blank" rel="noopener noreferrer"><span data-it="Leggi (DOI)" data-en="Read (DOI)">Read (DOI)</span></a><a class="act" href="../crypto-drainer-svuotatasche/"><span data-it="Post del blog" data-en="Blog post">Blog post</span></a><button type="button" class="act cite" data-cite="Costanzo, P. (2026). Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network [Preprint]. Zenodo. https://doi.org/10.5281/zenodo.19535888"><span data-it="Copia citazione" data-en="Copy citation">Copy citation</span></button></div>
+      </article>
+      <article class="card" data-type="preprint">
+        <div class="c-top"><span class="badge b-preprint"><span data-it="Preprint" data-en="Preprint">Preprint</span></span><span data-it="17 mar 2026" data-en="17 Mar 2026">17 Mar 2026</span><span>DOI 10.5281/zenodo.19227143</span></div>
+        <h3 class="c-title" data-it="Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)"
+          data-en="Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)">Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)</h3>
+        <p class="c-sub" data-it="Analisi OSINT indipendente della campagna cyber iraniana di febbraio 2026 e di ciò che i report pubblicati hanno tralasciato."
+          data-en="Independent OSINT analysis of the February 2026 Iranian cyber campaign and of what published reports missed.">Independent OSINT analysis of the February 2026 Iranian cyber campaign and of what published reports missed.</p>
+        <div class="c-actions"><a class="act main" href="https://doi.org/10.5281/zenodo.19227143" target="_blank" rel="noopener noreferrer"><span data-it="Leggi (DOI)" data-en="Read (DOI)">Read (DOI)</span></a><a class="act" href="../operation-epic-fury-cyber-war-iran/"><span data-it="Post del blog" data-en="Blog post">Blog post</span></a><button type="button" class="act cite" data-cite="Costanzo, P. (2026). Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026) [Preprint]. Zenodo. https://doi.org/10.5281/zenodo.19227143"><span data-it="Copia citazione" data-en="Copy citation">Copy citation</span></button></div>
+      </article>
+      <article class="card" data-type="patent">
+        <div class="c-top"><span class="badge b-patent"><span data-it="Brevetto" data-en="Patent">Patent</span></span><span data-it="dic 2019 · apr 2021" data-en="Dec 2019 · Apr 2021">Dec 2019 · Apr 2021</span><span>IT102019000023397 · IT102021000011090</span></div>
+        <h3 class="c-title" data-it="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video"
+          data-en="Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video">Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video</h3>
+        <p class="c-sub" data-it="Due domande di brevetto italiane."
+          data-en="Two Italian filings. Original title: Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video.">Two Italian filings. Original title: Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video.</p>
+        <div class="c-actions"><a class="act main" href="https://orcid.org/0009-0005-7205-5945" target="_blank" rel="noopener noreferrer"><span data-it="Elencati su ORCID" data-en="Listed on ORCID">Listed on ORCID</span></a></div>
+      </article>
+      <article class="card" data-type="patent">
+        <div class="c-top"><span class="badge b-patent"><span data-it="Brevetto" data-en="Patent">Patent</span></span><span data-it="aprile 2018" data-en="April 2018">April 2018</span><span>IT102018000004285</span></div>
+        <h3 class="c-title" data-it="Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo"
+          data-en="Video content distribution system with digital watermarking and related method">Video content distribution system with digital watermarking and related method</h3>
+        <p class="c-sub" data-it="Domanda di brevetto italiana."
+          data-en="Italian filing. Original title: Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo.">Italian filing. Original title: Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo.</p>
+        <div class="c-actions"><a class="act main" href="https://orcid.org/0009-0005-7205-5945" target="_blank" rel="noopener noreferrer"><span data-it="Elencato su ORCID" data-en="Listed on ORCID">Listed on ORCID</span></a></div>
+      </article>
+    </section>
+    <aside class="cite-box">
+      <span class="ab-label" data-it="// Per editor e lettori" data-en="// For editors and readers">// For editors and readers</span>
+      <p data-it="Ogni lavoro qui ha un identificativo permanente (DOI o numero di brevetto) ed è elencato nel record ORCID. Usa &lt;strong&gt;Copia citazione&lt;/strong&gt; su una scheda, oppure cita in questa forma:"
+        data-en="Every work here has a permanent identifier (DOI or patent number) and is listed on the ORCID record. Use &lt;strong&gt;Copy citation&lt;/strong&gt; on a card, or cite in this form:">Every work here has a permanent identifier (DOI or patent number) and is listed on the ORCID record. Use <strong>Copy citation</strong> on a card, or cite in this form:</p>
+      <p data-it="&lt;code&gt;Costanzo, P. (2026). Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network [Preprint]. Zenodo. https://doi.org/10.5281/zenodo.19535888&lt;/code&gt;"
+        data-en="&lt;code&gt;Costanzo, P. (2026). Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network [Preprint]. Zenodo. https://doi.org/10.5281/zenodo.19535888&lt;/code&gt;"><code>Costanzo, P. (2026). Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network [Preprint]. Zenodo. https://doi.org/10.5281/zenodo.19535888</code></p>
+      <p data-it="Autore: Paolo Costanzo — ricercatore indipendente in sicurezza informatica, co-fondatore e CEO di CoDe RTD (Torino), docente di cybersecurity (ITS ICT Piemonte, Forte Chance ETS)."
+        data-en="Author: Paolo Costanzo — independent security researcher, co-founder &amp;amp; CEO of CoDe RTD (Turin), cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS).">Author: Paolo Costanzo — independent security researcher, co-founder &amp; CEO of CoDe RTD (Turin), cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS).</p>
     </aside>
-
-    <section>
-      <h2 data-it="Preprint (Zenodo)" data-en="Preprints (Zenodo)">Preprints (Zenodo)</h2>
-      <p data-it="Report indipendenti depositati su Zenodo, ognuno con un DOI. Il post del sito accanto a ogni voce è la versione breve; il preprint è il record completo."
-        data-en="Independent reports deposited on Zenodo, each with a DOI. The site post linked next to each entry is the short version; the preprint is the full record.">Independent reports deposited on Zenodo, each with a DOI. The site post linked next to each entry is the short version; the preprint is the full record.</p>
-      <ol class="pub-list">
-        <li class="pub">
-          <p class="pub-title" data-it="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network&lt;/a&gt;"
-            data-en="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network&lt;/a&gt;"><a href="https://doi.org/10.5281/zenodo.19535888" target="_blank" rel="noopener noreferrer">Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network</a></p>
-          <p class="pub-meta" data-it="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;12 apr 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19535888&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../crypto-drainer-svuotatasche/&quot;&gt;post collegato&lt;/a&gt;"
-            data-en="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;12 Apr 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19535888&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../crypto-drainer-svuotatasche/&quot;&gt;related post&lt;/a&gt;">Preprint<span class="sep">·</span>12 Apr 2026<span class="sep">·</span>DOI <a href="https://doi.org/10.5281/zenodo.19535888" target="_blank" rel="noopener noreferrer">10.5281/zenodo.19535888</a><span class="sep">·</span><a href="../crypto-drainer-svuotatasche/">related post</a></p>
-        </li>
-        <li class="pub">
-          <p class="pub-title" data-it="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)&lt;/a&gt;"
-            data-en="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)&lt;/a&gt;"><a href="https://doi.org/10.5281/zenodo.19227143" target="_blank" rel="noopener noreferrer">Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)</a></p>
-          <p class="pub-meta" data-it="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;17 mar 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19227143&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../operation-epic-fury-cyber-war-iran/&quot;&gt;post collegato&lt;/a&gt;"
-            data-en="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;17 Mar 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19227143&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../operation-epic-fury-cyber-war-iran/&quot;&gt;related post&lt;/a&gt;">Preprint<span class="sep">·</span>17 Mar 2026<span class="sep">·</span>DOI <a href="https://doi.org/10.5281/zenodo.19227143" target="_blank" rel="noopener noreferrer">10.5281/zenodo.19227143</a><span class="sep">·</span><a href="../operation-epic-fury-cyber-war-iran/">related post</a></p>
-        </li>
-      </ol>
-    </section>
-
-    <section>
-      <h2 data-it="Brevetti (Italia)" data-en="Patents (Italy)">Patents (Italy)</h2>
-      <p data-it="Domande di brevetto italiane elencate nel record ORCID. I titoli sono in italiano."
-        data-en="Italian patent applications listed on the ORCID record. Titles are in Italian; an English gloss follows each one.">Italian patent applications listed on the ORCID record. Titles are in Italian; an English gloss follows each one.</p>
-      <ol class="pub-list">
-        <li class="pub">
-          <p class="pub-title" data-it="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video"
-            data-en="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video &lt;em&gt;— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video&lt;/em&gt;">Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video <em>— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video</em></p>
-          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102021000011090&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;aprile 2021"
-            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102021000011090&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;April 2021">Patent<span class="sep">·</span>IT102021000011090<span class="sep">·</span>April 2021</p>
-        </li>
-        <li class="pub">
-          <p class="pub-title" data-it="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video"
-            data-en="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video &lt;em&gt;— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video&lt;/em&gt;">Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video <em>— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video</em></p>
-          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102019000023397&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;dicembre 2019"
-            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102019000023397&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;December 2019">Patent<span class="sep">·</span>IT102019000023397<span class="sep">·</span>December 2019</p>
-        </li>
-        <li class="pub">
-          <p class="pub-title" data-it="Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo"
-            data-en="Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo &lt;em&gt;— Video content distribution system with digital watermarking and related method&lt;/em&gt;">Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo <em>— Video content distribution system with digital watermarking and related method</em></p>
-          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102018000004285&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;aprile 2018"
-            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102018000004285&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;April 2018">Patent<span class="sep">·</span>IT102018000004285<span class="sep">·</span>April 2018</p>
-        </li>
-      </ol>
-    </section>
-
-    <section>
-      <h2 data-it="In preparazione" data-en="In preparation">In preparation</h2>
-      <ol class="pub-list">
-        <li class="pub">
-          <p class="pub-title" data-it="Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients"
-            data-en="Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients">Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients</p>
-          <p class="pub-meta" data-it="Preprint previsto per novembre 2026 (Zenodo + arXiv)&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;invio a rivista previsto: Empirical Software Engineering (Springer)"
-            data-en="Preprint planned for November 2026 (Zenodo + arXiv)&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;journal submission planned: Empirical Software Engineering (Springer)">Preprint planned for November 2026 (Zenodo + arXiv)<span class="sep">·</span>journal submission planned: Empirical Software Engineering (Springer)</p>
-        </li>
-      </ol>
-      <p class="pub-note" data-it="Post della serie già pubblicati: &lt;a href=&quot;../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate&lt;/a&gt; e &lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Fidarsi di un repo significa fidarsi dei suoi server MCP&lt;/a&gt; (13 ottobre 2026)."
-        data-en="Published posts of the series so far: &lt;a href=&quot;../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Outside the prompt: what this summer's AI agent vulnerabilities have in common&lt;/a&gt; and &lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Trusting a repo means trusting its MCP servers&lt;/a&gt; (13 October 2026).">Published posts of the series so far: <a href="../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/">Outside the prompt: what this summer's AI agent vulnerabilities have in common</a> and <a href="../trusting-a-repo-means-trusting-its-mcp-servers/">Trusting a repo means trusting its MCP servers</a> (13 October 2026).</p>
-    </section>
-
-    <section>
-      <h2 data-it="Lab riproducibili" data-en="Reproducible labs">Reproducible labs</h2>
-      <ul>
-        <li data-it="&lt;a href=&quot;../mcp-2026-07-28-stateless-security/lab/README.md&quot;&gt;Lab MCP 2026-07-28 stateless security&lt;/a&gt; — harness client/server per i risultati sul trasporto stateless del post sulla specifica MCP."
-          data-en="&lt;a href=&quot;../mcp-2026-07-28-stateless-security/lab/README.md&quot;&gt;MCP 2026-07-28 stateless security lab&lt;/a&gt; — client/server harness for the stateless-transport findings of the MCP specification post."><a href="../mcp-2026-07-28-stateless-security/lab/README.md">MCP 2026-07-28 stateless security lab</a> — client/server harness for the stateless-transport findings of the MCP specification post.</li>
-        <li data-it="&lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md&quot;&gt;Lab Trusting a repo&lt;/a&gt; — misure con canary di ciò che i client MCP eseguono prima e dopo la richiesta di fiducia."
-          data-en="&lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md&quot;&gt;Trusting a repo lab&lt;/a&gt; — canary-based measurements of what MCP clients run before and after the trust prompt."><a href="../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md">Trusting a repo lab</a> — canary-based measurements of what MCP clients run before and after the trust prompt.</li>
-      </ul>
-      <p class="pub-note" data-it="L'harness del preprint di novembre viene pubblicato in un repository pubblico: &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/paolocostanzo/outside-the-prompt-lab&lt;/a&gt; (in creazione l'11 ottobre 2026)."
-        data-en="The harness for the November preprint is being published in a public repository: &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/paolocostanzo/outside-the-prompt-lab&lt;/a&gt; (being created on 11 October 2026).">The harness for the November preprint is being published in a public repository: <a href="https://github.com/paolocostanzo/outside-the-prompt-lab" target="_blank" rel="noopener noreferrer">github.com/paolocostanzo/outside-the-prompt-lab</a> (being created on 11 October 2026).</p>
-    </section>
   </main>
 
   <footer class="article-footer">
@@ -383,6 +404,30 @@
       document.getElementById('read-bar').style.width = percent + '%';
       document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
     }, { passive:true });
+  </script>
+  <script>
+    (function(){
+      var cards = document.querySelectorAll('.card');
+      function apply(f){
+        cards.forEach(function(c){ c.classList.toggle('hide', f !== 'all' && c.getAttribute('data-type') !== f); });
+        document.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-filter') === f); });
+        document.querySelectorAll('.stat').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-filter') === f); });
+      }
+      document.addEventListener('click', function(e){
+        var f = e.target.closest('[data-filter]');
+        if (f){ var v = f.getAttribute('data-filter'); var cur = document.querySelector('.chip.on');
+          apply(f.classList.contains('stat') && cur && cur.getAttribute('data-filter') === v ? 'all' : v); return; }
+        var c = e.target.closest('.cite');
+        if (c){
+          var txt = c.getAttribute('data-cite');
+          var done = function(){ var lbl = c.querySelector('[data-it]'); var it = document.documentElement.lang === 'it';
+            var old = lbl.innerHTML; lbl.innerHTML = it ? 'Copiata ✓' : 'Copied ✓'; c.classList.add('done');
+            setTimeout(function(){ lbl.innerHTML = it ? lbl.getAttribute('data-it') : lbl.getAttribute('data-en'); c.classList.remove('done'); }, 1800); };
+          if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, function(){ window.prompt('Citation', txt); }); }
+          else { window.prompt('Citation', txt); }
+        }
+      });
+    })();
   </script>
 </body>
 </html>
