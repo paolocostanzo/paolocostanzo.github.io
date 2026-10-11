@@ -199,7 +199,7 @@ MANIFEST = {
         "title": "TRUSTING A REPO",
         "accent": 1,
         "subtitle": "Eight coding agents, one canary MCP server · five of six pre-select trust",
-        "footer": "Series · part 2 of 5",
+        "footer": "Series · part 2 of 4",
         "badge": "MEDIUM",
     },
     "outside-the-prompt": {
@@ -208,7 +208,7 @@ MANIFEST = {
         "title": "OUTSIDE THE PROMPT",
         "accent": 1,
         "subtitle": "Ten AI agent vulnerabilities · in seven, the model never had to be fooled",
-        "footer": "Series · part 1 of 5",
+        "footer": "Series · part 1 of 4",
         "badge": "MEDIUM",
     },
     "oura": {
