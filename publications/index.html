@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index,follow"/>
+  <title
+    data-it="Pubblicazioni — Paolo Costanzo"
+    data-en="Publications — Paolo Costanzo"
+  >Publications — Paolo Costanzo</title>
+  <meta name="description"
+    data-it="Preprint su Zenodo, brevetti italiani, lavori in preparazione e lab riproducibili di Paolo Costanzo, ricercatore indipendente in sicurezza informatica."
+    data-en="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher."
+    content="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/publications/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Barlow:wght@300;400;600;700&amp;family=Barlow+Condensed:wght@700;900&amp;display=swap" rel="stylesheet"/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
+  <meta property="og:title" content="Publications — Paolo Costanzo"/>
+  <meta property="og:description" data-it="Preprint su Zenodo, brevetti italiani, lavori in preparazione e lab riproducibili di Paolo Costanzo, ricercatore indipendente in sicurezza informatica." data-en="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher." content="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/publications/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/og.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/og.png"/>
+  <meta name="twitter:title" content="Publications — Paolo Costanzo"/>
+  <meta name="twitter:description" data-it="Preprint su Zenodo, brevetti italiani, lavori in preparazione e lab riproducibili di Paolo Costanzo, ricercatore indipendente in sicurezza informatica." data-en="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher." content="Preprints on Zenodo, Italian patents, work in preparation and reproducible labs by Paolo Costanzo, independent security researcher."/>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "name": "Publications — Paolo Costanzo",
+  "url": "https://paolocostanzo.github.io/publications/",
+  "inLanguage": "en",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com",
+    "jobTitle": "Independent security researcher",
+    "sameAs": [
+      "https://orcid.org/0009-0005-7205-5945",
+      "https://www.researchgate.net/profile/Paolo-Costanzo-2",
+      "https://github.com/paolocostanzo",
+      "https://www.linkedin.com/in/paolocostanzoit/"
+    ]
+  }
+}
+  </script>
+
+  <style>
+    :root{
+      --orange:#ff6a00;
+      --orange-faint:rgba(255,106,0,.06);
+      --black:#080808;
+      --surface:#101010;
+      --surface2:#161616;
+      --border:#242424;
+      --text:#e8e8e8;
+      --muted:#777;
+      --green:#00ff88;
+      --red:#ff5555;
+      --yellow:#ffaa00;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .back-link{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:.65rem;padding:.3rem .6rem;background:transparent;color:var(--muted);border:0;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    .draft-ribbon{background:rgba(255,170,0,.08);border-bottom:1px solid rgba(255,170,0,.25);color:var(--yellow);font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-align:center;padding:.55rem 1rem;text-transform:uppercase}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--orange);padding:.2rem .6rem}
+    .meta-item{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+    .difficulty-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+    .auth-wrap{display:flex;align-items:center;gap:.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+    h1{font-family:var(--condensed);font-size:clamp(2.2rem,5vw,3.7rem);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.03;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.12rem;color:#aaa;max-width:790px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);margin:3.4rem 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 .75rem}
+    .article-body h4{font-family:var(--mono);font-size:.95rem;font-weight:400;color:var(--text);letter-spacing:.02em;margin:1.6rem 0 .5rem}
+    .article-body h4 a{color:var(--text);border-bottom:1px solid #444}
+    .timeline-fig figcaption{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:.6rem;line-height:1.6}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body p a,.article-body li a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .article-body p a:hover,.article-body li a:hover{border-bottom-color:var(--orange)}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:#999}
+    .article-body ul,.article-body ol{margin:1rem 0 1.35rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:.45rem}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:.7rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.55rem}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .plain-card{background:var(--surface);padding:1.25rem}
+    .plain-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+    .plain-card p{font-size:.9rem;color:#bbb;line-height:1.65;margin:0}
+    .plain-boundary{font-size:.86rem!important;color:var(--muted)!important;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.25rem;margin-bottom:0!important}
+    .callout,.callout-red,.callout-green,.callout-draft{padding:1.25rem 1.5rem;margin:2rem 0;border-left:3px solid var(--orange);background:var(--orange-faint);border-top:1px solid rgba(255,106,0,.2);border-right:1px solid rgba(255,106,0,.2);border-bottom:1px solid rgba(255,106,0,.2)}
+    .callout-red{border-left-color:var(--red);background:rgba(255,85,85,.04);border-color:rgba(255,85,85,.2)}
+    .callout-green{border-left-color:var(--green);background:rgba(0,255,136,.03);border-color:rgba(0,255,136,.17)}
+    .callout-draft{border-left-color:var(--yellow);background:rgba(255,170,0,.04);border-color:rgba(255,170,0,.22)}
+    .callout-label{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+    .callout-red .callout-label{color:var(--red)}
+    .callout-green .callout-label{color:var(--green)}
+    .callout-draft .callout-label{color:var(--yellow)}
+    .callout p,.callout-red p,.callout-green p,.callout-draft p{font-size:.92rem;color:var(--text);margin:0}
+    .gif-wrap{margin:2rem auto;max-width:420px;text-align:center}
+    .gif-wrap img{max-width:100%;height:auto;border:1px solid var(--border);display:block;margin:0 auto;border-radius:2px;filter:saturate(0.85) brightness(0.92)}
+    .gif-wrap figcaption{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.6rem;line-height:1.5}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.4rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:.78rem;color:#bbb;line-height:1.75;white-space:pre}
+    .comment{color:var(--muted)}.danger{color:var(--red)}.ok{color:var(--green)}.warn{color:var(--yellow)}.accent{color:var(--orange)}
+    .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center;margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border)}
+    .flow-box{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--text);border:1px solid #333;padding:1rem;text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .flow-arrow{font-family:var(--mono);color:var(--orange)}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:.76rem}
+    th{text-align:left;color:var(--orange);padding:.7rem .75rem;border-bottom:1px solid var(--border);letter-spacing:.08em;text-transform:uppercase;vertical-align:bottom}
+    td{padding:.7rem .75rem;border-bottom:1px solid #1b1b1b;color:#bbb;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    td strong{color:var(--text)}
+    td:first-child{white-space:nowrap}
+    .table-hint{display:none}
+    .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .evidence-card{background:var(--surface);padding:1.25rem}
+    .evidence-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+    .evidence-card p{font-size:.9rem;margin:0;color:#aaa}
+    .checklist{list-style:none!important;margin-left:0!important}
+    .checklist li{position:relative;padding-left:1.7rem}
+    .checklist li::before{content:'□';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .checklist.done li::before{content:'✓';color:var(--green)}
+    .source-list{counter-reset:source;list-style:none!important;margin-left:0!important}
+    .source-list li{counter-increment:source;padding-left:2.3rem;position:relative;margin-bottom:.8rem}
+    .source-list li::before{content:'[' counter(source,decimal-leading-zero) ']';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .source-list a{color:#ddd;border-bottom:1px solid #444}
+    .source-list a:hover{color:var(--orange);border-color:var(--orange)}
+    .source-list a{overflow-wrap:anywhere}
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .ab-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+    .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin-top:.5rem;line-height:1}
+    .ab-role{font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:.45rem;line-height:1.6}
+    .ab-bio{font-size:.9rem;color:var(--muted);line-height:1.65;margin-top:.9rem}
+    .ab-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+    .ab-links a{font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.4rem .8rem;letter-spacing:.08em;transition:border-color .2s,color .2s}
+    .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+    .footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.45rem .7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    @media(max-width:760px){
+      .header-inner,.article-header,.article-body{padding-left:1.25rem;padding-right:1.25rem}
+      h1{font-size:2.15rem}
+      .logo{display:none}
+      .flow{grid-template-columns:1fr;gap:.5rem}
+      .flow-arrow{transform:rotate(90deg);text-align:center}
+      .plain-grid{grid-template-columns:1fr}
+      .evidence-grid{grid-template-columns:1fr}
+      table{display:block;overflow-x:auto;white-space:normal}
+      table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
+      .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
+    }
+    /* publications page */
+    .pub-list{list-style:none!important;margin:1.25rem 0 0 0!important}
+    .pub{padding:1.25rem 0;border-bottom:1px solid #1b1b1b}
+    .pub:last-child{border-bottom:0}
+    .pub-title{font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--text);line-height:1.5;margin:0 0 .4rem}
+    .pub-title a{color:var(--text);border-bottom:1px solid #444}
+    .pub-title a:hover{color:var(--orange);border-color:var(--orange)}
+    .pub-title em{font-weight:300;color:#999;font-style:normal}
+    .pub-meta{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.04em;line-height:1.8;margin:0}
+    .pub-meta a{color:#ddd;border-bottom:1px solid #444}
+    .pub-meta a:hover{color:var(--orange);border-color:var(--orange)}
+    .pub-meta .sep{color:#444;padding:0 .35rem}
+    .pub-note{font-size:.95rem!important;color:#aaa!important;margin:.5rem 0 0!important}
+    .author-box.top{margin:0 0 1rem;max-width:none}
+    .ab-links a.orcid{display:inline-flex;align-items:center;gap:.45rem}
+    .orcid-icon{width:14px;height:14px;flex-shrink:0}
+    .ab-links .ab-plain{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.08em;padding:.4rem 0}
+  </style>
+</head>
+
+
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle" aria-label="Language selector">
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag" data-it="Pubblicazioni" data-en="Publications">Publications</span>
+      <span class="meta-item" data-it="Aggiornata l'11 ott 2026" data-en="Updated 11 Oct 2026">Updated 11 Oct 2026</span>
+    </div>
+
+    <h1
+      data-it="Pubblicazioni"
+      data-en="Publications"
+    >Publications</h1>
+
+    <p class="article-intro"
+       data-it="Preprint, brevetti, lavori in preparazione e i lab riproducibili dietro i post di questo sito. Ogni voce rimanda al suo record pubblico."
+       data-en="Preprints, patents, work in preparation and the reproducible labs behind the posts on this site. Every entry links to its public record."
+    >Preprints, patents, work in preparation and the reproducible labs behind the posts on this site. Every entry links to its public record.</p>
+  </div>
+
+  <main class="article-body">
+    <aside class="author-box top">
+      <span class="ab-label" data-it="// Autore" data-en="// Author">// Author</span>
+      <div class="ab-name">Paolo Costanzo</div>
+      <div class="ab-role"
+           data-it="Ricercatore indipendente in sicurezza informatica · Co-fondatore e CEO, CoDe RTD (Torino) · Docente di cybersecurity (ITS ICT Piemonte, Forte Chance ETS)"
+           data-en="Independent security researcher · Co-founder &amp;amp; CEO, CoDe RTD (Turin, Italy) · Cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS)">Independent security researcher · Co-founder &amp; CEO, CoDe RTD (Turin, Italy) · Cybersecurity lecturer (ITS ICT Piemonte, Forte Chance ETS)</div>
+      <div class="ab-links">
+        <a class="orcid" href="https://orcid.org/0009-0005-7205-5945" target="_blank" rel="noopener noreferrer"><svg class="orcid-icon" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/><path fill="#FFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/></svg><span data-it="ORCID 0009-0005-7205-5945" data-en="ORCID 0009-0005-7205-5945">ORCID 0009-0005-7205-5945</span></a>
+        <a href="https://zenodo.org/search?q=creators.name%3A%22Costanzo%2C%20Paolo%22" target="_blank" rel="noopener noreferrer" data-it="Zenodo" data-en="Zenodo">Zenodo</a>
+        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer" data-it="ResearchGate" data-en="ResearchGate">ResearchGate</a>
+        <span class="ab-plain" data-it="arXiv: in arrivo con il preprint di novembre 2026" data-en="arXiv: coming with the November 2026 preprint">arXiv: coming with the November 2026 preprint</span>
+      </div>
+    </aside>
+
+    <section>
+      <h2 data-it="Preprint (Zenodo)" data-en="Preprints (Zenodo)">Preprints (Zenodo)</h2>
+      <p data-it="Report indipendenti depositati su Zenodo, ognuno con un DOI. Il post del sito accanto a ogni voce è la versione breve; il preprint è il record completo."
+        data-en="Independent reports deposited on Zenodo, each with a DOI. The site post linked next to each entry is the short version; the preprint is the full record.">Independent reports deposited on Zenodo, each with a DOI. The site post linked next to each entry is the short version; the preprint is the full record.</p>
+      <ol class="pub-list">
+        <li class="pub">
+          <p class="pub-title" data-it="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network&lt;/a&gt;"
+            data-en="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network&lt;/a&gt;"><a href="https://doi.org/10.5281/zenodo.19535888" target="_blank" rel="noopener noreferrer">Anatomy of a TRON Wallet Drainer-as-a-Service: An Independent Analysis of Affiliate-Based Cryptocurrency Theft Operations on the TRON Network</a></p>
+          <p class="pub-meta" data-it="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;12 apr 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19535888&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../crypto-drainer-svuotatasche/&quot;&gt;post collegato&lt;/a&gt;"
+            data-en="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;12 Apr 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19535888&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19535888&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../crypto-drainer-svuotatasche/&quot;&gt;related post&lt;/a&gt;">Preprint<span class="sep">·</span>12 Apr 2026<span class="sep">·</span>DOI <a href="https://doi.org/10.5281/zenodo.19535888" target="_blank" rel="noopener noreferrer">10.5281/zenodo.19535888</a><span class="sep">·</span><a href="../crypto-drainer-svuotatasche/">related post</a></p>
+        </li>
+        <li class="pub">
+          <p class="pub-title" data-it="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)&lt;/a&gt;"
+            data-en="&lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)&lt;/a&gt;"><a href="https://doi.org/10.5281/zenodo.19227143" target="_blank" rel="noopener noreferrer">Operation Epic Fury: What the Reports Missed — An Independent OSINT Analysis of the Iranian Cyber Campaign (February 2026)</a></p>
+          <p class="pub-meta" data-it="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;17 mar 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19227143&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../operation-epic-fury-cyber-war-iran/&quot;&gt;post collegato&lt;/a&gt;"
+            data-en="Preprint&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;17 Mar 2026&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;DOI &lt;a href=&quot;https://doi.org/10.5281/zenodo.19227143&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;10.5281/zenodo.19227143&lt;/a&gt;&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;&lt;a href=&quot;../operation-epic-fury-cyber-war-iran/&quot;&gt;related post&lt;/a&gt;">Preprint<span class="sep">·</span>17 Mar 2026<span class="sep">·</span>DOI <a href="https://doi.org/10.5281/zenodo.19227143" target="_blank" rel="noopener noreferrer">10.5281/zenodo.19227143</a><span class="sep">·</span><a href="../operation-epic-fury-cyber-war-iran/">related post</a></p>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-it="Brevetti (Italia)" data-en="Patents (Italy)">Patents (Italy)</h2>
+      <p data-it="Domande di brevetto italiane elencate nel record ORCID. I titoli sono in italiano."
+        data-en="Italian patent applications listed on the ORCID record. Titles are in Italian; an English gloss follows each one.">Italian patent applications listed on the ORCID record. Titles are in Italian; an English gloss follows each one.</p>
+      <ol class="pub-list">
+        <li class="pub">
+          <p class="pub-title" data-it="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video"
+            data-en="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video &lt;em&gt;— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video&lt;/em&gt;">Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video <em>— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video</em></p>
+          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102021000011090&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;aprile 2021"
+            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102021000011090&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;April 2021">Patent<span class="sep">·</span>IT102021000011090<span class="sep">·</span>April 2021</p>
+        </li>
+        <li class="pub">
+          <p class="pub-title" data-it="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video"
+            data-en="Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video &lt;em&gt;— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video&lt;/em&gt;">Procedimento di incorporamento di un watermark in un video e corrispondente procedimento di estrazione di un watermark da un video <em>— Method for embedding a watermark in a video and corresponding method for extracting a watermark from a video</em></p>
+          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102019000023397&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;dicembre 2019"
+            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102019000023397&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;December 2019">Patent<span class="sep">·</span>IT102019000023397<span class="sep">·</span>December 2019</p>
+        </li>
+        <li class="pub">
+          <p class="pub-title" data-it="Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo"
+            data-en="Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo &lt;em&gt;— Video content distribution system with digital watermarking and related method&lt;/em&gt;">Sistema di distribuzione di contenuti video con filigranatura digitale e relativo metodo <em>— Video content distribution system with digital watermarking and related method</em></p>
+          <p class="pub-meta" data-it="Brevetto&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102018000004285&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;aprile 2018"
+            data-en="Patent&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;IT102018000004285&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;April 2018">Patent<span class="sep">·</span>IT102018000004285<span class="sep">·</span>April 2018</p>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-it="In preparazione" data-en="In preparation">In preparation</h2>
+      <ol class="pub-list">
+        <li class="pub">
+          <p class="pub-title" data-it="Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients"
+            data-en="Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients">Outside the Prompt: where this summer's AI-agent vulnerabilities trigger, and four harmless measurements on current clients</p>
+          <p class="pub-meta" data-it="Preprint previsto per novembre 2026 (Zenodo + arXiv)&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;invio a rivista previsto: Empirical Software Engineering (Springer)"
+            data-en="Preprint planned for November 2026 (Zenodo + arXiv)&lt;span class=&quot;sep&quot;&gt;·&lt;/span&gt;journal submission planned: Empirical Software Engineering (Springer)">Preprint planned for November 2026 (Zenodo + arXiv)<span class="sep">·</span>journal submission planned: Empirical Software Engineering (Springer)</p>
+        </li>
+      </ol>
+      <p class="pub-note" data-it="Post della serie già pubblicati: &lt;a href=&quot;../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate&lt;/a&gt; e &lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Fidarsi di un repo significa fidarsi dei suoi server MCP&lt;/a&gt; (13 ottobre 2026)."
+        data-en="Published posts of the series so far: &lt;a href=&quot;../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Outside the prompt: what this summer's AI agent vulnerabilities have in common&lt;/a&gt; and &lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Trusting a repo means trusting its MCP servers&lt;/a&gt; (13 October 2026).">Published posts of the series so far: <a href="../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/">Outside the prompt: what this summer's AI agent vulnerabilities have in common</a> and <a href="../trusting-a-repo-means-trusting-its-mcp-servers/">Trusting a repo means trusting its MCP servers</a> (13 October 2026).</p>
+    </section>
+
+    <section>
+      <h2 data-it="Lab riproducibili" data-en="Reproducible labs">Reproducible labs</h2>
+      <ul>
+        <li data-it="&lt;a href=&quot;../mcp-2026-07-28-stateless-security/lab/README.md&quot;&gt;Lab MCP 2026-07-28 stateless security&lt;/a&gt; — harness client/server per i risultati sul trasporto stateless del post sulla specifica MCP."
+          data-en="&lt;a href=&quot;../mcp-2026-07-28-stateless-security/lab/README.md&quot;&gt;MCP 2026-07-28 stateless security lab&lt;/a&gt; — client/server harness for the stateless-transport findings of the MCP specification post."><a href="../mcp-2026-07-28-stateless-security/lab/README.md">MCP 2026-07-28 stateless security lab</a> — client/server harness for the stateless-transport findings of the MCP specification post.</li>
+        <li data-it="&lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md&quot;&gt;Lab Trusting a repo&lt;/a&gt; — misure con canary di ciò che i client MCP eseguono prima e dopo la richiesta di fiducia."
+          data-en="&lt;a href=&quot;../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md&quot;&gt;Trusting a repo lab&lt;/a&gt; — canary-based measurements of what MCP clients run before and after the trust prompt."><a href="../trusting-a-repo-means-trusting-its-mcp-servers/lab/README.md">Trusting a repo lab</a> — canary-based measurements of what MCP clients run before and after the trust prompt.</li>
+      </ul>
+      <p class="pub-note" data-it="L'harness del preprint di novembre viene pubblicato in un repository pubblico: &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/paolocostanzo/outside-the-prompt-lab&lt;/a&gt; (in creazione l'11 ottobre 2026)."
+        data-en="The harness for the November preprint is being published in a public repository: &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/paolocostanzo/outside-the-prompt-lab&lt;/a&gt; (being created on 11 October 2026).">The harness for the November preprint is being published in a public repository: <a href="https://github.com/paolocostanzo/outside-the-prompt-lab" target="_blank" rel="noopener noreferrer">github.com/paolocostanzo/outside-the-prompt-lab</a> (being created on 11 October 2026).</p>
+    </section>
+  </main>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← all articles</a>
+    <span class="footer-copy" data-it="© 2026 Paolo Costanzo" data-en="© 2026 Paolo Costanzo">© 2026 Paolo Costanzo</span>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if (stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if (nav.indexOf('en') === 0) return 'en';
+        return 'en';
+      }
+
+      function setLang(lang){
+        var next = lang === 'en' ? 'en' : 'it';
+        document.documentElement.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var value = el.getAttribute(next === 'en' ? 'data-en' : 'data-it');
+          if (value === null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+          } else if (el.tagName === 'TITLE') {
+            document.title = value;
+          } else {
+            el.innerHTML = value;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(button){
+          var on = button.textContent.trim().toLowerCase() === next;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-pressed', String(on));
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+
+    window.addEventListener('scroll', function(){
+      var root = document.documentElement;
+      var total = root.scrollHeight - root.clientHeight;
+      var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
+      document.getElementById('read-bar').style.width = percent + '%';
+      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+    }, { passive:true });
+  </script>
+</body>
+</html>
