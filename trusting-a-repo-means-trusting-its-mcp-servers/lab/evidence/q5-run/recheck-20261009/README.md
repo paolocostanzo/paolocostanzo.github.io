@@ -18,6 +18,7 @@ riapertura come prima), con una sola differenza:
 - **Gemini 0.63.0, "Trust folder"**: il canary è partito nella stessa sessione in 1 caso su 4 (settembre, 0.61.0: 4 su 5).
   Nei 3 casi negativi la schermata dopo la scelta mostra `Skipping project agents due to untrusted folder` e la riga di stato
   resta non fidata; la fiducia è però salvata e alla riapertura il server parte 4 su 4. Possibile legame con la PR #29528
+  **Correzione (11/10, sera):** la PR #29528 non è inclusa nella 0.63.0 (compare dalla 0.64.0-preview.0): il legame ipotizzato sopra non regge; la causa del cambiamento non è stata individuata.
   di 0.63.0 ("propagate resolved folder trust state in headless mode"). Non è un peggioramento della sicurezza: in sessione
   il server non parte, parte alla riapertura di una cartella ormai fidata.
 - Cursor CLI 2026.10.01: identico (2 eventi di avvio per sessione, come il 9/10 mattina).

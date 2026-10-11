@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T21:02:20.097Z",
+  "generatedAt": "2026-10-11T15:48:52.066Z",
   "command": "node --test --test-concurrency=1 --test-reporter=tap test/01-canary.test.mjs test/02-make-test-repo.test.mjs test/03-check-repo.test.mjs test/04-check-trust.test.mjs",
   "exitCode": 0,
   "summary": {
@@ -166,7 +166,7 @@
       "evidence/q5-run/20261009-200610/run.json": "893bb9b3b17b94a190a853c4da0b38643a85e78aa2abcebbd75e227a36eaa8e1",
       "evidence/q5-run/20261009-200610/runner.log": "a57487ff2ebba0edda38e12376583c1146dd3923a9b3adae17f71d74961b6a65",
       "evidence/q5-run/NOTES.md": "a7dbc78b1439e5218ab01286d15eb3e59ca3231d2a1668473b954e044077690a",
-      "evidence/q5-run/recheck-20261009/README.md": "5a3e6b52a99343f924a0fb031f5f782b40248b5f2450664bef7b7b741512ed21",
+      "evidence/q5-run/recheck-20261009/README.md": "05cee8696236ab5288857f5ec90c74f44fc324e3dc2139e260b71d96d6e99e52",
       "evidence/q5-run/recheck-20261009/claude-p-clean/claude-p-clean-r1.out": "dd06411848425c7d602346ca9cf17b52e6924b94949383b33247a0091ab79789",
       "evidence/q5-run/recheck-20261009/claude-p-clean/claude-p-clean-r2.out": "dd06411848425c7d602346ca9cf17b52e6924b94949383b33247a0091ab79789",
       "evidence/q5-run/recheck-20261009/claude-p-clean/claude-p-clean-r3.out": "dd06411848425c7d602346ca9cf17b52e6924b94949383b33247a0091ab79789",
