@@ -6,7 +6,7 @@ name: Publish scheduled posts
 # nothing is published that was not reviewed exactly as it will go live.
 on:
   schedule:
-    - cron: '0 6 * * 2'   # Tuesday 06:00 UTC = 08:00 in Italy in summer, 07:00 in winter
+    - cron: '0 7 * * 2'   # Tuesday 07:00 UTC = 09:00 in Italy in summer, 08:00 in winter
   workflow_dispatch:
 permissions:
   contents: write
