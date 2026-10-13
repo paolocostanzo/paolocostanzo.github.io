@@ -25,7 +25,7 @@
       <link>https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/</link>
       <guid>https://paolocostanzo.github.io/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/</guid>
       <pubDate>Tue, 29 Sep 2026 08:00:00 +0200</pubDate>
-      <description>Ten AI agent vulnerabilities disclosed between late June and late September 2026 (coding assistants, MCP servers, IDE integrations, CI workflows), classified by where the flaw triggers: before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given once it acted. In seven of ten, the model's judgment was never the deciding factor. The first post of a four-part series that measures these trust boundaries in a home lab, ending in a preprint in early November.</description>
+      <description>Ten AI agent vulnerabilities disclosed between late June and late September 2026 (coding assistants, MCP servers, IDE integrations, CI workflows), classified by where the flaw triggers: before the model is involved, in the interface around it, in the plumbing that connects it to tools, or in the authority it was given once it acted. In six of ten, the model's judgment was never the deciding factor. The first post of a four-part series that measures these trust boundaries in a home lab, ending in a preprint in early November.</description>
       <category>Agentic AI</category>
       <category>AI Security</category>
       <category>MCP Security</category>

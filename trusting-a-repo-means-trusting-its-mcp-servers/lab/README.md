@@ -23,7 +23,7 @@ The question: **when a repository declares an MCP server in its project configur
 | `scripts/summarize_matrix.py` | Turns one or more `matrix.csv` into the results table, flagging disagreements |
 | `scripts/generate-evidence.mjs` | Runs the tests, enforces the publication gate, writes `evidence/` |
 | `test/` | `node:test` suite for the components above |
-| `evidence/` | Test output, environment manifest with SHA-256 hashes, the matrix runs (`q5-run/`, including the 9 October re-check) with one screen capture per prompt |
+| `evidence/` | Test output, environment manifest with the SHA-256 of every source and evidence file, the matrix runs (`q5-run/`, including the 9 October re-check) with one screen capture per prompt |
 
 ## Requirements
 
@@ -37,13 +37,25 @@ node scripts/check-repo.mjs path/to/a/repository     # what would this repositor
 node scripts/check-trust.mjs                          # which projects have I already trusted?
 ```
 
-`check-repo` exits with 1 when the repository declares at least one server, so it can gate a script or CI step.
+`check-repo` can gate a script or CI step through its exit code (`--help` prints it):
+
+| Exit | Meaning |
+|---|---|
+| 0 | No MCP server declared |
+| 1 | At least one server declared, listed with the command it would run |
+| 2 | Usage error |
+| 3 | A configuration file could not be read or parsed: the list may be incomplete. Wins over 0 and 1; check that file by hand |
+
+JSON files are parsed strictly, except `.vscode/mcp.json`, which is read as JSONC (comments and trailing commas) like VS Code does.
+`.codex/config.toml` is read on a best-effort basis: basic and literal strings, inline and multiline arrays, inline tables,
+dotted keys and `[mcp_servers.<name>]` / `[mcp_servers.<name>.env]` tables. Anything else under `mcp_servers` is reported as an
+error (exit 3) rather than guessed.
 
 ## Reproduce
 
 ```bash
-npm test                 # 14 tests
-npm run evidence         # writes evidence/, exits non-zero unless 14/14 pass
+npm test                 # 18 tests
+npm run evidence         # writes evidence/, exits non-zero unless 18/18 pass
 ```
 
 Matrix (inside the VM, clients installed and logged in):
@@ -73,6 +85,10 @@ The runner writes `matrix.csv`, `run.json` (client versions before and after) an
 | T12 | TOML reader handles quoted table names and comments |
 | T13 | `check-trust` reads every client's store format |
 | T14 | `check-trust` is quiet when no store exists |
+| T15 | `check-repo` exits with 3 on an unparsable file, also when other servers are declared |
+| T16 | `.vscode/mcp.json` is read as JSONC; strings are left untouched; `.mcp.json` stays strict |
+| T17 | TOML reader: literal strings, multiline arrays, env tables and inline tables, exact args |
+| T18 | A TOML value the reader cannot read is an error (exit 3), not empty args; exit codes 2 and `--help` |
 
 ## Client matrix (what the runner measures)
 
@@ -135,7 +151,7 @@ table above. One difference: on Gemini 0.63.0 the canary started in the same ses
 (0.61.0: 4 of 5); in the other three the screen read `Skipping project agents due to untrusted folder`, the decision was saved,
 and the server started at every reopening (4 of 4). On Claude Code 2.1.295, `claude --bare -p` and `claude -p --setting-sources user`
 did not start the canary (0 of 3 each). A later clean run of `claude -p` on 2.1.295, with the project's trust entry removed before each of three runs, started the canary
-3 of 3 (`recheck-20261009/claude-p-clean/`). The earlier `gemini -p` runs in that folder are not valid as "untrusted"
+3 of 3 (`recheck-20261009/claude-p-clean/`; not independently verifiable, see the changes of 13 October 2026 below). The earlier `gemini -p` runs in that folder are not valid as "untrusted"
 measurements: the trust store still held the folder from the previous matrix cell (see the README there).
 
 ## Interpretation limits
@@ -145,3 +161,34 @@ measurements: the trust store still held the folder from the previous matrix cel
 - Measures whether the declared program starts and under which decision — not what a malicious server could do once running, and not model behaviour.
 - The runner answers with fixed keys; a change in a client's prompt layout shows up as `no-trust` / `no-mcp` in `prompt_seen` and must be checked against the captures.
 - Store formats for `check-trust` are the ones observed on Linux in September–October 2026.
+
+## Changes on 13 October 2026
+
+Fixes to the lab's tools after publication. The measurements and the raw evidence (matrix CSVs, captures, canary logs,
+screenshots, the canary itself) are unchanged; only the scripts, the tests, this README and `evidence/environment.json` /
+`evidence/test-output.tap` (regenerated) changed.
+
+- **`check-repo` failed open.** A configuration file it could not parse (broken JSON, or a `.vscode/mcp.json` with comments)
+  produced an empty list and exit 0, so a CI gate passed on a file it had not understood. It now exits with **3** whenever a file
+  cannot be read or parsed, and an unreadable file is reported instead of crashing the script.
+- **JSONC.** `.vscode/mcp.json` is now read as VS Code reads it, with comments and trailing commas.
+- **TOML.** The Codex reader showed `'sh'` with its quotes, dropped single-quoted array items and returned empty `args` for a
+  multiline array, so "the exact command it would run" was not exact. It now reads literal strings, multiline arrays,
+  `[mcp_servers.<name>.env]` tables and inline tables, and records an error for values it cannot read.
+- **Manifest coverage.** `environment.json` hashed only `evidence/q5-run/`; it omitted the 14 files under `evidence/gui-20261009/`,
+  `q5-summary.md` and `test-output.tap`. It now hashes every file under `evidence/` except itself, after the TAP is written.
+- **Summarizer.** `summarize_matrix.py` called a cell consistent even when repetitions showed different pre-selected answers; it now
+  also requires a single pre-selected answer. No row of the published table changes.
+- Tests: 14 → 18 (T15–T18).
+
+Caveats on the published evidence, stated here because the files themselves are left as they ran:
+
+- Run 1 (`20261009-194314`) was produced by an earlier revision of the runner: its `matrix.csv` has no `version_cell` or
+  `starts_late` columns, so its rows carry the version read at the start of the run.
+- The 8 Cursor CLI cells of run 1 ran on 2026.10.01, after the client updated itself during the run (see its `run.json`), although
+  `q5-summary.md` and the results table above label them 2026.09.26-dd393fe.
+- The clean `claude -p` re-check (`recheck-20261009/claude-p-clean/`) is **not independently verifiable**: the precheck on line 10 of
+  `claude-p-clean.sh` has a syntax error (unquoted strings in the inline Python), so the removal of the trust entry was not confirmed by
+  the script, and the folder has no per-run canary logs (the three `.out` files only show that the session failed to
+  authenticate). The claim that `claude -p` starts project servers rests on the September
+  measurement and on Anthropic's documentation, not on this folder.

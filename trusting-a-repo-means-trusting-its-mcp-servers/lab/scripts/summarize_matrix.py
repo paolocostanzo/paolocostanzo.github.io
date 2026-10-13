@@ -30,7 +30,7 @@ def main(paths):
         after = sum(started(after_key(r)) for r in rows)
         versions = sorted({r.get("version_cell") or r["version"] for r in rows})
         expected_prompt_missing = any(x.startswith("no-") or "+no-" in x for x in seen)
-        consistent = len(seen) == 1 and after in (0, n) and before in (0, before_n) and not expected_prompt_missing
+        consistent = len(seen) == 1 and len(pre) <= 1 and after in (0, n) and before in (0, before_n) and not expected_prompt_missing
         print(f"| {client} | {cell} | {n} | {', '.join(seen)} | {'; '.join(pre) or '—'} | "
               f"{f'{before}/{before_n}' if before_n else '—'} | {after}/{n} | {', '.join(versions)} | "
               f"{'consistent' if consistent else ('**prompt not reached**' if expected_prompt_missing else '**check**')} |")

@@ -207,7 +207,7 @@ MANIFEST = {
         "kicker": "AGENTIC AI · AI SECURITY · MCP · SUMMER 2026",
         "title": "OUTSIDE THE PROMPT",
         "accent": 1,
-        "subtitle": "Ten AI agent vulnerabilities · in seven, the model never had to be fooled",
+        "subtitle": "Ten AI agent vulnerabilities · in six, the model never had to be fooled",
         "footer": "Series · part 1 of 4",
         "badge": "MEDIUM",
     },
