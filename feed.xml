@@ -33,17 +33,6 @@
     </item>
 
     <item>
-      <title>CTF Writeups — Hacker Holidays 2026 (Byte Lotus Hotel)</title>
-      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</link>
-      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</guid>
-      <pubDate>Thu, 06 Aug 2026 00:00:00 +0000</pubDate>
-      <description>Step-by-step writeups for the TryHackMe Hacker Holidays 2026 series: a room a day across OSINT, web, cloud, forensics and boot2root. Every writeup is a reproducible runbook with methodology, defensive notes and redacted flags — the method is the point, not the flag value.</description>
-      <category>CTF</category>
-      <category>Walkthrough</category>
-      <category>TryHackMe</category>
-      <category>Offensive Validation</category>
-    </item>
-    <item>
       <title>Management Wants a Word — TryHackMe Hacker Holidays 2026 Day 14 Writeup</title>
       <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/</link>
       <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/management-wants-a-word/</guid>
@@ -72,6 +61,17 @@
       <category>CTF</category>
       <category>Walkthrough</category>
       <category>TryHackMe</category>
+    </item>
+    <item>
+      <title>CTF Writeups — Hacker Holidays 2026 (Byte Lotus Hotel)</title>
+      <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</link>
+      <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/</guid>
+      <pubDate>Thu, 06 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Step-by-step writeups for the TryHackMe Hacker Holidays 2026 series: a room a day across OSINT, web, cloud, forensics and boot2root. Every writeup is a reproducible runbook with methodology, defensive notes and redacted flags — the method is the point, not the flag value.</description>
+      <category>CTF</category>
+      <category>Walkthrough</category>
+      <category>TryHackMe</category>
+      <category>Offensive Validation</category>
     </item>
     <item>
       <title>Infinity Pool — TryHackMe Hacker Holidays 2026 Day 11 Writeup</title>
@@ -164,6 +164,18 @@
       <category>TryHackMe</category>
     </item>
     <item>
+      <title>MCP 2026-07-28: Stateless Does Not Mean State-Free</title>
+      <link>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</link>
+      <guid>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</guid>
+      <pubDate>Wed, 29 Jul 2026 00:00:00 +0000</pubDate>
+      <description>Revision 2026-07-28 removes MCP protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared under identical tokens and UUIDs, 13/13 tests, fully in-process lab. The composite key the specification recommends turns out to be bypassable when the principal id contains the delimiter.</description>
+      <category>Agentic AI</category>
+      <category>MCP</category>
+      <category>Tool Authorization</category>
+      <category>Cloud Security</category>
+    </item>
+
+    <item>
       <title>Room 404 — TryHackMe Hacker Holidays 2026 Day 2 Writeup</title>
       <link>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/</link>
       <guid>https://paolocostanzo.github.io/ctf/hacker-holidays-2026/room-404/</guid>
@@ -192,18 +204,6 @@
       <category>CTF</category>
       <category>Walkthrough</category>
       <category>TryHackMe</category>
-    </item>
-
-    <item>
-      <title>MCP 2026-07-28: Stateless Does Not Mean State-Free</title>
-      <link>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</link>
-      <guid>https://paolocostanzo.github.io/mcp-2026-07-28-stateless-security/</guid>
-      <pubDate>Wed, 29 Jul 2026 00:00:00 +0000</pubDate>
-      <description>Revision 2026-07-28 removes MCP protocol sessions and, in the same document, forbids treating possession of a state handle as authentication. An executable conformance test for that MUST NOT: three key strategies compared under identical tokens and UUIDs, 13/13 tests, fully in-process lab. The composite key the specification recommends turns out to be bypassable when the principal id contains the delimiter.</description>
-      <category>Agentic AI</category>
-      <category>MCP</category>
-      <category>Tool Authorization</category>
-      <category>Cloud Security</category>
     </item>
 
     <item>
