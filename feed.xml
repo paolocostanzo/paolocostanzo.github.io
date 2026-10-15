@@ -13,7 +13,7 @@
       <link>https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/</link>
       <guid>https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/</guid>
       <pubDate>Tue, 13 Oct 2026 08:00:00 +0200</pubDate>
-      <description>We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents on a clean VM. In an interactive session, none started it before we answered, but in five of the six clients that ask, the pre-selected answer is the one that trusts, and for three of them trusting the folder is the same act as starting its servers. Claude Code is the most careful of the clients that ask and starts the project's server with no question in non-interactive mode. Exact prompts, 75 repeated cells, a re-check on the releases of 9 October, a reproducible lab with 14 tests, and the commands to check your own setup.</description>
+      <description>We opened the same repository, declaring the same harmless MCP server, in eight AI coding agents on a clean VM. In an interactive session, none started it before we answered, but in five of the six clients that ask, the pre-selected answer is the one that trusts, and for three of them trusting the folder is the same act as starting its servers. Claude Code is the most careful of the clients that ask and starts the project's server with no question in non-interactive mode. Exact prompts, 75 repeated cells, a re-check on the releases of 9 October, a reproducible lab with 18 tests, and the commands to check your own setup.</description>
       <category>Agentic AI</category>
       <category>AI Security</category>
       <category>MCP Security</category>
