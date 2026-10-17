@@ -6,7 +6,10 @@ name: Publish scheduled posts
 # nothing is published that was not reviewed exactly as it will go live.
 on:
   schedule:
-    - cron: '0 7 * * 2'   # Tuesday 07:00 UTC = 09:00 in Italy in summer, 08:00 in winter
+    # Tuesday 06:00 and 07:00 UTC. A scheduled run publishes only once it is 08:00 or later in Italy, so posts go out at 08:00
+    # Italian time in summer (06:00 UTC run) and in winter (07:00 UTC run). A late start only delays a post, never skips it:
+    # the second run finds nothing left to publish, because a published branch is deleted.
+    - cron: '0 6,7 * * 2'
   workflow_dispatch:
 permissions:
   contents: write
@@ -27,6 +30,12 @@ jobs:
           fetch-depth: 0
       - id: merge
         run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=Europe/Rome date +%H)" -lt 8 ]; then
+            echo "It is $(TZ=Europe/Rome date +%H:%M) in Italy: posts go out from 08:00, nothing to do in this run"
+            echo "published=0" >> "$GITHUB_OUTPUT"
+            echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
           today=$(date -u +%F)
