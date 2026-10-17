@@ -83,7 +83,7 @@ only where a recording proxy shows it (local-engine cells).
 
 ## Requirements and tests
 
-Node.js ≥ 22 and Python ≥ 3.11, no dependencies. `npm test` runs the suite (60 tests on 17 October 2026).
+Node.js ≥ 22 and Python ≥ 3.11, no dependencies. `npm test` runs the suite (61 tests on 17 October 2026).
 
 ## Interpretation limits
 

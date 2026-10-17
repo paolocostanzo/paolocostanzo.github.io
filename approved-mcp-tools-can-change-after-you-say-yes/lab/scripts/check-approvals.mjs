@@ -54,21 +54,40 @@ export function claude(home, project) {
 // Codex writes one table per remembered tool: [mcp_servers.<server>.tools.<tool>] then approval_mode = "approve". Keys may be bare,
 // "basic" or 'literal' strings, and a line may end with a comment. Any other line that sets approval_mode (inline tables, dotted
 // keys, unusual quoting) is reported as not understood, so that an approval is never silently missed.
-const KEY = String.raw`(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_-]+))`;
+const KEY = String.raw`(?:"((?:[^"\\]|\\.)+)"|'([^']+)'|([A-Za-z0-9_-]+))`;
+// TOML basic strings may contain escapes (\" \\ \b \t \n \f \r \uXXXX \UXXXXXXXX); literal strings never do.
+const ESC = { b: '\b', t: '\t', n: '\n', f: '\f', r: '\r', '"': '"', '\\': '\\' };
+function basic(s) {
+  if (s === undefined) return undefined;
+  return s.replace(/\\(u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|.)/g, (m, e) => {
+    if (e[0] === 'u' || e[0] === 'U') return String.fromCodePoint(parseInt(e.slice(1), 16));
+    if (e in ESC) return ESC[e];
+    throw new Error(`invalid TOML escape ${m}`);
+  });
+}
 const TOOL_TABLE = new RegExp(String.raw`^\[\s*mcp_servers\s*\.\s*${KEY}\s*\.\s*tools\s*\.\s*${KEY}\s*\]\s*(?:#.*)?$`);
-const MODE = /^approval_mode\s*=\s*(?:"([^"]*)"|'([^']*)')\s*(?:#.*)?$/;
+const MODE = /^approval_mode\s*=\s*(?:"((?:[^"\\]|\\.)*)"|'([^']*)')\s*(?:#.*)?$/;
 
 function codexToml(t, label, out) {
   let section = null;
   (t ?? '').split(/\r?\n/).forEach((raw, i) => {
     const line = raw.trim();
+    const unsure = { source: `${label}:${i + 1}`, unreadable: true, error: 'a line this reader does not understand: check it by hand' };
     const h = line.match(TOOL_TABLE);
-    if (h) { section = { server: h[1] ?? h[2] ?? h[3], tool: h[4] ?? h[5] ?? h[6] }; return; }
+    if (h) {
+      try { section = { server: basic(h[1]) ?? h[2] ?? h[3], tool: basic(h[4]) ?? h[5] ?? h[6] }; } catch { section = null; out.push(unsure); }
+      return;
+    }
     if (line.startsWith('[')) { section = null; return; }
     if (!/approval_mode/.test(line) || line.startsWith('#')) return;
     const kv = section && line.match(MODE);
-    if (kv) { if ((kv[1] ?? kv[2]) === 'approve') out.push({ ...section, source: label }); return; }
-    out.push({ source: `${label}:${i + 1}`, unreadable: true, error: 'approval_mode in a form this reader does not understand: check it by hand' });
+    if (kv) {
+      let mode;
+      try { mode = kv[1] !== undefined ? basic(kv[1]) : kv[2]; } catch { out.push(unsure); return; }
+      if (mode === 'approve') out.push({ ...section, source: label });
+      return;
+    }
+    out.push(unsure);
   });
 }
 

@@ -141,3 +141,16 @@ test('Gemini: trust = true in the project settings is reported with --project', 
   assert.deepEqual(pairs(g), ['trusted/*']);
   assert.match(g.entries[0].source, /\.gemini\/settings\.json mcpServers\.trust = true/);
 });
+
+test('Codex: escapes in basic strings are decoded; an invalid escape is flagged', () => {
+  const home = tree({
+    '.codex/config.toml': [
+      '[mcp_servers."de\\u006do".tools."re\\"ad"]', 'approval_mode = "appro\\u0076e"', '',
+      '[mcp_servers.x.tools.y]', 'approval_mode = "appro\\qve"', '',
+    ].join('\n'),
+  });
+  const c = checkApprovals(home).codex;
+  assert.deepEqual(c.entries.filter((e) => !e.unreadable).map((e) => `${e.server}/${e.tool}`), ['demo/re"ad']);
+  assert.equal(c.entries.filter((e) => e.unreadable).length, 1);
+  assert.equal(c.incomplete, true);
+});
