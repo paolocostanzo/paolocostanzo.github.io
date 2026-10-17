@@ -465,6 +465,11 @@
         data-en="The disclosure timeline is as telling as the bug. Between 26 June and 20 July, five of the eight reports were closed as duplicates: someone else had found the same thing first. One earlier report on Grok Build had been closed by xAI as &quot;informative&quot;. Hermes Agent was never triaged despite six contact attempts across five channels; its CVE (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-71963&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-71963&lt;/a&gt;) was assigned by VulnCheck, not by the vendor. At publication, Goose was fixed in 1.44.0 (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-72718&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-72718&lt;/a&gt;), Codex and Cursor were patched, Claude Code had fixed its startup path in 2.1.196 but not the second one, and Hermes, Qwen Code and Grok Build were still exposed. The Hermes CVE record, published two days later, references a fix commit.">The disclosure timeline is as telling as the bug. Between 26 June and 20 July, five of the eight reports were closed as duplicates: someone else had found the same thing first. One earlier report on Grok Build had been closed by xAI as "informative". Hermes Agent was never triaged despite six contact attempts across five channels; its CVE (<a href="https://www.cve.org/CVERecord?id=CVE-2026-71963" target="_blank" rel="noopener noreferrer">CVE-2026-71963</a>) was assigned by VulnCheck, not by the vendor. At publication, Goose was fixed in 1.44.0 (<a href="https://www.cve.org/CVERecord?id=CVE-2026-72718" target="_blank" rel="noopener noreferrer">CVE-2026-72718</a>), Codex and Cursor were patched, Claude Code had fixed its startup path in 2.1.196 but not the second one, and Hermes, Qwen Code and Grok Build were still exposed. The Hermes CVE record, published two days later, references a fix commit.</p>
       <p data-it="GitSpawn non è nemmeno la prima volta che questa superficie cede. A maggio GitHub Copilot CLI aveva avuto un caso analogo, in cui i metadati git di un repository portavano all&#x27;esecuzione di comandi (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-45033&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-45033&lt;/a&gt;). Tre divulgazioni in cinque mesi sulla stessa superficie, da vendor diversi, indicano un&#x27;assunzione di progetto più che una svista di implementazione: che un repository sia un dato, quando per uno strumento che invoca &lt;code&gt;git&lt;/code&gt; è in parte configurazione."
         data-en="GitSpawn is also not the first time this surface gave way. In May, GitHub Copilot CLI had its own case of a repository&#x27;s git metadata leading to command execution (&lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-45033&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CVE-2026-45033&lt;/a&gt;). Three disclosures in five months on the same surface, across unrelated vendors, point to a design assumption rather than an implementation slip: that a repository is data, when for a tool that shells out to &lt;code&gt;git&lt;/code&gt; it is partly configuration.">GitSpawn is also not the first time this surface gave way. In May, GitHub Copilot CLI had its own case of a repository's git metadata leading to command execution (<a href="https://www.cve.org/CVERecord?id=CVE-2026-45033" target="_blank" rel="noopener noreferrer">CVE-2026-45033</a>). Three disclosures in five months on the same surface, across unrelated vendors, point to a design assumption rather than an implementation slip: that a repository is data, when for a tool that shells out to <code>git</code> it is partly configuration.</p>
+      <figure class="gif-wrap" style="max-width:380px">
+        <img src="https://media1.tenor.com/m/QXVs4QWLlzkAAAAC/spider-man.gif" alt="Spider-Man pointing at Spider-Man" data-it="Spider-Man che indica Spider-Man" data-en="Spider-Man pointing at Spider-Man" loading="lazy" width="498" height="354"/>
+        <figcaption data-it="// gitspawn: sette agenti cli, una sola classe di bug, tutti che indicano tutti"
+          data-en="// gitspawn: seven cli agents, one bug class, everyone pointing at everyone">// gitspawn: seven cli agents, one bug class, everyone pointing at everyone</figcaption>
+      </figure>
       <h3 data-it="Classe 2 — livello di interazione"
         data-en="Class 2 — interaction layer">Class 2 — interaction layer</h3>
       <h4 data-it="PromptFiction: Claude Desktop, 15 luglio"
@@ -526,6 +531,11 @@
         data-en="&lt;strong&gt;Counting.&lt;/strong&gt; GitSpawn counts once, although it covers eight findings. Counting findings instead of disclosures would put nine entries in class 1 and make our point look stronger than a fair count allows, so we did not."><strong>Counting.</strong> GitSpawn counts once, although it covers eight findings. Counting findings instead of disclosures would put nine entries in class 1 and make our point look stronger than a fair count allows, so we did not.</p>
       <p data-it="Spostando uno qualsiasi dei tre casi di confine, il risultato resta tra cinque e sette su dieci: nella maggior parte di queste dieci divulgazioni non è stato il giudizio del modello a decidere l&#x27;esito. Per il preprint di novembre ripeteremo la classificazione con criteri scritti in anticipo e un secondo classificatore indipendente, e riporteremo quanto spesso i due concordano."
         data-en="Moving any one of the three borderline cases, the result stays between five and seven out of ten: in most of these ten disclosures, the model&#x27;s judgment was not what decided the outcome. For the preprint in November we will repeat the classification with criteria written in advance and a second, independent classifier, and report how often the two agree.">Moving any one of the three borderline cases, the result stays between five and seven out of ten: in most of these ten disclosures, the model's judgment was not what decided the outcome. For the preprint in November we will repeat the classification with criteria written in advance and a second, independent classifier, and report how often the two agree.</p>
+      <figure class="gif-wrap" style="max-width:380px">
+        <img src="https://media1.tenor.com/m/xBk3W_f99MIAAAAC/is-this-a-pigeon-butterfly.gif" alt="Is this a pigeon? — anime butterfly meme" data-it="«È un piccione?» — il meme anime della farfalla" data-en="Is this a pigeon? — anime butterfly meme" loading="lazy" width="498" height="371"/>
+        <figcaption data-it="// è una prompt injection, questa? (in sei casi su dieci: no, è la configurazione)"
+          data-en="// is this a prompt injection? (in six cases out of ten: no, it's the configuration)">// is this a prompt injection? (in six cases out of ten: no, it's the configuration)</figcaption>
+      </figure>
     </section>
 
     <section>
@@ -561,6 +571,11 @@
         data-en="[07] What to check on Monday">[07] What to check on Monday</h2>
       <p data-it="Per agire su tutto questo non serve un lab. Se usi o gestisci agenti AI, questi sono i controlli che i dieci casi suggeriscono. Sono misure difensive; nessuna richiede di sapere nel dettaglio come funzionano gli attacchi."
         data-en="None of this needs a lab to act on. If you use or run AI agents, these are the checks the ten cases point to. They are defensive measures; none of them requires knowing how the attacks work in detail.">None of this needs a lab to act on. If you use or run AI agents, these are the checks the ten cases point to. They are defensive measures; none of them requires knowing how the attacks work in detail.</p>
+      <figure class="gif-wrap" style="max-width:320px">
+        <img src="https://media1.tenor.com/m/g4tX71wLqWkAAAAC/happy-monday-garfield.gif" alt="Garfield on a Monday" data-it="Garfield di lunedì" data-en="Garfield on a Monday" loading="lazy" width="492" height="370"/>
+        <figcaption data-it="// dieci controlli per lunedì. sì, proprio questo lunedì"
+          data-en="// ten checks for monday. yes, this monday">// ten checks for monday. yes, this monday</figcaption>
+      </figure>
       <h3 data-it="Se usi agenti di programmazione"
         data-en="If you use coding agents">If you use coding agents</h3>
       <ol>
@@ -683,6 +698,8 @@
           if (value === null) return;
           if (el.tagName === 'META') {
             el.setAttribute('content', value);
+          } else if (el.tagName === 'IMG') {
+            el.setAttribute('alt', value);
           } else if (el.tagName === 'TITLE') {
             document.title = value;
           } else {
@@ -706,7 +723,14 @@
       var total = root.scrollHeight - root.clientHeight;
       var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
       document.getElementById('read-bar').style.width = percent + '%';
-      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+      var bt = document.getElementById('back-top');
+      bt.classList.toggle('vis', root.scrollTop > 350);
+      // as the footer comes into view, the button rises with it and never covers "LinkedIn"
+      var footer = document.querySelector('footer');
+      if (footer) {
+        var fTop = footer.getBoundingClientRect().top;
+        bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+      }
     }, { passive:true });
   </script>
 </body>

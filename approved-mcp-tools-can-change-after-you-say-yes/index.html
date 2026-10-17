@@ -338,12 +338,17 @@
       </table>
       <p data-it="Quando ne vale più d'uno, vince il numero più basso. L'esito 4 è un'affermazione sul protocollo: il client ha ricevuto la definizione B. Se poi B sia arrivata al modello, con i modelli ospitati dai vendor non lo possiamo vedere, e non lo affermiamo."
         data-en="When more than one applies, the lower number wins. Outcome 4 is a statement about the protocol: the client received definition B. Whether B then reached the model, we cannot see with the vendors' hosted models, and we do not claim it.">When more than one applies, the lower number wins. Outcome 4 is a statement about the protocol: the client received definition B. Whether B then reached the model, we cannot see with the vendors' hosted models, and we do not claim it.</p>
-      <p data-it="&lt;strong&gt;Cosa cambia.&lt;/strong&gt; Un solo tool innocuo, &lt;code&gt;q3_noop&lt;/code&gt;, che restituisce la parola &lt;code&gt;ok&lt;/code&gt;. La definizione A e la definizione B dicono la stessa cosa con parole diverse:"
-        data-en="&lt;strong&gt;What changes.&lt;/strong&gt; One harmless tool, &lt;code&gt;q3_noop&lt;/code&gt;, that returns the word &lt;code&gt;ok&lt;/code&gt;. Definition A and definition B say the same thing in different words:"><strong>What changes.</strong> One harmless tool, <code>q3_noop</code>, that returns the word <code>ok</code>. Definition A and definition B say the same thing in different words:</p>
+      <p data-it="&lt;strong&gt;Cosa cambia.&lt;/strong&gt; Un solo tool innocuo, &lt;code&gt;q3_noop&lt;/code&gt;, che restituisce la parola &lt;code&gt;ok&lt;/code&gt; (sessanta run dopo, resta il componente più affidabile di questo lab). La definizione A e la definizione B dicono la stessa cosa con parole diverse:"
+        data-en="&lt;strong&gt;What changes.&lt;/strong&gt; One harmless tool, &lt;code&gt;q3_noop&lt;/code&gt;, that returns the word &lt;code&gt;ok&lt;/code&gt; (sixty runs later, still the most reliable component of this lab). Definition A and definition B say the same thing in different words:"><strong>What changes.</strong> One harmless tool, <code>q3_noop</code>, that returns the word <code>ok</code> (sixty runs later, still the most reliable component of this lab). Definition A and definition B say the same thing in different words:</p>
       <div class="code-block"><pre>A  Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect.
 B  Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens.</pre></div>
       <p data-it="Nessuna delle due contiene istruzioni per il modello. Un attacco vero metterebbe altro in B; a noi basta sapere se qualcuno se ne accorge."
         data-en="Neither contains an instruction to the model. A real attack would put something else in B; we only need to know whether anyone looks.">Neither contains an instruction to the model. A real attack would put something else in B; we only need to know whether anyone looks.</p>
+      <figure class="gif-wrap" style="max-width:320px">
+        <img src="https://media1.tenor.com/m/ywyS7XmvG40AAAAd/they-are-the-same-picture-they%27re-the-same-picture.gif" alt="The Office — they're the same picture" data-it="The Office — sono la stessa foto" data-en="The Office — they're the same picture" loading="lazy" width="498" height="498"/>
+        <figcaption data-it="// definizione a, definizione b: per ogni client che abbiamo misurato sono la stessa foto"
+          data-en="// definition a, definition b: to every client we measured, they're the same picture">// definition a, definition b: to every client we measured, they're the same picture</figcaption>
+      </figure>
       <p data-it="&lt;strong&gt;Due segnali.&lt;/strong&gt; In metà delle esecuzioni il server non dice nulla dopo il cambio; nell'altra metà invia la notifica &quot;tool list changed&quot; del protocollo."
         data-en="&lt;strong&gt;Two signals.&lt;/strong&gt; In half of the runs the server says nothing after the change; in the other half it sends the protocol's &quot;tool list changed&quot; notification."><strong>Two signals.</strong> In half of the runs the server says nothing after the change; in the other half it sends the protocol's "tool list changed" notification.</p>
       <ul>
@@ -547,6 +552,11 @@ B  Lab tool, revision B. Records the call in its own log and returns the word ok
         <li data-it="Ha ricevuto la notifica e l'ha ignorata. La sua documentazione ricorda che le annotazioni dei tool sono &quot;not permissions or an authorization boundary&quot; (&lt;a href=&quot;https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;documentazione MCP&lt;/a&gt;)."
           data-en="It received the notification and ignored it. Its documentation reminds users that tool annotations are &quot;not permissions or an authorization boundary&quot; (&lt;a href=&quot;https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;MCP docs&lt;/a&gt;).">It received the notification and ignored it. Its documentation reminds users that tool annotations are "not permissions or an authorization boundary" (<a href="https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md" target="_blank" rel="noopener noreferrer">MCP docs</a>).</li>
       </ul>
+      <figure class="gif-wrap" style="max-width:360px">
+        <img src="https://media1.tenor.com/m/DQ9-tWph2Q4AAAAC/the-s-impsons-bush.gif" alt="Homer Simpson backing into a hedge — very well" data-it="Homer Simpson che sparisce nella siepe — molto bene" data-en="Homer Simpson backing into a hedge — very well" loading="lazy" width="498" height="373"/>
+        <figcaption data-it="// notifications/tools/list_changed ricevuta. molto bene… ci vediamo al prossimo riavvio"
+          data-en="// notifications/tools/list_changed received. very well… see you at the next restart">// notifications/tools/list_changed received. very well… see you at the next restart</figcaption>
+      </figure>
       <p data-it="&lt;strong&gt;VS Code 1.139.1 con Copilot.&lt;/strong&gt;"
         data-en="&lt;strong&gt;VS Code 1.139.1 with Copilot.&lt;/strong&gt;"><strong>VS Code 1.139.1 with Copilot.</strong></p>
       <ul>
@@ -579,6 +589,11 @@ B  Lab tool, revision B. Records the call in its own log and returns the word ok
         <li data-it="&lt;strong&gt;Un client dice qualcosa.&lt;/strong&gt; La riga di avviso di Gemini CLI è l'unico segnale che un utente riceve, in tutti e otto. Ti dice che qualcosa è cambiato, non che cosa."
           data-en="&lt;strong&gt;One client says something.&lt;/strong&gt; Gemini CLI's one-line notice is the only signal a user gets in any of the eight. It tells you that something changed, not what."><strong>One client says something.</strong> Gemini CLI's one-line notice is the only signal a user gets in any of the eight. It tells you that something changed, not what.</li>
       </ol>
+      <figure class="gif-wrap" style="max-width:380px">
+        <img src="https://media1.tenor.com/m/5fTXcbu5_x0AAAAC/please-disperse.gif" alt="The Naked Gun — nothing to see here, please disperse" data-it="Una pallottola spuntata — circolare, non c'è niente da vedere" data-en="The Naked Gun — nothing to see here, please disperse" loading="lazy" width="498" height="282"/>
+        <figcaption data-it="// nuova descrizione letta in 4–7 ms. a schermo: circolare, non c'è niente da vedere"
+          data-en="// new description fetched in 4–7 ms. on screen: nothing to see here, please disperse">// new description fetched in 4–7 ms. on screen: nothing to see here, please disperse</figcaption>
+      </figure>
     </section>
 
     <section>
@@ -769,6 +784,10 @@ node tool-change/scripts/check-approvals.mjs --project DIR   # also the project-
           if (value === null) return;
           if (el.tagName === 'META') {
             el.setAttribute('content', value);
+          } else if (el.tagName === 'IMG') {
+            el.setAttribute('alt', value);
+          } else if (el.tagName === 'IMG') {
+            el.setAttribute('alt', value);
           } else if (el.tagName === 'TITLE') {
             document.title = value;
           } else {
@@ -792,7 +811,14 @@ node tool-change/scripts/check-approvals.mjs --project DIR   # also the project-
       var total = root.scrollHeight - root.clientHeight;
       var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
       document.getElementById('read-bar').style.width = percent + '%';
-      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+      var bt = document.getElementById('back-top');
+      bt.classList.toggle('vis', root.scrollTop > 350);
+      // as the footer comes into view, the button rises with it and never covers "LinkedIn"
+      var footer = document.querySelector('footer');
+      if (footer) {
+        var fTop = footer.getBoundingClientRect().top;
+        bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+      }
     }, { passive:true });
   </script>
 </body>
