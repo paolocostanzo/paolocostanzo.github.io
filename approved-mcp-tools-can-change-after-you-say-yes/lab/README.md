@@ -32,7 +32,7 @@ and D21 (`../preregistration/DEVIATIONS.md`), all written before the outcomes th
 | `scripts/run_q3_cell.py` | Runs one repetition for one terminal client in tmux: call with A, change to B, call again, reopen, call again |
 | `scripts/q3-clients.json` | Per-client screen patterns and keys, fixed in the set-up runs and frozen before the primary runs |
 | `scripts/code_q3.py` | Rule-based provisional coder: outcome per phase from the server log and the runner's observations |
-| `scripts/q3_host.py` | Host-side orchestration: clean snapshot per repetition, randomised blocked order, raw telemetry export |
+| `scripts/q3_host.py` | Host-side orchestration: clean snapshot per repetition, randomised blocked order, raw telemetry export. It copies its own folder into the VM under that folder's name and runs `~/lab/tool-change/...`: run it from a folder named `tool-change`, as in the repository (the copy published with the post is named `lab/`: rename it first). Kept as it ran, so that its SHA-256 matches the harness hashes recorded for every repetition |
 | `scripts/isolated_codex.py`, `scripts/code_q3_codex.py` | Additional post hoc coder (D22): Codex CLI in a bubblewrap container that cannot see the project, with an isolation probe and an initial-context check against a reference session |
 | `scripts/agreement_q3_three.py` | Agreement with the additional coder: preregistered κ first, then Codex vs author and vs local model, Fleiss' κ, confusion tables |
 | `scripts/check-approvals.mjs` | **For readers:** lists, read-only, the MCP tools you approved permanently in each client (see below) |
@@ -55,6 +55,9 @@ locations the lab observed, and cleaned between repetitions (`scripts/cleanup_se
 2026. In those versions every approval is keyed by server and tool name only: a server that changes the tool keeps it. Session
 approvals live in memory and are not listed. An empty list is not proof that nothing is approved: modes that approve every call
 need no entry, server-wide entries cover tools added later, and VS Code and Cursor IDE keep approvals in their own storage.
+Gemini CLI's `trust: true` is read from `~/.gemini/settings.json` and, with `--project`, from the project's `.gemini/settings.json`.
+A store that exists but cannot be read, or a Codex `approval_mode` line in a form the reader does not understand (for example an
+inline table), is reported and the output is marked INCOMPLETE: check it by hand.
 
 ## How the server behaves
 
@@ -80,7 +83,7 @@ only where a recording proxy shows it (local-engine cells).
 
 ## Requirements and tests
 
-Node.js ≥ 22 and Python ≥ 3.11, no dependencies. `npm test` runs the suite (57 tests on 17 October 2026).
+Node.js ≥ 22 and Python ≥ 3.11, no dependencies. `npm test` runs the suite (60 tests on 17 October 2026).
 
 ## Interpretation limits
 

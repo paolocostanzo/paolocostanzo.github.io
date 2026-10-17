@@ -99,3 +99,45 @@ test('the tool never writes: stores are byte-identical after a run', () => {
   assert.deepEqual(after, before);
   assert.deepEqual(fs.readdirSync(home).sort(), ['.codex', '.cursor']);
 });
+
+test('Codex: comments after a table header and literal strings are read; other approval_mode forms are flagged', () => {
+  const home = tree({
+    '.codex/config.toml': [
+      '[mcp_servers.demo.tools.read] # remembered approval', 'approval_mode = "approve"', '',
+      "[mcp_servers.'lit'.tools.\"x\"]", "approval_mode = 'approve' # literal string", '',
+      '[mcp_servers.demo.tools]', 'write = { approval_mode = "approve" }', '',
+      '# approval_mode = "approve" in a comment is ignored',
+    ].join('\n'),
+  });
+  const c = checkApprovals(home).codex;
+  assert.deepEqual(c.entries.filter((e) => !e.unreadable).map((e) => `${e.server}/${e.tool}`).sort(), ['demo/read', 'lit/x']);
+  const flagged = c.entries.filter((e) => e.unreadable);
+  assert.equal(flagged.length, 1, 'the inline-table approval is reported, not silently dropped');
+  assert.match(flagged[0].source, /config\.toml:8$/);
+  assert.equal(c.incomplete, true);
+});
+
+test('a store that exists but cannot be read is reported as incomplete, not as missing', { skip: process.getuid?.() === 0 }, () => {
+  const home = tree({ '.qwen/settings.json': JSON.stringify({ permissions: { allow: ['mcp__a__b'] } }), '.codex/config.toml': 'x = 1\n' });
+  for (const f of ['.qwen/settings.json', '.codex/config.toml']) fs.chmodSync(path.join(home, f), 0o000);
+  try {
+    const r = checkApprovals(home);
+    for (const c of [r.qwen, r.codex]) {
+      assert.equal(c.present, true);
+      assert.equal(c.incomplete, true);
+      assert.equal(c.entries[0].error, 'EACCES');
+    }
+    assert.equal(r.claude.present, false, 'a missing store stays "not found"');
+  } finally {
+    for (const f of ['.qwen/settings.json', '.codex/config.toml']) fs.chmodSync(path.join(home, f), 0o644);
+  }
+});
+
+test('Gemini: trust = true in the project settings is reported with --project', () => {
+  const home = tree({});
+  const project = tree({ '.gemini/settings.json': JSON.stringify({ mcpServers: { trusted: { command: 'x', trust: true } } }) });
+  assert.deepEqual(checkApprovals(home).gemini.entries, []);
+  const g = checkApprovals(home, project).gemini;
+  assert.deepEqual(pairs(g), ['trusted/*']);
+  assert.match(g.entries[0].source, /\.gemini\/settings\.json mcpServers\.trust = true/);
+});

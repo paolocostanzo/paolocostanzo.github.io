@@ -58,7 +58,7 @@
   },
   "tests": {
     "command": "npm test",
-    "count": 57,
+    "count": 60,
     "output": "test-output.tap",
     "date": "2026-10-17"
   }

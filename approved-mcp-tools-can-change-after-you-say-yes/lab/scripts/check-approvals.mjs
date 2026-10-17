@@ -14,9 +14,16 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch { return null; } };
-const readJson = (p) => { const t = read(p); if (t === null) return null; try { return JSON.parse(t); } catch { return undefined; } };
-const store = (name, file, entries, note) => ({ store: name, present: file !== null, unreadable: file === undefined, entries, ...(note ? { note } : {}) });
+// A missing file is null; a file that exists but cannot be read is { readError } (it must never look like "not found").
+const read = (p) => {
+  try { return fs.readFileSync(p, 'utf8'); } catch (e) { return e.code === 'ENOENT' || e.code === 'ENOTDIR' ? null : { readError: e.code ?? String(e) }; }
+};
+const isErr = (x) => x !== null && typeof x === 'object' && 'readError' in x;
+const readJson = (p) => { const t = read(p); if (t === null || isErr(t)) return t; try { return JSON.parse(t); } catch { return undefined; } };
+const failed = (label, d) => ({ source: label, unreadable: true, ...(isErr(d) ? { error: d.readError } : { error: 'not valid JSON' }) });
+const store = (name, file, entries, note) => ({
+  store: name, present: file !== null, unreadable: file === undefined || isErr(file),
+  incomplete: entries.some((e) => e.unreadable), entries, ...(note ? { note } : {}) });
 
 // "mcp__server__tool" (Claude Code, Qwen Code) or "mcp__server" (whole server)
 function mcpRule(rule, source) {
@@ -35,7 +42,7 @@ export function claude(home, project) {
     const d = readJson(p);
     if (d === null) continue;
     any = any ?? d;
-    if (d === undefined) { out.push({ source: label, unreadable: true }); continue; }
+    if (d === undefined || isErr(d)) { out.push(failed(label, d)); continue; }
     for (const r of d.permissions?.allow ?? []) { const e = mcpRule(r, label); if (e) out.push(e); }
     for (const [proj, v] of Object.entries(d.projects ?? {})) {
       for (const r of v?.allowedTools ?? []) { const e = mcpRule(r, `${label} projects[${proj}].allowedTools`); if (e) out.push(e); }
@@ -44,16 +51,25 @@ export function claude(home, project) {
   return store('Claude Code: permissions.allow / allowedTools', any, out);
 }
 
+// Codex writes one table per remembered tool: [mcp_servers.<server>.tools.<tool>] then approval_mode = "approve". Keys may be bare,
+// "basic" or 'literal' strings, and a line may end with a comment. Any other line that sets approval_mode (inline tables, dotted
+// keys, unusual quoting) is reported as not understood, so that an approval is never silently missed.
+const KEY = String.raw`(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_-]+))`;
+const TOOL_TABLE = new RegExp(String.raw`^\[\s*mcp_servers\s*\.\s*${KEY}\s*\.\s*tools\s*\.\s*${KEY}\s*\]\s*(?:#.*)?$`);
+const MODE = /^approval_mode\s*=\s*(?:"([^"]*)"|'([^']*)')\s*(?:#.*)?$/;
+
 function codexToml(t, label, out) {
   let section = null;
-  for (const raw of (t ?? '').split(/\r?\n/)) {
+  (t ?? '').split(/\r?\n/).forEach((raw, i) => {
     const line = raw.trim();
-    const h = line.match(/^\[mcp_servers\.("?)([^".\]]+)\1\.tools\.("?)([^".\]]+)\3\]$/);
-    if (h) { section = { server: h[2], tool: h[4] }; continue; }
-    if (line.startsWith('[')) { section = null; continue; }
-    const kv = section && line.match(/^approval_mode\s*=\s*"([^"]+)"/);
-    if (kv && kv[1] === 'approve') out.push({ ...section, source: label });
-  }
+    const h = line.match(TOOL_TABLE);
+    if (h) { section = { server: h[1] ?? h[2] ?? h[3], tool: h[4] ?? h[5] ?? h[6] }; return; }
+    if (line.startsWith('[')) { section = null; return; }
+    if (!/approval_mode/.test(line) || line.startsWith('#')) return;
+    const kv = section && line.match(MODE);
+    if (kv) { if ((kv[1] ?? kv[2]) === 'approve') out.push({ ...section, source: label }); return; }
+    out.push({ source: `${label}:${i + 1}`, unreadable: true, error: 'approval_mode in a form this reader does not understand: check it by hand' });
+  });
 }
 
 export function codex(home, project) {
@@ -65,6 +81,7 @@ export function codex(home, project) {
     const t = read(p);
     if (t === null) continue;
     any = any ?? t;
+    if (isErr(t)) { out.push(failed(label, t)); continue; }
     codexToml(t, label, out);
   }
   return store('Codex CLI: config.toml approval_mode = "approve"', any, out);
@@ -79,7 +96,7 @@ export function cursor(home, project) {
     const d = readJson(p);
     if (d === null) continue;
     any = any ?? d;
-    if (d === undefined) { out.push({ source: label, unreadable: true }); continue; }
+    if (d === undefined || isErr(d)) { out.push(failed(label, d)); continue; }
     for (const r of d.permissions?.allow ?? []) {
       const m = typeof r === 'string' && r.match(/^Mcp\(([^:]+):(.+)\)$/);
       if (m) out.push({ server: m[1], tool: m[2], source: label });
@@ -97,7 +114,7 @@ export function qwen(home, project) {
     const d = readJson(p);
     if (d === null) continue;
     any = any ?? d;
-    if (d === undefined) { out.push({ source: label, unreadable: true }); continue; }
+    if (d === undefined || isErr(d)) { out.push(failed(label, d)); continue; }
     for (const r of d.permissions?.allow ?? []) { const e = mcpRule(r, label); if (e) out.push(e); }
   }
   return store('Qwen Code: settings.json permissions.allow', any, out);
@@ -112,15 +129,24 @@ export function gemini(home, project) {
     const t = read(p);
     if (t === null) continue;
     any = any ?? t;
+    if (isErr(t)) { out.push(failed(label, t)); continue; }
     // one rule per [[rule]] block; keep blocks that allow an MCP tool
     for (const block of t.split(/^\s*\[\[/m).slice(1)) {
-      const get = (k) => block.match(new RegExp(`^\\s*${k}\\s*=\\s*"([^"]*)"`, 'm'))?.[1];
+      const get = (k) => { const m = block.match(new RegExp(`^\\s*${k}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, 'm')); return m ? (m[1] ?? m[2]) : undefined; };
       if (get('decision') === 'allow' && get('mcpName')) out.push({ server: get('mcpName'), tool: get('toolName') ?? '*', source: label });
     }
   }
-  const settings = readJson(path.join(home, '.gemini', 'settings.json'));
-  for (const [name, s] of Object.entries(settings?.mcpServers ?? {})) {
-    if (s?.trust === true) out.push({ server: name, tool: '*', source: '~/.gemini/settings.json mcpServers.trust = true (never asks)' });
+  const settingsFiles = [['~/.gemini/settings.json', path.join(home, '.gemini', 'settings.json')]];
+  if (project) settingsFiles.push([`${project}/.gemini/settings.json`, path.join(project, '.gemini', 'settings.json')]);
+  let settings = null;
+  for (const [label, p] of settingsFiles) {
+    const d = readJson(p);
+    if (d === null) continue;
+    settings = settings ?? d;
+    if (d === undefined || isErr(d)) { out.push(failed(label, d)); continue; }
+    for (const [name, s] of Object.entries(d.mcpServers ?? {})) {
+      if (s?.trust === true) out.push({ server: name, tool: '*', source: `${label} mcpServers.trust = true (never asks)` });
+    }
   }
   return store('Gemini CLI: policies/auto-saved.toml (permanent approvals are off by default)', any ?? settings, out,
     'session approvals live in memory and end with the session');
@@ -128,8 +154,9 @@ export function gemini(home, project) {
 
 export function goose(home) {
   const p = path.join(home, '.config', 'goose', 'permission.yaml');
-  const t = read(p);
+  let t = read(p);
   const out = [];
+  if (isErr(t)) { out.push(failed('~/.config/goose/permission.yaml', t)); t = null; }
   let inAllow = false;
   for (const raw of (t ?? '').split(/\r?\n/)) {
     if (/^\s*always_allow\s*:/.test(raw)) {
@@ -141,9 +168,10 @@ export function goose(home) {
     if (inAllow && /^\s*-\s*/.test(raw)) { addGoose(raw.replace(/^\s*-\s*/, ''), out); continue; }
     if (inAllow && raw.trim() && !/^\s*-/.test(raw)) inAllow = false;
   }
-  const cfg = read(path.join(home, '.config', 'goose', 'config.yaml'));
+  let cfg = read(path.join(home, '.config', 'goose', 'config.yaml'));
+  if (isErr(cfg)) { out.push(failed('~/.config/goose/config.yaml', cfg)); cfg = null; }
   const mode = cfg?.match(/^\s*GOOSE_MODE\s*:\s*['"]?([a-z_]+)/m)?.[1] ?? null;
-  return store('Goose: ~/.config/goose/permission.yaml always_allow', t ?? cfg, out,
+  return store('Goose: ~/.config/goose/permission.yaml always_allow', t ?? cfg ?? (out.length ? { readError: out[0].error } : null), out,
     mode ? `GOOSE_MODE = ${mode}${mode === 'auto' ? ' (every tool call is approved without asking)' : ''}`
       : 'GOOSE_MODE not set in config.yaml: the default is auto (every tool call is approved without asking)');
 }
@@ -171,13 +199,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (args.includes('--json')) { console.log(JSON.stringify(r, null, 2)); process.exit(0); }
   for (const name of CLIENTS) {
     const c = r[name];
-    console.log(`\n${c.store}${c.present ? '' : '  — not found'}${c.unreadable ? '  — could not be parsed' : ''}`);
+    console.log(`\n${c.store}${c.present ? '' : '  — not found'}${c.incomplete ? '  — INCOMPLETE: see below' : ''}`);
     if (c.note) console.log(`  note: ${c.note}`);
     if (c.present && !c.entries.length) console.log('  no permanent MCP tool approvals');
     for (const e of c.entries) {
-      console.log(e.unreadable ? `  ${e.source}: could not be parsed` : `  ${e.server} / ${e.tool}   (${e.source})`);
+      console.log(e.unreadable ? `  ${e.source}: could not be read (${e.error})` : `  ${e.server} / ${e.tool}   (${e.source})`);
     }
   }
+  if (CLIENTS.some((n) => r[n].incomplete)) console.log('\nINCOMPLETE: at least one store could not be read or understood (above). Check it by hand.');
   console.log('\nEach approval above is keyed by name only: a server that changes the tool keeps it. To withdraw one, remove the entry'
     + ' in the client (or the line in the file shown) and approve again after reading the current definition.'
     + '\nAn empty list is not proof that nothing is approved: modes that approve every call (Goose auto, Claude Code and Qwen Code auto'

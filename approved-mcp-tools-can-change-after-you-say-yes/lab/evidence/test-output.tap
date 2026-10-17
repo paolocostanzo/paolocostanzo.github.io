@@ -2,351 +2,369 @@ TAP version 13
 # Subtest: legacy: negotiates the requested legacy revision and declares tools.listChanged (server capability)
 ok 1 - legacy: negotiates the requested legacy revision and declares tools.listChanged (server capability)
   ---
-  duration_ms: 1494.766384
+  duration_ms: 1499.113481
   type: 'test'
   ...
 # Subtest: legacy: unknown requested revision falls back to the latest legacy revision
 ok 2 - legacy: unknown requested revision falls back to the latest legacy revision
   ---
-  duration_ms: 1502.773775
+  duration_ms: 1504.199697
   type: 'test'
   ...
 # Subtest: legacy: serves A before the change and B after it, and logs which one with its hash
 ok 3 - legacy: serves A before the change and B after it, and logs which one with its hash
   ---
-  duration_ms: 1520.681966
+  duration_ms: 1533.024926
   type: 'test'
   ...
 # Subtest: legacy: list_changed is sent after the change only at the list_changed level
 ok 4 - legacy: list_changed is sent after the change only at the list_changed level
   ---
-  duration_ms: 3055.134874
+  duration_ms: 3078.85997
   type: 'test'
   ...
 # Subtest: legacy: with listChanged not declared, the signal is recorded as not deliverable
 ok 5 - legacy: with listChanged not declared, the signal is recorded as not deliverable
   ---
-  duration_ms: 1540.584703
+  duration_ms: 1540.056839
   type: 'test'
   ...
 # Subtest: a request before initialize and without modern _meta is refused and logged
 ok 6 - a request before initialize and without modern _meta is refused and logged
   ---
-  duration_ms: 1504.140592
+  duration_ms: 1497.236462
   type: 'test'
   ...
 # Subtest: modern: server/discover answers with versions, capabilities, serverInfo and cache hints
 ok 7 - modern: server/discover answers with versions, capabilities, serverInfo and cache hints
   ---
-  duration_ms: 1508.871033
+  duration_ms: 1480.720806
   type: 'test'
   ...
 # Subtest: modern: an unsupported version gets UnsupportedProtocolVersionError (-32022) with the supported list
 ok 8 - modern: an unsupported version gets UnsupportedProtocolVersionError (-32022) with the supported list
   ---
-  duration_ms: 1499.689823
+  duration_ms: 1492.903792
   type: 'test'
   ...
 # Subtest: modern: tools/list carries resultType, ttlMs 0 and cacheScope, and switches A -> B
 ok 9 - modern: tools/list carries resultType, ttlMs 0 and cacheScope, and switches A -> B
   ---
-  duration_ms: 1546.019866
+  duration_ms: 1540.204411
   type: 'test'
   ...
 # Subtest: modern: subscription is acknowledged first, then list_changed carries the subscription id
 ok 10 - modern: subscription is acknowledged first, then list_changed carries the subscription id
   ---
-  duration_ms: 1538.005853
+  duration_ms: 1541.044226
   type: 'test'
   ...
 # Subtest: modern: without a toolsListChanged subscription the signal is not sent and is logged as not deliverable
 ok 11 - modern: without a toolsListChanged subscription the signal is not sent and is logged as not deliverable
   ---
-  duration_ms: 1529.633357
+  duration_ms: 1537.629678
   type: 'test'
   ...
 # Subtest: modern: a cancelled subscription receives nothing after cancellation
 ok 12 - modern: a cancelled subscription receives nothing after cancellation
   ---
-  duration_ms: 1548.25964
+  duration_ms: 1542.290585
   type: 'test'
   ...
 # Subtest: schema and name changes: B adds an optional field, or renames the tool and refuses the old name
 ok 13 - schema and name changes: B adds an optional field, or renames the tool and refuses the old name
   ---
-  duration_ms: 3101.493576
+  duration_ms: 3080.986486
   type: 'test'
   ...
 # Subtest: writes nothing but its own log and the control file, and logs every message in and out
 ok 14 - writes nothing but its own log and the control file, and logs every message in and out
   ---
-  duration_ms: 1540.739102
+  duration_ms: 1547.220949
   type: 'test'
   ...
 # Subtest: safety boundary: both revisions are plain descriptions with no URL, path or instruction to the model
 ok 15 - safety boundary: both revisions are plain descriptions with no URL, path or instruction to the model
   ---
-  duration_ms: 7.925232
+  duration_ms: 7.871693
   type: 'test'
   ...
 # Subtest: re-lists after the change and calls: silent accept, B served
 ok 16 - re-lists after the change and calls: silent accept, B served
   ---
-  duration_ms: 1529.112541
+  duration_ms: 1523.202534
   type: 'test'
   ...
 # Subtest: calls without listing again: stale
 ok 17 - calls without listing again: stale
   ---
-  duration_ms: 1525.09445
+  duration_ms: 1520.587344
   type: 'test'
   ...
 # Subtest: asks for permission again: re-approval required, even if it then calls
 ok 18 - asks for permission again: re-approval required, even if it then calls
   ---
-  duration_ms: 1509.298911
+  duration_ms: 1528.642409
   type: 'test'
   ...
 # Subtest: shows a change message without asking: notified
 ok 19 - shows a change message without asking: notified
   ---
-  duration_ms: 1522.168044
+  duration_ms: 1520.167001
   type: 'test'
   ...
 # Subtest: disconnects the server after the change without calling: refused or disconnected (takes precedence)
 ok 20 - disconnects the server after the change without calling: refused or disconnected (takes precedence)
   ---
-  duration_ms: 1263.630803
+  duration_ms: 1275.528947
   type: 'test'
   ...
 # Subtest: never calls after the change: error, no call or timeout
 ok 21 - never calls after the change: error, no call or timeout
   ---
-  duration_ms: 1513.296955
+  duration_ms: 1522.230702
   type: 'test'
   ...
 # Subtest: name change with a stale list: the old name is unknown, coded as error
 ok 22 - name change with a stale list: the old name is unknown, coded as error
   ---
-  duration_ms: 1540.19944
+  duration_ms: 1518.303481
   type: 'test'
   ...
 # Subtest: list_changed level: delivery on the legacy connection is recorded
 ok 23 - list_changed level: delivery on the legacy connection is recorded
   ---
-  duration_ms: 1505.834838
+  duration_ms: 1517.084941
   type: 'test'
   ...
 # Subtest: modern client without a subscription: signal coded as not deliverable
 ok 24 - modern client without a subscription: signal coded as not deliverable
   ---
-  duration_ms: 1509.143103
+  duration_ms: 1521.381206
   type: 'test'
   ...
 # Subtest: phase 1 without a successful call: the repetition is invalid
 ok 25 - phase 1 without a successful call: the repetition is invalid
   ---
-  duration_ms: 1525.309605
+  duration_ms: 1516.524466
   type: 'test'
   ...
 # Subtest: D19: a phase-2 question caused by the client classifier being unavailable is invalid-external, not re-approval
 ok 26 - D19: a phase-2 question caused by the client classifier being unavailable is invalid-external, not re-approval
   ---
-  duration_ms: 1524.059224
+  duration_ms: 1517.03624
   type: 'test'
   ...
 # Subtest: adds q3-lab to the six user-level configurations and keeps existing keys
 ok 27 - adds q3-lab to the six user-level configurations and keeps existing keys
   ---
-  duration_ms: 32.391681
+  duration_ms: 29.879417
   type: 'test'
   ...
 # Subtest: codex TOML stays valid and keeps the trusted project
 ok 28 - codex TOML stays valid and keeps the trusted project
   ---
-  duration_ms: 57.261716
+  duration_ms: 56.819971
   type: 'test'
   ...
 # Subtest: goose: the extension is inserted under extensions with the existing ones
 ok 29 - goose: the extension is inserted under extensions with the existing ones
   ---
-  duration_ms: 27.180743
+  duration_ms: 32.473797
   type: 'test'
   ...
 # Subtest: idempotent: a second run changes nothing, and the backups are the originals
 ok 30 - idempotent: a second run changes nothing, and the backups are the originals
   ---
-  duration_ms: 60.512868
+  duration_ms: 54.915082
   type: 'test'
   ...
 # Subtest: 60 primary cells: 5 blocks of 6 clients x 2 signals, reproducible from the seed
 ok 31 - 60 primary cells: 5 blocks of 6 clients x 2 signals, reproducible from the seed
   ---
-  duration_ms: 86.314141
+  duration_ms: 92.108142
   type: 'test'
   ...
 # Subtest: modal outcome per client over both signal levels; H3 clause 1 holds with at most one re-approval client
 ok 32 - modal outcome per client over both signal levels; H3 clause 1 holds with at most one re-approval client
   ---
-  duration_ms: 24.71651
+  duration_ms: 24.951178
   type: 'test'
   ...
 # Subtest: a tie counts against clause 1 only if re-approval is one of the tied outcomes
 ok 33 - a tie counts against clause 1 only if re-approval is one of the tied outcomes
   ---
-  duration_ms: 25.99315
+  duration_ms: 23.356474
   type: 'test'
   ...
 # Subtest: clause 2: acting in 1 of 5 delivered repetitions is enough; undelivered signals make a client untestable
 ok 34 - clause 2: acting in 1 of 5 delivered repetitions is enough; undelivered signals make a client untestable
   ---
-  duration_ms: 27.279014
+  duration_ms: 26.584242
   type: 'test'
   ...
 # Subtest: invalid repetitions are listed and excluded from every count
 ok 35 - invalid repetitions are listed and excluded from every count
   ---
-  duration_ms: 26.352679
+  duration_ms: 25.978394
   type: 'test'
   ...
 # Subtest: D19: a repetition with the client classifier unavailable is invalid-external and excluded
 ok 36 - D19: a repetition with the client classifier unavailable is invalid-external and excluded
   ---
-  duration_ms: 26.758516
+  duration_ms: 26.826666
   type: 'test'
   ...
 # Subtest: kappa on a hand-computed 2x2 case
 ok 37 - kappa on a hand-computed 2x2 case
   ---
-  duration_ms: 24.239761
+  duration_ms: 30.267364
   type: 'test'
   ...
 # Subtest: kappa is undefined (null) when both coders use one identical label
 ok 38 - kappa is undefined (null) when both coders use one identical label
   ---
-  duration_ms: 27.273319
+  duration_ms: 26.196333
   type: 'test'
   ...
 # Subtest: pair excludes blank and INVALID answers and lists disagreements
 ok 39 - pair excludes blank and INVALID answers and lists disagreements
   ---
-  duration_ms: 28.820595
+  duration_ms: 28.12796
   type: 'test'
   ...
 # Subtest: reads every client store
 ok 40 - reads every client store
   ---
-  duration_ms: 3.513572
+  duration_ms: 3.849137
   type: 'test'
   ...
 # Subtest: project-level stores are read only with --project
 ok 41 - project-level stores are read only with --project
   ---
-  duration_ms: 1.122258
+  duration_ms: 1.140066
   type: 'test'
   ...
 # Subtest: Goose with no GOOSE_MODE reports the auto default; inline list form is read
 ok 42 - Goose with no GOOSE_MODE reports the auto default; inline list form is read
   ---
-  duration_ms: 0.413182
+  duration_ms: 0.486138
   type: 'test'
   ...
 # Subtest: an unparseable store is reported, not thrown
 ok 43 - an unparseable store is reported, not thrown
   ---
-  duration_ms: 0.528617
+  duration_ms: 0.52594
   type: 'test'
   ...
 # Subtest: a home without any store reports nothing and does not throw
 ok 44 - a home without any store reports nothing and does not throw
   ---
-  duration_ms: 0.302787
+  duration_ms: 0.275972
   type: 'test'
   ...
 # Subtest: the tool never writes: stores are byte-identical after a run
 ok 45 - the tool never writes: stores are byte-identical after a run
   ---
-  duration_ms: 0.508249
+  duration_ms: 1.105832
+  type: 'test'
+  ...
+# Subtest: Codex: comments after a table header and literal strings are read; other approval_mode forms are flagged
+ok 46 - Codex: comments after a table header and literal strings are read; other approval_mode forms are flagged
+  ---
+  duration_ms: 0.340447
+  type: 'test'
+  ...
+# Subtest: a store that exists but cannot be read is reported as incomplete, not as missing
+ok 47 - a store that exists but cannot be read is reported as incomplete, not as missing
+  ---
+  duration_ms: 0.388314
+  type: 'test'
+  ...
+# Subtest: Gemini: trust = true in the project settings is reported with --project
+ok 48 - Gemini: trust = true in the project settings is reported with --project
+  ---
+  duration_ms: 0.591434
   type: 'test'
   ...
 # Subtest: the container mounts only system dirs, the vendor binary, the isolated CODEX_HOME and the working directory
-ok 46 - the container mounts only system dirs, the vendor binary, the isolated CODEX_HOME and the working directory
+ok 49 - the container mounts only system dirs, the vendor binary, the isolated CODEX_HOME and the working directory
   ---
-  duration_ms: 36.059153
+  duration_ms: 34.543027
   type: 'test'
   ...
 # Subtest: codex exec runs read-only, never asks, with apps, plugins and notify off
-ok 47 - codex exec runs read-only, never asks, with apps, plugins and notify off
+ok 50 - codex exec runs read-only, never asks, with apps, plugins and notify off
   ---
-  duration_ms: 33.135837
+  duration_ms: 28.913095
   type: 'test'
   ...
 # Subtest: a clean isolated context passes, and matches its reference developer blocks
-ok 48 - a clean isolated context passes, and matches its reference developer blocks
+ok 51 - a clean isolated context passes, and matches its reference developer blocks
   ---
-  duration_ms: 65.084501
+  duration_ms: 66.558601
   type: 'test'
   ...
 # Subtest: invalid contexts: AGENTS.md, stray user text, unknown block, host path, missing prompt, two environments, extra text in an allowed block
-ok 49 - invalid contexts: AGENTS.md, stray user text, unknown block, host path, missing prompt, two environments, extra text in an allowed block
+ok 52 - invalid contexts: AGENTS.md, stray user text, unknown block, host path, missing prompt, two environments, extra text in an allowed block
   ---
-  duration_ms: 382.476173
+  duration_ms: 397.960346
   type: 'test'
   ...
 # Subtest: run_session deletes the copied credential even when the probe fails
-ok 50 - run_session deletes the copied credential even when the probe fails
+ok 53 - run_session deletes the copied credential even when the probe fails
   ---
-  duration_ms: 33.616229
+  duration_ms: 39.198724
   type: 'test'
   ...
 # Subtest: the environment block must equal the reference one apart from the date
-ok 51 - the environment block must equal the reference one apart from the date
+ok 54 - the environment block must equal the reference one apart from the date
   ---
-  duration_ms: 64.734818
+  duration_ms: 62.315236
   type: 'test'
   ...
 # Subtest: a credential copied before a failed set-up is removed
-ok 52 - a credential copied before a failed set-up is removed
+ok 55 - a credential copied before a failed set-up is removed
   ---
-  duration_ms: 33.042048
+  duration_ms: 33.545256
   type: 'test'
   ...
 # Subtest: a truncated rollout is an invalid context, not a crash
-ok 53 - a truncated rollout is an invalid context, not a crash
+ok 56 - a truncated rollout is an invalid context, not a crash
   ---
-  duration_ms: 28.952067
+  duration_ms: 31.634978
   type: 'test'
   ...
 # Subtest: the minimal configuration has the model and effort and nothing that loads user content
-ok 54 - the minimal configuration has the model and effort and nothing that loads user content
+ok 57 - the minimal configuration has the model and effort and nothing that loads user content
   ---
-  duration_ms: 33.884061
+  duration_ms: 31.356905
   type: 'test'
   ...
 # Subtest: Fleiss' kappa on a hand-computed 3-rater case
-ok 55 - Fleiss' kappa on a hand-computed 3-rater case
+ok 58 - Fleiss' kappa on a hand-computed 3-rater case
   ---
-  duration_ms: 24.677154
+  duration_ms: 26.076292
   type: 'test'
   ...
 # Subtest: end to end: preregistered first, invalid Codex sessions excluded, earlier disagreements tallied
-ok 56 - end to end: preregistered first, invalid Codex sessions excluded, earlier disagreements tallied
+ok 59 - end to end: preregistered first, invalid Codex sessions excluded, earlier disagreements tallied
   ---
-  duration_ms: 32.706312
+  duration_ms: 31.839829
   type: 'test'
   ...
 # Subtest: duplicate or unknown packet ids are refused
-ok 57 - duplicate or unknown packet ids are refused
+ok 60 - duplicate or unknown packet ids are refused
   ---
-  duration_ms: 56.791992
+  duration_ms: 61.864058
   type: 'test'
   ...
-1..57
-# tests 57
+1..60
+# tests 60
 # suites 0
-# pass 57
+# pass 60
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 42610.668138
+# duration_ms 42636.091295
