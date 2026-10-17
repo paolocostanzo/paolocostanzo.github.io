@@ -1,0 +1,2447 @@
+{
+  "model": "gpt-6.1-sol",
+  "effort": "medium",
+  "packet_set_sha256": "2aa0e318fee2db8b1832840553e4d6cc9e1cdff31cae325e8b960e60537825e6",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "outcome": {
+        "type": "string",
+        "enum": [
+          "refused-or-disconnected",
+          "re-approval-required",
+          "notified",
+          "silent-accept",
+          "stale",
+          "error-no-call-timeout"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "outcome",
+      "reason"
+    ]
+  },
+  "reference": {
+    "record": {
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-02-01a1498f-c640-7a82-a512-77a819d4115b.jsonl"
+      ],
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "argv": [
+        "bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--unshare-ipc",
+        "--unshare-uts",
+        "--clearenv",
+        "--ro-bind",
+        "/usr",
+        "/usr",
+        "--symlink",
+        "usr/bin",
+        "/bin",
+        "--symlink",
+        "usr/sbin",
+        "/sbin",
+        "--symlink",
+        "usr/lib",
+        "/lib",
+        "--symlink",
+        "usr/lib64",
+        "/lib64",
+        "--ro-bind",
+        "/etc",
+        "/etc",
+        "--proc",
+        "/proc",
+        "--dev",
+        "/dev",
+        "--tmpfs",
+        "/tmp",
+        "--ro-bind",
+        "/home/brainonion/.local/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl",
+        "/opt/codex",
+        "--tmpfs",
+        "/home",
+        "--dir",
+        "/home/coder",
+        "--bind",
+        "/home/brainonion/Desktop/redazione/lab/results/q3/coding-codex-20261017/sessions/_reference/codex-home",
+        "/home/coder/.codex",
+        "--bind",
+        "/home/brainonion/Desktop/redazione/lab/results/q3/coding-codex-20261017/sessions/_reference/work",
+        "/work",
+        "--setenv",
+        "HOME",
+        "/home/coder",
+        "--setenv",
+        "CODEX_HOME",
+        "/home/coder/.codex",
+        "--setenv",
+        "PATH",
+        "/opt/codex/bin:/opt/codex/codex-path:/usr/bin:/bin",
+        "--setenv",
+        "LANG",
+        "C.UTF-8",
+        "--chdir",
+        "/work",
+        "/opt/codex/bin/codex",
+        "exec",
+        "-s",
+        "read-only",
+        "-c",
+        "approval_policy=\"never\"",
+        "--json",
+        "-o",
+        "/work/reply.txt",
+        "--disable",
+        "apps",
+        "--disable",
+        "plugins",
+        "--disable",
+        "multi_agent",
+        "-c",
+        "notify=[]",
+        "--skip-git-repo-check",
+        "-m",
+        "gpt-6.1-sol",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "--output-schema",
+        "/work/schema.json",
+        "-"
+      ],
+      "exit_code": 0,
+      "reply": "{\"outcome\":\"stale\",\"reason\":\"reference\"}",
+      "status": "completed"
+    },
+    "context": {
+      "ok": true,
+      "problems": [],
+      "developer_tags": [
+        "skills_instructions",
+        "multi_agent_role",
+        "multi_agent_mode"
+      ],
+      "developer_hashes": [
+        "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+        "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+        "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+      ],
+      "environment": {
+        "cwd": "/work",
+        "shell": "bash",
+        "timezone": "Europe/Rome",
+        "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+      }
+    },
+    "ok": true,
+    "developer_hashes": [
+      "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+      "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+      "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+    ],
+    "environment": {
+      "cwd": "/work",
+      "shell": "bash",
+      "timezone": "Europe/Rome",
+      "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+    }
+  },
+  "sessions": [
+    {
+      "id": "P001",
+      "packet_sha256": "03d32692f015d1366c61041d2e11a5cd5a289da1d144a82b7883e926546eb977",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-07-01a1498f-dad3-7970-bbd6-23f4bbaae344.jsonl"
+      ]
+    },
+    {
+      "id": "P002",
+      "packet_sha256": "401b3437171e55720a05dacbb8f1456d7d1ebe5006831bc675ee1288b8beb9f1",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-13-01a1498f-f21b-7a01-819d-38054c6338c3.jsonl"
+      ]
+    },
+    {
+      "id": "P003",
+      "packet_sha256": "49e748ab1e4dab96913e2cf873e47015d810be6eabe6911045cb4f8dcff9bc35",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-18-01a14990-067f-7701-a2f8-731de9284a6b.jsonl"
+      ]
+    },
+    {
+      "id": "P004",
+      "packet_sha256": "624d790b25e31befc10eb03fd05b4832cf7b6ce3483bce37c28848f5e494f901",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-23-01a14990-19af-7a32-aa77-73e6e45c74d4.jsonl"
+      ]
+    },
+    {
+      "id": "P005",
+      "packet_sha256": "9512f13ba636fc577d9502df9f36cb616de90979c3dba37d257d382d0ac4a654",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"notified\",\"reason\":\"The client showed \u201cTools updated for server: q3-lab\u201d without asking for permission again.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-28-01a14990-2d5f-76d0-b911-e7f708009021.jsonl"
+      ]
+    },
+    {
+      "id": "P006",
+      "packet_sha256": "b6daabf26198dc3ddce4f6ca7e1d9235fb6d7a152706a7c12708f5887bbc079b",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-33-01a14990-3fc7-7311-b155-e46c1e469e7b.jsonl"
+      ]
+    },
+    {
+      "id": "P007",
+      "packet_sha256": "7abecf3f865c70715e92541ca15ce188a83363ccd9398636fa291e22cc7d15fd",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"silent-accept\",\"reason\":\"The server served definition B after the change and a call succeeded using B, with no permission question or tools-changed message shown.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-38-01a14990-5565-7750-b722-7610fed79af8.jsonl"
+      ]
+    },
+    {
+      "id": "P008",
+      "packet_sha256": "038203850afcdf75df51155937ecf272c4740718231da33a1933a86be80379b9",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-43-01a14990-674f-7992-8bac-a794eafb437e.jsonl"
+      ]
+    },
+    {
+      "id": "P009",
+      "packet_sha256": "464393a795efe63d40770b336a02174f8992f6b9e9fdab39bb1eba13631e45a6",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-48-01a14990-7c3e-7351-9b6c-144e4fc59030.jsonl"
+      ]
+    },
+    {
+      "id": "P010",
+      "packet_sha256": "865a56dc82e74bfbb086ee2c9aeaa62300809362ae124319ba3954ad0e5ff7da",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-12-54-01a14990-917d-7a22-bc10-729242bd7d41.jsonl"
+      ]
+    },
+    {
+      "id": "P011",
+      "packet_sha256": "04eac59b63393f4fc4ec4a1fb19a02580d68e974487facec9de3b8645d96ddfd",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"silent-accept\",\"reason\":\"The server served definition B and the call succeeded, with no permission request or tool-change message shown.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-00-01a14990-abab-7530-b132-a51a25b0c764.jsonl"
+      ]
+    },
+    {
+      "id": "P012",
+      "packet_sha256": "5a84115d655102b790bb5fc8ae598951cffdd751ca432229b907d0f8fccac608",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"notified\",\"reason\":\"The client displayed \u201cTools updated for server: q3-lab\u201d without asking for permission again.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-05-01a14990-bf2f-7d83-800b-4a3a4a81a7ee.jsonl"
+      ]
+    },
+    {
+      "id": "P013",
+      "packet_sha256": "3181220645f106aba75213cb560b8a1136ca69db4ecb249e58f824ca1640e641",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-11-01a14990-d354-71d0-a2eb-c571f05b97ae.jsonl"
+      ]
+    },
+    {
+      "id": "P014",
+      "packet_sha256": "79c3c33274ee7cab5bc45105480fc1f3487659e8a6edb514ca036737c6d5d189",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-16-01a14990-e6e4-7061-9682-57af3cdd0583.jsonl"
+      ]
+    },
+    {
+      "id": "P015",
+      "packet_sha256": "f3a8acbe278d2c87df5368dde9a4904322500f1a522936423935fd05d4489d2f",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it still used definition A despite B being in force on the server.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-21-01a14990-fe84-7b51-95e7-472b7bf93dba.jsonl"
+      ]
+    },
+    {
+      "id": "P016",
+      "packet_sha256": "822ba808bd5643cb8be16fa7afe84fcf5d0399112df6a02866f13ef8cbe80f53",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"silent-accept\",\"reason\":\"The server served definition B after the change and the call succeeded, with no permission request or tool-change message shown.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-28-01a14991-1638-7982-8234-e2a54f26b358.jsonl"
+      ]
+    },
+    {
+      "id": "P017",
+      "packet_sha256": "77b2456bdeeb892089359e56dbd2c0aa03dd049c99eecf50867f8bf9c4e3f6e3",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-33-01a14991-29d0-7981-aa03-56c2c67157ca.jsonl"
+      ]
+    },
+    {
+      "id": "P018",
+      "packet_sha256": "b29a4fc29bdc3bd215d6d90951f7cfa3024143f1b9a85c71cb03c59b4cbaa3ba",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"notified\",\"reason\":\"The client displayed \u201cTools updated for server: q3-lab\u201d without asking for permission again.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-38-01a14991-3ff0-70f1-b43d-180d6134e8d9.jsonl"
+      ]
+    },
+    {
+      "id": "P019",
+      "packet_sha256": "6f31e34d300adc8171f79a5e0cf6a0bae0f94050112ff921cdae0057e444cd44",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-43-01a14991-5282-7610-bf1c-8eab3b63da0c.jsonl"
+      ]
+    },
+    {
+      "id": "P020",
+      "packet_sha256": "42135ef8233cd0492bf75bb87d33191a090f7e2e703b3a10cb12def4480d3838",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-48-01a14991-65fc-7960-9e66-ac5d10db14cf.jsonl"
+      ]
+    },
+    {
+      "id": "P021",
+      "packet_sha256": "845c589a07572804476493577e18af79c85bf37fe6843d918edd94288c549af3",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"silent-accept\",\"reason\":\"The server served definition B after the change and the call succeeded, with no permission request or tool-change notification shown.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-54-01a14991-7c83-7952-9b26-e8a1104bdc89.jsonl"
+      ]
+    },
+    {
+      "id": "P022",
+      "packet_sha256": "f0b25f9113c75e3ca17b851e355177c16196375f2ddd963a5012a90865ff9702",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change and was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-13-59-01a14991-9018-7ec2-aec9-d02089a7bcde.jsonl"
+      ]
+    },
+    {
+      "id": "P023",
+      "packet_sha256": "1fcb61d4505cb607ed28e5449937c32fe80ebc4003a8b44144cd5c1a48311ce8",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-04-01a14991-a5f9-7c63-9cca-6cc03bc77f6b.jsonl"
+      ]
+    },
+    {
+      "id": "P024",
+      "packet_sha256": "44bdd316f829b7e4f0beaa45e4e0fdfe1dbbd8da71b8467a783762b620378729",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-10-01a14991-bba8-7582-984e-14f2065122ed.jsonl"
+      ]
+    },
+    {
+      "id": "P025",
+      "packet_sha256": "0fa38dc36230d2cdb2bd2708d943ac83f7bb6020e79cff855b38be262beb25c0",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-18-01a14991-d9cb-74d3-999e-5b210672a2b6.jsonl"
+      ]
+    },
+    {
+      "id": "P026",
+      "packet_sha256": "212a247ed95a2965c4a53c995b5712f1375d81b2d315251f6df7061959fcb1ab",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-22-01a14991-ece8-7fe1-bbe1-69dd840c8fb7.jsonl"
+      ]
+    },
+    {
+      "id": "P027",
+      "packet_sha256": "9c71213ab3b1725153cf1aea12664b01789e544a6b57a35f20cfefe8f18e7947",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-29-01a14992-04bb-78b0-af9d-d48f0e736141.jsonl"
+      ]
+    },
+    {
+      "id": "P028",
+      "packet_sha256": "8772f2ec30f4ef833f7ca9d88ce46398cb8fef8919529522420b0973e50a3e45",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-35-01a14992-1bd0-7910-a52d-45159b423da1.jsonl"
+      ]
+    },
+    {
+      "id": "P029",
+      "packet_sha256": "a94edfe629f003a3023b2010a7eba7dd0307eb24964e21e3af7bcf4a18e16005",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-40-01a14992-32b4-70b3-b433-e85031c53649.jsonl"
+      ]
+    },
+    {
+      "id": "P030",
+      "packet_sha256": "83cc9aa2bd3bdaef723cb0b84756bdb864ab8b812a32916261afaad4b02646ce",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change and was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-46-01a14992-4733-7f00-8215-a6eca7e11f51.jsonl"
+      ]
+    },
+    {
+      "id": "P031",
+      "packet_sha256": "99c74edf05272cfa5707c69afe4a6178e25e666f7278c534e10b2011a3e45c03",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it still used definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-51-01a14992-5dfa-7e31-b56d-988afebac5a5.jsonl"
+      ]
+    },
+    {
+      "id": "P032",
+      "packet_sha256": "bd6501f64b9a042ae4f5a60c1835a29f4642a5449a5fc222a341aab8ca398721",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-14-57-01a14992-74a9-7ae3-8c99-e6456ce937db.jsonl"
+      ]
+    },
+    {
+      "id": "P033",
+      "packet_sha256": "f03e38467939efb69c9f91fd8ded116be3b967aec5bf5797ba1592d5e89c9e81",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-03-01a14992-8bf5-70f0-9246-7397faaea506.jsonl"
+      ]
+    },
+    {
+      "id": "P034",
+      "packet_sha256": "7c144b316900fae3c7e2478567237ac765e67a36d88dd7b62ae7d09b2aa1b87c",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-09-01a14992-a3d9-74d2-9c07-2cebdc8e20e5.jsonl"
+      ]
+    },
+    {
+      "id": "P035",
+      "packet_sha256": "bbbcfb4c6a51757b2abd3617672c3a9a2eb8a2c54125d244dea9ed851a8a6e03",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"notified\",\"reason\":\"The client displayed \u201cTools updated for server: q3-lab\u201d without asking for permission again.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-15-01a14992-b94d-7e52-9984-b06165ccc45e.jsonl"
+      ]
+    },
+    {
+      "id": "P036",
+      "packet_sha256": "c9544438788cdee3b0e0e03b510ab3268da92a869230cade732a561a41712ce8",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-20-01a14992-cf0b-7822-9310-23bf97c0e903.jsonl"
+      ]
+    },
+    {
+      "id": "P037",
+      "packet_sha256": "e3ef9505d5810ba78c16dcfe7af7ce52db8a169efc3446a2ff33fcad4403eee6",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-26-01a14992-e5e6-7243-a843-4f44a2b16cd3.jsonl"
+      ]
+    },
+    {
+      "id": "P038",
+      "packet_sha256": "e8a48004d1a5dbf3378ccebeba267b74c460ce6933ee4476f8ee537251ed6397",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"notified\",\"reason\":\"The client displayed \u201cTools updated for server: q3-lab\u201d without asking for permission again.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-32-01a14992-fe57-7280-bf19-2fb0774127bf.jsonl"
+      ]
+    },
+    {
+      "id": "P039",
+      "packet_sha256": "69087c0c7026e9f000007f02507f200a7bcec65fccfc151e247d373b6b33b2c3",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-37-01a14993-1007-7af0-8725-3fd579fe6972.jsonl"
+      ]
+    },
+    {
+      "id": "P040",
+      "packet_sha256": "bc95523f7e85a5b45a9f17b4fa9416bea0f076fc16efdbbe0123fea4df0dbb9c",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-42-01a14993-247f-72c1-a36a-10f304da4ef4.jsonl"
+      ]
+    },
+    {
+      "id": "P041",
+      "packet_sha256": "590c6b97b2dfc29def85df6e5ae40e8a4211a35591e3a96c4115008b47cc786e",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so definition B was not served to the client.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-49-01a14993-3d58-7850-ac13-7656a36387e9.jsonl"
+      ]
+    },
+    {
+      "id": "P042",
+      "packet_sha256": "4aa01e2fa3a0fd3b324a2139b762e168f9669b5cf78256c4e39056cfe3b19d4f",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-15-55-01a14993-55d6-79f0-a10f-8a2b1e0ec330.jsonl"
+      ]
+    },
+    {
+      "id": "P043",
+      "packet_sha256": "84f5762f8eec0003ec3416bd4e4c013194a15131856d81e0a71e9f2919ca015b",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-01-01a14993-6bd3-77a0-b40e-ac5fe02d3527.jsonl"
+      ]
+    },
+    {
+      "id": "P044",
+      "packet_sha256": "4c0cff1a907e8f6f7ad6e2759aff2781712ebc709e4546116f39e93435374a06",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change and showed no notification or permission question.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-07-01a14993-844c-7e83-9f51-5becc16e6990.jsonl"
+      ]
+    },
+    {
+      "id": "P045",
+      "packet_sha256": "c9365115dca79171b79ff7f6f3a1c248f2b3214108baba09d7cc146736ca484e",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so definition B being in force does not establish that it was served to the client.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-12-01a14993-9914-7871-9bec-3e3689c1ff95.jsonl"
+      ]
+    },
+    {
+      "id": "P046",
+      "packet_sha256": "8547f9bb3ad52c7eb386396fe59db5819e54835e9e68783522681b29daa2e810",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-18-01a14993-b0a0-7341-a9b4-f4ec93f5ed5e.jsonl"
+      ]
+    },
+    {
+      "id": "P047",
+      "packet_sha256": "4d791b114aa7328e9e4e8fc65beaba4226f179b96263a9ba41f8fda1de77bec7",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-24-01a14993-c848-7492-8978-34af5495229e.jsonl"
+      ]
+    },
+    {
+      "id": "P048",
+      "packet_sha256": "2832f88a3075b3defff6ffd537e7d84be8f04d109175a9a367a46e55556d7e0a",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-31-01a14993-e42c-7fe2-a925-d2e1f07c7ef0.jsonl"
+      ]
+    },
+    {
+      "id": "P049",
+      "packet_sha256": "5f212ff9862717fa3e338316e8657ed20a55a7e9a52b1e2befd6953df35fd488",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-38-01a14993-fc99-76d1-a22f-a685192ba901.jsonl"
+      ]
+    },
+    {
+      "id": "P050",
+      "packet_sha256": "01e5670c4c62c80b01a29e3382c20ef0d4be3ae7ba92bd08aebe36517714d9b3",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-43-01a14994-10d6-7660-99a1-66e97abfff05.jsonl"
+      ]
+    },
+    {
+      "id": "P051",
+      "packet_sha256": "6a163e85a2b3f714a4b65b515fe48e7ae7ddb7e90db78c95be52d2d90acfa914",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-49-01a14994-2943-76f3-a979-ad320f28d4b5.jsonl"
+      ]
+    },
+    {
+      "id": "P052",
+      "packet_sha256": "34ccd9d4be6f82bcb544cd0e3d3d158fa3036c23a1f37eeb93ef86dd04abb7cf",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"silent-accept\",\"reason\":\"The server served definition B and the call succeeded, with no permission question or tools-changed message shown.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-16-55-01a14994-40f6-7bb1-b805-c74d306ec1e9.jsonl"
+      ]
+    },
+    {
+      "id": "P053",
+      "packet_sha256": "5d60061732b4bb5d7e1d718d447031e36ed2980325b4ff80bec2a4c1f9dc6ed7",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change and showed no notification or permission request.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-02-01a14994-5b8c-7e50-86af-faa81e9595db.jsonl"
+      ]
+    },
+    {
+      "id": "P054",
+      "packet_sha256": "eaa5c2e6a5be2c82fd8a3c1d9fa8512529b53d600a28e4ff5f46266252a1f3e3",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-09-01a14994-75b9-77c2-b117-e1113f0fe910.jsonl"
+      ]
+    },
+    {
+      "id": "P055",
+      "packet_sha256": "0a37d562577d17620e92a79a954490842a24b0dc0a42569679d31f55e4f2e8f8",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change and showed no change notification or permission request.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-14-01a14994-8b03-7a43-8495-fe9bbd7cc62b.jsonl"
+      ]
+    },
+    {
+      "id": "P056",
+      "packet_sha256": "ce8f8f6d514fbe57dc54dc0deaf8b856f3a1fc198b5a1985c4fdfcf9759f64d0",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so definition B was not served to the client.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-20-01a14994-a3b6-7852-a986-b188da7744d9.jsonl"
+      ]
+    },
+    {
+      "id": "P057",
+      "packet_sha256": "1574f60fcc0b31eae295668da9031d74f4ff4a9e6cccd6b3026e7aec9b69f738",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list after the change, so it still used definition A despite the server executing B.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-27-01a14994-bd8a-74f3-86de-1403d74d584a.jsonl"
+      ]
+    },
+    {
+      "id": "P058",
+      "packet_sha256": "6e803c1d21e270b51cf8c5062a3906ff35d905b2c615b2b78f0d9d7c95108730",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-33-01a14994-d4dd-7281-8dcc-f234176e85bd.jsonl"
+      ]
+    },
+    {
+      "id": "P059",
+      "packet_sha256": "7922c547b230e7a212aa501c79a41e583ab513f4c36c8e175a22131362fd9d7c",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-39-01a14994-ee0c-75f3-9a7b-2da3235ec6d8.jsonl"
+      ]
+    },
+    {
+      "id": "P060",
+      "packet_sha256": "d97cd6ea9f873b39e7db582cc7fffbacf58817e8965e3ea98502d3e3583939bc",
+      "status": "completed",
+      "exit_code": 0,
+      "probe": {
+        "ok": true,
+        "visible": [],
+        "returncode": 0,
+        "stdout": "done\n",
+        "stderr": ""
+      },
+      "context": {
+        "ok": true,
+        "problems": [],
+        "developer_tags": [
+          "skills_instructions",
+          "multi_agent_role",
+          "multi_agent_mode"
+        ],
+        "developer_hashes": [
+          "dfd7260b132511c8fee23df99d6368a23864420310c0e72346deec65d730c70b",
+          "3edd51083129388f52e881435e93e4b981e00c5ee3d62ab5d32e22c428fd504b",
+          "6ded806e3cdbb35599ecaf8742574bc5274908472b1729090010c404c2151e8e"
+        ],
+        "environment": {
+          "cwd": "/work",
+          "shell": "bash",
+          "timezone": "Europe/Rome",
+          "filesystem": "<workspace_roots><root>/work</root></workspace_roots><permission_profile type=\"managed\"><file_system type=\"restricted\"><entry access=\"read\"><special>:root</special></entry></file_system></permission_profile>"
+        }
+      },
+      "valid": true,
+      "raw_reply": "{\"outcome\":\"stale\",\"reason\":\"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.\"}",
+      "rollouts": [
+        "codex-home/sessions/2026/10/17/rollout-2026-10-17T13-17-44-01a14995-012f-78d0-b01f-776edc4c0dcf.jsonl"
+      ]
+    }
+  ]
+}

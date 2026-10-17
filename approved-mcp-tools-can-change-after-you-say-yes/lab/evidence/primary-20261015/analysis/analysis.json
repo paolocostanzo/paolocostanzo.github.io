@@ -1,0 +1,224 @@
+{
+  "n_repetitions": 60,
+  "n_valid": 60,
+  "invalid": [],
+  "cells_phase2": {
+    "claude-code|list_changed": {
+      "silent-accept": 5
+    },
+    "claude-code|none": {
+      "stale": 5
+    },
+    "codex|list_changed": {
+      "stale": 5
+    },
+    "codex|none": {
+      "stale": 5
+    },
+    "cursor-agent|list_changed": {
+      "stale": 5
+    },
+    "cursor-agent|none": {
+      "stale": 5
+    },
+    "gemini|list_changed": {
+      "notified": 5
+    },
+    "gemini|none": {
+      "stale": 5
+    },
+    "goose|list_changed": {
+      "stale": 5
+    },
+    "goose|none": {
+      "stale": 5
+    },
+    "qwen|list_changed": {
+      "stale": 5
+    },
+    "qwen|none": {
+      "stale": 5
+    }
+  },
+  "H3_clause1": {
+    "per_client": {
+      "claude-code": {
+        "modal": "mixed",
+        "tied": [
+          "silent-accept",
+          "stale"
+        ],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      },
+      "codex": {
+        "modal": "stale",
+        "tied": [],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      },
+      "cursor-agent": {
+        "modal": "stale",
+        "tied": [],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      },
+      "gemini": {
+        "modal": "mixed",
+        "tied": [
+          "notified",
+          "stale"
+        ],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      },
+      "goose": {
+        "modal": "stale",
+        "tied": [],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      },
+      "qwen": {
+        "modal": "stale",
+        "tied": [],
+        "counts_as_reapproval": false,
+        "n_valid": 10
+      }
+    },
+    "clients_reapproval": 0,
+    "holds": true
+  },
+  "H3_clause2": {
+    "per_client": {
+      "claude-code": {
+        "list_changed_valid": 5,
+        "delivered": 5,
+        "not_deliverable": 0,
+        "acts_on_notification": false,
+        "acting_repetitions": 0,
+        "channels": [
+          "modern"
+        ]
+      },
+      "codex": {
+        "list_changed_valid": 5,
+        "delivered": 5,
+        "not_deliverable": 0,
+        "acts_on_notification": false,
+        "acting_repetitions": 0,
+        "channels": [
+          "legacy"
+        ]
+      },
+      "cursor-agent": {
+        "list_changed_valid": 5,
+        "delivered": 5,
+        "not_deliverable": 0,
+        "acts_on_notification": false,
+        "acting_repetitions": 0,
+        "channels": [
+          "legacy"
+        ]
+      },
+      "gemini": {
+        "list_changed_valid": 5,
+        "delivered": 5,
+        "not_deliverable": 0,
+        "acts_on_notification": true,
+        "acting_repetitions": 5,
+        "channels": [
+          "legacy"
+        ]
+      },
+      "goose": {
+        "list_changed_valid": 5,
+        "delivered": 0,
+        "not_deliverable": 5,
+        "acts_on_notification": null,
+        "acting_repetitions": 0,
+        "channels": []
+      },
+      "qwen": {
+        "list_changed_valid": 5,
+        "delivered": 5,
+        "not_deliverable": 0,
+        "acts_on_notification": false,
+        "acting_repetitions": 0,
+        "channels": [
+          "legacy"
+        ]
+      }
+    },
+    "clients_acting": [
+      "gemini"
+    ],
+    "testable_clients": [
+      "claude-code",
+      "codex",
+      "cursor-agent",
+      "gemini",
+      "qwen"
+    ],
+    "holds": false
+  },
+  "reopen_phase3_exploratory": {
+    "claude-code": {
+      "silent-accept": 10
+    },
+    "codex": {
+      "silent-accept": 10
+    },
+    "cursor-agent": {
+      "silent-accept": 10
+    },
+    "gemini": {
+      "re-approval-required": 10
+    },
+    "goose": {
+      "silent-accept": 10
+    },
+    "qwen": {
+      "silent-accept": 10
+    }
+  },
+  "eras": {
+    "claude-code": [
+      "modern"
+    ],
+    "codex": [
+      "legacy"
+    ],
+    "cursor-agent": [
+      "legacy"
+    ],
+    "gemini": [
+      "legacy"
+    ],
+    "goose": [
+      "modern"
+    ],
+    "qwen": [
+      "legacy"
+    ]
+  },
+  "versions": {
+    "claude-code": [
+      "2.1.300 (Claude Code)"
+    ],
+    "codex": [
+      "codex-cli 0.162.1"
+    ],
+    "cursor-agent": [
+      "2026.10.14-941492e"
+    ],
+    "gemini": [
+      "0.64.0"
+    ],
+    "goose": [
+      "1.54.0"
+    ],
+    "qwen": [
+      "0.25.1"
+    ]
+  }
+}

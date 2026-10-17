@@ -1,0 +1,69 @@
+{
+  "1_preregistered_author_vs_local": {
+    "n": 60,
+    "agreement": 0.23333333333333334,
+    "kappa": 0.11538461538461539
+  },
+  "2a_codex_vs_author": {
+    "kappa": 1.0,
+    "n": 60,
+    "raw_agreement": 1.0
+  },
+  "2b_codex_vs_local": {
+    "kappa": 0.11538461538461539,
+    "n": 60,
+    "raw_agreement": 0.23333333333333334
+  },
+  "3_fleiss_three_coders": {
+    "kappa": 0.06588447653429606,
+    "n": 60
+  },
+  "4_confusion": {
+    "author_x_local": {
+      "notified": {
+        "notified": 5
+      },
+      "silent-accept": {
+        "silent-accept": 5
+      },
+      "stale": {
+        "silent-accept": 45,
+        "stale": 4,
+        "notified": 1
+      }
+    },
+    "author_x_codex": {
+      "notified": {
+        "notified": 5
+      },
+      "silent-accept": {
+        "silent-accept": 5
+      },
+      "stale": {
+        "stale": 50
+      }
+    },
+    "local_x_codex": {
+      "notified": {
+        "notified": 5,
+        "stale": 1
+      },
+      "silent-accept": {
+        "stale": 45,
+        "silent-accept": 5
+      },
+      "stale": {
+        "stale": 4
+      }
+    }
+  },
+  "5_earlier_disagreements": {
+    "n": 46,
+    "like author": 46
+  },
+  "excluded": {
+    "author": [],
+    "local_model": [],
+    "codex": []
+  }
+}

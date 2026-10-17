@@ -1,0 +1,65 @@
+{
+  "question": "Q3 / RQ3 (confirmatory): do MCP clients notice when an approved tool's definition changes?",
+  "protocol": "preregistration 10.5281/zenodo.23300369 + deviations D5, D12, D16, D18, D19 (preregistration/DEVIATIONS.md)",
+  "matrix": {
+    "design": "6 terminal clients x signal {none, list_changed} x change=description x stdio x vendor engine x 5 repetitions",
+    "repetitions": 60,
+    "valid": 60,
+    "order": "random within each repetition block, seed 20261015 (primary-20261015/plan.json)",
+    "started": "2026-10-15T15:53:03Z",
+    "ended": "2026-10-15T17:28:03Z",
+    "re_run": "qwen/none/r4 once under D19 (client classifier unavailable); failed attempt in primary-20261015/failed-attempts/"
+  },
+  "vm": {
+    "os": "Debian 13.7 (kernel 6.12.107)",
+    "snapshot": "q3-base-20261015 (running snapshot, 2026-10-15 17:51:51 CEST)",
+    "restore": "libvirt snapshot-revert before every repetition; guest clock set to host time"
+  },
+  "clients": {
+    "claude --version": "2.1.300 (Claude Code)",
+    "codex --version": "codex-cli 0.162.1",
+    "gemini --version": "0.64.0",
+    "qwen --version": "0.25.1",
+    "cursor-agent --version": "2026.10.14-941492e",
+    "goose --version": " 1.54.0"
+  },
+  "engines": {
+    "claude-code": "vendor default (Claude Max account)",
+    "codex": "vendor default",
+    "cursor-agent": "vendor default (Auto)",
+    "gemini": "gemini-flash-lite-latest (D18)",
+    "qwen": "gemini-flash-lite-latest via --auth-type gemini (D18)",
+    "goose": "vendor configuration as in Q5"
+  },
+  "harness": {
+    "repository": "github.com/paolocostanzo/outside-the-prompt-lab",
+    "commit_for_primary_runs": "10854f2 (+ 89afbaf operational fix, 609c880 D19 for the re-run)",
+    "per_cell_hashes": "primary-20261015/<cell>/harness-sha256.txt"
+  },
+  "coding": {
+    "rule_based": "scripts/code_q3.py -> primary-20261015/analysis/",
+    "preregistered_coders": "author (labels recorded from his declaration of agreement, D21) and local model qwen3.8:27b-q8_0 (digest in primary-20261015/coding/llm/llm-coding.json)",
+    "packets": "primary-20261015/coding/packets (blind; key in coding/key.csv)",
+    "additional_coder_D22": {
+      "cli": "codex-cli 0.162.0",
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "isolation": "bubblewrap container per packet (scripts/isolated_codex.py); reference session first",
+      "packet_set_sha256": "2aa0e318fee2db8b1832840553e4d6cc9e1cdff31cae325e8b960e60537825e6",
+      "results": "primary-20261015/coding/codex/",
+      "sessions_valid": "60/60"
+    }
+  },
+  "not_included": "raw host telemetry per repetition (audit.log, journal; 1.4 GB) and the editors' telemetry and logs of 17 October, kept for Q4 and the archived release; Codex session rollouts (hashes in primary-20261015/coding/codex/sessions-SHA256SUMS)",
+  "clients_gui_20261017": {
+    "code --version": "1.139.1 (with GitHub Copilot Chat)",
+    "cursor --version": "3.22.7",
+    "how": "driven with xdotool inside the VM; one repetition per signal (VS Code notification run repeated once); see gui-20261017/SUMMARY.md"
+  },
+  "tests": {
+    "command": "npm test",
+    "count": 57,
+    "output": "test-output.tap",
+    "date": "2026-10-17"
+  }
+}

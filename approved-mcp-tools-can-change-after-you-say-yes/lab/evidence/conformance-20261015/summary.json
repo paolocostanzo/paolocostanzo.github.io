@@ -1,0 +1,784 @@
+[
+  {
+    "sdk": "sdk-v1-1.32.1",
+    "signal": "none",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": null,
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "legacy-initialize",
+        "negotiated": "2025-11-25",
+        "requested": "2025-11-25"
+      },
+      {
+        "event": "legacy-initialized"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "initialize",
+      "notifications/initialized",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "sdk-v1-1.32.1",
+    "signal": "list_changed",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": null,
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [
+      {
+        "notification": true
+      }
+    ],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "legacy-initialize",
+        "negotiated": "2025-11-25",
+        "requested": "2025-11-25"
+      },
+      {
+        "event": "legacy-initialized"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "signal-delivered",
+        "delivered": [
+          {
+            "era": "legacy",
+            "initialized": true
+          }
+        ]
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "initialize",
+      "notifications/initialized",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1",
+    "signal": "none",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2025-11-25",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "legacy-initialize",
+        "negotiated": "2025-11-25",
+        "requested": "2025-11-25"
+      },
+      {
+        "event": "legacy-initialized"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "initialize",
+      "notifications/initialized",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1",
+    "signal": "list_changed",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2025-11-25",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [
+      {
+        "err": null,
+        "tools": [
+          "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+        ]
+      }
+    ],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "legacy-initialize",
+        "negotiated": "2025-11-25",
+        "requested": "2025-11-25"
+      },
+      {
+        "event": "legacy-initialized"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "signal-delivered",
+        "delivered": [
+          {
+            "era": "legacy",
+            "initialized": true
+          }
+        ]
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "initialize",
+      "notifications/initialized",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1-auto",
+    "signal": "none",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2026-07-28",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "server/discover",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "stdin-closed"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "subscriptions/listen",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "subscription-opened",
+        "requested": {
+          "toolsListChanged": true
+        }
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "server/discover",
+      "subscriptions/listen",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1-auto",
+    "signal": "list_changed",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2026-07-28",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [
+      {
+        "err": null,
+        "tools": [
+          "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+        ]
+      }
+    ],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "server/discover",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "sigterm"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "subscriptions/listen",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "subscription-opened",
+        "requested": {
+          "toolsListChanged": true
+        }
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "signal-delivered",
+        "delivered": [
+          {
+            "era": "modern",
+            "subscriptionId": "listen:0"
+          }
+        ]
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "server/discover",
+      "subscriptions/listen",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1-pin",
+    "signal": "none",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2026-07-28",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "server/discover",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "stdin-closed"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "subscriptions/listen",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "subscription-opened",
+        "requested": {
+          "toolsListChanged": true
+        }
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "server/discover",
+      "subscriptions/listen",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/call"
+    ]
+  },
+  {
+    "sdk": "client-v2-2.3.1-pin",
+    "signal": "list_changed",
+    "server_version": {
+      "name": "q3-lab",
+      "version": "1.0.0"
+    },
+    "server_capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "negotiated": "2026-07-28",
+    "list1": [
+      "Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect."
+    ],
+    "call1": "ok",
+    "changed_events": [
+      {
+        "err": null,
+        "tools": [
+          "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+        ]
+      }
+    ],
+    "list2": [
+      "Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens."
+    ],
+    "call2": "ok",
+    "server_events": [
+      {
+        "event": "control-init"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "server/discover",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "sigterm"
+      },
+      {
+        "event": "start"
+      },
+      {
+        "event": "modern-request",
+        "method": "subscriptions/listen",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "subscription-opened",
+        "requested": {
+          "toolsListChanged": true
+        }
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "A"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "control-flip"
+      },
+      {
+        "event": "definition-changed"
+      },
+      {
+        "event": "signal-delivered",
+        "delivered": [
+          {
+            "era": "modern",
+            "subscriptionId": "listen:0"
+          }
+        ]
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/list",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "served-list",
+        "served": "B"
+      },
+      {
+        "event": "modern-request",
+        "method": "tools/call",
+        "protocolVersion": "2026-07-28"
+      },
+      {
+        "event": "tools/call"
+      },
+      {
+        "event": "stdin-closed"
+      }
+    ],
+    "methods_in": [
+      "server/discover",
+      "subscriptions/listen",
+      "tools/list",
+      "tools/call",
+      "tools/list",
+      "tools/list",
+      "tools/call"
+    ]
+  }
+]

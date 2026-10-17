@@ -1,0 +1,50 @@
+
+
+  Cursor Agent
+  v2026.10.14-941492e
+  Tip: Use /plan to iterate on an implementation plan before code changes.
+
+
+
+                                                                                                                                                                                   
+  → Plan, search, build anything                                                                                                                                                   
+                                                                                                                                                                                   
+
+  Auto
+  ~/q3-repo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

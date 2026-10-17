@@ -1,0 +1,89 @@
+
+## 2026-10-15T17:18:05+02:00 harness nella VM (otp-lab 661679e)
+235f1fb09aff391a0d326e977a7675cafd2aee644c75928fdb3e3aa125b7998e  ./.gitignore
+c9b739483dc8ec27a7d4d1d555ccb9329b5fae1c2ec28d9c4eb5cca538ccd552  ./README.md
+e0b50b55f2a50b6897fbf55de3a8df1cedf35b699e5dd5da55d6bc27fe17b184  ./conformance/README.md
+0fd2915e1664d9f58193c86d3fbf9e64450f6f8c3ec0bafa450542bc49b7da57  ./conformance/conformance.mjs
+6957b3598f1140a79be86d4825a6b15de122d1ab532c982163241f708bf27400  ./package.json
+514bcec2870453b7d501145ab4e81a641ac58efd8e0b0a2194b664aec72c0c3b  ./scripts/code_q3.py
+dcdb8705f1c6d4a448846434581c61e448bcc9424387e8dcb26f08e6e2d6e646  ./scripts/flip.mjs
+2fe93bc042da85abeac1412910d00e9fb04b2c51e41a59376e31a6cf0a9e5895  ./scripts/prepare_vm.py
+c92ee4028113191b9bf636d1b6125696406762a751e92a9178546dd901a2fa7f  ./scripts/q3-clients.json
+c42794ad2f4e64af322648eed90875bdf514629cd00f0782e5408d65883a8770  ./scripts/q3_host.py
+8c71446da8f3cebc424feff540580126a418328d6f81b98bc3304b62e8f17e9d  ./scripts/run_q3_cell.py
+2d0c83c999d12beca70c28a6accdd011a00c18dae85422c700e30648dac966be  ./server/q3-server.mjs
+
+## test nella VM
+# tests 30
+# pass 30
+# fail 0
+
+## prepare_vm.py --dry-run
+{
+  "ts": "2026-10-15T15:18:45.785873+00:00",
+  "server": "/home/lab/lab/tool-change/server/q3-server.mjs",
+  "dry_run": true,
+  "configured": [
+    "/home/lab/q3-repo: README.md, greet.py",
+    "/home/lab/.claude.json: mcpServers.q3-lab",
+    "/home/lab/.gemini/settings.json: mcpServers.q3-lab",
+    "/home/lab/.qwen/settings.json: mcpServers.q3-lab",
+    "/home/lab/.cursor/mcp.json: mcpServers.q3-lab",
+    "/home/lab/.codex/config.toml: [mcp_servers.q3-lab]",
+    "/home/lab/.config/goose/config.yaml: extensions.q3-lab"
+  ]
+}
+## 2026-10-15T17:19:04+02:00 prepare_vm.py
+{
+  "ts": "2026-10-15T15:19:04.219035+00:00",
+  "server": "/home/lab/lab/tool-change/server/q3-server.mjs",
+  "dry_run": false,
+  "configured": [
+    "/home/lab/q3-repo: README.md, greet.py",
+    "/home/lab/.claude.json: mcpServers.q3-lab",
+    "/home/lab/.gemini/settings.json: mcpServers.q3-lab",
+    "/home/lab/.qwen/settings.json: mcpServers.q3-lab",
+    "/home/lab/.cursor/mcp.json: mcpServers.q3-lab",
+    "/home/lab/.codex/config.toml: [mcp_servers.q3-lab]",
+    "/home/lab/.config/goose/config.yaml: extensions.q3-lab"
+  ]
+}
+
+## elenco server MCP per client
+[claude mcp list]
+Checking MCP server health…
+q3-lab: node /home/lab/lab/tool-change/server/q3-server.mjs - ✔ Connected
+[codex mcp list]
+Name    Command  Args                                            Env                                              Cwd  Status   Auth       
+q3-lab  node     /home/lab/lab/tool-change/server/q3-server.mjs  Q3_CLIENT=*****, Q3_CONTROL=*****, Q3_LOG=*****  -    enabled  Unsupported
+[gemini mcp list]
+Warning: MCP servers are configured but disabled because this folder is untrusted.
+User-level servers are also suppressed in untrusted folders to prevent accidental side-effects.
+Configured MCP servers:
+○ q3-lab: node /home/lab/lab/tool-change/server/q3-server.mjs (stdio) - Disabled
+[qwen mcp list]
+Configured MCP servers:
+[32m✓[0m q3-lab: node /home/lab/lab/tool-change/server/q3-server.mjs (stdio) - Connected
+[cursor-agent mcp list]
+q3-lab: ready
+[goose: config]
+3:  q3-lab:
+4-    type: stdio
+5-    name: q3-lab
+6-    cmd: node
+
+## log del server dopo gli elenchi
+33 /home/lab/q3-server.log
+      9 "event":"in"
+      2 "event":"legacy-initialize"
+      2 "event":"legacy-initialized"
+      4 "event":"modern-request"
+      7 "event":"out"
+      2 "event":"served-list"
+      1 "event":"sigint"
+      3 "event":"start"
+      2 "event":"stdin-closed"
+      1 "event":"subscription-opened"
+     16 "client":"claude-code"
+     10 "client":"cursor-agent"
+      7 "client":"qwen"

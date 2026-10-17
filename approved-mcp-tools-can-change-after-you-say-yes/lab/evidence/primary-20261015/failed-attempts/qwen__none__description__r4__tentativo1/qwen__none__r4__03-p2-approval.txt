@@ -1,0 +1,50 @@
+
+   ▄▄▄▄▄▄  ▄▄     ▄▄ ▄▄▄▄▄▄▄ ▄▄▄    ▄▄   ┌──────────────────────────────────────────────────────────┐
+  ██╔═══██╗██║    ██║██╔════╝████╗  ██║  │ >_ Qwen Code (v0.25.1)                                   │
+  ██║   ██║██║ █╗ ██║█████╗  ██╔██╗ ██║  │                                                          │
+  ██║▄▄ ██║██║███╗██║██╔══╝  ██║╚██╗██║  │ API Key | gemini-flash-lite-latest (/model to change)    │
+  ╚██████╔╝╚███╔███╔╝███████╗██║ ╚████║  │ ~/q3-repo                                                │
+   ╚══▀▀═╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═══╝  └──────────────────────────────────────────────────────────┘
+
+  Tips: You can run any shell commands from Qwen Code using ! (e.g. !ls).
+  ●︎ Read context files: ~/.qwen/output-language.md
+
+  > Call the q3_noop tool of the q3-lab MCP server once, then reply with only the word it returned.
+  ✓ ToolSearch select:mcp__q3-lab__q3_noop
+    Reviewed 1 tool(s)
+  ✓ q3_noop (q3-lab MCP Server) {}
+    ok
+
+  ◆︎ ok
+
+  > Call the q3_noop tool of the q3-lab MCP server once, then reply with only the word it returned.
+  ? q3_noop (q3-lab MCP Server) {} ←
+
+     ⚠ Auto Mode couldn't classify this action (Classifier stage 1 unavailable). Review it manually. Switching to Default Mode is recommended if you want to continue without 
+     the classifier.
+
+     MCP Server: q3-lab
+     Tool: q3_noop
+
+   Allow execution of MCP tool "q3_noop" from server "q3-lab"?
+
+   › 1. Yes, allow once
+     2. Switch to Default Mode and allow once (recommended)
+     3. No, suggest changes (esc)
+
+
+  ⠏ Waiting for user confirmation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+

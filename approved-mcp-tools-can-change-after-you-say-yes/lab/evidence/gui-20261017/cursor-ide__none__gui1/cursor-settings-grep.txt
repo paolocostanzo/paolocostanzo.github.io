@@ -1,0 +1,5 @@
+History
+globalStorage
+settings.json
+snippets
+workspaceStorage

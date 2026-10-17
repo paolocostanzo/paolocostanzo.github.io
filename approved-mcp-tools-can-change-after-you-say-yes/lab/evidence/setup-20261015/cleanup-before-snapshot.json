@@ -1,0 +1,18 @@
+{
+  "dry_run": false,
+  "changes": [
+    "history removed: .cursor/chats/2aeb26bdb0032deda23521d8b43e3b06",
+    "history removed: .cursor/projects/home-lab-q3-repo/agent-transcripts",
+    "history removed: .cursor/projects/home-lab-q3-repo/worker.log",
+    "history removed: .codex/sessions/2026/10/15",
+    "history removed: .qwen/projects/-home-lab-q3-repo",
+    "history removed: .qwen/tmp/3e5027da545753bd7d4fba7129c6e8c5216a6c93091b1365930a53b25f42c9e2",
+    "history removed: .gemini/tmp/q3-repo",
+    "history removed: .gemini/history/q3-repo",
+    "history removed: .local/state/goose/logs",
+    "history removed: .claude/projects/-home-lab-q3-repo",
+    "q3-server.log: emptied",
+    "q3-setup/: removed (set-up outputs, already copied to the host)",
+    "q3-control.json: reset to state A"
+  ]
+}

@@ -1,0 +1,485 @@
+{
+  "author_vs_llm (preregistered kappa)": {
+    "n": 60,
+    "agreement": 0.23333333333333334,
+    "kappa": 0.11538461538461539,
+    "disagreements": [
+      {
+        "id": "P001",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P002",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P003",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P004",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P006",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P008",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P009",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P010",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P013",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P014",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P015",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P017",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P019",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P020",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P022",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P023",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P025",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P026",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P027",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P029",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P030",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P031",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P032",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P033",
+        "first": "stale",
+        "second": "notified"
+      },
+      {
+        "id": "P034",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P036",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P037",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P039",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P041",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P042",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P043",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P044",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P045",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P046",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P047",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P048",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P049",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P050",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P053",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P054",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P055",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P056",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P057",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P058",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P059",
+        "first": "stale",
+        "second": "silent-accept"
+      },
+      {
+        "id": "P060",
+        "first": "stale",
+        "second": "silent-accept"
+      }
+    ],
+    "excluded": []
+  },
+  "author_vs_rule": {
+    "n": 60,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "disagreements": [],
+    "excluded": []
+  },
+  "llm_vs_rule": {
+    "n": 60,
+    "agreement": 0.23333333333333334,
+    "kappa": 0.11538461538461539,
+    "disagreements": [
+      {
+        "id": "P001",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P002",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P003",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P004",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P006",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P008",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P009",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P010",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P013",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P014",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P015",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P017",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P019",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P020",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P022",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P023",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P025",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P026",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P027",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P029",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P030",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P031",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P032",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P033",
+        "first": "notified",
+        "second": "stale"
+      },
+      {
+        "id": "P034",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P036",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P037",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P039",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P041",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P042",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P043",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P044",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P045",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P046",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P047",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P048",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P049",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P050",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P053",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P054",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P055",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P056",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P057",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P058",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P059",
+        "first": "silent-accept",
+        "second": "stale"
+      },
+      {
+        "id": "P060",
+        "first": "silent-accept",
+        "second": "stale"
+      }
+    ],
+    "excluded": []
+  }
+}

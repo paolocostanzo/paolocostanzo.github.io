@@ -1,0 +1,369 @@
+{
+  "model": "qwen3.8:27b-q8_0",
+  "digest": "8f5fb6b71ea00052cbe8545738c55ce61112c4e571cb60ca4dad00b131766039",
+  "seed": 20261015,
+  "temperature": 0,
+  "host": "http://127.0.0.1:11434",
+  "answers": [
+    {
+      "id": "P001",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification or permission prompt was displayed to the user.\"}",
+      "eval_count": 551,
+      "total_duration": 113038210674
+    },
+    {
+      "id": "P002",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single tool call succeeded, and no notification or permission prompt was shown to the user after the change.\"}",
+      "eval_count": 642,
+      "total_duration": 27975485859
+    },
+    {
+      "id": "P003",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single call succeeded, and no notification or permission prompt was shown to the user.\"}",
+      "eval_count": 677,
+      "total_duration": 29478009830
+    },
+    {
+      "id": "P004",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 565,
+      "total_duration": 24934941974
+    },
+    {
+      "id": "P005",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The client displayed '\u2139 Tools updated for server: q3-lab' after the change without asking for permission again, and the call succeeded with definition B.\"}",
+      "eval_count": 526,
+      "total_duration": 23357582160
+    },
+    {
+      "id": "P006",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single call succeeded, and no notification or permission prompt was shown to the user after the change.\"}",
+      "eval_count": 688,
+      "total_duration": 29767867579
+    },
+    {
+      "id": "P007",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification or permission prompt was shown to the client.\"}",
+      "eval_count": 556,
+      "total_duration": 24132144075
+    },
+    {
+      "id": "P008",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 563,
+      "total_duration": 24409892457
+    },
+    {
+      "id": "P009",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful q3_noop call, no tools/list was re-served, no permission prompt or change notification appeared on screen, and the call simply succeeded with 'ok'.\"}",
+      "eval_count": 506,
+      "total_duration": 22008691435
+    },
+    {
+      "id": "P010",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or error was shown to the client.\"}",
+      "eval_count": 605,
+      "total_duration": 26234105372
+    },
+    {
+      "id": "P011",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification or permission prompt about the tool change appeared on screen.\"}",
+      "eval_count": 595,
+      "total_duration": 35763241412
+    },
+    {
+      "id": "P012",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The client displayed '\u2139 Tools updated for server: q3-lab' after the change without requesting permission again, matching rule 3.\"}",
+      "eval_count": 456,
+      "total_duration": 26411886807
+    },
+    {
+      "id": "P013",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single tool call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 500,
+      "total_duration": 22066513014
+    },
+    {
+      "id": "P014",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 499,
+      "total_duration": 22020529716
+    },
+    {
+      "id": "P015",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, with no notification, permission prompt, or change signal shown to the client.\"}",
+      "eval_count": 556,
+      "total_duration": 24425566369
+    },
+    {
+      "id": "P016",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification or permission prompt about the change appeared on screen.\"}",
+      "eval_count": 546,
+      "total_duration": 23844803355
+    },
+    {
+      "id": "P017",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no notification of the tool change was shown to the user and no permission was re-requested.\"}",
+      "eval_count": 588,
+      "total_duration": 25719075904
+    },
+    {
+      "id": "P018",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The client displayed '\u2139 Tools updated for server: q3-lab' after the change without requesting re-approval, and the tool call succeeded with definition B.\"}",
+      "eval_count": 464,
+      "total_duration": 20714191561
+    },
+    {
+      "id": "P019",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 565,
+      "total_duration": 24799090273
+    },
+    {
+      "id": "P020",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the single call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 646,
+      "total_duration": 27995010214
+    },
+    {
+      "id": "P021",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown to the user.\"}",
+      "eval_count": 534,
+      "total_duration": 28445135958
+    },
+    {
+      "id": "P022",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 536,
+      "total_duration": 28985194984
+    },
+    {
+      "id": "P023",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no on-screen message about the tool change was displayed (the only warnings relate to the 5h usage limit).\"}",
+      "eval_count": 799,
+      "total_duration": 46778149677
+    },
+    {
+      "id": "P024",
+      "content": "{\"outcome\": \"stale\", \"reason\": \"The call succeeded with definition B in force on the server, but tools/list was never served after the change, meaning the client never re-fetched the tool list and was still operating from its cached definition A.\"}",
+      "eval_count": 1711,
+      "total_duration": 73339973383
+    },
+    {
+      "id": "P025",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call, no tools/list was re-served, no permission question or change notification appeared on screen, and the client simply executed the tool and displayed the result.\"}",
+      "eval_count": 477,
+      "total_duration": 21023326555
+    },
+    {
+      "id": "P026",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded with no notification, permission prompt, or other visible indication to the client.\"}",
+      "eval_count": 551,
+      "total_duration": 24169021259
+    },
+    {
+      "id": "P027",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call after the change, no tools/list was re-served, no permission question or change notification appeared on screen, and the call simply succeeded.\"}",
+      "eval_count": 563,
+      "total_duration": 24590194052
+    },
+    {
+      "id": "P028",
+      "content": "{\"outcome\": \"stale\", \"reason\": \"The call succeeded with definition B in force on the server, but the client never re-fetched the tool list after the change (tools/list served: none), so it was still operating on the cached definition A.\"}",
+      "eval_count": 3019,
+      "total_duration": 153034568594
+    },
+    {
+      "id": "P029",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, with no tools/list re-fetch, no permission prompt, no change signal, and no notification shown to the user.\"}",
+      "eval_count": 505,
+      "total_duration": 22382901209
+    },
+    {
+      "id": "P030",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call, no tools/list was served, no permission was requested, and no change notification was shown to the user.\"}",
+      "eval_count": 494,
+      "total_duration": 21819359446
+    },
+    {
+      "id": "P031",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 551,
+      "total_duration": 24255187355
+    },
+    {
+      "id": "P032",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 530,
+      "total_duration": 23482812491
+    },
+    {
+      "id": "P033",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The list_changed signal was delivered and the client displayed 'Explored available MCP tools q3-lab \u00b7 q3_noop' acknowledging the tool refresh, with no permission re-ask and a successful call under definition B.\"}",
+      "eval_count": 1529,
+      "total_duration": 110019649628
+    },
+    {
+      "id": "P034",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no notification of the tool change or permission prompt was shown to the client.\"}",
+      "eval_count": 807,
+      "total_duration": 44267506713
+    },
+    {
+      "id": "P035",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The client displayed '\u2139 Tools updated for server: q3-lab' after the change without requesting re-approval, and the tool call succeeded with definition B.\"}",
+      "eval_count": 439,
+      "total_duration": 19688772251
+    },
+    {
+      "id": "P036",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 529,
+      "total_duration": 23362504187
+    },
+    {
+      "id": "P037",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no change notification was delivered and no permission prompt appeared, so the client silently accepted the new definition.\"}",
+      "eval_count": 557,
+      "total_duration": 24399621592
+    },
+    {
+      "id": "P038",
+      "content": "{\"outcome\": \"notified\", \"reason\": \"The client displayed '\u2139 Tools updated for server: q3-lab' after the change without asking for permission again, and the tool call succeeded with definition B.\"}",
+      "eval_count": 534,
+      "total_duration": 23668598103
+    },
+    {
+      "id": "P039",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call, no tools/list was re-served, no change notification or permission prompt appeared on screen, and the call simply succeeded with no visible indication of the tool change.\"}",
+      "eval_count": 549,
+      "total_duration": 24101945321
+    },
+    {
+      "id": "P040",
+      "content": "{\"outcome\": \"stale\", \"reason\": \"The call succeeded with definition B in force on the server, but the client never re-fetched the tool list after the change (tools/list served: none), so it was still operating with the old definition A.\"}",
+      "eval_count": 1865,
+      "total_duration": 84714509290
+    },
+    {
+      "id": "P041",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no change notification was delivered and no permission prompt appeared, so the client silently accepted the new definition.\"}",
+      "eval_count": 558,
+      "total_duration": 39551474270
+    },
+    {
+      "id": "P042",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or error was shown to the client.\"}",
+      "eval_count": 553,
+      "total_duration": 34144049241
+    },
+    {
+      "id": "P043",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown to the client after the change.\"}",
+      "eval_count": 496,
+      "total_duration": 21726289661
+    },
+    {
+      "id": "P044",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no tools/list was served, no change notification was delivered, and no permission prompt appeared, so the client silently accepted the new definition.\"}",
+      "eval_count": 558,
+      "total_duration": 24384591020
+    },
+    {
+      "id": "P045",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call, no tools/list was re-served, no change notification or permission prompt appeared on screen, and the call simply succeeded with 'ok'.\"}",
+      "eval_count": 549,
+      "total_duration": 24083065209
+    },
+    {
+      "id": "P046",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no notification, permission prompt, or error was shown to the client.\"}",
+      "eval_count": 562,
+      "total_duration": 24776213301
+    },
+    {
+      "id": "P047",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, with no tools/list served, no permission question, and no change notification shown on screen.\"}",
+      "eval_count": 582,
+      "total_duration": 37959098399
+    },
+    {
+      "id": "P048",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, with no tools/list refresh, no permission prompt, and no change notification shown on screen.\"}",
+      "eval_count": 590,
+      "total_duration": 30917924364
+    },
+    {
+      "id": "P049",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call after the change, no tools/list was re-served, no change signal or permission prompt appeared, and the screens show only a normal tool call with no visible notification of the change.\"}",
+      "eval_count": 557,
+      "total_duration": 24241693674
+    },
+    {
+      "id": "P050",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 565,
+      "total_duration": 24792345567
+    },
+    {
+      "id": "P051",
+      "content": "{\"outcome\": \"stale\", \"reason\": \"The call succeeded with definition B in force on the server, but tools/list was never served after the change, meaning the client never received the updated schema and was still operating with definition A.\"}",
+      "eval_count": 2047,
+      "total_duration": 87166294345
+    },
+    {
+      "id": "P052",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown on screen.\"}",
+      "eval_count": 541,
+      "total_duration": 23754588146
+    },
+    {
+      "id": "P053",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown to the client.\"}",
+      "eval_count": 493,
+      "total_duration": 21897394625
+    },
+    {
+      "id": "P054",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the tool call succeeded, and no notification or permission prompt was shown to the user.\"}",
+      "eval_count": 494,
+      "total_duration": 22088820956
+    },
+    {
+      "id": "P055",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown to the user.\"}",
+      "eval_count": 703,
+      "total_duration": 30614338684
+    },
+    {
+      "id": "P056",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification or permission prompt was shown to the client.\"}",
+      "eval_count": 490,
+      "total_duration": 21676831068
+    },
+    {
+      "id": "P057",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B and the call succeeded, but no notification of the tool change was displayed on screen and no permission prompt appeared.\"}",
+      "eval_count": 596,
+      "total_duration": 26228095399
+    },
+    {
+      "id": "P058",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful q3_noop call after the change, no tools/list was re-served, no permission prompt or change notification appeared on screen, and the call simply succeeded with no visible indication of the tool definition change.\"}",
+      "eval_count": 549,
+      "total_duration": 35414160807
+    },
+    {
+      "id": "P059",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B, the call succeeded, and no notification, permission prompt, or change signal was shown to the client.\"}",
+      "eval_count": 503,
+      "total_duration": 28335953253
+    },
+    {
+      "id": "P060",
+      "content": "{\"outcome\": \"silent-accept\", \"reason\": \"The server served definition B for the successful call, no tools/list was re-served, no change notification or permission prompt appeared on screen, and the call simply succeeded with 'ok'.\"}",
+      "eval_count": 549,
+      "total_duration": 24285178076
+    }
+  ]
+}

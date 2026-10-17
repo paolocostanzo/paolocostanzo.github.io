@@ -1,0 +1,61 @@
+id,outcome,reason,valid
+P001,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P002,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P003,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P004,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P005,notified,The client showed “Tools updated for server: q3-lab” without asking for permission again.,True
+P006,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P007,silent-accept,"The server served definition B after the change and a call succeeded using B, with no permission question or tools-changed message shown.",True
+P008,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P009,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P010,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P011,silent-accept,"The server served definition B and the call succeeded, with no permission request or tool-change message shown.",True
+P012,notified,The client displayed “Tools updated for server: q3-lab” without asking for permission again.,True
+P013,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P014,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P015,stale,"The call succeeded, but the client never requested the tool list after the change, so it still used definition A despite B being in force on the server.",True
+P016,silent-accept,"The server served definition B after the change and the call succeeded, with no permission request or tool-change message shown.",True
+P017,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P018,notified,The client displayed “Tools updated for server: q3-lab” without asking for permission again.,True
+P019,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P020,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P021,silent-accept,"The server served definition B after the change and the call succeeded, with no permission request or tool-change notification shown.",True
+P022,stale,"The call succeeded, but the client never requested the tool list again after the change and was still using definition A.",True
+P023,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P024,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P025,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P026,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P027,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P028,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P029,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P030,stale,"The call succeeded, but the client never requested the tool list again after the change and was still using definition A.",True
+P031,stale,"The call succeeded, but the client never requested the tool list after the change, so it still used definition A.",True
+P032,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P033,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P034,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P035,notified,The client displayed “Tools updated for server: q3-lab” without asking for permission again.,True
+P036,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P037,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P038,notified,The client displayed “Tools updated for server: q3-lab” without asking for permission again.,True
+P039,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P040,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P041,stale,"The call succeeded, but the client never requested the tool list again after the change, so definition B was not served to the client.",True
+P042,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P043,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P044,stale,"The call succeeded, but the client never requested the tool list after the change and showed no notification or permission question.",True
+P045,stale,"The call succeeded, but the client never requested the tool list after the change, so definition B being in force does not establish that it was served to the client.",True
+P046,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P047,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True
+P048,stale,"The call succeeded, but the client never requested the tool list after the change, so it was still using definition A.",True
+P049,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P050,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P051,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P052,silent-accept,"The server served definition B and the call succeeded, with no permission question or tools-changed message shown.",True
+P053,stale,"The call succeeded, but the client never requested the tool list after the change and showed no notification or permission request.",True
+P054,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P055,stale,"The call succeeded, but the client never requested the tool list after the change and showed no change notification or permission request.",True
+P056,stale,"The call succeeded, but the client never requested the tool list after the change, so definition B was not served to the client.",True
+P057,stale,"The call succeeded, but the client never requested the tool list after the change, so it still used definition A despite the server executing B.",True
+P058,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P059,stale,"The call succeeded, but the client never requested the tool list again after the change.",True
+P060,stale,"The call succeeded, but the client never requested the tool list again after the change, so it was still using definition A.",True

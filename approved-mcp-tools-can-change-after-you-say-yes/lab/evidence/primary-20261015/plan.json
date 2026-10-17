@@ -1,0 +1,308 @@
+{
+  "created": "2026-10-15T15:52:54+00:00",
+  "snapshot": "q3-base-20261015",
+  "seed": 20261015,
+  "change": "description",
+  "cells": [
+    {
+      "rep": 1,
+      "client": "gemini",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "goose",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 1,
+      "client": "gemini",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 1,
+      "client": "cursor-agent",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "rep": 1,
+      "client": "cursor-agent",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 1,
+      "client": "qwen",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 1,
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 1,
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "rep": 2,
+      "client": "cursor-agent",
+      "signal": "none"
+    },
+    {
+      "rep": 2,
+      "client": "goose",
+      "signal": "none"
+    },
+    {
+      "rep": 2,
+      "client": "gemini",
+      "signal": "none"
+    },
+    {
+      "rep": 2,
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "rep": 2,
+      "client": "gemini",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "qwen",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "cursor-agent",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 2,
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "cursor-agent",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 3,
+      "client": "qwen",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 3,
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "cursor-agent",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "goose",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 3,
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "gemini",
+      "signal": "none"
+    },
+    {
+      "rep": 3,
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 3,
+      "client": "gemini",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 3,
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "gemini",
+      "signal": "none"
+    },
+    {
+      "rep": 4,
+      "client": "goose",
+      "signal": "none"
+    },
+    {
+      "rep": 4,
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "gemini",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "cursor-agent",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "cursor-agent",
+      "signal": "none"
+    },
+    {
+      "rep": 4,
+      "client": "qwen",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 4,
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "rep": 4,
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "rep": 4,
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "gemini",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 5,
+      "client": "goose",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 5,
+      "client": "gemini",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "cursor-agent",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 5,
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 5,
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "rep": 5,
+      "client": "cursor-agent",
+      "signal": "none"
+    },
+    {
+      "rep": 5,
+      "client": "qwen",
+      "signal": "list_changed"
+    }
+  ]
+}

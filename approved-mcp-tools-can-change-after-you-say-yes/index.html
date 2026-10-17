@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index,follow"/>
+  <title
+    data-it="Hai approvato il tool. Poi è cambiato."
+    data-en="You approved the tool. Then it changed."
+  >You approved the tool. Then it changed.</title>
+  <meta name="description"
+    data-it="Abbiamo cambiato ciò che dice un tool MCP già approvato in otto agenti di programmazione con AI, tra cui Claude Code, Codex CLI, Gemini CLI, Cursor e VS Code. Nessuno ha chiesto di nuovo il permesso: l'approvazione segue il nome del tool, non la sua descrizione."
+    data-en="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description."
+    content="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Barlow:wght@300;400;600;700&amp;family=Barlow+Condensed:wght@700;900&amp;display=swap" rel="stylesheet"/>
+
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
+  <meta property="og:title" content="You approved the tool. Then it changed."/>
+  <meta property="og:description" data-it="Abbiamo cambiato ciò che dice un tool MCP già approvato in otto agenti di programmazione con AI, tra cui Claude Code, Codex CLI, Gemini CLI, Cursor e VS Code. Nessuno ha chiesto di nuovo il permesso: l'approvazione segue il nome del tool, non la sua descrizione." data-en="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description." content="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/og.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/og.png"/>
+  <meta name="twitter:title" content="You approved the tool. Then it changed."/>
+  <meta name="twitter:description" data-it="Abbiamo cambiato ciò che dice un tool MCP già approvato in otto agenti di programmazione con AI, tra cui Claude Code, Codex CLI, Gemini CLI, Cursor e VS Code. Nessuno ha chiesto di nuovo il permesso: l'approvazione segue il nome del tool, non la sua descrizione." data-en="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description." content="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description."/>
+
+  <meta property="article:published_time" content="2026-10-20T08:00:00+02:00"/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "You approved the tool. Then it changed.",
+  "image": "https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/og.png",
+  "description": "We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description.",
+  "inLanguage": "en",
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://www.paolocostanzo.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/"
+  },
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Outside the Prompt"
+  },
+  "position": 3,
+  "keywords": "AI agents, agentic AI, AI security, MCP, Model Context Protocol, coding agents, tool approval, rug pull, tools/list_changed, Claude Code, Codex CLI, Gemini CLI, Cursor, Qwen Code, VS Code, Goose, reproducible lab",
+  "isAccessibleForFree": true
+}
+  </script>
+
+  <style>
+    :root{
+      --orange:#ff6a00;
+      --orange-faint:rgba(255,106,0,.06);
+      --black:#080808;
+      --surface:#101010;
+      --surface2:#161616;
+      --border:#242424;
+      --text:#e8e8e8;
+      --muted:#777;
+      --green:#00ff88;
+      --red:#ff5555;
+      --yellow:#ffaa00;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .back-link{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:.65rem;padding:.3rem .6rem;background:transparent;color:var(--muted);border:0;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    .draft-ribbon{background:rgba(255,170,0,.08);border-bottom:1px solid rgba(255,170,0,.25);color:var(--yellow);font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-align:center;padding:.55rem 1rem;text-transform:uppercase}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--orange);padding:.2rem .6rem}
+    .meta-item{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+    .difficulty-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+    .auth-wrap{display:flex;align-items:center;gap:.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+    h1{font-family:var(--condensed);font-size:clamp(2.2rem,5vw,3.7rem);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.03;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.12rem;color:#aaa;max-width:790px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);margin:3.4rem 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 .75rem}
+    .article-body h4{font-family:var(--mono);font-size:.95rem;font-weight:400;color:var(--text);letter-spacing:.02em;margin:1.6rem 0 .5rem}
+    .article-body h4 a{color:var(--text);border-bottom:1px solid #444}
+    .timeline-fig figcaption{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:.6rem;line-height:1.6}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body p a,.article-body li a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .article-body p a:hover,.article-body li a:hover{border-bottom-color:var(--orange)}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:#999}
+    .article-body ul,.article-body ol{margin:1rem 0 1.35rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:.45rem}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:.7rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.55rem}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .plain-card{background:var(--surface);padding:1.25rem}
+    .plain-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+    .plain-card p{font-size:.9rem;color:#bbb;line-height:1.65;margin:0}
+    .plain-boundary{font-size:.86rem!important;color:var(--muted)!important;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.25rem;margin-bottom:0!important}
+    .callout,.callout-red,.callout-green,.callout-draft{padding:1.25rem 1.5rem;margin:2rem 0;border-left:3px solid var(--orange);background:var(--orange-faint);border-top:1px solid rgba(255,106,0,.2);border-right:1px solid rgba(255,106,0,.2);border-bottom:1px solid rgba(255,106,0,.2)}
+    .callout-red{border-left-color:var(--red);background:rgba(255,85,85,.04);border-color:rgba(255,85,85,.2)}
+    .callout-green{border-left-color:var(--green);background:rgba(0,255,136,.03);border-color:rgba(0,255,136,.17)}
+    .callout-draft{border-left-color:var(--yellow);background:rgba(255,170,0,.04);border-color:rgba(255,170,0,.22)}
+    .callout-label{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+    .callout-red .callout-label{color:var(--red)}
+    .callout-green .callout-label{color:var(--green)}
+    .callout-draft .callout-label{color:var(--yellow)}
+    .callout p,.callout-red p,.callout-green p,.callout-draft p{font-size:.92rem;color:var(--text);margin:0}
+    .gif-wrap{margin:2rem auto;max-width:420px;text-align:center}
+    .gif-wrap img{max-width:100%;height:auto;border:1px solid var(--border);display:block;margin:0 auto;border-radius:2px;filter:saturate(0.85) brightness(0.92)}
+    .gif-wrap figcaption{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.6rem;line-height:1.5}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.4rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:.78rem;color:#bbb;line-height:1.75;white-space:pre}
+    .comment{color:var(--muted)}.danger{color:var(--red)}.ok{color:var(--green)}.warn{color:var(--yellow)}.accent{color:var(--orange)}
+    .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center;margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border)}
+    .flow-box{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--text);border:1px solid #333;padding:1rem;text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .flow-arrow{font-family:var(--mono);color:var(--orange)}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:.76rem}
+    th{text-align:left;color:var(--orange);padding:.7rem .75rem;border-bottom:1px solid var(--border);letter-spacing:.08em;text-transform:uppercase;vertical-align:bottom}
+    td{padding:.7rem .75rem;border-bottom:1px solid #1b1b1b;color:#bbb;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    td strong{color:var(--text)}
+    td:first-child{white-space:nowrap}
+    .table-hint{display:none}
+    .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .evidence-card{background:var(--surface);padding:1.25rem}
+    .evidence-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+    .evidence-card p{font-size:.9rem;margin:0;color:#aaa}
+    .checklist{list-style:none!important;margin-left:0!important}
+    .checklist li{position:relative;padding-left:1.7rem}
+    .checklist li::before{content:'□';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .checklist.done li::before{content:'✓';color:var(--green)}
+    .source-list{counter-reset:source;list-style:none!important;margin-left:0!important}
+    .source-list li{counter-increment:source;padding-left:2.3rem;position:relative;margin-bottom:.8rem}
+    .source-list li::before{content:'[' counter(source,decimal-leading-zero) ']';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .source-list a{color:#ddd;border-bottom:1px solid #444}
+    .source-list a:hover{color:var(--orange);border-color:var(--orange)}
+    .source-list a{overflow-wrap:anywhere}
+    .shot{margin:1.75rem 0}
+    .shot img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:2px}
+    .shot figcaption{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.04em;margin-top:.6rem;line-height:1.6}
+    .article-body p code,.article-body li code,.article-body td code,.article-body h3 code{font-family:var(--mono);font-size:.86em;color:var(--text);background:#161616;border:1px solid var(--border);padding:.05em .35em;border-radius:2px;overflow-wrap:anywhere}
+    .callout-green p a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .ab-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+    .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin-top:.5rem;line-height:1}
+    .ab-role{font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:.45rem;line-height:1.6}
+    .ab-bio{font-size:.9rem;color:var(--muted);line-height:1.65;margin-top:.9rem}
+    .ab-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+    .ab-links a{font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.4rem .8rem;letter-spacing:.08em;transition:border-color .2s,color .2s}
+    .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+    .footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.45rem .7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    @media(max-width:760px){
+      .header-inner,.article-header,.article-body{padding-left:1.25rem;padding-right:1.25rem}
+      h1{font-size:2.15rem}
+      .logo{display:none}
+      .flow{grid-template-columns:1fr;gap:.5rem}
+      .flow-arrow{transform:rotate(90deg);text-align:center}
+      .plain-grid{grid-template-columns:1fr}
+      .evidence-grid{grid-template-columns:1fr}
+      table{display:block;overflow-x:auto;white-space:normal}
+      table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
+      .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle" aria-label="Language selector">
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Agentic AI</span>
+      <span class="tag">AI Security</span>
+      <span class="tag">MCP Security</span>
+      <span class="tag">AppSec</span>
+      <span class="meta-item" data-it="20 Ott 2026" data-en="20 Oct 2026">20 Oct 2026</span>
+      <span class="meta-item" data-it="15 min di lettura" data-en="15 min read">15 min read</span>
+      <span class="difficulty-badge" style="color:#ffaa00"><span class="dot" style="background:#ffaa00"></span><span data-it="Medium" data-en="Medium">Medium</span></span>
+      <span class="difficulty-badge" style="color:#00ff88"><span class="dot" style="background:#00ff88"></span><span data-it="Lab riproducibile · 57/57 test" data-en="Reproducible lab · 57/57 tests">Reproducible lab · 57/57 tests</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar" aria-hidden="true"><div class="auth-human" style="width:50%"></div></div>
+        <span class="auth-lbl" data-it="50% umano · 50% AI" data-en="50% human · 50% AI">50% human · 50% AI</span>
+      </div>
+    </div>
+
+    <h1
+      data-it="Hai approvato il tool. Poi è cambiato."
+      data-en="You approved the tool. Then it changed."
+    >You approved the tool. Then it changed.</h1>
+
+    <p class="article-intro"
+       data-it="Abbiamo cambiato ciò che dice un tool MCP già approvato in otto agenti di programmazione con AI, tra cui Claude Code, Codex CLI, Gemini CLI, Cursor e VS Code. Nessuno ha chiesto di nuovo il permesso: l'approvazione segue il nome del tool, non la sua descrizione."
+       data-en="We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description."
+    >We changed what an approved MCP tool says in eight AI coding agents, including Claude Code, Codex CLI, Gemini CLI, Cursor and VS Code. None asked for permission again: approvals follow the tool's name, not its description.</p>
+  </div>
+
+  <main class="article-body">
+    <!-- BLOG SIGNATURE: keep the TL;DR as the first article-body block. -->
+    <section class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul>
+        <li data-it="Abbiamo cambiato ciò che dice un tool MCP già approvato. &lt;strong&gt;Nessuno degli otto client di programmazione con AI che abbiamo misurato ha chiesto di nuovo il permesso a causa del cambio.&lt;/strong&gt;"
+          data-en="We changed what an approved MCP tool says. &lt;strong&gt;None of the eight AI coding clients we measured asked for permission again because of the change.&lt;/strong&gt;">We changed what an approved MCP tool says. <strong>None of the eight AI coding clients we measured asked for permission again because of the change.</strong></li>
+        <li data-it="Quattro client non chiedono nulla nemmeno la prima volta con le impostazioni predefinite: Claude Code, Goose e Qwen Code, più Cursor IDE con le impostazioni della nostra macchina di test."
+          data-en="Four clients ask nothing even the first time in their default setup: Claude Code, Goose and Qwen Code, plus Cursor IDE with the settings of our test machine.">Four clients ask nothing even the first time in their default setup: Claude Code, Goose and Qwen Code, plus Cursor IDE with the settings of our test machine.</li>
+        <li data-it="Quando il server ha annunciato il cambio, Claude Code, VS Code e Cursor IDE hanno letto la nuova descrizione in pochi millisecondi e sono andati avanti senza mostrare nulla; Gemini CLI ha mostrato una riga. Codex CLI, Cursor CLI e Qwen Code hanno ignorato la notifica fino al riavvio; Goose non può riceverla."
+          data-en="When the server announced the change, Claude Code, VS Code and Cursor IDE fetched the new description within milliseconds and carried on showing nothing; Gemini CLI showed one line. Codex CLI, Cursor CLI and Qwen Code ignored the notification until restarted; Goose cannot receive it.">When the server announced the change, Claude Code, VS Code and Cursor IDE fetched the new description within milliseconds and carried on showing nothing; Gemini CLI showed one line. Codex CLI, Cursor CLI and Qwen Code ignored the notification until restarted; Goose cannot receive it.</li>
+        <li data-it="Dopo il riavvio, ogni client che abbiamo potuto osservare ha preso la nuova descrizione senza domande; Gemini CLI ha chiesto di nuovo solo perché la sua approvazione valeva per la sessione."
+          data-en="After a restart, every client we could observe took the new description without a question; Gemini CLI asked again only because its approval was for the session.">After a restart, every client we could observe took the new description without a question; Gemini CLI asked again only because its approval was for the session.</li>
+        <li data-it="La sezione [05] contiene uno script in sola lettura che elenca i tool che hai approvato in modo permanente; la sezione [08] il lab: server, runner, prove e 57 test."
+          data-en="Section [05] has a read-only script that lists the tools you approved permanently; section [08] has the lab: server, runner, evidence and 57 tests.">Section [05] has a read-only script that lists the tools you approved permanently; section [08] has the lab: server, runner, evidence and 57 tests.</li>
+        <li data-it="Parte 3 di 4 della serie &lt;em&gt;Outside the Prompt&lt;/em&gt;. Parte 4, il 27 ottobre: che cosa vede chi difende, e se i server MCP ufficiali proteggono ogni tool."
+          data-en="Part 3 of 4 of the &lt;em&gt;Outside the Prompt&lt;/em&gt; series. Part 4, on 27 October: what a defender can see, and whether official MCP servers protect every tool.">Part 3 of 4 of the <em>Outside the Prompt</em> series. Part 4, on 27 October: what a defender can see, and whether official MCP servers protect every tool.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[00] Prima il risultato" data-en="[00] Result first">[00] Result first</h2>
+      <p data-it="Abbiamo approvato un tool MCP innocuo in otto client di programmazione con AI. Poi abbiamo cambiato la descrizione del tool sul server e abbiamo chiesto a ogni client di chiamarlo di nuovo. I sei client da terminale hanno girato 60 volte, ogni volta da uno snapshot pulito di una macchina virtuale, sulle versioni del 15 ottobre 2026. I due editor li abbiamo provati a mano il 17 ottobre."
+        data-en="We approved a harmless MCP tool in eight AI coding clients. Then we changed the tool's description on the server and asked each client to call it again. The six terminal clients ran 60 times, each run from a clean virtual-machine snapshot, on the releases of 15 October 2026. The two editors were run by hand on 17 October.">We approved a harmless MCP tool in eight AI coding clients. Then we changed the tool's description on the server and asked each client to call it again. The six terminal clients ran 60 times, each run from a clean virtual-machine snapshot, on the releases of 15 October 2026. The two editors were run by hand on 17 October.</p>
+      <ul>
+        <li data-it="&lt;strong&gt;Nessun client ha chiesto di nuovo il permesso perché il tool era cambiato.&lt;/strong&gt; Nessuno degli otto, in nessuna esecuzione."
+          data-en="&lt;strong&gt;No client asked for permission again because the tool had changed.&lt;/strong&gt; Not one of the eight, in any run."><strong>No client asked for permission again because the tool had changed.</strong> Not one of the eight, in any run.</li>
+        <li data-it="&lt;strong&gt;Quattro client non chiedono nulla nemmeno la prima volta&lt;/strong&gt; con le impostazioni predefinite: Claude Code, Goose e Qwen Code, più Cursor IDE con le impostazioni della nostra macchina di test. Per loro l'approvazione non entra mai in gioco."
+          data-en="&lt;strong&gt;Four clients ask nothing even the first time&lt;/strong&gt; in their default setup: Claude Code, Goose and Qwen Code, plus Cursor IDE with the settings in our test machine. For them, an approval never enters the picture."><strong>Four clients ask nothing even the first time</strong> in their default setup: Claude Code, Goose and Qwen Code, plus Cursor IDE with the settings in our test machine. For them, an approval never enters the picture.</li>
+        <li data-it="&lt;strong&gt;Quando il server ha annunciato il cambio&lt;/strong&gt; con la notifica prevista dal protocollo:&lt;ul&gt;&lt;li&gt;Claude Code, VS Code con Copilot e Cursor IDE hanno letto la nuova descrizione entro 4–7 millisecondi e hanno completato la chiamata successiva senza un'altra domanda e senza mostrare nulla;&lt;/li&gt;&lt;li&gt;anche Gemini CLI l'ha letta, ha mostrato una riga, &quot;Tools updated for server&quot;, e ha completato la chiamata senza chiedere;&lt;/li&gt;&lt;li&gt;Codex CLI, Cursor CLI e Qwen Code hanno ricevuto la notifica e l'hanno ignorata, quindi hanno tenuto la vecchia descrizione fino al riavvio;&lt;/li&gt;&lt;li&gt;Goose non si iscrive mai alle notifiche di cambio, quindi non poteva riceverne.&lt;/li&gt;&lt;/ul&gt;"
+          data-en="&lt;strong&gt;When the server announced the change&lt;/strong&gt; with the protocol's notification:&lt;ul&gt;&lt;li&gt;Claude Code, VS Code with Copilot and Cursor IDE fetched the new description within 4–7 milliseconds and completed the next call without another prompt, showing nothing;&lt;/li&gt;&lt;li&gt;Gemini CLI fetched it too, showed one line, &quot;Tools updated for server&quot;, and completed the call without asking;&lt;/li&gt;&lt;li&gt;Codex CLI, Cursor CLI and Qwen Code received the notification and ignored it, so they kept the old description until restarted;&lt;/li&gt;&lt;li&gt;Goose never subscribes to change notifications, so it could not receive one.&lt;/li&gt;&lt;/ul&gt;"><strong>When the server announced the change</strong> with the protocol's notification:<ul><li>Claude Code, VS Code with Copilot and Cursor IDE fetched the new description within 4–7 milliseconds and completed the next call without another prompt, showing nothing;</li><li>Gemini CLI fetched it too, showed one line, "Tools updated for server", and completed the call without asking;</li><li>Codex CLI, Cursor CLI and Qwen Code received the notification and ignored it, so they kept the old description until restarted;</li><li>Goose never subscribes to change notifications, so it could not receive one.</li></ul></li>
+        <li data-it="&lt;strong&gt;Quando il server ha cambiato il tool senza dirlo&lt;/strong&gt;, ogni client ha continuato a usare la vecchia descrizione fino al riavvio."
+          data-en="&lt;strong&gt;When the server changed the tool silently&lt;/strong&gt;, every client kept using the old description until it was restarted."><strong>When the server changed the tool silently</strong>, every client kept using the old description until it was restarted.</li>
+        <li data-it="&lt;strong&gt;Dopo il riavvio, ogni client che abbiamo potuto osservare ha letto la nuova descrizione e ha completato la chiamata senza chiedere.&lt;/strong&gt; L'eccezione è Gemini CLI, che ha chiesto di nuovo perché la sua approvazione valeva per una sola sessione. VS Code dopo il run con la notifica non si è potuto osservare (vedi [07])."
+          data-en="&lt;strong&gt;After a restart, every client we could observe fetched the new description and completed the call without asking.&lt;/strong&gt; Gemini CLI was the exception: it asked again, because its approval had lasted for one session only. VS Code after the notification run could not be observed (see [07])."><strong>After a restart, every client we could observe fetched the new description and completed the call without asking.</strong> Gemini CLI was the exception: it asked again, because its approval had lasted for one session only. VS Code after the notification run could not be observed (see [07]).</li>
+      </ul>
+      <p data-it="In questi client l'approvazione è legata al &lt;strong&gt;nome&lt;/strong&gt; del tool, non a ciò che il tool dice di fare. Il nome resta lo stesso, l'approvazione resta valida."
+        data-en="In these clients an approval is attached to a tool's &lt;strong&gt;name&lt;/strong&gt;, not to what the tool says it does. The name stays the same; the approval stays valid.">In these clients an approval is attached to a tool's <strong>name</strong>, not to what the tool says it does. The name stays the same; the approval stays valid.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[01] Ambito e metodo" data-en="[01] Scope and method">[01] Scope and method</h2>
+      <p data-it="&lt;strong&gt;La domanda.&lt;/strong&gt; Dopo che approvi un tool MCP, il server che lo fornisce può cambiarne la definizione: la descrizione, lo schema degli input, perfino il nome. Il modello legge quella descrizione ogni volta che decide se e come chiamare il tool. Il tuo client si accorge del cambio? Contiamo quattro risposte, più due modi di non rispondere:"
+        data-en="&lt;strong&gt;The question.&lt;/strong&gt; After you approve an MCP tool, the server that provides it can change the tool's definition: its description, its input schema, even its name. The model reads that description every time it decides whether and how to call the tool. Does your client notice the change? We count four answers, plus two ways of not answering:"><strong>The question.</strong> After you approve an MCP tool, the server that provides it can change the tool's definition: its description, its input schema, even its name. The model reads that description every time it decides whether and how to call the tool. Does your client notice the change? We count four answers, plus two ways of not answering:</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="#" data-en="#">#</th>
+            <th data-it="Esito" data-en="Outcome">Outcome</th>
+            <th data-it="Cosa serve per assegnarlo" data-en="What we require to code it">What we require to code it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="1" data-en="1">1</td>
+            <td data-it="rifiutato o disconnesso" data-en="refused or disconnected">refused or disconnected</td>
+            <td data-it="nessuna chiamata riuscita dopo il cambio, e il client ha chiuso il server" data-en="no successful call after the change, and the client shut the server down">no successful call after the change, and the client shut the server down</td>
+          </tr>
+          <tr>
+            <td data-it="2" data-en="2">2</td>
+            <td data-it="nuova approvazione richiesta" data-en="re-approval required">re-approval required</td>
+            <td data-it="il client chiede di nuovo il permesso per il tool cambiato" data-en="the client asks for permission again for the changed tool">the client asks for permission again for the changed tool</td>
+          </tr>
+          <tr>
+            <td data-it="3" data-en="3">3</td>
+            <td data-it="avvisato" data-en="notified">notified</td>
+            <td data-it="il client dice all'utente che qualcosa è cambiato, senza chiedere di nuovo" data-en="the client tells the user something changed, without asking again">the client tells the user something changed, without asking again</td>
+          </tr>
+          <tr>
+            <td data-it="4" data-en="4">4</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+            <td data-it="il log del server mostra che la nuova definizione è stata &lt;strong&gt;servita&lt;/strong&gt; al client dopo il cambio, la chiamata è riuscita, nulla è stato mostrato" data-en="the server's log shows the new definition was &lt;strong&gt;served&lt;/strong&gt; to the client after the change, the call succeeded, nothing was shown">the server's log shows the new definition was <strong>served</strong> to the client after the change, the call succeeded, nothing was shown</td>
+          </tr>
+          <tr>
+            <td data-it="5" data-en="5">5</td>
+            <td data-it="vecchia definizione" data-en="stale">stale</td>
+            <td data-it="la chiamata è riuscita, ma il client non ha più chiesto la lista dei tool: usava ancora la definizione precedente" data-en="the call succeeded, but the client never asked for the tool list again: it was still using the old definition">the call succeeded, but the client never asked for the tool list again: it was still using the old definition</td>
+          </tr>
+          <tr>
+            <td data-it="6" data-en="6">6</td>
+            <td data-it="errore, nessuna chiamata, timeout" data-en="error, no call, timeout">error, no call, timeout</td>
+            <td data-it="—" data-en="—">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="Quando ne vale più d'uno, vince il numero più basso. L'esito 4 è un'affermazione sul protocollo: il client ha ricevuto la definizione B. Se poi B sia arrivata al modello, con i modelli ospitati dai vendor non lo possiamo vedere, e non lo affermiamo."
+        data-en="When more than one applies, the lower number wins. Outcome 4 is a statement about the protocol: the client received definition B. Whether B then reached the model, we cannot see with the vendors' hosted models, and we do not claim it.">When more than one applies, the lower number wins. Outcome 4 is a statement about the protocol: the client received definition B. Whether B then reached the model, we cannot see with the vendors' hosted models, and we do not claim it.</p>
+      <p data-it="&lt;strong&gt;Cosa cambia.&lt;/strong&gt; Un solo tool innocuo, &lt;code&gt;q3_noop&lt;/code&gt;, che restituisce la parola &lt;code&gt;ok&lt;/code&gt;. La definizione A e la definizione B dicono la stessa cosa con parole diverse:"
+        data-en="&lt;strong&gt;What changes.&lt;/strong&gt; One harmless tool, &lt;code&gt;q3_noop&lt;/code&gt;, that returns the word &lt;code&gt;ok&lt;/code&gt;. Definition A and definition B say the same thing in different words:"><strong>What changes.</strong> One harmless tool, <code>q3_noop</code>, that returns the word <code>ok</code>. Definition A and definition B say the same thing in different words:</p>
+      <div class="code-block"><pre>A  Lab tool, revision A. Returns the word ok and records the call in its own log. It has no other effect.
+B  Lab tool, revision B. Records the call in its own log and returns the word ok. Nothing else happens.</pre></div>
+      <p data-it="Nessuna delle due contiene istruzioni per il modello. Un attacco vero metterebbe altro in B; a noi basta sapere se qualcuno se ne accorge."
+        data-en="Neither contains an instruction to the model. A real attack would put something else in B; we only need to know whether anyone looks.">Neither contains an instruction to the model. A real attack would put something else in B; we only need to know whether anyone looks.</p>
+      <p data-it="&lt;strong&gt;Due segnali.&lt;/strong&gt; In metà delle esecuzioni il server non dice nulla dopo il cambio; nell'altra metà invia la notifica &quot;tool list changed&quot; del protocollo."
+        data-en="&lt;strong&gt;Two signals.&lt;/strong&gt; In half of the runs the server says nothing after the change; in the other half it sends the protocol's &quot;tool list changed&quot; notification."><strong>Two signals.</strong> In half of the runs the server says nothing after the change; in the other half it sends the protocol's "tool list changed" notification.</p>
+      <ul>
+        <li data-it="Dal 28 luglio 2026 sono in uso due versioni del protocollo MCP, che consegnano la notifica in modo diverso."
+          data-en="MCP has two protocol versions in use since 28 July 2026, and they deliver the notification differently.">MCP has two protocol versions in use since 28 July 2026, and they deliver the notification differently.</li>
+        <li data-it="Nel protocollo precedente, un server che dichiara &lt;code&gt;tools.listChanged&lt;/code&gt; invia la notifica sulla connessione aperta."
+          data-en="In the legacy protocol, a server that declares &lt;code&gt;tools.listChanged&lt;/code&gt; sends the notification on the open connection.">In the legacy protocol, a server that declares <code>tools.listChanged</code> sends the notification on the open connection.</li>
+        <li data-it="Nella revisione 2026-07-28, il client la riceve solo se ha aperto una sottoscrizione e il server l'ha confermata."
+          data-en="In the 2026-07-28 revision, a client receives it only if it opened a subscription and the server acknowledged it.">In the 2026-07-28 revision, a client receives it only if it opened a subscription and the server acknowledged it.</li>
+        <li data-it="Il nostro server parla entrambe le versioni e registra quale ha usato ogni client, quindi una notifica conta solo dove poteva davvero essere consegnata."
+          data-en="Our server speaks both and logs which one each client used, so a notification counts only where it could actually be delivered.">Our server speaks both and logs which one each client used, so a notification counts only where it could actually be delivered.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Una ripetizione.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;One repetition.&lt;/strong&gt;"><strong>One repetition.</strong></p>
+      <ol>
+        <li data-it="Il client parte in una cartella già fidata, con il server del lab nella sua configurazione utente. La fiducia nel repository era la domanda della parte 2."
+          data-en="The client starts in a folder that is already trusted, with the lab server in its user configuration. Repository trust was part 2's question.">The client starts in a folder that is already trusted, with the lab server in its user configuration. Repository trust was part 2's question.</li>
+        <li data-it="Gli chiediamo, con una frase fissa, di chiamare il tool. Alla domanda di permesso, se c'è, scegliamo l'opzione più permanente per quel tool (&quot;Always allow&quot; o la più simile)."
+          data-en="We ask it, with a fixed sentence, to call the tool. At the permission question, if there is one, we pick the most permanent option for that tool (&quot;Always allow&quot; or its nearest equivalent).">We ask it, with a fixed sentence, to call the tool. At the permission question, if there is one, we pick the most permanent option for that tool ("Always allow" or its nearest equivalent).</li>
+        <li data-it="Cambiamo la definizione in B, aspettiamo dodici secondi e chiediamo di nuovo la stessa chiamata."
+          data-en="We switch the definition to B, wait twelve seconds, and ask for the same call again.">We switch the definition to B, wait twelve seconds, and ask for the same call again.</li>
+        <li data-it="Chiudiamo il client, lo riapriamo e chiediamo una terza volta. Questo passo è esplorativo e lo riportiamo a parte."
+          data-en="We close the client, reopen it and ask a third time. This step is exploratory and reported separately.">We close the client, reopen it and ask a third time. This step is exploratory and reported separately.</li>
+      </ol>
+      <p data-it="Ogni ripetizione parte dallo stesso snapshot pulito della macchina virtuale."
+        data-en="Each repetition starts from the same clean snapshot of the virtual machine.">Each repetition starts from the same clean snapshot of the virtual machine.</p>
+      <ul>
+        <li data-it="&lt;strong&gt;Client da terminale:&lt;/strong&gt; cinque ripetizioni per segnale, quindi 6 client × 2 segnali × 5 = 60 esecuzioni, in un ordine casuale fissato prima."
+          data-en="&lt;strong&gt;Terminal clients:&lt;/strong&gt; five repetitions per signal, so 6 clients × 2 signals × 5 = 60 runs, in a random order fixed in advance."><strong>Terminal clients:</strong> five repetitions per signal, so 6 clients × 2 signals × 5 = 60 runs, in a random order fixed in advance.</li>
+        <li data-it="&lt;strong&gt;Editor:&lt;/strong&gt; VS Code con Copilot e Cursor IDE, una ripetizione per segnale. Il run di VS Code con la notifica è stato ripetuto una volta, perché il primo tentativo non è arrivato al terzo passo. Sono meno delle cinque ripetizioni che il protocollo chiede, e lo diciamo."
+          data-en="&lt;strong&gt;Editors:&lt;/strong&gt; VS Code with Copilot and Cursor IDE, one repetition per signal. VS Code's notification run was repeated once, because the first attempt could not reach its third step. That is fewer than the five repetitions the protocol asks for, and we say so."><strong>Editors:</strong> VS Code with Copilot and Cursor IDE, one repetition per signal. VS Code's notification run was repeated once, because the first attempt could not reach its third step. That is fewer than the five repetitions the protocol asks for, and we say so.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Codifica.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Coding.&lt;/strong&gt;"><strong>Coding.</strong></p>
+      <ul>
+        <li data-it="Uno script legge il log del server e le schermate e assegna l'esito con le regole qui sopra. Ogni cella ha dato lo stesso esito in tutte e cinque le ripetizioni."
+          data-en="A script reads the server's log and the screens and assigns the outcome, with the rules above. Every cell gave the same outcome in all five repetitions.">A script reads the server's log and the screens and assigns the outcome, with the rules above. Every cell gave the same outcome in all five repetitions.</li>
+        <li data-it="La preregistrazione chiedeva anche due codificatori indipendenti: l'autore e un modello locale su pacchetti alla cieca.&lt;ul&gt;&lt;li&gt;Le etichette dell'autore non sono state scritte pacchetto per pacchetto. Dopo aver esaminato le prove, l'autore ha dichiarato di essere d'accordo con ogni etichetta, e il coordinatore ha registrato quella dichiarazione (deviazione D21).&lt;/li&gt;&lt;li&gt;L'accordo tra l'autore e il modello locale è stato basso: κ di Cohen = 0,115, 14 su 60.&lt;/li&gt;&lt;li&gt;La causa di 45 dei 46 disaccordi era nostra: una riga ambigua nei pacchetti. Il 46° era il modello che scambiava un messaggio di routine di Cursor CLI per un avviso di cambio. Rileggendo i log, tutti e 46 si sono risolti a favore delle etichette dello script.&lt;/li&gt;&lt;/ul&gt;"
+          data-en="The preregistration also asked for two independent coders: the author and a local model reading blind packets.&lt;ul&gt;&lt;li&gt;The author's labels were not written packet by packet. After examining the evidence, the author declared that he agreed with every label, and the coordinator recorded that declaration (deviation D21).&lt;/li&gt;&lt;li&gt;Agreement between the author and the local model was low: Cohen's κ = 0.115, 14 of 60.&lt;/li&gt;&lt;li&gt;The cause of 45 of the 46 disagreements was ours, one ambiguous line in the packets. The 46th was the model mistaking a routine message of Cursor CLI for a change notice. Re-reading the logs resolved all 46 in favour of the script's labels.&lt;/li&gt;&lt;/ul&gt;">The preregistration also asked for two independent coders: the author and a local model reading blind packets.<ul><li>The author's labels were not written packet by packet. After examining the evidence, the author declared that he agreed with every label, and the coordinator recorded that declaration (deviation D21).</li><li>Agreement between the author and the local model was low: Cohen's κ = 0.115, 14 of 60.</li><li>The cause of 45 of the 46 disagreements was ours, one ambiguous line in the packets. The 46th was the model mistaking a routine message of Cursor CLI for a change notice. Re-reading the logs resolved all 46 in favour of the script's labels.</li></ul></li>
+        <li data-it="Come controllo a posteriori abbiamo aggiunto un terzo codificatore di un'altra famiglia di modelli, Codex di OpenAI, sugli stessi 60 pacchetti.&lt;ul&gt;&lt;li&gt;La deviazione che lo dichiara (D22) è stata pubblicata prima che Codex vedesse un solo pacchetto.&lt;/li&gt;&lt;li&gt;Codex ha lavorato in un contenitore isolato che non poteva vedere i nostri file, e tutte le 60 sessioni hanno superato i controlli di isolamento.&lt;/li&gt;&lt;li&gt;Codex ha concordato con lo script e con l'autore su tutti i 60 pacchetti (κ = 1,00), compresi i 46 che il modello locale aveva codificato diversamente.&lt;/li&gt;&lt;/ul&gt;"
+          data-en="As a post hoc check we added a third coder from another model family, OpenAI's Codex, on the same 60 packets.&lt;ul&gt;&lt;li&gt;The deviation that declares it (D22) was published before Codex saw a single packet.&lt;/li&gt;&lt;li&gt;Codex ran in an isolated container that could not see our files, and all 60 sessions passed the isolation checks.&lt;/li&gt;&lt;li&gt;Codex agreed with the script and the author on all 60 packets (κ = 1.00), including the 46 the local model had coded differently.&lt;/li&gt;&lt;/ul&gt;">As a post hoc check we added a third coder from another model family, OpenAI's Codex, on the same 60 packets.<ul><li>The deviation that declares it (D22) was published before Codex saw a single packet.</li><li>Codex ran in an isolated container that could not see our files, and all 60 sessions passed the isolation checks.</li><li>Codex agreed with the script and the author on all 60 packets (κ = 1.00), including the 46 the local model had coded differently.</li></ul></li>
+      </ul>
+      <p data-it="Disegno, esiti e loro ordine sono stati fissati prima di qualunque esecuzione (preregistrazione e deviazioni D5, D12, D16–D21)."
+        data-en="The design, the outcomes and their order were fixed before any run (preregistration and deviations D5, D12, D16–D21).">The design, the outcomes and their order were fixed before any run (preregistration and deviations D5, D12, D16–D21).</p>
+      <p data-it="&lt;strong&gt;Cosa si sapeva già.&lt;/strong&gt; Il rischio ha un nome."
+        data-en="&lt;strong&gt;What was already known.&lt;/strong&gt; The risk has a name."><strong>What was already known.</strong> The risk has a name.</p>
+      <ul>
+        <li data-it="Ad aprile 2025 Invariant Labs ha descritto il &quot;rug pull&quot;: un server malevolo &quot;can change the tool description after the client has already approved it&quot;, e ha proposto di fissare le definizioni dei tool con un hash (&lt;a href=&quot;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Invariant Labs, 1 aprile 2025&lt;/a&gt;)."
+          data-en="In April 2025 Invariant Labs described the &quot;rug pull&quot;: a malicious server &quot;can change the tool description after the client has already approved it&quot;, and proposed pinning tool definitions with a hash (&lt;a href=&quot;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Invariant Labs, 1 April 2025&lt;/a&gt;).">In April 2025 Invariant Labs described the "rug pull": a malicious server "can change the tool description after the client has already approved it", and proposed pinning tool definitions with a hash (<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks" target="_blank" rel="noopener noreferrer">Invariant Labs, 1 April 2025</a>).</li>
+        <li data-it="Ad agosto 2025 Check Point ha mostrato in Cursor un caso vicino: una voce di &lt;em&gt;configurazione&lt;/em&gt; MCP modificata dopo l'approvazione partiva senza una nuova domanda. È stato corretto in Cursor 1.3 chiedendo di nuovo dopo ogni modifica della configurazione (CVE-2025-54136; &lt;a href=&quot;https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Check Point Research, 5 agosto 2025&lt;/a&gt;)."
+          data-en="In August 2025 Check Point showed a neighbouring case in Cursor: a change to an MCP &lt;em&gt;configuration&lt;/em&gt; entry after approval ran without a new prompt. It was fixed in Cursor 1.3 by asking again after any configuration change (CVE-2025-54136; &lt;a href=&quot;https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Check Point Research, 5 August 2025&lt;/a&gt;).">In August 2025 Check Point showed a neighbouring case in Cursor: a change to an MCP <em>configuration</em> entry after approval ran without a new prompt. It was fixed in Cursor 1.3 by asking again after any configuration change (CVE-2025-54136; <a href="https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/" target="_blank" rel="noopener noreferrer">Check Point Research, 5 August 2025</a>).</li>
+        <li data-it="Proposte per fissare le definizioni dei tool sono arrivate al progetto MCP, e diversi proxy e gateway lo fanno già."
+          data-en="Proposals to pin tool definitions have reached the MCP project, and several proxies and gateways implement pinning.">Proposals to pin tool definitions have reached the MCP project, and several proxies and gateways implement pinning.</li>
+      </ul>
+      <p data-it="Quello che non abbiamo trovato è una misura di cosa fanno i client attuali quando cambia la definizione che il server serve durante l'uso, su entrambe le versioni del protocollo. È ciò che aggiunge questa parte."
+        data-en="What we did not find is a measurement of what current clients do when the definition a server serves at runtime changes, on both versions of the protocol. That is what this part adds.">What we did not find is a measurement of what current clients do when the definition a server serves at runtime changes, on both versions of the protocol. That is what this part adds.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[02] I risultati in una tabella" data-en="[02] Results at a glance">[02] Results at a glance</h2>
+      <p class="table-hint" data-it="Scorri la tabella di lato per vedere tutte e 6 le colonne →" data-en="Swipe the table sideways to see all 6 columns →">Swipe the table sideways to see all 6 columns →</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Client" data-en="Client">Client</th>
+            <th data-it="Protocollo" data-en="Protocol">Protocol</th>
+            <th data-it="Prima chiamata (predefinito)" data-en="First call (default)">First call (default)</th>
+            <th data-it="Cambio, nessun segnale" data-en="Change, no signal">Change, no signal</th>
+            <th data-it="Cambio + notifica" data-en="Change + notification">Change + notification</th>
+            <th data-it="Dopo il riavvio" data-en="After restart">After restart</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="Claude Code 2.1.300" data-en="Claude Code 2.1.300">Claude Code 2.1.300</td>
+            <td data-it="2026-07-28" data-en="2026-07-28">2026-07-28</td>
+            <td data-it="nessuna domanda (&quot;auto mode&quot;)" data-en="no question (&quot;auto mode&quot;)">no question ("auto mode")</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="&lt;strong&gt;accettato in silenzio 5/5&lt;/strong&gt; (B letta 4–7 ms dopo la notifica)" data-en="&lt;strong&gt;silent accept 5/5&lt;/strong&gt; (B fetched 4–7 ms after the notification)"><strong>silent accept 5/5</strong> (B fetched 4–7 ms after the notification)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+          <tr>
+            <td data-it="Codex CLI 0.162.1" data-en="Codex CLI 0.162.1">Codex CLI 0.162.1</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="chiede; dato &quot;Always allow&quot;" data-en="asked; &quot;Always allow&quot; given">asked; "Always allow" given</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="vecchia definizione 5/5 (notifica ignorata)" data-en="stale 5/5 (notification ignored)">stale 5/5 (notification ignored)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor CLI 2026.10.14" data-en="Cursor CLI 2026.10.14">Cursor CLI 2026.10.14</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="chiede; dato &quot;Allowlist MCP Tool&quot;" data-en="asked; &quot;Allowlist MCP Tool&quot; given">asked; "Allowlist MCP Tool" given</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="vecchia definizione 5/5 (notifica ignorata)" data-en="stale 5/5 (notification ignored)">stale 5/5 (notification ignored)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+          <tr>
+            <td data-it="Gemini CLI 0.64.0" data-en="Gemini CLI 0.64.0">Gemini CLI 0.64.0</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="chiede; dato &quot;Allow tool for this session&quot; (nessuna opzione permanente di default)" data-en="asked; &quot;Allow tool for this session&quot; (no permanent option by default)">asked; "Allow tool for this session" (no permanent option by default)</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="&lt;strong&gt;avvisato 5/5&lt;/strong&gt; (B letta 3–8 ms dopo)" data-en="&lt;strong&gt;notified 5/5&lt;/strong&gt; (B fetched 3–8 ms after)"><strong>notified 5/5</strong> (B fetched 3–8 ms after)</td>
+            <td data-it="chiede di nuovo (approvazione di sessione scaduta)" data-en="asked again (session approval expired)">asked again (session approval expired)</td>
+          </tr>
+          <tr>
+            <td data-it="Goose 1.54.0" data-en="Goose 1.54.0">Goose 1.54.0</td>
+            <td data-it="2026-07-28" data-en="2026-07-28">2026-07-28</td>
+            <td data-it="nessuna domanda (&lt;code&gt;auto&lt;/code&gt;)" data-en="no question (&lt;code&gt;auto&lt;/code&gt;)">no question (<code>auto</code>)</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="vecchia definizione 5/5 (nessuna sottoscrizione: non consegnabile)" data-en="stale 5/5 (no subscription: not deliverable)">stale 5/5 (no subscription: not deliverable)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+          <tr>
+            <td data-it="Qwen Code 0.25.1" data-en="Qwen Code 0.25.1">Qwen Code 0.25.1</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="nessuna domanda (&quot;Auto mode&quot;)" data-en="no question (&quot;Auto mode&quot;)">no question ("Auto mode")</td>
+            <td data-it="vecchia definizione 5/5" data-en="stale 5/5">stale 5/5</td>
+            <td data-it="vecchia definizione 5/5 (notifica ignorata)" data-en="stale 5/5 (notification ignored)">stale 5/5 (notification ignored)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+          <tr>
+            <td data-it="VS Code 1.139.1 + Copilot" data-en="VS Code 1.139.1 + Copilot">VS Code 1.139.1 + Copilot</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="chiede; dato &quot;Always Allow&quot;" data-en="asked; &quot;Always Allow&quot; given">asked; "Always Allow" given</td>
+            <td data-it="vecchia definizione 1/1" data-en="stale 1/1">stale 1/1</td>
+            <td data-it="&lt;strong&gt;accettato in silenzio 2/2&lt;/strong&gt; (fasi 1–2; B letta 4–5 ms dopo)" data-en="&lt;strong&gt;silent accept 2/2&lt;/strong&gt; (phases 1–2; B fetched 4–5 ms after)"><strong>silent accept 2/2</strong> (phases 1–2; B fetched 4–5 ms after)</td>
+            <td data-it="accettato in silenzio dopo il run senza segnale; non osservato dopo i run con notifica" data-en="silent accept after the no-signal run; not observed after the notification runs">silent accept after the no-signal run; not observed after the notification runs</td>
+          </tr>
+          <tr>
+            <td data-it="Cursor IDE 3.22.7" data-en="Cursor IDE 3.22.7">Cursor IDE 3.22.7</td>
+            <td data-it="precedente" data-en="legacy">legacy</td>
+            <td data-it="nessuna domanda (impostazioni della nostra macchina di test)" data-en="no question (settings of our test machine)">no question (settings of our test machine)</td>
+            <td data-it="vecchia definizione 1/1" data-en="stale 1/1">stale 1/1</td>
+            <td data-it="&lt;strong&gt;accettato in silenzio 1/1&lt;/strong&gt; (B letta 6 ms dopo)" data-en="&lt;strong&gt;silent accept 1/1&lt;/strong&gt; (B fetched 6 ms after)"><strong>silent accept 1/1</strong> (B fetched 6 ms after)</td>
+            <td data-it="accettato in silenzio" data-en="silent accept">silent accept</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="&quot;Precedente&quot; vuol dire che il client ha aperto la connessione con il vecchio handshake &lt;code&gt;initialize&lt;/code&gt;. &quot;Accettato in silenzio&quot; vuol dire che il client ha letto B e ha completato la chiamata successiva senza un'altra domanda né avvisi. Con i modelli ospitati dai vendor non possiamo vedere che cosa sia stato dato al modello, e le due definizioni restituiscono la stessa parola."
+        data-en="&quot;Legacy&quot; means the client opened the connection with the older &lt;code&gt;initialize&lt;/code&gt; handshake. &quot;Silent accept&quot; means the client fetched B and completed the next call without another prompt or notice. With the vendors' hosted models we cannot see what the model was given, and both definitions return the same word.">"Legacy" means the client opened the connection with the older <code>initialize</code> handshake. "Silent accept" means the client fetched B and completed the next call without another prompt or notice. With the vendors' hosted models we cannot see what the model was given, and both definitions return the same word.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[03] Client per client" data-en="[03] Client by client">[03] Client by client</h2>
+      <p data-it="&lt;strong&gt;Claude Code 2.1.300.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Claude Code 2.1.300.&lt;/strong&gt;"><strong>Claude Code 2.1.300.</strong></p>
+      <ul>
+        <li data-it="Nella sua auto mode predefinita ha chiamato il tool senza chiedere, quindi non è mai stata data un'approvazione."
+          data-en="In its default auto mode it called the tool without asking, so no approval was ever given.">In its default auto mode it called the tool without asking, so no approval was ever given.</li>
+        <li data-it="Con la notifica ha chiesto la lista al server entro pochi millisecondi, ha ricevuto B e ha completato la chiamata senza mostrare nulla."
+          data-en="With the notification it asked the server for the list within milliseconds, received B and completed the call, showing nothing.">With the notification it asked the server for the list within milliseconds, received B and completed the call, showing nothing.</li>
+        <li data-it="Coincide con la sua documentazione, che dice che un server può cambiare i suoi tool mentre è connesso e che Claude Code &quot;fetches the updated list from that server&quot; (&lt;a href=&quot;https://code.claude.com/docs/en/mcp&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;documentazione MCP&lt;/a&gt;)."
+          data-en="This matches its documentation, which says a server can change its tools while connected and that Claude Code &quot;fetches the updated list from that server&quot; (&lt;a href=&quot;https://code.claude.com/docs/en/mcp&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;MCP docs&lt;/a&gt;).">This matches its documentation, which says a server can change its tools while connected and that Claude Code "fetches the updated list from that server" (<a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener noreferrer">MCP docs</a>).</li>
+        <li data-it="Le regole di permesso si scrivono per nome, &lt;code&gt;mcp__&amp;lt;server&amp;gt;__&amp;lt;tool&amp;gt;&lt;/code&gt; (&lt;a href=&quot;https://code.claude.com/docs/en/permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;permessi&lt;/a&gt;)."
+          data-en="Permission rules are written by name, &lt;code&gt;mcp__&amp;lt;server&amp;gt;__&amp;lt;tool&amp;gt;&lt;/code&gt; (&lt;a href=&quot;https://code.claude.com/docs/en/permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;permissions&lt;/a&gt;).">Permission rules are written by name, <code>mcp__&lt;server&gt;__&lt;tool&gt;</code> (<a href="https://code.claude.com/docs/en/permissions" target="_blank" rel="noopener noreferrer">permissions</a>).</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Codex CLI 0.162.1.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Codex CLI 0.162.1.&lt;/strong&gt;"><strong>Codex CLI 0.162.1.</strong></p>
+      <ul>
+        <li data-it="Ha chiesto prima della prima chiamata; abbiamo scelto &quot;Always allow&quot;. Questo scrive nel file di configurazione un &lt;code&gt;approval_mode&lt;/code&gt; per quel server e quel nome di tool (&lt;a href=&quot;https://developers.openai.com/codex/config-reference&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;riferimento della configurazione&lt;/a&gt;)."
+          data-en="It asked before the first call; we chose &quot;Always allow&quot;. That writes a per-tool &lt;code&gt;approval_mode&lt;/code&gt; for that server and tool name in the configuration file (&lt;a href=&quot;https://developers.openai.com/codex/config-reference&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;configuration reference&lt;/a&gt;).">It asked before the first call; we chose "Always allow". That writes a per-tool <code>approval_mode</code> for that server and tool name in the configuration file (<a href="https://developers.openai.com/codex/config-reference" target="_blank" rel="noopener noreferrer">configuration reference</a>).</li>
+        <li data-it="La notifica gli è arrivata; non ha chiesto di nuovo la lista e ha usato A fino al riavvio."
+          data-en="The notification reached it; it did not ask for the list again, and kept using A until restarted.">The notification reached it; it did not ask for the list again, and kept using A until restarted.</li>
+        <li data-it="La sua documentazione non parla di cambi della lista dei tool."
+          data-en="Its documentation does not mention tool-list changes.">Its documentation does not mention tool-list changes.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Cursor CLI 2026.10.14.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Cursor CLI 2026.10.14.&lt;/strong&gt;"><strong>Cursor CLI 2026.10.14.</strong></p>
+      <ul>
+        <li data-it="Ha chiesto; abbiamo scelto &quot;Allowlist MCP Tool&quot;. L'allowlist è una stringa &lt;code&gt;server:tool&lt;/code&gt;, e la documentazione stessa di Cursor avverte che gli allowlist sono best-effort e non un confine di sicurezza (&lt;a href=&quot;https://cursor.com/docs/reference/permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;riferimento dei permessi&lt;/a&gt;)."
+          data-en="It asked; we chose &quot;Allowlist MCP Tool&quot;. The allowlist is a &lt;code&gt;server:tool&lt;/code&gt; string, and Cursor's documentation itself notes that allowlists are best-effort and not a security boundary (&lt;a href=&quot;https://cursor.com/docs/reference/permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;permissions reference&lt;/a&gt;).">It asked; we chose "Allowlist MCP Tool". The allowlist is a <code>server:tool</code> string, and Cursor's documentation itself notes that allowlists are best-effort and not a security boundary (<a href="https://cursor.com/docs/reference/permissions" target="_blank" rel="noopener noreferrer">permissions reference</a>).</li>
+        <li data-it="La notifica è stata consegnata e ignorata. Dopo il riavvio ha ricevuto B e ha fatto la chiamata senza domande."
+          data-en="The notification was delivered and ignored. After a restart it received B and made the call with no question.">The notification was delivered and ignored. After a restart it received B and made the call with no question.</li>
+        <li data-it="La correzione del 2025 per CVE-2025-54136 chiede di nuovo quando cambia la configurazione MCP. Qui la configurazione non è mai cambiata: è cambiato ciò che il server serve."
+          data-en="The 2025 fix for CVE-2025-54136 asks again when the MCP configuration changes. Here the configuration never changed: the server changed what it serves.">The 2025 fix for CVE-2025-54136 asks again when the MCP configuration changes. Here the configuration never changed: the server changed what it serves.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Gemini CLI 0.64.0.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Gemini CLI 0.64.0.&lt;/strong&gt;"><strong>Gemini CLI 0.64.0.</strong></p>
+      <ul>
+        <li data-it="L'unico client che ha detto qualcosa all'utente. A ogni notifica ha riletto la lista e ha scritto &quot;Tools updated for server&quot;, poi ha completato la chiamata senza chiedere."
+          data-en="The only client that told the user anything. On every notification it re-read the list and printed &quot;Tools updated for server&quot;, then completed the call without asking.">The only client that told the user anything. On every notification it re-read the list and printed "Tools updated for server", then completed the call without asking.</li>
+        <li data-it="La sua approvazione permanente (&quot;Allow tool for all future sessions&quot;) è spenta di default, quindi la nostra approvazione valeva per la sessione. Dopo il riavvio ha chiesto di nuovo: perché la sessione era finita, non perché il tool era cambiato."
+          data-en="Its permanent approval (&quot;Allow tool for all future sessions&quot;) is off by default, so our approval was for the session. After a restart it asked again: because the session had ended, not because the tool had changed.">Its permanent approval ("Allow tool for all future sessions") is off by default, so our approval was for the session. After a restart it asked again: because the session had ended, not because the tool had changed.</li>
+        <li data-it="Le approvazioni sono legate al nome del server e del tool (&lt;a href=&quot;https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;documentazione dei server MCP&lt;/a&gt;)."
+          data-en="Approvals are keyed by server and tool name (&lt;a href=&quot;https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;MCP server docs&lt;/a&gt;).">Approvals are keyed by server and tool name (<a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md" target="_blank" rel="noopener noreferrer">MCP server docs</a>).</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Goose 1.54.0.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Goose 1.54.0.&lt;/strong&gt;"><strong>Goose 1.54.0.</strong></p>
+      <ul>
+        <li data-it="Parla il protocollo 2026-07-28 ma non apre mai una sottoscrizione, quindi il server non aveva un canale per annunciare il cambio."
+          data-en="It speaks the 2026-07-28 protocol but never opens a subscription, so the server had no channel to announce the change.">It speaks the 2026-07-28 protocol but never opens a subscription, so the server had no channel to announce the change.</li>
+        <li data-it="La sua modalità predefinita approva ogni chiamata senza chiedere. La documentazione dice che questa modalità &quot;is applied by default&quot; (&lt;a href=&quot;https://goose-docs.ai/docs/guides/managing-tools/goose-permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;permessi di Goose&lt;/a&gt;)."
+          data-en="Its default mode approves every tool call without asking. Its documentation says this mode &quot;is applied by default&quot; (&lt;a href=&quot;https://goose-docs.ai/docs/guides/managing-tools/goose-permissions&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Goose permissions&lt;/a&gt;).">Its default mode approves every tool call without asking. Its documentation says this mode "is applied by default" (<a href="https://goose-docs.ai/docs/guides/managing-tools/goose-permissions" target="_blank" rel="noopener noreferrer">Goose permissions</a>).</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Qwen Code 0.25.1.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Qwen Code 0.25.1.&lt;/strong&gt;"><strong>Qwen Code 0.25.1.</strong></p>
+      <ul>
+        <li data-it="Nella sua auto mode predefinita non ha chiesto nulla."
+          data-en="In its default auto mode it asked nothing.">In its default auto mode it asked nothing.</li>
+        <li data-it="Ha ricevuto la notifica e l'ha ignorata. La sua documentazione ricorda che le annotazioni dei tool sono &quot;not permissions or an authorization boundary&quot; (&lt;a href=&quot;https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;documentazione MCP&lt;/a&gt;)."
+          data-en="It received the notification and ignored it. Its documentation reminds users that tool annotations are &quot;not permissions or an authorization boundary&quot; (&lt;a href=&quot;https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;MCP docs&lt;/a&gt;).">It received the notification and ignored it. Its documentation reminds users that tool annotations are "not permissions or an authorization boundary" (<a href="https://github.com/QwenLM/qwen-code/blob/main/docs/users/features/mcp.md" target="_blank" rel="noopener noreferrer">MCP docs</a>).</li>
+      </ul>
+      <p data-it="&lt;strong&gt;VS Code 1.139.1 con Copilot.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;VS Code 1.139.1 with Copilot.&lt;/strong&gt;"><strong>VS Code 1.139.1 with Copilot.</strong></p>
+      <ul>
+        <li data-it="Ha chiesto, mostrando la descrizione del tool (definizione A) e un avviso: i server MCP o il contenuto della conversazione &quot;may attempt to misuse&quot; l'editor attraverso i tool. Offriva sei ambiti, da &quot;Allow Once&quot; ad &quot;Always Allow Tools from q3-lab&quot;; abbiamo scelto &quot;Always Allow&quot; per il tool."
+          data-en="It asked, showing the tool's description (definition A) and a warning that MCP servers or conversation content &quot;may attempt to misuse&quot; the editor through tools. It offered six scopes, from &quot;Allow Once&quot; to &quot;Always Allow Tools from q3-lab&quot;; we chose &quot;Always Allow&quot; for the tool.">It asked, showing the tool's description (definition A) and a warning that MCP servers or conversation content "may attempt to misuse" the editor through tools. It offered six scopes, from "Allow Once" to "Always Allow Tools from q3-lab"; we chose "Always Allow" for the tool.</li>
+        <li data-it="Alla notifica ha letto B entro pochi millisecondi e ha completato la chiamata senza nulla a schermo."
+          data-en="On the notification it fetched B within milliseconds and completed the call with nothing on screen.">On the notification it fetched B within milliseconds and completed the call with nothing on screen.</li>
+        <li data-it="La sua documentazione promette una nuova finestra di fiducia quando cambia la &lt;em&gt;configurazione&lt;/em&gt; di un server, e riconosce che &quot;a server's tools have changed&quot; con un comando per azzerare i tool in cache (&lt;a href=&quot;https://code.visualstudio.com/docs/agents/reference/mcp-configuration&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;configurazione MCP&lt;/a&gt;)."
+          data-en="Its documentation promises a new trust dialog when a server's &lt;em&gt;configuration&lt;/em&gt; changes, and acknowledges that &quot;a server's tools have changed&quot; with a command to reset cached tools (&lt;a href=&quot;https://code.visualstudio.com/docs/agents/reference/mcp-configuration&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;MCP configuration&lt;/a&gt;).">Its documentation promises a new trust dialog when a server's <em>configuration</em> changes, and acknowledges that "a server's tools have changed" with a command to reset cached tools (<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration" target="_blank" rel="noopener noreferrer">MCP configuration</a>).</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Cursor IDE 3.22.7.&lt;/strong&gt;"
+        data-en="&lt;strong&gt;Cursor IDE 3.22.7.&lt;/strong&gt;"><strong>Cursor IDE 3.22.7.</strong></p>
+      <ul>
+        <li data-it="Con le impostazioni della nostra macchina di test ha chiamato il tool senza alcuna domanda, a differenza di Cursor CLI."
+          data-en="With the settings in our test machine it called the tool without any question, unlike Cursor CLI.">With the settings in our test machine it called the tool without any question, unlike Cursor CLI.</li>
+        <li data-it="Alla notifica ha letto B e ha completato la chiamata senza mostrare nulla."
+          data-en="On the notification it fetched B and completed the call, showing nothing.">On the notification it fetched B and completed the call, showing nothing.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[04] Quattro letture" data-en="[04] Four readings">[04] Four readings</h2>
+      <ol>
+        <li data-it="&lt;strong&gt;Un'approvazione è un nome.&lt;/strong&gt; In ogni client l'approvazione, dove c'è, sopravvive a un cambio di ciò che il tool dice.&lt;ul&gt;&lt;li&gt;La specifica MCP permette che la lista dei tool di un server cambi nel tempo e non obbliga i client a chiedere di nuovo quando una definizione cambia. Dice però che le applicazioni dovrebbero rendere chiaro quali tool sono esposti al modello e tenere un umano nel giro.&lt;/li&gt;&lt;li&gt;Abbiamo controllato la documentazione di ogni vendor e non ne abbiamo trovata nessuna che prometta una nuova domanda quando una definizione cambia. Quindi non c'era nulla da segnalare ai vendor prima di pubblicare; il triage è nel registro del lab.&lt;/li&gt;&lt;/ul&gt;"
+          data-en="&lt;strong&gt;An approval is a name.&lt;/strong&gt; In every client the approval, where there is one, survives a change of what the tool says.&lt;ul&gt;&lt;li&gt;The MCP specification allows a server's tool list to change over time and does not require clients to ask again when a definition changes. It does say that applications should make clear which tools are exposed to the model and keep a human in the loop.&lt;/li&gt;&lt;li&gt;We checked each vendor's documentation and found none promising a new question when a definition changes. So there was nothing to report to the vendors before publishing; the triage is in the lab's register.&lt;/li&gt;&lt;/ul&gt;"><strong>An approval is a name.</strong> In every client the approval, where there is one, survives a change of what the tool says.<ul><li>The MCP specification allows a server's tool list to change over time and does not require clients to ask again when a definition changes. It does say that applications should make clear which tools are exposed to the model and keep a human in the loop.</li><li>We checked each vendor's documentation and found none promising a new question when a definition changes. So there was nothing to report to the vendors before publishing; the triage is in the lab's register.</li></ul></li>
+        <li data-it="&lt;strong&gt;La notifica taglia in due direzioni.&lt;/strong&gt;&lt;ul&gt;&lt;li&gt;I client che la rispettano prendono subito la nuova descrizione. Tre non mostrano nulla; Gemini CLI mostra una riga.&lt;/li&gt;&lt;li&gt;I client che la ignorano tengono la descrizione che hai approvato, ma solo fino al riavvio. Poi prendono la nuova senza domande, tranne Gemini, la cui approvazione finisce comunque con la sessione.&lt;/li&gt;&lt;li&gt;Su nessuna delle due strade un client ha chiesto perché il tool era cambiato.&lt;/li&gt;&lt;/ul&gt;"
+          data-en="&lt;strong&gt;The notification cuts both ways.&lt;/strong&gt;&lt;ul&gt;&lt;li&gt;Clients that honour it pick up the new description at once. Three of them show nothing; Gemini CLI shows one line.&lt;/li&gt;&lt;li&gt;Clients that ignore it keep the description you approved, but only until the next restart. Then they take the new one without a question, except Gemini, whose approval ends with the session anyway.&lt;/li&gt;&lt;li&gt;On neither path did a client ask because the tool had changed.&lt;/li&gt;&lt;/ul&gt;"><strong>The notification cuts both ways.</strong><ul><li>Clients that honour it pick up the new description at once. Three of them show nothing; Gemini CLI shows one line.</li><li>Clients that ignore it keep the description you approved, but only until the next restart. Then they take the new one without a question, except Gemini, whose approval ends with the session anyway.</li><li>On neither path did a client ask because the tool had changed.</li></ul></li>
+        <li data-it="&lt;strong&gt;Per quattro degli otto la domanda non è mai esistita.&lt;/strong&gt; Le modalità predefinite che approvano da sole le chiamate rendono inutile tutta la questione. Quasi tutti questi prodotti permettono di attivare le approvazioni; le misure qui sopra descrivono cosa succede se non lo fai."
+          data-en="&lt;strong&gt;For four of the eight, the question never existed.&lt;/strong&gt; Default modes that auto-approve tool calls make the whole question moot. Most of these products let you turn approvals on, and the measurements above describe what happens if you don't."><strong>For four of the eight, the question never existed.</strong> Default modes that auto-approve tool calls make the whole question moot. Most of these products let you turn approvals on, and the measurements above describe what happens if you don't.</li>
+        <li data-it="&lt;strong&gt;Un client dice qualcosa.&lt;/strong&gt; La riga di avviso di Gemini CLI è l'unico segnale che un utente riceve, in tutti e otto. Ti dice che qualcosa è cambiato, non che cosa."
+          data-en="&lt;strong&gt;One client says something.&lt;/strong&gt; Gemini CLI's one-line notice is the only signal a user gets in any of the eight. It tells you that something changed, not what."><strong>One client says something.</strong> Gemini CLI's one-line notice is the only signal a user gets in any of the eight. It tells you that something changed, not what.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-it="[05] Controlla la tua configurazione" data-en="[05] Check your own setup">[05] Check your own setup</h2>
+      <p data-it="Il lab contiene uno script in sola lettura che elenca i tool MCP che hai approvato in modo permanente in ogni client da terminale, con il file in cui sta ogni approvazione:"
+        data-en="The lab includes a read-only script that lists the MCP tools you have approved permanently in each terminal client, with the file where each approval lives:">The lab includes a read-only script that lists the MCP tools you have approved permanently in each terminal client, with the file where each approval lives:</p>
+      <div class="code-block"><pre>node tool-change/scripts/check-approvals.mjs                 # your home directory
+node tool-change/scripts/check-approvals.mjs --project DIR   # also the project-level stores in DIR</pre></div>
+      <p data-it="Legge gli archivi che il lab ha osservato con le versioni qui sopra:"
+        data-en="It reads the stores the lab observed with the versions above:">It reads the stores the lab observed with the versions above:</p>
+      <ul>
+        <li data-it="Claude Code: &lt;code&gt;~/.claude.json&lt;/code&gt; e &lt;code&gt;~/.claude/settings*.json&lt;/code&gt;;"
+          data-en="Claude Code: &lt;code&gt;~/.claude.json&lt;/code&gt; and &lt;code&gt;~/.claude/settings*.json&lt;/code&gt;;">Claude Code: <code>~/.claude.json</code> and <code>~/.claude/settings*.json</code>;</li>
+        <li data-it="Codex CLI: &lt;code&gt;approval_mode = &quot;approve&quot;&lt;/code&gt; in &lt;code&gt;~/.codex/config.toml&lt;/code&gt; (e nel &lt;code&gt;.codex/config.toml&lt;/code&gt; del progetto);"
+          data-en="Codex CLI: &lt;code&gt;approval_mode = &quot;approve&quot;&lt;/code&gt; in &lt;code&gt;~/.codex/config.toml&lt;/code&gt; (and in the project's &lt;code&gt;.codex/config.toml&lt;/code&gt;);">Codex CLI: <code>approval_mode = "approve"</code> in <code>~/.codex/config.toml</code> (and in the project's <code>.codex/config.toml</code>);</li>
+        <li data-it="Cursor CLI: &lt;code&gt;~/.cursor/cli-config.json&lt;/code&gt; (e il &lt;code&gt;.cursor/cli.json&lt;/code&gt; del progetto);"
+          data-en="Cursor CLI: &lt;code&gt;~/.cursor/cli-config.json&lt;/code&gt; (and the project's &lt;code&gt;.cursor/cli.json&lt;/code&gt;);">Cursor CLI: <code>~/.cursor/cli-config.json</code> (and the project's <code>.cursor/cli.json</code>);</li>
+        <li data-it="Gemini CLI: &lt;code&gt;~/.gemini/policies/auto-saved.toml&lt;/code&gt;, più i server marcati &lt;code&gt;trust: true&lt;/code&gt;;"
+          data-en="Gemini CLI: &lt;code&gt;~/.gemini/policies/auto-saved.toml&lt;/code&gt;, plus servers marked &lt;code&gt;trust: true&lt;/code&gt;;">Gemini CLI: <code>~/.gemini/policies/auto-saved.toml</code>, plus servers marked <code>trust: true</code>;</li>
+        <li data-it="Goose: &lt;code&gt;~/.config/goose/permission.yaml&lt;/code&gt;, più la modalità predefinita;"
+          data-en="Goose: &lt;code&gt;~/.config/goose/permission.yaml&lt;/code&gt;, plus the default mode;">Goose: <code>~/.config/goose/permission.yaml</code>, plus the default mode;</li>
+        <li data-it="Qwen Code: &lt;code&gt;~/.qwen/settings.json&lt;/code&gt;."
+          data-en="Qwen Code: &lt;code&gt;~/.qwen/settings.json&lt;/code&gt;.">Qwen Code: <code>~/.qwen/settings.json</code>.</li>
+      </ul>
+      <p data-it="Ogni voce che stampa è legata solo al nome: se quel server cambia il tool, la voce vale ancora. Una lista vuota non vuol dire che nulla sia approvato:"
+        data-en="Every entry it prints is keyed by name only: if that server changes the tool, the entry still applies. An empty list does not mean nothing is approved:">Every entry it prints is keyed by name only: if that server changes the tool, the entry still applies. An empty list does not mean nothing is approved:</p>
+      <ul>
+        <li data-it="le modalità predefinite che approvano ogni chiamata non hanno bisogno di voci (la &lt;code&gt;auto&lt;/code&gt; di Goose, le auto mode di Claude Code e Qwen Code);"
+          data-en="default modes that approve every call need no entry (Goose's &lt;code&gt;auto&lt;/code&gt;, the auto modes of Claude Code and Qwen Code);">default modes that approve every call need no entry (Goose's <code>auto</code>, the auto modes of Claude Code and Qwen Code);</li>
+        <li data-it="le voci che coprono un intero server coprono anche i tool aggiunti dopo;"
+          data-en="server-wide entries also cover tools added later;">server-wide entries also cover tools added later;</li>
+        <li data-it="VS Code e Cursor IDE tengono le approvazioni in un loro archivio, che si controlla dall'editor."
+          data-en="VS Code and Cursor IDE keep approvals in their own storage, which you check in the editor.">VS Code and Cursor IDE keep approvals in their own storage, which you check in the editor.</li>
+      </ul>
+      <p data-it="Per ritirare un'approvazione:"
+        data-en="To withdraw an approval:">To withdraw an approval:</p>
+      <ol>
+        <li data-it="togli la voce del tool e ogni voce per l'intero server che lo copre;"
+          data-en="remove the tool's entry and any server-wide entry that covers it;">remove the tool's entry and any server-wide entry that covers it;</li>
+        <li data-it="metti il client in una modalità che chiede prima delle chiamate;"
+          data-en="switch the client to a mode that asks before tool calls;">switch the client to a mode that asks before tool calls;</li>
+        <li data-it="riavvia il client e leggi la descrizione attuale del tool prima di approvarlo di nuovo."
+          data-en="restart the client and read the tool's current description before approving it again.">restart the client and read the tool's current description before approving it again.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-it="[06] Cosa chiederemmo ai vendor" data-en="[06] What we would ask vendors">[06] What we would ask vendors</h2>
+      <ul>
+        <li data-it="Legare un'approvazione alla definizione approvata, per esempio con un hash di nome, descrizione e schema, e chiedere di nuovo quando cambia."
+          data-en="Bind an approval to the definition that was approved, for example with a hash of the name, description and schema, and ask again when it changes.">Bind an approval to the definition that was approved, for example with a hash of the name, description and schema, and ask again when it changes.</li>
+        <li data-it="Quando una definizione cambia, mostrare che cosa è cambiato, non solo che qualcosa è cambiato."
+          data-en="When a definition changes, show what changed, not just that something did.">When a definition changes, show what changed, not just that something did.</li>
+        <li data-it="Trattare un cambio della lista dei tool di un server già approvato come un evento di sicurezza: registrarlo dove utenti e chi difende possono vederlo."
+          data-en="Treat a tool-list change from an already approved server as a security-relevant event: log it where users and defenders can see it.">Treat a tool-list change from an already approved server as a security-relevant event: log it where users and defenders can see it.</li>
+        <li data-it="Mostrare, accanto a ogni approvazione ricordata, la definizione per cui è stata data."
+          data-en="Show, next to each remembered approval, the definition it was given for.">Show, next to each remembered approval, the definition it was given for.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[07] Limiti" data-en="[07] Limits">[07] Limits</h2>
+      <ul>
+        <li data-it="Misuriamo cosa fa il client quando una definizione cambia, non cosa fa un modello con una descrizione cambiata."
+          data-en="We measure what the client does when a definition changes, not what a model does with a changed description.">We measure what the client does when a definition changes, not what a model does with a changed description.</li>
+        <li data-it="I risultati valgono per le versioni indicate. I client si aggiornano spesso, due di loro in parte da soli."
+          data-en="Results hold for the versions listed. Clients update often, two of them partly on their own.">Results hold for the versions listed. Clients update often, two of them partly on their own.</li>
+        <li data-it="Un solo sistema operativo, in una macchina virtuale. I due editor sono stati provati una volta per segnale, tranne il run di VS Code con la notifica, di cui abbiamo due volte i primi due passi."
+          data-en="One operating system, in a virtual machine. The two editors were run once per signal, except VS Code's notification run, whose first two steps we have twice.">One operating system, in a virtual machine. The two editors were run once per signal, except VS Code's notification run, whose first two steps we have twice.</li>
+        <li data-it="In VS Code, il passo dopo il riavvio è stato osservato solo senza la notifica. Con la notifica, il display della macchina virtuale si è bloccato due volte alla riapertura dell'editor."
+          data-en="In VS Code, the run after a restart was observed only without the notification. With the notification, the virtual machine's display froze twice when the editor was reopened.">In VS Code, the run after a restart was observed only without the notification. With the notification, the virtual machine's display froze twice when the editor was reopened.</li>
+        <li data-it="L'assenza della prima domanda in Cursor IDE può dipendere da impostazioni già presenti nella nostra macchina di test, più che dal comportamento predefinito del prodotto."
+          data-en="Cursor IDE's lack of a first question may reflect settings already present in our test machine rather than the product's default.">Cursor IDE's lack of a first question may reflect settings already present in our test machine rather than the product's default.</li>
+        <li data-it="Il server è configurato dall'utente e la cartella è fidata in anticipo. Un server dichiarato dal repository aggiunge le domande della parte 2."
+          data-en="The server is configured by the user and the folder is trusted beforehand. A repository-declared server adds part 2's questions.">The server is configured by the user and the folder is trusted beforehand. A repository-declared server adds part 2's questions.</li>
+        <li data-it="&quot;Accettato in silenzio&quot; vuol dire che il client ha ricevuto B. Che B sia arrivata al modello non lo abbiamo osservato."
+          data-en="&quot;Silent accept&quot; means the client received B. That B reached the model, we did not observe.">"Silent accept" means the client received B. That B reached the model, we did not observe.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[08] Il lab" data-en="[08] The lab">[08] The lab</h2>
+      <p data-it="Tutto è nella cartella &lt;code&gt;tool-change/&lt;/code&gt; del repository del lab:"
+        data-en="Everything is in the &lt;code&gt;tool-change/&lt;/code&gt; folder of the lab repository:">Everything is in the <code>tool-change/</code> folder of the lab repository:</p>
+      <ul>
+        <li data-it="il server che parla le due versioni del protocollo e registra ogni messaggio;"
+          data-en="the dual-protocol server that logs every message;">the dual-protocol server that logs every message;</li>
+        <li data-it="il runner, il codificatore a regole e l'analisi;"
+          data-en="the runner, the rule-based coder and the analysis;">the runner, the rule-based coder and the analysis;</li>
+        <li data-it="le prove di ogni esecuzione con hash SHA-256, le schermate degli editor e lo script per i lettori qui sopra."
+          data-en="the per-run evidence with SHA-256 hashes, the editors' screenshots, and the reader script above.">the per-run evidence with SHA-256 hashes, the editors' screenshots, and the reader script above.</li>
+      </ul>
+      <p data-it="I test si lanciano con &lt;code&gt;npm test&lt;/code&gt;. Il protocollo e ogni deviazione sono stati pubblicati prima dei dati che regolano. [DATI: DOI di versione della release.]"
+        data-en="The tests run with &lt;code&gt;npm test&lt;/code&gt;. The protocol and every deviation were published before the data they govern. [DATI: DOI di versione della release.]">The tests run with <code>npm test</code>. The protocol and every deviation were published before the data they govern. [DATI: DOI di versione della release.]</p>
+      <div class="callout-green">
+        <div class="callout-label" data-it="57/57 test superati" data-en="57/57 tests passed">57/57 tests passed</div>
+        <p data-it="Server, runner, codificatori e prove di ogni esecuzione sono nel &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;lab riproducibile&lt;/a&gt;. Le prove machine-readable sono disponibili come &lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;TAP&lt;/a&gt; e come &lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;manifest dell'ambiente&lt;/a&gt;."
+          data-en="Server, runner, coders and per-run evidence are in the &lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;reproducible lab&lt;/a&gt;. Machine-readable evidence is available as &lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;TAP&lt;/a&gt; and an &lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;environment manifest&lt;/a&gt;.">Server, runner, coders and per-run evidence are in the <a href="lab/README.md" target="_blank" rel="noopener noreferrer">reproducible lab</a>. Machine-readable evidence is available as <a href="lab/evidence/test-output.tap" target="_blank" rel="noopener noreferrer">TAP</a> and an <a href="lab/evidence/environment.json" target="_blank" rel="noopener noreferrer">environment manifest</a>.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-it="[09] Prossima puntata" data-en="[09] Next">[09] Next</h2>
+      <p data-it="La parte 4, il 27 ottobre alle 08:00 (in Italia si torna all'ora solare), chiude la serie con due domande:"
+        data-en="Part 4, on 27 October at 08:00 (Italian time is back to CET), closes the series with two questions:">Part 4, on 27 October at 08:00 (Italian time is back to CET), closes the series with two questions:</p>
+      <ul>
+        <li data-it="che cosa vede di tutto questo chi difende, nei log predefiniti;"
+          data-en="what a defender can see of all this in default logs;">what a defender can see of all this in default logs;</li>
+        <li data-it="se le difese che i server MCP ufficiali applicano ai contenuti non fidati coprono ogni tool. Questa domanda è passata da questa parte alla prossima."
+          data-en="whether the defences that official MCP servers apply to untrusted content cover every tool. This question moved from this part to the next.">whether the defences that official MCP servers apply to untrusted content cover every tool. This question moved from this part to the next.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="Fonti" data-en="Sources">Sources</h2>
+      <ol class="source-list">
+        <li data-it="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab riproducibile — README, confine di sicurezza, risultati e limiti&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/README.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Reproducible lab — README, safety boundary, results and limits&lt;/a&gt;"><a href="lab/README.md" target="_blank" rel="noopener noreferrer">Reproducible lab — README, safety boundary, results and limits</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — output TAP dei 57 test&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/test-output.tap&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — TAP output of the 57 tests&lt;/a&gt;"><a href="lab/evidence/test-output.tap" target="_blank" rel="noopener noreferrer">Lab evidence — TAP output of the 57 tests</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — manifest dell'ambiente: client, versioni, codificatori&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/environment.json&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — environment manifest: clients, versions, coders&lt;/a&gt;"><a href="lab/evidence/environment.json" target="_blank" rel="noopener noreferrer">Lab evidence — environment manifest: clients, versions, coders</a></li>
+        <li data-it="&lt;a href=&quot;lab/evidence/gui-20261017/SUMMARY.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Prove del lab — i due editor, 17 ottobre (registri e schermate)&lt;/a&gt;"
+          data-en="&lt;a href=&quot;lab/evidence/gui-20261017/SUMMARY.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Lab evidence — the two editors, 17 October (logs and screenshots)&lt;/a&gt;"><a href="lab/evidence/gui-20261017/SUMMARY.md" target="_blank" rel="noopener noreferrer">Lab evidence — the two editors, 17 October (logs and screenshots)</a></li>
+        <li data-it="Deviazioni dalla preregistrazione, D5–D22 — &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab/blob/master/preregistration/DEVIATIONS.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;DEVIATIONS.md&lt;/a&gt;; preregistrazione — &lt;a href=&quot;https://doi.org/10.5281/zenodo.23300369&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;doi.org/10.5281/zenodo.23300369&lt;/a&gt;"
+          data-en="Deviations from the preregistration, D5–D22 — &lt;a href=&quot;https://github.com/paolocostanzo/outside-the-prompt-lab/blob/master/preregistration/DEVIATIONS.md&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;DEVIATIONS.md&lt;/a&gt;; preregistration — &lt;a href=&quot;https://doi.org/10.5281/zenodo.23300369&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;doi.org/10.5281/zenodo.23300369&lt;/a&gt;">Deviations from the preregistration, D5–D22 — <a href="https://github.com/paolocostanzo/outside-the-prompt-lab/blob/master/preregistration/DEVIATIONS.md" target="_blank" rel="noopener noreferrer">DEVIATIONS.md</a>; preregistration — <a href="https://doi.org/10.5281/zenodo.23300369" target="_blank" rel="noopener noreferrer">doi.org/10.5281/zenodo.23300369</a></li>
+        <li data-it="Specifica del Model Context Protocol, revisione 2026-07-28, «Tools» — &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28/server/tools&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;modelcontextprotocol.io&lt;/a&gt;"
+          data-en="Model Context Protocol specification, revision 2026-07-28, “Tools” — &lt;a href=&quot;https://modelcontextprotocol.io/specification/2026-07-28/server/tools&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;modelcontextprotocol.io&lt;/a&gt;">Model Context Protocol specification, revision 2026-07-28, “Tools” — <a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" target="_blank" rel="noopener noreferrer">modelcontextprotocol.io</a></li>
+        <li data-it="Invariant Labs, «MCP Security Notification: Tool Poisoning Attacks», 1 apr 2025 — &lt;a href=&quot;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;invariantlabs.ai&lt;/a&gt;"
+          data-en="Invariant Labs, “MCP Security Notification: Tool Poisoning Attacks”, 1 Apr 2025 — &lt;a href=&quot;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;invariantlabs.ai&lt;/a&gt;">Invariant Labs, “MCP Security Notification: Tool Poisoning Attacks”, 1 Apr 2025 — <a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks" target="_blank" rel="noopener noreferrer">invariantlabs.ai</a></li>
+        <li data-it="Check Point Research, CVE-2025-54136 «MCPoison», 5 ago 2025 — &lt;a href=&quot;https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;research.checkpoint.com&lt;/a&gt;"
+          data-en="Check Point Research, CVE-2025-54136 “MCPoison”, 5 Aug 2025 — &lt;a href=&quot;https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;research.checkpoint.com&lt;/a&gt;">Check Point Research, CVE-2025-54136 “MCPoison”, 5 Aug 2025 — <a href="https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/" target="_blank" rel="noopener noreferrer">research.checkpoint.com</a></li>
+        <li data-it="Seconda parte della serie — &lt;a href=&quot;/trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Fidarsi di un repo oggi vuol dire fidarsi dei suoi server MCP&lt;/a&gt;"
+          data-en="Part 2 of this series — &lt;a href=&quot;/trusting-a-repo-means-trusting-its-mcp-servers/&quot;&gt;Trusting a repo now means trusting its MCP servers&lt;/a&gt;">Part 2 of this series — <a href="/trusting-a-repo-means-trusting-its-mcp-servers/">Trusting a repo now means trusting its MCP servers</a></li>
+        <li data-it="Prima parte della serie — &lt;a href=&quot;/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Fuori dal prompt: cosa hanno in comune le vulnerabilità degli agenti AI di quest'estate&lt;/a&gt;"
+          data-en="Part 1 of this series — &lt;a href=&quot;/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/&quot;&gt;Outside the prompt: what this summer's AI agent vulnerabilities have in common&lt;/a&gt;">Part 1 of this series — <a href="/outside-the-prompt-ai-agent-vulnerabilities-summer-2026/">Outside the prompt: what this summer's AI agent vulnerabilities have in common</a></li>
+      </ol>
+    </section>
+
+    <aside class="author-box">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
+      <div class="ab-name">Paolo Costanzo</div>
+      <div class="ab-role"
+           data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer in Cybersecurity &amp; AWS @ ITS ICT Piemonte"
+           data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer in Cybersecurity &amp; AWS @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer in Cybersecurity &amp; AWS @ ITS ICT Piemonte</div>
+      <p class="ab-bio"
+         data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+         data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
+      <div class="ab-links">
+        <a class="ab-cta" href="mailto:me@paolocostanzo.com" data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
+        <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← all articles</a>
+    <span class="footer-copy" data-it="© 2026 Paolo Costanzo" data-en="© 2026 Paolo Costanzo">© 2026 Paolo Costanzo</span>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if (stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if (nav.indexOf('en') === 0) return 'en';
+        return 'en';
+      }
+
+      function setLang(lang){
+        var next = lang === 'en' ? 'en' : 'it';
+        document.documentElement.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var value = el.getAttribute(next === 'en' ? 'data-en' : 'data-it');
+          if (value === null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+          } else if (el.tagName === 'TITLE') {
+            document.title = value;
+          } else {
+            el.innerHTML = value;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(button){
+          var on = button.textContent.trim().toLowerCase() === next;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-pressed', String(on));
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+
+    window.addEventListener('scroll', function(){
+      var root = document.documentElement;
+      var total = root.scrollHeight - root.clientHeight;
+      var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
+      document.getElementById('read-bar').style.width = percent + '%';
+      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+    }, { passive:true });
+  </script>
+</body>
+</html>

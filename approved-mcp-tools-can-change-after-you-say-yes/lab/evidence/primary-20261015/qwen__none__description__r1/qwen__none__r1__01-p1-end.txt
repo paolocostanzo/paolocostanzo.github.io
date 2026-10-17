@@ -1,0 +1,50 @@
+
+   ▄▄▄▄▄▄  ▄▄     ▄▄ ▄▄▄▄▄▄▄ ▄▄▄    ▄▄   ┌──────────────────────────────────────────────────────────┐
+  ██╔═══██╗██║    ██║██╔════╝████╗  ██║  │ >_ Qwen Code (v0.25.1)                                   │
+  ██║   ██║██║ █╗ ██║█████╗  ██╔██╗ ██║  │                                                          │
+  ██║▄▄ ██║██║███╗██║██╔══╝  ██║╚██╗██║  │ API Key | gemini-flash-lite-latest (/model to change)    │
+  ╚██████╔╝╚███╔███╔╝███████╗██║ ╚████║  │ ~/q3-repo                                                │
+   ╚══▀▀═╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═══╝  └──────────────────────────────────────────────────────────┘
+
+  Tips: You can run any shell commands from Qwen Code using ! (e.g. !ls).
+  ●︎ Read context files: ~/.qwen/output-language.md
+
+  > Call the q3_noop tool of the q3-lab MCP server once, then reply with only the word it returned.
+  ✓ ToolSearch select:mcp__q3-lab__q3_noop
+    Reviewed 1 tool(s)
+  ✓ q3_noop (q3-lab MCP Server) {}
+    ok
+
+  .. Charging the laser... pew pew! (14s · ↑ 21 tokens · esc to cancel)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+>   Type your message or @path/to/file
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ➜ q3-repo · gemini-flash-lite-latest · 1.0m Context 1.7% used
+  Enter to steer · Ctrl+Q to queue · Auto mode (shift + tab to cycle)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

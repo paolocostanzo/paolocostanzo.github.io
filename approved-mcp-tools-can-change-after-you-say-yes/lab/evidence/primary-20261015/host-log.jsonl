@@ -1,0 +1,187 @@
+{"ts": "2026-10-15T15:52:54+00:00", "event": "pre-revert", "cell": "gemini__none__description__r1", "order6plus": 0}
+{"ts": "2026-10-15T15:53:03+00:00", "event": "cell-start", "n": 1, "of": 60, "cell": "gemini__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 637, "push_rc": 0}
+{"ts": "2026-10-15T15:54:09+00:00", "event": "cell-end", "cell": "gemini__none__description__r1", "rc": 0, "seconds": 74, "row": true}
+{"ts": "2026-10-15T15:54:09+00:00", "event": "pre-revert", "cell": "goose__none__description__r1", "order6plus": 120}
+{"ts": "2026-10-15T15:54:20+00:00", "event": "cell-start", "n": 2, "of": 60, "cell": "goose__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1448, "push_rc": 0}
+{"ts": "2026-10-15T15:55:19+00:00", "event": "cell-end", "cell": "goose__none__description__r1", "rc": 0, "seconds": 70, "row": true}
+{"ts": "2026-10-15T15:55:19+00:00", "event": "pre-revert", "cell": "codex__none__description__r1", "order6plus": 73}
+{"ts": "2026-10-15T15:55:30+00:00", "event": "cell-start", "n": 3, "of": 60, "cell": "codex__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1620, "push_rc": 0}
+{"ts": "2026-10-15T15:56:51+00:00", "event": "cell-end", "cell": "codex__none__description__r1", "rc": 0, "seconds": 92, "row": true}
+{"ts": "2026-10-15T15:56:51+00:00", "event": "pre-revert", "cell": "claude-code__list_changed__description__r1", "order6plus": 54}
+{"ts": "2026-10-15T15:57:01+00:00", "event": "cell-start", "n": 4, "of": 60, "cell": "claude-code__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1085, "push_rc": 0}
+{"ts": "2026-10-15T15:58:03+00:00", "event": "cell-end", "cell": "claude-code__list_changed__description__r1", "rc": 0, "seconds": 72, "row": true}
+{"ts": "2026-10-15T15:58:03+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r1", "order6plus": 59}
+{"ts": "2026-10-15T15:58:11+00:00", "event": "cell-start", "n": 5, "of": 60, "cell": "gemini__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1023, "push_rc": 0}
+{"ts": "2026-10-15T15:59:27+00:00", "event": "cell-end", "cell": "gemini__list_changed__description__r1", "rc": 0, "seconds": 84, "row": true}
+{"ts": "2026-10-15T15:59:27+00:00", "event": "pre-revert", "cell": "cursor-agent__none__description__r1", "order6plus": 38}
+{"ts": "2026-10-15T15:59:35+00:00", "event": "cell-start", "n": 6, "of": 60, "cell": "cursor-agent__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 876, "push_rc": 0}
+{"ts": "2026-10-15T16:00:39+00:00", "event": "cell-end", "cell": "cursor-agent__none__description__r1", "rc": 0, "seconds": 73, "row": true}
+{"ts": "2026-10-15T16:00:39+00:00", "event": "pre-revert", "cell": "qwen__none__description__r1", "order6plus": 40}
+{"ts": "2026-10-15T16:00:47+00:00", "event": "cell-start", "n": 7, "of": 60, "cell": "qwen__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 788, "push_rc": 0}
+{"ts": "2026-10-15T16:02:09+00:00", "event": "cell-end", "cell": "qwen__none__description__r1", "rc": 0, "seconds": 90, "row": true}
+{"ts": "2026-10-15T16:02:09+00:00", "event": "pre-revert", "cell": "claude-code__none__description__r1", "order6plus": 24}
+{"ts": "2026-10-15T16:02:17+00:00", "event": "cell-start", "n": 8, "of": 60, "cell": "claude-code__none__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 697, "push_rc": 0}
+{"ts": "2026-10-15T16:03:18+00:00", "event": "cell-end", "cell": "claude-code__none__description__r1", "rc": 0, "seconds": 70, "row": true}
+{"ts": "2026-10-15T16:03:19+00:00", "event": "pre-revert", "cell": "cursor-agent__list_changed__description__r1", "order6plus": 44}
+{"ts": "2026-10-15T16:03:27+00:00", "event": "cell-start", "n": 9, "of": 60, "cell": "cursor-agent__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 673, "push_rc": 0}
+{"ts": "2026-10-15T16:04:28+00:00", "event": "cell-end", "cell": "cursor-agent__list_changed__description__r1", "rc": 0, "seconds": 69, "row": true}
+{"ts": "2026-10-15T16:04:28+00:00", "event": "pre-revert", "cell": "qwen__list_changed__description__r1", "order6plus": 64}
+{"ts": "2026-10-15T16:04:36+00:00", "event": "cell-start", "n": 10, "of": 60, "cell": "qwen__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 806, "push_rc": 0}
+{"ts": "2026-10-15T16:06:00+00:00", "event": "cell-end", "cell": "qwen__list_changed__description__r1", "rc": 0, "seconds": 92, "row": true}
+{"ts": "2026-10-15T16:06:00+00:00", "event": "pre-revert", "cell": "goose__list_changed__description__r1", "order6plus": 27}
+{"ts": "2026-10-15T16:06:07+00:00", "event": "cell-start", "n": 11, "of": 60, "cell": "goose__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 627, "push_rc": 0}
+{"ts": "2026-10-15T16:07:19+00:00", "event": "cell-end", "cell": "goose__list_changed__description__r1", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:07:19+00:00", "event": "pre-revert", "cell": "codex__list_changed__description__r1", "order6plus": 31}
+{"ts": "2026-10-15T16:07:26+00:00", "event": "cell-start", "n": 12, "of": 60, "cell": "codex__list_changed__description__r1", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 832, "push_rc": 0}
+{"ts": "2026-10-15T16:08:36+00:00", "event": "cell-end", "cell": "codex__list_changed__description__r1", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:08:36+00:00", "event": "pre-revert", "cell": "codex__none__description__r2", "order6plus": 9}
+{"ts": "2026-10-15T16:08:44+00:00", "event": "cell-start", "n": 13, "of": 60, "cell": "codex__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 835, "push_rc": 0}
+{"ts": "2026-10-15T16:09:54+00:00", "event": "cell-end", "cell": "codex__none__description__r2", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:09:54+00:00", "event": "pre-revert", "cell": "cursor-agent__none__description__r2", "order6plus": 21}
+{"ts": "2026-10-15T16:10:02+00:00", "event": "cell-start", "n": 14, "of": 60, "cell": "cursor-agent__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 688, "push_rc": 0}
+{"ts": "2026-10-15T16:11:07+00:00", "event": "cell-end", "cell": "cursor-agent__none__description__r2", "rc": 0, "seconds": 73, "row": true}
+{"ts": "2026-10-15T16:11:07+00:00", "event": "pre-revert", "cell": "goose__none__description__r2", "order6plus": 21}
+{"ts": "2026-10-15T16:11:15+00:00", "event": "cell-start", "n": 15, "of": 60, "cell": "goose__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 727, "push_rc": 0}
+{"ts": "2026-10-15T16:12:28+00:00", "event": "cell-end", "cell": "goose__none__description__r2", "rc": 0, "seconds": 81, "row": true}
+{"ts": "2026-10-15T16:12:28+00:00", "event": "pre-revert", "cell": "gemini__none__description__r2", "order6plus": 15}
+{"ts": "2026-10-15T16:12:36+00:00", "event": "cell-start", "n": 16, "of": 60, "cell": "gemini__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 666, "push_rc": 0}
+{"ts": "2026-10-15T16:13:46+00:00", "event": "cell-end", "cell": "gemini__none__description__r2", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:13:46+00:00", "event": "pre-revert", "cell": "claude-code__list_changed__description__r2", "order6plus": 17}
+{"ts": "2026-10-15T16:13:53+00:00", "event": "cell-start", "n": 17, "of": 60, "cell": "claude-code__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 731, "push_rc": 0}
+{"ts": "2026-10-15T16:14:57+00:00", "event": "cell-end", "cell": "claude-code__list_changed__description__r2", "rc": 0, "seconds": 71, "row": true}
+{"ts": "2026-10-15T16:14:57+00:00", "event": "pre-revert", "cell": "claude-code__none__description__r2", "order6plus": 38}
+{"ts": "2026-10-15T16:15:04+00:00", "event": "cell-start", "n": 18, "of": 60, "cell": "claude-code__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 796, "push_rc": 0}
+{"ts": "2026-10-15T16:16:05+00:00", "event": "cell-end", "cell": "claude-code__none__description__r2", "rc": 0, "seconds": 68, "row": true}
+{"ts": "2026-10-15T16:16:05+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r2", "order6plus": 11}
+{"ts": "2026-10-15T16:16:12+00:00", "event": "cell-start", "n": 19, "of": 60, "cell": "gemini__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 616, "push_rc": 0}
+{"ts": "2026-10-15T16:17:28+00:00", "event": "cell-end", "cell": "gemini__list_changed__description__r2", "rc": 0, "seconds": 84, "row": true}
+{"ts": "2026-10-15T16:17:28+00:00", "event": "pre-revert", "cell": "qwen__list_changed__description__r2", "order6plus": 2}
+{"ts": "2026-10-15T16:17:36+00:00", "event": "cell-start", "n": 20, "of": 60, "cell": "qwen__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 605, "push_rc": 0}
+{"ts": "2026-10-15T16:19:08+00:00", "event": "cell-end", "cell": "qwen__list_changed__description__r2", "rc": 0, "seconds": 99, "row": true}
+{"ts": "2026-10-15T16:19:08+00:00", "event": "pre-revert", "cell": "codex__list_changed__description__r2", "order6plus": 22}
+{"ts": "2026-10-15T16:19:16+00:00", "event": "cell-start", "n": 21, "of": 60, "cell": "codex__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 630, "push_rc": 0}
+{"ts": "2026-10-15T16:20:24+00:00", "event": "cell-end", "cell": "codex__list_changed__description__r2", "rc": 0, "seconds": 77, "row": true}
+{"ts": "2026-10-15T16:20:24+00:00", "event": "pre-revert", "cell": "goose__list_changed__description__r2", "order6plus": 6}
+{"ts": "2026-10-15T16:20:32+00:00", "event": "cell-start", "n": 22, "of": 60, "cell": "goose__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 633, "push_rc": 0}
+{"ts": "2026-10-15T16:21:37+00:00", "event": "cell-end", "cell": "goose__list_changed__description__r2", "rc": 0, "seconds": 73, "row": true}
+{"ts": "2026-10-15T16:21:37+00:00", "event": "pre-revert", "cell": "cursor-agent__list_changed__description__r2", "order6plus": 14}
+{"ts": "2026-10-15T16:21:45+00:00", "event": "cell-start", "n": 23, "of": 60, "cell": "cursor-agent__list_changed__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 625, "push_rc": 0}
+{"ts": "2026-10-15T16:22:53+00:00", "event": "cell-end", "cell": "cursor-agent__list_changed__description__r2", "rc": 0, "seconds": 76, "row": true}
+{"ts": "2026-10-15T16:23:53+00:00", "event": "pre-revert", "cell": "qwen__none__description__r2", "order6plus": 8}
+{"ts": "2026-10-15T16:24:01+00:00", "event": "cell-start", "n": 24, "of": 60, "cell": "qwen__none__description__r2", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 618, "push_rc": 0}
+{"ts": "2026-10-15T16:25:12+00:00", "event": "cell-end", "cell": "qwen__none__description__r2", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:26:12+00:00", "event": "pre-revert", "cell": "cursor-agent__list_changed__description__r3", "order6plus": 13}
+{"ts": "2026-10-15T16:26:19+00:00", "event": "cell-start", "n": 25, "of": 60, "cell": "cursor-agent__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 609, "push_rc": 0}
+{"ts": "2026-10-15T16:27:24+00:00", "event": "cell-end", "cell": "cursor-agent__list_changed__description__r3", "rc": 0, "seconds": 72, "row": true}
+{"ts": "2026-10-15T16:27:44+00:00", "event": "pre-revert", "cell": "qwen__list_changed__description__r3", "order6plus": 14}
+{"ts": "2026-10-15T16:27:51+00:00", "event": "cell-start", "n": 26, "of": 60, "cell": "qwen__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 619, "push_rc": 0}
+{"ts": "2026-10-15T16:29:03+00:00", "event": "cell-end", "cell": "qwen__list_changed__description__r3", "rc": 0, "seconds": 79, "row": true}
+{"ts": "2026-10-15T16:29:03+00:00", "event": "pre-revert", "cell": "codex__none__description__r3", "order6plus": 51}
+{"ts": "2026-10-15T16:29:11+00:00", "event": "cell-start", "n": 27, "of": 60, "cell": "codex__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 778, "push_rc": 0}
+{"ts": "2026-10-15T16:30:19+00:00", "event": "cell-end", "cell": "codex__none__description__r3", "rc": 0, "seconds": 76, "row": true}
+{"ts": "2026-10-15T16:30:19+00:00", "event": "pre-revert", "cell": "cursor-agent__none__description__r3", "order6plus": 27}
+{"ts": "2026-10-15T16:30:27+00:00", "event": "cell-start", "n": 28, "of": 60, "cell": "cursor-agent__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 616, "push_rc": 0}
+{"ts": "2026-10-15T16:31:35+00:00", "event": "cell-end", "cell": "cursor-agent__none__description__r3", "rc": 0, "seconds": 76, "row": true}
+{"ts": "2026-10-15T16:31:35+00:00", "event": "pre-revert", "cell": "goose__none__description__r3", "order6plus": 10}
+{"ts": "2026-10-15T16:31:42+00:00", "event": "cell-start", "n": 29, "of": 60, "cell": "goose__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 643, "push_rc": 0}
+{"ts": "2026-10-15T16:32:46+00:00", "event": "cell-end", "cell": "goose__none__description__r3", "rc": 0, "seconds": 71, "row": true}
+{"ts": "2026-10-15T16:34:06+00:00", "event": "pre-revert", "cell": "claude-code__none__description__r3", "order6plus": 12}
+{"ts": "2026-10-15T16:34:13+00:00", "event": "cell-start", "n": 30, "of": 60, "cell": "claude-code__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 602, "push_rc": 0}
+{"ts": "2026-10-15T16:35:15+00:00", "event": "cell-end", "cell": "claude-code__none__description__r3", "rc": 0, "seconds": 69, "row": true}
+{"ts": "2026-10-15T16:35:15+00:00", "event": "pre-revert", "cell": "goose__list_changed__description__r3", "order6plus": 54}
+{"ts": "2026-10-15T16:35:24+00:00", "event": "cell-start", "n": 31, "of": 60, "cell": "goose__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 761, "push_rc": 0}
+{"ts": "2026-10-15T16:36:34+00:00", "event": "cell-end", "cell": "goose__list_changed__description__r3", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T16:36:34+00:00", "event": "pre-revert", "cell": "qwen__none__description__r3", "order6plus": 6}
+{"ts": "2026-10-15T16:36:45+00:00", "event": "cell-start", "n": 32, "of": 60, "cell": "qwen__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1045, "push_rc": 0}
+{"ts": "2026-10-15T16:37:58+00:00", "event": "cell-end", "cell": "qwen__none__description__r3", "rc": 0, "seconds": 84, "row": true}
+{"ts": "2026-10-15T16:37:58+00:00", "event": "pre-revert", "cell": "gemini__none__description__r3", "order6plus": 12}
+{"ts": "2026-10-15T16:38:09+00:00", "event": "cell-start", "n": 33, "of": 60, "cell": "gemini__none__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 960, "push_rc": 0}
+{"ts": "2026-10-15T16:39:21+00:00", "event": "cell-end", "cell": "gemini__none__description__r3", "rc": 0, "seconds": 84, "row": true}
+{"ts": "2026-10-15T16:39:21+00:00", "event": "pre-revert", "cell": "codex__list_changed__description__r3", "order6plus": 6}
+{"ts": "2026-10-15T16:39:32+00:00", "event": "cell-start", "n": 34, "of": 60, "cell": "codex__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1127, "push_rc": 0}
+{"ts": "2026-10-15T16:40:43+00:00", "event": "cell-end", "cell": "codex__list_changed__description__r3", "rc": 0, "seconds": 81, "row": true}
+{"ts": "2026-10-15T16:40:43+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r3", "order6plus": 18}
+{"ts": "2026-10-15T16:44:53+00:00", "event": "ssh-timeout"}
+{"ts": "2026-10-15T16:46:18+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r3", "order6plus": 78}
+{"ts": "2026-10-15T16:46:29+00:00", "event": "cell-start", "n": 35, "of": 60, "cell": "gemini__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1571, "push_rc": 0}
+{"ts": "2026-10-15T16:47:52+00:00", "event": "cell-end", "cell": "gemini__list_changed__description__r3", "rc": 0, "seconds": 94, "row": true}
+{"ts": "2026-10-15T16:47:52+00:00", "event": "pre-revert", "cell": "claude-code__list_changed__description__r3", "order6plus": 21}
+{"ts": "2026-10-15T16:48:01+00:00", "event": "cell-start", "n": 36, "of": 60, "cell": "claude-code__list_changed__description__r3", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1338, "push_rc": 0}
+{"ts": "2026-10-15T16:49:04+00:00", "event": "cell-end", "cell": "claude-code__list_changed__description__r3", "rc": 0, "seconds": 72, "row": true}
+{"ts": "2026-10-15T16:49:04+00:00", "event": "pre-revert", "cell": "codex__list_changed__description__r4", "order6plus": 169}
+{"ts": "2026-10-15T16:49:13+00:00", "event": "cell-start", "n": 37, "of": 60, "cell": "codex__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 805, "push_rc": 0}
+{"ts": "2026-10-15T16:50:24+00:00", "event": "cell-end", "cell": "codex__list_changed__description__r4", "rc": 0, "seconds": 79, "row": true}
+{"ts": "2026-10-15T16:51:04+00:00", "event": "pre-revert", "cell": "gemini__none__description__r4", "order6plus": 5}
+{"ts": "2026-10-15T16:51:11+00:00", "event": "cell-start", "n": 38, "of": 60, "cell": "gemini__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 601, "push_rc": 0}
+{"ts": "2026-10-15T16:52:18+00:00", "event": "cell-end", "cell": "gemini__none__description__r4", "rc": 0, "seconds": 75, "row": true}
+{"ts": "2026-10-15T16:53:38+00:00", "event": "pre-revert", "cell": "goose__none__description__r4", "order6plus": 10}
+{"ts": "2026-10-15T16:53:46+00:00", "event": "cell-start", "n": 39, "of": 60, "cell": "goose__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 602, "push_rc": 0}
+{"ts": "2026-10-15T16:54:59+00:00", "event": "cell-end", "cell": "goose__none__description__r4", "rc": 0, "seconds": 81, "row": true}
+{"ts": "2026-10-15T16:55:19+00:00", "event": "pre-revert", "cell": "claude-code__list_changed__description__r4", "order6plus": 24}
+{"ts": "2026-10-15T16:55:27+00:00", "event": "cell-start", "n": 40, "of": 60, "cell": "claude-code__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 637, "push_rc": 0}
+{"ts": "2026-10-15T16:56:27+00:00", "event": "cell-end", "cell": "claude-code__list_changed__description__r4", "rc": 0, "seconds": 68, "row": true}
+{"ts": "2026-10-15T16:56:27+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r4", "order6plus": 12}
+{"ts": "2026-10-15T16:56:35+00:00", "event": "cell-start", "n": 41, "of": 60, "cell": "gemini__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 629, "push_rc": 0}
+{"ts": "2026-10-15T16:57:42+00:00", "event": "cell-end", "cell": "gemini__list_changed__description__r4", "rc": 0, "seconds": 74, "row": true}
+{"ts": "2026-10-15T16:58:02+00:00", "event": "pre-revert", "cell": "goose__list_changed__description__r4", "order6plus": 5}
+{"ts": "2026-10-15T16:58:09+00:00", "event": "cell-start", "n": 42, "of": 60, "cell": "goose__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 623, "push_rc": 0}
+{"ts": "2026-10-15T16:59:14+00:00", "event": "cell-end", "cell": "goose__list_changed__description__r4", "rc": 0, "seconds": 72, "row": true}
+{"ts": "2026-10-15T16:59:14+00:00", "event": "pre-revert", "cell": "cursor-agent__list_changed__description__r4", "order6plus": 17}
+{"ts": "2026-10-15T16:59:22+00:00", "event": "cell-start", "n": 43, "of": 60, "cell": "cursor-agent__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 648, "push_rc": 0}
+{"ts": "2026-10-15T17:00:29+00:00", "event": "cell-end", "cell": "cursor-agent__list_changed__description__r4", "rc": 0, "seconds": 75, "row": true}
+{"ts": "2026-10-15T17:00:29+00:00", "event": "pre-revert", "cell": "cursor-agent__none__description__r4", "order6plus": 44}
+{"ts": "2026-10-15T17:00:37+00:00", "event": "cell-start", "n": 44, "of": 60, "cell": "cursor-agent__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 739, "push_rc": 0}
+{"ts": "2026-10-15T17:01:45+00:00", "event": "cell-end", "cell": "cursor-agent__none__description__r4", "rc": 0, "seconds": 77, "row": true}
+{"ts": "2026-10-15T17:01:45+00:00", "event": "pre-revert", "cell": "qwen__list_changed__description__r4", "order6plus": 25}
+{"ts": "2026-10-15T17:01:53+00:00", "event": "cell-start", "n": 45, "of": 60, "cell": "qwen__list_changed__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 646, "push_rc": 0}
+{"ts": "2026-10-15T17:03:31+00:00", "event": "cell-end", "cell": "qwen__list_changed__description__r4", "rc": 0, "seconds": 106, "row": true}
+{"ts": "2026-10-15T17:03:31+00:00", "event": "pre-revert", "cell": "claude-code__none__description__r4", "order6plus": 10}
+{"ts": "2026-10-15T17:03:38+00:00", "event": "cell-start", "n": 46, "of": 60, "cell": "claude-code__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 697, "push_rc": 0}
+{"ts": "2026-10-15T17:04:39+00:00", "event": "cell-end", "cell": "claude-code__none__description__r4", "rc": 0, "seconds": 68, "row": true}
+{"ts": "2026-10-15T17:04:39+00:00", "event": "pre-revert", "cell": "codex__none__description__r4", "order6plus": 8}
+{"ts": "2026-10-15T17:04:46+00:00", "event": "cell-start", "n": 47, "of": 60, "cell": "codex__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 669, "push_rc": 0}
+{"ts": "2026-10-15T17:06:00+00:00", "event": "cell-end", "cell": "codex__none__description__r4", "rc": 0, "seconds": 81, "row": true}
+{"ts": "2026-10-15T17:06:00+00:00", "event": "pre-revert", "cell": "qwen__none__description__r4", "order6plus": 2}
+{"ts": "2026-10-15T17:06:07+00:00", "event": "cell-start", "n": 48, "of": 60, "cell": "qwen__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 617, "push_rc": 0}
+{"ts": "2026-10-15T17:07:07+00:00", "event": "cell-end", "cell": "qwen__none__description__r4", "rc": 1, "seconds": 68, "row": false}
+{"ts": "2026-10-15T17:08:07+00:00", "event": "pre-revert", "cell": "gemini__list_changed__description__r5", "order6plus": 11}
+{"ts": "2026-10-15T17:08:15+00:00", "event": "cell-start", "n": 49, "of": 60, "cell": "gemini__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 634, "push_rc": 0}
+{"ts": "2026-10-15T17:09:34+00:00", "event": "cell-end", "cell": "gemini__list_changed__description__r5", "rc": 0, "seconds": 87, "row": true}
+{"ts": "2026-10-15T17:09:34+00:00", "event": "pre-revert", "cell": "goose__none__description__r5", "order6plus": 6}
+{"ts": "2026-10-15T17:09:41+00:00", "event": "cell-start", "n": 50, "of": 60, "cell": "goose__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 703, "push_rc": 0}
+{"ts": "2026-10-15T17:10:37+00:00", "event": "cell-end", "cell": "goose__none__description__r5", "rc": 0, "seconds": 63, "row": true}
+{"ts": "2026-10-15T17:10:37+00:00", "event": "pre-revert", "cell": "qwen__none__description__r5", "order6plus": 38}
+{"ts": "2026-10-15T17:10:44+00:00", "event": "cell-start", "n": 51, "of": 60, "cell": "qwen__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 900, "push_rc": 0}
+{"ts": "2026-10-15T17:11:55+00:00", "event": "cell-end", "cell": "qwen__none__description__r5", "rc": 0, "seconds": 78, "row": true}
+{"ts": "2026-10-15T17:11:55+00:00", "event": "pre-revert", "cell": "codex__none__description__r5", "order6plus": 5}
+{"ts": "2026-10-15T17:12:03+00:00", "event": "cell-start", "n": 52, "of": 60, "cell": "codex__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 724, "push_rc": 0}
+{"ts": "2026-10-15T17:13:11+00:00", "event": "cell-end", "cell": "codex__none__description__r5", "rc": 0, "seconds": 76, "row": true}
+{"ts": "2026-10-15T17:13:11+00:00", "event": "pre-revert", "cell": "claude-code__list_changed__description__r5", "order6plus": 4}
+{"ts": "2026-10-15T17:13:19+00:00", "event": "cell-start", "n": 53, "of": 60, "cell": "claude-code__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 679, "push_rc": 0}
+{"ts": "2026-10-15T17:14:22+00:00", "event": "cell-end", "cell": "claude-code__list_changed__description__r5", "rc": 0, "seconds": 71, "row": true}
+{"ts": "2026-10-15T17:14:22+00:00", "event": "pre-revert", "cell": "gemini__none__description__r5", "order6plus": 21}
+{"ts": "2026-10-15T17:14:29+00:00", "event": "cell-start", "n": 54, "of": 60, "cell": "gemini__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 700, "push_rc": 0}
+{"ts": "2026-10-15T17:15:35+00:00", "event": "cell-end", "cell": "gemini__none__description__r5", "rc": 0, "seconds": 73, "row": true}
+{"ts": "2026-10-15T17:17:15+00:00", "event": "pre-revert", "cell": "cursor-agent__list_changed__description__r5", "order6plus": 17}
+{"ts": "2026-10-15T17:17:23+00:00", "event": "cell-start", "n": 55, "of": 60, "cell": "cursor-agent__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 623, "push_rc": 0}
+{"ts": "2026-10-15T17:18:32+00:00", "event": "cell-end", "cell": "cursor-agent__list_changed__description__r5", "rc": 0, "seconds": 77, "row": true}
+{"ts": "2026-10-15T17:18:32+00:00", "event": "pre-revert", "cell": "claude-code__none__description__r5", "order6plus": 10}
+{"ts": "2026-10-15T17:18:39+00:00", "event": "cell-start", "n": 56, "of": 60, "cell": "claude-code__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 636, "push_rc": 0}
+{"ts": "2026-10-15T17:19:42+00:00", "event": "cell-end", "cell": "claude-code__none__description__r5", "rc": 0, "seconds": 71, "row": true}
+{"ts": "2026-10-15T17:19:42+00:00", "event": "pre-revert", "cell": "goose__list_changed__description__r5", "order6plus": 21}
+{"ts": "2026-10-15T17:19:50+00:00", "event": "cell-start", "n": 57, "of": 60, "cell": "goose__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 707, "push_rc": 0}
+{"ts": "2026-10-15T17:20:46+00:00", "event": "cell-end", "cell": "goose__list_changed__description__r5", "rc": 0, "seconds": 64, "row": true}
+{"ts": "2026-10-15T17:20:46+00:00", "event": "pre-revert", "cell": "codex__list_changed__description__r5", "order6plus": 14}
+{"ts": "2026-10-15T17:20:54+00:00", "event": "cell-start", "n": 58, "of": 60, "cell": "codex__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 657, "push_rc": 0}
+{"ts": "2026-10-15T17:22:06+00:00", "event": "cell-end", "cell": "codex__list_changed__description__r5", "rc": 0, "seconds": 79, "row": true}
+{"ts": "2026-10-15T17:22:06+00:00", "event": "pre-revert", "cell": "cursor-agent__none__description__r5", "order6plus": 21}
+{"ts": "2026-10-15T17:22:13+00:00", "event": "cell-start", "n": 59, "of": 60, "cell": "cursor-agent__none__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 673, "push_rc": 0}
+{"ts": "2026-10-15T17:23:16+00:00", "event": "cell-end", "cell": "cursor-agent__none__description__r5", "rc": 0, "seconds": 70, "row": true}
+{"ts": "2026-10-15T17:23:16+00:00", "event": "pre-revert", "cell": "qwen__list_changed__description__r5", "order6plus": 3}
+{"ts": "2026-10-15T17:23:23+00:00", "event": "cell-start", "n": 60, "of": 60, "cell": "qwen__list_changed__description__r5", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 680, "push_rc": 0}
+{"ts": "2026-10-15T17:24:28+00:00", "event": "cell-end", "cell": "qwen__list_changed__description__r5", "rc": 0, "seconds": 72, "row": true}
+{"ts": "2026-10-15T17:24:28+00:00", "event": "matrix-done", "cells": 60}
+{"ts": "2026-10-15T17:26:50+00:00", "event": "pre-revert", "cell": "qwen__none__description__r4", "order6plus": 10}
+{"ts": "2026-10-15T17:26:58+00:00", "event": "cell-start", "n": 48, "of": 60, "cell": "qwen__none__description__r4", "ip": "192.168.122.70", "boot_s": 0, "host_avail_mb": 1031, "push_rc": 0}
+{"ts": "2026-10-15T17:28:03+00:00", "event": "cell-end", "cell": "qwen__none__description__r4", "rc": 0, "seconds": 73, "row": true}
+{"ts": "2026-10-15T17:28:03+00:00", "event": "matrix-done", "cells": 60}

@@ -1,0 +1,51 @@
+# screen cc captured 2026-10-15T17:45:58+02:00
+ ▐▛███▛█   Claude Code v2.1.300
+▝▜██████▀  Opus 5.5 · Claude Max
+ ▝▝   ▝▝   ~/q3-repo            
+
+  Get to finished work sooner with Opus 5.5. Switch anytime with /model.
+  1 more notice hidden                                                     
+                                                 
+● Auto mode lets Claude handle permission prompts automatically — Claude checks each tool call for risky actions and prompt injection before executing. Actions Claude 
+  identifies as safe are executed, while actions Claude identifies as risky are blocked and Claude may try a different approach. Ideal for long-running tasks. Claude can 
+  make mistakes that allow harmful commands to run, it's recommended to only use in isolated environments. Shift+Tab to change mode.
+
+
+                      
+
+
+                                                                                                                                                                          
+                                                                                                                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Fullscreen feedback
+
+  To help us make fullscreen mode better, what made you switch back?                                                                                                              
+
+  >                           
+
+  Enter to send · Esc to skip                                           

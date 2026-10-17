@@ -193,6 +193,15 @@ MANIFEST = {
         "footer": "Reproducible lab",
         "badge": "HARD",
     },
+    "tools-after-approval": {
+        "out": "approved-mcp-tools-can-change-after-you-say-yes/og.png",
+        "kicker": "AGENTIC AI · AI SECURITY · MCP · REPRODUCIBLE LAB",
+        "title": "THE TOOL CHANGED",
+        "accent": 1,
+        "subtitle": "Eight coding agents, one approved MCP tool · none asked again",
+        "footer": "Series · part 3 of 4",
+        "badge": "MEDIUM",
+    },
     "trusting-a-repo": {
         "out": "trusting-a-repo-means-trusting-its-mcp-servers/og.png",
         "kicker": "AGENTIC AI · AI SECURITY · MCP · REPRODUCIBLE LAB",

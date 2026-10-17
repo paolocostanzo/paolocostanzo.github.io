@@ -5,9 +5,20 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 08:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2026 08:00:00 +0200</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
 
+    <item>
+      <title>You approved the tool. Then it changed.</title>
+      <link>https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/</link>
+      <guid>https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/</guid>
+      <pubDate>Tue, 20 Oct 2026 08:00:00 +0200</pubDate>
+      <description>We approved a harmless MCP tool in eight AI coding agents, changed its description on the server, and asked each to call it again: 60 runs from clean snapshots on six terminal clients, plus VS Code with Copilot and Cursor IDE by hand. None asked for permission again because the tool had changed. With the protocol's change notification, Claude Code, VS Code and Cursor IDE fetched the new description within milliseconds and showed nothing; Gemini CLI showed one line; Codex CLI, Cursor CLI and Qwen Code ignored it until restarted. Exact prompts, a blind check by a third coder, a reproducible lab with 57 tests, and a script to list the tools you approved.</description>
+      <category>Agentic AI</category>
+      <category>AI Security</category>
+      <category>MCP Security</category>
+      <category>AppSec</category>
+    </item>
     <item>
       <title>Trusting a repo now means trusting its MCP servers</title>
       <link>https://paolocostanzo.github.io/trusting-a-repo-means-trusting-its-mcp-servers/</link>

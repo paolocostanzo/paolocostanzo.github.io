@@ -1,0 +1,16 @@
+
+--- stderr ---
+Traceback (most recent call last):
+  File "/home/lab/lab/tool-change/scripts/run_q3_cell.py", line 241, in <module>
+    main()
+    ~~~~^^
+  File "/home/lab/lab/tool-change/scripts/run_q3_cell.py", line 236, in main
+    outdir, row = run(a.client, a.signal, a.change, a.rep, a.out, reopen=not a.no_reopen)
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lab/lab/tool-change/scripts/run_q3_cell.py", line 205, in run
+    ask_and_follow(spec, "p2", row["flip_at"], call_timeout, caps, outdir, row)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lab/lab/tool-change/scripts/run_q3_cell.py", line 156, in ask_and_follow
+    keys(*spec["approve_keys"])
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: __main__.keys() argument after * must be an iterable, not NoneType
