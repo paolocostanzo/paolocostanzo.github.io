@@ -247,7 +247,7 @@
   <div class="article-header">
     <div class="article-meta">
       <span class="tag" data-it="Pubblicazioni" data-en="Publications">Publications</span>
-      <span class="meta-item" data-it="Aggiornata il 13 ott 2026" data-en="Updated 13 Oct 2026">Updated 13 Oct 2026</span>
+      <span class="meta-item" data-it="Aggiornata il 27 ott 2026" data-en="Updated 27 Oct 2026">Updated 27 Oct 2026</span>
     </div>
 
     <h1
@@ -384,6 +384,8 @@
           if (value === null) return;
           if (el.tagName === 'META') {
             el.setAttribute('content', value);
+          } else if (el.tagName === 'IMG') {
+            el.setAttribute('alt', value);
           } else if (el.tagName === 'TITLE') {
             document.title = value;
           } else {
@@ -407,7 +409,14 @@
       var total = root.scrollHeight - root.clientHeight;
       var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
       document.getElementById('read-bar').style.width = percent + '%';
-      document.getElementById('back-top').classList.toggle('vis', root.scrollTop > 350);
+      var bt = document.getElementById('back-top');
+      bt.classList.toggle('vis', root.scrollTop > 350);
+      // as the footer comes into view, the button rises with it and never covers "LinkedIn"
+      var footer = document.querySelector('footer');
+      if (footer) {
+        var fTop = footer.getBoundingClientRect().top;
+        bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+      }
     }, { passive:true });
   </script>
   <script>
