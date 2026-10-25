@@ -1,0 +1,66 @@
+{
+  "_note": "Per-client screen patterns and keys for run_q3_cell.py, fixed in the exploratory set-up runs (D16 point 8) and frozen before the primary runs. Source of each entry: lab/results/q3/setup-20261015/ (screens) in the project notes.",
+  "codex": {
+    "ready": "Ask Codex to do anything",
+    "approve": "Allow the q3-lab MCP server to run tool",
+    "approve_keys": [
+      "3",
+      "Enter"
+    ],
+    "persistent": "3. Always allow (Run the tool and remember this choice for future tool calls)",
+    "notice": null,
+    "noise": [
+      [
+        "Set up security",
+        [
+          "Escape"
+        ]
+      ]
+    ]
+  },
+  "cursor-agent": {
+    "ready": "Plan, search, build|Add a follow-up",
+    "approve": "Run this MCP tool\\?",
+    "approve_keys": [
+      "Tab"
+    ],
+    "persistent": "Allowlist MCP Tool (tab) -> ~/.cursor/cli-config.json permissions.allow Mcp(q3-lab:q3_noop)",
+    "notice": null
+  },
+  "goose": {
+    "approve": null,
+    "approve_keys": null,
+    "persistent": "none: GOOSE_MODE unset = auto (no permission question); cell marked 'no persistent approval' (D16 p.3)",
+    "notice": null
+  },
+  "gemini": {
+    "cmd": ". ~/.agentlab_secrets 2>/dev/null; unset GOOGLE_API_KEY; gemini -m gemini-flash-lite-latest",
+    "ready": "Type your message",
+    "approve": "Allow execution of MCP tool \"q3_noop\"",
+    "approve_keys": [
+      "2",
+      "Enter"
+    ],
+    "persistent": "2. Allow tool for this session (no permanent option by default: security.enablePermanentToolApproval is off)",
+    "notice": "Tools updated for server: q3-lab",
+    "model_note": "gemini-flash-lite-latest: the default model's free daily quota (20 requests) was exhausted on 15 Oct"
+  },
+  "qwen": {
+    "cmd": ". ~/.agentlab_secrets 2>/dev/null; unset GOOGLE_API_KEY; export QWEN_CODE_LANG=en; qwen --auth-type gemini -m gemini-flash-lite-latest",
+    "ready": "Type your message",
+    "approve": "Always allow mcp__q3-lab|Allow execution|Yes, allow once",
+    "approve_keys": null,
+    "persistent": "none by default: 'Auto mode' (default in 0.25.1, no approval mode set in settings) calls MCP tools without asking; cell marked 'no persistent approval' (D16 p.3)",
+    "notice": null,
+    "model_note": "gemini-flash-lite-latest, same key as Gemini CLI"
+  },
+  "claude-code": {
+    "ready": "auto mode on|\\? for shortcuts|accept edits on|bypass permissions",
+    "approve": "Do you want to proceed\\?",
+    "approve_keys": [
+      "2"
+    ],
+    "persistent": "none by default: 'auto mode' is the default in 2.1.300 (no permission prompt; a classifier approves tool calls). If a prompt appears, option 2 ('Yes, and don't ask again') is given and recorded",
+    "notice": null
+  }
+}

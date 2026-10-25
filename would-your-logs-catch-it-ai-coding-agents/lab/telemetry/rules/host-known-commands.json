@@ -1,0 +1,39 @@
+{
+ "_note": "commands started by AI clients inside development sessions (host/q5-start learning set); sessions are relative to lab/results/q4/; only launches inside each session's t_start..t_end (D36)",
+ "sessions": [
+  "setup-r1/baseline__claude-code__setup",
+  "setup-r1/baseline__codex__setup",
+  "setup-r1/baseline__cursor-agent__setup",
+  "setup-r1/baseline__gemini__setup",
+  "setup-r1/baseline__goose__setup",
+  "setup-r1/baseline__qwen__setup",
+  "setup-r2/baseline__claude-code__setup",
+  "setup-r2/baseline__codex__setup",
+  "setup-r2/baseline__cursor-agent__setup/attempts/1",
+  "setup-r2/baseline__gemini__setup",
+  "setup-r2/baseline__goose__setup",
+  "setup-r2/baseline__qwen__setup",
+  "setup-r3/baseline__gemini__setup",
+  "setup-r3/baseline__goose__setup",
+  "setup-r4/baseline__goose__setup",
+  "setup-r5/baseline__qwen__setup/attempts/1",
+  "setup-r6/baseline__qwen__setup",
+  "setup-r7/baseline__qwen__setup",
+  "baseline-r2/baseline__claude-code__dev",
+  "baseline-r2/baseline__codex__dev",
+  "baseline-r2/baseline__qwen__dev/attempts/1",
+  "baseline-r3/baseline__codex__dev/attempts/1",
+  "baseline-r4/baseline__claude-code__dev",
+  "baseline-r4/baseline__codex__dev",
+  "baseline-r4/baseline__gemini__dev",
+  "baseline-r4/baseline__goose__dev",
+  "baseline-r4/baseline__qwen__dev"
+ ],
+ "known": [
+  "/usr/bin/node /home/lab/.codex/plugins/cache/openai-curated-remote/codex-security/N.N.N/scripts/../mcp/server.mjs --stdio",
+  "/usr/bin/node /home/lab/lab/tool-change/server/qN-server.mjs",
+  "node /home/lab/lab/tool-change/server/qN-server.mjs",
+  "node /usr/bin/npx -y typescript-language-server --stdio",
+  "pythonN -m unittest -q"
+ ]
+}

@@ -193,6 +193,15 @@ MANIFEST = {
         "footer": "Reproducible lab",
         "badge": "HARD",
     },
+    "logs-catch-it": {
+        "out": "would-your-logs-catch-it-ai-coding-agents/og.png",
+        "kicker": "AGENTIC AI · DETECTION · MCP · REPRODUCIBLE LAB",
+        "title": "WOULD YOUR LOGS HAVE CAUGHT IT?",
+        "accent": 2,
+        "subtitle": "Five coding agents, three events · default logs against normal use",
+        "footer": "Series · part 4 of 4",
+        "badge": "MEDIUM",
+    },
     "tools-after-approval": {
         "out": "approved-mcp-tools-can-change-after-you-say-yes/og.png",
         "kicker": "AGENTIC AI · AI SECURITY · MCP · REPRODUCIBLE LAB",

@@ -1,0 +1,40 @@
+{"kind": "request", "id": 2, "t": 1792854682.113, "client": "codex", "method": "GET", "path": "/v1/models", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 2, "t": 1792854682.175, "status": 200, "error": null}
+{"kind": "request", "id": 3, "t": 1792854682.178, "client": "codex", "method": "GET", "path": "/api/version", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 3, "t": 1792854682.261, "status": 200, "error": null}
+{"kind": "request", "id": 4, "t": 1792854682.262, "client": "codex", "method": "GET", "path": "/api/tags", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 4, "t": 1792854682.349, "status": 200, "error": null}
+{"kind": "request", "id": 5, "t": 1792854682.569, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 5, "t": 1792854682.629, "status": 200, "error": null}
+{"kind": "request", "id": 6, "t": 1792854682.963, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 6, "t": 1792854683.024, "status": 200, "error": null}
+{"kind": "request", "id": 7, "t": 1792854683.194, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 7, "t": 1792854683.255, "status": 200, "error": null}
+{"kind": "request", "id": 8, "t": 1792854684.242, "client": "codex", "method": "POST", "path": "/v1/responses", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "mcp__q3_lab/q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 322}
+{"kind": "request", "id": 9, "t": 1792854684.326, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 9, "t": 1792854684.544, "status": 200, "error": null}
+{"kind": "request", "id": 10, "t": 1792854684.763, "client": "codex", "method": "POST", "path": "/v1/responses", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 10, "t": 1792854713.055, "status": 200, "error": null}
+{"kind": "done", "id": 8, "t": 1792854724.359, "status": 200, "error": null}
+{"kind": "request", "id": 11, "t": 1792854851.615, "client": "codex", "method": "POST", "path": "/v1/responses", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "mcp__q3_lab/q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 396}
+{"kind": "done", "id": 11, "t": 1792854875.417, "status": 200, "error": null}
+{"kind": "request", "id": 12, "t": 1792854952.659, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 12, "t": 1792854952.722, "status": 200, "error": null}
+{"kind": "request", "id": 13, "t": 1792855011.946, "client": "codex", "method": "GET", "path": "/v1/models", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 13, "t": 1792855012.01, "status": 200, "error": null}
+{"kind": "request", "id": 14, "t": 1792855012.012, "client": "codex", "method": "GET", "path": "/api/version", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 14, "t": 1792855012.098, "status": 200, "error": null}
+{"kind": "request", "id": 15, "t": 1792855012.1, "client": "codex", "method": "GET", "path": "/api/tags", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 15, "t": 1792855012.185, "status": 200, "error": null}
+{"kind": "request", "id": 16, "t": 1792855012.286, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 16, "t": 1792855012.345, "status": 200, "error": null}
+{"kind": "request", "id": 17, "t": 1792855012.82, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 17, "t": 1792855012.881, "status": 200, "error": null}
+{"kind": "request", "id": 18, "t": 1792855012.988, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 18, "t": 1792855013.048, "status": 200, "error": null}
+{"kind": "request", "id": 19, "t": 1792855013.89, "client": "codex", "method": "POST", "path": "/v1/responses", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "mcp__q3_lab/q3_noop", "sha256": "873a5f269faa7d6836cd241bed890a31bf0cf4d77da4c6b82d8bc00c082e70d4", "revision": "B", "head": "Lab tool, revision B. Records the call in its own log and returns the word ok. N"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 396}
+{"kind": "request", "id": 20, "t": 1792855013.905, "client": "codex", "method": "GET", "path": "/v1/models?client_version=0.162.1", "model": null, "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 20, "t": 1792855013.993, "status": 200, "error": null}
+{"kind": "request", "id": 21, "t": 1792855014.409, "client": "codex", "method": "POST", "path": "/v1/responses", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 21, "t": 1792855032.814, "status": 200, "error": null}
+{"kind": "done", "id": 19, "t": 1792855042.396, "status": 200, "error": null}

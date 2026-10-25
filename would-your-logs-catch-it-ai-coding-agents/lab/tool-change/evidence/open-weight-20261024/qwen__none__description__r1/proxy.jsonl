@@ -1,0 +1,34 @@
+{"kind": "request", "id": 2, "t": 1792856301.096, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 1, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 2, "t": 1792856305.896, "status": 200, "error": null}
+{"kind": "request", "id": 3, "t": 1792856305.994, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 3, "t": 1792856309.493, "status": 200, "error": null}
+{"kind": "request", "id": 4, "t": 1792856309.519, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 1, "B": 0}, "inspect": "ok", "tools_total": 1}
+{"kind": "request", "id": 5, "t": 1792856320.08, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 4, "t": 1792856323.362, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}
+{"kind": "done", "id": 5, "t": 1792856325.537, "status": 200, "error": null}
+{"kind": "request", "id": 6, "t": 1792856325.714, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "request", "id": 7, "t": 1792856325.812, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 1, "B": 0}, "inspect": "ok", "tools_total": 5}
+{"kind": "done", "id": 6, "t": 1792856335.108, "status": 200, "error": null}
+{"kind": "request", "id": 8, "t": 1792856343.595, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 7, "t": 1792856344.841, "status": 200, "error": null}
+{"kind": "done", "id": 8, "t": 1792856349.088, "status": 200, "error": null}
+{"kind": "request", "id": 9, "t": 1792856349.108, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 1, "B": 0}, "inspect": "ok", "tools_total": 1}
+{"kind": "request", "id": 10, "t": 1792856360.256, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 9, "t": 1792856361.788, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}
+{"kind": "done", "id": 10, "t": 1792856363.887, "status": 200, "error": null}
+{"kind": "request", "id": 11, "t": 1792856364.046, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 2, "B": 0}, "inspect": "ok", "tools_total": 15}
+{"kind": "request", "id": 12, "t": 1792856364.117, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 1, "B": 0}, "inspect": "ok", "tools_total": 5}
+{"kind": "done", "id": 12, "t": 1792856368.144, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}
+{"kind": "done", "id": 11, "t": 1792856369.383, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}
+{"kind": "request", "id": 13, "t": 1792856378.204, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 1}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 13, "t": 1792856382.596, "status": 200, "error": null}
+{"kind": "request", "id": 14, "t": 1792856382.685, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 2}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 14, "t": 1792856386.021, "status": 200, "error": null}
+{"kind": "request", "id": 15, "t": 1792856386.049, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 1}, "inspect": "ok", "tools_total": 1}
+{"kind": "request", "id": 16, "t": 1792856397.612, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 2}, "inspect": "ok", "tools_total": 15}
+{"kind": "done", "id": 15, "t": 1792856398.037, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}
+{"kind": "done", "id": 16, "t": 1792856400.338, "status": 200, "error": null}
+{"kind": "request", "id": 17, "t": 1792856400.55, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 2}, "inspect": "ok", "tools_total": 15}
+{"kind": "request", "id": 18, "t": 1792856400.631, "client": "qwen", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 1}, "inspect": "ok", "tools_total": 5}
+{"kind": "done", "id": 18, "t": 1792856404.535, "status": 200, "error": "ConnectionResetError: [Errno 104] Connection reset by peer"}
+{"kind": "done", "id": 17, "t": 1792856405.836, "status": 200, "error": "BrokenPipeError: [Errno 32] Broken pipe"}

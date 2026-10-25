@@ -1,0 +1,41 @@
+{
+  "made": "2026-10-24T15:08:42+00:00",
+  "seed": 20261024,
+  "snapshot": "q4-base-20261023b",
+  "model_endpoint": "192.168.122.1:11434",
+  "probe": false,
+  "cells": [
+    {
+      "client": "qwen",
+      "signal": "list_changed"
+    },
+    {
+      "client": "codex",
+      "signal": "none"
+    },
+    {
+      "client": "goose",
+      "signal": "list_changed"
+    },
+    {
+      "client": "claude-code",
+      "signal": "none"
+    },
+    {
+      "client": "claude-code",
+      "signal": "list_changed"
+    },
+    {
+      "client": "qwen",
+      "signal": "none"
+    },
+    {
+      "client": "codex",
+      "signal": "list_changed"
+    },
+    {
+      "client": "goose",
+      "signal": "none"
+    }
+  ]
+}

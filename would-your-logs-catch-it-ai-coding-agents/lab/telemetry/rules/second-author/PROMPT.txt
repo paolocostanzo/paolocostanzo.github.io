@@ -1,0 +1,8 @@
+You are the second author of detection rules for a research study. Your whole working material is the folder
+<package folder>/ . Start by reading its README.md, then
+tools/apply.py (its docstring defines the rule format). Work ONLY inside that folder: do not read, list or search any other path
+on this computer (no parent folders, no home folder, no other files); a single read outside the folder invalidates your work. Run
+Python as `python3 -I` with the environment variable PYTHONDONTWRITEBYTECODE=1, and delete any __pycache__ you create. Write your
+two deliverables (rules-second-author.json and NOTES-second-author.md) inside that folder, as the README says. Do not modify any
+other file of the folder. When done, reply with a short summary: for each of the 15 pairs, the rule type and its results on the
+runs and on the normal-use sessions.

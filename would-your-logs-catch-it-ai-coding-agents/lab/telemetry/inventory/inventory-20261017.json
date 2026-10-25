@@ -1,0 +1,93 @@
+{
+ "_note": "Inventory of default client log locations on the clean snapshot q3-base-20261015, taken 17 Oct 2026 (D24 point 1). Counts only: file paths stay in the private evidence because they include names of the lab account's connected services. Logging configuration: no client has a logging or verbosity key set by the lab (client defaults); goose has vendor telemetry disabled (GOOSE_TELEMETRY_ENABLED: false), which does not change local logs.",
+ "taken_at": 1792241782,
+ "snapshot": "q3-base-20261015",
+ "inputs_sha256": {
+  "telemetry/scripts/vm_logs.py": "08c4848874f03d30138f7cd5382ae9eddbedbe82b253b2946b54742ac952bbf3",
+  "telemetry/inventory/candidates.json": "040eab3bf9997c7533ec4062ed1e27728eb0ee3a90f251d37d835a882f4befcd"
+ },
+ "clients": {
+  "claude-code": {
+   "patterns": {
+    "~/.claude/projects/**/*.jsonl": 18,
+    "~/.cache/claude-cli-nodejs/**/*.jsonl": 331,
+    "~/.claude/debug/**": 0,
+    "~/.claude/logs/**": 0,
+    "~/.claude/statsig/**": 0
+   },
+   "files": 349,
+   "bytes": 1270171
+  },
+  "codex": {
+   "patterns": {
+    "~/.codex/sessions/**/*.jsonl": 0,
+    "~/.codex/log/**": 1,
+    "~/.codex/logs_*.sqlite": 1,
+    "~/.codex/history.jsonl": 1,
+    "~/.codex/session_index.jsonl": 1,
+    "~/.codex/state_*.sqlite": 1,
+    "~/.codex/thread_history_*.sqlite": 1,
+    "~/.codex/app-server-daemon/*.log*": 4
+   },
+   "files": 10,
+   "bytes": 2525369
+  },
+  "cursor-agent": {
+   "patterns": {
+    "~/.cursor/chats/**": 6,
+    "~/.cursor/agent-cli-state.json": 1,
+    "~/.cursor/logs/**": 0,
+    "~/.local/share/cursor-agent/**/*.log": 0,
+    "~/.cursor/projects/**/agent-transcripts/**/*.jsonl": 2,
+    "~/.cursor/projects/**/worker.log": 1
+   },
+   "files": 10,
+   "bytes": 58369
+  },
+  "gemini": {
+   "patterns": {
+    "~/.gemini/tmp/**/logs.json": 2,
+    "~/.gemini/tmp/**/chats/**": 7,
+    "~/.gemini/logs/**": 0
+   },
+   "files": 9,
+   "bytes": 10663
+  },
+  "goose": {
+   "patterns": {
+    "~/.local/state/goose/logs/**": 1,
+    "~/.local/share/goose/sessions/**": 3,
+    "~/.config/goose/sessions/**": 0
+   },
+   "files": 4,
+   "bytes": 1553056
+  },
+  "qwen": {
+   "patterns": {
+    "~/.qwen/tmp/**/logs.json": 2,
+    "~/.qwen/tmp/**/chats/**": 0,
+    "~/.qwen/debug/**": 0,
+    "~/.qwen/logs/**": 0,
+    "~/.qwen/projects/**/chats/**": 10,
+    "~/.qwen/usage/**": 2,
+    "~/.qwen/usage_record.jsonl": 1
+   },
+   "files": 15,
+   "bytes": 41641
+  },
+  "vscode-copilot": {
+   "patterns": {
+    "~/.config/Code/logs/**": 31
+   },
+   "files": 31,
+   "bytes": 72746
+  },
+  "cursor-ide": {
+   "patterns": {
+    "~/.config/Cursor/logs/**": 191
+   },
+   "files": 191,
+   "bytes": 634911
+  }
+ }
+}

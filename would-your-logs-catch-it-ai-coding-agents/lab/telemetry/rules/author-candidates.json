@@ -1,0 +1,123 @@
+{
+ "_note": "CANDIDATE rules of the author (D27 points 5-7), written only on the development material (events-dev, pipeline-check, set-up sessions). Not frozen: the development part of the baseline is still to be seen. Every candidate considered, kept or dropped, is in rule-development-log.md.",
+ "rules": {
+  "claude-code/q5-start": {
+   "client": "claude-code",
+   "event": "q5-start",
+   "class": "-",
+   "type": "none",
+   "reason": "the default logs do not record whether a server was declared by the project or by the user; the only possible condition, a server name never seen before, cannot be tested here (the snapshot's history already holds earlier starts of the same server) and, made session-relative, fires at every session start for any server (adversarial review R1)"
+  },
+  "claude-code/q3-announced": {
+   "client": "claude-code",
+   "event": "q3-announced",
+   "class": "the client records a tools/list_changed notification from an MCP server",
+   "type": "match",
+   "source": ".cache/claude-cli-nodejs/*/mcp-logs-*/*.jsonl",
+   "regex": "\"debug\":\"Received tools/list_changed notification"
+  },
+  "claude-code/q3-silent": {
+   "client": "claude-code",
+   "event": "q3-silent",
+   "class": "an MCP tool's definition stored in the transcript differs from its last earlier definition",
+   "type": "changed",
+   "source": ".claude/projects/*/*.jsonl",
+   "extract": "claude-tools"
+  },
+  "codex/q5-start": {
+   "client": "codex",
+   "event": "q5-start",
+   "class": "right after a project-trust decision taken in the terminal UI, an MCP server whose name was never seen before is initialised (limit: other trust paths, or a server added to a repository trusted earlier, are not covered)",
+   "type": "new-name",
+   "source": ".codex/logs_*.sqlite",
+   "regex": "start_server_task\\{server_name=(?P<name>[^}]+)\\}:serve_inner: Service initialized as client",
+   "after": "request_id=String\\(\\\\?\"tui-project-trust-write-",
+   "within_s": 10
+  },
+  "codex/q3-announced": {
+   "client": "codex",
+   "event": "q3-announced",
+   "class": "the client records a tool-list-changed notification from an MCP server",
+   "type": "match",
+   "source": ".codex/logs_*.sqlite",
+   "regex": "serve_inner: (MCP server tool list changed|received notification notification=ToolListChangedNotification)"
+  },
+  "codex/q3-silent": {
+   "client": "codex",
+   "event": "q3-silent",
+   "class": "-",
+   "type": "none",
+   "reason": "no default-log record names a tool definition, description or catalog hash; a silent change leaves no trace (development runs and set-up sessions)"
+  },
+  "gemini/q5-start": {
+   "client": "gemini",
+   "event": "q5-start",
+   "class": "-",
+   "type": "none",
+   "reason": "no default-log record is written in the window of a repository-declared server start (2 of 2 development runs)"
+  },
+  "gemini/q3-announced": {
+   "client": "gemini",
+   "event": "q3-announced",
+   "class": "the chat records that an MCP server's tools were updated",
+   "type": "match",
+   "source": ".gemini/tmp/*/chats/session-*.jsonl",
+   "regex": "\"type\":\"info\",\"content\":\"Tools updated for server: "
+  },
+  "gemini/q3-silent": {
+   "client": "gemini",
+   "event": "q3-silent",
+   "class": "-",
+   "type": "none",
+   "reason": "tool definitions are never stored in the default logs"
+  },
+  "qwen/q5-start": {
+   "client": "qwen",
+   "event": "q5-start",
+   "class": "-",
+   "type": "none",
+   "reason": "only the per-session runtime.json is written, before the start and identical to normal use"
+  },
+  "qwen/q3-announced": {
+   "client": "qwen",
+   "event": "q3-announced",
+   "class": "an MCP tool's definition returned by the client's tool search differs from its last earlier definition (limit: only when the model calls the tool search before and after the change)",
+   "type": "changed",
+   "source": ".qwen/projects/*/chats/*.jsonl",
+   "extract": "qwen-tool-search"
+  },
+  "qwen/q3-silent": {
+   "client": "qwen",
+   "event": "q3-silent",
+   "class": "an MCP tool's definition returned by the client's tool search differs from its last earlier definition (limit: only when the model calls the tool search before and after the change)",
+   "type": "changed",
+   "source": ".qwen/projects/*/chats/*.jsonl",
+   "extract": "qwen-tool-search"
+  },
+  "goose/q5-start": {
+   "client": "goose",
+   "event": "q5-start",
+   "class": "-",
+   "type": "none",
+   "reason": "Goose does not start servers declared by a repository (no event)"
+  },
+  "goose/q3-announced": {
+   "client": "goose",
+   "event": "q3-announced",
+   "class": "a tool declaration sent to the model differs from the last earlier declaration of the same tool (limit: Goose keeps only its last ten model requests; holdout windows without any request are reported)",
+   "type": "changed",
+   "source": ".local/state/goose/logs/llm_request*.jsonl",
+   "extract": "goose-request-tools",
+   "allow_mtime": true
+  },
+  "goose/q3-silent": {
+   "client": "goose",
+   "event": "q3-silent",
+   "class": "a tool declaration sent to the model differs from the last earlier declaration of the same tool (limit: Goose keeps only its last ten model requests; holdout windows without any request are reported)",
+   "type": "changed",
+   "source": ".local/state/goose/logs/llm_request*.jsonl",
+   "extract": "goose-request-tools",
+   "allow_mtime": true
+  }
+ }
+}

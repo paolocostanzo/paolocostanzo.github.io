@@ -1,0 +1,407 @@
+{
+ "model": "qwen3.8:27b-q8_0",
+ "cells": [
+  {
+   "cell": "claude-code__list_changed__description__r1",
+   "client": "claude-code",
+   "signal": "list_changed",
+   "flip_at": "2026-10-24T15:32:25.677+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 30,
+   "p1": {
+    "requests": 11,
+    "to_intended_model": 11,
+    "with_A": 10,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 10,
+    "to_intended_model": 10,
+    "with_A": 10,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 11,
+    "to_intended_model": 11,
+    "with_A": 0,
+    "with_B": 10,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 174.9,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "claude-code__none__description__r1",
+   "client": "claude-code",
+   "signal": "none",
+   "flip_at": "2026-10-24T15:23:56.463+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 30,
+   "p1": {
+    "requests": 11,
+    "to_intended_model": 11,
+    "with_A": 10,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 10,
+    "to_intended_model": 10,
+    "with_A": 10,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 11,
+    "to_intended_model": 11,
+    "with_A": 0,
+    "with_B": 10,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 174.9,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "codex__list_changed__description__r1",
+   "client": "codex",
+   "signal": "list_changed",
+   "flip_at": "2026-10-24T15:43:05.372+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 0,
+   "p1": {
+    "requests": 2,
+    "to_intended_model": 2,
+    "with_A": 1,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 1,
+    "to_intended_model": 1,
+    "with_A": 1,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 2,
+    "to_intended_model": 2,
+    "with_A": 0,
+    "with_B": 1,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 175.3,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "codex__none__description__r1",
+   "client": "codex",
+   "signal": "none",
+   "flip_at": "2026-10-24T15:13:58.851+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 0,
+   "p1": {
+    "requests": 2,
+    "to_intended_model": 2,
+    "with_A": 1,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 1,
+    "to_intended_model": 1,
+    "with_A": 1,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 2,
+    "to_intended_model": 2,
+    "with_A": 0,
+    "with_B": 1,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 175.0,
+    "calls": 0,
+    "timeout": true,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "goose__list_changed__description__r1",
+   "client": "goose",
+   "signal": "list_changed",
+   "flip_at": "2026-10-24T15:20:10.945+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 0,
+   "p1": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 2,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 3,
+    "to_intended_model": 3,
+    "with_A": 2,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 0,
+    "with_B": 2,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 32.3,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "goose__none__description__r1",
+   "client": "goose",
+   "signal": "none",
+   "flip_at": "2026-10-24T15:49:13.433+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 0,
+   "endpoint_errors": 0,
+   "p1": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 2,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 3,
+    "to_intended_model": 3,
+    "with_A": 2,
+    "with_B": 0,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 0,
+    "with_B": 2,
+    "where": [
+     "tools"
+    ],
+    "first_B_after_change_s": 32.4,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "qwen__list_changed__description__r1",
+   "client": "qwen",
+   "signal": "list_changed",
+   "flip_at": "2026-10-24T15:09:43.946+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 6,
+   "endpoint_errors": 1,
+   "p1": {
+    "requests": 6,
+    "to_intended_model": 6,
+    "with_A": 6,
+    "with_B": 0,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 5,
+    "with_B": 0,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 6,
+    "to_intended_model": 6,
+    "with_A": 0,
+    "with_B": 6,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": 45.8,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "valid": true
+  },
+  {
+   "cell": "qwen__none__description__r1",
+   "client": "qwen",
+   "signal": "none",
+   "flip_at": "2026-10-24T15:38:50.843+00:00",
+   "inspect_failures": 0,
+   "client_hung_up": 7,
+   "endpoint_errors": 0,
+   "p1": {
+    "requests": 6,
+    "to_intended_model": 6,
+    "with_A": 6,
+    "with_B": 0,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "p2": {
+    "requests": 5,
+    "to_intended_model": 5,
+    "with_A": 5,
+    "with_B": 0,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": null,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false,
+    "B": "B not seen before the session closed"
+   },
+   "p3": {
+    "requests": 6,
+    "to_intended_model": 6,
+    "with_A": 0,
+    "with_B": 6,
+    "where": [
+     "elsewhere"
+    ],
+    "first_B_after_change_s": 47.4,
+    "calls": 1,
+    "timeout": false,
+    "notice_seen": false
+   },
+   "valid": true
+  }
+ ],
+ "missing": [],
+ "unexpected": []
+}

@@ -1,0 +1,47 @@
+{
+ "_note": "D39 (open-weight cells, exploratory): the patterns of q3-clients.json, with each included client pointed at qwen3.8:27b-q8_0 through the recording proxy on http://127.0.0.1:11435 (record_proxy.py). Used only with --clients-json; never merged into q3-clients.json.",
+ "qwen": {
+  "cmd": "export QWEN_CODE_LANG=en; qwen --auth-type openai --openai-base-url http://127.0.0.1:11435/v1 --openai-api-key ollama -m qwen3.8:27b-q8_0",
+  "ready": "Type your message",
+  "approve": "Always allow mcp__q3-lab|Allow execution|Yes, allow once",
+  "approve_keys": null,
+  "persistent": "none by default: 'Auto mode' (default in 0.25.1, no approval mode set in settings) calls MCP tools without asking; cell marked 'no persistent approval' (D16 p.3)",
+  "notice": null
+ },
+ "goose": {
+  "approve": null,
+  "approve_keys": null,
+  "persistent": "none: GOOSE_MODE unset = auto (no permission question); cell marked 'no persistent approval' (D16 p.3)",
+  "notice": null,
+  "cmd": "export GOOSE_DISABLE_KEYRING=1 GOOSE_PROVIDER=ollama OLLAMA_HOST=http://127.0.0.1:11435 GOOSE_MODEL=qwen3.8:27b-q8_0; goose session"
+ },
+ "codex": {
+  "ready": "Ask Codex to do anything",
+  "approve": "Allow the q3-lab MCP server to run tool",
+  "approve_keys": [
+   "3",
+   "Enter"
+  ],
+  "persistent": "3. Always allow (Run the tool and remember this choice for future tool calls)",
+  "notice": null,
+  "noise": [
+   [
+    "Set up security",
+    [
+     "Escape"
+    ]
+   ]
+  ],
+  "cmd": "export CODEX_OSS_BASE_URL=http://127.0.0.1:11435/v1; codex --oss --local-provider ollama -m qwen3.8:27b-q8_0"
+ },
+ "claude-code": {
+  "ready": "auto mode on|\\? for shortcuts|accept edits on|bypass permissions",
+  "approve": "Do you want to proceed\\?",
+  "approve_keys": [
+   "2"
+  ],
+  "persistent": "none by default: 'auto mode' is the default in 2.1.300 (no permission prompt; a classifier approves tool calls). If a prompt appears, option 2 ('Yes, and don't ask again') is given and recorded",
+  "notice": null,
+  "cmd": "export ANTHROPIC_BASE_URL=http://127.0.0.1:11435 ANTHROPIC_AUTH_TOKEN=ollama ANTHROPIC_API_KEY=; claude --model qwen3.8:27b-q8_0"
+ }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "trusting-a-repo-mcp-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Companion lab: do AI coding agents start MCP servers declared by a repository, and under which trust decision?",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "evidence": "node scripts/generate-evidence.mjs",
+    "make-repo": "node scripts/make-test-repo.mjs",
+    "check-repo": "node scripts/check-repo.mjs",
+    "check-trust": "node scripts/check-trust.mjs"
+  }
+}

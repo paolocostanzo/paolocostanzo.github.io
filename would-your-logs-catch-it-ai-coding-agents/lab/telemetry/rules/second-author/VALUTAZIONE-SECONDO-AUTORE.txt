@@ -1,0 +1,45 @@
+== event runs (dev + pipeline)
+events-d claude-code__q3-announced__r1    event=yes own-rule-detect=[0.0] other-rules={'claude-code/q3-silent--changed': 2}
+events-d claude-code__q3-silent__r1       event=yes own-rule-detect=[32.6, 33.7] other-rules={'claude-code/q3-silent--changed': 2}
+events-d claude-code__q5-start__r1        event=NO  own-rule-detect=[] other-rules={}
+events-d codex__q3-announced__r1          event=yes own-rule-detect=[0.0, 0.0] other-rules={}
+events-d codex__q3-silent__r1             event=yes own-rule-detect=[] other-rules={}
+events-d codex__q5-start__r1              event=yes own-rule-detect=[0.0] other-rules={}
+events-d gemini__q3-announced__r1         event=yes own-rule-detect=[0.5] other-rules={}
+events-d gemini__q3-silent__r1            event=yes own-rule-detect=[] other-rules={}
+events-d gemini__q5-start__r1             event=yes own-rule-detect=[] other-rules={}
+events-d goose__q3-announced__r1          event=yes own-rule-detect=[51.5] other-rules={'goose/q3-silent': 1}
+events-d goose__q3-silent__r1             event=yes own-rule-detect=[39.6] other-rules={'goose/q3-announced': 1}
+events-d goose__q5-start__r1              event=NO  own-rule-detect=[] other-rules={}
+events-d qwen__q3-announced__r1           event=yes own-rule-detect=[47.5] other-rules={'qwen/q3-silent': 1}
+events-d qwen__q3-silent__r1              event=yes own-rule-detect=[49.3] other-rules={'qwen/q3-announced': 1}
+events-d qwen__q5-start__r1               event=yes own-rule-detect=[] other-rules={}
+pipeline gemini__q3-announced__r1         event=yes own-rule-detect=[0.5] other-rules={}
+pipeline gemini__q3-silent__r1            event=yes own-rule-detect=[] other-rules={}
+pipeline gemini__q5-start__r1             event=yes own-rule-detect=[] other-rules={}
+== normal use (set-up sessions): hits and false-positive one-minute windows
+setup-r1 claude-code  windows=6 fp-windows={'claude-code/q3-announced': 0, 'claude-code/q3-silent--changed': 0, 'claude-code/q3-silent': 0, 'claude-code/q5-start': 0}
+setup-r1 codex        windows=10 fp-windows={'codex/q3-announced': 0, 'codex/q3-silent': 0, 'codex/q5-start': 0}
+setup-r1 gemini       windows=7 fp-windows={'gemini/q3-announced': 0, 'gemini/q3-silent': 0, 'gemini/q5-start': 0}
+setup-r1 goose        windows=6 fp-windows={'goose/q3-announced': 0, 'goose/q3-silent': 0, 'goose/q5-start': 0}
+setup-r1 qwen         windows=6 fp-windows={'qwen/q3-announced': 0, 'qwen/q3-silent': 0, 'qwen/q5-start': 0}
+setup-r2 claude-code  windows=6 fp-windows={'claude-code/q3-announced': 0, 'claude-code/q3-silent--changed': 0, 'claude-code/q3-silent': 0, 'claude-code/q5-start': 0}
+setup-r2 codex        windows=6 fp-windows={'codex/q3-announced': 0, 'codex/q3-silent': 0, 'codex/q5-start': 0}
+setup-r2 gemini       windows=9 fp-windows={'gemini/q3-announced': 0, 'gemini/q3-silent': 0, 'gemini/q5-start': 0}
+setup-r2 goose        windows=7 fp-windows={'goose/q3-announced': 0, 'goose/q3-silent': 0, 'goose/q5-start': 0}
+setup-r2 qwen         windows=7 fp-windows={'qwen/q3-announced': 0, 'qwen/q3-silent': 0, 'qwen/q5-start': 0}
+setup-r3 gemini       windows=16 fp-windows={'gemini/q3-announced': 0, 'gemini/q3-silent': 0, 'gemini/q5-start': 0}
+setup-r3 goose        windows=15 fp-windows={'goose/q3-announced': 0, 'goose/q3-silent': 0, 'goose/q5-start': 0}
+setup-r4 goose        windows=16 fp-windows={'goose/q3-announced': 0, 'goose/q3-silent': 0, 'goose/q5-start': 0}
+setup-r6 qwen         windows=15 fp-windows={'qwen/q3-announced': 0, 'qwen/q3-silent': 0, 'qwen/q5-start': 0}
+setup-r7 qwen         windows=15 fp-windows={'qwen/q3-announced': 0, 'qwen/q3-silent': 0, 'qwen/q5-start': 0}
+
+baseline-r4/baseline__claude-code__dev       claude-code  n= 60 fp={'q3-announced': 0, 'q3-silent--changed': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 46, 'q3-silent--changed': 60, 'q3-silent': None, 'q5-start': 46}
+baseline-r4/baseline__codex__dev             codex        n= 60 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 60, 'q3-silent': None, 'q5-start': 60}
+baseline-r4/baseline__gemini__dev            gemini       n= 61 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 61, 'q3-silent': None, 'q5-start': None}
+baseline-r4/baseline__goose__dev             goose        n= 60 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 1, 'q3-silent': 1, 'q5-start': 60}
+baseline-r4/baseline__qwen__dev              qwen         n= 60 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 60, 'q3-silent': 60, 'q5-start': None}
+baseline-r3/baseline__codex__dev/attempts/1  codex        n= 48 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 48, 'q3-silent': None, 'q5-start': 48}
+baseline-r2/baseline__claude-code__dev       claude-code  n= 60 fp={'q3-announced': 0, 'q3-silent--changed': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 48, 'q3-silent--changed': 60, 'q3-silent': None, 'q5-start': 48}
+baseline-r2/baseline__codex__dev             codex        n= 60 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 60, 'q3-silent': None, 'q5-start': 60}
+baseline-r2/baseline__qwen__dev/attempts/1   qwen         n= 63 fp={'q3-announced': 0, 'q3-silent': 0, 'q5-start': 0} cov={'q3-announced': 33, 'q3-silent': 33, 'q5-start': None}

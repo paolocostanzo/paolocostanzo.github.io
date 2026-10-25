@@ -5,9 +5,20 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 20 Oct 2026 08:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 08:00:00 +0100</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
 
+    <item>
+      <title>Would your logs have caught it?</title>
+      <link>https://paolocostanzo.github.io/would-your-logs-catch-it-ai-coding-agents/</link>
+      <guid>https://paolocostanzo.github.io/would-your-logs-catch-it-ai-coding-agents/</guid>
+      <pubDate>Tue, 27 Oct 2026 08:00:00 +0100</pubDate>
+      <description>We replayed the events of parts 2 and 3 in five AI coding agents and checked which default logs and host telemetry record them, against hours of normal use. We also counted which tools of official MCP servers pass through their own defences.</description>
+      <category>Agentic AI</category>
+      <category>AI Security</category>
+      <category>MCP Security</category>
+      <category>Detection</category>
+    </item>
     <item>
       <title>You approved the tool. Then it changed.</title>
       <link>https://paolocostanzo.github.io/approved-mcp-tools-can-change-after-you-say-yes/</link>

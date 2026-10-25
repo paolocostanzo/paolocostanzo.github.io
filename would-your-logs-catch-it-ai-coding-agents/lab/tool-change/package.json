@@ -1,0 +1,14 @@
+{
+  "name": "tool-change-mcp-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Companion lab (Q3/RQ3): do MCP clients notice when an approved tool's definition changes?",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "flip": "node scripts/flip.mjs"
+  }
+}

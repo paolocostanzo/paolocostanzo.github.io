@@ -216,6 +216,11 @@
       table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
       .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
     }
+      .series-nav{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin:0 0 1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+    .series-nav .series-name{color:var(--orange);margin-right:.35rem}
+    .series-nav a,.series-nav .pt{padding:.22rem .6rem;border:1px solid var(--border);color:#888;text-decoration:none;white-space:nowrap}
+    .series-nav a:hover{color:var(--orange);border-color:var(--orange)}
+    .series-nav .current{border-color:var(--orange);color:#0a0a0a;background:var(--orange)}
   </style>
 </head>
 
@@ -249,6 +254,14 @@
         <span class="auth-lbl" data-it="60% umano · 40% AI" data-en="60% human · 40% AI">60% human · 40% AI</span>
       </div>
     </div>
+
+    <nav class="series-nav" aria-label="Outside the Prompt">
+      <span class="series-name" data-it="Serie · Outside the Prompt" data-en="Series · Outside the Prompt">Series · Outside the Prompt</span>
+      <a href="../outside-the-prompt-ai-agent-vulnerabilities-summer-2026/" title="Outside the prompt: what this summer&#x27;s AI agent vulnerabilities have in common" data-it="Pt. 1/4" data-en="Pt. 1/4">Pt. 1/4</a>
+      <a href="../trusting-a-repo-means-trusting-its-mcp-servers/" title="Trusting a repo now means trusting its MCP servers" data-it="Pt. 2/4" data-en="Pt. 2/4">Pt. 2/4</a>
+      <span class="pt current" aria-current="page" title="You approved the tool. Then it changed." data-it="Pt. 3/4" data-en="Pt. 3/4">Pt. 3/4</span>
+      <a href="../would-your-logs-catch-it-ai-coding-agents/" title="Would your logs have caught it?" data-it="Pt. 4/4" data-en="Pt. 4/4">Pt. 4/4</a>
+    </nav>
 
     <h1
       data-it="Hai approvato il tool. Poi è cambiato."

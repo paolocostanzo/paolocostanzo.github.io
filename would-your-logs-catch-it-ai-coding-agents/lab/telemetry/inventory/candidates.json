@@ -1,0 +1,11 @@
+{
+ "_note": "Candidate default log locations per client (D24 point 1), relative to the lab user's home. A superset: the inventory on the clean snapshot keeps only the ones that exist, and that result is what the exporter uses. Default verbosity only; no flag that raises it is set by the lab. Extended on 17 Oct 2026 after a discovery listing of log-like files on the clean snapshot (lab/results/q4/inventory-20261017/discovery-log-like-files.txt, private): Claude Code's per-server MCP logs, Codex's daemon logs and state databases, cursor-agent's project transcripts, Qwen Code's project chats and usage records.",
+ "claude-code": ["~/.claude/projects/**/*.jsonl", "~/.cache/claude-cli-nodejs/**/*.jsonl", "~/.claude/debug/**", "~/.claude/logs/**", "~/.claude/statsig/**"],
+ "codex": ["~/.codex/sessions/**/*.jsonl", "~/.codex/log/**", "~/.codex/logs_*.sqlite", "~/.codex/history.jsonl", "~/.codex/session_index.jsonl", "~/.codex/state_*.sqlite", "~/.codex/thread_history_*.sqlite", "~/.codex/app-server-daemon/*.log*"],
+ "cursor-agent": ["~/.cursor/chats/**", "~/.cursor/agent-cli-state.json", "~/.cursor/logs/**", "~/.local/share/cursor-agent/**/*.log", "~/.cursor/projects/**/agent-transcripts/**/*.jsonl", "~/.cursor/projects/**/worker.log"],
+ "gemini": ["~/.gemini/tmp/**/logs.json", "~/.gemini/tmp/**/chats/**", "~/.gemini/logs/**"],
+ "goose": ["~/.local/state/goose/logs/**", "~/.local/share/goose/sessions/**", "~/.config/goose/sessions/**"],
+ "qwen": ["~/.qwen/tmp/**/logs.json", "~/.qwen/tmp/**/chats/**", "~/.qwen/debug/**", "~/.qwen/logs/**", "~/.qwen/projects/**/chats/**", "~/.qwen/usage/**", "~/.qwen/usage_record.jsonl"],
+ "vscode-copilot": ["~/.config/Code/logs/**"],
+ "cursor-ide": ["~/.config/Cursor/logs/**"]
+}

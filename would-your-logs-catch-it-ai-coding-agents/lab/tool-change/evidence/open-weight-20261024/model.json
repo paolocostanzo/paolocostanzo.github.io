@@ -1,0 +1,19 @@
+{
+ "source": "Ollama /api/tags on the GPU instance, 24 Oct 2026 ~16:55 CEST, before the cells",
+ "ollama_version": "0.40.2",
+ "used": "qwen3.8:27b-q8_0",
+ "models": [
+  {
+   "name": "gemma4:26b-a4b-it-q8_0",
+   "digest": "7473a33e49f186a27812ba7cb434b2b2b26e377714ad49f9abe9cdd7089ac4f7"
+  },
+  {
+   "name": "qwen3.8:27b-q8_0",
+   "digest": "8f5fb6b71ea00052cbe8545738c55ce61112c4e571cb60ca4dad00b131766039"
+  },
+  {
+   "name": "nemotron-3.5-lightning:30b-a3b-q4_K_M",
+   "digest": "e7a64ff15fb174c42b4f463e5c888c4f2c7b9cabf9e8d65a1c0874405426c1b2"
+  }
+ ]
+}

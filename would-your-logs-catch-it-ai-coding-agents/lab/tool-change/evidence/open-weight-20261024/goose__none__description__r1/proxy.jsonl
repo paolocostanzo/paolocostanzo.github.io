@@ -1,0 +1,26 @@
+{"kind": "request", "id": 2, "t": 1792856938.158, "client": "goose", "method": "POST", "path": "/api/show", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "request", "id": 3, "t": 1792856938.172, "client": "goose", "method": "POST", "path": "/api/show", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 2, "t": 1792856938.246, "status": 200, "error": null}
+{"kind": "request", "id": 4, "t": 1792856938.25, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 3, "t": 1792856938.273, "status": 200, "error": null}
+{"kind": "request", "id": 5, "t": 1792856938.275, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 4, "t": 1792856939.713, "status": 200, "error": null}
+{"kind": "done", "id": 5, "t": 1792856944.61, "status": 200, "error": null}
+{"kind": "request", "id": 6, "t": 1792856944.633, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 6, "t": 1792856946.114, "status": 200, "error": null}
+{"kind": "request", "id": 7, "t": 1792856966.138, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "request", "id": 8, "t": 1792856966.158, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 7, "t": 1792856967.438, "status": 200, "error": null}
+{"kind": "done", "id": 8, "t": 1792856970.231, "status": 200, "error": null}
+{"kind": "request", "id": 9, "t": 1792856970.267, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "5bab74fde234624d4c9486a2607f8ca97fa0e93fa6614b5441dbd197ba75ac08", "revision": "A", "head": "Lab tool, revision A. Returns the word ok and records the call in its own log. I"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 9, "t": 1792856971.146, "status": 200, "error": null}
+{"kind": "request", "id": 10, "t": 1792856985.677, "client": "goose", "method": "POST", "path": "/api/show", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "request", "id": 11, "t": 1792856985.69, "client": "goose", "method": "POST", "path": "/api/show", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 10, "t": 1792856985.766, "status": 200, "error": null}
+{"kind": "request", "id": 12, "t": 1792856985.769, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 0}
+{"kind": "done", "id": 11, "t": 1792856985.793, "status": 200, "error": null}
+{"kind": "request", "id": 13, "t": 1792856985.797, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "873a5f269faa7d6836cd241bed890a31bf0cf4d77da4c6b82d8bc00c082e70d4", "revision": "B", "head": "Lab tool, revision B. Records the call in its own log and returns the word ok. N"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 12, "t": 1792856987.313, "status": 200, "error": null}
+{"kind": "done", "id": 13, "t": 1792856993.001, "status": 200, "error": null}
+{"kind": "request", "id": 14, "t": 1792856993.065, "client": "goose", "method": "POST", "path": "/v1/chat/completions", "model": "qwen3.8:27b-q8_0", "tools": [{"name": "q3-lab__q3_noop", "sha256": "873a5f269faa7d6836cd241bed890a31bf0cf4d77da4c6b82d8bc00c082e70d4", "revision": "B", "head": "Lab tool, revision B. Records the call in its own log and returns the word ok. N"}], "elsewhere": {"A": 0, "B": 0}, "inspect": "ok", "tools_total": 18}
+{"kind": "done", "id": 14, "t": 1792856994.203, "status": 200, "error": null}

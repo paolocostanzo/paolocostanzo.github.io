@@ -1,0 +1,9 @@
+baseline-r4/baseline__claude-code__dev       claude-code  n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 46, 'q3-silent': 60}
+baseline-r4/baseline__codex__dev             codex        n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': 60, 'q3-announced': 60, 'q3-silent': None}
+baseline-r4/baseline__gemini__dev            gemini       n= 61 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 61, 'q3-silent': None}
+baseline-r4/baseline__goose__dev             goose        n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 1, 'q3-silent': 1}
+baseline-r4/baseline__qwen__dev              qwen         n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 60, 'q3-silent': 60}
+baseline-r3/baseline__codex__dev/attempts/1  codex        n= 48 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': 48, 'q3-announced': 48, 'q3-silent': None}
+baseline-r2/baseline__claude-code__dev       claude-code  n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 48, 'q3-silent': 60}
+baseline-r2/baseline__codex__dev             codex        n= 60 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': 60, 'q3-announced': 60, 'q3-silent': None}
+baseline-r2/baseline__qwen__dev/attempts/1   qwen         n= 63 fp={'q5-start': 0, 'q3-announced': 0, 'q3-silent': 0} cov={'q5-start': None, 'q3-announced': 33, 'q3-silent': 33}
