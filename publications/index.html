@@ -210,11 +210,12 @@
     .card[data-type=preprint]{border-left-color:var(--orange)}
     .card[data-type=lab]{border-left-color:var(--green)}
     .card[data-type=patent]{border-left-color:var(--yellow)}
+    .card[data-type=contrib]{border-left-color:#4fc3f7}
     .card[data-type=prep]{border-left-color:#8a8aff;border-style:dashed solid dashed solid}
     .card.hide{display:none}
     .c-top{display:flex;flex-wrap:wrap;gap:.35rem .9rem;align-items:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--muted);margin-bottom:.45rem}
     .badge{padding:.15rem .45rem;border:1px solid currentColor;text-transform:uppercase;font-size:.62rem;letter-spacing:.12em}
-    .b-preprint{color:var(--orange)}.b-lab{color:var(--green)}.b-patent{color:var(--yellow)}.b-prep{color:#a8a8ff}
+    .b-preprint{color:var(--orange)}.b-lab{color:var(--green)}.b-patent{color:var(--yellow)}.b-prep{color:#a8a8ff}.b-contrib{color:#4fc3f7}
     .c-title{font-family:var(--sans);font-weight:600;font-size:1.06rem;line-height:1.45;color:var(--text);margin:0 0 .35rem}
     .c-sub{font-size:.93rem;color:#9a9a9a;line-height:1.55;margin:0 0 .8rem}
     .c-actions{display:flex;flex-wrap:wrap;gap:.45rem}
@@ -283,9 +284,18 @@
       <button type="button" class="chip" data-filter="preprint"><span data-it="Preprint" data-en="Preprints">Preprints</span></button>
       <button type="button" class="chip" data-filter="patent"><span data-it="Domande di brevetto" data-en="Patent filings">Patent filings</span></button>
       <button type="button" class="chip" data-filter="lab"><span data-it="Lab riproducibili" data-en="Reproducible labs">Reproducible labs</span></button>
+      <button type="button" class="chip" data-filter="contrib"><span data-it="Contributi open source" data-en="Open-source contributions">Open-source contributions</span></button>
       <button type="button" class="chip" data-filter="prep"><span data-it="In preparazione" data-en="In preparation">In preparation</span></button>
     </div>
     <section class="cards" id="works">
+      <article class="card" data-type="contrib">
+        <div class="c-top"><span class="badge b-contrib"><span data-it="Contributo open source" data-en="Open-source contribution">Open-source contribution</span></span><span data-it="30 ott 2026" data-en="30 Oct 2026">30 Oct 2026</span><span>commit 27ebfab</span></div>
+        <h3 class="c-title" data-it="Model Context Protocol (AAIF / Linux Foundation) — SDK Rust ufficiale: callback list_changed e Peer::listen (documentazione)"
+          data-en="Model Context Protocol (AAIF / Linux Foundation) — official Rust SDK: list_changed callbacks and Peer::listen (documentation)">Model Context Protocol (AAIF / Linux Foundation) — official Rust SDK: list_changed callbacks and Peer::listen (documentation)</h3>
+        <p class="c-sub" data-it="Documentazione accettata dai maintainer nell'SDK Rust ufficiale di MCP (PR #1402, chiude #1394): con la revisione 2026-07-28 del protocollo un client riceve gli avvisi di cambio della lista dei tool solo dopo aver aperto uno stream subscriptions/listen. Il problema è emerso misurando goose per la parte 3 di Outside the Prompt. AAIF è un marchio registrato della Linux Foundation."
+          data-en="Documentation merged by the maintainers into the official MCP Rust SDK (PR #1402, closes #1394): under protocol revision 2026-07-28 a client receives tool-list change notifications only after opening a subscriptions/listen stream. The gap surfaced while measuring goose for part 3 of Outside the Prompt. AAIF is a registered trademark of the Linux Foundation.">Documentation merged by the maintainers into the official MCP Rust SDK (PR #1402, closes #1394): under protocol revision 2026-07-28 a client receives tool-list change notifications only after opening a subscriptions/listen stream. The gap surfaced while measuring goose for part 3 of Outside the Prompt. AAIF is a registered trademark of the Linux Foundation.</p>
+        <div class="c-actions"><a class="act main" href="https://github.com/modelcontextprotocol/rust-sdk/commit/27ebfab05a3002fb7bc6e6a65aa012d6f0a1b985" target="_blank" rel="noopener noreferrer"><span data-it="Commit" data-en="Commit">Commit</span></a><a class="act" href="https://github.com/modelcontextprotocol/rust-sdk/pull/1402" target="_blank" rel="noopener noreferrer"><span data-it="Pull request #1402" data-en="Pull request #1402">Pull request #1402</span></a><a class="act" href="https://aaif.io" target="_blank" rel="noopener noreferrer"><span>AAIF</span></a><a class="act" href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer"><span>modelcontextprotocol.io</span></a></div>
+      </article>
       <article class="card" data-type="prep">
         <div class="c-top"><span class="badge b-prep"><span data-it="In preparazione" data-en="In preparation">In preparation</span></span><span data-it="nov 2026 (previsto)" data-en="Nov 2026 (planned)">Nov 2026 (planned)</span></div>
         <h3 class="c-title" data-it="Outside the Prompt: misurare dove gli agenti AI di programmazione si fidano di repository, tool e connettori"
