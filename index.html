@@ -105,14 +105,18 @@
     .contrib{max-width:1100px;margin:0 auto;padding:0 2rem 3rem}
     .contrib-label{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
     .contrib-row{display:flex;flex-wrap:wrap;gap:1rem}
-    .contrib-item{display:flex;align-items:center;gap:1.25rem;border:1px solid var(--border);background:var(--surface);padding:0.9rem 1.2rem}
-    .contrib-item img{height:40px;width:auto;display:block}
-    .contrib-meta{display:flex;flex-direction:column;gap:0.3rem;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase}
-    .contrib-meta span{color:var(--muted)}
-    .contrib-meta a{color:var(--orange)}
-    .contrib-meta a:hover{text-decoration:underline}
+    .contrib-item{display:flex;align-items:center;gap:1.75rem;border:1px solid var(--border);border-left:3px solid var(--orange);background:var(--surface);padding:1.15rem 1.6rem 1.15rem 1.4rem;transition:border-color .2s,background .2s,transform .2s}
+    .contrib-item:hover{border-color:rgba(255,106,0,0.45);border-left-color:var(--orange);background:var(--surface2);transform:translateY(-1px)}
+    .contrib-item img{height:42px;width:auto;display:block}
+    .contrib-meta{display:flex;flex-direction:column;gap:0.45rem;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding-left:1.75rem;border-left:1px solid var(--border)}
+    .contrib-top{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
+    .contrib-badge{color:var(--orange);border:1px solid rgba(255,106,0,0.45);background:var(--orange-faint);padding:0.12rem 0.5rem;font-size:0.6rem;letter-spacing:0.16em}
+    .contrib-since{color:var(--muted);font-size:0.6rem;letter-spacing:0.14em}
+    .contrib-meta a{color:var(--text);font-size:0.74rem}
+    .contrib-meta a:hover{color:var(--orange)}
+    .contrib-ctx{color:var(--muted);text-transform:none;letter-spacing:0.04em;font-size:0.66rem}
     .footer-tm{max-width:1100px;margin:0.75rem auto 0;font-size:0.62rem;color:var(--muted);line-height:1.6}
-    @media(max-width:600px){.contrib{padding:0 1.25rem 2.5rem}.contrib-item{flex-direction:column;align-items:flex-start;gap:0.75rem}.contrib-item img{height:34px}}
+    @media(max-width:600px){.contrib{padding:0 1.25rem 2.5rem}.contrib-item{flex-direction:column;align-items:flex-start;gap:1rem;padding:1rem 1.2rem}.contrib-item img{height:34px}.contrib-meta{padding-left:0;border-left:none}}
     .divider{max-width:1100px;margin:0 auto;padding:0 2rem;border-top:1px solid var(--border)}
     .filter-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
     .filter-left{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
@@ -309,7 +313,9 @@
     <div class="contrib-item">
       <a href="https://aaif.io" target="_blank" rel="noopener noreferrer" title="Agentic AI Foundation (Linux Foundation)"><img src="brand/AAIF_Primary_Logo_White.svg" alt="Agentic AI Foundation" width="165" height="40"/></a>
       <div class="contrib-meta">
+        <div class="contrib-top"><span class="contrib-badge">Contributor</span><span class="contrib-since" data-it="dal 2026" data-en="since 2026">since 2026</span></div>
         <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" data-it="Progetto Model Context Protocol →" data-en="Model Context Protocol project →">Model Context Protocol project →</a>
+        <span class="contrib-ctx" data-it="Linux Foundation · standard aperto per agenti AI" data-en="Linux Foundation · open standard for AI agents">Linux Foundation · open standard for AI agents</span>
       </div>
     </div>
   </div>
