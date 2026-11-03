@@ -108,6 +108,9 @@
     .contrib-item{display:flex;align-items:center;gap:1.75rem;border:1px solid var(--border);border-left:3px solid var(--orange);background:var(--surface);padding:1.15rem 1.6rem 1.15rem 1.4rem;transition:border-color .2s,background .2s,transform .2s}
     .contrib-item:hover{border-color:rgba(255,106,0,0.45);border-left-color:var(--orange);background:var(--surface2);transform:translateY(-1px)}
     .contrib-item img{height:42px;width:auto;display:block}
+    .contrib-row{flex-direction:column}
+    .contrib-item{width:712px;max-width:100%;box-sizing:border-box}
+    .contrib-item > a{flex:0 0 200px;display:flex;align-items:center}
     .contrib-meta{display:flex;flex-direction:column;gap:0.45rem;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding-left:1.75rem;border-left:1px solid var(--border)}
     .contrib-top{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
     .contrib-badge{color:var(--orange);border:1px solid rgba(255,106,0,0.45);background:var(--orange-faint);padding:0.12rem 0.5rem;font-size:0.6rem;letter-spacing:0.16em}
@@ -116,7 +119,7 @@
     .contrib-meta a:hover{color:var(--orange)}
     .contrib-ctx{color:var(--muted);text-transform:none;letter-spacing:0.04em;font-size:0.66rem}
     .footer-tm{max-width:1100px;margin:0.75rem auto 0;font-size:0.62rem;color:var(--muted);line-height:1.6}
-    @media(max-width:600px){.contrib{padding:0 1.25rem 2.5rem}.contrib-item{flex-direction:column;align-items:flex-start;gap:1rem;padding:1rem 1.2rem}.contrib-item img{height:34px}.contrib-meta{padding-left:0;border-left:none}}
+    @media(max-width:600px){.contrib{padding:0 1.25rem 2.5rem}.contrib-item{flex-direction:column;align-items:flex-start;gap:1rem;padding:1rem 1.2rem}.contrib-item img{height:34px}.contrib-meta{padding-left:0;border-left:none}.contrib-item > a{flex:none}}
     .divider{max-width:1100px;margin:0 auto;padding:0 2rem;border-top:1px solid var(--border)}
     .filter-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
     .filter-left{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
@@ -314,8 +317,16 @@
       <a href="https://aaif.io" target="_blank" rel="noopener noreferrer" title="Agentic AI Foundation (Linux Foundation)"><img src="brand/AAIF_Primary_Logo_White.svg" alt="Agentic AI Foundation" width="165" height="40"/></a>
       <div class="contrib-meta">
         <div class="contrib-top"><span class="contrib-badge">Contributor</span><span class="contrib-since" data-it="dal 2026" data-en="since 2026">since 2026</span></div>
-        <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" data-it="Progetto Model Context Protocol →" data-en="Model Context Protocol project →">Model Context Protocol project →</a>
-        <span class="contrib-ctx" data-it="Linux Foundation · standard aperto per agenti AI" data-en="Linux Foundation · open standard for AI agents">Linux Foundation · open standard for AI agents</span>
+        <a href="https://github.com/modelcontextprotocol/rust-sdk" target="_blank" rel="noopener noreferrer" data-it="Model Context Protocol – SDK Rust ufficiale →" data-en="Model Context Protocol – official Rust SDK →">Model Context Protocol – official Rust SDK →</a>
+        <span class="contrib-ctx" data-it="Agentic AI Foundation (Linux Foundation) · standard aperto per agenti AI" data-en="Agentic AI Foundation (Linux Foundation) · open standard for AI agents">Agentic AI Foundation (Linux Foundation) · open standard for AI agents</span>
+      </div>
+    </div>
+    <div class="contrib-item">
+      <a href="https://genai.owasp.org/initiatives/ai-red-teaming-initiative/" target="_blank" rel="noopener noreferrer" title="OWASP GenAI Security Project"><img src="brand/OWASP_GenAI_Security_Project_Logo_White.png" alt="OWASP GenAI Security Project" width="156" height="42"/></a>
+      <div class="contrib-meta">
+        <div class="contrib-top"><span class="contrib-badge">Contributor</span><span class="contrib-since" data-it="dal 2026" data-en="since 2026">since 2026</span></div>
+        <a href="https://genai.owasp.org/initiatives/ai-red-teaming-initiative/" target="_blank" rel="noopener noreferrer" data-it="Containment · Scoping Checklist · revisione ASI AIMM →" data-en="Containment · Scoping Checklist · ASI AIMM review →">Containment · Scoping Checklist · ASI AIMM review →</a>
+        <span class="contrib-ctx" data-it="OWASP Foundation · linee guida aperte per la sicurezza dell'AI generativa" data-en="OWASP Foundation · open guidance for securing generative AI">OWASP Foundation · open guidance for securing generative AI</span>
       </div>
     </div>
   </div>
@@ -750,7 +761,7 @@
     </div>
     <div class="footer-copy">© 2026 Paolo Costanzo</div>
   </div>
-  <p class="footer-tm" data-it="AAIF e il logo AAIF sono marchi registrati della Linux Foundation. Il loro uso indica un contributo a un progetto e non implica approvazione." data-en="AAIF and the AAIF logo design are registered trademarks of the Linux Foundation. Their use here indicates a project contribution and does not imply endorsement.">AAIF and the AAIF logo design are registered trademarks of the Linux Foundation. Their use here indicates a project contribution and does not imply endorsement.</p>
+  <p class="footer-tm" data-it="AAIF e il logo AAIF sono marchi registrati della Linux Foundation. OWASP e il logo OWASP GenAI Security Project sono marchi di OWASP Foundation, Inc. Sono usati qui solo per indicare i miei contributi individuali a questi progetti e non implicano approvazione né affiliazione." data-en="AAIF and the AAIF logo design are registered trademarks of the Linux Foundation. OWASP and the OWASP GenAI Security Project logo are trademarks of the OWASP Foundation, Inc. They are used here only to identify my individual contributions to these projects and do not imply endorsement or affiliation.">AAIF and the AAIF logo design are registered trademarks of the Linux Foundation. OWASP and the OWASP GenAI Security Project logo are trademarks of the OWASP Foundation, Inc. They are used here only to identify my individual contributions to these projects and do not imply endorsement or affiliation.</p>
 </footer>
 
 <script>
