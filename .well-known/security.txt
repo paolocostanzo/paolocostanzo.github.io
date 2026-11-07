@@ -1,4 +1,6 @@
 Contact: mailto:me@paolocostanzo.com
-Preferred-Languages: en, it
+Contact: mailto:paolo.costanzo@protonmail.ch
+Encryption: https://paolocostanzo.com/pgp-key.txt
+Preferred-Languages: it, en
 Canonical: https://paolocostanzo.github.io/.well-known/security.txt
-Expires: 2027-04-12T00:00:00.000Z
+Expires: 2027-11-05T00:00:00.000Z

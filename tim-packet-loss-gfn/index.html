@@ -7,7 +7,7 @@
        The real CVE here is CVE-TIM-2026-UFFANCULO (severity: critical, patch: pending for months).
        The ticket is still open. The network only works over VPN.
        Welcome to the club. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' https://tenor.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; frame-src https://tenor.com; frame-ancestors 'self';"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title
     data-it="TIM, GeForce Now e l'ICMP black hole: 10% di packet loss"
@@ -20,8 +20,7 @@
     content="An ICMP black hole on the access network breaks Path MTU Discovery: packet loss on GeForce Now and 26 Mbps on a 1 Gbps line. Diagnosis and MTU/MSS workaround."
   />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/fonts/fonts.css"/>
   <style>
     :root { --orange: #ff6a00; --orange-faint: rgba(255,106,0,0.06); --black: #080808; --surface: #101010; --surface2: #161616; --border: #222; --text: #e8e8e8; --muted: #666; --mono: 'Share Tech Mono', monospace; --sans: 'Barlow', sans-serif; --condensed: 'Barlow Condensed', sans-serif; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -152,7 +151,7 @@
   "author": {
     "@type": "Person",
     "name": "Paolo Costanzo",
-    "url": "https://www.paolocostanzo.com",
+    "url": "https://paolocostanzo.com",
     "sameAs": [
       "https://www.linkedin.com/in/paolocostanzoit/",
       "https://github.com/paolocostanzo",
@@ -834,7 +833,7 @@ sudo ifconfig en6 mtu 1500</pre></div>
     <div class="ab-links">
       <a class="ab-cta" href="mailto:me@paolocostanzo.com"
          data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
-      <a href="https://www.paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+      <a href="https://paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
       <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
