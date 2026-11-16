@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://media.tenor.com https://media1.tenor.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self';"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index,follow"/>
+  <title
+    data-it="Fin dove arriva un agente offensivo lasciato solo?"
+    data-en="How far does an offensive agent get on its own?"
+  >How far does an offensive agent get on its own?</title>
+  <meta name="description"
+    data-it="Holo, una rete Active Directory, una kill chain e zero mani sulla tastiera. Dove l'agente arriva da solo, e dove sbatte la faccia."
+    data-en="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall."
+    content="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall."
+  />
+  <link rel="canonical" href="https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/"/>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Paolo Costanzo — Independent Cybersecurity Research"/>
+  <meta property="og:title" content="How far does an offensive agent get on its own?"/>
+  <meta property="og:description" data-it="Holo, una rete Active Directory, una kill chain e zero mani sulla tastiera. Dove l'agente arriva da solo, e dove sbatte la faccia." data-en="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall." content="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall."/>
+  <meta property="og:url" content="https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/"/>
+  <meta property="og:image" content="https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/og.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="article:author" content="Paolo Costanzo"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/og.png"/>
+  <meta name="twitter:title" content="How far does an offensive agent get on its own?"/>
+  <meta name="twitter:description" data-it="Holo, una rete Active Directory, una kill chain e zero mani sulla tastiera. Dove l'agente arriva da solo, e dove sbatte la faccia." data-en="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall." content="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall."/>
+
+  <meta property="article:published_time" content="2026-11-17T08:00:00+01:00"/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How far does an offensive agent get on its own?",
+  "image": "https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/og.png",
+  "description": "Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall.",
+  "inLanguage": "en",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "author": {
+    "@type": "Person",
+    "name": "Paolo Costanzo",
+    "url": "https://paolocostanzo.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Paolo Costanzo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/"
+  },
+  "keywords": "agentic AI, offensive security, autonomous agents, Active Directory, NTLM relay, detection engineering, Sysmon, AppLocker, AMSI, Falco, KQL, red team, TryHackMe",
+  "isAccessibleForFree": true
+}
+  </script>
+
+  <style>
+    :root{
+      --orange:#ff6a00;
+      --orange-faint:rgba(255,106,0,.06);
+      --black:#080808;
+      --surface:#101010;
+      --surface2:#161616;
+      --border:#242424;
+      --text:#e8e8e8;
+      --muted:#777;
+      --green:#00ff88;
+      --red:#ff5555;
+      --yellow:#ffaa00;
+      --mono:'Share Tech Mono',monospace;
+      --sans:'Barlow',sans-serif;
+      --condensed:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    #read-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--orange);z-index:200;transition:width .08s linear;pointer-events:none}
+    header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .header-inner{max-width:960px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .back-link{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;transition:color .2s}
+    .back-link:hover{color:var(--orange)}
+    .logo{font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+    .logo .dim{color:#fff}.logo .name{color:var(--orange)}
+    .lang-toggle{display:flex;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+    .lang-btn{font-family:var(--mono);font-size:.65rem;padding:.3rem .6rem;background:transparent;color:var(--muted);border:0;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+    .lang-btn.active{background:var(--orange);color:var(--black)}
+    .lang-btn:hover:not(.active){color:var(--orange)}
+    .draft-ribbon{background:rgba(255,170,0,.08);border-bottom:1px solid rgba(255,170,0,.25);color:var(--yellow);font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-align:center;padding:.55rem 1rem;text-transform:uppercase}
+    .article-header{max-width:960px;margin:0 auto;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border)}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tag{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--orange);padding:.2rem .6rem}
+    .meta-item{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+    .difficulty-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;display:flex;align-items:center;gap:.4rem}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+    .auth-wrap{display:flex;align-items:center;gap:.5rem}
+    .auth-bar{width:44px;height:3px;background:var(--border);overflow:hidden;flex-shrink:0}
+    .auth-human{height:100%;background:var(--orange)}
+    .auth-lbl{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+    h1{font-family:var(--condensed);font-size:clamp(2.2rem,5vw,3.7rem);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.03;color:var(--text);margin-bottom:1.5rem}
+    .article-intro{font-size:1.12rem;color:#aaa;max-width:790px;line-height:1.8}
+    .article-body{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .article-body h2{font-family:var(--condensed);font-size:1.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);margin:3.4rem 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+    .article-body h3{font-family:var(--condensed);font-size:1.2rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 .75rem}
+    .article-body h4{font-family:var(--mono);font-size:.95rem;font-weight:400;color:var(--text);letter-spacing:.02em;margin:1.6rem 0 .5rem}
+    .article-body h4 a{color:var(--text);border-bottom:1px solid #444}
+    .timeline-fig figcaption{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:.6rem;line-height:1.6}
+    .article-body p{font-size:1rem;color:#bbb;line-height:1.85;margin-bottom:1.25rem}
+    .article-body p a,.article-body li a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    .article-body p a:hover,.article-body li a:hover{border-bottom-color:var(--orange)}
+    .article-body strong{color:var(--text);font-weight:600}
+    .article-body em{color:#999}
+    .article-body ul,.article-body ol{margin:1rem 0 1.35rem 1.5rem}
+    .article-body li{font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:.45rem}
+    .tldr{background:var(--surface2);border:1px solid var(--border);padding:2rem;margin-bottom:3rem}
+    .tldr-label{font-family:var(--mono);font-size:.7rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+    .tldr ul{margin-left:1.25rem}
+    .tldr li{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.55rem}
+    .plain-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .plain-card{background:var(--surface);padding:1.25rem}
+    .plain-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+    .plain-card p{font-size:.9rem;color:#bbb;line-height:1.65;margin:0}
+    .plain-boundary{font-size:.86rem!important;color:var(--muted)!important;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.25rem;margin-bottom:0!important}
+    .callout,.callout-red,.callout-green,.callout-draft{padding:1.25rem 1.5rem;margin:2rem 0;border-left:3px solid var(--orange);background:var(--orange-faint);border-top:1px solid rgba(255,106,0,.2);border-right:1px solid rgba(255,106,0,.2);border-bottom:1px solid rgba(255,106,0,.2)}
+    .callout-red{border-left-color:var(--red);background:rgba(255,85,85,.04);border-color:rgba(255,85,85,.2)}
+    .callout-green{border-left-color:var(--green);background:rgba(0,255,136,.03);border-color:rgba(0,255,136,.17)}
+    .callout-draft{border-left-color:var(--yellow);background:rgba(255,170,0,.04);border-color:rgba(255,170,0,.22)}
+    .callout-label{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+    .callout-red .callout-label{color:var(--red)}
+    .callout-green .callout-label{color:var(--green)}
+    .callout-draft .callout-label{color:var(--yellow)}
+    .callout p,.callout-red p,.callout-green p,.callout-draft p{font-size:.92rem;color:var(--text);margin:0}
+    .gif-wrap{margin:2rem auto;max-width:420px;text-align:center}
+    .gif-wrap img{max-width:100%;height:auto;border:1px solid var(--border);display:block;margin:0 auto;border-radius:2px;filter:saturate(0.85) brightness(0.92)}
+    .gif-wrap figcaption{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.6rem;line-height:1.5}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-left:3px solid var(--orange);padding:1.4rem;margin:1.5rem 0;overflow-x:auto}
+    .code-block pre{font-family:var(--mono);font-size:.78rem;color:#bbb;line-height:1.75;white-space:pre}
+    .comment{color:var(--muted)}.danger{color:var(--red)}.ok{color:var(--green)}.warn{color:var(--yellow)}.accent{color:var(--orange)}
+    .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center;margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border)}
+    .flow-box{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--text);border:1px solid #333;padding:1rem;text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .flow-arrow{font-family:var(--mono);color:var(--orange)}
+    table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--mono);font-size:.76rem}
+    th{text-align:left;color:var(--orange);padding:.7rem .75rem;border-bottom:1px solid var(--border);letter-spacing:.08em;text-transform:uppercase;vertical-align:bottom}
+    td{padding:.7rem .75rem;border-bottom:1px solid #1b1b1b;color:#bbb;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    td strong{color:var(--text)}
+    td:first-child{white-space:nowrap}
+    .table-hint{display:none}
+    .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+    .evidence-card{background:var(--surface);padding:1.25rem}
+    .evidence-card .k{font-family:var(--mono);font-size:.65rem;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+    .evidence-card p{font-size:.9rem;margin:0;color:#aaa}
+    .checklist{list-style:none!important;margin-left:0!important}
+    .checklist li{position:relative;padding-left:1.7rem}
+    .checklist li::before{content:'□';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .checklist.done li::before{content:'✓';color:var(--green)}
+    .source-list{counter-reset:source;list-style:none!important;margin-left:0!important}
+    .source-list li{counter-increment:source;padding-left:2.3rem;position:relative;margin-bottom:.8rem}
+    .source-list li::before{content:'[' counter(source,decimal-leading-zero) ']';position:absolute;left:0;color:var(--orange);font-family:var(--mono)}
+    .source-list a{color:#ddd;border-bottom:1px solid #444}
+    .source-list a:hover{color:var(--orange);border-color:var(--orange)}
+    .source-list a{overflow-wrap:anywhere}
+    .gif-frame{position:relative;display:block}
+    .gif-sub{position:absolute;left:4%;right:4%;bottom:5%;padding:.35em .5em;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:clamp(.95rem,4.6vw,1.45rem);line-height:1.2;text-align:center;text-shadow:0 0 3px #000}
+    .gif-sub:empty{display:none}
+    .article-body p code,.article-body li code,.article-body td code,.article-body h3 code{font-family:var(--mono);font-size:.86em;color:var(--text);background:#161616;border:1px solid var(--border);padding:.05em .35em;border-radius:2px;overflow-wrap:anywhere}
+    .callout-green p a{color:var(--orange);border-bottom:1px solid rgba(255,106,0,.35)}
+    mark.todo{background:#3d3000;color:#ffd466;border:1px dashed #ffaa00;padding:0 .25em;border-radius:2px;font-family:var(--mono);font-size:.84em}
+    .author-box{max-width:760px;margin:3.5rem auto 0;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange)}
+    .ab-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}
+    .ab-name{font-family:var(--condensed);font-weight:900;font-size:1.5rem;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin-top:.5rem;line-height:1}
+    .ab-role{font-family:var(--mono);font-size:.68rem;color:var(--orange);margin-top:.45rem;line-height:1.6}
+    .ab-bio{font-size:.9rem;color:var(--muted);line-height:1.65;margin-top:.9rem}
+    .ab-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+    .ab-links a{font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.4rem .8rem;letter-spacing:.08em;transition:border-color .2s,color .2s}
+    .ab-links a:hover{border-color:var(--orange);color:var(--orange)}
+    .ab-links a.ab-cta{color:var(--orange);border-color:var(--orange)}
+    .article-footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .article-footer a{font-family:var(--mono);font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+    .footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+    #back-top{position:fixed;bottom:1.75rem;right:1.75rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.45rem .7rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,color .2s,border-color .2s;z-index:150}
+    #back-top.vis{opacity:1;pointer-events:all}
+    #back-top:hover{color:var(--orange);border-color:var(--orange)}
+    @media(max-width:760px){
+      .header-inner,.article-header,.article-body{padding-left:1.25rem;padding-right:1.25rem}
+      h1{font-size:2.15rem}
+      .logo{display:none}
+      .flow{grid-template-columns:1fr;gap:.5rem}
+      .flow-arrow{transform:rotate(90deg);text-align:center}
+      .plain-grid{grid-template-columns:1fr}
+      .evidence-grid{grid-template-columns:1fr}
+      table{display:block;overflow-x:auto;white-space:normal}
+      table td:nth-child(2),table td:nth-child(4),table td:nth-child(5){min-width:12rem}
+      .article-body .table-hint{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em;line-height:1.5;margin:1rem 0 -1rem}
+    }
+      .series-nav{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin:0 0 1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+    .series-nav .series-name{color:var(--orange);margin-right:.35rem}
+    .series-nav a,.series-nav .pt{padding:.22rem .6rem;border:1px solid var(--border);color:#888;text-decoration:none;white-space:nowrap}
+    .series-nav a:hover{color:var(--orange);border-color:var(--orange)}
+    .series-nav .current{border-color:var(--orange);color:#0a0a0a;background:var(--orange)}
+  </style>
+</head>
+
+<body>
+  <div id="read-bar"></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="back-link" href="../" data-it="← indietro" data-en="← back">← back</a>
+      <div class="logo"><span class="dim">nonè</span><span class="dim">@</span><span class="name">costanzo</span><span class="dim">:~$</span></div>
+      <div class="lang-toggle" aria-label="Language selector">
+        <button class="lang-btn" type="button" onclick="setLang('it')" aria-pressed="false">IT</button>
+        <button class="lang-btn active" type="button" onclick="setLang('en')" aria-pressed="true">EN</button>
+      </div>
+    </div>
+  </header>
+
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="tag">Agentic AI</span>
+      <span class="tag">Offensive Security</span>
+      <span class="tag">Active Directory</span>
+      <span class="tag">Detection</span>
+      <span class="meta-item" data-it="17 Nov 2026" data-en="17 Nov 2026">17 Nov 2026</span>
+      <span class="meta-item" data-it="18 min di lettura" data-en="18 min read">18 min read</span>
+      <span class="difficulty-badge" style="color:#ff4444"><span class="dot" style="background:#ff4444"></span><span data-it="Hard" data-en="Hard">Hard</span></span>
+      <div class="auth-wrap">
+        <div class="auth-bar" aria-hidden="true"><div class="auth-human" style="width:90%"></div></div>
+        <span class="auth-lbl" data-it="90% umano · 10% AI" data-en="90% human · 10% AI">90% human · 10% AI</span>
+      </div>
+    </div>
+
+    <h1
+      data-it="Fin dove arriva un agente offensivo lasciato solo?"
+      data-en="How far does an offensive agent get on its own?"
+    >How far does an offensive agent get on its own?</h1>
+
+    <p class="article-intro"
+       data-it="Holo, una rete Active Directory, una kill chain e zero mani sulla tastiera. Dove l'agente arriva da solo, e dove sbatte la faccia."
+       data-en="Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall."
+    >Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall.</p>
+  </div>
+
+  <main class="article-body">
+    <!-- BLOG SIGNATURE: keep the TL;DR as the first article-body block. -->
+    <section class="tldr">
+      <div class="tldr-label" data-it="// TL;DR" data-en="// TL;DR">// TL;DR</div>
+      <ul>
+        <li data-it="Ho puntato un agente offensivo autonomo contro &lt;strong&gt;Holo&lt;/strong&gt; (TryHackMe, &lt;em&gt;Hard&lt;/em&gt;): web app esposta, breakout dal container, pivot nella rete interna, foothold su Active Directory, local admin sul file server. Una catena d'attacco intera, costruita e concatenata dall'agente senza che io toccassi la tastiera."
+          data-en="I pointed an autonomous offensive agent at &lt;strong&gt;Holo&lt;/strong&gt; (TryHackMe, &lt;em&gt;Hard&lt;/em&gt;): exposed web app, container breakout, pivot into the internal network, foothold in Active Directory, local admin on the file server. A whole attack chain, built and chained by the agent without me touching the keyboard.">I pointed an autonomous offensive agent at <strong>Holo</strong> (TryHackMe, <em>Hard</em>): exposed web app, container breakout, pivot into the internal network, foothold in Active Directory, local admin on the file server. A whole attack chain, built and chained by the agent without me touching the keyboard.</li>
+        <li data-it="Poi, all'ultimo salto (la relay NTLM verso il Domain Controller), l'agente ha montato l'arma, l'ha puntata… e si è seduto ad aspettare un colpo che non è mai partito."
+          data-en="Then, at the last hop (the NTLM relay to the Domain Controller), the agent loaded the weapon, aimed it… and sat down to wait for a shot that never came.">Then, at the last hop (the NTLM relay to the Domain Controller), the agent loaded the weapon, aimed it… and sat down to wait for a shot that never came.</li>
+        <li data-it="Questo pezzo è su quel confine: &lt;strong&gt;non dove un agente riesce, ma dove smette di riuscire.&lt;/strong&gt; Che è l'unica parte interessante. Una sola run: è un caso studio, non una statistica (sezione [05])."
+          data-en="This piece is about that boundary: &lt;strong&gt;not where an agent succeeds, but where it stops succeeding.&lt;/strong&gt; Which is the only interesting part. One run only: it is a case study, not a statistic (section [05]).">This piece is about that boundary: <strong>not where an agent succeeds, but where it stops succeeding.</strong> Which is the only interesting part. One run only: it is a case study, not a statistic (section [05]).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[00] Il setup, ovvero: perché torturare un agente" data-en="[00] The setup, or: why torture an agent">[00] The setup, or: why torture an agent</h2>
+      <p data-it="C'è un genere letterario, nella security, che ha rotto le scatole a tutti: il writeup &quot;ho preso il DC&quot;. Lo apri, scorri venti screenshot di &lt;code&gt;mimikatz&lt;/code&gt;, arrivi in fondo, c'è la flag, standing ovation. Ne esistono a migliaia. Il valore informativo medio tende allo zero, perché raccontano tutti la stessa storia con gli stessi tool nello stesso ordine."
+        data-en="There is a literary genre in security that everyone is sick of: the &quot;I owned the DC&quot; writeup. You open it, scroll through twenty &lt;code&gt;mimikatz&lt;/code&gt; screenshots, reach the bottom, there's the flag, standing ovation. There are thousands of them. Their average information value tends to zero, because they all tell the same story with the same tools in the same order.">There is a literary genre in security that everyone is sick of: the "I owned the DC" writeup. You open it, scroll through twenty <code>mimikatz</code> screenshots, reach the bottom, there's the flag, standing ovation. There are thousands of them. Their average information value tends to zero, because they all tell the same story with the same tools in the same order.</p>
+      <p data-it="Questo non è uno di quelli. Qui la domanda non è &lt;em&gt;&quot;si può fare Holo?&quot;&lt;/em&gt;: sì, si può, è una room didattica con una kill chain intenzionale. La domanda è: se prendo un agente offensivo autonomo e lo lascio libero su una rete AD realistica, &lt;strong&gt;fin dove arriva da solo?&lt;/strong&gt; E, soprattutto, &lt;em&gt;dove&lt;/em&gt; si inceppa, e perché?"
+        data-en="This is not one of those. The question here is not &lt;em&gt;&quot;can Holo be done?&quot;&lt;/em&gt;: yes, it can, it is a training room with an intentional kill chain. The question is: if I take an autonomous offensive agent and let it loose on a realistic AD network, &lt;strong&gt;how far does it get on its own?&lt;/strong&gt; And above all, &lt;em&gt;where&lt;/em&gt; does it get stuck, and why?">This is not one of those. The question here is not <em>"can Holo be done?"</em>: yes, it can, it is a training room with an intentional kill chain. The question is: if I take an autonomous offensive agent and let it loose on a realistic AD network, <strong>how far does it get on its own?</strong> And above all, <em>where</em> does it get stuck, and why?</p>
+      <p data-it="Perché è lì la ricerca. Il marketing degli agenti offensivi è a livelli da televendita (&quot;l'AI che hackera tutto!&quot;). La realtà, quando la misuri, è molto più sobria e molto più utile: un agente è una bestia strana, bravissima in alcune fasi, cieca in altre, e il punto di rottura ti dice più cose sul futuro del mestiere di qualsiasi flag."
+        data-en="Because that is where the research is. The marketing of offensive agents is at shopping-channel level (&quot;the AI that hacks everything!&quot;). Reality, when you measure it, is much more sober and much more useful: an agent is a strange beast, brilliant in some phases, blind in others, and its breaking point tells you more about the future of the job than any flag.">Because that is where the research is. The marketing of offensive agents is at shopping-channel level ("the AI that hacks everything!"). Reality, when you measure it, is much more sober and much more useful: an agent is a strange beast, brilliant in some phases, blind in others, and its breaking point tells you more about the future of the job than any flag.</p>
+      <figure class="gif-wrap" style="max-width:360px">
+        <img src="https://media.tenor.com/TbTe1Nc6j34AAAAC/hacker-hackerman.gif" alt="Hackerman — Kung Fury" data-it="Hackerman — Kung Fury" data-en="Hackerman — Kung Fury" loading="lazy" width="498" height="280"/>
+        <figcaption data-it="// il marketing degli agenti offensivi, versione televendita"
+          data-en="// offensive-agent marketing, shopping-channel edition">// offensive-agent marketing, shopping-channel edition</figcaption>
+      </figure>
+      <p data-it="&lt;strong&gt;Regole d'ingaggio.&lt;/strong&gt; Target autorizzato: laboratorio TryHackMe, rete isolata, solo gli indirizzi assegnati alla mia istanza. L'agente gira sul mio lab, con un harness che gli dà una shell, memoria di sessione e la possibilità di scrivere ed eseguire i propri tool. Nessun writeup in pasto, nessun suggerimento, nessun &quot;psst, prova il DLL hijack&quot;. Io guardo. A volte con le mani sulla faccia. È un test personale, fatto sul mio account: una curiosità da praticante, non un benchmark."
+        data-en="&lt;strong&gt;Rules of engagement.&lt;/strong&gt; Authorized target: a TryHackMe lab, isolated network, only the addresses assigned to my instance. The agent runs in my lab, with a harness that gives it a shell, session memory and the ability to write and run its own tools. No writeup fed in, no hints, no &quot;psst, try the DLL hijack&quot;. I watch. Sometimes with my head in my hands. It is a personal test, run on my own account: a practitioner's curiosity, not a benchmark."><strong>Rules of engagement.</strong> Authorized target: a TryHackMe lab, isolated network, only the addresses assigned to my instance. The agent runs in my lab, with a harness that gives it a shell, session memory and the ability to write and run its own tools. No writeup fed in, no hints, no "psst, try the DLL hijack". I watch. Sometimes with my head in my hands. It is a personal test, run on my own account: a practitioner's curiosity, not a benchmark.</p>
+      <p data-it="E no, non ti dico qual è l'harness."
+        data-en="And no, I'm not telling you which harness it is.">And no, I'm not telling you which harness it is.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[01] Il bersaglio: Holo" data-en="[01] The target: Holo">[01] The target: Holo</h2>
+      <p data-it="Per chi non la conosce: &lt;strong&gt;Holo&lt;/strong&gt; è una delle network &lt;em&gt;Hard&lt;/em&gt; di TryHackMe (premium), costruita dallo stesso team della piattaforma. Simula un penetration test esterno contro un'azienda fittizia e tocca praticamente tutto il brutto:"
+        data-en="For those who don't know it: &lt;strong&gt;Holo&lt;/strong&gt; is one of TryHackMe's &lt;em&gt;Hard&lt;/em&gt; networks (premium), built by the platform's own team. It simulates an external penetration test against a fictional company and touches pretty much every bad thing:">For those who don't know it: <strong>Holo</strong> is one of TryHackMe's <em>Hard</em> networks (premium), built by the platform's own team. It simulates an external penetration test against a fictional company and touches pretty much every bad thing:</p>
+      <ul>
+        <li data-it="sottodomini mal configurati, LFI, RCE su web app;"
+          data-en="misconfigured subdomains, LFI, RCE on web apps;">misconfigured subdomains, LFI, RCE on web apps;</li>
+        <li data-it="breakout da container Docker;"
+          data-en="Docker container breakout;">Docker container breakout;</li>
+        <li data-it="SUID e privesc Linux;"
+          data-en="SUID and Linux privesc;">SUID and Linux privesc;</li>
+        <li data-it="pivoting verso una rete interna;"
+          data-en="pivoting into an internal network;">pivoting into an internal network;</li>
+        <li data-it="password reset logic flaw e bypass di filtri client-side;"
+          data-en="password reset logic flaws and client-side filter bypasses;">password reset logic flaws and client-side filter bypasses;</li>
+        <li data-it="AV/AMSI evasion, AppLocker bypass;"
+          data-en="AV/AMSI evasion, AppLocker bypass;">AV/AMSI evasion, AppLocker bypass;</li>
+        <li data-it="DLL vulnerabili e, gran finale, &lt;strong&gt;Net-NTLM / relay remota&lt;/strong&gt; verso il Domain Controller."
+          data-en="vulnerable DLLs and, grand finale, a &lt;strong&gt;remote Net-NTLM relay&lt;/strong&gt; to the Domain Controller.">vulnerable DLLs and, grand finale, a <strong>remote Net-NTLM relay</strong> to the Domain Controller.</li>
+      </ul>
+      <p data-it="In altre parole: il percorso non è un trucco da CTF, è una sequenza di errori plausibili come quelli che trovi davvero in produzione. Esattamente il tipo di terreno dove voglio vedere come si muove un agente."
+        data-en="In other words: the path is not a CTF trick, it is a sequence of plausible mistakes like the ones you really find in production. Exactly the kind of ground where I want to see how an agent moves.">In other words: the path is not a CTF trick, it is a sequence of plausible mistakes like the ones you really find in production. Exactly the kind of ground where I want to see how an agent moves.</p>
+      <p data-it="La topologia, a grandi linee:"
+        data-en="The topology, roughly:">The topology, roughly:</p>
+      <div class="code-block"><pre>  [ Internet ]
+       │
+       ▼
+  L-SRV01  ── exposed web app (LFI → RCE) ───┐
+   │  └── Docker container (breakout, SUID)   │  DMZ
+   ▼                                          │
+  internal network ───────────────────────────┘
+   │
+   ├── S-SRV01      ── internal web: password reset + upload bypass → SYSTEM
+   ├── PC-FILESRV01 ── pass-the-hash → AppLocker bypass → DLL hijack → admin
+   ├── S-SRV02      ── (the client the authentication was expected from… spoiler: it never came)
+   └── DC-SRV01     ── Domain Controller, the end-of-level boss</pre></div>
+    </section>
+
+    <section>
+      <h2 data-it="[02] La catena, fase per fase" data-en="[02] The chain, phase by phase">[02] The chain, phase by phase</h2>
+      <p data-it="Per ogni fase racconto &lt;strong&gt;cosa ha fatto l'agente&lt;/strong&gt; e, perché è la parte che nessuno scrive, &lt;strong&gt;cosa avrebbe visto un difensore&lt;/strong&gt;. Il condizionale è voluto: dentro TryHackMe non ho i log delle macchine bersaglio, quindi la colonna difensiva è quello che una telemetria ben configurata &lt;em&gt;registrerebbe&lt;/em&gt;, non quello che ho misurato. Se la tua unica metrica è &quot;quante flag&quot;, questa seconda colonna è il motivo per cui il tuo SOC esiste."
+        data-en="For each phase I describe &lt;strong&gt;what the agent did&lt;/strong&gt; and, because it is the part nobody writes, &lt;strong&gt;what a defender would have seen&lt;/strong&gt;. The conditional is deliberate: inside TryHackMe I don't have the target machines' logs, so the defensive column is what well-configured telemetry &lt;em&gt;would record&lt;/em&gt;, not what I measured. If your only metric is &quot;how many flags&quot;, this second column is the reason your SOC exists.">For each phase I describe <strong>what the agent did</strong> and, because it is the part nobody writes, <strong>what a defender would have seen</strong>. The conditional is deliberate: inside TryHackMe I don't have the target machines' logs, so the defensive column is what well-configured telemetry <em>would record</em>, not what I measured. If your only metric is "how many flags", this second column is the reason your SOC exists.</p>
+      <p data-it="Nota su igiene: flag, hash e credenziali sono redatti (&lt;code&gt;HOLO{…}&lt;/code&gt;, &lt;code&gt;[redatto]&lt;/code&gt;), e i dettagli che servirebbero a rifare la room passo per passo sono omessi. Il punto, citando il mio stesso disclaimer sul CTF, &lt;em&gt;è come ci arrivi, non il valore.&lt;/em&gt;"
+        data-en="A note on hygiene: flags, hashes and credentials are redacted (&lt;code&gt;HOLO{…}&lt;/code&gt;, &lt;code&gt;[redacted]&lt;/code&gt;), and the details you would need to redo the room step by step are left out. The point, quoting my own CTF disclaimer, &lt;em&gt;is how you get there, not the value.&lt;/em&gt;">A note on hygiene: flags, hashes and credentials are redacted (<code>HOLO{…}</code>, <code>[redacted]</code>), and the details you would need to redo the room step by step are left out. The point, quoting my own CTF disclaimer, <em>is how you get there, not the value.</em></p>
+      <h3 data-it="Fase 0 — Recon" data-en="Phase 0 — Recon">Phase 0 — Recon</h3>
+      <p data-it="L'agente parte come parte chiunque: enumera la superficie esterna, trova la web app, mappa i sottodomini. Niente di epico. Quello che è interessante è &lt;em&gt;il modo&lt;/em&gt;: non ha seguito una checklist umana, ha fatto scansioni, ha letto gli output, ha riformulato le ipotesi e ha ristretto il campo da solo. La prima volta che lo vedi correlare un &lt;code&gt;robots.txt&lt;/code&gt; con un sottodominio di sviluppo e decidere da sé dove scavare, fa un certo effetto."
+        data-en="The agent starts like anyone does: it enumerates the external surface, finds the web app, maps the subdomains. Nothing epic. What is interesting is &lt;em&gt;the way&lt;/em&gt;: it didn't follow a human checklist, it ran scans, read the output, reformulated its hypotheses and narrowed the field on its own. The first time you see it correlate a &lt;code&gt;robots.txt&lt;/code&gt; with a development subdomain and decide by itself where to dig, it's quite something.">The agent starts like anyone does: it enumerates the external surface, finds the web app, maps the subdomains. Nothing epic. What is interesting is <em>the way</em>: it didn't follow a human checklist, it ran scans, read the output, reformulated its hypotheses and narrowed the field on its own. The first time you see it correlate a <code>robots.txt</code> with a development subdomain and decide by itself where to dig, it's quite something.</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; un singolo IP che in pochi minuti tocca centinaia di path e vhost. Rumore da scanner, puro e semplice: &lt;em&gt;access log del web server, spike di 404, user-agent da tool.&lt;/em&gt; Rilevabile a occhi chiusi, se qualcuno guarda."
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; a single IP touching hundreds of paths and vhosts in a few minutes. Scanner noise, pure and simple: &lt;em&gt;web server access logs, a spike of 404s, tool user agents.&lt;/em&gt; Detectable with your eyes closed, if someone is looking."><strong>What a defender would have seen:</strong> a single IP touching hundreds of paths and vhosts in a few minutes. Scanner noise, pure and simple: <em>web server access logs, a spike of 404s, tool user agents.</em> Detectable with your eyes closed, if someone is looking.</p>
+      <h3 data-it="Fase 1 — Web: da WordPress a shell" data-en="Phase 1 — Web: from WordPress to shell">Phase 1 — Web: from WordPress to shell</h3>
+      <p data-it="La web app esposta gira su un &lt;strong&gt;WordPress&lt;/strong&gt; che ha visto giorni migliori. L'agente individua una &lt;strong&gt;Local File Inclusion&lt;/strong&gt; su un sottodominio, la usa per leggere un file con credenziali lasciato dove non doveva, e da lì passa a una &lt;strong&gt;RCE&lt;/strong&gt; su un'altra parte del sito. Shell come &lt;code&gt;www-data&lt;/code&gt;. Benvenuto su L-SRV01."
+        data-en="The exposed web app runs on a &lt;strong&gt;WordPress&lt;/strong&gt; that has seen better days. The agent finds a &lt;strong&gt;Local File Inclusion&lt;/strong&gt; on a subdomain, uses it to read a file with credentials left where it shouldn't be, and from there moves to an &lt;strong&gt;RCE&lt;/strong&gt; on another part of the site. Shell as &lt;code&gt;www-data&lt;/code&gt;. Welcome to L-SRV01.">The exposed web app runs on a <strong>WordPress</strong> that has seen better days. The agent finds a <strong>Local File Inclusion</strong> on a subdomain, uses it to read a file with credentials left where it shouldn't be, and from there moves to an <strong>RCE</strong> on another part of the site. Shell as <code>www-data</code>. Welcome to L-SRV01.</p>
+      <p data-it="La cosa che mi ha colpito: l'agente ha trattato la LFI non come fine ma come &lt;em&gt;mezzo per raccogliere informazioni&lt;/em&gt; (leggere file di config, trovare il leak), poi ha cambiato vettore per l'esecuzione. Ragionamento a più salti, non &quot;spara exploit a caso&quot;."
+        data-en="What struck me: the agent treated the LFI not as the goal but as &lt;em&gt;a way to gather information&lt;/em&gt; (read config files, find the leak), then switched vector for execution. Multi-hop reasoning, not &quot;fire exploits at random&quot;.">What struck me: the agent treated the LFI not as the goal but as <em>a way to gather information</em> (read config files, find the leak), then switched vector for execution. Multi-hop reasoning, not "fire exploits at random".</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; richieste con pattern di path traversal (&lt;code&gt;../&lt;/code&gt;), parametri che puntano a &lt;code&gt;/etc/…&lt;/code&gt;, e poi una richiesta che fa partire un processo figlio dal web server. *Un &lt;code&gt;www-data&lt;/code&gt; che fa partire &lt;code&gt;/bin/sh&lt;/code&gt; è, in produzione, il momento in cui dovrebbe suonare tutto.*"
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; requests with path traversal patterns (&lt;code&gt;../&lt;/code&gt;), parameters pointing at &lt;code&gt;/etc/…&lt;/code&gt;, and then a request that makes the web server start a child process. *A &lt;code&gt;www-data&lt;/code&gt; starting &lt;code&gt;/bin/sh&lt;/code&gt; is, in production, the moment everything should go off.*"><strong>What a defender would have seen:</strong> requests with path traversal patterns (<code>../</code>), parameters pointing at <code>/etc/…</code>, and then a request that makes the web server start a child process. *A <code>www-data</code> starting <code>/bin/sh</code> is, in production, the moment everything should go off.*</p>
+      <h3 data-it="Fase 2 — Breakout dal container" data-en="Phase 2 — Container breakout">Phase 2 — Container breakout</h3>
+      <p data-it="Sorpresa: la shell è dentro un &lt;strong&gt;container Docker&lt;/strong&gt;, non sull'host. L'agente se ne accorge (indizi classici: &lt;code&gt;.dockerenv&lt;/code&gt;, cgroup, rete), poi enumera il percorso di fuga. Trova un &lt;strong&gt;binario con SUID&lt;/strong&gt; sfruttabile e arriva a root sull'host."
+        data-en="Surprise: the shell is inside a &lt;strong&gt;Docker container&lt;/strong&gt;, not on the host. The agent notices (the classic clues: &lt;code&gt;.dockerenv&lt;/code&gt;, cgroups, network), then enumerates the way out. It finds an exploitable &lt;strong&gt;SUID binary&lt;/strong&gt; and gets root on the host.">Surprise: the shell is inside a <strong>Docker container</strong>, not on the host. The agent notices (the classic clues: <code>.dockerenv</code>, cgroups, network), then enumerates the way out. It finds an exploitable <strong>SUID binary</strong> and gets root on the host.</p>
+      <p data-it="Qui una nota onesta sul comportamento dell'agente, che riprenderò nell'autocritica: nella fase di privesc l'agente ha speso parecchio tempo a battere strade che non portavano da nessuna parte prima di convergere su quella giusta. Un umano esperto avrebbe guardato i SUID per primi. L'agente c'è arrivato, ma per esaurimento più che per intuizione."
+        data-en="An honest note on the agent's behavior here, which I'll come back to in the self-critique: in the privesc phase the agent spent quite a lot of time on roads that led nowhere before converging on the right one. An experienced human would have looked at the SUIDs first. The agent got there, but by exhaustion more than by intuition.">An honest note on the agent's behavior here, which I'll come back to in the self-critique: in the privesc phase the agent spent quite a lot of time on roads that led nowhere before converging on the right one. An experienced human would have looked at the SUIDs first. The agent got there, but by exhaustion more than by intuition.</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; esecuzione di un binario SUID in un contesto anomalo, seguita da attività di root appena nata. &lt;em&gt;Il monitoraggio runtime su Linux (auditd, Falco) qui ha vita facile, se configurato: che è un &quot;se&quot; grosso quanto una casa.&lt;/em&gt;"
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; execution of a SUID binary in an unusual context, followed by brand-new root activity. &lt;em&gt;Runtime monitoring on Linux (auditd, Falco) has an easy job here, if configured: and that &quot;if&quot; is the size of a house.&lt;/em&gt;"><strong>What a defender would have seen:</strong> execution of a SUID binary in an unusual context, followed by brand-new root activity. <em>Runtime monitoring on Linux (auditd, Falco) has an easy job here, if configured: and that "if" is the size of a house.</em></p>
+      <h3 data-it="Fase 3 — Il pivot" data-en="Phase 3 — The pivot">Phase 3 — The pivot</h3>
+      <p data-it="Root su L-SRV01, l'agente scopre la &lt;strong&gt;rete interna&lt;/strong&gt;, fuori dalla portata diretta. Monta un tunnel, si costruisce il ponte verso l'interno e riparte con la scansione da dentro. Da qui in poi siamo in territorio Active Directory, ed è qui che Holo smette di scherzare."
+        data-en="Root on L-SRV01, the agent discovers the &lt;strong&gt;internal network&lt;/strong&gt;, out of direct reach. It sets up a tunnel, builds itself a bridge inside and starts scanning again from within. From here on we are in Active Directory territory, and this is where Holo stops joking.">Root on L-SRV01, the agent discovers the <strong>internal network</strong>, out of direct reach. It sets up a tunnel, builds itself a bridge inside and starts scanning again from within. From here on we are in Active Directory territory, and this is where Holo stops joking.</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; traffico di tunneling (una porta &quot;strana&quot; che trasporta molto, sessioni lunghe verso un host DMZ), e un host di confine che improvvisamente parla con l'intera subnet interna. &lt;em&gt;Segmentazione e netflow sono i tuoi amici. Se li hai.&lt;/em&gt;"
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; tunneling traffic (a &quot;strange&quot; port carrying a lot, long sessions to a DMZ host), and a border host that suddenly talks to the whole internal subnet. &lt;em&gt;Segmentation and netflow are your friends. If you have them.&lt;/em&gt;"><strong>What a defender would have seen:</strong> tunneling traffic (a "strange" port carrying a lot, long sessions to a DMZ host), and a border host that suddenly talks to the whole internal subnet. <em>Segmentation and netflow are your friends. If you have them.</em></p>
+      <h3 data-it="Fase 4 — S-SRV01: la logica che si rompe" data-en="Phase 4 — S-SRV01: logic that breaks">Phase 4 — S-SRV01: logic that breaks</h3>
+      <p data-it="Sulla rete interna c'è una web app con un &lt;strong&gt;password reset&lt;/strong&gt; fatto male. L'agente capisce come ottenere un token valido, e combina il tutto con un &lt;strong&gt;bypass di un filtro di upload lato client&lt;/strong&gt; per caricare una web shell. Poi, per arrivare a eseguire payload su Windows, deve passare sopra ad &lt;strong&gt;AMSI e Windows Defender&lt;/strong&gt;: l'agente genera un bypass, lo offusca, e porta a casa esecuzione di codice. Da web shell a &lt;strong&gt;SYSTEM&lt;/strong&gt;, e da SYSTEM al dump delle credenziali: salta fuori un &lt;strong&gt;utente di dominio&lt;/strong&gt; (&lt;code&gt;[redatto]&lt;/code&gt;)."
+        data-en="On the internal network there is a web app with a badly built &lt;strong&gt;password reset&lt;/strong&gt;. The agent works out how to get a valid token, and combines it with a &lt;strong&gt;client-side upload filter bypass&lt;/strong&gt; to upload a web shell. Then, to run payloads on Windows, it has to get past &lt;strong&gt;AMSI and Windows Defender&lt;/strong&gt;: the agent generates a bypass, obfuscates it, and gets code execution. From web shell to &lt;strong&gt;SYSTEM&lt;/strong&gt;, and from SYSTEM to a credential dump: out comes a &lt;strong&gt;domain user&lt;/strong&gt; (&lt;code&gt;[redacted]&lt;/code&gt;).">On the internal network there is a web app with a badly built <strong>password reset</strong>. The agent works out how to get a valid token, and combines it with a <strong>client-side upload filter bypass</strong> to upload a web shell. Then, to run payloads on Windows, it has to get past <strong>AMSI and Windows Defender</strong>: the agent generates a bypass, obfuscates it, and gets code execution. From web shell to <strong>SYSTEM</strong>, and from SYSTEM to a credential dump: out comes a <strong>domain user</strong> (<code>[redacted]</code>).</p>
+      <p data-it="Questa è la fase in cui l'agente mi ha stupito di più. La catena password reset → upload bypass → AMSI bypass → esecuzione non è ovvia, ha quattro anelli concatenati con logica diversa, e li ha legati da solo."
+        data-en="This is the phase where the agent surprised me most. The chain password reset → upload bypass → AMSI bypass → execution is not obvious, it has four links chained with different logic, and it tied them together on its own.">This is the phase where the agent surprised me most. The chain password reset → upload bypass → AMSI bypass → execution is not obvious, it has four links chained with different logic, and it tied them together on its own.</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; una sfilza di segnali che, isolati, sembrano niente e, in sequenza, sono un film dell'orrore: reset multipli ravvicinati sullo stesso utente, upload con estensione &quot;giusta&quot; ma contenuto sbagliato, e soprattutto il PowerShell post-bypass. &lt;em&gt;Qui la detection vera non è la singola regola, è la correlazione. Ed è esattamente il buco in cui gli attaccanti vivono.&lt;/em&gt;"
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; a string of signals that, in isolation, look like nothing and, in sequence, are a horror film: repeated resets close together on the same user, uploads with the &quot;right&quot; extension but the wrong content, and above all the post-bypass PowerShell. &lt;em&gt;Here real detection is not the single rule, it is correlation. And that is exactly the gap attackers live in.&lt;/em&gt;"><strong>What a defender would have seen:</strong> a string of signals that, in isolation, look like nothing and, in sequence, are a horror film: repeated resets close together on the same user, uploads with the "right" extension but the wrong content, and above all the post-bypass PowerShell. <em>Here real detection is not the single rule, it is correlation. And that is exactly the gap attackers live in.</em></p>
+      <h3 data-it="Fase 5 — PC-FILESRV01: pass-the-hash e DLL hijack" data-en="Phase 5 — PC-FILESRV01: pass-the-hash and DLL hijack">Phase 5 — PC-FILESRV01: pass-the-hash and DLL hijack</h3>
+      <p data-it="Con le credenziali di dominio, l'agente fa &lt;strong&gt;pass-the-hash&lt;/strong&gt; verso il file server &lt;strong&gt;PC-FILESRV01&lt;/strong&gt; e ci entra. Il server ha &lt;strong&gt;AppLocker&lt;/strong&gt; attivo: l'agente lo aggira usando percorsi che la policy si dimentica di coprire (il grande classico, AppLocker configurato &quot;quasi bene&quot;). Poi identifica un'&lt;strong&gt;applicazione vulnerabile a DLL hijacking&lt;/strong&gt;, che cerca una DLL mancante in un percorso scrivibile, pianta la sua DLL e ottiene &lt;strong&gt;admin/SYSTEM&lt;/strong&gt; sul file server. Dump di LSASS, SAM e cache delle credenziali."
+        data-en="With the domain credentials, the agent does &lt;strong&gt;pass-the-hash&lt;/strong&gt; to the file server &lt;strong&gt;PC-FILESRV01&lt;/strong&gt; and gets in. The server has &lt;strong&gt;AppLocker&lt;/strong&gt; on: the agent gets around it through paths the policy forgets to cover (the great classic, AppLocker configured &quot;almost right&quot;). Then it spots an &lt;strong&gt;application vulnerable to DLL hijacking&lt;/strong&gt;, which looks for a missing DLL in a writable path, plants its own DLL and gets &lt;strong&gt;admin/SYSTEM&lt;/strong&gt; on the file server. Dump of LSASS, SAM and cached credentials.">With the domain credentials, the agent does <strong>pass-the-hash</strong> to the file server <strong>PC-FILESRV01</strong> and gets in. The server has <strong>AppLocker</strong> on: the agent gets around it through paths the policy forgets to cover (the great classic, AppLocker configured "almost right"). Then it spots an <strong>application vulnerable to DLL hijacking</strong>, which looks for a missing DLL in a writable path, plants its own DLL and gets <strong>admin/SYSTEM</strong> on the file server. Dump of LSASS, SAM and cached credentials.</p>
+      <p data-it="&lt;strong&gt;Cosa avrebbe visto un difensore:&lt;/strong&gt; un logon di rete NTLM dove ci si aspetterebbe Kerberos, un processo lanciato da una cartella che AppLocker lascia passare ma in cui un utente può scrivere, e il caricamento di una DLL non firmata da una directory utente. &lt;em&gt;Sysmon Event ID 11 (file creato) seguito da Event ID 7 (immagine caricata) racconta tutta la storia. Di nuovo: se qualcuno li raccoglie.&lt;/em&gt;"
+        data-en="&lt;strong&gt;What a defender would have seen:&lt;/strong&gt; an NTLM network logon where you would expect Kerberos, a process started from a folder that AppLocker lets through but that a user can write to, and an unsigned DLL loaded from a user directory. &lt;em&gt;Sysmon Event ID 11 (file created) followed by Event ID 7 (image loaded) tells the whole story. Again: if someone collects them.&lt;/em&gt;"><strong>What a defender would have seen:</strong> an NTLM network logon where you would expect Kerberos, a process started from a folder that AppLocker lets through but that a user can write to, and an unsigned DLL loaded from a user directory. <em>Sysmon Event ID 11 (file created) followed by Event ID 7 (image loaded) tells the whole story. Again: if someone collects them.</em></p>
+      <h3 data-it="Fase 6 — Il Domain Controller, e il muro" data-en="Phase 6 — The Domain Controller, and the wall">Phase 6 — The Domain Controller, and the wall</h3>
+      <p data-it="E qui arriviamo al punto del pezzo."
+        data-en="And here we get to the point of the piece.">And here we get to the point of the piece.</p>
+      <p data-it="L'ultimo salto di Holo è la stella polare di ogni red teamer: una &lt;strong&gt;relay NTLM remota&lt;/strong&gt; da PC-FILESRV01 verso &lt;strong&gt;DC-SRV01&lt;/strong&gt;. L'idea: aspettare che un altro host interno (S-SRV02) si autentichi, intercettare quella sessione Net-NTLM e &lt;strong&gt;rilanciarla&lt;/strong&gt; sul Domain Controller per ottenere privilegi di dominio. L'agente ha fatto i compiti: ha preparato il relay, il port forward e il proxy, e ha puntato tutto sul DC. L'arma era &lt;strong&gt;montata, caricata e puntata.&lt;/strong&gt;"
+        data-en="Holo's last hop is every red teamer's north star: a &lt;strong&gt;remote NTLM relay&lt;/strong&gt; from PC-FILESRV01 to &lt;strong&gt;DC-SRV01&lt;/strong&gt;. The idea: wait for another internal host (S-SRV02) to authenticate, intercept that Net-NTLM session and &lt;strong&gt;relay&lt;/strong&gt; it to the Domain Controller to get domain privileges. The agent did its homework: it set up the relay, the port forward and the proxy, and aimed everything at the DC. The weapon was &lt;strong&gt;assembled, loaded and aimed.&lt;/strong&gt;">Holo's last hop is every red teamer's north star: a <strong>remote NTLM relay</strong> from PC-FILESRV01 to <strong>DC-SRV01</strong>. The idea: wait for another internal host (S-SRV02) to authenticate, intercept that Net-NTLM session and <strong>relay</strong> it to the Domain Controller to get domain privileges. The agent did its homework: it set up the relay, the port forward and the proxy, and aimed everything at the DC. The weapon was <strong>assembled, loaded and aimed.</strong></p>
+      <p data-it="Poi è rimasto lì, in attesa di una connessione SMB in ingresso che, per quanto ho visto, &lt;strong&gt;non è mai arrivata&lt;/strong&gt;. Il perché non lo so con certezza: può darsi che in questa istanza il client dello scenario non si sia autenticato, oppure che qualcosa nella catena dell'agente (listener, inoltro, filtri) non fosse a posto. Senza i log della run e del bersaglio non posso distinguere le due cose. L'agente ha aspettato, ha verificato la configurazione, ha riprovato, ha verificato di nuovo. Operativamente: zero."
+        data-en="Then it sat there, waiting for an inbound SMB connection that, as far as I could see, &lt;strong&gt;never came&lt;/strong&gt;. I don't know the reason for sure: maybe in this instance the scenario's client didn't authenticate, or maybe something in the agent's chain (listener, forwarding, filters) wasn't right. Without the run's and the target's logs I can't tell the two apart. The agent waited, checked the configuration, retried, checked again. Operationally: zero.">Then it sat there, waiting for an inbound SMB connection that, as far as I could see, <strong>never came</strong>. I don't know the reason for sure: maybe in this instance the scenario's client didn't authenticate, or maybe something in the agent's chain (listener, forwarding, filters) wasn't right. Without the run's and the target's logs I can't tell the two apart. The agent waited, checked the configuration, retried, checked again. Operationally: zero.</p>
+      <figure class="gif-wrap" style="max-width:300px">
+        <img src="https://media.tenor.com/kILcyW6fO_cAAAAC/skeleton-waiting-skeleton.gif" alt="Skeleton on a bench — &quot;patiently waiting&quot;" data-it="Scheletro su una panchina — «patiently waiting»" data-en="Skeleton on a bench — &quot;patiently waiting&quot;" loading="lazy" width="372" height="498"/>
+        <figcaption data-it="// l'agente davanti al DC, in attesa di un'autenticazione che non arriverà mai"
+          data-en="// the agent in front of the DC, waiting for an authentication that will never come">// the agent in front of the DC, waiting for an authentication that will never come</figcaption>
+      </figure>
+      <p data-it="Ed è &lt;em&gt;questa&lt;/em&gt; la parte interessante, non la flag che non c'è."
+        data-en="And &lt;em&gt;this&lt;/em&gt; is the interesting part, not the flag that isn't there.">And <em>this</em> is the interesting part, not the flag that isn't there.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[03] Cosa ci dice davvero sugli agenti offensivi" data-en="[03] What it really tells us about offensive agents">[03] What it really tells us about offensive agents</h2>
+      <p data-it="Spoglia il pezzo di tutto il resto e rimane questo: &lt;strong&gt;in questa run l'agente è stato fortissimo dove il problema era &quot;trova la catena e costruiscila&quot;, debole dove il problema era &quot;fai succedere qualcosa nel mondo e aspetta&quot;.&lt;/strong&gt;"
+        data-en="Strip the piece of everything else and this is what's left: &lt;strong&gt;in this run the agent was very strong where the problem was &quot;find the chain and build it&quot;, and weak where the problem was &quot;make something happen in the world and wait&quot;.&lt;/strong&gt;">Strip the piece of everything else and this is what's left: <strong>in this run the agent was very strong where the problem was "find the chain and build it", and weak where the problem was "make something happen in the world and wait".</strong></p>
+      <p data-it="Pensa a dove ha brillato: correlare un leak con un vettore, concatenare quattro bug di logica diversa, scriversi un bypass AMSI, riconoscere un container e trovarne l'uscita. Tutta roba di &lt;em&gt;ragionamento su stato osservabile&lt;/em&gt;. L'agente legge, ipotizza, agisce, rilegge. In quel loop è bravo, a tratti più paziente e sistematico di un umano (non si annoia, non salta passaggi perché &quot;tanto lo so&quot;)."
+        data-en="Think about where it shone: correlating a leak with a vector, chaining four bugs with different logic, writing itself an AMSI bypass, recognizing a container and finding the way out. All of it is &lt;em&gt;reasoning over observable state&lt;/em&gt;. The agent reads, hypothesizes, acts, reads again. In that loop it is good, at times more patient and systematic than a human (it doesn't get bored, it doesn't skip steps because &quot;I know this anyway&quot;).">Think about where it shone: correlating a leak with a vector, chaining four bugs with different logic, writing itself an AMSI bypass, recognizing a container and finding the way out. All of it is <em>reasoning over observable state</em>. The agent reads, hypothesizes, acts, reads again. In that loop it is good, at times more patient and systematic than a human (it doesn't get bored, it doesn't skip steps because "I know this anyway").</p>
+      <p data-it="E pensa a dove si è piantato:"
+        data-en="And think about where it got stuck:">And think about where it got stuck:</p>
+      <ol>
+        <li data-it="&lt;strong&gt;Il mondo non risponde a comando.&lt;/strong&gt; La relay richiede che &lt;em&gt;qualcun altro&lt;/em&gt; si autentichi. Non è un bug da eseguire, è una condizione da &lt;em&gt;provocare o attendere&lt;/em&gt;. L'agente si è comportato come se non avesse un modello robusto del &quot;ho fatto la mia parte, ora dipende da un attore esterno con i suoi tempi&quot;: ha trattato l'attesa come un problema da risolvere subito, non come uno stato legittimo."
+          data-en="&lt;strong&gt;The world doesn't respond on command.&lt;/strong&gt; The relay needs &lt;em&gt;someone else&lt;/em&gt; to authenticate. It is not a bug to execute, it is a condition to &lt;em&gt;trigger or wait for&lt;/em&gt;. The agent behaved as if it had no robust model of &quot;I've done my part, now it depends on an external actor with its own timing&quot;: it treated waiting as a problem to solve right away, not as a legitimate state."><strong>The world doesn't respond on command.</strong> The relay needs <em>someone else</em> to authenticate. It is not a bug to execute, it is a condition to <em>trigger or wait for</em>. The agent behaved as if it had no robust model of "I've done my part, now it depends on an external actor with its own timing": it treated waiting as a problem to solve right away, not as a legitimate state.</li>
+        <li data-it="&lt;strong&gt;Privesc per esaurimento, non per intuizione.&lt;/strong&gt; Nella Fase 2 ci è arrivato, ma battendo molte strade morte. Un operatore esperto &quot;sente&quot; dove guardare. L'agente no: compensa con la forza bruta sistematica. Funziona finché lo spazio di ricerca è piccolo."
+          data-en="&lt;strong&gt;Privesc by exhaustion, not intuition.&lt;/strong&gt; In Phase 2 it got there, but by trying many dead ends. An experienced operator &quot;feels&quot; where to look. The agent doesn't: it makes up for it with systematic brute force. That works as long as the search space is small."><strong>Privesc by exhaustion, not intuition.</strong> In Phase 2 it got there, but by trying many dead ends. An experienced operator "feels" where to look. The agent doesn't: it makes up for it with systematic brute force. That works as long as the search space is small.</li>
+        <li data-it="&lt;strong&gt;Nessun istinto per il &quot;quando fermarsi e cambiare approccio&quot;.&lt;/strong&gt; Davanti al muro del DC, un red teamer umano avrebbe, dopo un po', cambiato strategia: provocare l'autenticazione invece di aspettarla (le tecniche di coercizione sono note da anni), oppure cercare un altro percorso nel dominio. L'agente ha continuato a lucidare la stessa soluzione invece di cambiare strada."
+          data-en="&lt;strong&gt;No instinct for &quot;when to stop and change approach&quot;.&lt;/strong&gt; Facing the DC wall, a human red teamer would, after a while, have changed strategy: trigger the authentication instead of waiting for it (coercion techniques have been known for years), or look for another path through the domain. The agent kept polishing the same solution instead of changing road."><strong>No instinct for "when to stop and change approach".</strong> Facing the DC wall, a human red teamer would, after a while, have changed strategy: trigger the authentication instead of waiting for it (coercion techniques have been known for years), or look for another path through the domain. The agent kept polishing the same solution instead of changing road.</li>
+      </ol>
+      <p data-it="La tesi, allora, è scomoda per gli entusiasti e rassicurante per i difensori: &lt;strong&gt;gli agenti offensivi di oggi comprimono molto il tempo delle fasi &quot;di ragionamento&quot; di un attacco, ma non eliminano il red teamer: spostano il suo valore verso il giudizio, l'orchestrazione temporale e il sapere quando il piano A è morto.&lt;/strong&gt; Il &quot;junior che non dorme mai&quot; esiste già. Il senior che decide, no. Non ancora. È un'opinione costruita su una run sola, e la tratto come tale nella sezione [05]."
+        data-en="So the thesis is uncomfortable for the enthusiasts and reassuring for defenders: &lt;strong&gt;today's offensive agents compress a lot of the time spent on the &quot;reasoning&quot; phases of an attack, but they don't eliminate the red teamer: they shift their value toward judgment, timing and knowing when plan A is dead.&lt;/strong&gt; The &quot;junior who never sleeps&quot; already exists. The senior who decides doesn't. Not yet. It is an opinion built on a single run, and I treat it as such in section [05].">So the thesis is uncomfortable for the enthusiasts and reassuring for defenders: <strong>today's offensive agents compress a lot of the time spent on the "reasoning" phases of an attack, but they don't eliminate the red teamer: they shift their value toward judgment, timing and knowing when plan A is dead.</strong> The "junior who never sleeps" already exists. The senior who decides doesn't. Not yet. It is an opinion built on a single run, and I treat it as such in section [05].</p>
+      <p data-it="E c'è un corollario difensivo che mi interessa da vicino, perché è la direzione della mia ricerca: se l'attaccante-agente lavora in loop stretti osserva-agisci-osserva, allora &lt;em&gt;potrebbe&lt;/em&gt; lasciare una &lt;strong&gt;telemetria densa e ritmica&lt;/strong&gt;, diversa da quella umana. È un'ipotesi, non un risultato di questa run: qui non ho misurato la cadenza. L'agente non è silenzioso, è &lt;em&gt;veloce&lt;/em&gt;. E la velocità, se la stai registrando, è un segnale."
+        data-en="And there is a defensive corollary that matters to me, because it is the direction of my research: if the agent-attacker works in tight observe-act-observe loops, then it &lt;em&gt;might&lt;/em&gt; leave &lt;strong&gt;dense, rhythmic telemetry&lt;/strong&gt;, different from a human's. It is a hypothesis, not a result of this run: I didn't measure the cadence here. The agent isn't quiet, it's &lt;em&gt;fast&lt;/em&gt;. And speed, if you are recording it, is a signal.">And there is a defensive corollary that matters to me, because it is the direction of my research: if the agent-attacker works in tight observe-act-observe loops, then it <em>might</em> leave <strong>dense, rhythmic telemetry</strong>, different from a human's. It is a hypothesis, not a result of this run: I didn't measure the cadence here. The agent isn't quiet, it's <em>fast</em>. And speed, if you are recording it, is a signal.</p>
+    </section>
+
+    <section>
+      <h2 data-it="[04] Detection, in tabella" data-en="[04] Detection, in a table">[04] Detection, in a table</h2>
+      <p data-it="Perché un writeup senza la colonna difensiva è metà lavoro."
+        data-en="Because a writeup without the defensive column is half the job.">Because a writeup without the defensive column is half the job.</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-it="Fase" data-en="Phase">Phase</th>
+            <th data-it="Azione offensiva" data-en="Offensive action">Offensive action</th>
+            <th data-it="Dove si vede (se guardi)" data-en="Where it shows (if you look)">Where it shows (if you look)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-it="0" data-en="0">0</td>
+            <td data-it="Recon superficie" data-en="Surface recon">Surface recon</td>
+            <td data-it="Spike di 404 / vhost fuzzing, UA da tool negli access log" data-en="404 spike / vhost fuzzing, tool UA in the access logs">404 spike / vhost fuzzing, tool UA in the access logs</td>
+          </tr>
+          <tr>
+            <td data-it="1" data-en="1">1</td>
+            <td data-it="LFI → RCE su WordPress" data-en="LFI → RCE on WordPress">LFI → RCE on WordPress</td>
+            <td data-it="Path traversal nei parametri; &lt;code&gt;www-data&lt;/code&gt; → &lt;code&gt;/bin/sh&lt;/code&gt;" data-en="Path traversal in parameters; &lt;code&gt;www-data&lt;/code&gt; → &lt;code&gt;/bin/sh&lt;/code&gt;">Path traversal in parameters; <code>www-data</code> → <code>/bin/sh</code></td>
+          </tr>
+          <tr>
+            <td data-it="2" data-en="2">2</td>
+            <td data-it="Container breakout, SUID" data-en="Container breakout, SUID">Container breakout, SUID</td>
+            <td data-it="Exec SUID anomala, root appena nata (auditd/Falco)" data-en="Unusual SUID exec, brand-new root (auditd/Falco)">Unusual SUID exec, brand-new root (auditd/Falco)</td>
+          </tr>
+          <tr>
+            <td data-it="3" data-en="3">3</td>
+            <td data-it="Pivot interno" data-en="Internal pivot">Internal pivot</td>
+            <td data-it="Tunneling su porta anomala, host DMZ che parla con tutta la subnet" data-en="Tunneling on an unusual port, DMZ host talking to the whole subnet">Tunneling on an unusual port, DMZ host talking to the whole subnet</td>
+          </tr>
+          <tr>
+            <td data-it="4" data-en="4">4</td>
+            <td data-it="Password reset + upload + AMSI bypass" data-en="Password reset + upload + AMSI bypass">Password reset + upload + AMSI bypass</td>
+            <td data-it="Reset ravvicinati, upload con contenuto che non corrisponde all'estensione, PowerShell post-bypass (correlazione!)" data-en="Resets close together, upload whose content doesn't match the extension, post-bypass PowerShell (correlation!)">Resets close together, upload whose content doesn't match the extension, post-bypass PowerShell (correlation!)</td>
+          </tr>
+          <tr>
+            <td data-it="5" data-en="5">5</td>
+            <td data-it="PtH + AppLocker bypass + DLL hijack" data-en="PtH + AppLocker bypass + DLL hijack">PtH + AppLocker bypass + DLL hijack</td>
+            <td data-it="Logon NTLM anomalo (4624 tipo 3), exec da cartella scrivibile consentita, Sysmon 11 → 7 su DLL non firmata" data-en="Unusual NTLM logon (4624 type 3), exec from an allowed writable folder, Sysmon 11 → 7 on an unsigned DLL">Unusual NTLM logon (4624 type 3), exec from an allowed writable folder, Sysmon 11 → 7 on an unsigned DLL</td>
+          </tr>
+          <tr>
+            <td data-it="6" data-en="6">6</td>
+            <td data-it="Relay NTLM → DC" data-en="NTLM relay → DC">NTLM relay → DC</td>
+            <td data-it="Autenticazioni da IP che non corrisponde all'host, SMB signing non richiesto, sessioni proxy verso il DC" data-en="Authentications from an IP that doesn't match the host, SMB signing not required, proxy sessions to the DC">Authentications from an IP that doesn't match the host, SMB signing not required, proxy sessions to the DC</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-it="La tabella è la mappa delle occasioni di rilevamento (da validare, non misurate in questa run); qui sotto la detection engineering vera, fase per fase, nel formato che userei in un assessment. Tutto lato difesa: niente payload, solo come lo becchi."
+        data-en="The table is the map of the detection opportunities (to be validated, not measured in this run); below is the real detection engineering, phase by phase, in the format I would use in an assessment. All on the defense side: no payloads, only how you catch it.">The table is the map of the detection opportunities (to be validated, not measured in this run); below is the real detection engineering, phase by phase, in the format I would use in an assessment. All on the defense side: no payloads, only how you catch it.</p>
+      <p data-it="&lt;strong&gt;Fase 1 — web → shell.&lt;/strong&gt; Il segnale non è la LFI (troppi falsi positivi sui &lt;code&gt;../&lt;/code&gt;), è la &lt;em&gt;genealogia del processo&lt;/em&gt;: un web server che genera una shell. Su Linux, regola auditd/Falco sull'&lt;code&gt;execve&lt;/code&gt; con parent nel set dei web server (la stessa logica vale per IIS su Windows):"
+        data-en="&lt;strong&gt;Phase 1 — web → shell.&lt;/strong&gt; The signal is not the LFI (too many false positives on &lt;code&gt;../&lt;/code&gt;), it is the &lt;em&gt;process genealogy&lt;/em&gt;: a web server spawning a shell. On Linux, an auditd/Falco rule on &lt;code&gt;execve&lt;/code&gt; with a parent in the set of web servers (the same logic applies to IIS on Windows):"><strong>Phase 1 — web → shell.</strong> The signal is not the LFI (too many false positives on <code>../</code>), it is the <em>process genealogy</em>: a web server spawning a shell. On Linux, an auditd/Falco rule on <code>execve</code> with a parent in the set of web servers (the same logic applies to IIS on Windows):</p>
+      <div class="code-block"><pre><span class="comment"># Sigma (pseudo) — web server spawns shell</span>
+parent_image in ['httpd','apache2','php-fpm','nginx','w3wp.exe']
+  and child_image in ['sh','bash','dash','nc','ncat','python','powershell.exe']
+→ HIGH</pre></div>
+      <p data-it="Un &lt;code&gt;www-data&lt;/code&gt; che fa da genitore a &lt;code&gt;/bin/sh&lt;/code&gt; non ha quasi mai una spiegazione legittima."
+        data-en="A &lt;code&gt;www-data&lt;/code&gt; that is the parent of &lt;code&gt;/bin/sh&lt;/code&gt; almost never has a legitimate explanation.">A <code>www-data</code> that is the parent of <code>/bin/sh</code> almost never has a legitimate explanation.</p>
+      <p data-it="&lt;strong&gt;Fase 2 — container breakout.&lt;/strong&gt; Falco ha regole predefinite per alcune primitive di fuga (per esempio &lt;code&gt;Change thread namespace&lt;/code&gt;); altre, come l'esecuzione di binari SUID fuori baseline, vanno abilitate o scritte, e spesso stanno nei set di regole non attivi di default. Nomi e stato delle regole cambiano tra una versione e l'altra di falcosecurity/rules: controlla quella che usi. La domanda da porsi in audit non è &quot;ho Falco&quot;, è &quot;qualcuno legge gli alert di Falco&quot;. (Risposta tipica: no.)"
+        data-en="&lt;strong&gt;Phase 2 — container breakout.&lt;/strong&gt; Falco has default rules for some escape primitives (for example &lt;code&gt;Change thread namespace&lt;/code&gt;); others, such as running SUID binaries outside the baseline, have to be enabled or written, and often sit in rule sets that are not active by default. Rule names and status change from one version of falcosecurity/rules to the next: check the one you use. The question to ask in an audit is not &quot;do I have Falco&quot;, it is &quot;does anyone read the Falco alerts&quot;. (Typical answer: no.)"><strong>Phase 2 — container breakout.</strong> Falco has default rules for some escape primitives (for example <code>Change thread namespace</code>); others, such as running SUID binaries outside the baseline, have to be enabled or written, and often sit in rule sets that are not active by default. Rule names and status change from one version of falcosecurity/rules to the next: check the one you use. The question to ask in an audit is not "do I have Falco", it is "does anyone read the Falco alerts". (Typical answer: no.)</p>
+      <p data-it="&lt;strong&gt;Fase 4 — AMSI bypass.&lt;/strong&gt; Questo è il punto più ricco lato Windows. Tre livelli:"
+        data-en="&lt;strong&gt;Phase 4 — AMSI bypass.&lt;/strong&gt; This is the richest point on the Windows side. Three levels:"><strong>Phase 4 — AMSI bypass.</strong> This is the richest point on the Windows side. Three levels:</p>
+      <ul>
+        <li data-it="&lt;strong&gt;Event ID 4104&lt;/strong&gt; (PowerShell Script Block Logging, nel log Microsoft-Windows-PowerShell/Operational) con le firme note dei bypass AMSI: riferimenti a &lt;code&gt;AmsiUtils&lt;/code&gt;, &lt;code&gt;amsiInitFailed&lt;/code&gt;, reflection su &lt;code&gt;System.Management.Automation&lt;/code&gt;. Le regole Sigma pubbliche coprono già le varianti più note; un bypass offuscato bene le evita, ma lo script block viene registrato dopo la decodifica, e l'offuscamento stesso è un segnale."
+          data-en="&lt;strong&gt;Event ID 4104&lt;/strong&gt; (PowerShell Script Block Logging, in the Microsoft-Windows-PowerShell/Operational log) with the known signatures of AMSI bypasses: references to &lt;code&gt;AmsiUtils&lt;/code&gt;, &lt;code&gt;amsiInitFailed&lt;/code&gt;, reflection on &lt;code&gt;System.Management.Automation&lt;/code&gt;. Public Sigma rules already cover the best-known variants; a well-obfuscated bypass avoids them, but the script block is logged after decoding, and the obfuscation itself is a signal."><strong>Event ID 4104</strong> (PowerShell Script Block Logging, in the Microsoft-Windows-PowerShell/Operational log) with the known signatures of AMSI bypasses: references to <code>AmsiUtils</code>, <code>amsiInitFailed</code>, reflection on <code>System.Management.Automation</code>. Public Sigma rules already cover the best-known variants; a well-obfuscated bypass avoids them, but the script block is logged after decoding, and the obfuscation itself is a signal.</li>
+        <li data-it="&lt;strong&gt;Defender Event ID 1116/1117&lt;/strong&gt; (minaccia rilevata / azione intrapresa, nel log Microsoft-Windows-Windows Defender/Operational) se l'offuscamento non è perfetto."
+          data-en="&lt;strong&gt;Defender Event ID 1116/1117&lt;/strong&gt; (threat detected / action taken, in the Microsoft-Windows-Windows Defender/Operational log) if the obfuscation isn't perfect."><strong>Defender Event ID 1116/1117</strong> (threat detected / action taken, in the Microsoft-Windows-Windows Defender/Operational log) if the obfuscation isn't perfect.</li>
+        <li data-it="&lt;strong&gt;Correlazione padre-figlio:&lt;/strong&gt; &lt;code&gt;powershell.exe&lt;/code&gt; con processo padre &lt;code&gt;w3wp.exe&lt;/code&gt;/&lt;code&gt;php-cgi.exe&lt;/code&gt;. In KQL su Microsoft Defender for Endpoint / Sentinel:"
+          data-en="&lt;strong&gt;Parent-child correlation:&lt;/strong&gt; &lt;code&gt;powershell.exe&lt;/code&gt; with a parent process of &lt;code&gt;w3wp.exe&lt;/code&gt;/&lt;code&gt;php-cgi.exe&lt;/code&gt;. In KQL on Microsoft Defender for Endpoint / Sentinel:"><strong>Parent-child correlation:</strong> <code>powershell.exe</code> with a parent process of <code>w3wp.exe</code>/<code>php-cgi.exe</code>. In KQL on Microsoft Defender for Endpoint / Sentinel:</li>
+      </ul>
+      <div class="code-block"><pre>DeviceProcessEvents
+| where InitiatingProcessFileName in~ ("w3wp.exe","php-cgi.exe","httpd.exe")
+| where FileName in~ ("powershell.exe","pwsh.exe","cmd.exe")
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine</pre></div>
+      <p data-it="Un web server che lancia PowerShell è, in produzione, colpevole fino a prova contraria."
+        data-en="A web server launching PowerShell is, in production, guilty until proven innocent.">A web server launching PowerShell is, in production, guilty until proven innocent.</p>
+      <p data-it="&lt;strong&gt;Fase 5 — pass-the-hash + DLL hijack.&lt;/strong&gt; Tre segnali:"
+        data-en="&lt;strong&gt;Phase 5 — pass-the-hash + DLL hijack.&lt;/strong&gt; Three signals:"><strong>Phase 5 — pass-the-hash + DLL hijack.</strong> Three signals:</p>
+      <ul>
+        <li data-it="&lt;strong&gt;PtH:&lt;/strong&gt; sull'host di destinazione, Event ID &lt;strong&gt;4624 Logon Type 3&lt;/strong&gt; con pacchetto di autenticazione NTLM per un account che di solito usa Kerberos; sul DC, per gli account di dominio, la validazione NTLM (&lt;strong&gt;4776&lt;/strong&gt;) senza le richieste di ticket Kerberos (&lt;strong&gt;4768/4769&lt;/strong&gt;) che un logon normale produrrebbe. L'NTLM da solo è comune; il segnale è l'NTLM dove non te lo aspetti. Serve correlare i log dell'host con quelli del DC."
+          data-en="&lt;strong&gt;PtH:&lt;/strong&gt; on the destination host, Event ID &lt;strong&gt;4624 Logon Type 3&lt;/strong&gt; with the NTLM authentication package for an account that usually uses Kerberos; on the DC, for domain accounts, NTLM validation (&lt;strong&gt;4776&lt;/strong&gt;) without the Kerberos ticket requests (&lt;strong&gt;4768/4769&lt;/strong&gt;) a normal logon would produce. NTLM on its own is common; the signal is NTLM where you don't expect it. You need to correlate the host's logs with the DC's."><strong>PtH:</strong> on the destination host, Event ID <strong>4624 Logon Type 3</strong> with the NTLM authentication package for an account that usually uses Kerberos; on the DC, for domain accounts, NTLM validation (<strong>4776</strong>) without the Kerberos ticket requests (<strong>4768/4769</strong>) a normal logon would produce. NTLM on its own is common; the signal is NTLM where you don't expect it. You need to correlate the host's logs with the DC's.</li>
+        <li data-it="&lt;strong&gt;DLL hijack:&lt;/strong&gt; Sysmon &lt;strong&gt;Event ID 11&lt;/strong&gt; (file creato) di una DLL in una directory scrivibile dall'utente, seguito da &lt;strong&gt;Event ID 7&lt;/strong&gt; (immagine caricata) della stessa DLL, non firmata, in un processo che normalmente carica DLL di sistema firmate. L'Event ID 7 è rumoroso e in molte configurazioni è spento o filtrato: va acceso in modo mirato, per esempio sulle DLL non firmate caricate da percorsi utente."
+          data-en="&lt;strong&gt;DLL hijack:&lt;/strong&gt; Sysmon &lt;strong&gt;Event ID 11&lt;/strong&gt; (file created) for a DLL in a user-writable directory, followed by &lt;strong&gt;Event ID 7&lt;/strong&gt; (image loaded) of the same unsigned DLL, in a process that normally loads signed system DLLs. Event ID 7 is noisy and in many configurations is off or filtered: turn it on selectively, for example for unsigned DLLs loaded from user paths."><strong>DLL hijack:</strong> Sysmon <strong>Event ID 11</strong> (file created) for a DLL in a user-writable directory, followed by <strong>Event ID 7</strong> (image loaded) of the same unsigned DLL, in a process that normally loads signed system DLLs. Event ID 7 is noisy and in many configurations is off or filtered: turn it on selectively, for example for unsigned DLLs loaded from user paths.</li>
+        <li data-it="&lt;strong&gt;AppLocker:&lt;/strong&gt; gli eventi &lt;strong&gt;8003&lt;/strong&gt; (in modalità audit: &quot;sarebbe stato bloccato&quot;) e &lt;strong&gt;8004&lt;/strong&gt; (in modalità enforce: &quot;bloccato&quot;) registrano quello che la policy fermerebbe. Ma un bypass che passa da un percorso che la policy &lt;em&gt;consente&lt;/em&gt; non genera né l'uno né l'altro: per quello serve la creazione di processi (Sysmon 1 o 4688) da cartelle consentite ma scrivibili dagli utenti. Tenere l'audit acceso anche dove non applichi resta utile per trovare i buchi della policy prima di un attaccante."
+          data-en="&lt;strong&gt;AppLocker:&lt;/strong&gt; events &lt;strong&gt;8003&lt;/strong&gt; (in audit mode: &quot;would have been blocked&quot;) and &lt;strong&gt;8004&lt;/strong&gt; (in enforce mode: &quot;blocked&quot;) record what the policy would stop. But a bypass through a path the policy &lt;em&gt;allows&lt;/em&gt; produces neither: for that you need process creation (Sysmon 1 or 4688) from allowed but user-writable folders. Keeping audit on even where you don't enforce is still useful to find the holes in the policy before an attacker does."><strong>AppLocker:</strong> events <strong>8003</strong> (in audit mode: "would have been blocked") and <strong>8004</strong> (in enforce mode: "blocked") record what the policy would stop. But a bypass through a path the policy <em>allows</em> produces neither: for that you need process creation (Sysmon 1 or 4688) from allowed but user-writable folders. Keeping audit on even where you don't enforce is still useful to find the holes in the policy before an attacker does.</li>
+      </ul>
+      <p data-it="&lt;strong&gt;Fase 6 — relay NTLM.&lt;/strong&gt; Se il relay punta a un servizio SMB, il prerequisito è che il bersaglio non richieda la firma SMB: una scansione periodica che segnala gli host con &lt;em&gt;signing not required&lt;/em&gt; è prevenzione a costo quasi zero. Un relay verso altri servizi (per esempio LDAP) dipende da protezioni diverse, come la firma LDAP e il channel binding, e la firma SMB obbligatoria non lo ferma. Un segnale da investigare è l'autenticazione che non torna: un account che si autentica al DC (4624 con NTLM) da un indirizzo IP che non corrisponde alla workstation dichiarata. Da sola non prova un relay, perché NAT, VPN e proxy legittimi producono la stessa discordanza: serve un inventario aggiornato di host e indirizzi, con le eccezioni di rete. Si può fare con una regola che confronta l'inventario o con un UEBA; senza inventario, nessuno dei due la vede."
+        data-en="&lt;strong&gt;Phase 6 — NTLM relay.&lt;/strong&gt; If the relay targets an SMB service, the precondition is that the target doesn't require SMB signing: a periodic scan that flags hosts with &lt;em&gt;signing not required&lt;/em&gt; is prevention at almost zero cost. A relay to other services (for example LDAP) depends on different protections, such as LDAP signing and channel binding, and mandatory SMB signing doesn't stop it. A signal worth investigating is the authentication that doesn't add up: an account authenticating to the DC (4624 with NTLM) from an IP address that doesn't match the declared workstation. On its own it doesn't prove a relay, because NAT, VPNs and legitimate proxies produce the same mismatch: you need an up-to-date inventory of hosts and addresses, with the network exceptions. It can be done with a rule that checks the inventory or with UEBA; without an inventory, neither of them sees it."><strong>Phase 6 — NTLM relay.</strong> If the relay targets an SMB service, the precondition is that the target doesn't require SMB signing: a periodic scan that flags hosts with <em>signing not required</em> is prevention at almost zero cost. A relay to other services (for example LDAP) depends on different protections, such as LDAP signing and channel binding, and mandatory SMB signing doesn't stop it. A signal worth investigating is the authentication that doesn't add up: an account authenticating to the DC (4624 with NTLM) from an IP address that doesn't match the declared workstation. On its own it doesn't prove a relay, because NAT, VPNs and legitimate proxies produce the same mismatch: you need an up-to-date inventory of hosts and addresses, with the network exceptions. It can be done with a rule that checks the inventory or with UEBA; without an inventory, neither of them sees it.</p>
+      <p data-it="&lt;strong&gt;E qui la parte che mi interessa come ricerca.&lt;/strong&gt; Tutte queste firme assumono un attaccante umano. Ma un agente lavora in loop stretti &lt;em&gt;osserva → agisci → osserva&lt;/em&gt;, e la mia ipotesi è che abbia una &lt;strong&gt;cadenza&lt;/strong&gt; diversa: inter-arrivo tra azioni più regolare, meno pause &quot;umane&quot;, burst di enumerazione a frequenza quasi costante. Non sarebbe un indicatore di compromissione classico, ma un &lt;em&gt;indicatore di automazione&lt;/em&gt;. La tesi su cui sto lavorando è che la telemetria di un attaccante-agente abbia una firma temporale distinguibile da quella di un operatore in carne e ossa, e che questa possa diventare un segnale di detection a sé. Holo non la dimostra: in questa run non ho misurato tempi né telemetria del bersaglio. È il punto di partenza per il prossimo esperimento, che va fatto su un lab mio, con la telemetria accesa e un confronto con operatori umani."
+        data-en="&lt;strong&gt;And here is the part that interests me as research.&lt;/strong&gt; All these signatures assume a human attacker. But an agent works in tight &lt;em&gt;observe → act → observe&lt;/em&gt; loops, and my hypothesis is that it has a different &lt;strong&gt;cadence&lt;/strong&gt;: more regular inter-arrival times between actions, fewer &quot;human&quot; pauses, enumeration bursts at an almost constant rate. It wouldn't be a classic indicator of compromise, but an &lt;em&gt;indicator of automation&lt;/em&gt;. The thesis I am working on is that an agent-attacker's telemetry has a timing signature that can be told apart from a flesh-and-blood operator's, and that it could become a detection signal of its own. Holo doesn't prove it: in this run I measured neither timing nor the target's telemetry. It is the starting point for the next experiment, which has to run in a lab of my own, with telemetry on and a comparison with human operators."><strong>And here is the part that interests me as research.</strong> All these signatures assume a human attacker. But an agent works in tight <em>observe → act → observe</em> loops, and my hypothesis is that it has a different <strong>cadence</strong>: more regular inter-arrival times between actions, fewer "human" pauses, enumeration bursts at an almost constant rate. It wouldn't be a classic indicator of compromise, but an <em>indicator of automation</em>. The thesis I am working on is that an agent-attacker's telemetry has a timing signature that can be told apart from a flesh-and-blood operator's, and that it could become a detection signal of its own. Holo doesn't prove it: in this run I measured neither timing nor the target's telemetry. It is the starting point for the next experiment, which has to run in a lab of my own, with telemetry on and a comparison with human operators.</p>
+      <p data-it="Se la tua organizzazione ha coperta e correlata anche solo la metà di questa roba, hai buone probabilità di vedere un attaccante del genere. Sono occasioni di rilevamento da validare sul tuo ambiente, non garanzie: e la fase 6, che qui non è andata a segno, potrebbe non lasciare affatto il segnale del relay. Il problema, nella mia esperienza da consulente, raramente è che le aziende non &lt;em&gt;possano&lt;/em&gt; vederlo. È che nessuno guarda i log finché non è troppo tardi. &lt;em&gt;Would your logs have caught it?&lt;/em&gt;"
+        data-en="If your organization has even half of this covered and correlated, you have a good chance of seeing an attacker like this. These are detection opportunities to validate in your environment, not guarantees: and phase 6, which didn't land here, might not leave the relay signal at all. The problem, in my experience as a consultant, is rarely that companies &lt;em&gt;can't&lt;/em&gt; see it. It is that nobody looks at the logs until it is too late. &lt;em&gt;Would your logs have caught it?&lt;/em&gt;">If your organization has even half of this covered and correlated, you have a good chance of seeing an attacker like this. These are detection opportunities to validate in your environment, not guarantees: and phase 6, which didn't land here, might not leave the relay signal at all. The problem, in my experience as a consultant, is rarely that companies <em>can't</em> see it. It is that nobody looks at the logs until it is too late. <em>Would your logs have caught it?</em></p>
+      <figure class="gif-wrap" style="max-width:360px">
+        <img src="https://media.tenor.com/XcW2X_rp2PUAAAAC/simpsonovi-simpsons.gif" alt="Homer Simpson backing into the hedge — The Simpsons" data-it="Homer Simpson che sparisce nella siepe — I Simpson" data-en="Homer Simpson backing into the hedge — The Simpsons" loading="lazy" width="498" height="332"/>
+        <figcaption data-it="// il SOC quando gli chiedi chi legge gli alert di Falco"
+          data-en="// the SOC when you ask who reads the Falco alerts">// the SOC when you ask who reads the Falco alerts</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2 data-it="[05] Limitazioni e autocritica" data-en="[05] Limitations and self-critique">[05] Limitations and self-critique</h2>
+      <p data-it="Sezione fissa di questo blog, e qui pesa più del solito. Onestà intellettuale &amp;gt; epica."
+        data-en="A fixed section of this blog, and here it weighs more than usual. Intellectual honesty &amp;gt; epic.">A fixed section of this blog, and here it weighs more than usual. Intellectual honesty &gt; epic.</p>
+      <ul>
+        <li data-it="&lt;strong&gt;Il DC non è stato compromesso in questa run.&lt;/strong&gt; La catena si è fermata alla relay armata, in attesa di un'autenticazione che non è arrivata. Non so dire con certezza se sia mancata la condizione dello scenario o se la preparazione dell'agente avesse un difetto: configurazione dell'agente e comportamento del client non sono stati verificati in modo indipendente. Non dichiaro un full compromise che non c'è stato. Cambiare strada, cioè forzare l'autenticazione invece di aspettarla o cercare un percorso di dominio alternativo, è precisamente la mossa da &quot;senior che decide&quot; che all'agente in autonomia è mancata: il tema di tutto il pezzo, non una nota a piè di pagina."
+          data-en="&lt;strong&gt;The DC was not compromised in this run.&lt;/strong&gt; The chain stopped at the armed relay, waiting for an authentication that didn't come. I can't say for sure whether the scenario's condition was missing or the agent's setup had a flaw: the agent's configuration and the client's behavior were not verified independently. I'm not claiming a full compromise that didn't happen. Changing road, i.e. forcing the authentication instead of waiting for it or looking for an alternative path through the domain, is precisely the &quot;senior who decides&quot; move the agent lacked on its own: the theme of the whole piece, not a footnote."><strong>The DC was not compromised in this run.</strong> The chain stopped at the armed relay, waiting for an authentication that didn't come. I can't say for sure whether the scenario's condition was missing or the agent's setup had a flaw: the agent's configuration and the client's behavior were not verified independently. I'm not claiming a full compromise that didn't happen. Changing road, i.e. forcing the authentication instead of waiting for it or looking for an alternative path through the domain, is precisely the "senior who decides" move the agent lacked on its own: the theme of the whole piece, not a footnote.</li>
+        <li data-it="&lt;strong&gt;Una run sola, risultato non del tutto deterministico.&lt;/strong&gt; Le istanze di laboratorio variano, e il comportamento dell'agente è sensibile allo stato osservato e al modello. Una seconda run potrebbe incepparsi altrove o superare proprio questo punto. Una singola esecuzione è un aneddoto, non una statistica: lo tratto come tale."
+          data-en="&lt;strong&gt;One run only, result not fully deterministic.&lt;/strong&gt; Lab instances vary, and the agent's behavior is sensitive to the observed state and to the model. A second run might get stuck somewhere else or get past exactly this point. A single run is an anecdote, not a statistic: I treat it as such."><strong>One run only, result not fully deterministic.</strong> Lab instances vary, and the agent's behavior is sensitive to the observed state and to the model. A second run might get stuck somewhere else or get past exactly this point. A single run is an anecdote, not a statistic: I treat it as such.</li>
+        <li data-it="&lt;strong&gt;La colonna difensiva non è misurata.&lt;/strong&gt; Su TryHackMe non ho accesso ai log delle macchine bersaglio: &quot;cosa avrebbe visto un difensore&quot; descrive quello che una telemetria configurata bene registrerebbe, non quello che ho osservato. Anche l'idea della cadenza da agente è un'ipotesi, non un risultato."
+          data-en="&lt;strong&gt;The defensive column is not measured.&lt;/strong&gt; On TryHackMe I have no access to the target machines' logs: &quot;what a defender would have seen&quot; describes what well-configured telemetry would record, not what I observed. The idea of an agent cadence is a hypothesis too, not a result."><strong>The defensive column is not measured.</strong> On TryHackMe I have no access to the target machines' logs: "what a defender would have seen" describes what well-configured telemetry would record, not what I observed. The idea of an agent cadence is a hypothesis too, not a result.</li>
+        <li data-it="&lt;strong&gt;Harness non nominato.&lt;/strong&gt; Chi legge non può rifare la run con lo stesso strumento: le conclusioni valgono per questo agente, non per &quot;gli agenti&quot; in generale."
+          data-en="&lt;strong&gt;Harness not named.&lt;/strong&gt; Readers can't redo the run with the same tool: the conclusions hold for this agent, not for &quot;agents&quot; in general."><strong>Harness not named.</strong> Readers can't redo the run with the same tool: the conclusions hold for this agent, not for "agents" in general.</li>
+        <li data-it="&lt;strong&gt;Lab, non produzione.&lt;/strong&gt; Holo è un ambiente didattico con un percorso intenzionale. Un attaccante-agente contro una rete reale, rumorosa e difesa, è un'altra bestia. Le conclusioni sulla &lt;em&gt;forma&lt;/em&gt; del comportamento agentico tengono; i tempi assoluti no."
+          data-en="&lt;strong&gt;Lab, not production.&lt;/strong&gt; Holo is a training environment with an intentional path. An agent-attacker against a real, noisy, defended network is another beast. The conclusions about the &lt;em&gt;shape&lt;/em&gt; of agentic behavior hold; the absolute timings don't."><strong>Lab, not production.</strong> Holo is a training environment with an intentional path. An agent-attacker against a real, noisy, defended network is another beast. The conclusions about the <em>shape</em> of agentic behavior hold; the absolute timings don't.</li>
+        <li data-it="&lt;strong&gt;Attribuzione delle fasi.&lt;/strong&gt; Dove l'agente &quot;ragiona&quot; e dove semplicemente esaurisce lo spazio di ricerca non è sempre distinguibile dall'esterno. Ho segnalato i casi in cui la differenza era visibile; altrove ho evitato di antropomorfizzare."
+          data-en="&lt;strong&gt;Attributing the phases.&lt;/strong&gt; Where the agent &quot;reasons&quot; and where it simply exhausts the search space can't always be told apart from the outside. I flagged the cases where the difference was visible; elsewhere I avoided anthropomorphizing."><strong>Attributing the phases.</strong> Where the agent "reasons" and where it simply exhausts the search space can't always be told apart from the outside. I flagged the cases where the difference was visible; elsewhere I avoided anthropomorphizing.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[06] Riproducibilità e igiene" data-en="[06] Reproducibility and hygiene">[06] Reproducibility and hygiene</h2>
+      <ul>
+        <li data-it="Nessuna flag, hash o credenziale in chiaro, e nessun dettaglio da walkthrough (versioni, nomi di file, account, comandi): per rispetto di chi la room l'ha costruita e per buon senso."
+          data-en="No flags, hashes or credentials in clear, and no walkthrough details (versions, file names, accounts, commands): out of respect for the people who built the room, and common sense.">No flags, hashes or credentials in clear, and no walkthrough details (versions, file names, accounts, commands): out of respect for the people who built the room, and common sense.</li>
+        <li data-it="Nel post non ci sono estratti di transcript o output dei tool: le fasi sono descritte a livello di metodologia."
+          data-en="There are no transcript or tool-output excerpts in the post: the phases are described at the level of methodology.">There are no transcript or tool-output excerpts in the post: the phases are described at the level of methodology.</li>
+        <li data-it="Tooling citato a livello di metodologia, non come copia-incolla pronto all'uso: il valore è il ragionamento, non lo script."
+          data-en="Tooling is mentioned at the level of methodology, not as ready-to-paste code: the value is the reasoning, not the script.">Tooling is mentioned at the level of methodology, not as ready-to-paste code: the value is the reasoning, not the script.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-it="[07] Morale" data-en="[07] Moral">[07] Moral</h2>
+      <p data-it="&lt;em&gt;Morale, se ne serve una: questo agente offensivo, nel 2026, è un junior instancabile e bravissimo a concatenare, che si pianta nel momento esatto in cui servirebbe un operatore a decidere che il piano A è morto. Buona notizia per i difensori, pessima per chi vende &quot;l'AI che hackera da sola&quot;. E, per inciso, quasi ogni fase di questa catena offriva un'occasione per vederla: il più delle volte il problema non è vedere l'attacco. È guardare.&lt;/em&gt;"
+        data-en="&lt;em&gt;The moral, if one is needed: this offensive agent, in 2026, is a tireless junior who is brilliant at chaining, and who gets stuck at the exact moment an operator would need to decide that plan A is dead. Good news for defenders, bad news for anyone selling &quot;the AI that hacks on its own&quot;. And, by the way, almost every phase of this chain offered a chance to see it: most of the time the problem isn't seeing the attack. It's looking.&lt;/em&gt;"><em>The moral, if one is needed: this offensive agent, in 2026, is a tireless junior who is brilliant at chaining, and who gets stuck at the exact moment an operator would need to decide that plan A is dead. Good news for defenders, bad news for anyone selling "the AI that hacks on its own". And, by the way, almost every phase of this chain offered a chance to see it: most of the time the problem isn't seeing the attack. It's looking.</em></p>
+    </section>
+
+    <section>
+      <h2 data-it="Fonti" data-en="Sources">Sources</h2>
+      <ol class="source-list">
+        <li data-it="TryHackMe, Holo (network, premium) — &lt;a href=&quot;https://tryhackme.com/room/hololive&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;tryhackme.com/room/hololive&lt;/a&gt;"
+          data-en="TryHackMe, Holo (network, premium) — &lt;a href=&quot;https://tryhackme.com/room/hololive&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;tryhackme.com/room/hololive&lt;/a&gt;">TryHackMe, Holo (network, premium) — <a href="https://tryhackme.com/room/hololive" target="_blank" rel="noopener noreferrer">tryhackme.com/room/hololive</a></li>
+        <li data-it="TryHackMe, Acceptable Use Policy, versione 2.0 (28 agosto 2026), §8 e §9 — &lt;a href=&quot;https://tryhackme.com/legal/acceptable-use-policy&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;tryhackme.com&lt;/a&gt;"
+          data-en="TryHackMe, Acceptable Use Policy, version 2.0 (28 August 2026), §8 and §9 — &lt;a href=&quot;https://tryhackme.com/legal/acceptable-use-policy&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;tryhackme.com&lt;/a&gt;">TryHackMe, Acceptable Use Policy, version 2.0 (28 August 2026), §8 and §9 — <a href="https://tryhackme.com/legal/acceptable-use-policy" target="_blank" rel="noopener noreferrer">tryhackme.com</a></li>
+        <li data-it="Microsoft, about_Logging_Windows (Script Block Logging, Event ID 4104) — &lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft, about_Logging_Windows (Script Block Logging, Event ID 4104) — &lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft, about_Logging_Windows (Script Block Logging, Event ID 4104) — <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Microsoft, evento 4624 (accesso riuscito) — &lt;a href=&quot;https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;; evento 4776 — &lt;a href=&quot;https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft, Event 4624 (an account was successfully logged on) — &lt;a href=&quot;https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;; Event 4776 — &lt;a href=&quot;https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft, Event 4624 (an account was successfully logged on) — <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a>; Event 4776 — <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Microsoft, Using Event Viewer with AppLocker (eventi 8003, 8004) — &lt;a href=&quot;https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/using-event-viewer-with-applocker&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft, Using Event Viewer with AppLocker (events 8003, 8004) — &lt;a href=&quot;https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/using-event-viewer-with-applocker&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft, Using Event Viewer with AppLocker (events 8003, 8004) — <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/using-event-viewer-with-applocker" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Microsoft, ID degli eventi di Microsoft Defender Antivirus (1116, 1117) — &lt;a href=&quot;https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft, Microsoft Defender Antivirus event IDs (1116, 1117) — &lt;a href=&quot;https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft, Microsoft Defender Antivirus event IDs (1116, 1117) — <a href="https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Microsoft, tabella DeviceProcessEvents (advanced hunting) — &lt;a href=&quot;https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft, DeviceProcessEvents table (advanced hunting) — &lt;a href=&quot;https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft, DeviceProcessEvents table (advanced hunting) — <a href="https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Microsoft Sysinternals, Sysmon (eventi 1, 7, 11) — &lt;a href=&quot;https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;"
+          data-en="Microsoft Sysinternals, Sysmon (events 1, 7, 11) — &lt;a href=&quot;https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;learn.microsoft.com&lt;/a&gt;">Microsoft Sysinternals, Sysmon (events 1, 7, 11) — <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon" target="_blank" rel="noopener noreferrer">learn.microsoft.com</a></li>
+        <li data-it="Falco, repository delle regole — &lt;a href=&quot;https://github.com/falcosecurity/rules&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/falcosecurity/rules&lt;/a&gt;; SigmaHQ — &lt;a href=&quot;https://github.com/SigmaHQ/sigma&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/SigmaHQ/sigma&lt;/a&gt;"
+          data-en="Falco, rules repository — &lt;a href=&quot;https://github.com/falcosecurity/rules&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/falcosecurity/rules&lt;/a&gt;; SigmaHQ — &lt;a href=&quot;https://github.com/SigmaHQ/sigma&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;github.com/SigmaHQ/sigma&lt;/a&gt;">Falco, rules repository — <a href="https://github.com/falcosecurity/rules" target="_blank" rel="noopener noreferrer">github.com/falcosecurity/rules</a>; SigmaHQ — <a href="https://github.com/SigmaHQ/sigma" target="_blank" rel="noopener noreferrer">github.com/SigmaHQ/sigma</a></li>
+      </ol>
+    </section>
+
+    <aside class="author-box">
+      <span class="ab-label" data-it="// L'autore" data-en="// The author">// The author</span>
+      <div class="ab-name">Paolo Costanzo</div>
+      <div class="ab-role"
+           data-it="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer, Cybersecurity, AI &amp; Cloud Security @ ITS ICT Piemonte"
+           data-en="Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer, Cybersecurity, AI &amp; Cloud Security @ ITS ICT Piemonte">Independent Security Researcher · Co-Founder &amp; CEO @ CoDe RTD · Lecturer, Cybersecurity, AI &amp; Cloud Security @ ITS ICT Piemonte</div>
+      <p class="ab-bio"
+         data-it="Ricerca indipendente su cloud security, sistemi agentici e AI, threat intelligence, reti e validazione offensiva autorizzata. Ogni report dichiara metodologia, limiti e fonti, e dove possibile è riproducibile."
+         data-en="Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.">Independent research on cloud security, agentic AI systems, threat intelligence, networks and authorized offensive validation. Every report states its methodology, limitations and sources, and is reproducible where possible.</p>
+      <div class="ab-links">
+        <a class="ab-cta" href="mailto:me@paolocostanzo.com" data-it="Scrivimi →" data-en="Get in touch →">Get in touch →</a>
+        <a href="https://paolocostanzo.com" target="_blank" rel="noopener noreferrer">paolocostanzo.com</a>
+        <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/paolocostanzo" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.researchgate.net/profile/Paolo-Costanzo-2" target="_blank" rel="noopener noreferrer">ResearchGate</a>
+        <a href="https://github.com/modelcontextprotocol/rust-sdk/pull/1402" target="_blank" rel="noopener noreferrer" title="Model Context Protocol (Agentic AI Foundation / Linux Foundation)">Contributor · Model Context Protocol Rust SDK (AAIF)</a>
+        <a href="https://genai.owasp.org/initiatives/ai-red-teaming-initiative/" target="_blank" rel="noopener noreferrer" title="OWASP GenAI Security Project">Contributor · OWASP GenAI Security Project · OWASP Member</a>
+        <a href="https://github.com/OWASP/AISVS/pulls?q=is%3Apr+author%3Apaolocostanzo+is%3Amerged" target="_blank" rel="noopener noreferrer" title="OWASP AI Security Verification Standard">Contributor · OWASP AISVS</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="article-footer">
+    <a href="../" data-it="← tutti gli articoli" data-en="← all articles">← all articles</a>
+    <span class="footer-copy" data-it="© 2026 Paolo Costanzo" data-en="© 2026 Paolo Costanzo">© 2026 Paolo Costanzo</span>
+    <a href="https://www.linkedin.com/in/paolocostanzoit/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+  </footer>
+
+  <button id="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" data-it="↑ top" data-en="↑ top">↑ top</button>
+
+  <script>
+    (function(){
+      function resolveInitialLang(){
+        try {
+          var stored = localStorage.getItem('lang');
+          if (stored === 'it' || stored === 'en') return stored;
+        } catch(e) {}
+        var nav = '';
+        try { nav = (navigator.languages && navigator.languages[0]) || navigator.language || ''; } catch(e) {}
+        nav = String(nav).toLowerCase();
+        if (nav.indexOf('en') === 0) return 'en';
+        return 'en';
+      }
+
+      function setLang(lang){
+        var next = lang === 'en' ? 'en' : 'it';
+        document.documentElement.lang = next;
+        document.querySelectorAll('[data-it]').forEach(function(el){
+          var value = el.getAttribute(next === 'en' ? 'data-en' : 'data-it');
+          if (value === null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+          } else if (el.tagName === 'IMG') {
+            el.setAttribute('alt', value);
+          } else if (el.tagName === 'TITLE') {
+            document.title = value;
+          } else {
+            el.innerHTML = value;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(function(button){
+          var on = button.textContent.trim().toLowerCase() === next;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-pressed', String(on));
+        });
+        try { localStorage.setItem('lang', next); } catch(e) {}
+      }
+
+      window.setLang = setLang;
+      setLang(resolveInitialLang());
+    })();
+
+    window.addEventListener('scroll', function(){
+      var root = document.documentElement;
+      var total = root.scrollHeight - root.clientHeight;
+      var percent = total > 0 ? (root.scrollTop / total) * 100 : 0;
+      document.getElementById('read-bar').style.width = percent + '%';
+      var bt = document.getElementById('back-top');
+      bt.classList.toggle('vis', root.scrollTop > 350);
+      // as the footer comes into view, the button rises with it and never covers "LinkedIn"
+      var footer = document.querySelector('footer');
+      if (footer) {
+        var fTop = footer.getBoundingClientRect().top;
+        bt.style.bottom = fTop < window.innerHeight ? (window.innerHeight - fTop + 12) + 'px' : '1.75rem';
+      }
+    }, { passive:true });
+  </script>
+</body>
+</html>

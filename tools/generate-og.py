@@ -193,6 +193,15 @@ MANIFEST = {
         "footer": "Reproducible lab",
         "badge": "HARD",
     },
+    "holo": {
+        "out": "agente-offensivo-autonomo-holo/og.png",
+        "kicker": "AGENTIC AI · OFFENSIVE SECURITY · ACTIVE DIRECTORY",
+        "title": "HOW FAR DOES AN AGENT GET ALONE?",
+        "accent": 2,
+        "subtitle": "Holo on TryHackMe · where the agent stops succeeding",
+        "footer": "Personal test · detection rules",
+        "badge": "HARD",
+    },
     "logs-catch-it": {
         "out": "would-your-logs-catch-it-ai-coding-agents/og.png",
         "kicker": "AGENTIC AI · DETECTION · MCP · REPRODUCIBLE LAB",
