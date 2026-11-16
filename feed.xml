@@ -5,14 +5,14 @@
     <link>https://paolocostanzo.github.io</link>
     <description>Research reports, reproducible labs and technical field notes on cloud security, agentic AI and MCP, threat intelligence, networks and authorized offensive validation.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Nov 2026 08:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 09:30:00 +0100</lastBuildDate>
     <atom:link href="https://paolocostanzo.github.io/feed.xml" rel="self" type="application/rss+xml"/>
 
     <item>
       <title>How far does an offensive agent get on its own?</title>
       <link>https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/</link>
       <guid>https://paolocostanzo.github.io/agente-offensivo-autonomo-holo/</guid>
-      <pubDate>Tue, 17 Nov 2026 08:00:00 +0100</pubDate>
+      <pubDate>Mon, 16 Nov 2026 09:30:00 +0100</pubDate>
       <description>Holo, an Active Directory network, a kill chain and zero hands on the keyboard. Where the agent gets on its own, and where it hits the wall.</description>
       <category>Agentic AI</category>
       <category>Offensive Security</category>
