@@ -1,0 +1,17 @@
+name: HTB card
+# Daily redeploy so the Hack The Box card (regenerated inside deploy-pages.yml,
+# never committed) stays current. Served from this site's own origin, so
+# visitors make no request to third parties.
+on:
+  schedule:
+    - cron: "23 5 * * *" # daily
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      ref: ${{ github.sha }}
