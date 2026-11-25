@@ -41,8 +41,8 @@ jobs:
       # stay out of the artifact (same rationale as .gitignore).
       - name: Strip non-publishable files
         run: rm -rf tools README.md .github .git
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: '.'
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
