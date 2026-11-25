@@ -24,6 +24,9 @@ THEMES = {
                  accent="#9FEF00", track="#24344A"),
     "light": dict(bg="#FFFFFF", border="#D0D7DE", text="#141D2B", muted="#5B6B80",
                   accent="#141D2B", track="#E4E9EF"),
+    # Blog and paolocostanzo.com palette: only the HTB mark keeps its green.
+    "site": dict(bg="#101010", border="#222222", text="#E8E8E8", muted="#8C8C8C",
+                 accent="#FF6A00", track="#222222", bar="#FF6A00"),
 }
 
 
@@ -83,7 +86,7 @@ def render(d, t, mono, cond):
 <text x="49" y="44" class="c" font-size="21" fill="{t['text']}" letter-spacing="0.4">{rank}</text>
 <text x="50" y="58" class="m" font-size="9.5" fill="{t['muted']}" letter-spacing="0.5">{level}</text>
 <rect x="50" y="63" width="{bar_w}" height="3" rx="1.5" fill="{t['track']}"/>
-<rect x="50" y="63" width="{bar_w * pct:.1f}" height="3" rx="1.5" fill="#9FEF00"/>
+<rect x="50" y="63" width="{bar_w * pct:.1f}" height="3" rx="1.5" fill="{t.get('bar', '#9FEF00')}"/>
 {right}
 </svg>
 '''
