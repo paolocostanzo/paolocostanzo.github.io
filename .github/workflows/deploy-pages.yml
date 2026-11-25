@@ -32,6 +32,11 @@ jobs:
         with:
           ref: ${{ inputs.ref || github.sha }}
       - uses: actions/configure-pages@v5
+      # Refresh the Hack The Box card from the public profile at build time, so
+      # nothing is committed to main (publish-scheduled.yml needs --ff-only).
+      # On any API failure the committed card in assets/ is shipped unchanged.
+      - name: Refresh HTB card
+        run: python3 tools/htb_card.py || echo "::warning::HTB card not refreshed, shipping the committed one"
       # The site ships only HTML and its assets: tooling and repo-only files
       # stay out of the artifact (same rationale as .gitignore).
       - name: Strip non-publishable files
